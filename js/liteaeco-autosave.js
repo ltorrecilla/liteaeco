@@ -1,6 +1,7 @@
 (function () {
     "use strict";
     window.liteAECO = window.liteAECO || {};
+
     function tt(key, fallback) {
         try {
             if (typeof window.i18n === "function") {
@@ -11,6 +12,7 @@
         } catch (e) { }
         return fallback;
     }
+
     liteAECO.createAutosave = function (cfg) {
         const DB = "liteaeco-as-" + cfg.toolId;
         const OPTOUT = "liteaeco_as_off_" + cfg.toolId;
@@ -19,6 +21,7 @@
         const historyMax = cfg.historyMax || 20;
         const historySkipBytes = cfg.historySkipBytes || 10 * 1024 * 1024;
         const toast = cfg.toast || function () { };
+
         function db() {
             return new Promise((res) => {
                 const req = indexedDB.open(DB, 1);
@@ -30,6 +33,7 @@
         async function kvSet(k, v) { const d = await db(); if (!d) return; return new Promise(res => { const t = d.transaction("kv", "readwrite"); t.objectStore("kv").put(v, k); t.oncomplete = () => res(); t.onerror = () => res(); }); }
         async function kvGet(k) { const d = await db(); if (!d) return undefined; return new Promise(res => { const r = d.transaction("kv", "readonly").objectStore("kv").get(k); r.onsuccess = () => res(r.result); r.onerror = () => res(undefined); }); }
         async function kvDel(k) { const d = await db(); if (!d) return; return new Promise(res => { const t = d.transaction("kv", "readwrite"); t.objectStore("kv").delete(k); t.oncomplete = () => res(); t.onerror = () => res(); }); }
+
         const ns = "las-" + cfg.toolId;
         function ensureModals() {
             if (document.getElementById(ns + "-resume")) return;
@@ -64,18 +68,22 @@
         }
         function show(id) { const m = document.getElementById(id); m.classList.remove("hidden"); m.classList.add("flex"); }
         function hide(id) { const m = document.getElementById(id); m.classList.add("hidden"); m.classList.remove("flex"); }
+
         const A = {
             adapter: null, dirty: false, timer: null, paused: false,
             writing: false,   
             lastSavedAt: null, writeCount: 0,
             channel: ("BroadcastChannel" in window) ? new BroadcastChannel(DB) : null,
             sessionId: Math.random().toString(36).slice(2),
+
             optedOut() { try { return localStorage.getItem(OPTOUT) === "1"; } catch (e) { return false; } },
             setOptOut(v) { try { v ? localStorage.setItem(OPTOUT, "1") : localStorage.removeItem(OPTOUT); } catch (e) { } },
             supportsFS() { return "showSaveFilePicker" in window; },
+
             _snapshotAdapter() {
                 return { kind: "snapshot", name: tt("browserSnapshot", "browser snapshot"), write: (t) => kvSet("snapshot", t) };
             },
+
             markDirty() {
                 if (!this.adapter || this.paused) { this.renderStatus(this.adapter ? "dirty" : "off"); return; }
                 this.dirty = true;
@@ -83,6 +91,7 @@
                 clearTimeout(this.timer);
                 this.timer = setTimeout(() => this.flush(), debounceMs);
             },
+
             async flush() {
                 if (!this.adapter || !this.dirty || this.paused) return;
                 this.writing = true;
@@ -102,6 +111,7 @@
                 } catch (e) { this.renderStatus("error"); }
                 finally { this.writing = false; }
             },
+
             async connectFile() {
                 this.setOptOut(false);
                 try {
@@ -124,6 +134,7 @@
                     await this.flush();
                 } catch (e) {  }
             },
+
             async disconnect() {
                 this.setOptOut(true);
                 clearTimeout(this.timer);
@@ -132,6 +143,7 @@
                 await kvDel("snapshot");
                 this.renderStatus("off");
             },
+
             async boot() {
                 ensureModals();
                 if (this.channel) {
@@ -147,6 +159,7 @@
                     if (document.visibilityState === "hidden" && this.dirty) this.flush();
                 });
                 window.addEventListener("beforeunload", (e) => {
+
                     try {
                         if (typeof cfg.hasPendingInput === "function" && cfg.hasPendingInput()
                             && typeof cfg.commitPendingInput === "function") {
@@ -154,6 +167,7 @@
                         }
                     } catch (err) { }
                     if (this.adapter && !this.paused) {
+
                         if (this.dirty || this.writing) {
                             this.flush();
                             e.preventDefault();
@@ -168,6 +182,7 @@
                         return e.returnValue;
                     }
                 });
+
                 if (this.supportsFS()) {
                     const handle = await kvGet("handle");
                     if (handle) {
@@ -206,6 +221,7 @@
                         if (this.adapter) return;
                     }
                 }
+
                 if (!this.optedOut()) {
                     const snap = await kvGet("snapshot");
                     if (snap !== undefined && snap !== null) {
@@ -226,6 +242,7 @@
                 }
                 this.renderStatus("off");
             },
+
             async openHistory() {
                 ensureModals();
                 const list = document.getElementById(ns + "-history-list");
@@ -253,7 +270,9 @@
                     list.appendChild(row);
                 });
             },
+
             _toastEl: null, _toastTimer: null, _toastArmed: false,
+
             toastNotify(state) {
                 if (state === "off") {
                     clearTimeout(this._toastTimer);
@@ -261,6 +280,7 @@
                     if (this._toastEl) { this._toastEl.remove(); this._toastEl = null; }
                     return;
                 }
+
                 if (state === "saved" && !this._toastArmed) return;
                 if (state === "dirty" || state === "error") this._toastArmed = true;
                 let wrap = document.getElementById("las-toasts");
@@ -311,6 +331,7 @@
                     tx.textContent = tt("toastSaveError", "Not saved - check the Save menu");
                 }
             },
+
             _pickIcons(v) {
                 if (!v) return [];
                 const ids = Array.isArray(v) ? v : String(v).split(",");
@@ -323,12 +344,14 @@
                 }
                 return out;
             },
+
             renderStatus(state) {
                 this.toastNotify(state);
                 const offs = this._pickIcons(cfg.iconOffId);
                 const ons = this._pickIcons(cfg.iconOnId);
                 const disc = cfg.disconnectBtnId ? document.getElementById(cfg.disconnectBtnId) : null;
                 if (!offs.length || !ons.length) return;
+
                 const COLORS = ["text-white", "text-green-600", "text-slate-600", "text-amber-500", "text-rose-500"];
                 const setTitle = (title) => {
                     offs.forEach((o) => { const b = o.closest("button"); if (b) b.title = title; });

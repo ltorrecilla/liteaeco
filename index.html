@@ -67,7 +67,7 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        // Mapping the old 'accent' to the new indigo palette to minimize JS changes
+                        
                         accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
                     }
                 }
@@ -352,23 +352,18 @@
     <!-- FOOTER -->
     <!-- JAVASCRIPT -->
     <script>
-        // ==========================================
-        // liteAECO - PAGE LOGIC
-        // ==========================================
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
-        // Save the prefix so common.js knows what language file to load
         window.pageScriptPrefix = 'index';
 
         document.addEventListener('languageLoaded', () => {
-            // Re-render the cards to update the dynamic JS strings (launchTool, toolCount, etc.)
+            
             if (typeof window.renderCards === 'function') {
                 window.renderCards();
             }
         });
 
-        // --- Calculate Current ISO Week Number ---
         function getWeekNumber(d) {
             d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
             d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
@@ -376,16 +371,13 @@
             return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
         }
 
-        // --- BOOT SEQUENCE ---
         document.addEventListener('DOMContentLoaded', () => {
 
-            // --- Set Week Number ---
             const weekNumberElement = document.getElementById('current-week-number');
             if (weekNumberElement) {
                 weekNumberElement.textContent = getWeekNumber(new Date());
             }
 
-            // --- Set Current Date (localized) ---
             const dateElement = document.getElementById('current-date');
             if (dateElement) {
                 const lang = localStorage.getItem('liteAECOLang') || 'en';
@@ -396,7 +388,6 @@
 
             autoDetectLanguage();
 
-            // Generate the Navigation Bar and Footer
             window.injectUI({
                 showNav: true,
                 transparentNav: true,
@@ -407,16 +398,10 @@
                 showFooterLinks: true,
             });
 
-            // Inject Cookie Banner
-            window.injectCookieBanner();
-
-            // Start the translation engine
             window.loadLanguage(currentLang, window.pageScriptPrefix);
 
-            // Wire up search
             setupSearch();
 
-            // --- URL Hash Routing ---
             const hash = window.location.hash.replace('#', '').toLowerCase();
             const isValidCategory = typeof CATEGORIES !== 'undefined' && CATEGORIES.some(cat => cat.id === hash);
 
@@ -428,13 +413,11 @@
                 }
             }
 
-            // Start the hero text typing animation
             if (typeof startTypingEffect === 'function') {
                 startTypingEffect();
             }
         });
 
-        // --- Listen for URL hash changes dynamically ---
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.replace('#', '').toLowerCase();
             const isValidCategory = typeof CATEGORIES !== 'undefined' && CATEGORIES.some(cat => cat.id === hash);
@@ -446,9 +429,6 @@
             }
         });
 
-        // ==========================================
-        // SEARCH
-        // ==========================================
         let searchQuery = '';
 
         function setupSearch() {
@@ -461,7 +441,6 @@
                 renderCards();
             });
 
-            // Escape clears the field while it is focused
             input.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && input.value !== '') {
                     e.stopPropagation();
@@ -469,7 +448,6 @@
                 }
             });
 
-            // Press "/" anywhere to jump to search
             document.addEventListener('keydown', (e) => {
                 if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey) return;
                 const tag = (document.activeElement && document.activeElement.tagName) || '';
@@ -491,12 +469,10 @@
             renderCards();
         };
 
-        // Used by the empty state when a query has no hits inside the active category
         window.searchAllCategories = function () {
             window.setCategory('all');
         };
 
-        // Builds the text blob a tool is matched against
         function getSearchHaystack(app, d) {
             const a = (d.apps && d.apps[app.id]) || {};
             const parts = [a.title, a.desc, a.description, a.longDescription];
@@ -507,13 +483,10 @@
         function matchesQuery(app, d, q) {
             if (!q) return true;
             const haystack = getSearchHaystack(app, d);
-            // every term must appear somewhere: "ifc merge" matches "IFC Merger"
+            
             return q.split(/\s+/).filter(Boolean).every(term => haystack.includes(term));
         }
 
-        // ==========================================
-        // CARD RENDERING
-        // ==========================================
         window.renderCards = function () {
             const appGrid = document.getElementById('app-grid');
             const categoryBadges = document.getElementById('category-badges');
@@ -528,14 +501,12 @@
 
             const filteredApps = inCategory.filter(app => matchesQuery(app, d, q));
 
-            // Update the tool counter
             const toolCount = document.getElementById('tool-count');
             if (toolCount) {
                 const toolWord = filteredApps.length === 1 ? (d.toolCountSingular || 'tool') : (d.toolCountPlural || 'tools');
                 toolCount.textContent = `${filteredApps.length} ${toolWord}`;
             }
 
-            // 1. Define Category Borders
             const categoryBorders = {
                 'all': 'border-slate-400',
                 'pm': 'border-rose-400',
@@ -545,7 +516,6 @@
                 'default': 'border-slate-400'
             };
 
-            // 2. Render Interactive Category Badges (Pills)
             if (categoryBadges) {
                 categoryBadges.innerHTML = CATEGORIES.map(cat => {
                     const isActive = activeCategory === cat.id;
@@ -564,7 +534,6 @@
                 }).join('');
             }
 
-            // --- Empty state handling ---
             const emptyState = document.getElementById('empty-state');
             const emptyMsg = document.getElementById('empty-state-msg');
             const emptyAllBtn = document.getElementById('empty-state-all');
@@ -577,14 +546,12 @@
                 const noResults = d.noResults || 'No tools match';
                 emptyMsg.textContent = `${noResults} “${searchQuery.trim()}”.`;
 
-                // Offer to widen the search only when there really are hits in other categories
                 emptyAllBtn.classList.toggle('hidden', !(activeCategory !== 'all' && hitsElsewhere > 0));
             } else {
                 appGrid.classList.remove('hidden');
                 emptyState.classList.add('hidden');
             }
 
-            // --- Check Performance Status Once ---
             const isHighPerf = typeof window.isHighPerformance === 'function' ? window.isHighPerformance() : true;
 
             const cardStyleClass = isHighPerf
@@ -593,7 +560,6 @@
 
             const detailsLabel = d.moreInfo || 'Details';
 
-            // 3. Render Application Cards
             appGrid.innerHTML = filteredApps.map(app => {
                 const primaryCatId = app.categories && app.categories[0] ? app.categories[0] : 'all';
                 const appCatLabel = (d.categories && d.categories[primaryCatId]) || primaryCatId;
@@ -606,9 +572,6 @@
                 if (app.rotation == 180) rotationClass = 'rotate-180';
                 if (app.rotation == -90) rotationClass = '-rotate-90';
 
-                // The card is a plain container; a transparent <a> stretched over it makes the whole
-                // surface a real link (cmd/middle-click, keyboard, "copy link", crawlable) while the
-                // info button stays above it on its own z-index.
                 return `
         <div class="group relative border p-4 rounded-xl transition-colors duration-300 overflow-hidden flex flex-col justify-between h-[180px] ${cardStyleClass}">
 
@@ -644,11 +607,9 @@
         `;
             }).join('');
 
-            // Re-initialize Lucide icons for the newly injected HTML
             if (window.lucide) lucide.createIcons();
         };
 
-        // --- Typing Animation State ---
         const typingWords = ["AECO", "Architecture", "Engineering", "Construction", "Operations"];
         let typingWordIndex = 0;
         let typingCharIndex = 0;
@@ -658,12 +619,6 @@
         function startTypingEffect() {
             const typingSpan = document.getElementById('typing-text');
             if (!typingSpan) return;
-
-            // Respect the OS "reduce motion" setting: show the word, skip the animation
-            //if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            //    typingSpan.textContent = typingWords[0];
-            //    return;
-            //}
 
             const currentWord = typingWords[typingWordIndex];
 
@@ -689,9 +644,6 @@
             window.typingTimeout = setTimeout(startTypingEffect, typeSpeed);
         }
 
-        // ==========================================
-        // CALENDAR POPUP LOGIC
-        // ==========================================
         let calendarDate = new Date();
         const todayDate = new Date();
 
@@ -711,7 +663,6 @@
 
                 daysHeader.innerHTML = `<div>${wkText}</div>`;
 
-                // Jan 1, 2024 was a Monday. Used as a reference to generate the 7 day labels.
                 const refDate = new Date(Date.UTC(2024, 0, 1));
                 for (let i = 0; i < 7; i++) {
                     const dayStr = new Intl.DateTimeFormat(lang, { weekday: 'narrow' }).format(refDate);
@@ -782,12 +733,11 @@
             if (window.lucide) lucide.createIcons();
         }
 
-        // Listen for global language changes and re-render the calendar
         document.addEventListener('languageLoaded', () => {
             if (typeof renderCalendar === 'function') {
                 renderCalendar();
             }
-            // Re-localize the hero date
+            
             const dateElement = document.getElementById('current-date');
             if (dateElement) {
                 const lang = localStorage.getItem('liteAECOLang') || 'en';
@@ -827,12 +777,8 @@
             }
         }
 
-        // Close calendar when clicking anywhere else on the document
         document.addEventListener('click', closeCalendar);
 
-        // ==========================================
-        // APP MODAL LOGIC
-        // ==========================================
         let lastFocusedElement = null;
 
         function openAppModal(appId) {
@@ -872,8 +818,6 @@
                 featuresList.classList.add('hidden');
             }
 
-            // Media: only shown when the tool actually has a screenshot or video.
-            // A half-screen decorative gradient pushed all the useful text below the fold.
             const mediaContainer = document.getElementById('modal-media-container');
             if (app.videoUrl || app.imageUrl) {
                 const mediaContent = app.videoUrl
@@ -909,7 +853,6 @@
                 modalContent.classList.add('scale-100');
             });
 
-            // Lock scroll without the page jumping when the scrollbar disappears
             const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
             document.body.style.overflow = 'hidden';
             if (scrollbarWidth > 0) document.body.style.paddingRight = scrollbarWidth + 'px';
@@ -933,18 +876,16 @@
                 modal.classList.remove('flex');
                 document.body.style.overflow = '';
                 document.body.style.paddingRight = '';
-                // Clear media so videos stop playing in the background
+                
                 document.getElementById('modal-media-container').innerHTML = '';
             }, 300);
 
-            // Send focus back to whatever opened the modal
             if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
                 lastFocusedElement.focus();
             }
             lastFocusedElement = null;
         }
 
-        // Escape closes the modal; Tab stays inside it while it is open
         document.addEventListener('keydown', (e) => {
             const modal = document.getElementById('app-modal');
             if (!modal || modal.classList.contains('hidden')) return;

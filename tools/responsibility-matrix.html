@@ -1,28 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="author" content="Luis Torrecilla">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responsibility Matrix - RACI & RASCI Assignment Tool | liteAECO</title>
+
+    <!-- Primary Meta Tags -->
     <meta name="description" content="Free client-side tool to create RACI and RASCI responsibility matrices. Assign roles, track accountability, and clarify project responsibilities. No uploads, private, fast, and built for AEC teams.">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https:
+    <link rel="canonical" href="https://liteaeco.com/tools/responsibility-matrix.html">
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https:
+    <meta property="og:url" content="https://liteaeco.com/tools/responsibility-matrix.html">
     <meta property="og:site_name" content="liteAECO">
     <meta property="og:title" content="Responsibility Matrix - RACI & RASCI Assignment Tool | liteAECO">
     <meta property="og:description" content="Free client-side tool to create RACI and RASCI responsibility matrices. Assign roles, track accountability, and clarify project responsibilities. No uploads, private, fast, and built for AEC teams.">
-    <meta property="og:image" content="https:
+    <meta property="og:image" content="https://liteaeco.com/img/og-responsibility-matrix.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="liteAECO Responsibility Matrix tool interface">
     <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https:
+    <meta name="twitter:url" content="https://liteaeco.com/tools/responsibility-matrix.html">
     <meta name="twitter:title" content="Responsibility Matrix - RACI & RASCI Assignment Tool | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to create RACI and RASCI responsibility matrices. Assign roles, track accountability, and clarify project responsibilities. No uploads, private, fast, and built for AEC teams.">
-    <meta name="twitter:image" content="https:
+    <meta name="twitter:image" content="https://liteaeco.com/img/og-responsibility-matrix.png">
+
+    <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -30,21 +39,32 @@
     <link rel="icon" type="image/png" sizes="192x192" href="../img/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
+
+    <!-- Anti-flash: .hidden works before Tailwind loads -->
     <style>
         .hidden{display:none}
+        
         .rasci-switch:has(#rasci-save-menu-disconnect:not(.hidden)){background:#22c55e}
         .rasci-switch:has(#rasci-save-menu-disconnect:not(.hidden)) .rasci-knob{transform:translateX(16px)}
+        
         #rasci-save-icon-on.text-slate-600{color:#fff}
     </style>
-    <script src="https:
+
+    <!-- Scripts Design -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
+
+    <!-- Scripts Internal -->
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/project-registry.js"></script>
     <script src="../js/liteaeco-autosave.js"></script>
     <script src="../js/liteaeco-cde.js"></script>
+
+    <!-- Scripts External -->
     <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -59,12 +79,20 @@
             }
         }
     </script>
+
+    <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="../css/global.css">
     <link rel="stylesheet" type="text/css" href="../css/pdf_report.css">
 </head>
+
 <body
     class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
+
+    <!-- TOP NAVIGATION -->
+
+    <!-- Main content -->
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
+
         <div id="info-app" class="info-app">
             <div
                 class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4">
@@ -86,11 +114,13 @@
                     <span id="ui-btn-template" data-i18n="btnTemplate">Excel Template</span>
                 </button>
             </div>
+
             <details class="text-sm text-slate-600 leading-relaxed group border-b border-slate-300 pb-4">
 				<summary class="cursor-pointer list-none flex items-center gap-2 font-semibold text-slate-900 select-none">
 					<i data-lucide="chevron-right" class="w-4 h-4 text-indigo-500 transition-transform group-open:rotate-90"></i>
 					<span id="ui-rule-title">What this tool does</span>
 				</summary>
+
 				<div class="mt-3 space-y-3">
 					<span id="ui-rule-desc-1">Make sure your team is working well together and that
                         your projects are on schedule. Easily identify who is responsible, accountable, supportive,
@@ -107,9 +137,13 @@
                         project.</span>
 				</div>
 			</details>
+
         </div>
+
         <div
             class="p-4 mb-4 flex flex-wrap gap-4 justify-between items-center shrink-0 border-b border-slate-300">
+
+            <!-- PROJECT INFORMATION BAR (shared across liteAECO apps) -->
             <div id="project-bar" class="hidden w-full flex flex-wrap items-center gap-3 border-b border-slate-100 pb-3">
                 <input type="text" id="app-project-number" placeholder="No."
                     class="border-0 bg-slate-50 rounded p-1.5 w-24 text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-accent outline-none transition-all" />
@@ -152,16 +186,24 @@
                     </div>
                 </div>
             </div>
+
             <div class="flex items-center gap-4 flex-wrap w-full md:w-auto">
                 <input type="text" id="app-rasci-title" placeholder="Enter Matrix Title..." required
                     class="border-0 bg-slate-50 rounded p-1.5 w-full md:w-96 text-lg font-bold focus:ring-2 focus:ring-accent outline-none transition-all" />
+
                 <div class="hidden md:block w-px h-8 bg-slate-200"></div>
+
                 <input type="date" id="app-rasci-date"
                     class="border-0 bg-transparent p-0 text-sm font-medium text-slate-500 outline-none cursor-default"
                     readonly />
             </div>
+
             <div class="flex items-center">
                 <div class="flex items-center rounded overflow-visible relative gap-2">
+                    <!-- P1: real Save - CDE mode only. One click flushes the
+                         event log AND the xlsx write-back immediately, no
+                         2s debounce. Standalone stays hidden: there is no
+                         original file to save over. -->
                     <div class="relative flex-1 min-w-[80px] hidden" id="wrapper-cde-save">
                         <button onclick="cdeSaveNow()" id="btn-cde-save"
                             class="w-full px-3 py-1.5 bg-indigo-600 border border-indigo-600 hover:bg-indigo-700 text-white rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1 disabled:opacity-60 disabled:pointer-events-none">
@@ -170,6 +212,9 @@
                                 data-i18n="btnSave">Save</span>
                         </button>
                     </div>
+
+                    <!-- P2: Open menu - open a file, or pull only the
+                         contacts out of any workbook with a CONTACTS tab -->
                     <div class="relative group flex-1 min-w-[80px]">
                         <button
                             class="w-full px-3 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1">
@@ -186,6 +231,8 @@
                         <input type="file" id="excel-upload" class="hidden" accept=".xlsx, .xls, .ods, .xml" />
                         <input type="file" id="contacts-upload" class="hidden" accept=".xlsx, .xls, .ods" />
                     </div>
+
+                    <!-- P3: old Save, new Export -->
                     <div class="relative group flex-1 min-w-[80px]" id="wrapper-save-excel">
                         <button
                             class="w-full px-3 py-1.5 bg-white border border-slate-200 hover:border-green-200 hover:bg-green-50 hover:text-green-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1">
@@ -203,6 +250,7 @@
                                 class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-green-600 hover:bg-green-50 uppercase tracking-widest text-left transition-colors">XML</button>
                         </div>
                     </div>
+
                     <div class="relative group flex-1 min-w-[80px]">
                         <button onclick="prepareAndPrint()"
                             class="w-full px-3 py-1.5 bg-slate-800 border border-slate-800 hover:border-red-200 hover:bg-red-50 hover:text-red-600 text-slate-50 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1">
@@ -210,6 +258,9 @@
                                 data-i18n="btnPdf">PDF</span>
                         </button>
                     </div>
+
+                    <!-- Options: gear icon only, same pattern as the timeline
+                         app. Rightmost button, menu anchors right. -->
                     <div class="relative group">
                         <button
                             class="px-3 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center"
@@ -217,9 +268,17 @@
                                 class="w-3.5 h-3.5"></i></button>
                         <div
                             class="absolute top-full right-0 w-44 mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden">
+                            <!-- single Autosave TOGGLE: the autosave module flips
+                                 the hidden class on rasci-save-menu-disconnect (its
+                                 disconnectBtnId) - the ON pill IS that element, the
+                                 OFF pill hides via CSS while ON is visible -->
                             <button onclick="autosaveToggle()" id="rasci-autosave-row"
                                 class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 uppercase tracking-widest border-b border-slate-100 text-left transition-colors flex items-center justify-between gap-3">
                                 <span data-i18n="autosaveToggle">Autosave</span>
+                                <!-- switch track + knob; the autosave module flips
+                                     the hidden class on rasci-save-menu-disconnect
+                                     (its disconnectBtnId) and the CSS below moves
+                                     the knob / colors the track -->
                                 <span class="rasci-switch relative inline-block w-8 h-4 rounded-full bg-slate-300 shrink-0 transition-colors">
                                     <span id="rasci-save-menu-disconnect" class="hidden"></span>
                                     <span class="rasci-knob absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white shadow transition-transform duration-200"></span>
@@ -234,6 +293,7 @@
                 </div>
             </div>
         </div>
+
         <div
             class="w-full bg-white border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded flex flex-col overflow-hidden pb-4">
             <div class="p-4 border-b border-slate-200 flex justify-between items-center shrink-0">
@@ -259,6 +319,9 @@
                     </div>
                 </div>
             </div>
+
+            <!-- RASCI LEGEND: always visible - it must survive CDE mode,
+                 where the intro card (its old home) is hidden entirely. -->
             <div id="roles-legend-container"
                 class="bg-white/50 border border-slate-200 rounded p-3 m-4 text-[11.5px] font-mono text-slate-700 mb-3 shadow-sm flex flex-col md:flex-row gap-4 justify-between items-center shrink-0">
                 <div class="flex flex-col sm:flex-row sm:items-center">
@@ -292,6 +355,7 @@
                         title="People updated on progress after decisions are made">Informed</span>
                 </div>
             </div>
+
             <div
                 class="px-4 py-3 border-b border-slate-200 bg-white flex flex-col md:flex-row gap-8 justify-between items-center shrink-0">
                 <form id="form-add-task" class="flex gap-2 w-full md:w-1/2">
@@ -312,6 +376,7 @@
                         <i data-lucide="list" class="w-4 h-4"></i>
                     </button>
                 </form>
+
                 <form id="form-add-person" class="flex gap-2 w-full md:w-1/2">
                     <div
                         class="relative flex items-center gap-2 bg-white border border-slate-200 rounded p-1 flex-grow focus-within:ring-2 focus-within:ring-accent transition-all">
@@ -319,10 +384,12 @@
                         <input type="text" id="input-new-person" placeholder="Add Participant..." autocomplete="off"
                             required
                             class="bg-transparent border-none text-sm flex-grow focus:ring-0 outline-none w-full" />
+
                         <div id="person-autocomplete-dropdown"
                             class="absolute top-full left-0 w-full mt-1 bg-white border border-slate-200 shadow-lg rounded z-[100] hidden flex-col max-h-40 overflow-y-auto">
                         </div>
                     </div>
+
                     <button type="submit"
                         class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-1.5 rounded text-sm font-medium transition-colors shadow-sm shrink-0">
                         +
@@ -334,10 +401,13 @@
                     </button>
                 </form>
             </div>
+
             <div id="tasks-container" class="p-4 overflow-y-auto no-scrollbar flex-grow"></div>
             <div id="analysis-container" class="mt-0 mb-0 p-4 w-full"></div>
         </div>
+
     </div>
+
     <div id="contact-modal"
         class="fixed inset-0 bg-slate-900/20 backdrop-blur-sm hidden z-50 flex items-center justify-center transition-opacity">
         <div
@@ -351,20 +421,24 @@
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
+
             <div class="p-6 flex flex-col gap-4">
                 <input type="hidden" id="contact-modal-id">
+
                 <div>
                     <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1"
                         data-i18n="modalLblName">Name</label>
                     <input type="text" id="contact-modal-name"
                         class="w-full border border-slate-200 bg-white/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 transition-colors">
                 </div>
+
                 <div class="flex gap-3 items-end">
                     <div class="flex-1 relative">
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1"
                             data-i18n="modalLblCompany">Company</label>
                         <input type="text" id="contact-modal-company" autocomplete="off" placeholder="Type to search..."
                             class="w-full border border-slate-200 bg-white/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 transition-colors">
+
                         <div id="company-autocomplete-dropdown"
                             class="absolute top-full left-0 w-full mt-1 bg-white border border-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.1)] rounded z-[100] hidden flex-col max-h-40 overflow-y-auto">
                         </div>
@@ -376,6 +450,7 @@
                             class="w-full border border-slate-200 bg-white/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 transition-colors">
                     </div>
                 </div>
+
                 <div>
                     <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1"
                         data-i18n="modalLblContactInfo">Contact Info (Email/Phone)</label>
@@ -383,6 +458,7 @@
                         class="w-full border border-slate-200 bg-white/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 transition-colors">
                 </div>
             </div>
+
             <div class="px-6 py-4 border-t border-slate-100 flex justify-end gap-2 bg-slate-50/50">
                 <button onclick="closeContactModal()"
                     class="px-4 py-2 rounded-none text-xs font-bold uppercase tracking-widest text-slate-600 hover:bg-slate-200 transition"
@@ -393,6 +469,7 @@
             </div>
         </div>
     </div>
+
     <div id="task-modal"
         class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-lg shadow-xl w-full max-w-md overflow-hidden flex flex-col">
@@ -436,6 +513,7 @@
             </div>
         </div>
     </div>
+
     <div id="all-contacts-modal"
         class="fixed inset-0 bg-slate-900/20 backdrop-blur-sm hidden z-50 flex items-center justify-center transition-opacity">
         <div
@@ -447,6 +525,7 @@
                         <i data-lucide="users" class="w-4 h-4 text-slate-500"></i> <span
                             data-i18n="modalTitleAllContacts">All Contacts</span>
                     </h2>
+
                     <div class="relative w-64">
                         <i data-lucide="search" class="w-3.5 h-3.5 absolute left-2.5 top-2 text-slate-400"></i>
                         <input type="text" id="modal-search-input" oninput="updateContactSearch(this.value)"
@@ -459,14 +538,18 @@
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
+
             <div class="overflow-y-auto bg-white flex-grow p-0">
                 <div id="all-contacts-list" class="flex flex-col min-w-[700px] pb-4"></div>
             </div>
+
             <div id="all-contacts-pagination"
                 class="shrink-0 w-full bg-slate-50 z-20 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] border-t border-slate-200">
             </div>
+
         </div>
     </div>
+
     <div id="all-tasks-modal"
         class="fixed inset-0 bg-slate-900/20 backdrop-blur-sm hidden z-40 flex items-center justify-center transition-opacity">
         <div
@@ -478,6 +561,7 @@
                         <i data-lucide="list" class="w-4 h-4 text-slate-500"></i> <span
                             data-i18n="modalTitleAllTasks">All Tasks</span>
                     </h2>
+
                     <div class="relative w-64">
                         <i data-lucide="search" class="w-3.5 h-3.5 absolute left-2.5 top-2 text-slate-400"></i>
                         <input type="text" id="modal-task-search-input" oninput="updateTaskSearch(this.value)"
@@ -489,9 +573,11 @@
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
+
             <div class="overflow-y-auto bg-white flex-grow p-0">
                 <div id="all-tasks-list" class="flex flex-col min-w-[700px]"></div>
             </div>
+
             <div class="px-6 py-4 border-t border-slate-100 flex justify-end bg-slate-50/50 shrink-0">
                 <button onclick="closeAllTasksModal()"
                     class="px-4 py-2 rounded-none text-xs font-bold uppercase tracking-widest text-slate-600 hover:bg-slate-200 transition"
@@ -499,6 +585,7 @@
             </div>
         </div>
     </div>
+
     <div id="import-conflict-modal"
         class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden z-[100] flex items-center justify-center transition-opacity p-4">
         <div
@@ -513,6 +600,7 @@
                     the visual <strong>'RASCI MATRIX'</strong> tab of your Excel file.</p>
                 <p class="font-medium text-slate-800" data-i18n="conflictDesc2">Which tab should we use as the main
                     source of truth?</p>
+
                 <div class="flex flex-col gap-3 mt-2">
                     <button onclick="resolveImportConflict('struct')"
                         class="flex flex-col items-start p-3 rounded-lg border-2 border-indigo-100 hover:border-indigo-500 hover:bg-indigo-50 transition-all text-left group bg-white shadow-sm hover:shadow">
@@ -544,6 +632,7 @@
             </div>
         </div>
     </div>
+
     <div id="custom-dialog"
         class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden z-[200] flex items-center justify-center transition-opacity opacity-0">
         <div class="bg-white/95 backdrop-blur-xl border border-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] w-[400px] max-w-[90vw] flex flex-col overflow-hidden transform transition-all scale-95"
@@ -562,28 +651,42 @@
             </div>
         </div>
     </div>
+
+    <!-- FOOTER -->
+    <!-- JAVASCRIPT -->
     <script>
+
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
+
         window.updateToolDynamicUI = function (d) {
             window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
+
             const titleInput = document.getElementById('app-rasci-title');
             if (titleInput) titleInput.placeholder = window.BASE_PAGE.phRasciTitle || "Enter Title...";
+
             const searchInput = document.getElementById('app-search');
             if (searchInput) searchInput.placeholder = window.BASE_PAGE.phSearch || "Search...";
+
             const nameInput = document.getElementById('input-new-person');
             if (nameInput) nameInput.placeholder = window.BASE_PAGE.phName || "Name...";
+
             const compInput = document.getElementById('contact-modal-company');
             if (compInput) compInput.placeholder = window.BASE_PAGE.phCompanySearch || "Type to search...";
+
             const projNoInput = document.getElementById('app-project-number');
             if (projNoInput) projNoInput.placeholder = window.BASE_PAGE.phProjectNo || "No.";
+
             const projTitleInput = document.getElementById('app-project-title');
             if (projTitleInput) projTitleInput.placeholder = window.BASE_PAGE.phProjectTitle || "Project Title...";
+
             if (typeof state !== 'undefined' && state.roles) {
                 state.roles.forEach(role => {
                     const dictChar = window.BASE_PAGE[role.charKey];
+                    
                     if (dictChar && dictChar !== role.char) {
                         const oldChar = role.char;
                         role.char = dictChar;
+
                         state.tasks.forEach(task => {
                             task.subtasks.forEach(st => {
                                 if (st.rasci) {
@@ -597,14 +700,20 @@
                         });
                     }
                 });
+
                 if (typeof renderRolesLegend === 'function') renderRolesLegend();
             }
+
             if (typeof renderApp === 'function') renderApp();
         };
+
         function bootApp() {
+            
             autoDetectLanguage();
+
             window.injectUI({
                 showNav: true,
+                linkTarget: '_blank',
                 transparentNav: false,
                 showSignIn: false,
                 showCategories: true,
@@ -613,14 +722,18 @@
                 showFooter: true,
                 showFooterLinks: true,
             });
+
             window.injectCookieBanner();
+
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
+
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
+
         const state = {
             title: '',
             date: new Date().toISOString().split('T')[0],
@@ -630,6 +743,7 @@
             tasks: [],
             hideGroups: true,
             hideCompanies: true,
+            
             roles: [
                 { id: 'r', defaultDesc: 'The person(s) executing the task; they do the work', charKey: 'roleCharR', char: 'R', nameKey: 'roleResponsible', defaultName: 'Responsible', tooltipKey: 'roleRDesc', bg: 'bg-red-50', text: 'text-red-600', border: 'border-red-300', bgDark: 'bg-red-100', hexBg: 'FFFEE2E2', hexText: 'FF7F1D1D' },
                 { id: 'a', defaultDesc: 'The one ultimate authority who signs off and owns the outcome; only one per task', charKey: 'roleCharA', char: 'A', nameKey: 'roleAccountable', defaultName: 'Accountable', tooltipKey: 'roleADesc', bg: 'bg-amber-50', text: 'text-orange-600', border: 'border-amber-300', bgDark: 'bg-orange-100', hexBg: 'FFFFEDD5', hexText: 'FF7C2D12' },
@@ -638,25 +752,31 @@
                 { id: 'i', defaultDesc: 'People updated on progress after decisions are made', charKey: 'roleCharI', char: 'I', nameKey: 'roleInformed', defaultName: 'Informed', tooltipKey: 'roleIDesc', bg: 'bg-slate-50', text: 'text-slate-600', border: 'border-slate-300', bgDark: 'bg-slate-100', hexBg: 'FFE2E8F0', hexText: 'FF0F172A' }
             ]
         };
+        
         let hasUnsavedChanges = false;
         function markUnsaved() { hasUnsavedChanges = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); }
         function clearUnsaved() { hasUnsavedChanges = false; }
+
         let typingDirty = false;
         let typingIdleTimer = null;
         const TYPING_IDLE_MS = 30000;
+
         function noteTyping() {
             hasUnsavedChanges = true;
             typingDirty = true;
             clearTimeout(typingIdleTimer);
             typingIdleTimer = setTimeout(commitTypingDirty, TYPING_IDLE_MS);
         }
+
         function commitTypingDirty() {
             if (!typingDirty) return;
             typingDirty = false;
             clearTimeout(typingIdleTimer);
             if (typeof Autosave !== "undefined") Autosave.markDirty();
         }
+
         state.project = { guid: '', number: '', title: '', client: '', address: '', type: '' };
+
         const PROJECT_FIELD_MAP = {
             'app-project-number': 'number',
             'app-project-title': 'title',
@@ -665,10 +785,12 @@
             'app-project-type': 'type',
             'app-project-guid': 'guid'
         };
+
         function projectBarHasData() {
             const p = state.project || {};
             return !!(p.guid || p.number || p.title || p.client || p.address || p.type);
         }
+
         function updateProjectBarVisibility() {
             const bar = document.getElementById('project-bar');
             if (!bar) return;
@@ -681,13 +803,16 @@
             window.__projectBarManual = true;
             updateProjectBarVisibility();
         };
+
         function renderProjectBar() {
             for (const [elId, key] of Object.entries(PROJECT_FIELD_MAP)) {
                 const el = document.getElementById(elId);
                 if (el) el.value = state.project[key] || '';
             }
+
             updateProjectBarVisibility();
         }
+
         function initProjectBar() {
             for (const [elId, key] of Object.entries(PROJECT_FIELD_MAP)) {
                 const el = document.getElementById(elId);
@@ -705,6 +830,7 @@
             });
         }
         initProjectBar();
+
         function buildProjectInfoRows() {
             if (!state.project.guid && (state.project.number || state.project.title || state.project.client || state.project.address || state.project.type)) {
                 state.project.guid = crypto.randomUUID();
@@ -720,6 +846,7 @@
                 []
             ];
         }
+
         function parseProjectInfo(infoAoA, getValue) {
             const pv = (k) => { const v = getValue(infoAoA, k); return (v && v !== '-') ? v : ''; };
             state.project = {
@@ -731,14 +858,18 @@
                 type: pv("Project Type:")
             };
         }
+
         const generateId = (prefix) => prefix + Math.random().toString(36).substr(2, 9);
+
         function renderRolesLegend() {
             const container = document.getElementById('roles-legend-container');
             if (!container) return;
+
             let html = '';
             state.roles.forEach(role => {
                 const roleName = window.BASE_PAGE[role.nameKey] || (window.PAGE_I18N || {})[role.nameKey] || role.defaultName;
                 const tooltip = window.BASE_PAGE[role.tooltipKey] || (window.PAGE_I18N || {})[role.tooltipKey] || role.defaultDesc || '';
+
                 html += `
                 <div class="flex flex-col sm:flex-row sm:items-center relative group">
                     <input type="text" maxlength="1" value="${role.char}" data-role-id="${role.id}"
@@ -747,25 +878,31 @@
                     <span class="text-slate-500 w-32 shrink-0 font-sans font-medium pl-3 mt-1 cursor-help" title="${tooltip}">${roleName}</span>
                 </div>`;
             });
+
             container.innerHTML = html;
         }
+
         document.addEventListener('change', (e) => {
             if (e.target.matches('#roles-legend-container input')) {
                 const roleId = e.target.dataset.roleId;
                 let newVal = e.target.value.toUpperCase();
                 const roleIndex = state.roles.findIndex(r => r.id === roleId);
                 const oldChar = state.roles[roleIndex].char;
+
                 if (!newVal) {
                     e.target.value = oldChar;
                     return;
                 }
+
                 const isDuplicate = state.roles.some(r => r.id !== roleId && r.char === newVal);
                 if (isDuplicate) {
                     showDialog('alert', window.BASE_PAGE.alertDuplicateRole || "This character is already in use by another role.");
                     e.target.value = oldChar;
                     return;
                 }
+
                 state.roles[roleIndex].char = newVal;
+
                 state.tasks.forEach(task => {
                     task.subtasks.forEach(st => {
                         if (st.rasci) {
@@ -777,67 +914,84 @@
                         }
                     });
                 });
+
                 markUnsaved();
                 renderTasks();
                 if (state.isAnalysisOpen) renderAnalysis();
             }
         });
+
         function getColorClass(char) {
             const role = state.roles.find(r => r.char === char);
             return role ? `${role.bgDark} ${role.text}` : 'bg-white text-slate-700';
         }
+
         state.isTransposed = false;
+
         window.toggleTranspose = function () {
             state.isTransposed = !state.isTransposed;
             renderTasks();
         };
+
         const TOGGLE_BTN_BASE = 'flex items-center gap-1.5 px-2.5 py-1 border border-slate-300 rounded text-xs font-bold transition-all select-none';
+
         function syncMatrixToggleButtons() {
             const defs = [
                 { id: 'btn-toggle-groups', hidden: state.hideGroups, label: window.BASE_PAGE.toggleGroups || "Groups", i18n: 'toggleGroups', inner: false },
                 { id: 'btn-toggle-companies', hidden: state.hideCompanies, label: window.BASE_PAGE.toggleCompanies || "Companies", i18n: 'toggleCompanies', inner: true }
             ];
+
             defs.forEach(d => {
                 const btn = document.getElementById(d.id);
                 if (!btn) return;
+
                 const iconName = d.hidden ? 'eye-off' : 'eye';
                 btn.innerHTML = `<i data-lucide="${iconName}" class="w-3.5 h-3.5"></i> <span class="hidden sm:inline" data-i18n="${d.i18n}">${d.label}</span>`;
+
                 let cls = TOGGLE_BTN_BASE;
                 cls += d.hidden ? ' text-slate-800 bg-slate-200' : ' text-slate-500 bg-white';
                 if (d.inner && d.hidden) cls += ' shadow-inner';
                 btn.className = cls;
+
                 if (typeof lucide !== 'undefined') lucide.createIcons({ root: btn });
             });
         }
+
         window.toggleHideGroups = function () {
             state.hideGroups = !state.hideGroups;
             syncMatrixToggleButtons();
             markUnsaved();
             renderTasks();
         };
+
         window.toggleHideCompanies = function () {
             state.hideCompanies = !state.hideCompanies;
             syncMatrixToggleButtons();
             markUnsaved();
             renderTasks();
         };
+
         const getInitials = (name) => {
             if (!name) return '';
             const words = name.trim().split(' ');
             if (words.length === 1) return words[0].substring(0, 2).toUpperCase();
             return (words[0][0] + words[words.length - 1][0]).toUpperCase();
         };
+
         function numToLetterCode(n) {
             const i = Math.max(0, n - 1);
             return String.fromCharCode(65 + Math.floor(i / 26) % 26) + String.fromCharCode(65 + (i % 26));
         }
+
         function generatePersonId() {
             return crypto.randomUUID();
         }
+
         function toExcelDate(htmlDate) {
             if (!htmlDate || htmlDate === '-') return '-';
             return String(htmlDate).replace(/-/g, '');
         }
+
         function fromExcelDate(excelDate) {
             if (!excelDate || excelDate === '-') return '';
             if (typeof excelDate === 'number' && excelDate < 100000) {
@@ -850,27 +1004,34 @@
             }
             return strDate.replace(/\./g, '-');
         }
+
         function renderApp() {
             const titleInput = document.getElementById('app-rasci-title');
             if (titleInput) titleInput.value = state.title;
+
             const dateInput = document.getElementById('app-rasci-date');
             if (dateInput) dateInput.value = state.date;
+
             renderRolesLegend(); 
             syncMatrixToggleButtons(); 
             renderTasks();
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
+
         function renderPeople() {
             const listEl = document.getElementById('people-list');
             if (!listEl) return;
             listEl.innerHTML = '';
             const isHistory = state.viewingHistory;
+
             const formAdd = document.getElementById('form-add-person');
             if (isHistory) formAdd.classList.add('hidden');
             else formAdd.classList.remove('hidden');
+
             let historicalPresentIds = [];
             let historicalAbsentIds = [];
             let hasHistoricalAbsenceData = false;
+
             if (isHistory) {
                 const histRecord = state.attendanceHistory.find(r => String(r.rasciNo) === String(state.historyRasciNo));
                 if (histRecord) {
@@ -881,6 +1042,7 @@
                     }
                 }
             }
+
             const peopleToRender = state.people.filter(p => {
                 if (!isHistory) return !p.archived;
                 if (hasHistoricalAbsenceData) {
@@ -888,19 +1050,23 @@
                 }
                 return !p.archived || historicalPresentIds.includes(p.id);
             });
+
             if (peopleToRender.length === 0) {
                 const emptyStr = window.BASE_PAGE.emptyAttendees || 'No attendees added yet.';
                 listEl.innerHTML = `<p class="text-sm text-slate-400 italic">${emptyStr}</p>`;
                 return;
             }
+
             const renderGroup = (title, peopleArr) => {
                 if (peopleArr.length === 0) return '';
                 let html = `<div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 mt-4 first:mt-0">${title}</div>`;
+
                 peopleArr.forEach(person => {
                     const isPresent = isHistory ? historicalPresentIds.includes(person.id) : person.present;
                     const disabledAttr = isHistory ? 'disabled' : '';
                     const hiddenClass = isHistory ? 'hidden' : '';
                     const archivedStr = person.archived ? `<span class="text-[9px] text-red-400 ml-1">${window.BASE_PAGE.archivedTag || '(Archived)'}</span>` : '';
+
                     html += `
                 <li class="flex justify-between items-center p-1.5 hover:bg-slate-50 rounded border border-transparent hover:border-slate-100 group transition-all mb-0.5">
                     <div class="flex items-center min-w-0 gap-2">
@@ -918,18 +1084,23 @@
                 });
                 return html;
             };
+
             const orgPeople = peopleToRender.filter(p => p.participation === 'Organizer');
             const reqPeople = peopleToRender.filter(p => p.participation === 'Required');
             const optPeople = peopleToRender.filter(p => p.participation === 'Optional');
+
             const orgTitle = window.BASE_PAGE.optOrganizer || 'Organizer';
             const reqTitle = window.BASE_PAGE.optRequired || 'Required';
             const optTitle = window.BASE_PAGE.optOptional || 'Optional';
+
             listEl.innerHTML = renderGroup(orgTitle, orgPeople) + renderGroup(reqTitle, reqPeople) + renderGroup(optTitle, optPeople);
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: listEl });
         }
+
         function generateRasciBadgesHTML(rasciObj) {
             const unassignedStr = window.BASE_PAGE.badgeUnassigned || 'Unassigned';
             if (!rasciObj || Object.keys(rasciObj).length === 0) return `<span class="text-xs text-slate-400 px-1">${unassignedStr}</span>`;
+
             const roleColors = {
                 'R': 'bg-red-100 text-red-700 border-red-200',
                 'A': 'bg-orange-100 text-orange-700 border-orange-200',
@@ -937,9 +1108,11 @@
                 'C': 'bg-blue-100 text-blue-700 border-blue-200',
                 'I': 'bg-slate-100 text-slate-700 border-slate-200'
             };
+
             return Object.entries(rasciObj).map(([id, role]) => {
                 let nameToDisplay = "";
                 let initials = "";
+
                 if (id.startsWith('c_')) {
                     nameToDisplay = id.substring(2);
                     initials = getInitials(nameToDisplay);
@@ -950,44 +1123,58 @@
                         initials = getInitials(p.name);
                     }
                 }
+
                 if (!nameToDisplay) return '';
+
                 const colorClass = roleColors[role] || roleColors['I'];
+
                 return `<span class="${colorClass} border text-[10px] font-bold h-6 pl-1.5 pr-2 rounded-full flex items-center justify-center shrink-0 shadow-sm cursor-help gap-1" title="${nameToDisplay}">
                     <span class="w-4 h-4 rounded-full bg-white/50 flex items-center justify-center">${role}</span>
                     ${initials}
                 </span>`;
             }).join('');
         }
+
         function renderTasks() {
             const container = document.getElementById('tasks-container');
             container.innerHTML = '';
+
             const taskCols = [];
             state.tasks.forEach((task, tIndex) => {
                 task.number = tIndex + 1;
                 task.subtasks.forEach((st, stIndex) => {
                     if (!st.number) st.number = stIndex + 1;
+                    
                     if (!st.archived) {
                         taskCols.push({ task, st });
                     }
                 });
             });
+
             taskCols.sort((a, b) => {
                 const groupA = (a.task.title || '').trim().toLowerCase();
                 const groupB = (b.task.title || '').trim().toLowerCase();
+
                 if (groupA < groupB) return -1;
                 if (groupA > groupB) return 1;
+
                 const taskA = (a.st.title || '').trim().toLowerCase();
                 const taskB = (b.st.title || '').trim().toLowerCase();
+
                 if (taskA < taskB) return -1;
                 if (taskA > taskB) return 1;
+
                 return 0;
             });
+
             if (taskCols.length === 0) {
                 const noTasksMsg = window.BASE_PAGE.uiNoTasks || "No tasks found, please add one or import an existing excel file.";
                 container.innerHTML = `<div class="p-8 text-center text-slate-500 font-medium">${noTasksMsg}</div>`;
                 return;
             }
+
             const activePeople = state.people.filter(p => !p.archived && p.rasciMatrix === 'Yes');
+
             activePeople.sort((a, b) => {
                 const compA = (a.company || '').trim().toLowerCase();
                 const compB = (b.company || '').trim().toLowerCase();
@@ -999,15 +1186,20 @@
                 if (nameA > nameB) return 1;
                 return 0;
             });
+
             const isTransposed = state.isTransposed;
+
             let displayTasks = taskCols;
             let displayPeople = activePeople;
             const q = state.searchQuery ? state.searchQuery.toLowerCase().trim() : '';
+
             if (q) {
                 const matchesTask = (col) => `${col.task.title || ''} ${col.st.title || ''} ${col.st.text || ''}`.toLowerCase().includes(q);
                 const matchesPerson = (p) => `${p.name || ''} ${p.role || ''} ${p.company || ''}`.toLowerCase().includes(q);
+
                 const someTaskMatches = taskCols.some(matchesTask);
                 const somePersonMatches = activePeople.some(matchesPerson);
+
                 if (someTaskMatches && !somePersonMatches) {
                     displayTasks = taskCols.filter(matchesTask);
                 } else if (somePersonMatches && !someTaskMatches) {
@@ -1020,13 +1212,17 @@
                     displayPeople = [];
                 }
             }
+
             if (displayTasks.length === 0 && displayPeople.length === 0 && q) {
                 container.innerHTML = `<div class="p-8 text-center text-slate-500 font-medium">No results found for "${state.searchQuery}".</div>`;
                 return;
             }
+
             const matrixCols = [];
             const matrixRows = [];
+
             if (!isTransposed) {
+                
                 let currentGroup = null;
                 displayTasks.forEach((col, i) => {
                     const gName = col.task.title || window.BASE_PAGE.uiUnnamedGroup || 'Unnamed Group';
@@ -1038,6 +1234,7 @@
                     }
                     matrixCols.push({ isDivider: false, colData: col, color: 'bg-slate-50', colIndex: i });
                 });
+
                 let currentComp = null;
                 displayPeople.forEach(p => {
                     const cName = p.company || window.BASE_PAGE.uiNoCompany || 'No Company';
@@ -1050,6 +1247,7 @@
                     matrixRows.push({ isDivider: false, rowData: p, color: 'bg-slate-50' });
                 });
             } else {
+                
                 let currentComp = null;
                 displayPeople.forEach((p, i) => {
                     const cName = p.company || window.BASE_PAGE.uiNoCompany || 'No Company';
@@ -1061,6 +1259,7 @@
                     }
                     matrixCols.push({ isDivider: false, colData: p, color: 'bg-slate-50', colIndex: i });
                 });
+
                 let currentGroup = null;
                 displayTasks.forEach(col => {
                     const gName = col.task.title || window.BASE_PAGE.uiUnnamedGroup || 'Unnamed Group';
@@ -1073,14 +1272,18 @@
                     matrixRows.push({ isDivider: false, rowData: col, color: 'bg-slate-50' });
                 });
             }
+
             let html = `<div class="overflow-x-auto pb-0"><table class="text-left border-collapse whitespace-nowrap" style="table-layout: fixed; width: max-content;">`;
+
             html += `<thead><tr class="h-[120px]">`;
+
             html += `<th onclick="toggleTranspose()" class="p-2 border border-slate-300 bg-slate-100 hover:bg-slate-200 text-indigo-800 font-bold text-xs sticky left-0 z-30 uppercase cursor-pointer select-none transition-colors group align-middle shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]" style="width: 200px; min-width: 200px; max-width: 200px;">
                 <div class="flex items-center justify-center w-full">
                     <i data-lucide="arrow-right-left" class="w-4 h-4 text-indigo-500 group-hover:text-indigo-700 transition-colors"></i>
                     <span class="pl-2">${window.BASE_PAGE.uiTranspose || 'Transpose'}</span>
                 </div>
             </th>`;
+
             matrixCols.forEach(c => {
                 if (c.isDivider) {
                     html += `<th class="p-0 border border-slate-300 ${c.color} text-slate-800 text-center align-bottom font-bold text-[10px] uppercase tracking-widest relative" style="width: 25px; min-width: 25px; max-width: 25px;">
@@ -1091,10 +1294,12 @@
                 } else {
                     const titleText = !isTransposed ? (c.colData.st.title || window.BASE_PAGE.uiUnnamedTask || 'Unnamed Task') : c.colData.name;
                     const tooltip = !isTransposed ? `Group: ${c.colData.task.title}\nDesc: ${c.colData.st.text || 'None'}` : c.colData.name;
+
                     html += `<th class="p-0 border border-slate-300 ${c.color} text-slate-800 text-center relative group align-bottom font-normal" style="width: 40px; min-width: 40px; max-width: 40px;">
                         <div class="flex flex-col items-center justify-end w-full h-full pb-3 cursor-help overflow-hidden min-h-[80px]" title="${tooltip}">
                             <span class="text-[11px] pb-4 font-normal text-slate-700 truncate [writing-mode:vertical-rl] rotate-180 tracking-wide max-h-[110px]">${titleText}</span>
                         </div>`;
+
                     if (!isTransposed) {
                         html += `<div class="absolute top-1 left-1/2 -translate-x-1/2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-50 rounded py-1 px-0.5 z-30 shadow-none border border-slate-200">
                             <button class="btn-edit-st text-slate-500 hover:text-indigo-600 p-0.5" data-tid="${c.colData.task.id}" data-stid="${c.colData.st.id}"><i data-lucide="edit-2" class="w-3.5 h-3.5"></i></button>
@@ -1110,16 +1315,20 @@
                 }
             });
             html += `</tr></thead><tbody>`;
+
             let rowIndex = 0;
+
             if (matrixRows.length === 0 || displayTasks.length === 0 || displayPeople.length === 0) {
                 const emptyMatrixMsg = window.BASE_PAGE.uiEmptyMatrix || "Add tasks and participants.";
                 html += `<tr><td colspan="${matrixCols.length + 1}" class="p-4 text-center text-slate-400 italic text-sm border border-slate-300">${emptyMatrixMsg}</td></tr>`;
             } else {
                 matrixRows.forEach(r => {
                     if (r.isDivider) {
+                        
                         html += `<tr class="h-[25px] max-h-[25px]"><td colspan="${matrixCols.length + 1}" class="px-3 py-1 border border-slate-300 ${r.color} text-slate-800 font-bold text-[11px] uppercase tracking-widest sticky left-0 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] overflow-hidden text-left">${String(r.title).toUpperCase()}</td></tr>`;
                     } else {
                         html += `<tr class="h-[30px] max-h-[30px]">`;
+
                         if (!isTransposed) {
                             const person = r.rowData;
                             let metaString = person.role || '';
@@ -1161,15 +1370,19 @@
                                 </div>
                             </td>`;
                         }
+
                         matrixCols.forEach(c => {
                             if (c.isDivider) {
+                                
                                 html += `<td class="p-0 border border-slate-300 ${c.color}" style="width: 25px;min-width: 25px; max-width: 25px;"></td>`;
                             } else {
                                 const entityId = !isTransposed ? r.rowData.id : c.colData.id;
                                 const stId = !isTransposed ? c.colData.st.id : r.rowData.st.id;
                                 const stObj = !isTransposed ? c.colData.st : r.rowData.st;
+
                                 const role = (stObj.rasci && stObj.rasci[entityId]) ? stObj.rasci[entityId] : '';
                                 const emptyBgClass = role === '' ? 'bg-white text-slate-700' : getColorClass(role);
+
                                 html += `<td class="p-0 border border-slate-300 text-center relative group bg-white" style="width: 40px; min-width: 40px; max-width: 40px;">
                                     <input type="text" maxlength="1" placeholder="" 
                                         class="input-st-rasci-cell w-full h-full min-h-[32px] max-h-[32px] text-xs text-center outline-none font-bold uppercase transition-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 relative z-10 peer ${emptyBgClass}"
@@ -1178,6 +1391,7 @@
                                 </td>`;
                             }
                         });
+
                         html += `</tr>`;
                         rowIndex++;
                     }
@@ -1185,13 +1399,18 @@
             }
             html += `</tbody></table></div>`;
             container.innerHTML = html;
+
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: container });
             if (typeof renderAnalysis === 'function') renderAnalysis();
         }
+
         let pendingImportData = null;
+
         function resolveImportConflict(choice) {
             if (!pendingImportData) return;
+
             markUnsaved();
+
             if (choice === 'struct') {
                 state.tasks = pendingImportData.structTasks;
                 state.people = pendingImportData.structPeople;
@@ -1199,28 +1418,38 @@
                 state.tasks = pendingImportData.visualTasks;
                 state.people = pendingImportData.visualPeople;
             }
+
             document.getElementById('import-conflict-modal').classList.add('hidden');
             pendingImportData = null;
+
             renderApp();
             if (typeof renderAllContacts === 'function') renderAllContacts();
             if (typeof renderAllTasks === 'function') renderAllTasks();
         }
+
         function cancelImportConflict() {
             document.getElementById('import-conflict-modal').classList.add('hidden');
             pendingImportData = null;
+            
         }
+
         state.isAnalysisOpen = false;
+
         window.toggleAnalysis = function () {
             state.isAnalysisOpen = !state.isAnalysisOpen;
             renderAnalysis();
         };
+
         function renderAnalysis() {
             const container = document.getElementById('analysis-container');
             if (!container) return;
+
             const activeTasks = [];
             state.tasks.forEach(t => { t.subtasks.forEach(st => { if (!st.archived) activeTasks.push({ group: t, task: st }); }); });
             const activePeople = state.people.filter(p => !p.archived && p.rasciMatrix === 'Yes');
+
             if (activeTasks.length === 0 || activePeople.length === 0) { container.innerHTML = ''; return; }
+
             const txtIssues = window.BASE_PAGE.uiAnalysisIssues || "Issues";
             const txtAllGood = window.BASE_PAGE.uiAnalysisAllGood || "All Good";
             const txtTitle = window.BASE_PAGE.uiAnalysisTitle || "Matrix Analysis";
@@ -1229,31 +1458,38 @@
             const txtHealth = window.BASE_PAGE.uiAnalysisHealth || "Health Check";
             const txtBalanced = window.BASE_PAGE.uiAnalysisBalanced || "Matrix is perfectly balanced!";
             const txtBalancedDesc = window.BASE_PAGE.uiAnalysisBalancedDesc || "Every task has exactly 1 Accountable and at least 1 Responsible.";
+
             const errAcc = window.BASE_PAGE.errAccountable || "Needs exactly 1 Accountable";
             const errHas = window.BASE_PAGE.errHas || "Has";
             const errResp = window.BASE_PAGE.errResponsible || "Needs at least 1 Responsible";
             const errLead = window.BASE_PAGE.errLead || "lead";
             const txtUnnamedTask = window.BASE_PAGE.uiUnnamedTask || "Unnamed Task";
+
             const issues = [];
             const rChar = state.roles[0].char; 
             const aChar = state.roles[1].char; 
+
             const workload = activePeople.map(p => {
                 let countsObj = {};
                 state.roles.forEach(r => countsObj[r.char] = 0);
                 return { id: p.id, name: p.name, company: p.company, counts: countsObj };
             });
+
             activeTasks.forEach(item => {
                 const st = item.task;
                 let aCount = 0; let rCount = 0;
+
                 activePeople.forEach(p => {
                     let role = st.rasci && st.rasci[p.id] ? String(st.rasci[p.id]).trim().toUpperCase().charAt(0) : null;
                     if (role === aChar) aCount++;
                     if (role === rChar) rCount++;
+
                     if (role && workload[0].counts.hasOwnProperty(role)) {
                         const w = workload.find(w => w.id === p.id);
                         if (w) w.counts[role]++;
                     }
                 });
+
                 const taskNameDisplay = st.title || st.text || txtUnnamedTask;
                 if (aCount !== 1) {
                     issues.push(`<span class="font-semibold text-slate-700">${taskNameDisplay}</span>: ${errAcc} (${aChar}) <em>(${errHas} ${aCount})</em>`);
@@ -1262,12 +1498,15 @@
                     issues.push(`<span class="font-semibold text-slate-700">${taskNameDisplay}</span>: ${errResp} (${rChar}) ${errLead}.`);
                 }
             });
+
             const isCollapsed = !state.isAnalysisOpen;
             const icon = isCollapsed ? 'chevron-down' : 'chevron-up';
             const badge = issues.length > 0
                 ? `<span class="ml-3 bg-red-100 text-red-700 text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">${issues.length} ${txtIssues}</span>`
                 : `<span class="ml-3 bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">${txtAllGood}</span>`;
+
             const tableHeadersHTML = state.roles.map(r => `<th class="pb-2 text-center font-bold w-8">${r.char}</th>`).join('');
+
             const tableRowsHTML = workload.map(w => `
                 <tr class="hover:bg-slate-50 transition-colors">
                     <td class="py-2 pr-2">
@@ -1280,6 +1519,7 @@
             }).join('')}
                 </tr>
             `).join('');
+
             let html = `
             <div class="bg-white border border-slate-200 rounded-sm shadow-sm overflow-hidden transition-all">
                 <button onclick="toggleAnalysis()" class="w-full flex items-center justify-between p-4 bg-white hover:bg-white transition-colors text-left outline-none border-b border-transparent ${!isCollapsed ? '!border-slate-200' : ''}">
@@ -1292,6 +1532,7 @@
                     <i data-lucide="${icon}" class="w-4 h-4 text-slate-400 shrink-0"></i>
                     </span>
                 </button>
+                
                 <div class="${isCollapsed ? 'hidden' : 'block'} p-0">
                     <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100">
                         <div class="p-5 bg-white overflow-x-auto">
@@ -1324,57 +1565,72 @@
                     </div>
                 </div>
             </div>`;
+
             container.innerHTML = html;
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: container });
         }
+
         function openContactModal(id) {
             const person = state.people.find(p => p.id === id);
             if (!person) return;
+
             document.getElementById('contact-modal-id').value = person.id;
             document.getElementById('contact-modal-name').value = person.name || '';
             document.getElementById('contact-modal-company').value = person.company || '';
             document.getElementById('contact-modal-role').value = person.role || '';
             document.getElementById('contact-modal-contactinfo').value = person.contactInfo || '';
+
             const compDropdown = document.getElementById('company-autocomplete-dropdown');
             if (compDropdown) compDropdown.classList.add('hidden');
+
             document.getElementById('contact-modal').classList.remove('hidden');
         }
+
         function closeContactModal() {
             document.getElementById('contact-modal').classList.add('hidden');
         }
+
         function saveContact() {
             const id = document.getElementById('contact-modal-id').value;
             const person = state.people.find(p => p.id === id);
+
             if (person) {
                 markUnsaved();
                 person.name = document.getElementById('contact-modal-name').value.trim();
                 person.company = document.getElementById('contact-modal-company').value.trim();
                 person.role = document.getElementById('contact-modal-role').value.trim();
                 person.contactInfo = document.getElementById('contact-modal-contactinfo').value.trim();
+
                 closeContactModal();
                 if (typeof renderPeople === 'function') renderPeople();
                 renderTasks();
                 renderAllContacts(); 
             }
         }
+
         function openTaskModal(tid, stid) {
             const task = state.tasks.find(t => t.id === tid);
             if (!task) return;
             const st = task.subtasks.find(s => s.id === stid);
             if (!st) return;
+
             document.getElementById('task-modal-tid').value = task.id;
             document.getElementById('task-modal-stid').value = st.id;
             document.getElementById('task-modal-group').value = task.title || '';
             document.getElementById('task-modal-title').value = st.title || ''; 
             document.getElementById('task-modal-desc').value = st.text || '';   
+
             document.getElementById('task-modal').classList.remove('hidden');
         }
+
         function closeTaskModal() {
             document.getElementById('task-modal').classList.add('hidden');
         }
+
         function saveTask() {
             const tid = document.getElementById('task-modal-tid').value;
             const stid = document.getElementById('task-modal-stid').value;
+
             const task = state.tasks.find(t => t.id === tid);
             if (task) {
                 markUnsaved();
@@ -1385,10 +1641,12 @@
                     st.text = document.getElementById('task-modal-desc').value.trim();
                 }
             }
+
             closeTaskModal();
             renderTasks();
             if (typeof renderAllTasks === 'function') renderAllTasks(); 
         }
+
         function showDialog(type, message, onConfirm = null) {
             const overlay = document.getElementById('custom-dialog');
             const box = document.getElementById('custom-dialog-box');
@@ -1396,12 +1654,15 @@
             const btnContainer = document.getElementById('custom-dialog-buttons');
             const iconEl = document.getElementById('custom-dialog-icon');
             const titleEl = document.getElementById('custom-dialog-title');
+
             msgEl.textContent = message;
             btnContainer.innerHTML = '';
+
             if (type === 'alert') {
                 iconEl.className = "w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0";
                 iconEl.innerHTML = '<i data-lucide="info" class="w-5 h-5"></i>';
                 titleEl.textContent = "Notice";
+
                 const btnOk = document.createElement('button');
                 btnOk.className = "px-4 py-2 rounded text-xs font-bold uppercase tracking-widest text-white bg-indigo-600 hover:bg-indigo-700 transition shadow-sm";
                 btnOk.textContent = "OK";
@@ -1411,10 +1672,12 @@
                 iconEl.className = "w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 shrink-0";
                 iconEl.innerHTML = '<i data-lucide="alert-triangle" class="w-5 h-5"></i>';
                 titleEl.textContent = "Please Confirm";
+
                 const btnCancel = document.createElement('button');
                 btnCancel.className = "px-4 py-2 rounded text-xs font-bold uppercase tracking-widest text-slate-600 hover:bg-slate-200 transition";
                 btnCancel.textContent = window.BASE_PAGE.btnCancel || "Cancel";
                 btnCancel.onclick = closeDialog;
+
                 const btnConfirm = document.createElement('button');
                 btnConfirm.className = "px-4 py-2 rounded text-xs font-bold uppercase tracking-widest text-white bg-red-600 hover:bg-red-700 transition shadow-sm";
                 btnConfirm.textContent = "Confirm";
@@ -1422,29 +1685,37 @@
                     closeDialog();
                     if (onConfirm) onConfirm();
                 };
+
                 btnContainer.appendChild(btnCancel);
                 btnContainer.appendChild(btnConfirm);
             }
+
             overlay.classList.remove('hidden');
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: overlay });
+
             setTimeout(() => {
                 overlay.classList.remove('opacity-0');
                 box.classList.remove('scale-95');
                 box.classList.add('scale-100');
             }, 10);
         }
+
         function closeDialog() {
             const overlay = document.getElementById('custom-dialog');
             const box = document.getElementById('custom-dialog-box');
+
             overlay.classList.add('opacity-0');
             box.classList.remove('scale-100');
             box.classList.add('scale-95');
+
             setTimeout(() => { overlay.classList.add('hidden'); }, 200);
         }
+
         let currentContactSearch = '';
         let currentContactSort = { field: 'name', direction: 'asc' }; 
         let currentContactPage = 1;
         const CONTACTS_PER_PAGE = 12; 
+
         function openAllContactsModal() {
             document.getElementById('modal-search-input').value = '';
             currentContactSearch = '';
@@ -1452,14 +1723,17 @@
             renderAllContacts();
             document.getElementById('all-contacts-modal').classList.remove('hidden');
         }
+
         function closeAllContactsModal() {
             document.getElementById('all-contacts-modal').classList.add('hidden');
         }
+
         function updateContactSearch(query) {
             currentContactSearch = query.toLowerCase().trim();
             currentContactPage = 1; 
             renderAllContacts();
         }
+
         function changeContactSort(field) {
             if (currentContactSort.field === field) {
                 currentContactSort.direction = currentContactSort.direction === 'asc' ? 'desc' : 'asc';
@@ -1470,32 +1744,40 @@
             currentContactPage = 1; 
             renderAllContacts();
         }
+
         function getSortIcon(field) {
             if (currentContactSort.field !== field) return `<i data-lucide="chevrons-up-down" class="w-3 h-3 text-slate-300"></i>`;
             return currentContactSort.direction === 'asc'
                 ? `<i data-lucide="chevron-up" class="w-3 h-3 text-indigo-600"></i>`
                 : `<i data-lucide="chevron-down" class="w-3 h-3 text-indigo-600"></i>`;
         }
+
         function changeContactPage(newPage) {
             currentContactPage = newPage;
             renderAllContacts();
+
             const scrollContainer = document.getElementById('all-contacts-list').parentElement;
             if (scrollContainer) scrollContainer.scrollTop = 0;
         }
+
         function renderAllContacts() {
             const listEl = document.getElementById('all-contacts-list');
             if (!listEl) return;
+
             if (state.people.length === 0) {
                 listEl.innerHTML = `<div class="p-8 text-center text-sm text-slate-400 italic">No contacts in the system yet.</div>`;
                 return;
             }
+
             let filteredPeople = state.people.filter(p => {
                 if (!currentContactSearch) return true;
                 const searchStr = `${p.name} ${p.company || ''} ${p.role || ''} ${p.contactInfo || ''}`.toLowerCase();
                 return searchStr.includes(currentContactSearch);
             });
+
             let sortedPeople = filteredPeople.sort((a, b) => {
                 let valA, valB;
+
                 if (currentContactSort.field === 'status') {
                     valA = a.archived ? 1 : 0;
                     valB = b.archived ? 1 : 0;
@@ -1518,20 +1800,27 @@
                     valA = (a.rasciMatrix || '').toLowerCase();
                     valB = (b.rasciMatrix || '').toLowerCase();
                 }
+
                 if (currentContactSort.field !== 'status') {
                     if (valA < valB) return currentContactSort.direction === 'asc' ? -1 : 1;
                     if (valA > valB) return currentContactSort.direction === 'asc' ? 1 : -1;
                     return 0;
                 }
+
                 return currentContactSort.direction === 'asc' ? (valA - valB) : (valB - valA);
             });
+
             const totalItems = sortedPeople.length;
             const totalPages = Math.max(1, Math.ceil(totalItems / CONTACTS_PER_PAGE));
+
             if (currentContactPage > totalPages) currentContactPage = totalPages;
             if (currentContactPage < 1) currentContactPage = 1;
+
             const startIndex = (currentContactPage - 1) * CONTACTS_PER_PAGE;
             const endIndex = Math.min(startIndex + CONTACTS_PER_PAGE, totalItems);
+
             const paginatedPeople = sortedPeople.slice(startIndex, endIndex);
+
             let html = `
             <div class="grid grid-cols-[2fr_2fr_1.5fr_2fr_80px_60px] gap-3 p-4 border-b border-slate-200 bg-slate-50 text-[11px] font-bold text-slate-500 uppercase tracking-wider sticky top-0 z-10 shadow-sm">
                 <button onclick="changeContactSort('name')" class="flex items-center gap-1 hover:text-indigo-600 transition-colors group outline-none text-left">Name ${getSortIcon('name')}</button>
@@ -1541,18 +1830,22 @@
                 <button onclick="changeContactSort('rasciMatrix')" class="flex items-center justify-center gap-1 hover:text-indigo-600 transition-colors group outline-none">RASCI ${getSortIcon('rasciMatrix')}</button>
                 <button onclick="changeContactSort('status')" class="flex items-center justify-center gap-1 hover:text-indigo-600 transition-colors group outline-none">Status ${getSortIcon('status')}</button>
             </div>`;
+
             if (paginatedPeople.length === 0) {
                 html += `<div class="p-8 text-center text-sm text-slate-400 italic">No contacts match your search.</div>`;
             } else {
                 paginatedPeople.forEach(person => {
                     const rowOpacity = person.archived ? 'opacity-50 hover:opacity-100 bg-white' : 'opacity-100 bg-white';
+
                     const actionBtn = person.archived
                         ? `<button onclick="togglePersonArchive('${person.id}')" class="flex items-center justify-center p-1.5 text-[10px] uppercase tracking-wider font-bold text-emerald-600 hover:bg-emerald-50 border border-transparent hover:border-emerald-200 rounded transition-all w-full" title="Restore to Active"><i data-lucide="refresh-cw" class="w-3.5 h-3.5 mr-1"></i> Restore</button>`
                         : `<button onclick="togglePersonArchive('${person.id}')" class="flex items-center justify-center p-1.5 text-[10px] uppercase tracking-wider font-bold text-slate-400 hover:text-red-500 hover:bg-red-50 border border-transparent hover:border-red-200 rounded transition-all w-full" title="Archive Contact"><i data-lucide="archive" class="w-3.5 h-3.5"></i></button>`;
+
                     const safeName = (person.name || '').replace(/"/g, '&quot;');
                     const safeCompany = (person.company || '').replace(/"/g, '&quot;');
                     const safeRole = (person.role || '').replace(/"/g, '&quot;');
                     const safeContact = (person.contactInfo || '').replace(/"/g, '&quot;');
+
                     html += `
                     <div class="grid grid-cols-[2fr_2fr_1.5fr_2fr_80px_60px] gap-3 p-3 border-b border-slate-100 last:border-0 hover:bg-slate-50 items-center transition-all ${rowOpacity}">
                         <div>
@@ -1579,9 +1872,12 @@
                     </div>`;
                 });
             }
+
             const paginationEl = document.getElementById('all-contacts-pagination');
             let paginationHtml = '';
+
             if (totalItems > CONTACTS_PER_PAGE) {
+                
                 paginationHtml = `
                 <div class="flex items-center justify-between px-6 py-3">
                     <div class="text-xs text-slate-500">
@@ -1598,13 +1894,16 @@
                     </div>
                 </div>`;
             }
+
             listEl.innerHTML = html;
             if (paginationEl) paginationEl.innerHTML = paginationHtml;
+
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons({ root: listEl });
                 if (paginationEl) lucide.createIcons({ root: paginationEl });
             }
         }
+
         function updatePersonInline(id, field, value) {
             const person = state.people.find(p => p.id === id);
             if (person) {
@@ -1614,6 +1913,7 @@
                 if (typeof renderPeople === 'function') renderPeople();
             }
         }
+
         function togglePersonArchive(id) {
             const person = state.people.find(p => p.id === id);
             if (person) {
@@ -1624,73 +1924,95 @@
                 if (typeof renderPeople === 'function') renderPeople();
             }
         }
+
         let currentTaskSearch = '';
+
         function openAllTasksModal() {
             document.getElementById('modal-task-search-input').value = '';
             currentTaskSearch = '';
             renderAllTasks();
             document.getElementById('all-tasks-modal').classList.remove('hidden');
         }
+
         function closeAllTasksModal() {
             document.getElementById('all-tasks-modal').classList.add('hidden');
         }
+
         function updateTaskSearch(query) {
             currentTaskSearch = query.toLowerCase().trim();
             renderAllTasks();
         }
+
         function renderAllTasks() {
             const listEl = document.getElementById('all-tasks-list');
             if (!listEl) return;
+
             let flatTasks = [];
             state.tasks.forEach(task => {
                 task.subtasks.forEach(st => {
                     flatTasks.push({ task: task, st: st });
                 });
             });
+
             const filteredTasks = flatTasks.filter(item => {
                 if (!currentTaskSearch) return true;
                 const searchStr = `${item.task.title || ''} ${item.st.title || ''} ${item.st.text || ''}`.toLowerCase();
                 return searchStr.includes(currentTaskSearch);
             });
+
             filteredTasks.sort((a, b) => {
                 const groupA = (a.task.title || '').trim().toLowerCase();
                 const groupB = (b.task.title || '').trim().toLowerCase();
+
                 if (groupA < groupB) return -1;
                 if (groupA > groupB) return 1;
+
                 const taskA = (a.st.title || '').trim().toLowerCase();
                 const taskB = (b.st.title || '').trim().toLowerCase();
+
                 if (taskA < taskB) return -1;
                 if (taskA > taskB) return 1;
+
                 return 0;
             });
+
             if (filteredTasks.length === 0) {
                 listEl.innerHTML = `<div class="p-8 text-center text-slate-500 text-sm italic">No tasks found.</div>`;
                 return;
             }
+
             let html = `
             <div class="grid grid-cols-12 gap-3 p-4 border-b border-slate-200 bg-slate-50/50 text-[11px] font-bold text-slate-500 uppercase tracking-wider sticky top-0 z-10">
+                
                 <div class="col-span-3">Task Name</div>
                 <div class="col-span-3">Group</div>
                 <div class="col-span-3">Description</div>
                 <div class="col-span-2 text-center">Status</div>
                 <div class="col-span-1 text-right">Actions</div>
             </div>`;
+
             const inputClass = "w-full bg-white border border-slate-200 hover:border-indigo-50 hover:bg-white focus:bg-white focus:border-indigo-500 focus:ring-0.5 focus:ring-indigo-500 rounded px-2 py-1.5 outline-none transition-all truncate text-sm";
             const textareaClass = "w-full bg-white border border-slate-200 hover:border-slate-300 hover:bg-white focus:bg-white focus:border-indigo-500 focus:ring-0.5 focus:ring-indigo-500 rounded px-2 py-1.5 outline-none transition-all resize-none overflow-hidden min-h-[32px] text-sm";
+
             filteredTasks.forEach(item => {
                 const isArchived = item.st.archived;
                 const rowOpacity = isArchived ? 'opacity-50 hover:opacity-100 bg-slate-50/50' : 'opacity-100 bg-white';
+
                 const statusBadge = isArchived
                     ? `<span class="px-2 py-0.5 rounded bg-slate-100 text-slate-500 border border-slate-200 text-[10px] font-bold uppercase tracking-wider">Archived</span>`
                     : `<span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-600 border border-emerald-200 text-[10px] font-bold uppercase tracking-wider">Active</span>`;
+
                 const actionBtn = isArchived
                     ? `<button onclick="toggleTaskArchive('${item.task.id}', '${item.st.id}')" class="flex items-center justify-center p-1.5 text-[10px] uppercase tracking-wider font-bold text-emerald-600 hover:bg-emerald-50 border border-transparent hover:border-emerald-200 rounded transition-all w-full" title="Restore to Matrix"><i data-lucide="refresh-cw" class="w-3.5 h-3.5 mr-1"></i> Restore</button>`
                     : `<button onclick="toggleTaskArchive('${item.task.id}', '${item.st.id}')" class="flex items-center justify-center p-1.5 text-[10px] uppercase tracking-wider font-bold text-slate-400 hover:text-red-500 hover:bg-red-50 border border-transparent hover:border-red-200 rounded transition-all w-full" title="Archive Task"><i data-lucide="archive" class="w-3.5 h-3.5"></i></button>`;
+
                 const safeGroup = (item.task.title || '').replace(/"/g, '&quot;');
                 const safeTask = (item.st.title || '').replace(/"/g, '&quot;');
                 const safeDesc = (item.st.text || '').replace(/"/g, '&quot;');
+
                 html += `
                 <div class="grid grid-cols-12 gap-3 p-3 border-b border-slate-100 last:border-0 hover:bg-slate-50 items-center transition-all ${rowOpacity}">
+                    
                     <div class="col-span-3">
                         <input type="text" value="${safeTask}" onchange="updateSubtaskInline('${item.task.id}', '${item.st.id}', 'title', this.value)" class="${inputClass} text-slate-800" placeholder="Task Name">
                     </div>
@@ -1708,9 +2030,12 @@
                     </div>
                 </div>`;
             });
+
             listEl.innerHTML = html;
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: listEl });
         }
+
+        // Inline update helpers for Tasks
         function updateTaskGroupInline(tid, value) {
             const task = state.tasks.find(t => t.id === tid);
             if (task) {
@@ -1718,6 +2043,7 @@
                 renderTasks();
             }
         }
+
         function updateSubtaskInline(tid, stid, field, value) {
             const task = state.tasks.find(t => t.id === tid);
             if (task) {
@@ -1728,28 +2054,37 @@
                 }
             }
         }
+
         function toggleTaskArchive(tid, stid) {
             const task = state.tasks.find(t => t.id === tid);
             if (task) {
                 const st = task.subtasks.find(s => s.id === stid);
                 if (st) {
                     st.archived = !st.archived;
-                    renderAllTasks(); 
-                    renderTasks();    
+                    renderAllTasks(); // Refresh modal view
+                    renderTasks();    // Refresh background matrix
                 }
             }
         }
+
+        // Dedicated delete function that updates both views
         function deleteTaskFromModal(stId) {
             showDialog('confirm', "Delete this task?", () => {
                 state.tasks.forEach(task => {
                     const idx = task.subtasks.findIndex(st => st.id === stId);
                     if (idx > -1) task.subtasks.splice(idx, 1);
                 });
+                // Clean up parent tasks if they are completely empty
                 state.tasks = state.tasks.filter(t => t.subtasks.length > 0);
-                renderAllTasks(); 
-                renderTasks();    
+
+                renderAllTasks(); // Refresh the modal
+                renderTasks();    // Refresh the background matrix
             });
         }
+
+        // ==========================================
+        // PRINT PREPARATION
+        // ==========================================
         function prepareAndPrint() {
             document.querySelectorAll('.task-content-wrapper.hidden, .st-controls-wrapper.hidden').forEach(el => {
                 el.classList.remove('hidden');
@@ -1768,16 +2103,28 @@
             });
             setTimeout(() => { window.print(); }, 300);
         }
+
+        // ==========================================
+        // EVENT LISTENERS & LOGIC
+        // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
+
+            // ==========================================
+            // EXCEL-LIKE SPREADSHEET LOGIC
+            // ==========================================
+
+            // 1. Arrow Key Navigation
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     closeContactModal();
                     closeTaskModal();
                 }
+
                 if (e.target.classList.contains('input-st-rasci-cell')) {
                     const r = parseInt(e.target.dataset.row);
                     const c = parseInt(e.target.dataset.col);
                     let nextInput = null;
+
                     if (e.key === 'ArrowUp') {
                         nextInput = document.querySelector(`.input-st-rasci-cell[data-row="${r - 1}"][data-col="${c}"]`);
                     } else if (e.key === 'ArrowDown') {
@@ -1787,6 +2134,7 @@
                     } else if (e.key === 'ArrowRight' && e.target.selectionEnd === e.target.value.length) {
                         nextInput = document.querySelector(`.input-st-rasci-cell[data-row="${r}"][data-col="${c + 1}"]`);
                     }
+
                     if (nextInput) {
                         e.preventDefault();
                         nextInput.focus();
@@ -1794,6 +2142,8 @@
                     }
                 }
             });
+
+            // 2. Paste Multiple Values (from Excel or text)
             document.addEventListener('paste', (e) => {
                 if (e.target.classList.contains('input-st-rasci-cell')) {
                     e.preventDefault();
@@ -1801,6 +2151,7 @@
                     const rows = pasteData.split(/\r?\n/);
                     const startRow = parseInt(e.target.dataset.row);
                     const startCol = parseInt(e.target.dataset.col);
+
                     rows.forEach((row, rOffset) => {
                         if (!row.trim()) return;
                         const cols = row.split('\t');
@@ -1809,41 +2160,53 @@
                             if (target) {
                                 let cleanVal = val.trim().toUpperCase().charAt(0);
                                 const validChars = state.roles.map(r => r.char);
+
                                 if (validChars.includes(cleanVal)) {
                                     target.value = cleanVal;
                                 } else {
                                     target.value = '';
                                 }
+                                // Dispatch input event to dynamically trigger your color logic
                                 target.dispatchEvent(new Event('input', { bubbles: true }));
                             }
                         });
                     });
                 }
             });
+
+            // 3. Drag-to-Fill Logic
             let isDragging = false;
             let dragStartInput = null;
             let dragStartValue = '';
+
             document.addEventListener('mousedown', (e) => {
                 if (e.target.classList.contains('fill-handle')) {
-                    e.preventDefault(); 
+                    e.preventDefault(); // Prevents input from losing focus
                     isDragging = true;
-                    dragStartInput = e.target.previousElementSibling; 
+                    dragStartInput = e.target.previousElementSibling; // Grab the input next to the handle
                     dragStartValue = dragStartInput.value;
                 }
             });
+
             document.addEventListener('mouseover', (e) => {
                 if (isDragging && e.target.classList.contains('input-st-rasci-cell')) {
+                    // Clear previous highlights
                     document.querySelectorAll('.input-st-rasci-cell').forEach(el => {
                         el.classList.remove('ring-2', 'ring-indigo-500', 'ring-dashed');
                     });
+
                     const startRow = parseInt(dragStartInput.dataset.row);
                     const startCol = parseInt(dragStartInput.dataset.col);
                     const endRow = parseInt(e.target.dataset.row);
                     const endCol = parseInt(e.target.dataset.col);
+
+                    // Allow dragging in any direction
                     const minRow = Math.min(startRow, endRow);
                     const maxRow = Math.max(startRow, endRow);
                     const minCol = Math.min(startCol, endCol);
                     const maxCol = Math.max(startCol, endCol);
+
+                    // Highlight the target zone
                     document.querySelectorAll('.input-st-rasci-cell').forEach(input => {
                         const r = parseInt(input.dataset.row);
                         const c = parseInt(input.dataset.col);
@@ -1853,36 +2216,48 @@
                     });
                 }
             });
+
             document.addEventListener('mouseup', () => {
                 if (isDragging) {
                     isDragging = false;
                     const highlighted = document.querySelectorAll('.input-st-rasci-cell.ring-dashed');
+
+                    // Apply values and clear ALL highlight classes
                     highlighted.forEach(input => {
                         input.classList.remove('ring-dashed', 'ring-2', 'ring-indigo-500');
+
                         if (input !== dragStartInput) {
                             input.value = dragStartValue;
-                            input.dispatchEvent(new Event('input', { bubbles: true })); 
+                            input.dispatchEvent(new Event('input', { bubbles: true })); // Triggers color save
                         }
                     });
                     dragStartInput = null;
                 }
             });
+            // ==========================================
+
+            // ==========================================
+            // 4. MULTI-CELL SELECTION & COPY (Ctrl+C)
+            // ==========================================
             let isSelecting = false;
             let selectStartRow = null;
             let selectStartCol = null;
             let selectEndRow = null;
             let selectEndCol = null;
+
             function clearSelection() {
                 document.querySelectorAll('.input-st-rasci-cell.selected-cell').forEach(el => {
                     el.classList.remove('selected-cell', '!ring-2', '!ring-indigo-600', '!ring-inset', 'z-20');
                 });
             }
+
             function highlightSelection(r1, c1, r2, c2) {
                 clearSelection();
                 const minRow = Math.min(r1, r2);
                 const maxRow = Math.max(r1, r2);
                 const minCol = Math.min(c1, c2);
                 const maxCol = Math.max(c1, c2);
+
                 document.querySelectorAll('.input-st-rasci-cell').forEach(input => {
                     const r = parseInt(input.dataset.row);
                     const c = parseInt(input.dataset.col);
@@ -1891,17 +2266,21 @@
                     }
                 });
             }
+
             document.addEventListener('mousedown', (e) => {
                 if (e.target.classList.contains('input-st-rasci-cell')) {
                     isSelecting = true;
                     const r = parseInt(e.target.dataset.row);
                     const c = parseInt(e.target.dataset.col);
+
                     if (e.shiftKey && selectStartRow !== null) {
+                        // Handle Shift + Click for quick range selection
                         selectEndRow = r;
                         selectEndCol = c;
                         highlightSelection(selectStartRow, selectStartCol, selectEndRow, selectEndCol);
-                        e.preventDefault(); 
+                        e.preventDefault(); // Prevents browser text-highlighting interference
                     } else {
+                        // Standard Click
                         selectStartRow = r;
                         selectStartCol = c;
                         selectEndRow = r;
@@ -1910,10 +2289,12 @@
                         e.target.classList.add('selected-cell', '!ring-2', '!ring-indigo-600', '!ring-inset', 'z-20');
                     }
                 } else if (!e.target.closest('.input-st-rasci-cell') && !e.target.classList.contains('fill-handle')) {
+                    // Clicked outside the matrix table entirely
                     clearSelection();
                     selectStartRow = null;
                 }
             });
+
             document.addEventListener('mouseover', (e) => {
                 if (isSelecting && e.target.classList.contains('input-st-rasci-cell')) {
                     selectEndRow = parseInt(e.target.dataset.row);
@@ -1921,18 +2302,27 @@
                     highlightSelection(selectStartRow, selectStartCol, selectEndRow, selectEndCol);
                 }
             });
+
             document.addEventListener('mouseup', () => {
                 isSelecting = false;
             });
+
+            // Intercept standard Ctrl+C (Copy)
             document.addEventListener('copy', (e) => {
                 const selectedCells = document.querySelectorAll('.selected-cell');
+
+                // Only hijack the copy command if we actually have matrix cells selected
                 if (selectedCells.length > 0 && selectStartRow !== null) {
-                    e.preventDefault(); 
+                    e.preventDefault(); // Stop standard browser copy
+
                     const minRow = Math.min(selectStartRow, selectEndRow);
                     const maxRow = Math.max(selectStartRow, selectEndRow);
                     const minCol = Math.min(selectStartCol, selectEndCol);
                     const maxCol = Math.max(selectStartCol, selectEndCol);
+
                     let copyText = '';
+
+                    // Build a Tab-Separated Value (TSV) string of the grid
                     for (let r = minRow; r <= maxRow; r++) {
                         let rowVals = [];
                         for (let c = minCol; c <= maxCol; c++) {
@@ -1941,9 +2331,12 @@
                         }
                         copyText += rowVals.join('\t') + '\n';
                     }
+
+                    // Push the TSV grid directly to the user's OS clipboard
                     e.clipboardData.setData('text/plain', copyText.replace(/\n$/, ''));
                 }
             });
+
             const elTitle = document.getElementById('app-rasci-title');
             const elSearch = document.getElementById('app-search');
             if (elTitle) elTitle.addEventListener('input', e => state.title = e.target.value);
@@ -1951,18 +2344,24 @@
                 state.searchQuery = e.target.value;
                 renderTasks();
             });
+
             const formAddPerson = document.getElementById('form-add-person');
             if (formAddPerson) formAddPerson.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const inputName = document.getElementById('input-new-person');
                 const name = inputName.value.trim();
+
                 if (name) {
                     markUnsaved();
+
+                    // Check if there is an exact match in the inactive contacts
                     let existingPerson = state.people.find(p => p.name.toLowerCase() === name.toLowerCase() && (p.rasciMatrix !== 'Yes' || p.archived));
+
                     if (existingPerson) {
                         existingPerson.archived = false;
                         existingPerson.rasciMatrix = 'Yes';
                     } else {
+                        // Create a new person if no match is found
                         state.people.push({
                             id: generatePersonId(name),
                             name: name,
@@ -1974,44 +2373,56 @@
                             archived: false
                         });
                     }
+
                     inputName.value = '';
                     const personDropdown = document.getElementById('person-autocomplete-dropdown');
                     if (personDropdown) personDropdown.classList.add('hidden');
+
                     if (typeof renderPeople === 'function') renderPeople();
                     renderTasks();
                     if (typeof renderAllContacts === 'function') renderAllContacts();
                 }
             });
+
             const formAddTask = document.getElementById('form-add-task');
             if (formAddTask) formAddTask.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const inputTask = document.getElementById('input-new-task');
                 const title = inputTask.value.trim();
+
                 if (title) {
                     markUnsaved();
                     state.tasks.push({
                         id: generateId('t'),
                         number: state.tasks.length + 1,
-                        title: 'New Group', 
+                        title: 'New Group', // Default group name
                         subtasks: [
-                            { id: generateId('s'), number: 1, title: title, text: '', rasci: {} } 
+                            { id: generateId('s'), number: 1, title: title, text: '', rasci: {} } // "title" maps to Task Name
                         ]
                     });
                     inputTask.value = '';
                     renderTasks();
                 }
             });
+
             document.addEventListener('click', (e) => {
+                /* Additions mutate immediately, so they can mark dirty here.
+                 * Deletions are confirmed first - they mark dirty inside their
+                 * confirm callback, otherwise the 2s autosave can write the file
+                 * BEFORE the user confirms and the deletion is lost on reload. */
                 if (e.target.closest('.btn-add-st') || e.target.closest('.btn-add-task')) {
                     markUnsaved();
                 }
+
                 if (e.target.closest('.btn-edit-st')) {
                     const btn = e.target.closest('.btn-edit-st');
                     openTaskModal(btn.dataset.tid, btn.dataset.stid);
                 }
+
                 if (!e.target.closest('.dropdown-container')) {
                     document.querySelectorAll('.dropdown-container > div:last-child').forEach(el => el.classList.add('hidden'));
                 }
+
                 if (e.target.closest('.btn-del-person')) {
                     const id = e.target.closest('.btn-del-person').dataset.id;
                     const confirmStr = window.BASE_PAGE.confirmRemovePerson || 'Remove this person from the active contacts list? (They will be preserved in past matrix records)';
@@ -2024,10 +2435,12 @@
                         if (typeof renderAllContacts === 'function') renderAllContacts();
                     });
                 }
+
                 if (e.target.closest('.btn-edit-person')) {
                     const id = e.target.closest('.btn-edit-person').dataset.id;
                     openContactModal(id);
                 }
+
                 if (e.target.closest('.btn-del-task')) {
                     const id = e.target.closest('.btn-del-task').dataset.id;
                     const confirmStr = window.BASE_PAGE.confirmDeleteTask || 'Delete this entire task and its subtasks?';
@@ -2038,6 +2451,7 @@
                         if (typeof renderAllTasks === 'function') renderAllTasks();
                     });
                 }
+
                 if (e.target.closest('.btn-add-st')) {
                     const taskId = e.target.closest('.btn-add-st').dataset.id;
                     const task = state.tasks.find(t => t.id === taskId);
@@ -2049,6 +2463,7 @@
                         renderTasks();
                     }
                 }
+
                 if (e.target.closest('.btn-add-task')) {
                     state.tasks.push({
                         id: generateId('t'), number: state.tasks.length + 1, title: 'New Group',
@@ -2063,11 +2478,13 @@
                     const container = document.getElementById('tasks-container');
                     if (container) setTimeout(() => { container.scrollTop = container.scrollHeight; }, 50);
                 }
+
                 if (e.target.closest('.btn-del-st')) {
                     const stId = e.target.closest('.btn-del-st').dataset.id;
                     const confirmStr = window.BASE_PAGE && window.BASE_PAGE.confirmArchiveTask
                         ? window.BASE_PAGE.confirmArchiveTask
                         : 'Archive this task from the matrix? (You can restore it later from the All Tasks menu)';
+
                     showDialog('confirm', confirmStr, () => {
                         const st = findSubtask(stId);
                         if (st) {
@@ -2079,6 +2496,7 @@
                     });
                 }
             });
+
             document.addEventListener('change', (e) => {
                 if (e.target.classList.contains('input-person-present')) {
                     const id = e.target.dataset.id;
@@ -2086,22 +2504,32 @@
                     if (person) person.present = e.target.checked;
                 }
             });
+
             document.addEventListener('input', (e) => {
+                // Ignore search bar inputs so we don't trigger unsaved changes just for searching.
+                // Typing is DEFERRED: autosave commits on focusout/idle.
                 if (e.target.id !== 'app-search' && e.target.id !== 'modal-search-input' && e.target.id !== 'modal-task-search-input') {
                     noteTyping();
                 }
+
+                // --- EXCEL-LIKE CELL LOGIC ---
                 if (e.target.classList.contains('input-st-rasci-cell')) {
                     let val = e.target.value.toUpperCase();
+
+                    // Validate input dynamically against state.roles
                     const validChars = state.roles.map(r => r.char);
                     if (val && !validChars.includes(val)) {
                         val = '';
                     }
                     e.target.value = val;
+
+                    // Update State silently
                     const stId = e.target.dataset.stid;
                     const pId = e.target.dataset.pid;
                     const cId = e.target.dataset.cid;
                     const assignId = pId ? pId : ('c_' + cId);
                     const st = findSubtask(stId);
+
                     if (st) {
                         if (!st.rasci) st.rasci = {};
                         if (val === "") {
@@ -2110,9 +2538,13 @@
                             st.rasci[assignId] = val;
                         }
                     }
+
+                    // Dynamically update flat Excel colors using your helper
                     const colorClass = val === "" ? 'bg-white text-slate-700' : getColorClass(val);
                     const baseClasses = "input-st-rasci-cell w-full h-full min-h-[32px] text-xs text-center outline-none font-bold uppercase transition-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 relative z-10 peer";
                     e.target.className = `${baseClasses} ${colorClass}`;
+
+                    // Refresh the analysis widget in real-time when a cell changes
                     if (typeof renderAnalysis === 'function') renderAnalysis();
                 }
                 if (e.target.classList.contains('input-task-title')) {
@@ -2127,6 +2559,9 @@
                     }
                 }
             });
+
+            /* ---- Deferred-typing commit points ---- */
+            // 1. Click-away: leaving any text field commits pending typing.
             document.addEventListener('focusout', (e) => {
                 if (!typingDirty) return;
                 const t = e.target;
@@ -2134,12 +2569,18 @@
                     commitTypingDirty();
                 }
             });
+            // 2. Tab hidden: commit and flush so nothing is lost.
             document.addEventListener('visibilitychange', () => {
                 if (document.visibilityState === 'hidden' && typingDirty) {
                     commitTypingDirty();
                     if (typeof Autosave !== "undefined" && Autosave.flush) Autosave.flush();
                 }
             });
+            // 3. Closing/leaving, CDE mode only. In CDE mode Autosave.boot()
+            // never runs, so the shared module's leave-warning is absent and
+            // Autosave.dirty is never set (markDirty is wrapped). Warn while
+            // typing is uncommitted or the CDE bridge has unconfirmed writes.
+            // Non-CDE sessions are fully handled by the shared module.
             window.addEventListener('beforeunload', (e) => {
                 if (!window.__cdeCtx) return;
                 let cdePending = false;
@@ -2149,13 +2590,14 @@
                             (cdeBridge.baseline && cdeBridge.diff(cdeBridge.baseline, cdeBridge.snap()).length > 0));
                 } catch (err) { }
                 if (typingDirty || cdePending) {
-                    commitTypingDirty(); 
+                    commitTypingDirty(); // routes to the CDE-wrapped markDirty
                     try { if (typeof cdeBridge !== 'undefined' && cdeBridge.flush) cdeBridge.flush(); } catch (err) { }
                     e.preventDefault();
                     e.returnValue = (window.BASE_PAGE && window.BASE_PAGE.unsavedLeaveMessage) || "You have unsaved changes. Are you sure you want to leave?";
                     return e.returnValue;
                 }
             });
+
             const contactsUploadEl = document.getElementById('contacts-upload');
             if (contactsUploadEl) {
                 contactsUploadEl.addEventListener('change', function (e) {
@@ -2175,12 +2617,15 @@
                     reader.readAsArrayBuffer(file);
                 });
             }
+
             const fileUploadEl = document.getElementById('excel-upload');
             if (fileUploadEl) {
                 fileUploadEl.addEventListener('change', function (e) {
                     const file = e.target.files[0];
                     if (!file) return;
+
                     const isDocEmpty = state.title.trim() === '' && state.people.length === 0 && state.tasks.length === 0;
+
                     const executeImport = (fileToRead) => {
                         const reader = new FileReader();
                         reader.onload = function (event) {
@@ -2206,25 +2651,30 @@
                         };
                         reader.readAsArrayBuffer(fileToRead);
                     };
+
                     if (!isDocEmpty && typeof hasUnsavedChanges !== 'undefined' && hasUnsavedChanges) {
                         const msg = "Are you sure you want to import this Responsibility Matrix? Existing unsaved data will be replaced.";
                         showDialog('confirm', msg, () => {
                             executeImport(file);
                         });
-                        e.target.value = ''; 
+                        e.target.value = ''; // Reset input immediately
                         return;
                     }
+
                     executeImport(file);
-                    e.target.value = ''; 
+                    e.target.value = ''; // Reset input immediately
                 });
             }
+
             const compInput = document.getElementById('contact-modal-company');
             const compDropdown = document.getElementById('company-autocomplete-dropdown');
+
             function updateCompanyDropdown() {
                 if (!compInput || !compDropdown) return;
                 const val = compInput.value.toLowerCase();
                 const uniqueCompanies = [...new Set(state.people.filter(p => p.company && p.company.trim() !== '').map(p => p.company.trim()))];
                 const matches = uniqueCompanies.filter(c => c.toLowerCase().includes(val));
+
                 if (matches.length > 0) {
                     compDropdown.innerHTML = matches.map(c =>
                         `<div class="company-suggestion px-3 py-2 text-sm hover:bg-indigo-50 cursor-pointer text-slate-700 border-b border-slate-50 last:border-0 transition-colors">${c}</div>`
@@ -2234,21 +2684,29 @@
                     compDropdown.classList.add('hidden');
                 }
             }
+
+            // --- PERSON AUTOCOMPLETE LOGIC ---
             const personInput = document.getElementById('input-new-person');
             const personDropdown = document.getElementById('person-autocomplete-dropdown');
+
             function updatePersonDropdown() {
                 if (!personInput || !personDropdown) return;
                 const val = personInput.value.toLowerCase().trim();
+
                 if (!val) {
                     personDropdown.classList.add('hidden');
                     return;
                 }
+
+                // Find matching people (only show those not currently active in the matrix)
                 const matches = state.people.filter(p => p.name.toLowerCase().includes(val) && (p.rasciMatrix !== 'Yes' || p.archived));
+
                 if (matches.length > 0) {
                     personDropdown.innerHTML = matches.map(p => {
                         const statusBadge = p.archived
                             ? `<span class="text-[9px] text-amber-500 uppercase tracking-wider font-bold ml-2">Archived</span>`
                             : `<span class="text-[9px] text-emerald-500 uppercase tracking-wider font-bold ml-2">Active</span>`;
+
                         return `<div class="person-suggestion px-3 py-2 text-sm hover:bg-indigo-50 cursor-pointer text-slate-700 border-b border-slate-50 last:border-0 transition-colors flex justify-between items-center" data-id="${p.id}">
                             <div class="flex flex-col pointer-events-none leading-tight">
                                 <span class="font-medium">${p.name}</span>
@@ -2262,33 +2720,41 @@
                     personDropdown.classList.add('hidden');
                 }
             }
+
             if (personInput) {
                 personInput.addEventListener('input', updatePersonDropdown);
-                personInput.addEventListener('click', updatePersonDropdown); 
+                personInput.addEventListener('click', updatePersonDropdown); // Show when clicked if text exists
             }
+
+            // Global click listener to handle selection & clicking outside
             document.addEventListener('click', (e) => {
+                // If they click a suggestion in the dropdown
                 if (e.target.closest('.person-suggestion')) {
                     const suggestion = e.target.closest('.person-suggestion');
                     const id = suggestion.dataset.id;
                     const person = state.people.find(p => p.id === id);
+
                     if (person) {
-                        person.archived = false; 
-                        person.rasciMatrix = 'Yes'; 
-                        if (personInput) personInput.value = ''; 
+                        person.archived = false; // Instantly restore and make active
+                        person.rasciMatrix = 'Yes'; // Add them to the matrix
+                        if (personInput) personInput.value = ''; // Clear the input
                         if (typeof renderPeople === 'function') renderPeople();
                         renderTasks();
                         if (typeof renderAllContacts === 'function') renderAllContacts();
                     }
                     if (personDropdown) personDropdown.classList.add('hidden');
                 }
+                // If they click anywhere else on the screen, hide the dropdown
                 else if (personDropdown && !e.target.closest('#input-new-person') && !e.target.closest('#person-autocomplete-dropdown')) {
                     personDropdown.classList.add('hidden');
                 }
             });
+
             if (compInput) {
                 compInput.addEventListener('input', updateCompanyDropdown);
                 compInput.addEventListener('click', updateCompanyDropdown);
             }
+
             document.addEventListener('click', (e) => {
                 if (e.target.classList.contains('company-suggestion')) {
                     if (compInput) {
@@ -2301,8 +2767,11 @@
                     compDropdown.classList.add('hidden');
                 }
             });
+
+            // Start the App
             renderApp();
         });
+
         function findSubtask(stId) {
             for (let t of state.tasks) {
                 let found = t.subtasks.find(s => s.id === stId);
@@ -2310,6 +2779,11 @@
             }
             return null;
         }
+
+        // ==========================================
+        // EXPORT & IMPORT EXCEL LOGIC
+        // ==========================================
+        /* ---- Shared autosave (js/liteaeco-autosave.js) ---- */
         const Autosave = liteAECO.createAutosave({
             toolId: "rasci",
             fileSuffix: ".rasci.json",
@@ -2319,6 +2793,7 @@
                 if (!d || d.app !== "liteAECO-rasci" || !d.state) return false;
                 Object.keys(state).forEach(k => delete state[k]);
                 Object.assign(state, d.state);
+                // Older files predate these flags; default them instead of leaving undefined
                 if (typeof state.hideGroups !== "boolean") state.hideGroups = true;
                 if (typeof state.hideCompanies !== "boolean") state.hideCompanies = true;
                 if (typeof state.isTransposed !== "boolean") state.isTransposed = false;
@@ -2342,6 +2817,12 @@
                         "\n\n(" + (err && err.message ? err.message : err) + ")");
                 });
         });
+
+        /* ==================== CDE project handoff ====================
+         * ?project=<guid>&open=<relpath>. The hub hands over a matrix file
+         * inside the linked project folder. Folder = persistence layer:
+         * the Autosave resume modal is skipped (leave-warning kept).
+         * Ported from meetings.html - keep the two in sync. */
         function _cdeParams() {
             const q = new URLSearchParams(window.location.search);
             const guid = q.get("project");
@@ -2349,6 +2830,7 @@
             if (!guid || !open) return null;
             return { guid: guid, open: open };
         }
+
         async function _cdeReadFile(handle, relPath) {
             const parts = String(relPath).split("/").filter(Boolean);
             const fname = parts.pop();
@@ -2358,6 +2840,7 @@
             const f = await fh.getFile();
             return new Uint8Array(await f.arrayBuffer());
         }
+
         async function _cdeLoad(info, params) {
             let data;
             try { data = await _cdeReadFile(info.handle, params.open); }
@@ -2379,6 +2862,7 @@
                 console.error("CDE IMPORT LOGIC ERROR:", err);
                 return true;
             }
+            // Foreign file: its INFO block carries another project's GUID.
             if (state.project.guid && state.project.guid !== params.guid) {
                 const adopt = await new Promise(function (resolve) {
                     showDialog('confirm',
@@ -2392,9 +2876,11 @@
             }
             clearUnsaved();
             window.__cdeCtx = { guid: params.guid, path: params.open, handle: info.handle };
+
             const cs = document.getElementById('wrapper-cde-save');
             if (cs) cs.classList.remove('hidden');
             updateProjectBarVisibility();   
+
             for (const elId of Object.keys(PROJECT_FIELD_MAP)) {
                 const el = document.getElementById(elId);
                 if (el) {
@@ -2416,6 +2902,7 @@
                     "Project sync could not start - changes will NOT be saved to the project folder. Update js/liteaeco-cde.js to the latest build and reload.") +
                     "\n\n(" + (e && e.message ? e.message : e) + ")");
             }
+            
             window.addEventListener("beforeunload", function (e) {
                 if (window.__cdeUnsaved) {
                     try { cdeBridge.flushWriteBack(); } catch (err) { }
@@ -2424,6 +2911,7 @@
             });
             return true;
         }
+
         function mergeContactRows(rows) {
             const norm = function (v) { const s = String(v == null ? '' : v).trim(); return s === '-' ? '' : s; };
             const lc = function (v) { return norm(v).toLowerCase(); };
@@ -2470,6 +2958,7 @@
             }
             return { added: added, updated: updated };
         }
+
         function importContactsFromWorkbook(workbook) {
             const infoName = (workbook.SheetNames || []).find(n => String(n).trim().toUpperCase() === 'CONTACTS');
             const ws = infoName ? workbook.Sheets[infoName] : null;
@@ -2488,12 +2977,14 @@
                 + '\n' + ((window.BASE_PAGE && window.BASE_PAGE.lblNew) || 'New') + ': ' + res.added
                 + ' - ' + ((window.BASE_PAGE && window.BASE_PAGE.lblUpdated) || 'Updated') + ': ' + res.updated);
         }
+
         async function autosaveToggle() {
             const pill = document.getElementById('rasci-save-menu-disconnect');
             const on = pill && !pill.classList.contains('hidden');
             if (on) await Autosave.disconnect();
             else await Autosave.connectFile();
         }
+
         async function cdeSaveNow() {
             if (!window.__cdeCtx) return;
             const btn = document.getElementById('btn-cde-save');
@@ -2515,6 +3006,7 @@
                 if (window.__cdeCtx) { e.preventDefault(); cdeSaveNow(); }
             }
         });
+
         async function _cdeSyncMembers(info) {
             try {
                 if (!info || !info.handle || !window.__cdeCtx) return;
@@ -2552,6 +3044,7 @@
                 }
             } catch (e) { console.warn('roster sync skipped:', e); }
         }
+
         function _cdeToast(msg) {
             let wrap = document.getElementById('cde-toasts');
             if (!wrap) {
@@ -2569,6 +3062,7 @@
             setTimeout(function () { t.style.opacity = '0'; }, 4000);
             setTimeout(function () { t.remove(); }, 4600);
         }
+
         async function cdeAutoOpen() {
             const params = _cdeParams();
             if (!params) return false;
@@ -2601,6 +3095,7 @@
                 return true;
             }
         }
+
         const cdeBridge = {
             session: null, baseline: null, timer: null, author: null, appId: "resp_matrix",
             flushing: false, pending: false,
@@ -2621,6 +3116,7 @@
             diff: function (prev, cur) {
                 const events = [];
                 const J = JSON.stringify;
+                
                 const prevP = {}; prev.people.forEach(function (p) { prevP[p.id] = p; });
                 const curP = {}; cur.people.forEach(function (p) { curP[p.id] = p; });
                 cur.people.forEach(function (p) {
@@ -2636,6 +3132,7 @@
                     if (n) events.push({ type: "contact.update", target: p.id, payload: changed });
                 });
                 prev.people.forEach(function (p) { if (!curP[p.id]) events.push({ type: "contact.remove", target: p.id }); });
+                
                 const prevT = {}; prev.tasks.forEach(function (t) { prevT[t.id] = t; });
                 const curT = {}; cur.tasks.forEach(function (t) { curT[t.id] = t; });
                 cur.tasks.forEach(function (t) {
@@ -2644,11 +3141,13 @@
                     if (J(b) !== J(t)) events.push({ type: "task.update", target: t.id, payload: t });
                 });
                 prev.tasks.forEach(function (t) { if (!curT[t.id]) events.push({ type: "task.remove", target: t.id }); });
+                
                 const mm = {}; let mn = 0;
                 Object.keys(cur.meta).forEach(function (k) {
                     if (J(cur.meta[k]) !== J(prev.meta[k])) { mm[k] = cur.meta[k]; mn++; }
                 });
                 if (mn) events.push({ type: "matrix.info", target: window.__cdeCtx ? window.__cdeCtx.path : null, payload: mm });
+                
                 const pj = {}; let pn = 0;
                 Object.keys(cur.project).forEach(function (k) {
                     if (cur.project[k] !== prev.project[k]) { pj[k] = cur.project[k]; pn++; }
@@ -2693,6 +3192,7 @@
                     }
                 }
             },
+
             _slugTitle: function () {
                 let t = String(state.title || "").trim();
                 if (!t) return null;
@@ -2708,7 +3208,7 @@
                 const fname = parts.pop();
                 const desired = slug + ".xlsx";
                 if (fname === desired) return;
-                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;   
+                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;   // collision-suffixed twin
                 try {
                     let dir = ctx.handle;
                     for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: false });
@@ -2736,15 +3236,18 @@
                         type: "file.rename", target: ctx.path,
                         payload: { from: from, to: ctx.path, app: this.appId }
                     }]).catch(function () { });
-                    this.lastAssignHash = null;   
+                    this.lastAssignHash = null;   // force a fresh assign on the new path
                     await this.markLoadedFileSeen();
                 } catch (e) { console.warn("CDE rename skipped (will retry):", e); }
             },
+
+            /* ---- xlsx write-back (single writer per file per session) ---- */
             writeBack: { timer: null, busy: false, pending: false, lastMtime: 0, lastSize: 0 },
             lastAssignHash: null,
             scheduleWriteBack: function () {
                 if (!window.__cdeCtx) return;
-                window.__cdeUnsaved = true;   
+                window.__cdeUnsaved = true;   // cleared on CONFIRMED write
+                // xlsx not on disk yet: pin the save indicator until it is
                 if (typeof Autosave !== "undefined" && Autosave.toastNotify) Autosave.toastNotify("dirty");
                 const wbk = this.writeBack;
                 clearTimeout(wbk.timer);
@@ -2757,7 +3260,7 @@
                 const wbk = this.writeBack;
                 if (wbk.busy) { wbk.pending = true; return; }
                 wbk.busy = true;
-                let wroteOk = false;   
+                let wroteOk = false;   // save indicator: only a CONFIRMED write clears it
                 try {
                     await this.maybeRename();
                     do {
@@ -2775,11 +3278,11 @@
                             let dir = ctx.handle;
                             for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: true });
                             const fh = await dir.getFileHandle(fname, { create: true });
-                            const w = await fh.createWritable();   
+                            const w = await fh.createWritable();   // full rewrite, not append
                             await w.write(buf);
                             await w.close();
                             const f = await fh.getFile();
-                            wbk.lastMtime = f.lastModified;   
+                            wbk.lastMtime = f.lastModified;   // own-write marker
                             wbk.lastSize = f.size;
                             wroteOk = true;
                             try {
@@ -2796,7 +3299,7 @@
                                         }]);
                                     }
                                 }
-                            } catch (e) {  }
+                            } catch (e) { /* hash refresh is best effort */ }
                         } catch (e) {
                             console.warn("CDE write-back failed (will retry on next change):", e);
                             return;
@@ -2809,6 +3312,8 @@
                         Autosave.toastNotify(wroteOk ? "saved" : "error");
                 }
             },
+
+            /* ---- external-edit import ---- */
             extSeen: { mtime: 0, size: 0 },
             checking: false,
             _statFile: async function () {
@@ -2824,7 +3329,7 @@
                     const fh = await this._statFile();
                     const f = await fh.getFile();
                     this.extSeen = { mtime: f.lastModified, size: f.size };
-                } catch (e) {  }
+                } catch (e) { /* transient: first poll will handle it */ }
             },
             checkExternal: async function () {
                 const ctx = window.__cdeCtx;
@@ -2837,11 +3342,11 @@
                         fh = await this._statFile();
                         f = await fh.getFile();
                     } catch (e) {
-                        return;   
+                        return;   // locked or missing: transient, retry next poll
                     }
                     const wbk = this.writeBack;
-                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;   
-                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;   
+                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;   // our own write
+                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;   // already imported
                     let workbook;
                     try {
                         const buf = await f.arrayBuffer();
@@ -2850,8 +3355,10 @@
                         console.warn("CDE external read/parse failed (transient, will retry):", e);
                         return;
                     }
-                    await this.flush();   
+                    await this.flush();   // local unflushed changes reach the log first
                     try {
+                        // Background import must NEVER raise dialogs. Gate the
+                        // template check; anything foreign is skipped silently.
                         const wsInfo = workbook.Sheets && workbook.Sheets["INFO"];
                         const aoa = wsInfo ? XLSX.utils.sheet_to_json(wsInfo, { header: 1 }) : [];
                         const a2 = aoa[1] ? String(aoa[1][0] || "").trim() : "";
@@ -2866,14 +3373,15 @@
                         return;
                     }
                     this.extSeen = { mtime: f.lastModified, size: f.size };
-                    clearUnsaved();   
-                    await this.flush();   
+                    clearUnsaved();   // folder version is now the app state
+                    await this.flush();   // emit the external diff as events
                     if (typeof renderApp === "function") renderApp();
                 } finally {
                     this.checking = false;
                 }
             }
         };
+
         async function _cdeFillProjectInfo(info, params) {
             try {
                 let hs = {};
@@ -2907,7 +3415,9 @@
                 }
             } catch (e) { console.warn("CDE project-info fill skipped:", e); }
         }
+
         async function _cdeBridgeInit(info, params) {
+            // Back to the hub, straight into THIS project.
             if (!document.getElementById('cde-home-btn')) {
                 const anchor = document.getElementById('app-project-number');
                 if (anchor && anchor.parentElement) {
@@ -2926,6 +3436,7 @@
             const dev = await cde.identity.device();
             const memberId = await cde.identity.getMember(params.guid);
             cdeBridge.author = memberId || ("device:" + dev);
+            // Rename-proof file identity. Assign ONCE per content.
             function _assign() {
                 var hp = cde.hashFile ? cde.hashFile(info.handle, params.open).catch(function () { return null; })
                     : Promise.resolve(null);
@@ -2947,6 +3458,8 @@
             }).catch(function () {
                 return _assign();
             }).catch(function (e) { console.warn("CDE assign append failed:", e); });
+
+            // Hook the existing dirty cycle.
             if (typeof Autosave !== "undefined" && Autosave && typeof Autosave.markDirty === "function") {
                 if (!Autosave.__cdeWrapped) {
                     Autosave.__cdeWrapped = true;
@@ -2959,8 +3472,8 @@
                         Autosave.renderStatus('saved');
                     };
                     cdeBridge.onError = function () { Autosave.renderStatus('error'); };
-                    Autosave.lastSavedAt = new Date();   
-                    Autosave.renderStatus('saved');      
+                    Autosave.lastSavedAt = new Date();   // renderStatus('saved') formats this
+                    Autosave.renderStatus('saved');      // session live from the start
                 }
             }
             document.addEventListener("visibilitychange", function () {
@@ -2971,34 +3484,48 @@
             cdeBridge.extTimer = setInterval(function () { cdeBridge.checkExternal(); },
                 window.__cdeExtPollMs || 60000);
         }
+
+        /* ---- Cross-tool registry upsert on export ---- */
         function _registryUpsert() {
             if (window.liteAECO && liteAECO.projects && state.project && state.project.guid) {
                 liteAECO.projects.save({ guid: state.project.guid, number: state.project.number || "", title: state.project.title || "", client: state.project.client || "", address: state.project.address || "", type: state.project.type || "" }, "rasci").catch(() => { });
             }
         }
+
+        // Builds the full workbook (INFO/CONTACTS/RASCI MATRIX) - shared
+        // by the xlsx export and the CDE write-back. Extracted verbatim
+        // from exportToExcel: content and styling are unchanged.
         function buildWorkbook() {
             const wb = XLSX.utils.book_new();
             const meetStr = String(state.rasciNo || state.No).padStart(3, '0');
             const darkColors = ["FFB8CDE2", "FFCADAE9"];
+
+            // --- 1. INFO TAB (A2 = "Responsibility Matrix", app identifier) ---
             const infoData = [
                 ["www.liteAECO.com"],
-                ["Responsibility Matrix"],               
+                ["Responsibility Matrix"],               // A2: identifier
                 ["info@liteAECO.com (Switzerland)"],
                 [],
                 ...buildProjectInfoRows(),
                 ["--- GENERAL INFORMATION ---"],
                 ["Matrix Title:", state.title],
                 ["Initial Date:", toExcelDate(state.initialDate || state.date)],
+                // Roster fingerprint: SHA-256 of admin/members.xlsx at the
+                // last sync. _cdeSyncMembers compares against it on open.
                 ["Members Hash:", state.membersHash || ""],
                 [],
                 ["--- SETUP ---"],
                 ["Role", "Character"]
             ];
+
             state.roles.forEach(r => infoData.push([r.defaultName, r.char]));
+
             const wsInfo = XLSX.utils.aoa_to_sheet(infoData);
             wsInfo['!cols'] = [{ wch: 30 }, { wch: 36 }];
+            // Style A2 identifier
             const a2c = XLSX.utils.encode_cell({ c: 0, r: 1 });
             if (wsInfo[a2c]) wsInfo[a2c].s = { fill: { fgColor: { rgb: 'FF4F46E5' } }, font: { bold: true, color: { rgb: 'FFFFFFFF' } } };
+            // Style section headers dynamically
             for (let R = 0; R < infoData.length; R++) {
                 if (typeof infoData[R][0] === 'string' && infoData[R][0].startsWith("---")) {
                     for (let C = 0; C < 2; C++) {
@@ -3014,6 +3541,8 @@
                 }
             }
             XLSX.utils.book_append_sheet(wb, wsInfo, "INFO");
+
+            // --- 2. CONTACTS TAB (shared schema across all liteAECO apps) ---
             const contactHeaders = [
                 "ID", "Employee Code", "Employee Number", "Name", "Company", "Employee Type",
                 "Role", "Teams", "Contact Mail", "Contact Phone",
@@ -3024,11 +3553,18 @@
                 "Meeting participation", "RASCI Matrix", "Comments", "Status"
             ];
             const contactsData = [contactHeaders];
+
             state.people.forEach(p => {
                 let rowData;
+
                 if (p.rawData && Array.isArray(p.rawData)) {
+                    // Start with the original row to keep extra info (Campus, etc.) intact
                     rowData = [...p.rawData];
+
+                    // Ensure the row is long enough for all headers (31 columns)
                     while (rowData.length < contactHeaders.length) rowData.push("-");
+
+                    // Overwrite only the fields managed by the app
                     rowData[0] = p.id || "-";
                     rowData[3] = p.name;
                     rowData[4] = p.company || "-";
@@ -3037,6 +3573,7 @@
                     rowData[28] = p.rasciMatrix === 'Yes' ? 'Yes' : 'No';
                     rowData[30] = p.archived ? "Archived" : "Active";
                 } else {
+                    // Fallback for new contacts added manually in the app
                     rowData = new Array(contactHeaders.length).fill("-");
                     rowData[0] = p.id || "-";
                     rowData[3] = p.name;
@@ -3046,8 +3583,10 @@
                     rowData[28] = p.rasciMatrix === 'Yes' ? 'Yes' : 'No';
                     rowData[30] = p.archived ? "Archived" : "Active";
                 }
+
                 contactsData.push(rowData);
             });
+
             const wsContacts = XLSX.utils.aoa_to_sheet(contactsData);
             wsContacts['!cols'] = [
                 { wch: 18 }, { wch: 14 }, { wch: 14 }, { wch: 24 }, { wch: 20 }, { wch: 10 },
@@ -3062,6 +3601,7 @@
                 const cr = XLSX.utils.encode_cell({ c: C, r: 0 });
                 if (wsContacts[cr]) wsContacts[cr].s = { fill: { fgColor: { rgb: darkColors[1] } }, font: { bold: true } };
             }
+            // Color-code RASCI Matrix column (col 28)
             for (let R = 1; R < contactsData.length; R++) {
                 const cr = XLSX.utils.encode_cell({ c: 28, r: R });
                 if (wsContacts[cr]) {
@@ -3071,40 +3611,59 @@
                 }
             }
             XLSX.utils.book_append_sheet(wb, wsContacts, "CONTACTS");
+
+            // 1. Add Dynamic Headers
             const tasksData = [
                 ["ID", "Group", "Task title", "Description", ...state.roles.map(r => r.char)]
             ];
+
             state.tasks.forEach((task, tIndex) => {
+                // 2. Format Group ID to 2 digits (e.g., '01')
                 const groupNumStr = String(tIndex + 1).padStart(2, '0');
                 task.subtasks.forEach((st, stIndex) => {
+                    // 3. Format Task ID to 3 digits (e.g., '001')
                     const taskNumStr = String(st.number || stIndex + 1).padStart(3, '0');
                     const getNamesForRole = (roleChar) => {
                         if (!st.rasci) return "-";
                         const ids = Object.keys(st.rasci).filter(id => st.rasci[id] === roleChar);
                         return ids.length > 0 ? ids.join(', ') : "-";
                     };
+
+                    // 4. Push the new 9-column layout
                     tasksData.push([
                         `${groupNumStr}.${taskNumStr}`,
                         task.title,
                         st.title || "",
                         st.text || "",
-                        ...state.roles.map(r => getNamesForRole(r.char)) 
+                        ...state.roles.map(r => getNamesForRole(r.char)) // Dynamic columns
                     ]);
                 });
             });
+
             const wsTasks = XLSX.utils.aoa_to_sheet(tasksData);
+
+            // 5. Adjust column count to 9 and set their widths
             wsTasks['!cols'] = [
                 { wch: 10 }, { wch: 20 }, { wch: 30 }, { wch: 50 },
                 { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 }
             ];
+
+            // 6. Color the 9 header columns
             for (let C = 0; C < 9; C++) {
                 const cellRef = XLSX.utils.encode_cell({ c: C, r: 0 });
                 if (wsTasks[cellRef]) wsTasks[cellRef].s = { fill: { fgColor: { rgb: darkColors[0] } }, font: { bold: true } };
             }
+
             XLSX.utils.book_append_sheet(wb, wsTasks, "TASKS");
+
+            // ==========================================
+            // 3. BUILD "RASCI MATRIX" VISUAL SHEET
+            // ==========================================
             const matrixData = [];
             const groupHeaderRow = ["Task Group"];
             const taskHeaderRow = ["Participants \\ Tasks"];
+
+            // Get flat list of active tasks for columns
             const flatTasks = [];
             state.tasks.forEach(task => {
                 task.subtasks.forEach(st => {
@@ -3115,24 +3674,37 @@
                     }
                 });
             });
+            // Push BOTH header rows
             matrixData.push(groupHeaderRow);
             matrixData.push(taskHeaderRow);
+
+            // Get active people for rows
             const activePeople = state.people.filter(p => !p.archived && p.rasciMatrix === 'Yes');
             activePeople.forEach(person => {
                 const row = [];
+                // Format: "John Smith - Apple Inc"
                 const nameString = person.company ? `${person.name} - ${person.company}` : person.name;
                 row.push(nameString);
+
+                // Fill in R/A/S/C/I letters for each task column
                 flatTasks.forEach(col => {
                     const role = (col.st.rasci && col.st.rasci[person.id]) ? col.st.rasci[person.id] : "";
                     row.push(role);
                 });
                 matrixData.push(row);
             });
+
             const wsMatrix = XLSX.utils.aoa_to_sheet(matrixData);
+
+            // Set Column Widths (Wide first column, ultra-narrow task columns)
             const matrixCols = [{ wch: 35 }];
             flatTasks.forEach(() => matrixCols.push({ wch: 5 }));
             wsMatrix['!cols'] = matrixCols;
+
+            // Set Header Row Heights (Row 0 for Groups, Row 1 for Tasks)
             wsMatrix['!rows'] = [{ hpt: 80 }, { hpt: 120 }];
+
+            // Apply Tailwind-equivalent Colors to the Excel cells
             const roleColors = {
                 'R': { bg: 'FFFEE2E2', text: 'FF7F1D1D' },
                 'A': { bg: 'FFFFEDD5', text: 'FF7C2D12' },
@@ -3140,12 +3712,18 @@
                 'C': { bg: 'FFDBEAFE', text: 'FF1E3A8A' },
                 'I': { bg: 'FFE2E8F0', text: 'FF0F172A' }
             };
+
+            // Iterate through the matrix to apply styling
             for (let R = 0; R < matrixData.length; R++) {
                 for (let C = 0; C < matrixData[R].length; C++) {
                     const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
                     if (!wsMatrix[cellRef]) continue;
+
                     if (R === 0 || R === 1) {
+                        // Dynamically assign darkColors[0] to Row 0, and darkColors[1] to Row 1
                         const rowColor = R === 0 ? darkColors[0] : darkColors[1];
+
+                        // Header Rows Styling
                         if (C === 0) {
                             wsMatrix[cellRef].s = {
                                 fill: { fgColor: { rgb: rowColor } },
@@ -3160,8 +3738,10 @@
                             };
                         }
                     } else if (C === 0) {
+                        // First Column (Names) Styling
                         wsMatrix[cellRef].s = { font: { bold: true } };
                     } else {
+                        // Grid Data (R, A, S, C, I) Styling
                         const val = matrixData[R][C];
                         if (val && roleColors[val]) {
                             wsMatrix[cellRef].s = {
@@ -3175,9 +3755,14 @@
                     }
                 }
             }
+
+            // Append the 3rd sheet
             XLSX.utils.book_append_sheet(wb, wsMatrix, "RASCI MATRIX");
+            // ==========================================
+
             return wb;
         }
+
         function exportToExcel(ext) {
             _registryUpsert();
             if (!state.title || state.title.trim() === '') {
@@ -3187,43 +3772,60 @@
                 if (titleInput) titleInput.focus();
                 return;
             }
+
             if (!ext) ext = 'xlsx';
+
             const wb = buildWorkbook();
+
             const today = new Date();
             const yy = String(today.getFullYear()).slice(-2);
             const mm = String(today.getMonth() + 1).padStart(2, '0');
             const dd = String(today.getDate()).padStart(2, '0');
+
             const safeTitle = state.title.replace(/[^a-zA-Z0-9\s-_]/gi, '').trim();
             const filename = `${yy}${mm}${dd}_RASCI Matrix_${safeTitle}.${ext}`;
+
             XLSX.writeFile(wb, filename);
-            clearUnsaved(); 
+            clearUnsaved(); // <-- Clears the warning flag after saving
         }
+
         function importExcelData(workbook) {
             const sheetNames = workbook.SheetNames || [];
-            state.membersHash = "";   
+            state.membersHash = "";   // old files carry no stamp -> first CDE open syncs once
+
+            // Check INFO A2, should be "Responsibility Matrix" for native files
             const wsInfoChk = workbook.Sheets["INFO"];
             const infoChkAoA = wsInfoChk ? XLSX.utils.sheet_to_json(wsInfoChk, { header: 1 }) : [];
             const infoA2 = infoChkAoA[1] ? String(infoChkAoA[1][0] || '').trim() : '';
             const isRMFile = infoA2 === "Responsibility Matrix";
+
             const hasContacts = sheetNames.includes("CONTACTS");
             const hasLegacy = infoChkAoA.some(r => r && r[0] === "--- CONTACTS ---");
+
             if (!hasContacts && !hasLegacy) {
                 const msg = "No CONTACTS tab found in this file. Nothing to import.";
                 showDialog('alert', msg);
                 return;
             }
+
             let warnings = [];
+            // CDE-born files start with INFO + CONTACTS only: the app adds
+            // TASKS / RASCI MATRIX on first save. Missing tabs on a native
+            // file are NOT an issue worth a dialog - especially not in the
+            // hub handoff, where the confirm would block every fresh open.
             const freshCdeFile = isRMFile && !sheetNames.includes("TASKS") && !sheetNames.includes("RASCI MATRIX");
             if (!freshCdeFile && !sheetNames.includes("TASKS") && !sheetNames.includes("RASCI MATRIX")) {
                 warnings.push("- Missing both 'TASKS' and 'RASCI MATRIX' tabs.");
             }
             const hasTitleRow = infoChkAoA.some(r => r && (String(r[0] || '').trim() === "Matrix Title:" || String(r[0] || '').trim() === "Title:"));
             if (!hasTitleRow) warnings.push("- Could not find 'Matrix Title:' label.");
+
             if (!isRMFile) {
                 const msg = `This file's INFO tab A2 reads "${infoA2 || '(empty)'}" not "Responsibility Matrix".\n\nContacts will be imported. Matrix settings (roles, tasks) may not load.`;
                 showDialog('confirm', msg, () => _processRMImport(workbook));
                 return;
             }
+
             if (warnings.length > 0) {
                 const errorMsg = "Minor issues:\n\n" + warnings.join("\n") + "\n\nImport anyway?";
                 showDialog('confirm', errorMsg, () => _processRMImport(workbook));
@@ -3231,12 +3833,14 @@
                 _processRMImport(workbook);
             }
         }
+
         function _processRMImport(workbook) {
             const getValue = (aoa, key) => {
                 if (!aoa) return null;
                 const row = aoa.find(r => r && r[0] && String(r[0]).trim() === key);
                 return (row && row[1] !== undefined && row[1] !== null) ? String(row[1]).trim() : null;
             };
+
             const wsInfo = workbook.Sheets["INFO"];
             if (wsInfo) {
                 const infoAoA = XLSX.utils.sheet_to_json(wsInfo, { header: 1 });
@@ -3245,6 +3849,8 @@
                 state.date = new Date().toISOString().split('T')[0];
                 state.initialDate = fromExcelDate(getValue(infoAoA, "Initial Date:")) || state.date;
                 parseProjectInfo(infoAoA, getValue);
+
+                // --- PARSE SETUP BLOCK (roles) ---
                 const setupIndex = infoAoA.findIndex(row => row && row[0] === "--- SETUP ---");
                 if (setupIndex > -1) {
                     for (let i = setupIndex + 2; i < infoAoA.length; i++) {
@@ -3257,21 +3863,31 @@
                     if (typeof renderRolesLegend === 'function') renderRolesLegend();
                 }
             }
+
+            // ── READ CONTACTS: prefer CONTACTS tab, fall back to legacy INFO section ──
             const wsContacts = workbook.Sheets["CONTACTS"];
+
             if (wsContacts) {
                 const rows = XLSX.utils.sheet_to_json(wsContacts, { header: 1 });
                 const hdr = rows[0] || [];
+
+                // Mapping columns
                 const ci = (label) => hdr.findIndex(h => String(h || '').trim() === label);
                 const iID = ci('ID'), iName = ci('Name'), iComp = ci('Company'),
                     iRole = ci('Role'), iMail = ci('Contact Mail'),
                     iRasci = ci('RASCI Matrix'), iStat = ci('Status');
+
                 for (let i = 1; i < rows.length; i++) {
                     const row = rows[i];
                     if (!row) continue;
+
                     const name = row[iName] ? String(row[iName]).trim() : '';
                     if (!name) continue;
+
                     const id = (row[iID] && row[iID] !== '-') ? String(row[iID]).trim() : generatePersonId();
+
                     let existingIndex = state.people.findIndex(p => p.id === id || (p.name === name && p.company === String(row[iComp] || '').trim()));
+
                     const personData = {
                         id: id,
                         name: name,
@@ -3282,8 +3898,10 @@
                         rasciMatrix: String(row[iRasci] || '').trim() === 'Yes' ? 'Yes' : 'No',
                         archived: String(row[iStat] || '').trim().toLowerCase() === 'archived',
                         present: false,
+                        // NEW: Store the entire row to preserve columns like Campus, Floor, etc.
                         rawData: row
                     };
+
                     if (existingIndex > -1) {
                         state.people[existingIndex] = { ...state.people[existingIndex], ...personData };
                     } else {
@@ -3291,6 +3909,7 @@
                     }
                 }
             } else if (wsInfo) {
+                // Legacy: contacts inside INFO tab
                 const infoAoA = XLSX.utils.sheet_to_json(wsInfo, { header: 1 });
                 const attIndex = infoAoA.findIndex(row => row && row[0] === "--- CONTACTS ---");
                 if (attIndex > -1) {
@@ -3317,36 +3936,50 @@
                     }
                 }
             }
+
+            // Save a baseline of people imported
             const basePeople = JSON.parse(JSON.stringify(state.people));
+
             const wsTasks = workbook.Sheets["TASKS"];
             const wsMatrix = workbook.Sheets["RASCI MATRIX"];
+
+            // --- 1. PARSE TASKS TAB (Structured Data) ---
             let structTasks = [];
             let structPeople = JSON.parse(JSON.stringify(basePeople));
+
             if (wsTasks) {
                 const tasksAoA = XLSX.utils.sheet_to_json(wsTasks, { header: 1 });
                 if (tasksAoA.length > 1) {
                     let currentParsedTaskId = null;
                     let currentTask = null;
+
                     for (let i = 1; i < tasksAoA.length; i++) {
                         const row = tasksAoA[i];
                         if (!row || row.length === 0 || !row[0]) continue;
+
                         const idParts = String(row[0]).split('.');
                         const groupIdStr = idParts[0];
                         const taskIdStr = idParts[1];
+
                         const groupTitle = row[1] || "Unnamed Group";
                         const taskTitle = row[2] || "";
                         const desc = row[3] || "";
+
                         if (groupIdStr !== currentParsedTaskId) {
                             currentParsedTaskId = groupIdStr;
                             currentTask = { id: generateId('t'), number: structTasks.length + 1, title: groupTitle, subtasks: [] };
                             structTasks.push(currentTask);
                         }
+
                         const stNumber = taskIdStr ? parseInt(taskIdStr, 10) : (currentTask.subtasks.length + 1);
                         const rasciObj = {};
+
                         const processRoleCell = (colIndex, roleLetter) => {
                             const cellValue = row[colIndex] !== undefined && row[colIndex] !== '-' ? String(row[colIndex]) : '';
                             if (!cellValue) return;
+
                             const itemsArr = cellValue.split(',').map(s => s.trim()).filter(Boolean);
+
                             itemsArr.forEach(item => {
                                 let entityId = null;
                                 if (item.startsWith('c_')) {
@@ -3364,31 +3997,46 @@
                                 rasciObj[entityId] = roleLetter;
                             });
                         };
+
+                        // Dynamically map Excel columns to current roles
                         state.roles.forEach((r, idx) => {
                             processRoleCell(4 + idx, r.char);
                         });
+
                         currentTask.subtasks.push({
                             id: generateId('s'), number: stNumber, title: taskTitle, text: desc, rasci: rasciObj, archived: false
                         });
                     }
                 }
             }
+
+            // --- 2. PARSE RASCI MATRIX TAB (Visual Data) ---
             let visualTasks = [];
             let visualPeople = JSON.parse(JSON.stringify(basePeople));
+
             if (wsMatrix) {
                 const matrixAoA = XLSX.utils.sheet_to_json(wsMatrix, { header: 1 });
+
                 if (matrixAoA.length > 2 && matrixAoA[0] && matrixAoA[1]) {
                     const groupHeaders = matrixAoA[0];
                     const taskHeaders = matrixAoA[1];
+
                     const taskList = [];
                     let currentGroup = null;
                     let lastGroupTitle = null;
+
+                    // Reconstruct the Task Groups sequentially (column by column)
                     for (let c = 1; c < taskHeaders.length; c++) {
                         const rawGroup = groupHeaders[c] ? String(groupHeaders[c]).trim() : "";
                         const rawTask = taskHeaders[c] ? String(taskHeaders[c]).trim() : "";
+
+                        // Prevent "ghost columns" from empty formatted cells in Excel
                         if (!rawGroup && !rawTask) continue;
+
                         const groupTitle = rawGroup || "Unnamed Group";
                         const taskTitle = rawTask || `Task ${c}`;
+
+                        // Create a new group if the name changes, or if it's the very first column
                         if (groupTitle !== lastGroupTitle || !currentGroup) {
                             currentGroup = {
                                 id: generateId('t'),
@@ -3399,6 +4047,7 @@
                             taskList.push(currentGroup);
                             lastGroupTitle = groupTitle;
                         }
+
                         currentGroup.subtasks.push({
                             id: generateId('s'),
                             number: currentGroup.subtasks.length + 1,
@@ -3409,28 +4058,34 @@
                             _colIdx: c
                         });
                     }
+
                     for (let r = 2; r < matrixAoA.length; r++) {
                         const row = matrixAoA[r];
                         if (!row || !row[0]) continue;
+
                         const rawPersonStr = String(row[0]).trim();
                         const splitIdx = rawPersonStr.indexOf(' - ');
                         let pName = rawPersonStr;
                         let pComp = '';
+
                         if (splitIdx > -1) {
                             pName = rawPersonStr.substring(0, splitIdx).trim();
                             pComp = rawPersonStr.substring(splitIdx + 3).trim();
                         }
+
                         let matchedPerson = visualPeople.find(p => p.name === pName && (!pComp || p.company === pComp));
                         if (!matchedPerson) {
                             matchedPerson = { id: generatePersonId(pName), name: pName, company: pComp, role: '', contactInfo: '', participation: '-', rasciMatrix: 'Yes', archived: false };
                             visualPeople.push(matchedPerson);
                         }
                         const entityId = matchedPerson.id;
+
                         taskList.forEach(task => {
                             task.subtasks.forEach(st => {
                                 if (row[st._colIdx]) {
                                     const roleVal = String(row[st._colIdx]).trim().toUpperCase().charAt(0);
                                     const validChars = state.roles.map(r => r.char);
+
                                     if (validChars.includes(roleVal)) {
                                         st.rasci[entityId] = roleVal;
                                     }
@@ -3438,52 +4093,76 @@
                             });
                         });
                     }
+
                     taskList.forEach(task => task.subtasks.forEach(st => delete st._colIdx));
+
                     if (taskList.length > 0) {
                         visualTasks = taskList;
                     }
                 }
             }
+
+            // --- 3. CONFLICT RESOLUTION ---
             const hasStructData = structTasks.length > 0;
             const hasVisualData = visualTasks.length > 0;
+
             const doTabsMatch = (sTasks, vTasks) => {
+                // Flatten both arrays to purely sequential tasks to ignore visual group merging
                 const flatS = [];
                 sTasks.forEach(g => g.subtasks.forEach(st => flatS.push({ groupTitle: g.title, st: st })));
+
                 const flatV = [];
                 vTasks.forEach(g => g.subtasks.forEach(st => flatV.push({ groupTitle: g.title, st: st })));
+
                 if (flatS.length !== flatV.length) return false;
+
+                // Smart string normalizer to ignore case, spacing, and nulls
                 const normalize = (str) => str ? String(str).toLowerCase().trim().replace(/\s+/g, ' ') : "";
+
                 const isDefaultGroup = (name) => {
                     const n = normalize(name);
                     return n === "" || n === "unnamed group" || n === "imported group" || n === "new group";
                 };
+
                 const isDefaultTask = (name) => {
                     const n = normalize(name);
                     return n === "" || n === "unnamed task" || n === "new task" || n.startsWith("task ");
                 };
+
                 for (let i = 0; i < flatS.length; i++) {
                     const sItem = flatS[i];
                     const vItem = flatV[i];
+
                     const sG = normalize(sItem.groupTitle);
                     const vG = normalize(vItem.groupTitle);
+
+                    // Only fail if they differ AND they aren't both default placeholders
                     if (sG !== vG) {
                         if (!isDefaultGroup(sG) || !isDefaultGroup(vG)) return false;
                     }
+
                     const sT = normalize(sItem.st.title);
                     const vT = normalize(vItem.st.title);
+
+                    // Only fail if they differ AND they aren't both default placeholders
                     if (sT !== vT) {
                         if (!isDefaultTask(sT) || !isDefaultTask(vT)) return false;
                     }
+
+                    // Check RASCI assignments
                     const sKeys = Object.keys(sItem.st.rasci || {});
                     const vKeys = Object.keys(vItem.st.rasci || {});
                     if (sKeys.length !== vKeys.length) return false;
+
                     for (const key of sKeys) {
                         if (sItem.st.rasci[key] !== vItem.st.rasci[key]) return false;
                     }
                 }
                 return true;
             };
+
             const tabsAreIdentical = (hasStructData && hasVisualData) ? doTabsMatch(structTasks, visualTasks) : false;
+
             if (hasStructData && hasVisualData && !tabsAreIdentical) {
                 pendingImportData = {
                     structTasks: structTasks,
@@ -3491,12 +4170,14 @@
                     visualTasks: visualTasks,
                     visualPeople: visualPeople
                 };
+
                 const conflictModal = document.getElementById('import-conflict-modal');
                 if (conflictModal) {
                     conflictModal.classList.remove('hidden');
                     if (typeof lucide !== 'undefined') lucide.createIcons({ root: conflictModal });
                 }
-                return; 
+                return; // Stop execution
+
             } else if (hasStructData) {
                 state.tasks = structTasks;
                 state.people = structPeople;
@@ -3507,7 +4188,9 @@
                 state.tasks = [];
                 state.people = basePeople;
             }
+
             markUnsaved();
+
             renderApp();
             renderProjectBar();
             if (typeof renderAllContacts === 'function') renderAllContacts();
@@ -3515,4 +4198,5 @@
         }
     </script>
 </body>
+
 </html>

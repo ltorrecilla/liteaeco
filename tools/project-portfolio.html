@@ -1,28 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="author" content="Luis Torrecilla">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Portfolio - Manage & Visualize Your Project Portfolio | liteAECO</title>
+
+    <!-- Primary Meta Tags -->
     <meta name="description" content="Free client-side tool to manage and visualize your project portfolio. Track status, budgets and timelines. No uploads, private, fast, and built for AEC teams.">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https:
+    <link rel="canonical" href="https://liteaeco.com/tools/project-portfolio.html">
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https:
+    <meta property="og:url" content="https://liteaeco.com/tools/project-portfolio.html">
     <meta property="og:site_name" content="liteAECO">
     <meta property="og:title" content="Project Portfolio - Manage & Visualize Your Project Portfolio | liteAECO">
     <meta property="og:description" content="Free client-side tool to manage and visualize your project portfolio. Track status, budgets and timelines. No uploads, private, fast, and built for AEC teams.">
-    <meta property="og:image" content="https:
+    <meta property="og:image" content="https://liteaeco.com/img/og-project-portfolio.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="liteAECO Project Portfolio tool interface">
     <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https:
+    <meta name="twitter:url" content="https://liteaeco.com/tools/project-portfolio.html">
     <meta name="twitter:title" content="Project Portfolio - Manage & Visualize Your Project Portfolio | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to manage and visualize your project portfolio. Track status, budgets and timelines. No uploads, private, fast, and built for AEC teams.">
-    <meta name="twitter:image" content="https:
+    <meta name="twitter:image" content="https://liteaeco.com/img/og-project-portfolio.png">
+
+    <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -30,16 +39,23 @@
     <link rel="icon" type="image/png" sizes="192x192" href="../img/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
-    <script src="https:
+
+    <!-- Scripts Design -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
+
+    <!-- Scripts Internal -->
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/liteaeco-autosave.js"></script>
     <script src="../js/project-registry.js"></script>
+	
+    <!-- Scripts External -->
     <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
     <script src="../js/vendor/chart-4.5.1.js"></script>
-    <script src="../js/vendor/lz-string-1.5.0.min.js"></script> 
+    <script src="../js/vendor/lz-string-1.5.0.min.js"></script> <!-- optional: cross-tool project registry; page works without it -->
+
     <script>
         tailwind.config = {
             theme: {
@@ -48,36 +64,46 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
+                        
                         accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
                     }
                 }
             }
         }
     </script>
+
+    <!-- CSS -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
             color: #0f172a;
             overflow: hidden;
         }
+
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
+
         ::-webkit-scrollbar-track {
             background: transparent;
         }
+
         ::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 4px;
         }
+
         ::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
+
         .gantt-layout {
             display: flex;
             height: calc(100vh - 48px);
+            
         }
+
         .gantt-sidebar {
             width: 350px;
             flex-shrink: 0;
@@ -90,6 +116,7 @@
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
             transition: width 0.3s ease-in-out;
         }
+
         .gantt-timeline {
             flex: 1;
             overflow: auto;
@@ -98,6 +125,7 @@
             display: flex;
             flex-direction: column;
         }
+
         .gantt-sidebar-header {
             height: 65px;
             flex-shrink: 0;
@@ -108,6 +136,7 @@
             border-bottom: 1px solid rgba(226, 232, 240, 0.6);
             background: rgba(248, 250, 252, 0.5);
         }
+
         .gantt-header {
             height: 65px;
             flex-shrink: 0;
@@ -117,20 +146,24 @@
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(8px);
         }
+
         .gantt-body {
             display: flex;
             flex: 1;
             overflow: hidden;
         }
+
         .gantt-sidebar-content {
             flex: 1;
             overflow-y: auto;
         }
+
         .gantt-timeline-content {
             flex: 1;
             overflow: auto;
             position: relative;
         }
+
         .gantt-row {
             height: 40px;
             border-bottom: 1px solid rgba(241, 245, 249, 0.5);
@@ -138,19 +171,24 @@
             align-items: center;
             box-sizing: border-box;
         }
+
         .gantt-row:hover {
             background: rgba(255, 255, 255, 0.8);
         }
+
         .sidebar-minimized {
             width: 64px !important;
         }
+
         .sidebar-minimized .hide-on-min {
             display: none !important;
         }
+
         .sidebar-minimized .justify-center-on-min {
             justify-content: center !important;
             padding: 0 !important;
         }
+
         .sidebar-minimized .stack-on-min {
             flex-direction: column !important;
             align-items: center;
@@ -158,6 +196,7 @@
             width: 100%;
             justify-content: center;
         }
+
         .sidebar-minimized .stack-on-min>button {
             width: 40px !important;
             height: 40px !important;
@@ -165,14 +204,17 @@
             justify-content: center !important;
             flex: none !important;
         }
+
         .sidebar-minimized .gantt-row {
             padding-left: 0 !important;
             padding-right: 0 !important;
             justify-content: center !important;
         }
+
         .sidebar-minimized .gantt-row i.mr-2 {
             margin-right: 0 !important;
         }
+
         .timeline-grid-bg {
             position: absolute;
             top: 0;
@@ -181,8 +223,10 @@
             display: flex;
             pointer-events: none;
             z-index: 1;
+            
             background-color: rgb(255, 255, 255);
         }
+
         #pf-print-sheet { display: none; }
         @media print {
             @page { size: A3 landscape; margin: 8mm; }
@@ -195,11 +239,13 @@
             .pf-print-crop { overflow: hidden; }
             #pf-print-sheet .custom-scrollbar { overflow: visible !important; }
         }
+
         .timeline-col {
             flex-shrink: 0;
             height: 100%;
             box-sizing: border-box;
         }
+
         .timeline-col-header {
             flex-shrink: 0;
             display: flex;
@@ -210,18 +256,22 @@
             border-right: 1px solid rgba(226, 232, 240, 0.6);
             overflow: hidden;
         }
+
         .timeline-col-header.weekend {
             background-color: rgba(241, 245, 249, 0.5);
             color: #94a3b8;
         }
+
         .timeline-col.weekend {
             background-color: rgba(241, 245, 249, 0.3);
         }
+
         .timeline-header-block {
             overflow: hidden;
             text-overflow: clip;
             white-space: nowrap;
         }
+
         .gantt-elements-layer {
             position: absolute;
             top: 0;
@@ -231,6 +281,7 @@
             z-index: 10;
             pointer-events: none;
         }
+
         .task-bar {
             position: absolute;
             height: 24px;
@@ -249,16 +300,19 @@
             border: 1px solid rgba(255, 255, 255, 0.4);
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
         }
+
         .draggable-dummy {
             pointer-events: auto !important;
             cursor: grab;
         }
+
         .draggable-dummy:active {
             cursor: grabbing;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             z-index: 50 !important;
             transform: scale(1.02);
         }
+
         .resize-handle {
             position: absolute;
             top: 0;
@@ -268,19 +322,23 @@
             z-index: 10;
             transition: background-color 0.2s;
         }
+
         .resize-handle.left {
             left: 0;
             border-top-left-radius: 6px;
             border-bottom-left-radius: 6px;
         }
+
         .resize-handle.right {
             right: 0;
             border-top-right-radius: 6px;
             border-bottom-right-radius: 6px;
         }
+
         .resize-handle:hover {
             background-color: rgba(255, 255, 255, 0.4);
         }
+
         body.is-presentation .task-bar {
             height: 18px;
             border-radius: 9px;
@@ -288,30 +346,39 @@
             padding: 0 8px;
             margin-top: 12px;
         }
+
         body.is-presentation .resize-handle {
             display: none;
         }
+
         body.is-presentation #header-tools {
             display: none !important;
         }
+
         .modal-overlay {
             background: rgba(15, 23, 42, 0.4);
             backdrop-filter: blur(6px);
         }
+
         details>summary {
             list-style: none;
         }
+
         details>summary::-webkit-details-marker {
             display: none;
         }
+
         .shadow-logo {
             -webkit-filter: drop-shadow(0px 5px 5px rgba(99, 102, 241, 0.3));
             filter: drop-shadow(0px 5px 5px rgba(99, 102, 241, 0.3));
             transition: all 0.3s ease;
+            
         }
+
         .shadow-logo:hover {
             -webkit-filter: drop-shadow(0px 5px 5px rgba(99, 102, 241, 0.1));
             filter: drop-shadow(0px 5px 5px rgba(99, 102, 241, 0.1));
+            
         }
     </style>
     <style>
@@ -319,14 +386,16 @@
         .as-switch:has(#pf-save-menu-disconnect:not(.hidden)) .as-knob{transform:translateX(16px)}
     </style>
 </head>
+
 <body class="bg-slate-50 text-slate-900 selection:bg-indigo-500/20 relative overflow-hidden h-screen flex flex-col">
+
     <header
         class="h-12 bg-white/80 backdrop-blur border-b border-white shadow-[0_4px_30px_rgba(0,0,0,0.03)] flex items-center justify-between px-6 flex-shrink-0 z-30 relative">
         <div class="flex items-center gap-4">
             <a href="../index.html" class="flex items-center gap-3 cursor-pointer group"
                 onclick="return handleHomeNavigation(event)">
-                <svg class="w-6 h-6 shadow-logo" xmlns="http:
-                    xmlns:xlink="http:
+                <svg class="w-6 h-6 shadow-logo" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 62 62">
                     <defs>
                         <linearGradient id="b">
                             <stop offset="0" stop-color="#b6b6f7" />
@@ -355,17 +424,20 @@
                     class="text-xs font-bold uppercase tracking-widest text-slate-600 group-hover:text-indigo-600 transition-colors" data-i18n="overviewTitle">Overview</span>
             </div>
         </div>
+
         <div class="flex items-center gap-4 ml-auto">
             <div id="header-budget-display"
                 class="hidden items-center px-4 py-1 bg-white/50 backdrop-blur-sm text-indigo-800 border border-indigo-100/50 rounded-none text-xs font-bold uppercase tracking-widest shadow-sm transition-opacity">
                 <i data-lucide="chart-line" class="w-3.5 h-3.5 mr-1.5 text-indigo-500"></i>
                 <span id="header-budget-value">0 CHF</span>
             </div>
+
             <div id="header-active-display"
                 class="hidden items-center px-4 py-1 bg-white/50 backdrop-blur-sm text-sky-800 border border-sky-100/50 rounded-none text-xs font-bold uppercase tracking-widest shadow-sm transition-opacity">
                 <i data-lucide="activity" class="w-3.5 h-3.5 mr-1.5 text-sky-500"></i>
                 <span id="header-active-value">0 Active</span>
             </div>
+
             <div id="header-tools"
                 class="flex items-center gap-3 hide-on-dashboard ml-2 pl-4 border-l border-slate-200">
                 <a id="dynamic-help-btn" href="../info/help.html#project-portfolio" target="_blank"
@@ -381,11 +453,16 @@
                     <option value="fr">FR</option>
                     <option value="pt">PT</option>
                     <option value="it">IT</option>
+                    <!--<option value="ko">KO</option>
+                    <option value="ja">JA</option>
+                    <option value="zh">ZH</option>-->
                 </select>
             </div>
         </div>
     </header>
+
     <div class="gantt-layout w-full overflow-hidden relative z-10">
+
         <div class="gantt-sidebar relative" id="sidebar-container">
             <div id="drop-overlay"
                 class="absolute inset-0 bg-indigo-50/90 border-2 border-dashed border-indigo-400 z-50 hidden flex-col items-center justify-center backdrop-blur-[2px] transition-colors">
@@ -394,16 +471,20 @@
                     style="padding: 30px; text-align: center;">Drop Data files (.xml, .xlsx, .csv) or Session (.json)
                     here</span>
             </div>
+
             <div class="gantt-sidebar-header hide-on-dashboard">
                 <span class="font-bold text-xs uppercase tracking-widest text-slate-700 hide-on-min" data-i18n="projectName">Project Name</span>
                 <span id="sidebar-info-header"
                     class="text-[10px] text-slate-400 font-bold uppercase tracking-wider hide-on-min" data-i18n="infoTitle">Info</span>
             </div>
+
             <div class="gantt-sidebar-content hide-on-dashboard custom-scrollbar" id="sidebar-scroll"
                 onscroll="syncScroll(this, 'timeline-scroll')">
                 <div id="project-list" class="pb-2"></div>
             </div>
+
             <div id="sidebar-dashboard-filler" class="hidden flex-1 bg-transparent"></div>
+
             <div
                 class="border-t border-slate-200/60 bg-white/50 backdrop-blur-md flex flex-col p-4 gap-4 flex-shrink-0 z-30 shadow-[0_-2px_10px_rgba(0,0,0,0.02)]">
                 <div class="flex gap-2 hide-on-min">
@@ -436,10 +517,12 @@
                         </button>
                     </div>
                 </div>
+
                 <input type="file" id="import-file" accept=".xml, .xlsx, .xls, .ods, .csv, .json" multiple
                     class="hidden" onchange="importData(event)">
                 <input type="file" id="import-folder" webkitdirectory directory multiple class="hidden"
                     onchange="importData(event)">
+
                 <div id="sidebar-view-menu"
                     class="hidden flex-col gap-2 border-b border-slate-200/60 pb-3 transition-all duration-300 hide-on-min">
                     <div class="flex flex-col gap-1.5 mt-1">
@@ -489,13 +572,16 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="flex gap-2 stack-on-min">
+                    <!-- OPEN (first position) -->
                     <div class="relative group flex-1 min-w-0 hide-on-min">
                         <button
                             class="w-full px-1 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1">
                             <i data-lucide="folder-open" class="w-3.5 h-3.5 flex-shrink-0"></i> <span
                                 class="truncate" data-i18n="open">Open</span>
                         </button>
+
                         <div
                             class="absolute bottom-full left-0 w-max min-w-full mb-1 bg-white/95 backdrop-blur-xl border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col">
                             <button onclick="document.getElementById('import-file').click()"
@@ -506,6 +592,9 @@
                                 class="px-4 py-2 text-[10px] font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 uppercase tracking-widest text-left transition-colors whitespace-nowrap" data-i18n="projectsFolder">Projects Folder</button>
                         </div>
                     </div>
+
+                    <!-- EXPORT (was Save) - icon ids stay: the Autosave module
+                         flips them (iconOffId / iconOnId) -->
                     <div class="relative group flex-1 min-w-0 hide-on-min">
                         <button onclick="exportSession()"
                             class="w-full px-1 py-1.5 bg-white border border-slate-200 hover:border-green-200 hover:bg-green-50 hover:text-green-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1"
@@ -520,11 +609,16 @@
                                 class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-green-600 hover:bg-green-50 uppercase tracking-widest text-left transition-colors" data-i18n="json">JSON</button>
                         </div>
                     </div>
+
+                    <!-- VIEW - icon only -->
                     <button onclick="toggleViewMenu()"
                         class="px-2 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-none text-[10px] font-bold uppercase transition flex items-center justify-center hide-on-min"
                         title="Toggle View Menu" data-i18n-title="view">
                         <i data-lucide="eye-off" id="view-menu-icon" class="w-3.5 h-3.5 shrink-0"></i>
                     </button>
+
+                    <!-- GEAR (was Adv.) - icon-only, RIGHTMOST: menu anchors
+                         right so it never overflows the sidebar -->
                     <div class="relative group hide-on-min">
                         <button
                             class="px-2 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold uppercase transition flex items-center justify-center"
@@ -532,6 +626,9 @@
                                 class="w-3.5 h-3.5 shrink-0"></i></button>
                         <div
                             class="absolute bottom-full right-0 w-44 mb-1 bg-white/95 backdrop-blur-xl border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col">
+                            <!-- Autosave TOGGLE: the module flips .hidden on
+                                 pf-save-menu-disconnect (its disconnectBtnId);
+                                 the CSS moves the knob / colors the track -->
                             <button onclick="pfAutosaveToggle()" id="pf-autosave-row"
                                 class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 uppercase tracking-widest border-b border-slate-100 text-left transition-colors flex items-center justify-between gap-3">
                                 <span data-i18n="autosaveToggle">Autosave</span>
@@ -551,6 +648,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="flex gap-2 stack-on-min border-slate-200/60">
                     <button id="btn-presentation" onclick="togglePresentMode()"
                         class="flex-1 bg-indigo-50 border border-indigo-200 text-indigo-700 hover:bg-indigo-100 hover:border-indigo-200 px-2 py-2 rounded-none text-[10px] font-bold uppercase tracking-widest transition shadow-sm flex justify-center items-center gap-1.5 hide-on-dashboard"
@@ -565,6 +663,7 @@
                             class="hide-on-min" data-i18n="dashboard">Dashboard</span>
                     </button>
                 </div>
+
                 <button onclick="toggleSidebar()"
                     class="-mx-4 -mb-4 mt-1 py-3 bg-gray-50 hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors flex items-center justify-center outline-none focus:outline-none cursor-pointer"
                     title="Toggle Sidebar Width">
@@ -572,25 +671,30 @@
                 </button>
             </div>
         </div>
+
         <div class="flex-1 relative flex flex-col min-w-0">
             <div id="gantt-view" class="flex flex-1 overflow-hidden bg-transparent flex-col relative">
                 <div class="gantt-header" id="timeline-header-scroll" style="overflow: hidden; flex-shrink: 0;"></div>
+
                 <div class="gantt-timeline-content custom-scrollbar" id="timeline-scroll"
                     onscroll="syncScroll(this, 'sidebar-scroll', 'timeline-header-scroll')">
                     <div id="timeline-grid-bg" class="timeline-grid-bg min-w-max"></div>
                     <div id="gantt-bars" class="gantt-elements-layer min-w-max"></div>
                 </div>
+
                 <div class="absolute bottom-8 right-8 flex gap-2 z-40 hide-on-dashboard">
                     <button onclick="zoomTimeline(-5)"
                         class="p-2.5 bg-white/80 backdrop-blur border border-white text-slate-600 hover:text-indigo-600 hover:border-indigo-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] rounded transition-all focus:outline-none"
                         title="Zoom Out">
                         <i data-lucide="zoom-out" class="w-4 h-4"></i>
                     </button>
+
                     <button onclick="scrollToToday()"
                         class="p-2.5 bg-white/80 backdrop-blur border border-white text-slate-600 hover:text-indigo-600 hover:border-indigo-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] rounded transition-all focus:outline-none"
                         title="Go to Today">
                         <i data-lucide="calendar-days" class="w-4 h-4"></i>
                     </button>
+
                     <button onclick="zoomTimeline(5)"
                         class="p-2.5 bg-white/80 backdrop-blur border border-white text-slate-600 hover:text-indigo-600 hover:border-indigo-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] rounded transition-all focus:outline-none"
                         title="Zoom In">
@@ -598,12 +702,14 @@
                     </button>
                 </div>
             </div>
+
             <div id="dashboard-view"
                 class="hidden h-full w-full overflow-y-auto custom-scrollbar p-6 bg-white flex-col gap-6 items-center">
                 <div class="w-full max-w-[1280px] flex flex-col gap-6">
                     <h2 class="text-2xl font-bold text-slate-900 flex-shrink-0 flex items-center gap-2">
                         <i data-lucide="layout-dashboard" class="w-6 h-6 text-indigo-600"></i> Portfolio Dashboard
                     </h2>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-8 w-full">
                         <div
                             class="bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-slate-100 p-6 flex flex-col h-[450px]">
@@ -614,6 +720,7 @@
                             <div class="grid grid-cols-1 gap-y-5 gap-x-4 text-sm flex-1 overflow-y-auto custom-scrollbar"
                                 id="dash-info-grid"></div>
                         </div>
+
                         <div
                             class="bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-slate-100 p-6 flex flex-col h-[450px]">
                             <h3
@@ -623,6 +730,7 @@
                             </h3>
                             <div class="flex-1 relative max-h-[320px] w-full"><canvas id="dashBarChart"></canvas></div>
                         </div>
+
                         <div
                             class="bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-slate-100 p-6 flex flex-col h-[450px]">
                             <h3
@@ -645,6 +753,7 @@
                                 class="flex justify-center flex-wrap gap-4 mt-4 pt-3 border-t border-white text-[11px] font-medium text-slate-600">
                             </div>
                         </div>
+
                         <div
                             class="bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-slate-100 p-6 flex flex-col h-[450px]">
                             <h3
@@ -662,6 +771,7 @@
             </div>
         </div>
     </div>
+
     <div id="dummy-modal" class="fixed inset-0 modal-overlay hidden z-50 flex items-center justify-center">
         <div
             class="bg-white/95 backdrop-blur-xl border border-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] w-[500px] flex flex-col overflow-hidden">
@@ -674,12 +784,14 @@
             </div>
             <div class="p-6 flex flex-col gap-4">
                 <input type="hidden" id="dummy-modal-id">
+
                 <div>
                     <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Project
                         Name</label>
                     <input type="text" id="dummy-modal-name"
                         class="w-full border border-slate-200 bg-white/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 transition-colors">
                 </div>
+
                 <div class="flex gap-3 items-end">
                     <div class="flex-1">
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Start
@@ -688,6 +800,7 @@
                             class="w-full border border-slate-200 bg-white/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 transition-colors"
                             onchange="updateDummyModalDuration()">
                     </div>
+
                     <div class="flex flex-col items-center w-20 flex-shrink-0">
                         <label
                             class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1" data-i18n="unitDays">Days</label>
@@ -701,6 +814,7 @@
                                 class="flex-1 text-slate-600 hover:bg-slate-100 h-full border-l border-slate-200 font-bold transition-colors">+</button>
                         </div>
                     </div>
+
                     <div class="flex-1">
                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">End
                             Date</label>
@@ -709,6 +823,7 @@
                             onchange="updateDummyModalDuration()">
                     </div>
                 </div>
+
                 <div>
                     <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Estimated
                         Budget</label>
@@ -728,6 +843,7 @@
             </div>
         </div>
     </div>
+
     <div id="advanced-options-modal" class="fixed inset-0 modal-overlay hidden z-50 flex items-center justify-center">
         <div
             class="bg-white/95 backdrop-blur-xl border border-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] w-[400px] flex flex-col overflow-hidden max-h-[90vh]">
@@ -739,6 +855,7 @@
                 <button onclick="closeAdvancedOptions()" class="text-slate-400 hover:text-slate-700 transition"><i
                         data-lucide="x" class="w-5 h-5"></i></button>
             </div>
+
             <div class="p-6 flex flex-col gap-6 overflow-y-auto custom-scrollbar">
                 <div>
                     <h3
@@ -798,6 +915,7 @@
                             </button>
                         </div>
                     </div>
+
                     <details id="adv-custom-colors"
                         class="group border border-slate-200/60 rounded-xl bg-white/40 mt-4">
                         <summary
@@ -805,7 +923,7 @@
                             <span class="flex items-center gap-2"><i data-lucide="palette"
                                     class="w-3.5 h-3.5 text-slate-500"></i data-i18n="customColors">Custom Colors</span>
                             <span class="text-slate-400 group-open:rotate-180 transition">
-                                <svg xmlns="http:
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="m6 9 6 6 6-6" />
                                 </svg>
@@ -832,6 +950,7 @@
                     </details>
                 </div>
             </div>
+
             <div class="px-6 py-4 border-t border-slate-100 flex justify-end gap-2 bg-slate-50/50 flex-shrink-0">
                 <button onclick="closeAdvancedOptions()"
                     class="px-4 py-2 rounded-none text-xs font-bold uppercase tracking-widest text-slate-600 hover:bg-slate-200 transition">Cancel</button>
@@ -840,6 +959,7 @@
             </div>
         </div>
     </div>
+
     <div id="confirm-modal" class="fixed inset-0 modal-overlay hidden z-[60] flex items-center justify-center">
         <div
             class="bg-white/95 backdrop-blur-xl border border-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] w-[400px] flex flex-col overflow-hidden">
@@ -864,6 +984,7 @@
             </div>
         </div>
     </div>
+
     <div id="unsaved-modal" class="fixed inset-0 modal-overlay hidden z-[70] flex items-center justify-center">
         <div
             class="bg-white/95 backdrop-blur-xl border border-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] w-[400px] flex flex-col overflow-hidden">
@@ -889,6 +1010,7 @@
             </div>
         </div>
     </div>
+
     <div id="app-loader"
         class="fixed inset-0 bg-slate-50/80 backdrop-blur-md z-[9999] hidden flex-col items-center justify-center">
         <div class="w-72 bg-slate-200 rounded-none h-2 mb-4 overflow-hidden border border-slate-300 shadow-inner">
@@ -896,12 +1018,16 @@
         </div>
         <p id="loader-text" class="text-sm font-bold uppercase tracking-widest text-slate-900">Processing...</p>
     </div>
+	
     <script>
+
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
+
         window.updateToolDynamicUI = function () {
             if (typeof updateAndRenderAll === "function") {
                 updateAndRenderAll();
             }
+
             if (
                 typeof renderDashboard === "function" &&
                 typeof isDashboardMode !== "undefined" &&
@@ -909,17 +1035,21 @@
             ) {
                 renderDashboard();
             }
+
             if (window.lucide) {
                 lucide.createIcons();
             }
         };
+
         function bootTranslationLayer() {
             if (typeof autoDetectLanguage === "function") {
                 autoDetectLanguage();
             }
+
             if (typeof window.injectUI === "function") {
                 window.injectUI({
                     showNav: false,
+                    linkTarget: '_blank',
                     transparentNav: false,
                     showSignIn: false,
                     showCategories: false,
@@ -930,26 +1060,35 @@
                     showFooterBottom: false
                 });
             }
+
             if (typeof window.injectCookieBanner === "function") {
                 window.injectCookieBanner();
             }
+
             if (typeof window.loadLanguage === "function") {
                 const lang =
                     typeof currentLang !== "undefined"
                         ? currentLang
                         : localStorage.getItem("liteAECOLang") || "en";
+
                 window.loadLanguage(lang, "project_portfolio");
             }
         }
+
         if (document.readyState === "loading") {
             document.addEventListener("DOMContentLoaded", bootTranslationLayer);
         } else {
             bootTranslationLayer();
         }
+
     </script>
+
     <script>
+
         let lastSavedHistoryIndex = 0;
+
         function handleHomeNavigation(event) {
+            
             if (historyIndex !== lastSavedHistoryIndex) {
                 event.preventDefault(); 
                 document.getElementById("unsaved-modal").classList.remove("hidden");
@@ -959,20 +1098,27 @@
             }
             return true; 
         }
+
         function closeUnsavedModal() {
             document.getElementById("unsaved-modal").classList.add("hidden");
             document.getElementById("unsaved-modal").classList.remove("flex");
         }
+
         function confirmLeave() {
             window.location.href = "../index.html";
         }
+
         Chart.defaults.font.family = "'Inter', sans-serif";
         Chart.defaults.color = "#64748b"; 
+
         let ringChartInst = null;
         let lineChartInst = null;
         let barChartInst = null;
+
         lucide.createIcons();
+
         let hasUnsavedChanges = false;
+
         function handleLogoClick(event) {
             if (hasUnsavedChanges) {
                 event.preventDefault(); 
@@ -981,14 +1127,17 @@
                 lucide.createIcons();
             }
         }
+
         function closeUnsavedModal() {
             document.getElementById('unsaved-modal').classList.add('hidden');
             document.getElementById('unsaved-modal').classList.remove('flex');
         }
+
         function confirmLeave() {
             hasUnsavedChanges = false;
             window.location.href = '../index.html';
         }
+
         function escapeHTML(str) {
             if (typeof str !== 'string') return str;
             return str.replace(/[&<>'"]/g, tag => ({
@@ -999,6 +1148,7 @@
                 '"': '&quot;'
             }[tag] || tag));
         }
+
         function updateStorageStatus(message, isError = false) {
             const el = document.getElementById('storage-status');
             if (el) {
@@ -1010,41 +1160,52 @@
                 }, 3000);
             }
         }
+
+        // Application Configuration (Updated Palette)
         const config = {
             cellWidth: 30,
             rowHeight: 40,
             totalDays: 65,
             startDate: new Date()
         };
+
         const colorPalette = [
-            { color: '#4f46e5', lightColor: '#e0e7ff' }, 
-            { color: '#0ea5e9', lightColor: '#e0f2fe' }, 
-            { color: '#8b5cf6', lightColor: '#ede9fe' }, 
-            { color: '#f43f5e', lightColor: '#ffe4e6' }  
+            { color: '#4f46e5', lightColor: '#e0e7ff' }, // Indigo
+            { color: '#0ea5e9', lightColor: '#e0f2fe' }, // Sky
+            { color: '#8b5cf6', lightColor: '#ede9fe' }, // Violet
+            { color: '#f43f5e', lightColor: '#ffe4e6' }  // Rose
         ];
+
+        // Date Helpers
         function addDays(date, days) {
             const result = new Date(date);
             result.setDate(result.getDate() + days);
             return result;
         }
+
         function diffDays(start, end) {
             const utc1 = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
             const utc2 = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate());
             return Math.floor((utc2 - utc1) / (1000 * 60 * 60 * 24));
         }
+
         function getWeekNumber(d) {
             const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
             date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
             const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
             return Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
         }
+
         function formatDateInput(date) {
             const yyyy = date.getFullYear();
             const mm = String(date.getMonth() + 1).padStart(2, '0');
             const dd = String(date.getDate()).padStart(2, '0');
             return `${yyyy}-${mm}-${dd}`;
         }
+
+        // Global State - Portfolio Level
         var projects = [];
+
         let isPresentMode = false;
         let isTodayViewActive = false;
         let isBudgetVisible = false;
@@ -1053,28 +1214,40 @@
         let isDashboardMode = false;
         let currentCurrency = 'CHF';
         let searchQuery = "";
+
         let dummyCount = 1;
+
         let isFutureCollapsed = false;
         let isCompletedCollapsed = false;
         let currentDisplayRows = [];
+
         function handleCurrencyChange(event) {
+            // 1. Update global currency state
             currentCurrency = event.target.value;
+
+            // 2. Update the label inside the edit modal
             const modalLabel = document.getElementById('dummy-modal-currency-label');
             if (modalLabel) {
                 modalLabel.innerText = currentCurrency;
             }
+
+            // 3. Re-render the visible components that display the budget
             updateHeaderMetrics();
             renderSidebar();
+
             if (isDashboardMode) {
                 renderDashboard();
             }
         }
+
         function updateDisplayRows() {
             const visible = getVisibleProjects();
             const today = new Date().setHours(0, 0, 0, 0);
+
             let running = [];
             let future = [];
             let completed = [];
+
             visible.forEach(p => {
                 const pStart = p.startDate.getTime();
                 const pEnd = p.endDate.getTime();
@@ -1082,14 +1255,18 @@
                 else if (pStart > today) future.push(p);
                 else running.push(p);
             });
+
             currentDisplayRows = [];
+
             running.forEach(p => currentDisplayRows.push({ type: 'project', data: p }));
+
             if (future.length > 0) {
                 currentDisplayRows.push({ type: 'header', id: 'group-future', label: 'Upcoming', isCollapsed: isFutureCollapsed, items: future });
                 if (!isFutureCollapsed) {
                     future.forEach(p => currentDisplayRows.push({ type: 'project', data: p }));
                 }
             }
+
             if (completed.length > 0) {
                 currentDisplayRows.push({ type: 'header', id: 'group-completed', label: 'Completed', isCollapsed: isCompletedCollapsed, items: completed });
                 if (!isCompletedCollapsed) {
@@ -1097,6 +1274,7 @@
                 }
             }
         }
+
         function toggleGroup(groupId) {
             if (groupId === 'group-future') isFutureCollapsed = !isFutureCollapsed;
             if (groupId === 'group-completed') isCompletedCollapsed = !isCompletedCollapsed;
@@ -1104,28 +1282,34 @@
             renderSidebar();
             renderBars();
         }
+
         function showLoader(text = "Processing...", percentage = 0) {
             document.getElementById('loader-text').innerText = text;
             document.getElementById('loader-progress').style.width = `${percentage}%`;
             document.getElementById('app-loader').classList.remove('hidden');
             document.getElementById('app-loader').classList.add('flex');
         }
+
         function updateLoader(text, percentage) {
             document.getElementById('loader-text').innerText = text;
             document.getElementById('loader-progress').style.width = `${percentage}%`;
         }
+
         function hideLoader() {
             document.getElementById('app-loader').classList.add('hidden');
             document.getElementById('app-loader').classList.remove('flex');
         }
+
         function formatCurrency(value) {
             return (value || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' ' + currentCurrency;
         }
+
         function getTodayOffset() {
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             return diffDays(config.startDate, today);
         }
+
         function getDistanceColorMix(startOffset, endOffset, todayOffset) {
             if (startOffset <= todayOffset && endOffset >= todayOffset) return 100;
             let distDays = 0;
@@ -1138,9 +1322,12 @@
             let colorPercentage = Math.max(20, 100 - (distWeeks * 8));
             return colorPercentage;
         }
+
+        // UNDO / REDO HISTORY ENGINE
         let stateHistory = [];
         let historyIndex = -1;
         const MAX_HISTORY = 50;
+
         function cloneProjects(projArray) {
             return projArray.map(p => ({
                 ...p,
@@ -1149,6 +1336,7 @@
                 phasesData: p.phasesData ? p.phasesData.map(ph => ({ ...ph })) : []
             }));
         }
+
         function saveState() {
             if (historyIndex < stateHistory.length - 1) {
                 stateHistory = stateHistory.slice(0, historyIndex + 1);
@@ -1161,55 +1349,77 @@
             } else {
                 historyIndex++;
             }
+
+            // Mark that a change occurred
             hasUnsavedChanges = true;
             if (typeof Autosave !== "undefined") Autosave.markDirty();
         }
+
         function undo() {
             if (historyIndex > 0) {
                 historyIndex--;
                 restoreState(stateHistory[historyIndex]);
             }
         }
+
         function redo() {
             if (historyIndex < stateHistory.length - 1) {
                 historyIndex++;
                 restoreState(stateHistory[historyIndex]);
             }
         }
+
         function restoreState(snapshot) {
             projects = cloneProjects(snapshot.projects);
             updateAndRenderAll();
             if (isDashboardMode) renderDashboard();
         }
+
         function handleSearch(event) {
             searchQuery = event.target.value;
             updateAndRenderAll();
         }
+
         function getVisibleProjects() {
             if (!searchQuery) return projects;
             const q = searchQuery.toLowerCase();
             return projects.filter(p => p.name.toLowerCase().includes(q));
         }
+
         function adjustTimelinePadding() {
             const visibleProjects = getVisibleProjects();
+
+            // Empty State Logic
             if (visibleProjects.length === 0) {
                 config.startDate = new Date();
+                // Snap to the start of the week
                 config.startDate.setDate(config.startDate.getDate() - config.startDate.getDay());
+                // Display exactly 42 days (7 full weeks) when empty
                 config.totalDays = 42;
                 return;
             }
+
+            // Loaded State Logic
             let minTime = Math.min(...visibleProjects.map(p => p.startDate.getTime()));
             let maxTime = Math.max(...visibleProjects.map(p => p.endDate.getTime()));
+
             let desiredStartDate = new Date(minTime);
+            // Snap to the start of the week
             desiredStartDate.setDate(desiredStartDate.getDate() - desiredStartDate.getDay());
             config.startDate = desiredStartDate;
+
             let desiredEndDate = new Date(maxTime);
+            // Add exactly 42 days (7 full weeks) to guarantee a full month of extra space
             desiredEndDate.setDate(desiredEndDate.getDate() + 42);
+            // Snap to the end of the week
             desiredEndDate.setDate(desiredEndDate.getDate() + (6 - desiredEndDate.getDay()));
+
             config.totalDays = Math.max(14, diffDays(config.startDate, desiredEndDate));
         }
+
         function updateAndRenderAll() {
             const todayTime = new Date().setHours(0, 0, 0, 0);
+
             function getWeight(p) {
                 const pStart = p.startDate.getTime();
                 const pEnd = p.endDate.getTime();
@@ -1217,24 +1427,29 @@
                 if (pStart > todayTime) return 2;
                 return 1;
             }
+
             projects.sort((a, b) => {
                 const wA = getWeight(a);
                 const wB = getWeight(b);
                 if (wA !== wB) return wA - wB;
                 return a.startDate.getTime() - b.startDate.getTime();
             });
+
             projects.forEach((proj, idx) => {
                 const colorIdx = idx % colorPalette.length;
                 proj.color = colorPalette[colorIdx].color;
                 proj.lightColor = colorPalette[colorIdx].lightColor;
             });
+
             adjustTimelinePadding();
             updateDisplayRows();
+
             renderSidebar();
             renderTimelineGrid();
             renderBars();
             updateHeaderMetrics();
         }
+
         function updateHeaderMetrics() {
             const budgetDisplay = document.getElementById('header-budget-display');
             const budgetValue = document.getElementById('header-budget-value');
@@ -1242,9 +1457,12 @@
             const activeValue = document.getElementById('header-active-value');
             const projectsLabel = document.getElementById('total-projects-label');
             const sidebarInfoHeader = document.getElementById('sidebar-info-header');
+
             const visibleProjects = getVisibleProjects();
+
             const totalBudget = visibleProjects.reduce((sum, p) => sum + (p.budget || 0), 0);
             budgetValue.innerText = formatCurrency(totalBudget);
+
             if (isBudgetVisible) {
                 budgetDisplay.classList.remove('hidden');
                 budgetDisplay.classList.add('flex');
@@ -1254,6 +1472,7 @@
                 budgetDisplay.classList.remove('flex');
                 if (sidebarInfoHeader) sidebarInfoHeader.innerText = 'INFO';
             }
+
             if (isTodayViewActive) {
                 activeDisplay.classList.remove('hidden');
                 activeDisplay.classList.add('flex');
@@ -1261,15 +1480,19 @@
                 activeDisplay.classList.add('hidden');
                 activeDisplay.classList.remove('flex');
             }
+
             const today = new Date().getTime();
             const activeCount = visibleProjects.filter(p => p.startDate.getTime() <= today && p.endDate.getTime() >= today).length;
             activeValue.innerText = `${activeCount} Active`;
+
             if (projectsLabel) projectsLabel.innerText = `Total: ${visibleProjects.length}`;
         }
+
         function addDummyProject() {
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             const endDate = addDays(today, 14);
+
             const proj = {
                 id: 'dummy_' + Math.random().toString(36).substr(2, 9),
                 name: `Empty Project ${dummyCount++}`,
@@ -1281,83 +1504,107 @@
                 lightColor: colorPalette[projects.length % colorPalette.length].lightColor,
                 isDummy: true
             };
+
             projects.push(proj);
             saveState();
             updateAndRenderAll();
             updateStorageStatus("Project created");
         }
+
         function updateDummyModalDuration() {
             const startInput = document.getElementById('dummy-modal-start');
             const endInput = document.getElementById('dummy-modal-end');
             const display = document.getElementById('dummy-modal-duration-display');
+
             const startD = new Date(startInput.value);
             const endD = new Date(endInput.value);
+
             if (!isNaN(startD) && !isNaN(endD)) {
                 display.value = Math.max(1, diffDays(startD, endD));
             } else {
                 display.value = 1;
             }
+
             const isWeekend = (d) => isNonWorkingDate(d);
+
             if (!isNaN(startD) && isWeekend(startD)) {
                 startInput.classList.add('text-rose-600', 'font-bold', 'bg-rose-50');
             } else {
                 startInput.classList.remove('text-rose-600', 'font-bold', 'bg-rose-50');
             }
+
             if (!isNaN(endD) && isWeekend(endD)) {
                 endInput.classList.add('text-rose-600', 'font-bold', 'bg-rose-50');
             } else {
                 endInput.classList.remove('text-rose-600', 'font-bold', 'bg-rose-50');
             }
         }
+
         function adjustDummyModalDuration(delta) {
             const startInput = document.getElementById('dummy-modal-start');
             const startD = new Date(startInput.value);
+
             if (isNaN(startD)) return;
+
             let currentDur = parseInt(document.getElementById('dummy-modal-duration-display').value) || 1;
             let newDur = Math.max(1, currentDur + delta);
+
             const newEnd = addDays(startD, newDur);
             document.getElementById('dummy-modal-end').value = formatDateInput(newEnd);
+
             updateDummyModalDuration();
         }
+
         function openDummyModal(id) {
             const proj = projects.find(p => p.id === id);
             if (!proj || !proj.isDummy) return;
+
             document.getElementById('dummy-modal-id').value = proj.id;
             document.getElementById('dummy-modal-name').value = proj.name;
             document.getElementById('dummy-modal-budget').value = proj.budget || 0;
+
             document.getElementById('dummy-modal-start').value = formatDateInput(proj.startDate);
             document.getElementById('dummy-modal-end').value = formatDateInput(proj.endDate);
+
             updateDummyModalDuration();
             document.getElementById('dummy-modal').classList.remove('hidden');
             document.getElementById('dummy-modal').classList.add('flex');
         }
+
         function closeDummyModal() {
             document.getElementById('dummy-modal').classList.add('hidden');
             document.getElementById('dummy-modal').classList.remove('flex');
         }
+
         function saveDummyProject() {
             const id = document.getElementById('dummy-modal-id').value;
             const name = document.getElementById('dummy-modal-name').value;
             const budget = parseFloat(document.getElementById('dummy-modal-budget').value) || 0;
             const startVal = document.getElementById('dummy-modal-start').value;
             const endVal = document.getElementById('dummy-modal-end').value;
+
             const proj = projects.find(p => p.id === id);
             if (!proj || !proj.isDummy) return;
+
             proj.name = name || "Unnamed Dummy";
             proj.budget = budget;
             proj.startDate = new Date(startVal);
             proj.endDate = new Date(endVal);
+
             if (proj.endDate < proj.startDate) {
                 proj.endDate = new Date(proj.startDate);
             }
+
             if (proj.phasesData && proj.phasesData.length > 0) {
                 proj.phasesData[0].minTime = proj.startDate.getTime();
                 proj.phasesData[0].maxTime = proj.endDate.getTime();
             }
+
             saveState();
             closeDummyModal();
             updateAndRenderAll();
         }
+
         function exportSession() {
             if (projects.length === 0) {
                 updateStorageStatus("No data to export", true);
@@ -1381,12 +1628,17 @@
                 updateStorageStatus("Export failed", true);
             }
         }
+
         function parseSessionData(jsonData) {
             const parsed = JSON.parse(jsonData);
+
+            // liteAECO Project Timeline file (.timeline.json) -> single project
             if (parsed && parsed.app === "liteAECO-timeline") {
                 const proj = parseTimelineJSON(parsed);
                 return proj ? [proj] : [];
             }
+
+            // Portfolio session: new envelope or legacy bare array
             let list = null;
             if (parsed && parsed.app === "liteAECO-portfolio" && Array.isArray(parsed.projects)) {
                 if ((parsed.schema || 0) > 1) throw new Error("Newer session format – please update the app");
@@ -1396,7 +1648,7 @@
                     calInvalidate();
                 }
             } else if (Array.isArray(parsed)) {
-                list = parsed;                       
+                list = parsed;                       // legacy sessions keep working
             }
             if (!list) throw new Error("Invalid session format");
             return list.map(p => ({
@@ -1406,22 +1658,31 @@
                 isDummy: p.isDummy || false
             }));
         }
+
+        /* ------------------------------------------------------------------
+         * liteAECO Project Timeline (.timeline.json) -> portfolio project.
+         * Self-contained working-day span math: the file carries its own
+         * calendar, so no shared code with the Timeline tool is needed.
+         * ------------------------------------------------------------------ */
         function parseTimelineJSON(data) {
             const tl = data.timeline || {};
             const tTasks = Array.isArray(tl.tasks) ? tl.tasks : [];
             if (tTasks.length === 0) return null;
+
             const startDate = new Date(tl.startDate || Date.now());
             const working = data.durationMode === "working";
             const cal = data.calendar || {};
             const workweek = (Array.isArray(cal.workweek) && cal.workweek.length === 7)
                 ? cal.workweek.map(Boolean) : [false, true, true, true, true, true, false];
             const holidaySet = new Set((cal.holidays || []).map(h => h.date));
+
             const addDaysLocal = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
             const fmt = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
             const isWorking = (off) => {
                 const d = addDaysLocal(startDate, off);
                 return workweek[d.getDay()] && !holidaySet.has(fmt(d));
             };
+            /* calendar span occupied by n working days from `start` (end-exclusive) */
             const calSpanLocal = (start, n) => {
                 if (n <= 0) return 0;
                 let o = start, guard = 0;
@@ -1435,10 +1696,12 @@
                 if (!working || dur === 0) return (t.start || 0) + dur;
                 return (t.start || 0) + calSpanLocal(t.start || 0, dur);
             };
+
             const phaseName = {};
             (tl.phases || []).forEach(ph => phaseName[ph.id] = ph.name);
+
             let minTime = Infinity, maxTime = -Infinity, totalBudget = 0, totalActual = 0, hasActual = false;
-            const phaseAgg = new Map();          
+            const phaseAgg = new Map();          // phaseId -> {name, minTime, maxTime}
             tTasks.forEach(t => {
                 const s = addDaysLocal(startDate, t.start || 0).getTime();
                 const e = addDaysLocal(startDate, taskEndOffset(t)).getTime();
@@ -1454,6 +1717,7 @@
                 agg.maxTime = Math.max(agg.maxTime, Math.max(e, s));
             });
             if (minTime === Infinity) return null;
+
             const meta = data.meta || {};
             return {
                 id: "proj_" + Math.random().toString(36).substr(2, 9),
@@ -1473,10 +1737,12 @@
                 projectType: meta.type || ""
             };
         }
+
         function importData(event) {
             handleFiles(event.target.files);
             event.target.value = '';
         }
+
         function readFileAsync(file, type) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -1486,20 +1752,27 @@
                 else reader.readAsArrayBuffer(file);
             });
         }
+
         async function handleFiles(files) {
             if (!files || files.length === 0) return;
+
             const allowed = ['.xml', '.xlsx', '.xls', '.ods', '.csv', '.json'];
             const validFiles = Array.from(files).filter(f => allowed.some(ext => f.name.toLowerCase().endsWith(ext)));
+
             if (validFiles.length === 0) {
                 updateStorageStatus("No valid files found", true);
                 return;
             }
+
             showLoader(`Processing ${validFiles.length} files...`, 10);
+
             const jsonFiles = validFiles.filter(f => f.name.endsWith('.json'));
             const xmlFiles = validFiles.filter(f => f.name.toLowerCase().endsWith('.xml'));
             const excelFiles = validFiles.filter(f => !f.name.endsWith('.json') && !f.name.toLowerCase().endsWith('.xml'));
+
             let mergedProjects = [...projects];
             let processedCount = 0;
+
             for (const file of jsonFiles) {
                 try {
                     const result = await readFileAsync(file, 'text');
@@ -1512,6 +1785,7 @@
                 updateLoader(`Processed ${processedCount}/${validFiles.length}...`, 10 + (80 * (processedCount / validFiles.length)));
                 await new Promise(r => setTimeout(r, 10));
             }
+
             for (const file of xmlFiles) {
                 try {
                     const text = await readFileAsync(file, 'text');
@@ -1524,6 +1798,7 @@
                 updateLoader(`Processed ${processedCount}/${validFiles.length}...`, 10 + (80 * (processedCount / validFiles.length)));
                 await new Promise(r => setTimeout(r, 10));
             }
+
             for (const file of excelFiles) {
                 try {
                     const buffer = await readFileAsync(file, 'arrayBuffer');
@@ -1531,8 +1806,10 @@
                     const workbook = XLSX.read(data, { type: 'array' });
                     const firstSheetName = workbook.SheetNames[0];
                     const rows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheetName], { header: 1, raw: false, defval: "" });
+
                     const proj = parseProjectExcel(rows, file.name.replace(/\.[^/.]+$/, ""));
                     if (proj) {
+                        // liteAECO exports carry shared project meta in an INFO sheet
                         if (workbook.Sheets["INFO"]) {
                             const infoRows = XLSX.utils.sheet_to_json(workbook.Sheets["INFO"], { header: 1, raw: false, defval: "" });
                             infoRows.forEach(r => {
@@ -1555,16 +1832,27 @@
                 updateLoader(`Processed ${processedCount}/${validFiles.length}...`, 10 + (80 * (processedCount / validFiles.length)));
                 await new Promise(r => setTimeout(r, 10));
             }
+
             updateLoader("Removing duplicates & applying updates...", 95);
             await new Promise(r => setTimeout(r, 10));
+
+            // Newly imported projects overwrite older ones. Projects from liteAECO
+            // tools carry a stable GUID, so an updated re-import REPLACES the old
+            // version even when its dates changed; files without a GUID fall back
+            // to the legacy name+dates key.
             const uniqueMap = new Map();
+
             for (const p of mergedProjects) {
                 const key = p.guid
                     ? `guid_${p.guid}`
                     : `${p.name.trim().toLowerCase()}_${p.startDate.getTime()}_${p.endDate.getTime()}`;
                 uniqueMap.set(key, p);
             }
+
             projects = Array.from(uniqueMap.values());
+
+            // Cross-tool registry (optional script): make imported liteAECO projects
+            // visible to the other tools' "Known projects" pickers.
             if (window.liteAECO && window.liteAECO.projects) {
                 projects.forEach(p => {
                     if (!p.guid) return;
@@ -1578,27 +1866,35 @@
                     }, "project_portfolio").catch(() => { });
                 });
             }
+
             saveState();
+
             setTimeout(() => {
                 updateAndRenderAll();
                 hideLoader();
                 updateStorageStatus(`Loaded ${validFiles.length} files`);
             }, 300);
         }
+
         function parseProjectXML(xmlString, fallbackName) {
             try {
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+
                 if (xmlDoc.getElementsByTagName("parsererror").length > 0) return null;
+
                 const xmlTasks = Array.from(xmlDoc.getElementsByTagName("Task"));
                 if (xmlTasks.length === 0) return null;
+
                 let title = fallbackName;
                 let projectBudget = 0;
                 let projectActualBudget = null;
+
                 const rootTask = xmlTasks.find(t => {
                     const ol = t.getElementsByTagName("OutlineLevel")[0];
                     return ol && ol.textContent === "0";
                 });
+
                 if (rootTask) {
                     const nNode = rootTask.getElementsByTagName("Name")[0];
                     if (nNode) title = nNode.textContent;
@@ -1607,8 +1903,10 @@
                     const acNode = rootTask.getElementsByTagName("ActualCost")[0];
                     if (acNode && acNode.textContent) projectActualBudget = parseFloat(acNode.textContent) || 0;
                 }
+
                 function parseXMLDate(dateStr) {
                     if (!dateStr) return Infinity;
+                    
                     const dateMatch = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
                     if (dateMatch) {
                         return new Date(parseInt(dateMatch[1]), parseInt(dateMatch[2]) - 1, parseInt(dateMatch[3])).getTime();
@@ -1616,22 +1914,30 @@
                     const d = new Date(dateStr);
                     return isNaN(d) ? Infinity : d.getTime();
                 }
+
                 let minTime = Infinity;
                 let maxTime = -Infinity;
                 let phasesData = [];
                 let currentPhaseObj = null;
+
                 xmlTasks.forEach(node => {
                     const outlineLevelNode = node.getElementsByTagName("OutlineLevel")[0];
                     const nameNode = node.getElementsByTagName("Name")[0];
                     const startNode = node.getElementsByTagName("Start")[0];
                     const finishNode = node.getElementsByTagName("Finish")[0];
+
                     if (!nameNode) return;
+
                     const level = outlineLevelNode ? parseInt(outlineLevelNode.textContent) : 1;
                     if (level === 0) return;
+
                     let taskStart = startNode ? parseXMLDate(startNode.textContent) : Infinity;
                     let taskEnd = finishNode ? parseXMLDate(finishNode.textContent) : -Infinity;
+
                     if (level === 1) {
+                        
                         let cleanName = nameNode.textContent.replace(/^[\d\.]+\s/, '').trim();
+
                         currentPhaseObj = {
                             name: cleanName,
                             minTime: taskStart,
@@ -1643,6 +1949,7 @@
                             currentPhaseObj = { name: "General Phase", minTime: Infinity, maxTime: -Infinity };
                             phasesData.push(currentPhaseObj);
                         }
+
                         if (taskStart !== Infinity) {
                             minTime = Math.min(minTime, taskStart);
                             currentPhaseObj.minTime = Math.min(currentPhaseObj.minTime, taskStart);
@@ -1653,11 +1960,14 @@
                         }
                     }
                 });
+
                 phasesData = phasesData.filter(p => p.minTime !== Infinity && p.maxTime !== -Infinity);
                 if (minTime === Infinity) return null;
+
                 if (phasesData.length > 0 && title === fallbackName) {
                     title = phasesData[0].name;
                 }
+
                 return {
                     id: 'proj_' + Math.random().toString(36).substr(2, 9),
                     name: title,
@@ -1670,12 +1980,15 @@
                     lightColor: colorPalette[0].lightColor,
                     isDummy: false
                 };
+
             } catch (e) {
                 return null;
             }
         }
+
         function parseProjectExcel(rows, fallbackName) {
             if (rows.length < 2) return null;
+
             function parseLocalDate(dateVal) {
                 if (!dateVal) return NaN;
                 if (typeof dateVal === 'number') {
@@ -1688,10 +2001,12 @@
                 }
                 return new Date(dStr);
             }
+
             const headerRow = rows[0] || [];
             const headerCol0 = String(headerRow[0]).trim();
             const headerCol3 = String(headerRow[3]).trim();
             const isMSPExcel = headerCol0 === "ID" && (headerCol3 === "Vorgangsname" || headerCol3 === "Task Name");
+
             if (isMSPExcel) {
                 let title = fallbackName;
                 let minTime = Infinity;
@@ -1700,22 +2015,28 @@
                 let phaseIndentLevel = null;
                 let projectTitleSet = false;
                 let currentPhase = null;
+
                 for (let i = 1; i < rows.length; i++) {
                     const r = rows[i];
                     if (!r || !r[0]) continue;
+
                     let startD = parseLocalDate(r[7]);
                     let endD = parseLocalDate(r[8]);
+
                     const rawName = String(r[3] || "Unnamed Task");
                     const leadingSpaces = rawName.match(/^\s*/)[0].length;
                     const taskName = rawName.trim();
+
                     if (phaseIndentLevel === null && leadingSpaces > 0) {
                         phaseIndentLevel = leadingSpaces;
                     }
+
                     if (!projectTitleSet && leadingSpaces === 0) {
                         title = taskName;
                         projectTitleSet = true;
                         continue;
                     }
+
                     if (leadingSpaces === phaseIndentLevel) {
                         currentPhase = { name: taskName, minTime: Infinity, maxTime: -Infinity };
                         phasesData.push(currentPhase);
@@ -1725,22 +2046,28 @@
                             phasesData.push(currentPhase);
                         }
                     }
+
                     if (!isNaN(startD)) {
                         const tStart = startD.getTime();
                         const tEnd = !isNaN(endD) ? endD.getTime() : tStart;
+
                         minTime = Math.min(minTime, tStart);
                         maxTime = Math.max(maxTime, tEnd);
+
                         if (currentPhase) {
                             currentPhase.minTime = Math.min(currentPhase.minTime, tStart);
                             currentPhase.maxTime = Math.max(currentPhase.maxTime, tEnd);
                         }
                     }
                 }
+
                 phasesData = phasesData.filter(p => p.minTime !== Infinity);
                 if (minTime === Infinity) return null;
+
                 if (phasesData.length > 0 && title === fallbackName) {
                     title = phasesData[0].name;
                 }
+
                 return {
                     id: 'proj_' + Math.random().toString(36).substr(2, 9),
                     name: title,
@@ -1754,53 +2081,71 @@
                     isDummy: false
                 };
             }
+
             let title = fallbackName;
             let projectBudget = 0;
             let projectActualBudget = null;
             let dataStartIndex = -1;
+
             for (let i = 0; i < Math.min(20, rows.length); i++) {
                 const row = rows[i];
                 if (!row || row.length === 0) continue;
+
                 const key = String(row[0]).trim();
                 const val = row[1];
+
                 if (key === "Project Title" && val) title = String(val).trim();
+
                 if ((key === "Overall Budget" || key === "Planned Budget") && val !== undefined) {
                     projectBudget = parseFloat(val) || 0;
                 }
+
                 if (key === "Actual Budget" && val !== undefined && val !== "") {
                     projectActualBudget = parseFloat(val) || 0;
                 }
+
                 if (key === "Phase" || (key === "" && String(val).trim() === "Task Name") || (key === "Phase" && String(val).trim() === "Task Name")) {
                     dataStartIndex = i + 1;
                     break;
                 }
             }
+
             if (dataStartIndex === -1) dataStartIndex = 2;
+
             let minTime = Infinity;
             let maxTime = -Infinity;
             let phasesData = [];
             let currentPhase = null;
+
             for (let i = dataStartIndex; i < rows.length; i++) {
                 const r = rows[i];
                 if (!r || r.length === 0) continue;
+
                 const col0 = r[0] !== undefined && r[0] !== null ? String(r[0]).trim() : "";
                 const col1 = r[1] !== undefined && r[1] !== null ? String(r[1]).trim() : "";
+
                 if (col0 === "" && col1 === "") continue;
+
                 const isPhaseRow = col0 !== "" && col1 === "";
                 const isTaskRow = col0 === "" && col1 !== "";
+
                 if (isPhaseRow) {
                     let cleanName = col0.replace(/^[\d\.]+\s/, ''); 
                     currentPhase = { name: cleanName, minTime: Infinity, maxTime: -Infinity };
                     phasesData.push(currentPhase);
                 }
+
                 if (isTaskRow) {
                     let startD = parseLocalDate(r[2]);
                     let endD = parseLocalDate(r[3]);
+
                     if (!isNaN(startD)) {
                         const tStart = startD.getTime();
                         const tEnd = !isNaN(endD) ? endD.getTime() : tStart;
+
                         minTime = Math.min(minTime, tStart);
                         maxTime = Math.max(maxTime, tEnd);
+
                         if (currentPhase) {
                             currentPhase.minTime = Math.min(currentPhase.minTime, tStart);
                             currentPhase.maxTime = Math.max(currentPhase.maxTime, tEnd);
@@ -1811,8 +2156,10 @@
                     }
                 }
             }
+
             phasesData = phasesData.filter(p => p.minTime !== Infinity);
             if (minTime === Infinity) return null;
+
             return {
                 id: 'proj_' + Math.random().toString(36).substr(2, 9),
                 name: title,
@@ -1826,10 +2173,12 @@
                 isDummy: false
             };
         }
+
         function toggleSidebar() {
             isSidebarMinimized = !isSidebarMinimized;
             const sidebar = document.getElementById('sidebar-container');
             const icons = document.querySelectorAll('#sidebar-toggle-icon');
+
             if (isSidebarMinimized) {
                 sidebar.classList.add('sidebar-minimized');
                 icons.forEach(icon => icon.setAttribute('data-lucide', 'chevron-right'));
@@ -1839,6 +2188,7 @@
             }
             lucide.createIcons();
         }
+
         function toggleDashboard() {
             isDashboardMode = !isDashboardMode;
             const ganttView = document.getElementById('gantt-view');
@@ -1846,48 +2196,64 @@
             const toggleBtn = document.getElementById('dashboard-toggle-btn');
             const hideOnDash = document.querySelectorAll('.hide-on-dashboard');
             const dashFiller = document.getElementById('sidebar-dashboard-filler');
+
             if (isDashboardMode) {
                 ganttView.style.display = 'none';
                 dashboardView.classList.remove('hidden');
                 dashboardView.classList.add('flex');
+
                 toggleBtn.classList.replace('bg-slate-900', 'bg-indigo-600');
                 toggleBtn.classList.replace('border-slate-900', 'border-indigo-600');
                 toggleBtn.classList.replace('hover:bg-slate-800', 'hover:bg-indigo-700');
+
                 toggleBtn.innerHTML = '<i data-lucide="chart-gantt" class="w-3.5 h-3.5"></i> <span class="hide-on-min">Schedule</span>';
+
                 hideOnDash.forEach(el => el.style.display = 'none');
                 if (dashFiller) { dashFiller.classList.remove('hidden'); dashFiller.classList.add('block'); }
+
                 renderDashboard();
             } else {
                 dashboardView.classList.add('hidden');
                 dashboardView.classList.remove('flex');
                 ganttView.style.display = 'flex';
+
                 toggleBtn.classList.replace('bg-indigo-600', 'bg-slate-900');
                 toggleBtn.classList.replace('border-indigo-600', 'border-slate-900');
                 toggleBtn.classList.replace('hover:bg-indigo-700', 'hover:bg-slate-800');
+
                 toggleBtn.innerHTML = '<i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i> <span class="hide-on-min">Dashboard</span>';
+
                 hideOnDash.forEach(el => el.style.display = '');
                 if (dashFiller) { dashFiller.classList.add('hidden'); dashFiller.classList.remove('block'); }
             }
             lucide.createIcons();
         }
+
         function renderDashboard() {
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             const todayTime = today.getTime();
             const todayStr = `${String(today.getDate()).padStart(2, '0')}.${String(today.getMonth() + 1).padStart(2, '0')}.${today.getFullYear()}`;
+
             const visibleProjects = getVisibleProjects();
+
             let totalProjects = visibleProjects.length;
             let completedCount = 0;
             let runningCount = 0;
             let upcomingCount = 0;
+
             let totalBudget = 0;
             let spentBudget = 0;
+
             let nextStartingProjectDate = Infinity;
+
             visibleProjects.forEach(p => {
                 let pStart = p.startDate.getTime();
                 let pEnd = p.endDate.getTime();
                 let pDuration = pEnd - pStart;
+
                 totalBudget += (p.budget || 0);
+
                 if (pEnd < todayTime) {
                     completedCount++;
                 } else if (pStart <= todayTime && pEnd >= todayTime) {
@@ -1899,6 +2265,7 @@
                         nextStartingProjectName = p.name;
                     }
                 }
+
                 if (p.actualBudget !== undefined && p.actualBudget !== null) {
                     spentBudget += p.actualBudget;
                 } else {
@@ -1911,6 +2278,7 @@
                     }
                 }
             });
+
             let nextStartStr = "-";
             let nextProjectNameStr = "";
             if (nextStartingProjectDate !== Infinity) {
@@ -1918,6 +2286,7 @@
                 nextStartStr = `${String(nextD.getDate()).padStart(2, '0')}.${String(nextD.getMonth() + 1).padStart(2, '0')}.${nextD.getFullYear()}`;
                 nextProjectNameStr = nextStartingProjectName;
             }
+
             const gridEl = document.getElementById('dash-info-grid');
             gridEl.innerHTML = `
                 <div class="grid grid-cols-2 gap-4">
@@ -1933,6 +2302,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="grid grid-cols-3 gap-4 border-y border-white py-3">
                     <div>
                         <span class="block text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1" data-i18n="statusCompleted">Completed</span>
@@ -1947,6 +2317,7 @@
                         <span class="text-slate-500 font-bold text-lg leading-none">${upcomingCount}</span>
                     </div>
                 </div>
+                
                 <div class="grid grid-cols-2 gap-4 pt-1">
                     <div>
                         <span class="block text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1" data-i18n="totalPortfolioBudget">Total Portfolio Budget</span>
@@ -1958,15 +2329,19 @@
                     </div>
                 </div>
             `;
+
             if (barChartInst) barChartInst.destroy();
             let barLabels = [];
             let barData = [];
             let barBg = [];
+
             const activeOrUpcoming = visibleProjects.filter(p => p.endDate.getTime() >= todayTime);
+
             activeOrUpcoming.forEach(p => {
                 barLabels.push(p.name);
                 let pStart = p.startDate.getTime();
                 let pEnd = p.endDate.getTime();
+
                 let pct = 0;
                 if (pStart > todayTime) {
                     pct = 0;
@@ -1975,11 +2350,14 @@
                     pct = duration === 0 ? 100 : Math.round(((todayTime - pStart) / duration) * 100);
                     pct = Math.min(100, Math.max(0, pct));
                 }
+
                 barData.push(pct);
+
                 if (pct === 100) barBg.push('#22c55e');
                 else if (pct === 0) barBg.push('#cbd5e1');
                 else barBg.push(p.color);
             });
+
             const ctxBar = document.getElementById('dashBarChart').getContext('2d');
             barChartInst = new Chart(ctxBar, {
                 type: 'bar',
@@ -2004,28 +2382,35 @@
                     }
                 }
             });
+
             if (lineChartInst) lineChartInst.destroy();
             let lineLabels = [];
             let cumulativePlannedLine = [];
             let cumulativeSpentLine = [];
+
             let runPlanned = 0;
             let runSpent = 0;
             const todayOffset = getTodayOffset();
+
             for (let i = 0; i <= config.totalDays; i++) {
                 let dayDate = addDays(config.startDate, i);
                 lineLabels.push(`${String(dayDate.getDate()).padStart(2, '0')}.${String(dayDate.getMonth() + 1).padStart(2, '0')}`);
+
                 let dayAdd = 0;
                 visibleProjects.forEach(p => {
                     let dStart = diffDays(config.startDate, p.startDate);
                     let dEnd = diffDays(config.startDate, p.endDate);
                     let dDur = Math.max(1, dEnd - dStart);
+
                     if (i >= dStart && i < dEnd) {
                         let targetBudget = (p.actualBudget !== undefined && p.actualBudget !== null) ? p.actualBudget : (p.budget || 0);
                         dayAdd += targetBudget / dDur;
                     }
                 });
+
                 runPlanned += dayAdd;
                 cumulativePlannedLine.push(runPlanned);
+
                 if (i <= todayOffset) {
                     runSpent += dayAdd;
                     cumulativeSpentLine.push(runSpent);
@@ -2033,20 +2418,24 @@
                     cumulativeSpentLine.push(null);
                 }
             }
+
             document.getElementById('dash-budget-stats').innerHTML = `
                 <div class="flex flex-col">
                     <span class="text-2xl font-bold text-slate-800 leading-none">${formatCurrency(Math.round(spentBudget))}</span>
                     <span class="text-xs text-slate-500 font-medium mt-1 uppercase tracking-wide" data-i18n="estimatedSpend">Estimated spend to date</span>
                 </div>
             `;
+
             document.getElementById('dash-line-legend').innerHTML = `
                 <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full shadow-sm" style="background: #cbd5e1;"></span>Total Budget: <b class="text-slate-800">${formatCurrency(totalBudget)}</b></div>
                 <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full shadow-sm" style="background: #4f46e5;"></span>Spent: <b class="text-slate-800">${formatCurrency(Math.round(spentBudget))}</b></div>
             `;
+
             const ctxLine = document.getElementById('dashLineChart').getContext('2d');
             let actualGradient = ctxLine.createLinearGradient(0, 0, 0, 250);
             actualGradient.addColorStop(0, '#4f46e566');
             actualGradient.addColorStop(1, '#4f46e500');
+
             lineChartInst = new Chart(ctxLine, {
                 type: 'line',
                 data: {
@@ -2086,21 +2475,26 @@
                     }
                 }
             });
+
             if (ringChartInst) ringChartInst.destroy();
             let ringLabels = ['Completed', 'Running', 'Upcoming'];
             let ringData = [completedCount, runningCount, upcomingCount];
             let ringBg = ['#22c55e', '#4f46e5', '#cbd5e1'];
+
             if (totalProjects === 0) {
                 ringLabels = ['No Projects'];
                 ringData = [1];
                 ringBg = ['#f8fafc'];
             }
+
             document.getElementById('dash-tasks-completed-text').innerText = `${completedCount}/${totalProjects}`;
+
             document.getElementById('dash-ring-legend').innerHTML = `
                 <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-green-500"></span>Completed</div>
                 <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-indigo-600"></span>Running</div>
                 <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-slate-300"></span>Upcoming</div>
             `;
+
             const ctxRing = document.getElementById('dashRingChart').getContext('2d');
             ringChartInst = new Chart(ctxRing, {
                 type: 'doughnut',
@@ -2122,6 +2516,7 @@
                 }
             });
         }
+
         function toggleViewMenu() {
             const menu = document.getElementById('sidebar-view-menu');
             const icon = document.getElementById('view-menu-icon');
@@ -2136,24 +2531,31 @@
             }
             lucide.createIcons();
         }
+
         function togglePresentMode() {
             isPresentMode = !isPresentMode;
             const presBtn = document.getElementById('btn-presentation');
+
             if (isPresentMode) {
                 document.body.classList.add('is-presentation');
+
                 isFutureCollapsed = true;
                 isCompletedCollapsed = true;
+
                 presBtn.classList.add('bg-green-50', 'border-green-200', 'text-green-700', 'hover:bg-green-100', 'hover:border-green-200', 'hover:text-green-700');
                 presBtn.classList.remove('bg-indigo-50', 'border-indigo-200', 'text-indigo-700', 'hover:bg-indigo-100', 'hover:border-indigo-200', 'bg-white', 'text-slate-700');
             } else {
                 document.body.classList.remove('is-presentation');
+
                 isFutureCollapsed = false;
                 isCompletedCollapsed = false;
+
                 presBtn.classList.add('bg-indigo-50', 'border-indigo-200', 'text-indigo-700', 'hover:bg-indigo-100', 'hover:border-indigo-200');
                 presBtn.classList.remove('bg-green-50', 'border-green-200', 'text-green-700', 'hover:bg-green-100', 'hover:border-green-200', 'hover:text-green-700');
             }
             updateAndRenderAll();
         }
+
         function toggleTodayView(event) {
             isTodayViewActive = event ? event.target.checked : !isTodayViewActive;
             if (document.getElementById('sidebar-today-toggle')) document.getElementById('sidebar-today-toggle').checked = isTodayViewActive;
@@ -2161,18 +2563,22 @@
             renderSidebar();
             updateHeaderMetrics();
         }
+
         function toggleBudgetDisplay(event) {
             isBudgetVisible = event ? event.target.checked : !isBudgetVisible;
             if (document.getElementById('sidebar-budget-toggle')) document.getElementById('sidebar-budget-toggle').checked = isBudgetVisible;
             updateHeaderMetrics();
             renderSidebar();
         }
+
         function togglePhasesView(event) {
             isPhasesVisible = event ? event.target.checked : !isPhasesVisible;
             if (document.getElementById('sidebar-phases-toggle')) document.getElementById('sidebar-phases-toggle').checked = isPhasesVisible;
             renderBars();
         }
+
         let confirmActionCallback = null;
+
         function openConfirmModal(title, message, callback) {
             document.getElementById("confirm-modal-title").innerText = title;
             document.getElementById("confirm-modal-message").innerText = message;
@@ -2181,17 +2587,20 @@
             document.getElementById("confirm-modal").classList.add("flex");
             lucide.createIcons();
         }
+
         function closeConfirmModal() {
             document.getElementById("confirm-modal").classList.add("hidden");
             document.getElementById("confirm-modal").classList.remove("flex");
             confirmActionCallback = null;
         }
+
         function executeConfirm() {
             if (confirmActionCallback) {
                 confirmActionCallback();
             }
             closeConfirmModal();
         }
+
         function deleteProject(id) {
             openConfirmModal(
                 "Remove Project",
@@ -2203,6 +2612,7 @@
                 }
             );
         }
+
         function clearAllProjects() {
             if (projects.length === 0) return;
             openConfirmModal(
@@ -2215,6 +2625,7 @@
                 }
             );
         }
+
         function zoomTimeline(delta) {
             const minWidth = 5;
             const maxWidth = 80;
@@ -2222,56 +2633,73 @@
             renderTimelineGrid();
             renderBars();
         }
+
         function scrollToToday() {
             const timelineScroll = document.getElementById("timeline-scroll");
             const todayOffset = getTodayOffset();
+
             if (todayOffset < 0 || todayOffset > config.totalDays) {
                 alert("Today's date is currently outside the portfolio timeline bounds.");
                 return;
             }
+
             const requiredVisibleDays = 16;
             const maxAllowedCellWidth = Math.floor(timelineScroll.clientWidth / requiredVisibleDays);
+
             if (config.cellWidth > maxAllowedCellWidth) {
+                
                 config.cellWidth = Math.max(5, maxAllowedCellWidth);
                 renderTimelineGrid();
                 renderBars();
             }
+
             const targetScrollLeft = Math.max(0, (todayOffset - 1) * config.cellWidth);
+
             timelineScroll.scrollTo({
                 left: targetScrollLeft,
                 behavior: 'smooth'
             });
         }
+
         function renderTimelineGrid() {
             const headerEl = document.getElementById('timeline-header-scroll');
             const bgEl = document.getElementById('timeline-grid-bg');
+
             let monthsHtml = '';
             let weeksHtml = '';
             let daysHtml = '';
             let bgHtml = '';
+
             let currentMonth = -1;
             let monthDaysCount = 0;
             let currentWeek = -1;
             let weekDaysCount = 0;
             let currentWeekContainsToday = false;
+
             const todayOffset = getTodayOffset();
+
             for (let i = 0; i <= config.totalDays; i++) {
                 const d = addDays(config.startDate, i);
                 const isWeekend = isNonWorkingDate(d);
                 const holLabel = holidayLabelForDate(d);
                 const isWeekBoundary = d.getDay() === 0;
                 const isToday = (i === todayOffset);
+
                 const tomorrow = new Date(d);
                 tomorrow.setDate(tomorrow.getDate() + 1);
                 const isMonthBoundary = tomorrow.getMonth() !== d.getMonth();
+
                 const dayText = config.cellWidth >= 12 ? d.getDate() : '';
+
                 let dayClass = 'timeline-col-header';
                 if (isToday) {
                     dayClass += ' bg-red-100 text-red-700 font-bold';
                 } else if (isWeekend) {
                     dayClass += ' weekend';
                 }
+
                 daysHtml += `<div class="${dayClass}" style="width: ${config.cellWidth}px">${dayText}</div>`;
+
                 let showBorder = false;
                 if (config.cellWidth < 12) {
                     showBorder = isMonthBoundary;
@@ -2280,7 +2708,9 @@
                 } else {
                     showBorder = !isPresentMode || isWeekBoundary || isMonthBoundary;
                 }
+
                 bgHtml += `<div class="timeline-col ${isWeekend && !isPresentMode ? 'weekend' : ''} ${showBorder ? 'border-r border-gray-200' : 'border-r border-transparent'}" style="width: ${config.cellWidth}px"${holLabel ? ` title="${escapeHTML(holLabel)}"` : ''}></div>`;
+
                 if (d.getMonth() !== currentMonth) {
                     if (currentMonth !== -1) {
                         const monthName = addDays(config.startDate, i - 1).toLocaleString('default', { month: 'short', year: 'numeric' });
@@ -2291,6 +2721,7 @@
                 } else {
                     monthDaysCount++;
                 }
+
                 const wk = getWeekNumber(d);
                 if (wk !== currentWeek) {
                     if (currentWeek !== -1) {
@@ -2306,11 +2737,14 @@
                     if (isToday) currentWeekContainsToday = true;
                 }
             }
+
             const lastMonthName = addDays(config.startDate, config.totalDays).toLocaleString('default', { month: 'short', year: 'numeric' });
             monthsHtml += `<div class="timeline-header-block flex items-center justify-center font-semibold text-xs border-r border-gray-200 text-slate-700 bg-white/50" style="width: ${monthDaysCount * config.cellWidth}px">${escapeHTML(lastMonthName)}</div>`;
+
             const lastWkBgClass = currentWeekContainsToday ? 'bg-red-50 text-red-700 font-semibold' : 'bg-transparent text-slate-600';
             const finalWeekBorder = config.cellWidth < 12 ? "border-r border-transparent" : "border-r border-gray-200";
             weeksHtml += `<div class="timeline-header-block flex items-center justify-center ${isPresentMode ? 'text-xs font-medium' : 'text-[10px]'} ${finalWeekBorder} ${lastWkBgClass}" style="width: ${weekDaysCount * config.cellWidth}px">W ${currentWeek}</div>`;
+
             if (isPresentMode) {
                 headerEl.innerHTML = `
                     <div class="flex border-b border-gray-200 h-[30px] min-w-max">${monthsHtml}</div>
@@ -2323,12 +2757,15 @@
                     <div class="flex h-[20px] min-w-max bg-white/40">${daysHtml}</div>
                 `;
             }
+
             bgEl.innerHTML = bgHtml;
             bgEl.style.width = `${(config.totalDays + 1) * config.cellWidth}px`;
         }
+
         function renderSidebar() {
             const listEl = document.getElementById('project-list');
             let html = '';
+
             if (currentDisplayRows.length === 0) {
                 if (projects.length === 0) {
                     html = `<div class="p-6 text-center text-slate-500 text-sm italic hide-on-min">No projects loaded. <br/>Load Data files below.</div>`;
@@ -2336,6 +2773,7 @@
                     html = `<div class="p-6 text-center text-slate-500 text-sm italic hide-on-min">No projects match your search.</div>`;
                 }
             }
+
             currentDisplayRows.forEach((row, rowIdx) => {
                 if (row.type === 'header') {
                     html += `
@@ -2349,8 +2787,10 @@
                     const proj = row.data;
                     const durationDays = diffDays(proj.startDate, proj.endDate);
                     const durationDisplay = isPresentMode ? Math.ceil(durationDays / 7) + ' wks' : durationDays + ' d';
+
                     let textColor = '#0f172a';
                     let nameClass = 'font-semibold';
+
                     if (isTodayViewActive) {
                         const today = new Date().getTime();
                         if (proj.endDate.getTime() < today) {
@@ -2360,11 +2800,13 @@
                             textColor = '#16a34a';
                         }
                     }
+
                     let editBtnHtml = proj.isDummy ? `
                         <button onclick="openDummyModal('${proj.id}')" class="p-1 -ml-1 opacity-0 group-hover:opacity-100 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-opacity flex-shrink-0 hide-on-min ${isPresentMode ? 'hidden' : ''}" title="Edit Project">
                             <i data-lucide="edit-2" class="w-3.5 h-3.5"></i>
                         </button>
                     ` : '';
+
                     html += `
                         <div class="gantt-row px-4 justify-center-on-min bg-transparent group relative">
                             <div class="flex-1 text-sm flex items-center justify-center-on-min overflow-hidden gap-2" style="color: ${textColor}">
@@ -2372,9 +2814,11 @@
                                     <i data-lucide="x" class="w-3.5 h-3.5"></i>
                                 </button>
                                 ${editBtnHtml}
+                                
                                 <div class="w-2.5 h-2.5 rounded flex-shrink-0 border border-white/50" style="background-color: ${proj.color}"></div>
                                 <span class="${nameClass} truncate hide-on-min" title="${escapeHTML(proj.name)}">${escapeHTML(proj.name)}</span>
                             </div>
+                            
                             <div class="flex flex-col items-end flex-shrink-0 ml-2 w-20 pointer-events-none hide-on-min">
                                 ${isBudgetVisible ? `<span class="text-xs font-semibold text-slate-700">${formatCurrency(proj.budget)}</span>` : ''}
                                 <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">${durationDisplay}</span>
@@ -2383,24 +2827,32 @@
                     `;
                 }
             });
+
             listEl.innerHTML = html;
             lucide.createIcons();
         }
+
         function renderBars() {
             const container = document.getElementById('gantt-bars');
             let html = '';
+
             const todayOffset = getTodayOffset();
+
             currentDisplayRows.forEach((row, rowIdx) => {
                 const top = rowIdx * config.rowHeight;
+
                 if (row.type === 'header') {
                     if (row.isCollapsed && row.items.length > 0) {
                         const minTime = Math.min(...row.items.map(p => p.startDate.getTime()));
                         const maxTime = Math.max(...row.items.map(p => p.endDate.getTime()));
+
                         const startOffset = diffDays(config.startDate, new Date(minTime));
                         const duration = diffDays(new Date(minTime), new Date(maxTime));
                         const left = startOffset * config.cellWidth;
                         const width = Math.max(config.cellWidth, duration * config.cellWidth);
+
                         let bg, border, textCol;
+
                         if (row.id === 'group-future') {
                             bg = 'transparent';
                             border = '1px dashed #94a3b8';
@@ -2410,6 +2862,7 @@
                             border = '1px solid rgba(203, 213, 225, 0.5)';
                             textCol = '#475569';
                         }
+
                         html += `
                             <div class="task-bar pointer-events-none" 
                                 style="left: ${left}px; width: ${width}px; top: ${top}px; background-color: ${bg}; color: ${textCol}; border: ${border}; z-index: 1;">
@@ -2424,17 +2877,21 @@
                     const projectEndOffset = projectStartOffset + projectDuration;
                     const projectLeft = projectStartOffset * config.cellWidth;
                     const projectWidth = Math.max(config.cellWidth * 0.5, projectDuration * config.cellWidth);
+
                     let borderStyle = proj.isDummy ? 'dashed' : 'solid';
                     let borderWidth = proj.isDummy ? '2px' : '1px';
                     let dragClass = proj.isDummy ? 'draggable-dummy' : '';
+
                     let resizeHandles = proj.isDummy && !isPresentMode ? `
                         <div class="resize-handle left" data-action="resize-start"></div>
                         <div class="resize-handle right" data-action="resize-end"></div>
                     ` : '';
+
                     if (!isPhasesVisible) {
                         let bg = proj.color;
                         let textCol = '#ffffff';
                         let border = proj.color;
+
                         if (isTodayViewActive) {
                             if (projectEndOffset <= todayOffset) {
                                 bg = 'rgba(241, 245, 249, 0.8)'; border = '#cbd5e1'; textCol = '#64748b';
@@ -2442,12 +2899,15 @@
                                 bg = '#dcfce7'; border = '#22c55e'; textCol = '#16a34a';
                             }
                         }
+
                         let colorMixVal = getDistanceColorMix(projectStartOffset, projectEndOffset, todayOffset);
                         let finalBg = `color-mix(in srgb, ${bg} ${colorMixVal}%, rgba(255,255,255,0.4))`;
                         let finalBorder = `color-mix(in srgb, ${border} ${Math.max(40, colorMixVal)}%, rgba(255,255,255,0.4))`;
+
                         if (colorMixVal < 50 && textCol === '#ffffff') {
                             textCol = proj.color;
                         }
+
                         html += `
                             <div class="task-bar ${dragClass}" 
                                 data-id="${proj.id}"
@@ -2459,6 +2919,7 @@
                                 ${escapeHTML(proj.name)}
                             </div>
                         `;
+
                     } else {
                         html += `
                             <div class="task-bar ${dragClass}" 
@@ -2469,15 +2930,18 @@
                                 ${resizeHandles}
                             </div>
                         `;
+
                         proj.phasesData.forEach((phase) => {
                             const phaseStartOffset = diffDays(config.startDate, new Date(phase.minTime));
                             const phaseDuration = diffDays(new Date(phase.minTime), new Date(phase.maxTime));
                             const phaseEndOffset = phaseStartOffset + phaseDuration;
                             const phaseLeft = phaseStartOffset * config.cellWidth;
                             const phaseWidth = Math.max(config.cellWidth * 0.5, phaseDuration * config.cellWidth);
+
                             let bg = proj.color;
                             let textCol = '#ffffff';
                             let border = 'rgba(255, 255, 255, 0.4)';
+
                             if (isTodayViewActive) {
                                 if (phaseEndOffset <= todayOffset) {
                                     bg = 'rgba(241, 245, 249, 0.8)'; border = '#cbd5e1'; textCol = '#64748b';
@@ -2485,11 +2949,14 @@
                                     bg = '#dcfce7'; border = '#22c55e'; textCol = '#16a34a';
                                 }
                             }
+
                             let phaseColorMixVal = getDistanceColorMix(phaseStartOffset, phaseEndOffset, todayOffset);
                             let finalBg = `color-mix(in srgb, ${bg} ${phaseColorMixVal}%, rgba(255,255,255,0.4))`;
+
                             if (phaseColorMixVal < 50 && textCol === '#ffffff') {
                                 textCol = proj.color;
                             }
+
                             html += `
                                 <div class="task-bar shadow-sm ${dragClass}" 
                                     data-id="${proj.id}"
@@ -2505,6 +2972,7 @@
                     }
                 }
             });
+
             if (isTodayViewActive && todayOffset >= 0 && todayOffset <= config.totalDays) {
                 const leftPos = todayOffset * config.cellWidth;
                 html += `
@@ -2513,10 +2981,12 @@
                     </div>
                 `;
             }
+
             container.innerHTML = html;
             container.style.height = `${currentDisplayRows.length * config.rowHeight}px`;
             lucide.createIcons();
         }
+
         let isDragging = false;
         let dragStartX = 0;
         let draggingElement = null;
@@ -2525,32 +2995,40 @@
         let initialWidth = 0;
         let dragAction = 'move';
         let dragEventsInitialized = false;
+
         function setupDragEvents() {
             if (dragEventsInitialized) return;
             dragEventsInitialized = true;
+
             const container = document.getElementById('gantt-bars');
+
             function startDrag(e) {
                 const target = e.target.closest('.draggable-dummy');
                 if (!target) return;
+
                 if (e.target.classList.contains('resize-handle')) {
                     dragAction = e.target.dataset.action;
                 } else {
                     dragAction = 'move';
                 }
+
                 isDragging = true;
                 dragStartX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
                 draggingElement = target;
                 draggingProjId = target.dataset.id;
                 initialLeftPos = parseFloat(target.style.left);
                 initialWidth = parseFloat(target.style.width);
+
                 target.style.transition = 'none';
                 target.style.zIndex = '50';
                 e.stopPropagation();
             }
+
             function doDrag(e) {
                 if (!isDragging || !draggingElement) return;
                 const currentX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
                 const deltaX = currentX - dragStartX;
+
                 if (dragAction === 'move') {
                     draggingElement.style.left = `${initialLeftPos + deltaX}px`;
                 } else if (dragAction === 'resize-end') {
@@ -2559,25 +3037,32 @@
                 } else if (dragAction === 'resize-start') {
                     let newWidth = initialWidth - deltaX;
                     let newLeft = initialLeftPos + deltaX;
+
                     if (newWidth < config.cellWidth) {
                         newWidth = config.cellWidth;
                         newLeft = initialLeftPos + initialWidth - config.cellWidth;
                     }
+
                     draggingElement.style.width = `${newWidth}px`;
                     draggingElement.style.left = `${newLeft}px`;
                 }
             }
+
             function endDrag(e) {
                 if (!isDragging) return;
+
                 const currentX = e.type.includes('touch') ? (e.changedTouches[0] ? e.changedTouches[0].clientX : dragStartX) : e.clientX;
                 const deltaX = currentX - dragStartX;
                 const daysShifted = Math.round(deltaX / config.cellWidth);
+
                 let needsRender = false;
+
                 if (dragAction === 'move' && daysShifted !== 0) {
                     const proj = projects.find(p => p.id === draggingProjId);
                     if (proj && proj.isDummy) {
                         proj.startDate = addDays(proj.startDate, daysShifted);
                         proj.endDate = addDays(proj.endDate, daysShifted);
+
                         if (proj.phasesData) {
                             proj.phasesData.forEach(phase => {
                                 phase.minTime = addDays(new Date(phase.minTime), daysShifted).getTime();
@@ -2605,6 +3090,7 @@
                         let oldDuration = diffDays(proj.startDate, proj.endDate);
                         let maxShift = oldDuration - 1;
                         let actualShift = Math.min(daysShifted, maxShift);
+
                         if (actualShift !== 0) {
                             proj.startDate = addDays(proj.startDate, actualShift);
                             if (proj.phasesData && proj.phasesData.length > 0) {
@@ -2614,6 +3100,7 @@
                         }
                     }
                 }
+
                 isDragging = false;
                 if (draggingElement) {
                     draggingElement.style.transition = '';
@@ -2626,18 +3113,22 @@
                 draggingElement = null;
                 draggingProjId = null;
                 dragAction = 'move';
+
                 if (needsRender) {
                     saveState();
                     updateAndRenderAll();
                 }
             }
+
             container.addEventListener('mousedown', startDrag);
             container.addEventListener('touchstart', startDrag, { passive: true });
+
             document.addEventListener('mousemove', doDrag);
             document.addEventListener('mouseup', endDrag);
             document.addEventListener('touchmove', doDrag, { passive: true });
             document.addEventListener('touchend', endDrag);
         }
+
         function syncScroll(source, targetId1, targetId2) {
             const target1 = document.getElementById(targetId1);
             if (target1) {
@@ -2654,16 +3145,19 @@
                 }
             }
         }
+
         function setupFileDrop() {
             const dropZone = document.getElementById('sidebar-container');
             const dropOverlay = document.getElementById('drop-overlay');
             let dragCounter = 0;
+
             dropZone.addEventListener('dragenter', (e) => {
                 e.preventDefault();
                 dragCounter++;
                 dropOverlay.classList.remove('hidden');
                 dropOverlay.classList.add('flex');
             });
+
             dropZone.addEventListener('dragleave', (e) => {
                 e.preventDefault();
                 dragCounter--;
@@ -2672,39 +3166,47 @@
                     dropOverlay.classList.remove('flex');
                 }
             });
+
             dropZone.addEventListener('dragover', (e) => {
                 e.preventDefault();
             });
+
             dropZone.addEventListener('drop', (e) => {
                 e.preventDefault();
                 dragCounter = 0;
                 dropOverlay.classList.add('hidden');
                 dropOverlay.classList.remove('flex');
+
                 if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
                     handleFiles(e.dataTransfer.files);
                 }
             });
         }
+
         function hexToLight(hex, opacity) {
             hex = hex.replace('#', '');
             let r = parseInt(hex.length === 3 ? hex.slice(0, 1).repeat(2) : hex.slice(0, 2), 16);
             let g = parseInt(hex.length === 3 ? hex.slice(1, 2).repeat(2) : hex.slice(2, 4), 16);
             let b = parseInt(hex.length === 3 ? hex.slice(2, 3).repeat(2) : hex.slice(4, 6), 16);
+
             let r2 = Math.round(255 + (r - 255) * opacity);
             let g2 = Math.round(255 + (g - 255) * opacity);
             let b2 = Math.round(255 + (b - 255) * opacity);
             return `#${r2.toString(16).padStart(2, '0')}${g2.toString(16).padStart(2, '0')}${b2.toString(16).padStart(2, '0')}`;
         }
+
         function updatePresetSelectionFromCurrent() {
             const c0 = document.getElementById('adv-color-0').value.toLowerCase(), c1 = document.getElementById('adv-color-1').value.toLowerCase(), c2 = document.getElementById('adv-color-2').value.toLowerCase(), c3 = document.getElementById('adv-color-3').value.toLowerCase();
             const presets = [['#4f46e5', '#0ea5e9', '#8b5cf6', '#f43f5e'], ['#0460a9', '#a13323', '#ec7f22', '#ffd430'], ['#0b41cd', '#1482fa', '#ed4a0d', '#f68a08'], ['#2f32f3', '#f5006a', '#fb590e', '#feaf0c'], ['#5200ff', '#9766ff', '#ff5200', '#9be500'], ['#053363', '#175b91', '#40b0bf', '#fcb735']];
             let foundIndex = -1;
             presets.forEach((p, index) => { if (p[0] === c0 && p[1] === c1 && p[2] === c2 && p[3] === c3) foundIndex = index; });
+
             document.querySelectorAll('.preset-btn').forEach((btn, i) => {
                 if (i === foundIndex) { btn.classList.add('ring-2', 'ring-indigo-600', 'ring-offset-1'); btn.classList.remove('border-transparent'); }
                 else { btn.classList.remove('ring-2', 'ring-indigo-600', 'ring-offset-1'); btn.classList.add('border-transparent'); }
             });
         }
+
         function openAdvancedOptions() {
             document.getElementById('adv-color-0').value = colorPalette[0].color;
             document.getElementById('adv-color-1').value = colorPalette[1].color;
@@ -2714,10 +3216,12 @@
             document.getElementById('advanced-options-modal').classList.remove('hidden');
             document.getElementById('advanced-options-modal').classList.add('flex');
         }
+
         function closeAdvancedOptions() {
             document.getElementById('advanced-options-modal').classList.add('hidden');
             document.getElementById('advanced-options-modal').classList.remove('flex');
         }
+
         function applyPresetPalette(colors, index) {
             document.getElementById('adv-color-0').value = colors[0];
             document.getElementById('adv-color-1').value = colors[1];
@@ -2725,27 +3229,36 @@
             document.getElementById('adv-color-3').value = colors[3];
             updatePresetSelectionFromCurrent();
         }
+
         function clearPresetSelection() {
             document.querySelectorAll('.preset-btn').forEach((btn) => {
                 btn.classList.remove('ring-2', 'ring-indigo-600', 'ring-offset-1');
                 btn.classList.add('border-transparent');
             });
         }
+
         function saveAdvancedOptions() {
             const colorWeight = 0.12;
+
             colorPalette[0].color = document.getElementById('adv-color-0').value;
             colorPalette[0].lightColor = hexToLight(colorPalette[0].color, colorWeight);
+
             colorPalette[1].color = document.getElementById('adv-color-1').value;
             colorPalette[1].lightColor = hexToLight(colorPalette[1].color, colorWeight);
+
             colorPalette[2].color = document.getElementById('adv-color-2').value;
             colorPalette[2].lightColor = hexToLight(colorPalette[2].color, colorWeight);
+
             colorPalette[3].color = document.getElementById('adv-color-3').value;
             colorPalette[3].lightColor = hexToLight(colorPalette[3].color, colorWeight);
+
             updateAndRenderAll();
             closeAdvancedOptions();
         }
+
         document.addEventListener("keydown", (e) => {
             if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+
             if (e.ctrlKey || e.metaKey) {
                 if (e.key.toLowerCase() === "z") {
                     if (e.shiftKey) {
@@ -2759,11 +3272,13 @@
                     e.preventDefault();
                 }
             }
+
             if (e.key === "Escape") {
                 const confirmModal = document.getElementById("confirm-modal");
                 const dummyModal = document.getElementById("dummy-modal");
                 const advOptionsModal = document.getElementById("advanced-options-modal");
                 const unsavedModal = document.getElementById("unsaved-modal");
+
                 if (confirmModal && !confirmModal.classList.contains("hidden")) {
                     closeConfirmModal();
                 } else if (dummyModal && !dummyModal.classList.contains("hidden")) {
@@ -2775,6 +3290,7 @@
                 }
             }
         });
+
         function tt(key, fallback) {
             if (typeof i18n === "function") {
                 const v = i18n(key);
@@ -2783,6 +3299,7 @@
             if (window.PAGE_I18N && window.PAGE_I18N[key]) return window.PAGE_I18N[key];
             return fallback;
         }
+
         let displayCalendar = {
             workweek: [false, true, true, true, true, true, false],   
             holidays: []                                              
@@ -2804,10 +3321,12 @@
             const hit = displayCalendar.holidays.find(h => h.date === fmtDateKey(d));
             return hit ? (hit.label || "") : "";
         }
+
         const WEEKDAY_SHORT = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
         const WEEKDAY_ORDER = [1, 2, 3, 4, 5, 6, 0];    
         const COUNTRY_TABLE = "Albania:AL;Andorra:AD;Argentina:AR;Armenia:AM;Australia:AU;Austria:AT;Belarus:BY;Belgium:BE;Bolivia:BO;Bosnia and Herzegovina:BA;Botswana:BW;Brazil:BR;Bulgaria:BG;Canada:CA;Chile:CL;China:CN;Colombia:CO;Costa Rica:CR;Croatia:HR;Cuba:CU;Cyprus:CY;Czechia:CZ;Denmark:DK;Dominican Republic:DO;Ecuador:EC;Egypt:EG;Estonia:EE;Faroe Islands:FO;Finland:FI;France:FR;Georgia:GE;Germany:DE;Gibraltar:GI;Greece:GR;Greenland:GL;Grenada:GD;Guatemala:GT;Guernsey:GG;Guyana:GY;Haiti:HT;Honduras:HN;Hong Kong:HK;Hungary:HU;Iceland:IS;India:IN;Indonesia:ID;Ireland:IE;Isle of Man:IM;Israel:IL;Italy:IT;Jamaica:JM;Japan:JP;Jersey:JE;Kazakhstan:KZ;Kenya:KE;Latvia:LV;Lesotho:LS;Liechtenstein:LI;Lithuania:LT;Luxembourg:LU;Madagascar:MG;Malawi:MW;Malaysia:MY;Malta:MT;Mexico:MX;Moldova:MD;Monaco:MC;Mongolia:MN;Montenegro:ME;Morocco:MA;Mozambique:MZ;Namibia:NA;Netherlands:NL;New Zealand:NZ;Nicaragua:NI;Niger:NE;Nigeria:NG;North Macedonia:MK;Norway:NO;Panama:PA;Papua New Guinea:PG;Paraguay:PY;Peru:PE;Philippines:PH;Poland:PL;Portugal:PT;Puerto Rico:PR;Romania:RO;Russia:RU;San Marino:SM;Serbia:RS;Singapore:SG;Slovakia:SK;Slovenia:SI;South Africa:ZA;South Korea:KR;Spain:ES;Suriname:SR;Sweden:SE;Switzerland:CH;Tunisia:TN;Turkey:TR;Ukraine:UA;United Kingdom:GB;United States:US;Uruguay:UY;Vatican City:VA;Venezuela:VE;Vietnam:VN;Zimbabwe:ZW"
             .split(";").map(e => { const ix = e.lastIndexOf(":"); return { name: e.slice(0, ix), code: e.slice(ix + 1) }; });
+
         function populateCountryDatalist() {
             const dl = document.getElementById("pf-country-list");
             if (!dl || dl.children.length > 0) return;
@@ -2827,13 +3346,14 @@
         async function fetchCountryHolidays(countryCode, year) {
             const key = `liteaeco_holidays_${countryCode}_${year}`;
             try { const cached = localStorage.getItem(key); if (cached) return JSON.parse(cached); } catch (e) { }
-            const resp = await fetch(`https:
+            const resp = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/${countryCode}`);
             if (!resp.ok) throw new Error("holiday service: " + resp.status);
             const list = (await resp.json()).filter(h => h.global !== false)
                 .map(h => ({ date: h.date, label: h.localName || h.name }));
             try { localStorage.setItem(key, JSON.stringify(list)); } catch (e) { }
             return list;
         }
+
         function openPfSettingsModal() {
             renderCalendarPanel();
             const m = document.getElementById("pf-settings-modal");
@@ -2844,6 +3364,7 @@
             const m = document.getElementById("pf-settings-modal");
             m.classList.add("hidden"); m.classList.remove("flex");
         }
+
         function renderCalendarPanel() {
             const ww = document.getElementById("pf-workweek");
             if (!ww) return;
@@ -2907,6 +3428,7 @@
             }
             btn.textContent = tt("search", "Search"); btn.disabled = false;
         }
+
         function buildSessionPayload() {
             const serialized = projects.map(p => {
                 const { color, lightColor, ...rest } = p;
@@ -2930,6 +3452,7 @@
             updateAndRenderAll();
             return true;
         }
+
         const Autosave = liteAECO.createAutosave({
             toolId: "portfolio",
             fileSuffix: ".portfolio.json",
@@ -2942,12 +3465,14 @@
             toast: (m, isErr) => updateStorageStatus(m, !!isErr),
             hasUnsaved: () => historyIndex !== lastSavedHistoryIndex
         });
+
         async function pfAutosaveToggle() {
             const pill = document.getElementById('pf-save-menu-disconnect');
             const on = pill && !pill.classList.contains('hidden');
             if (on) await Autosave.disconnect();
             else await Autosave.connectFile();
         }
+
         const PF_SHARE_PREFIX = "s2=";
         function pfPackSession() {
             const payload = buildSessionPayload();
@@ -3020,7 +3545,9 @@
             window._pfPendingShared = null;
             history.replaceState(null, "", location.pathname + location.search);
         }
+
         const PF_PRINT_PAGE_PX = 1512;   
+
         function openPfPrintModal() {
             const m = document.getElementById("pf-print-modal");
             m.classList.remove("hidden"); m.classList.add("flex");
@@ -3030,15 +3557,19 @@
             const m = document.getElementById("pf-print-modal");
             m.classList.add("hidden"); m.classList.remove("flex");
         }
+
         function buildPfPrintSheet(mode) {
             const old = document.getElementById("pf-print-sheet");
             if (old) old.remove();
+
             const sidebar = document.getElementById("sidebar-scroll");
             const headerScroll = document.getElementById("timeline-header-scroll");
             const timelineScroll = document.getElementById("timeline-scroll");
             if (!sidebar || !timelineScroll) return;
+
             const sheet = document.createElement("div");
             sheet.id = "pf-print-sheet";
+
             const dates = projects.length
                 ? `${new Date(Math.min(...projects.map(p => p.startDate.getTime()))).toLocaleDateString()} – ${new Date(Math.max(...projects.map(p => p.endDate.getTime()))).toLocaleDateString()}`
                 : "";
@@ -3048,13 +3579,16 @@
                 <div class="pf-print-banner-title">${escapeHTML(tt("projectPortfolio", "Project Portfolio"))}</div>
                 <div class="pf-print-banner-meta">${projects.length} ${tt("projectsWord", "projects")}${dates ? " · " + dates : ""} · ${tt("printedOn", "Printed")} ${new Date().toLocaleDateString()}</div>`;
             sheet.appendChild(banner);
+
             const main = document.createElement("div");
             main.className = "pf-print-main";
+
             const sidebarW = sidebar.offsetWidth;
             const fullW = timelineScroll.scrollWidth;
             const viewW = timelineScroll.clientWidth;
             const shiftSrc = mode === "view" ? -timelineScroll.scrollLeft : 0;
             const cropW = mode === "view" ? viewW : fullW;
+
             const sideClone = sidebar.cloneNode(true);
             sideClone.removeAttribute("id");
             sideClone.style.overflow = "visible";
@@ -3062,6 +3596,7 @@
             sideClone.style.width = sidebarW + "px";
             sideClone.style.flexShrink = "0";
             main.appendChild(sideClone);
+
             const col = document.createElement("div");
             col.style.width = cropW + "px";
             const mkCrop = (srcEl, height) => {
@@ -3088,20 +3623,25 @@
             col.appendChild(mkCrop(timelineScroll, 0));
             main.appendChild(col);
             sheet.appendChild(main);
+
             const totalW = sidebarW + cropW;
             const zoom = Math.min(1, PF_PRINT_PAGE_PX / totalW);
             sheet.style.zoom = zoom;
+
             document.body.appendChild(sheet);
         }
+
         function pfPrint(mode) {
             closePfPrintModal();
             buildPfPrintSheet(mode);
             setTimeout(() => { window.print(); }, 60);
         }
+
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('sidebar-budget-toggle').checked = isBudgetVisible;
             document.getElementById('sidebar-phases-toggle').checked = isPhasesVisible;
             document.getElementById('sidebar-today-toggle').checked = isTodayViewActive;
+
             setupFileDrop();
             setupDragEvents();
             pfCheckSharedInURL();
@@ -3119,12 +3659,15 @@
                 const sh = document.getElementById("pf-print-sheet");
                 if (sh) sh.remove();
             });
+
             if (projects.length === 0) {
                 const startD = new Date();
                 startD.setHours(0, 0, 0, 0);
                 startD.setDate(startD.getDate() - 3); 
+
                 const endD = new Date(startD);
                 endD.setDate(endD.getDate() + 20); 
+
                 projects.push({
                     id: 'proj_default_' + Math.random().toString(36).substr(2, 9),
                     name: 'Demo Project',
@@ -3143,22 +3686,30 @@
                     ]
                 });
             }
+
             saveState();
             hasUnsavedChanges = false;
+
             updateAndRenderAll();
+
             const langToggle = document.getElementById('langToggle');
             if (langToggle) {
+                
                 langToggle.value = localStorage.getItem('liteAECOLang') || 'en';
+
                 langToggle.addEventListener('change', (e) => {
                     const selectedLang = e.target.value;
                     localStorage.setItem('liteAECOLang', selectedLang);
+                    
                     if (typeof window.loadLanguage === 'function') {
                         window.loadLanguage(selectedLang, 'project_portfolio');
                     }
                 });
             }
         });
+
     </script>
+
     <div id="pf-settings-modal" class="fixed inset-0 modal-overlay hidden z-[70] items-center justify-center">
         <div class="bg-white/95 backdrop-blur-xl border border-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] w-[440px] max-w-[95vw] max-h-[85vh] flex flex-col overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
@@ -3195,6 +3746,7 @@
             </div>
         </div>
     </div>
+
     <div id="pf-share-modal" class="fixed inset-0 modal-overlay hidden z-[70] items-center justify-center">
         <div class="bg-white/95 backdrop-blur-xl border border-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] w-[520px] max-w-[95vw] overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
@@ -3213,6 +3765,7 @@
             </div>
         </div>
     </div>
+
     <div id="pf-share-load-modal" class="fixed inset-0 modal-overlay hidden z-[70] items-center justify-center">
         <div class="bg-white/95 backdrop-blur-xl border border-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] w-[400px] overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
@@ -3228,6 +3781,7 @@
             </div>
         </div>
     </div>
+
     <div id="pf-print-modal" class="fixed inset-0 modal-overlay hidden z-[70] items-center justify-center">
         <div class="bg-white/95 backdrop-blur-xl border border-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] w-[380px] overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
@@ -3249,4 +3803,5 @@
         </div>
     </div>
 </body>
+
 </html>
