@@ -1,0 +1,501 @@
+{
+  "app": "liteAECO-timeline",
+  "kind": "template",
+  "schema": 2,
+  "template": {
+    "id": "office-move",
+    "version": "1.0.0",
+    "locale": "en",
+    "country": "",
+    "name": "Office Move & Relocation",
+    "category": "generic",
+    "description": "Small office layout change and relocation. Planning, approval, fit-out, move.",
+    "author": "liteAECO",
+    "license": "CC-BY-4.0",
+    "source": "https://github.com/liteaeco/liteaeco",
+    "minAppSchema": 2
+  },
+  "durationMode": "working",
+  "calendar": {
+    "workweek": [
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false
+    ],
+    "holidays": []
+  },
+  "meta": {
+    "title": "OFFICE MOVE",
+    "number": "",
+    "client": "",
+    "address": "",
+    "type": ""
+  },
+  "timeline": {
+    "cellWidth": 30,
+    "overallBudget": 0,
+    "currentCurrency": "CHF",
+    "showBudgetInHeader": false,
+    "showCompletionInHeader": false,
+    "showEndDateInHeader": false,
+    "isPresentationMode": false,
+    "isTodayViewActive": false,
+    "isCriticalPathActive": false,
+    "showTaskContact": false,
+    "showTaskBudget": false,
+    "showTaskTags": false,
+    "showColContact": false,
+    "showColResources": false,
+    "showColDepends": false,
+    "showColBudget": false,
+    "colorPalette": [
+      {
+        "color": "#4f46e5"
+      },
+      {
+        "color": "#0ea5e9"
+      },
+      {
+        "color": "#8b5cf6"
+      },
+      {
+        "color": "#f43f5e"
+      }
+    ],
+    "taskLabelMap": {
+      "A": "#EA027E",
+      "B": "#13EB3B",
+      "C": "#C0FC04",
+      "D": "#5CDEFF",
+      "E": "#9002BD",
+      "F": "#B40542",
+      "G": "#FFEE00",
+      "H": "#FF5500",
+      "I": "#FD0D25",
+      "J": "#3601FB"
+    },
+    "globalContacts": [
+      "ET",
+      "LT",
+      "PF"
+    ],
+    "globalTags": [
+      "APP",
+      "CAD",
+      "CON",
+      "FIN",
+      "FUR",
+      "IT",
+      "MOV",
+      "PLN",
+      "REQ"
+    ],
+    "phases": [
+      {
+        "id": "p1",
+        "parentId": null,
+        "name": "Planning Phase",
+        "color": "#4f46e5",
+        "lightColor": "#e0e7ff",
+        "collapsed": false,
+        "wbs": "1"
+      },
+      {
+        "id": "p2",
+        "parentId": null,
+        "name": "Approval",
+        "color": "#0ea5e9",
+        "lightColor": "#e0f2fe",
+        "collapsed": false,
+        "wbs": "2"
+      },
+      {
+        "id": "p3",
+        "parentId": null,
+        "name": "Implementation",
+        "color": "#8b5cf6",
+        "lightColor": "#ede9fe",
+        "collapsed": false,
+        "wbs": "3"
+      },
+      {
+        "id": "p4",
+        "parentId": null,
+        "name": "Relocation",
+        "color": "#f43f5e",
+        "lightColor": "#ffe4e6",
+        "collapsed": false,
+        "wbs": "4"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "t1",
+        "phaseId": "p1",
+        "name": "Space Needs Assessment",
+        "type": "task",
+        "start": 4,
+        "duration": 4,
+        "dependsOn": [],
+        "contact": "LT",
+        "budget": 2500,
+        "resources": "",
+        "assignments": "",
+        "actualStart": null,
+        "actualDuration": null,
+        "actualBudget": null,
+        "locked": false,
+        "tags": [
+          "REQ",
+          "PLN"
+        ],
+        "wbs": "1.1"
+      },
+      {
+        "id": "t2",
+        "phaseId": "p1",
+        "name": "Layout Drafting & Review",
+        "type": "task",
+        "start": 10,
+        "duration": 6,
+        "dependsOn": [
+          {
+            "id": "t1",
+            "type": "FS",
+            "lag": 0
+          }
+        ],
+        "contact": "PF",
+        "budget": 3000,
+        "resources": "",
+        "assignments": "",
+        "actualStart": null,
+        "actualDuration": null,
+        "actualBudget": null,
+        "locked": false,
+        "tags": [
+          "CAD"
+        ],
+        "wbs": "1.2"
+      },
+      {
+        "id": "m1",
+        "phaseId": "p1",
+        "name": "Layout Finalized",
+        "type": "milestone",
+        "start": 18,
+        "duration": 0,
+        "dependsOn": [
+          {
+            "id": "t2",
+            "type": "FS",
+            "lag": 0
+          }
+        ],
+        "contact": "",
+        "budget": 0,
+        "resources": "",
+        "assignments": "",
+        "actualStart": null,
+        "actualDuration": null,
+        "actualBudget": null,
+        "locked": false,
+        "tags": [],
+        "wbs": "1.3"
+      },
+      {
+        "id": "t3",
+        "phaseId": "p2",
+        "name": "Cost Estimation & Quotes",
+        "type": "task",
+        "start": 18,
+        "duration": 3,
+        "dependsOn": [
+          {
+            "id": "m1",
+            "type": "FS",
+            "lag": 0
+          }
+        ],
+        "contact": "ET",
+        "budget": 1500,
+        "resources": "",
+        "assignments": "",
+        "actualStart": null,
+        "actualDuration": null,
+        "actualBudget": null,
+        "locked": false,
+        "tags": [
+          "FIN"
+        ],
+        "wbs": "2.1"
+      },
+      {
+        "id": "t4",
+        "phaseId": "p2",
+        "name": "Management Sign-off",
+        "type": "task",
+        "start": 23,
+        "duration": 4,
+        "dependsOn": [
+          {
+            "id": "t3",
+            "type": "FS",
+            "lag": 0
+          }
+        ],
+        "contact": "",
+        "budget": 0,
+        "resources": "",
+        "assignments": "",
+        "actualStart": null,
+        "actualDuration": null,
+        "actualBudget": null,
+        "locked": false,
+        "tags": [
+          "APP"
+        ],
+        "wbs": "2.2"
+      },
+      {
+        "id": "m2",
+        "phaseId": "p2",
+        "name": "Budget Approved",
+        "type": "milestone",
+        "start": 29,
+        "duration": 0,
+        "dependsOn": [
+          {
+            "id": "t4",
+            "type": "FS",
+            "lag": 0
+          }
+        ],
+        "contact": "",
+        "budget": 0,
+        "resources": "",
+        "assignments": "",
+        "actualStart": null,
+        "actualDuration": null,
+        "actualBudget": null,
+        "locked": false,
+        "tags": [],
+        "wbs": "2.3"
+      },
+      {
+        "id": "t5",
+        "phaseId": "p3",
+        "name": "Renovation Work (Drywall/Paint)",
+        "type": "task",
+        "start": 29,
+        "duration": 8,
+        "dependsOn": [
+          {
+            "id": "m2",
+            "type": "FS",
+            "lag": 0
+          }
+        ],
+        "contact": "",
+        "budget": 15000,
+        "resources": "",
+        "assignments": "",
+        "actualStart": null,
+        "actualDuration": null,
+        "actualBudget": null,
+        "locked": false,
+        "tags": [
+          "CON"
+        ],
+        "wbs": "3.1"
+      },
+      {
+        "id": "t6",
+        "phaseId": "p3",
+        "name": "IT Infrastructure Setup",
+        "type": "task",
+        "start": 34,
+        "duration": 5,
+        "dependsOn": [],
+        "contact": "LT",
+        "budget": 8000,
+        "resources": "",
+        "assignments": "",
+        "actualStart": null,
+        "actualDuration": null,
+        "actualBudget": null,
+        "locked": false,
+        "tags": [
+          "IT"
+        ],
+        "wbs": "3.2"
+      },
+      {
+        "id": "t7",
+        "phaseId": "p3",
+        "name": "Furniture Assembly",
+        "type": "task",
+        "start": 39,
+        "duration": 5,
+        "dependsOn": [
+          {
+            "id": "t5",
+            "type": "FS",
+            "lag": 0
+          }
+        ],
+        "contact": "PF",
+        "budget": 4500,
+        "resources": "",
+        "assignments": "",
+        "actualStart": null,
+        "actualDuration": null,
+        "actualBudget": null,
+        "locked": false,
+        "tags": [
+          "FUR"
+        ],
+        "wbs": "3.3"
+      },
+      {
+        "id": "m3",
+        "phaseId": "p3",
+        "name": "Site Ready for Move",
+        "type": "milestone",
+        "start": 46,
+        "duration": 0,
+        "dependsOn": [
+          {
+            "id": "t7",
+            "type": "FS",
+            "lag": 0
+          },
+          {
+            "id": "t6",
+            "type": "FS",
+            "lag": 0
+          }
+        ],
+        "contact": "",
+        "budget": 0,
+        "resources": "",
+        "assignments": "",
+        "actualStart": null,
+        "actualDuration": null,
+        "actualBudget": null,
+        "locked": false,
+        "tags": [],
+        "wbs": "3.4"
+      },
+      {
+        "id": "t8",
+        "phaseId": "p4",
+        "name": "Distribute Moving Boxes",
+        "type": "task",
+        "start": 42,
+        "duration": 2,
+        "dependsOn": [],
+        "contact": "ET",
+        "budget": 500,
+        "resources": "",
+        "assignments": "",
+        "actualStart": null,
+        "actualDuration": null,
+        "actualBudget": null,
+        "locked": false,
+        "tags": [
+          "MOV"
+        ],
+        "wbs": "4.1"
+      },
+      {
+        "id": "t9",
+        "phaseId": "p4",
+        "name": "Physical Relocation (Campus)",
+        "type": "task",
+        "start": 46,
+        "duration": 2,
+        "dependsOn": [
+          {
+            "id": "m3",
+            "type": "FS",
+            "lag": 0
+          },
+          {
+            "id": "t8",
+            "type": "FS",
+            "lag": 0
+          }
+        ],
+        "contact": "",
+        "budget": 12000,
+        "resources": "",
+        "assignments": "",
+        "actualStart": null,
+        "actualDuration": null,
+        "actualBudget": null,
+        "locked": false,
+        "tags": [
+          "MOV"
+        ],
+        "wbs": "4.2"
+      },
+      {
+        "id": "t10",
+        "phaseId": "p4",
+        "name": "Post-Move IT Support",
+        "type": "task",
+        "start": 50,
+        "duration": 5,
+        "dependsOn": [
+          {
+            "id": "t9",
+            "type": "FS",
+            "lag": 0
+          }
+        ],
+        "contact": "",
+        "budget": 2000,
+        "resources": "",
+        "assignments": "",
+        "actualStart": null,
+        "actualDuration": null,
+        "actualBudget": null,
+        "locked": false,
+        "tags": [
+          "IT"
+        ],
+        "wbs": "4.3"
+      },
+      {
+        "id": "m4",
+        "phaseId": "p4",
+        "name": "Project Closure",
+        "type": "milestone",
+        "start": 57,
+        "duration": 0,
+        "dependsOn": [
+          {
+            "id": "t10",
+            "type": "FS",
+            "lag": 0
+          }
+        ],
+        "contact": "",
+        "budget": 0,
+        "resources": "",
+        "assignments": "",
+        "actualStart": null,
+        "actualDuration": null,
+        "actualBudget": null,
+        "locked": false,
+        "tags": [],
+        "wbs": "4.4"
+      }
+    ]
+  }
+}

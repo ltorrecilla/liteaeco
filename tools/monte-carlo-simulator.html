@@ -1,0 +1,2144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+    <meta name="author" content="Luis Torrecilla">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monte Carlo Simulator - Probabilistic Risk Analysis for Schedules | liteAECO</title>
+    <meta name="description" content="Free client-side tool to perform probabilistic risk analysis on schedule data using Monte Carlo simulation. No uploads, private, fast, and built for AEC project teams.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https:
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https:
+    <meta property="og:site_name" content="liteAECO">
+    <meta property="og:title" content="Monte Carlo Simulator - Probabilistic Risk Analysis for Schedules | liteAECO">
+    <meta property="og:description" content="Free client-side tool to perform probabilistic risk analysis on schedule data using Monte Carlo simulation. No uploads, private, fast, and built for AEC project teams.">
+    <meta property="og:image" content="https:
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="liteAECO Monte Carlo Simulator tool interface">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https:
+    <meta name="twitter:title" content="Monte Carlo Simulator - Probabilistic Risk Analysis for Schedules | liteAECO">
+    <meta name="twitter:description" content="Free client-side tool to perform probabilistic risk analysis on schedule data using Monte Carlo simulation. No uploads, private, fast, and built for AEC project teams.">
+    <meta name="twitter:image" content="https:
+    <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
+    <meta name="theme-color" content="#ffffff">
+    <script src="https:
+    <script src="../js/vendor/lucide-1.45.0.min.js"></script>
+    <script>window.SITE_ROOT = '../';</script>
+    <script src="../lang/en/global.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/project-registry.js"></script>
+    <script src="../js/liteaeco-autosave.js"></script>
+    <script src="../js/liteaeco-cde.js"></script>
+    <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
+    <script src="../js/vendor/chart-0.3.24.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="../css/global.css">
+    <style>
+        .as-switch:has(#mc-save-menu-disconnect:not(.hidden)){background:#22c55e}
+        .as-switch:has(#mc-save-menu-disconnect:not(.hidden)) .as-knob{transform:translateX(16px)}
+        #mc-save-icon-on.text-white{color:#16a34a}
+        input[type=range] {
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #4f46e5;
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 0 10px rgba(79, 70, 229, 0.3);
+            border: 2px solid white;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #e2e8f0;
+            border-radius: 2px;
+        }
+        input[type=range]::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #4f46e5;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(79, 70, 229, 0.3);
+            border: 2px solid white;
+        }
+        input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #e2e8f0;
+            border-radius: 2px;
+        }
+        @media print {
+            nav,
+            .info-app,
+            .action-toolbar,
+            #print-btn-container {
+                display: none !important;
+            }
+            html,
+            body {
+                background-color: #ffffff !important;
+                background: #ffffff !important;
+            }
+            .bg-slate-100 {
+                background-color: #ffffff !important;
+            }
+            #report-container {
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+            .print-shadow-none {
+                box-shadow: none !important;
+                border: none !important;
+            }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            @page {
+                margin: 1.25cm;
+                size: portrait;
+            }
+            canvas {
+                max-width: 100% !important;
+                width: 100% !important;
+                height: auto !important;
+                object-fit: contain !important;
+            }
+        }
+    </style>
+</head>
+<body
+    class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col font-sans">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
+        <div id="info-app"
+            class="info-app bg-white shrink-0">
+            <div
+                class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-900 shrink-0">
+                        <i data-lucide="chart-spline" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-900 tracking-tight leading-tight">Monte Carlo Simulator
+                        </h1>
+                        <p class="text-sm font-medium text-indigo-500 uppercase tracking-widest mt-0.5">Probabilistic
+                            Schedule Analysis</p>
+                    </div>
+                </div>
+                <div class="flex bg-slate-100 p-1 rounded-md border border-slate-200/60 shrink-0">
+                    <button id="tab-builder" onclick="switchTab('builder')"
+                        class="px-4 py-1.5 rounded text-sm font-bold tracking-wide transition-all bg-white text-indigo-600 shadow-sm border border-slate-200/50">
+                        Builder
+                    </button>
+                    <button id="tab-report" onclick="switchTab('report')"
+                        class="px-4 py-1.5 rounded text-sm font-bold tracking-wide transition-all flex items-center space-x-1.5 text-slate-500 hover:text-slate-700">
+                        Report
+                    </button>
+                </div>
+            </div>
+            <details class="text-sm text-slate-600 leading-relaxed group border-b border-slate-300 pb-4">
+				<summary class="cursor-pointer list-none flex items-center gap-2 font-semibold text-slate-900 select-none">
+					<i data-lucide="chevron-right" class="w-4 h-4 text-indigo-500 transition-transform group-open:rotate-90"></i>
+					<span id="ui-rule-title">What this tool does</span>
+				</summary>
+				<div class="mt-3 space-y-3">
+					<p>
+						<span id="ui-rule-desc-1">Performs a quantitative risk analysis technique by
+                        modeling thousands of possible scenarios to forecast potential project schedules. By combining
+                        task or phase durations with probability distributions (like triangular or PERT), calculating
+                        the statistical probability of meeting specific deadlines.
+                        <br /><br />You can load external project timelines and gantt charts as <span
+                            class="bg-white px-1.5 py-0.5 rounded border border-slate-200">Excel</span>
+                        files either from this webapp or other LiteAECO tools, as well as MS Project .xml files.</span>
+					</p>
+				</div>
+			</details>
+        </div>
+        <div
+            class="action-toolbar p-4 mb-4 flex flex-wrap gap-4 justify-between items-center shrink-0 border-b border-slate-300 transition-all">
+            <div id="project-bar" class="hidden w-full flex flex-wrap items-center gap-3 border-b border-slate-100 pb-3">
+                <input type="text" id="app-project-number" placeholder="No."
+                    class="border-0 bg-slate-50 rounded p-1.5 w-24 text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-accent outline-none transition-all" />
+                <input type="text" id="app-project-title" placeholder="Project Title..."
+                    class="border-0 bg-slate-50 rounded p-1.5 w-64 md:w-80 text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-accent outline-none transition-all" />
+                <button type="button" id="btn-project-details"
+                    class="flex items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-indigo-600 uppercase tracking-wider transition-colors outline-none">
+                    <span data-i18n="lblProjectDetails">Details</span>
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform duration-200" id="icon-project-details"></i>
+                </button>
+                <div id="project-details-area" class="hidden w-full grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1" data-i18n="lblClient">Client</label>
+                        <input type="text" id="app-project-client" placeholder="..."
+                            class="w-full border border-slate-200 bg-white rounded px-3 py-1.5 text-sm focus:outline-none focus:border-indigo-500 transition-colors" />
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1" data-i18n="lblAddress">Address</label>
+                        <input type="text" id="app-project-address" placeholder="..."
+                            class="w-full border border-slate-200 bg-white rounded px-3 py-1.5 text-sm focus:outline-none focus:border-indigo-500 transition-colors" />
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1" data-i18n="lblProjectType">Project Type</label>
+                        <input type="text" id="app-project-type" list="project-type-list" placeholder="..."
+                            class="w-full border border-slate-200 bg-white rounded px-3 py-1.5 text-sm focus:outline-none focus:border-indigo-500 transition-colors" />
+                        <datalist id="project-type-list">
+                            <option value="Residential"></option>
+                            <option value="Commercial"></option>
+                            <option value="Industrial"></option>
+                            <option value="Infrastructure"></option>
+                            <option value="Healthcare"></option>
+                            <option value="Education"></option>
+                            <option value="Mixed-use"></option>
+                        </datalist>
+                    </div>
+                    <div class="md:col-span-3">
+                        <label class="block text-[12px] font-bold text-slate-500 uppercase tracking-wider mb-1">Project GUID</label>
+                        <input type="text" id="app-project-guid" placeholder="Copy it from the Project Hub settings..."
+                            class="w-full border border-slate-200 bg-white rounded px-3 py-1.5 text-sm font-mono focus:outline-none focus:border-indigo-500 transition-colors" />
+                    </div>
+                </div>
+            </div>
+                <div class="flex items-center gap-4 flex-wrap flex-grow w-full md:w-auto">
+                    <input type="text" id="proj-title" placeholder="Analysis Title / ID..."
+                        class="border-0 bg-slate-50 rounded p-1.5 w-full md:w-auto max-w-[200px] text-lg font-bold text-slate-800 focus:ring-2 focus:ring-indigo-600 outline-none transition-all flex-grow"
+                        oninput="state.projectData.title = this.value; noteTyping()" />
+                    <div class="w-px h-8 bg-slate-200 hidden md:block"></div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="user" class="w-4 h-4 text-slate-400"></i>
+                        <input type="text" id="proj-lead" placeholder="Analysis Lead"
+                            class="border-0 bg-transparent p-0 text-sm font-medium text-slate-600 outline-none transition-colors"
+                            oninput="state.projectData.lead = this.value; noteTyping()" />
+                    </div>
+                    <div class="w-px h-8 bg-slate-200 hidden md:block"></div>
+                    <div class="flex items-center gap-2" title="Report date">
+                        <i data-lucide="calendar" class="hidden w-4 h-4 text-slate-400"></i>
+                        <input type="date" id="proj-date"
+                            class="border-0 bg-transparent p-0 text-sm font-medium text-slate-500 outline-none cursor-default"
+                    readonly "
+                            oninput="state.projectData.date = this.value; markUnsaved()" />
+                    </div>
+                    <div class="w-px h-8 bg-slate-200 hidden md:block"></div>
+                    <div class="flex items-center gap-2" title="Project start date (day 0)">
+                        <i data-lucide="flag" class="w-4 h-4 text-indigo-400"></i>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Start</span>
+                        <input type="date" id="proj-start"
+                            class="border-0 bg-transparent p-0 text-sm font-medium text-slate-500 outline-none cursor-pointer hover:text-indigo-600 transition-colors"
+                            oninput="setStartDate(this.value)" />
+                    </div>
+                </div>
+                <div class="flex items-center w-full md:w-auto mt-2 md:mt-0">
+                    <div class="flex items-center rounded overflow-visible relative gap-2 w-full">
+                        <div class="relative flex-1 min-w-[80px] hidden" id="wrapper-cde-save">
+                            <button onclick="cdeSaveNow()" id="btn-cde-save"
+                                class="w-full px-3 py-1.5 bg-indigo-600 border border-indigo-600 hover:bg-indigo-700 text-white rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1 disabled:opacity-60 disabled:pointer-events-none">
+                                <i data-lucide="save" class="w-3.5 h-3.5 shrink-0"></i> <span data-i18n="btnSave">Save</span>
+                            </button>
+                        </div>
+                        <div class="relative group flex-1 min-w-[80px]">
+                            <button
+                                class="w-full px-3 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1">
+                                <i data-lucide="folder-open" class="w-3.5 h-3.5 shrink-0"></i> <span data-i18n="btnOpen">Open</span>
+                            </button>
+                            <div
+                                class="absolute top-full left-0 min-w-full w-max mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden">
+                                <button onclick="document.getElementById('excel-upload').click()"
+                                    class="px-3 py-2.5 text-[10px] font-bold text-slate-800 bg-slate-50 hover:text-indigo-600 hover:bg-indigo-100 uppercase tracking-widest border-b border-slate-200 text-left whitespace-nowrap transition-colors">Analysis</button>
+                                <button onclick="triggerImport(1)"
+                                    class="px-3 py-2.5 text-[10px] font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 uppercase tracking-widest border-b border-slate-100 text-left whitespace-nowrap transition-colors">Level 1 (Main)</button>
+                                <button onclick="triggerImport(2)"
+                                    class="px-3 py-2.5 text-[10px] font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 uppercase tracking-widest border-b border-slate-100 text-left whitespace-nowrap transition-colors">Level 2 (Phases)</button>
+                                <button onclick="triggerImport(3)"
+                                    class="px-3 py-2.5 text-[10px] font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 uppercase tracking-widest text-left whitespace-nowrap transition-colors">Level 3 (Sub Phases)</button>
+                            </div>
+                            <input type="file" id="excel-upload" accept=".xlsx, .xls, .csv, .ods, .xml" class="hidden"
+                                onchange="handleExcelUpload(event)">
+                        </div>
+                        <div class="relative group flex-1 min-w-[80px]">
+                            <button
+                                class="w-full px-3 py-1.5 bg-white border border-slate-200 hover:border-green-200 hover:bg-green-50 hover:text-green-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1">
+                                <i data-lucide="file-output" id="mc-save-icon-off" class="w-3.5 h-3.5 shrink-0"></i>
+                                <i data-lucide="file-output" id="mc-save-icon-on" class="w-3.5 h-3.5 hidden text-green-600 shrink-0"></i>
+                                <span data-i18n="btnExport">Export</span>
+                            </button>
+                            <div
+                                class="absolute top-full left-0 min-w-full w-max mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden">
+                                <button onclick="exportExcel('xlsx')"
+                                    class="px-3 py-2.5 text-[10px] font-bold text-slate-600 hover:text-green-600 hover:bg-green-50 uppercase tracking-widest border-b border-slate-100 text-left whitespace-nowrap transition-colors">XLSX</button>
+                                <button onclick="exportExcel('ods')"
+                                    class="px-3 py-2.5 text-[10px] font-bold text-slate-600 hover:text-green-600 hover:bg-green-50 uppercase tracking-widest text-left whitespace-nowrap transition-colors">ODS</button>
+                            </div>
+                        </div>
+                        <div class="relative group flex-1 min-w-[80px]" id="print-btn-container">
+                            <button onclick="triggerPrint()"
+                                class="w-full px-3 py-1.5 bg-slate-800 border border-slate-800 hover:border-red-200 hover:bg-red-50 hover:text-red-600 text-slate-50 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1">
+                                <i data-lucide="printer" class="w-3.5 h-3.5 shrink-0"></i> <span data-i18n="btnPdf">PDF</span>
+                            </button>
+                        </div>
+                        <div class="relative group shrink-0">
+                            <button
+                                class="px-3 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center"
+                                title="Options" data-i18n-title="titleOptions">
+                                <i data-lucide="settings" class="w-3.5 h-3.5 shrink-0"></i>
+                            </button>
+                            <div
+                                class="absolute top-full right-0 w-44 mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden">
+                                <button onclick="autosaveToggle()" id="mc-autosave-row"
+                                    class="px-3 py-2.5 text-[10px] font-bold text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 uppercase tracking-widest border-b border-slate-100 text-left transition-colors flex items-center justify-between gap-3">
+                                    <span data-i18n="autosaveToggle">Autosave</span>
+                                    <span class="as-switch relative inline-block w-8 h-4 rounded-full bg-slate-300 shrink-0 transition-colors">
+                                        <span id="mc-save-menu-disconnect" class="hidden"></span>
+                                        <span class="as-knob absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white shadow transition-transform duration-200"></span>
+                                    </span>
+                                </button>
+                                <button onclick="Autosave.openHistory()"
+                                    class="px-3 py-2.5 text-[10px] font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 uppercase tracking-widest border-b border-slate-100 text-left whitespace-nowrap transition-colors" data-i18n="historyMenu">History</button>
+                                <button onclick="showProjectBar()" id="menu-project-info"
+                                    class="px-3 py-2.5 text-[10px] font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 uppercase tracking-widest text-left whitespace-nowrap transition-colors" data-i18n="projectInfoMenu">Project info</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div id="view-wrapper" class="w-full flex-grow flex flex-col">
+        </div>
+    </div>
+    <script>
+        window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
+        window.updateToolDynamicUI = function (d) {
+            window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
+            if (typeof switchTab === 'function' && typeof state !== 'undefined') switchTab(state.activeTab);
+        };
+        function bootApp() {
+            autoDetectLanguage();
+            window.injectUI({
+                showNav: true,
+                transparentNav: false,
+                showSignIn: false,
+                showCategories: true,
+                showNews: false,
+                showHelp: true,
+                showFooter: true,
+                showFooterLinks: true,
+            });
+            window.injectCookieBanner();
+            window.loadLanguage(currentLang, window.pageScriptPrefix);
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', bootApp);
+        } else {
+            bootApp();
+        }
+    </script>
+    <script>
+        function triggerPrint() {
+            if (state.activeTab !== 'report') {
+                switchTab('report');
+                setTimeout(() => {
+                    window.print();
+                }, 250);
+            } else {
+                window.print();
+            }
+        }
+        function exportExcel(ext = 'xlsx') {
+            if (typeof XLSX === 'undefined') {
+                alert("XLSX library is not loaded.");
+                return;
+            }
+            const wb = buildWorkbook();
+            const dateStr = state.projectData.date ? state.projectData.date.replace(/-/g, '') : '';
+            const safeTitle = state.projectData.title ? state.projectData.title.replace(/[^a-zA-Z0-9\s-_]/gi, '').trim() : 'Simulation';
+            const filename = `${dateStr}_MonteCarlo_${safeTitle.replace(/\s+/g, '_')}.${ext}`;
+            if (window.liteAECO && window.liteAECO.projects) {
+                window.liteAECO.projects.save({
+                    guid: state.project.guid,
+                    title: state.project.title || state.projectData.title || ""
+                }, "montecarlo").catch(() => { });
+            }
+            XLSX.writeFile(wb, filename);
+            hasUnsavedChanges = false;
+        }
+        function buildWorkbook() {
+            const wb = XLSX.utils.book_new();
+            ensureProjectGuid();
+            const darkColors = ["FFB8CDE2", "FFCADAE9"];
+            const infoData = [
+                ["www.liteAECO.com"],
+                ["Monte Carlo Predictor"],
+                [],
+                ["--- PROJECT INFORMATION ---", ""],
+                ["Project GUID:", state.project.guid || ""],
+                ["Project No.:", state.project.number || ""],
+                ["Project Name:", state.project.title || ""],
+                ["Client:", state.project.client || ""],
+                ["Address:", state.project.address || ""],
+                ["Project Type:", state.project.type || ""],
+                ["Project Title:", state.projectData.title || ""],
+                ["Date:", state.projectData.date || ""],
+                ["Start Date:", state.projectData.startDate || ""],
+                ["Analysis Lead:", state.projectData.lead || ""],
+                ["Target Deadline:", state.currentTargetDeadline || 0],
+                ["Elapsed Days:", elapsedDays()],
+                ["Pending Phase Index:", state.progress.startIndex],
+                [],
+                ["--- SIMULATION RESULTS ---", ""],
+                ["Average Duration:", `${state.stats.avgDuration.toFixed(1)} days`],
+                ["P50 (Median):", `${state.stats.p50.toFixed(1)} days`],
+                ["P80 (Recommended):", `${state.stats.p80.toFixed(1)} days`],
+                ["P95 (Worst Case):", `${state.stats.p95.toFixed(1)} days`]
+            ];
+            const wsInfo = XLSX.utils.aoa_to_sheet(infoData);
+            wsInfo['!cols'] = [{ wch: 25 }, { wch: 80 }];
+            const a2c = XLSX.utils.encode_cell({ c: 0, r: 1 });
+            if (wsInfo[a2c]) wsInfo[a2c].s = { fill: { fgColor: { rgb: 'FF4F46E5' } }, font: { bold: true, color: { rgb: 'FFFFFFFF' } } };
+            const cat1 = XLSX.utils.encode_cell({ c: 0, r: 3 });
+            if (wsInfo[cat1]) wsInfo[cat1].s = { fill: { fgColor: { rgb: darkColors[0] } }, font: { bold: true } };
+            const cat2 = XLSX.utils.encode_cell({ c: 0, r: 11 });
+            if (wsInfo[cat2]) wsInfo[cat2].s = { fill: { fgColor: { rgb: darkColors[0] } }, font: { bold: true } };
+            XLSX.utils.book_append_sheet(wb, wsInfo, "INFO");
+            const tasksHeaders = ["ID", "Phase Name", "Status", "Actual Days", "Optimistic", "Likely", "Pessimistic"];
+            const tasksData = [tasksHeaders];
+            state.tasks.forEach((t, i) => {
+                const isCompleted = i < (state.progress.startIndex || 0);
+                tasksData.push([
+                    i + 1,
+                    t.name,
+                    isCompleted ? 'Completed' : 'Pending',
+                    isCompleted ? actualOf(t) : '',
+                    t.o,
+                    t.m,
+                    t.p
+                ]);
+            });
+            const wsTasks = XLSX.utils.aoa_to_sheet(tasksData);
+            wsTasks['!cols'] = [{ wch: 10 }, { wch: 50 }, { wch: 12 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 }];
+            for (let C = 0; C < tasksHeaders.length; C++) {
+                const cr = XLSX.utils.encode_cell({ c: C, r: 0 });
+                if (wsTasks[cr]) wsTasks[cr].s = { fill: { fgColor: { rgb: darkColors[1] } }, font: { bold: true } };
+            }
+            XLSX.utils.book_append_sheet(wb, wsTasks, "Phase Estimates");
+            return wb;
+        }
+        function importNativeExcel(workbook) {
+            const wsInfo = workbook.Sheets["INFO"];
+            const wsTasks = workbook.Sheets["Phase Estimates"];
+            const infoAoA = XLSX.utils.sheet_to_json(wsInfo, { header: 1 });
+            const taskAoA = XLSX.utils.sheet_to_json(wsTasks, { header: 1 });
+            const getValue = (key) => {
+                const row = infoAoA.find(r => r && r[0] && String(r[0]).trim() === key);
+                return (row && row[1] !== undefined && row[1] !== null) ? row[1] : '';
+            };
+            state.project.guid = String(getValue("Project GUID:") || state.project.guid || '');
+            state.project.number = String(getValue("Project No.:") || '');
+            state.project.title = String(getValue("Project Name:") || '');
+            state.project.client = String(getValue("Client:") || '');
+            state.project.address = String(getValue("Address:") || '');
+            state.project.type = String(getValue("Project Type:") || '');
+            state.projectData.title = String(getValue("Project Title:"));
+            state.projectData.lead = String(getValue("Analysis Lead:"));
+            let rawDate = getValue("Date:");
+            if (typeof rawDate === 'number') {
+                const dObj = new Date(Math.round((rawDate - 25569) * 86400 * 1000));
+                rawDate = isNaN(dObj.getTime()) ? '' : dObj.toISOString().split('T')[0];
+            }
+            state.projectData.date = String(rawDate || '');
+            let rawStart = getValue("Start Date:");
+            if (typeof rawStart === 'number') {
+                const dObj = new Date(Math.round((rawStart - 25569) * 86400 * 1000));
+                rawStart = isNaN(dObj.getTime()) ? '' : dObj.toISOString().split('T')[0];
+            }
+            state.projectData.startDate = String(rawStart || '');
+            const savedDeadline = parseInt(getValue("Target Deadline:"));
+            if (!isNaN(savedDeadline)) state.currentTargetDeadline = savedDeadline;
+            const legacyElapsed = parseFloat(getValue("Elapsed Days:")) || 0;
+            state.progress.startIndex = parseInt(getValue("Pending Phase Index:")) || 0;
+            const headerRow = (taskAoA[0] || []).map(c => String(c).toLowerCase().trim());
+            const colOf = (label, fallback) => {
+                const idx = headerRow.indexOf(label);
+                return idx > -1 ? idx : fallback;
+            };
+            let cName = colOf("phase name", 1);
+            let cAct = colOf("actual days", 3);
+            let cO = colOf("optimistic", 4);
+            let cM = colOf("likely", 5);
+            let cP = colOf("pessimistic", 6);
+            const firstDataRow = taskAoA[1] || [];
+            if (headerRow.length === 5 && firstDataRow.length >= 7) {
+                cO = 4; cM = 5; cP = 6;
+            }
+            state.tasks = [];
+            for (let i = 1; i < taskAoA.length; i++) {
+                const row = taskAoA[i];
+                if (!row || row[cName] === undefined || row[cName] === null || String(row[cName]).trim() === '') continue;
+                const task = {
+                    id: Date.now() + i,
+                    name: String(row[cName]),
+                    o: parseFloat(row[cO]) || 1,
+                    m: parseFloat(row[cM]) || 1,
+                    p: parseFloat(row[cP]) || 1
+                };
+                const act = parseFloat(row[cAct]);
+                if (!isNaN(act) && act > 0) task.actual = act;
+                state.tasks.push(task);
+            }
+            if (state.tasks.length === 0) {
+                alert("The Phase Estimates tab was empty.");
+                return;
+            }
+            if (state.progress.startIndex > state.tasks.length) state.progress.startIndex = state.tasks.length;
+            if (state.progress.startIndex < 0 || isNaN(state.progress.startIndex)) state.progress.startIndex = 0;
+            const done = state.tasks.slice(0, state.progress.startIndex);
+            if (done.length && done.every(t => t.actual === undefined) && legacyElapsed > 0) {
+                const sumM = done.reduce((a, t) => a + t.m, 0) || 1;
+                done.forEach(t => { t.actual = Math.round(t.m * legacyElapsed / sumM * 10) / 10; });
+            }
+            ensureActuals();
+            renderHeaderInputs();
+            updateSimulation();
+            switchTab('builder');
+            hasUnsavedChanges = false;
+            if (typeof Autosave !== "undefined") Autosave.markDirty();
+        }
+        let currentImportLevel = 1;
+        function triggerImport(level) {
+            currentImportLevel = level;
+            document.getElementById('excel-upload').click();
+        }
+        function handleExcelUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                if (workbook.SheetNames.includes("INFO") && workbook.SheetNames.includes("Phase Estimates")) {
+                    importNativeExcel(workbook);
+                }
+                else {
+                    const sheetName = workbook.SheetNames.includes("Timeline") ? "Timeline" : workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[sheetName];
+                    const aoaData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                    const targetLevel = currentImportLevel;
+                    if (aoaData.length > 0) {
+                        processImportedData(aoaData, targetLevel);
+                    }
+                }
+                } catch (err) {
+                    console.error(err);
+                    alert("Could not read this file. Is it a valid Excel / ODS / XML workbook?");
+                } finally {
+                    event.target.value = '';
+                }
+            };
+            reader.onerror = () => { alert("Could not read this file."); event.target.value = ''; };
+            reader.readAsArrayBuffer(file);
+        }
+        function updateProgress(field, val) {
+            if (field === 'startIndex') {
+                let idx = parseInt(val);
+                if (isNaN(idx) || idx < 0) idx = 0;
+                if (idx > state.tasks.length) idx = state.tasks.length;
+                state.progress.startIndex = idx;
+                ensureActuals();
+            }
+            markUnsaved();
+            renderBuilder();
+            updateSimulation();
+        }
+        function removeTask(index) {
+            if (state.tasks.length <= 1) return;
+            state.tasks.splice(index, 1);
+            if (state.progress.startIndex > index) {
+                state.progress.startIndex--;
+            }
+            markUnsaved();
+            renderBuilder();
+            updateSimulation();
+        }
+        function processImportedData(data, targetLevel) {
+            let isLiteAECO = false;
+            let isGeneric = false;
+            let headerRowIdx = -1;
+            let colMap = { name: -1, start: -1, end: -1, duration: -1 };
+            const dict = {
+                name: ["name", "task name", "task_name", "nombre", "nombre de tarea", "vorgangsname", "nom", "nom de la tâche", "nome", "nome attività", "nome da tarefa", "tarea", "aufgabe", "tâche", "task"],
+                duration: ["duration", "duración", "duracion", "dauer", "durée", "duração", "durata"],
+                start: ["start", "start_date", "comienzo", "anfang", "début", "inizio", "início", "inicio"],
+                end: ["finish", "finish_date", "fin", "ende", "fine", "término", "termino"]
+            };
+            function findCol(rowArr, keywords) {
+                let idx = rowArr.findIndex(cell => keywords.includes(cell));
+                if (idx > -1) return idx;
+                return rowArr.findIndex(cell => keywords.some(kw => cell.startsWith(kw)));
+            }
+            for (let i = 0; i < Math.min(20, data.length); i++) {
+                let row = data[i];
+                if (!row) continue;
+                let rowString = row.map(cell => String(cell).toLowerCase().trim());
+                if (rowString.includes("phase") && rowString.includes("task name")) {
+                    isLiteAECO = true;
+                    headerRowIdx = i;
+                    break;
+                }
+                let nameIdx = findCol(rowString, dict.name);
+                let durIdx = findCol(rowString, dict.duration);
+                let startIdx = findCol(rowString, dict.start);
+                let endIdx = findCol(rowString, dict.end);
+                if (nameIdx > -1 && (durIdx > -1 || (startIdx > -1 && endIdx > -1))) {
+                    isGeneric = true;
+                    headerRowIdx = i;
+                    colMap.name = nameIdx;
+                    colMap.start = startIdx;
+                    colMap.end = endIdx;
+                    colMap.duration = durIdx;
+                    break;
+                }
+            }
+            let aggregatedData = {};
+            let wbsNames = {};
+            if (isGeneric && headerRowIdx > -1) {
+                let currentWBS = [];
+                let spaceToLevelMap = [];
+                for (let i = headerRowIdx + 1; i < data.length; i++) {
+                    let row = data[i];
+                    if (!row || row[colMap.name] === undefined || row[colMap.name] === null) continue;
+                    let rawName = String(row[colMap.name]);
+                    if (!rawName.trim()) continue; 
+                    let spaces = rawName.length - rawName.trimLeft().length;
+                    let cleanName = rawName.trim();
+                    if (currentWBS.length === 0) {
+                        currentWBS = [1];
+                        spaceToLevelMap[0] = spaces;
+                    } else {
+                        if (spaces > spaceToLevelMap[currentWBS.length - 1]) {
+                            currentWBS.push(1); 
+                            spaceToLevelMap[currentWBS.length - 1] = spaces;
+                        } else if (spaces === spaceToLevelMap[currentWBS.length - 1]) {
+                            currentWBS[currentWBS.length - 1]++; 
+                        } else {
+                            let foundLevel = 0;
+                            for (let lvl = currentWBS.length - 1; lvl >= 0; lvl--) {
+                                if (spaces >= spaceToLevelMap[lvl] || lvl === 0) {
+                                    foundLevel = lvl; break;
+                                }
+                            }
+                            currentWBS = currentWBS.slice(0, foundLevel + 1);
+                            currentWBS[currentWBS.length - 1]++;
+                            spaceToLevelMap[currentWBS.length - 1] = spaces;
+                        }
+                    }
+                    let outlineLevel = currentWBS.length;
+                    let wbs = currentWBS.join('.');
+                    let parsedDuration = null;
+                    let sTime = NaN, eTime = NaN;
+                    if (colMap.duration > -1 && row[colMap.duration] !== undefined && row[colMap.duration] !== "") {
+                        let durStr = String(row[colMap.duration]).replace(/[^\d.-]/g, '');
+                        parsedDuration = parseFloat(durStr);
+                    }
+                    let startStr = colMap.start > -1 ? row[colMap.start] : null;
+                    let endStr = colMap.end > -1 ? row[colMap.end] : null;
+                    if (startStr) sTime = (typeof startStr === 'number') ? Math.round((startStr - 25569) * 86400 * 1000) : new Date(startStr).getTime();
+                    if (endStr) eTime = (typeof endStr === 'number') ? Math.round((endStr - 25569) * 86400 * 1000) : new Date(endStr).getTime();
+                    let pathLevels = [];
+                    let parts = wbs.split('.');
+                    let roll = "";
+                    for (let p of parts) {
+                        roll += (roll ? "." : "") + p;
+                        pathLevels.push(roll);
+                    }
+                    let targetWbs = pathLevels[targetLevel - 1];
+                    if (!targetWbs) targetWbs = pathLevels[pathLevels.length - 1];
+                    if (!aggregatedData[targetWbs]) {
+                        aggregatedData[targetWbs] = { minStart: sTime, maxEnd: eTime, fallbackDur: parsedDuration || 0 };
+                    } else {
+                        if (!isNaN(sTime) && (isNaN(aggregatedData[targetWbs].minStart) || sTime < aggregatedData[targetWbs].minStart)) aggregatedData[targetWbs].minStart = sTime;
+                        if (!isNaN(eTime) && (isNaN(aggregatedData[targetWbs].maxEnd) || eTime > aggregatedData[targetWbs].maxEnd)) aggregatedData[targetWbs].maxEnd = eTime;
+                        if (parsedDuration && outlineLevel === targetLevel) aggregatedData[targetWbs].fallbackDur = parsedDuration;
+                    }
+                    if (outlineLevel === targetLevel || wbs === targetWbs) {
+                        wbsNames[targetWbs] = cleanName;
+                        if (parsedDuration && outlineLevel === targetLevel) {
+                            aggregatedData[targetWbs].explicitDur = parsedDuration;
+                        }
+                    }
+                }
+            }
+            else if (isLiteAECO && headerRowIdx > -1) {
+                let dataStartIdx = headerRowIdx + 1;
+                for (let i = dataStartIdx; i < data.length; i++) {
+                    let row = data[i];
+                    if (!row || row.length < 2) continue;
+                    let isPhase = row[0] && !row[1];
+                    let isTask = !row[0] && row[1];
+                    if (isPhase) {
+                        let rawPhase = String(row[0]).trim();
+                        let match = rawPhase.match(/^([\d\.]+)\s+(.*)$/);
+                        if (match) wbsNames[match[1]] = match[2];
+                    }
+                    else if (isTask) {
+                        let rawTask = String(row[1]).trim();
+                        let match = rawTask.match(/^([\d\.]+)\s+(.*)$/);
+                        if (match) {
+                            let taskWbs = match[1];
+                            let taskName = match[2];
+                            wbsNames[taskWbs] = taskName;
+                            let startStr = row[2];
+                            let endStr = row[3];
+                            if (!startStr || !endStr) continue;
+                            let sTime = (typeof startStr === 'number') ? Math.round((startStr - 25569) * 86400 * 1000) : new Date(startStr).getTime();
+                            let eTime = (typeof endStr === 'number') ? Math.round((endStr - 25569) * 86400 * 1000) : new Date(endStr).getTime();
+                            if (isNaN(sTime) || isNaN(eTime)) continue;
+                            let wbsParts = taskWbs.split('.');
+                            let rollingWbs = "";
+                            let pathLevels = [];
+                            for (let part of wbsParts) {
+                                rollingWbs += (rollingWbs ? "." : "") + part;
+                                pathLevels.push(rollingWbs);
+                            }
+                            let targetWbs = pathLevels[targetLevel - 1];
+                            if (!targetWbs) targetWbs = pathLevels[pathLevels.length - 1];
+                            if (!aggregatedData[targetWbs]) {
+                                aggregatedData[targetWbs] = { minStart: sTime, maxEnd: eTime };
+                            } else {
+                                if (sTime < aggregatedData[targetWbs].minStart) aggregatedData[targetWbs].minStart = sTime;
+                                if (eTime > aggregatedData[targetWbs].maxEnd) aggregatedData[targetWbs].maxEnd = eTime;
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                alert("Could not detect a valid MS Project or liteAECO table structure. Please ensure the headers are visible.");
+                return;
+            }
+            let sortedWbsKeys = Object.keys(aggregatedData).sort((a, b) => {
+                let pA = a.split('.').map(Number);
+                let pB = b.split('.').map(Number);
+                for (let i = 0; i < Math.max(pA.length, pB.length); i++) {
+                    let nA = pA[i] || 0;
+                    let nB = pB[i] || 0;
+                    if (nA !== nB) return nA - nB;
+                }
+                return 0;
+            });
+            if (sortedWbsKeys.length === 0) {
+                alert(`No valid data found to construct Level ${targetLevel}.`);
+                return;
+            }
+            state.tasks = [];
+            sortedWbsKeys.forEach((wbs, idx) => {
+                let node = aggregatedData[wbs];
+                let name = wbsNames[wbs] || `Task Block ${idx + 1}`;
+                let durationDays;
+                if (node.explicitDur) {
+                    durationDays = node.explicitDur;
+                }
+                else if (!isNaN(node.minStart) && !isNaN(node.maxEnd)) {
+                    durationDays = Math.max(1, Math.ceil((node.maxEnd - node.minStart) / (1000 * 60 * 60 * 24)));
+                }
+                else if (node.fallbackDur) {
+                    durationDays = node.fallbackDur;
+                } else {
+                    durationDays = 10; 
+                }
+                const optimistic = Math.max(1, Math.round(durationDays * 0.85)); 
+                const pessimistic = Math.round(durationDays * 1.50);             
+                state.tasks.push({
+                    id: Date.now() + idx,
+                    name: `${wbs} ${name}`,
+                    o: optimistic,
+                    m: durationDays,
+                    p: pessimistic
+                });
+            });
+            currentImportLevel = targetLevel;
+            if (state.progress.startIndex > state.tasks.length) state.progress.startIndex = state.tasks.length;
+            if (state.progress.startIndex < 0 || isNaN(state.progress.startIndex)) state.progress.startIndex = 0;
+            ensureActuals();
+            markUnsaved();
+            renderBuilder();
+            updateSimulation();
+        }
+        const ITERATIONS = 10000;
+        let chartInstance = null;
+        let chartMeta = { min: 0, binSize: 1, numBins: 40 };
+        let simulationResults = new Float32Array(ITERATIONS);
+        let hasUnsavedChanges = false;
+        let simTimer = null;
+        const state = {
+            activeTab: 'builder',
+            project: { number: '', title: '', client: '', address: '', type: '', guid: '' },
+            projectData: {
+                guid: '',
+                title: 'Project Title',
+                lead: '',
+                date: new Date().toISOString().split('T')[0],
+                startDate: ''
+            },
+            currentTargetDeadline: 0,
+            progress: { startIndex: 0 },
+            stats: { avgDuration: 0, p50: 0, p80: 0, p95: 0 },
+            tasks: [
+                { id: 1, name: "Permitting & Pre-Con", o: 30, m: 45, p: 90 },
+                { id: 2, name: "Site Prep & Foundation", o: 15, m: 25, p: 45 },
+                { id: 3, name: "Superstructure & Shell", o: 40, m: 55, p: 85 },
+                { id: 4, name: "MEP & Interior Finishes", o: 45, m: 60, p: 100 }
+            ]
+        };
+        const inputClass = "w-full border border-slate-300 bg-white rounded p-1.5 text-sm focus:ring-2 focus:ring-indigo-600 outline-none transition-all placeholder:text-slate-400";
+        function esc(v) {
+            return String(v ?? '')
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+        async function autosaveToggle() {
+            const pill = document.getElementById('mc-save-menu-disconnect');
+            const on = pill && !pill.classList.contains('hidden');
+            if (on) await Autosave.disconnect();
+            else await Autosave.connectFile();
+        }
+        function markUnsaved() {
+            hasUnsavedChanges = true;
+            if (typeof Autosave !== "undefined") Autosave.markDirty();
+        }
+        let typingDirty = false;
+        let typingIdleTimer = null;
+        const TYPING_IDLE_MS = 30000;
+        function noteTyping() {
+            hasUnsavedChanges = true;
+            typingDirty = true;
+            clearTimeout(typingIdleTimer);
+            typingIdleTimer = setTimeout(commitTypingDirty, TYPING_IDLE_MS);
+        }
+        function commitTypingDirty() {
+            if (!typingDirty) return;
+            typingDirty = false;
+            clearTimeout(typingIdleTimer);
+            if (typeof Autosave !== "undefined") Autosave.markDirty();
+        }
+        document.addEventListener('focusout', (e) => {
+            if (!typingDirty) return;
+            const t = e.target;
+            if (t && t.matches && t.matches('input, textarea, select')) commitTypingDirty();
+        });
+        document.addEventListener('change', (e) => {
+            const t = e.target;
+            if (typingDirty && t && t.id === 'deadline-slider') commitTypingDirty();
+        });
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden' && typingDirty) {
+                commitTypingDirty();
+                if (typeof Autosave !== "undefined" && Autosave.flush) Autosave.flush();
+            }
+        });
+        function actualOf(t) { return Number.isFinite(t.actual) ? t.actual : t.m; }
+        function ensureActuals() {
+            for (let i = 0; i < state.progress.startIndex && i < state.tasks.length; i++) {
+                if (!Number.isFinite(state.tasks[i].actual)) state.tasks[i].actual = state.tasks[i].m;
+            }
+        }
+        function elapsedDays() {
+            let sum = 0;
+            for (let i = 0; i < state.progress.startIndex && i < state.tasks.length; i++) sum += actualOf(state.tasks[i]);
+            return sum;
+        }
+        function scheduleSim() {
+            clearTimeout(simTimer);
+            simTimer = setTimeout(updateSimulation, 150);
+        }
+        function parseISO(iso) {
+            const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+            if (!m) return null;
+            const d = new Date(+m[1], +m[2] - 1, +m[3]);
+            return isNaN(d.getTime()) ? null : d;
+        }
+        function toISO(d) {
+            return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+        }
+        function isoWeek(d) {
+            const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+            const day = t.getUTCDay() || 7;            
+            t.setUTCDate(t.getUTCDate() + 4 - day);   
+            const yStart = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
+            return Math.ceil((((t - yStart) / 86400000) + 1) / 7);
+        }
+        const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        function fmtDate(d) {
+            if (!d) return '';
+            const wd = WEEKDAYS[(d.getDay() + 6) % 7];
+            return `${wd} ${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()} · W${String(isoWeek(d)).padStart(2, '0')}`;
+        }
+        function dayToDate(n) {
+            const s = parseISO(state.projectData.startDate);
+            if (!s || !Number.isFinite(n)) return null;
+            const d = new Date(s.getTime());
+            d.setDate(d.getDate() + Math.round(n));
+            return d;
+        }
+        function dayLabel(n) { return fmtDate(dayToDate(n)); }
+        function dateToDay(iso) {
+            const s = parseISO(state.projectData.startDate);
+            const d = parseISO(iso);
+            if (!s || !d) return NaN;
+            return Math.round((d - s) / 86400000);
+        }
+        function hasStart() { return !!parseISO(state.projectData.startDate); }
+        function setStartDate(v) {
+            state.projectData.startDate = v || '';
+            markUnsaved();
+            switchTab(state.activeTab);
+        }
+        function randomTriangular(min, mode, max) {
+            if (max <= min) return min;
+            const u = Math.random();
+            const f = (mode - min) / (max - min);
+            if (u <= f) return min + Math.sqrt(u * (max - min) * (mode - min));
+            return max - Math.sqrt((1 - u) * (max - min) * (max - mode));
+        }
+        function runSimulationLogic() {
+            state.tasks.forEach(task => {
+                task.o = Math.max(1, parseFloat(task.o) || 1);
+                task.m = Math.max(1, parseFloat(task.m) || 1);
+                task.p = Math.max(1, parseFloat(task.p) || 1);
+                if (task.o > task.m) task.m = task.o;
+                if (task.m > task.p) task.p = task.m;
+            });
+            if (state.progress.startIndex > state.tasks.length) state.progress.startIndex = state.tasks.length;
+            ensureActuals();
+            const base = elapsedDays();
+            let sum = 0;
+            for (let i = 0; i < ITERATIONS; i++) {
+                let simDuration = base;
+                for (let j = state.progress.startIndex; j < state.tasks.length; j++) {
+                    const t = state.tasks[j];
+                    simDuration += randomTriangular(t.o, t.m, t.p);
+                }
+                simulationResults[i] = simDuration;
+                sum += simDuration;
+            }
+            simulationResults.sort();
+            state.stats.avgDuration = sum / ITERATIONS;
+            state.stats.p50 = simulationResults[Math.floor(ITERATIONS * 0.50)];
+            state.stats.p80 = simulationResults[Math.floor(ITERATIONS * 0.80)];
+            state.stats.p95 = simulationResults[Math.floor(ITERATIONS * 0.95)];
+            const lo = Math.floor(simulationResults[0]), hi = Math.ceil(simulationResults[ITERATIONS - 1]);
+            if (!state.currentTargetDeadline || state.currentTargetDeadline < lo || state.currentTargetDeadline > hi) {
+                state.currentTargetDeadline = Math.round(state.stats.p80);
+            }
+        }
+        function calculateProbabilityOf(targetValue) {
+            let left = 0; let right = ITERATIONS - 1;
+            while (left <= right) {
+                const mid = Math.floor((left + right) / 2);
+                if (simulationResults[mid] <= targetValue) left = mid + 1;
+                else right = mid - 1;
+            }
+            return (left / ITERATIONS) * 100;
+        }
+        const PROJECT_FIELD_MAP = {
+            'app-project-number': 'number',
+            'app-project-title': 'title',
+            'app-project-client': 'client',
+            'app-project-address': 'address',
+            'app-project-type': 'type',
+            'app-project-guid': 'guid'
+        };
+        function projectHasContent() {
+            const p = state.project || {};
+            return !!(p.number || p.title || p.client || p.address || p.type);
+        }
+        function ensureProjectGuid() {
+            if (!state.project.guid && projectHasContent()) {
+                state.project.guid = (crypto.randomUUID ? crypto.randomUUID() :
+                    'g-' + Date.now() + '-' + Math.random().toString(36).slice(2));
+            }
+            return state.project.guid;
+        }
+        function projectBarHasData() {
+            return projectHasContent();
+        }
+        function updateProjectBarVisibility() {
+            const bar = document.getElementById('project-bar');
+            if (!bar) return;
+            const show = !!(window.__cdeCtx || projectBarHasData() || window.__projectBarManual);
+            bar.classList.toggle('hidden', !show);
+            const mi = document.getElementById('menu-project-info');
+            if (mi) mi.classList.toggle('hidden', show);   
+        }
+        window.showProjectBar = function () {
+            window.__projectBarManual = true;
+            updateProjectBarVisibility();
+        };
+        function renderProjectBar() {
+            for (const [elId, key] of Object.entries(PROJECT_FIELD_MAP)) {
+                const el = document.getElementById(elId);
+                if (el) el.value = state.project[key] || '';
+            }
+            updateProjectBarVisibility();
+        }
+        function initProjectBar() {
+            for (const [elId, key] of Object.entries(PROJECT_FIELD_MAP)) {
+                const el = document.getElementById(elId);
+                if (el) el.addEventListener('input', e => {
+                    state.project[key] = e.target.value.trim();
+                    noteTyping(); 
+                });
+            }
+            const btn = document.getElementById('btn-project-details');
+            const area = document.getElementById('project-details-area');
+            const icon = document.getElementById('icon-project-details');
+            if (btn && area) btn.addEventListener('click', () => {
+                area.classList.toggle('hidden');
+                if (icon) icon.style.transform = area.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+            });
+        }
+        initProjectBar();
+        function renderHeaderInputs() {
+            renderProjectBar();
+            const titleInput = document.getElementById('proj-title');
+            const leadInput = document.getElementById('proj-lead');
+            const dateInput = document.getElementById('proj-date');
+            const startInput = document.getElementById('proj-start');
+            if (titleInput) titleInput.value = state.projectData.title || '';
+            if (leadInput) leadInput.value = state.projectData.lead || '';
+            if (dateInput) dateInput.value = state.projectData.date || '';
+            if (startInput) startInput.value = state.projectData.startDate || '';
+        }
+        function getSliderMicrocopy(probability, deadline) {
+            const when = hasStart() ? ` (${dayLabel(deadline)})` : '';
+            if (probability < 50) return `High Risk: At ${deadline} days${when}, you are more likely to miss this handover date than hit it. Expect schedule overruns.`;
+            if (probability >= 50 && probability < 80) return `Moderate: At ${deadline} days${when}, you have a decent chance, but little room for error. Assumes optimal conditions.`;
+            if (probability >= 80 && probability < 95) return `Safe Bet: ${Math.round(probability / 10)} out of 10 times, your project hands over on/before ${deadline} days${when}. A realistic baseline.`;
+            return `Extremely Safe: Committing to ${deadline} days${when} provides a massive buffer. Highly likely to deliver early.`;
+        }
+        function dateBadge(id) {
+            return `<div id="${id}" class="text-[10px] font-medium text-slate-400 mt-1 min-h-[14px]"></div>`;
+        }
+        function renderBuilder() {
+            const wrapper = document.getElementById('view-wrapper');
+            let tasksHtml = state.tasks.map((task, index) => {
+                const isCompleted = index < (state.progress.startIndex || 0);
+                const cardClasses = isCompleted
+                    ? "bg-emerald-50/40 p-4 rounded border border-emerald-100 relative group transition-colors shadow-sm"
+                    : "bg-slate-50 p-4 rounded border border-slate-200 relative group transition-colors hover:border-indigo-200 shadow-sm";
+                const estimates = isCompleted ? `
+                    <div class="grid grid-cols-3 gap-3 ml-8 items-end">
+                        <div>
+                            <label class="block text-[10px] font-bold text-emerald-600 uppercase tracking-wider mb-1">Actual days</label>
+                            <input type="number" data-index="${index}" data-field="actual" value="${esc(actualOf(task))}" min="0" step="0.5" class="task-input ${inputClass} border-emerald-200 focus:ring-emerald-500 bg-white">
+                        </div>
+                        <div class="col-span-2 text-[10px] text-slate-400 pb-2">
+                            Estimated ${esc(task.o)} / <b>${esc(task.m)}</b> / ${esc(task.p)} days
+                        </div>
+                    </div>` : `
+                    <div class="grid grid-cols-3 gap-3 ml-8">
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Optimistic</label>
+                            <input type="number" data-index="${index}" data-field="o" value="${esc(task.o)}" min="1" class="task-input ${inputClass}">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Likely</label>
+                            <input type="number" data-index="${index}" data-field="m" value="${esc(task.m)}" min="1" class="task-input ${inputClass}">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-rose-500 uppercase tracking-wider mb-1">Pessimistic</label>
+                            <input type="number" data-index="${index}" data-field="p" value="${esc(task.p)}" min="1" class="task-input ${inputClass} border-rose-200 focus:ring-rose-500 bg-rose-50/30">
+                        </div>
+                    </div>`;
+                return `
+                <div class="${cardClasses}">
+                    ${state.tasks.length > 1 ? `<button onclick="removeTask(${index})" class="absolute top-3 right-3 text-slate-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity bg-white border border-slate-200 rounded p-1 z-10" title="Remove Phase"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>` : ''}
+                    <div class="mb-3 flex items-center gap-2 pr-8">
+                        <div class="w-6 h-6 rounded ${isCompleted ? 'bg-green-100 text-green-600 border-green-200' : 'bg-white text-slate-500 border-slate-200'} flex items-center justify-center text-xs font-bold shadow-sm shrink-0">
+                            ${isCompleted ? '<i data-lucide="check" class="w-3 h-3"></i>' : (index + 1)}
+                        </div>
+                        <input type="text" data-index="${index}" data-field="name" value="${esc(task.name)}" class="task-input bg-transparent border-b border-transparent hover:border-slate-300 focus:border-indigo-500 focus:outline-none ${isCompleted ? 'text-slate-500' : 'text-slate-800'} text-sm font-bold w-full px-1 py-0.5 transition-colors placeholder-slate-400" placeholder="Phase Name">
+                    </div>
+                    ${estimates}
+                </div>
+            `;
+            }).join('');
+            const elapsed = elapsedDays();
+            const startSet = hasStart();
+            wrapper.innerHTML = `
+            <div class="flex flex-col lg:flex-row gap-6 flex-grow items-start">
+                <aside class="w-full lg:w-[500px] bg-white border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded flex flex-col shrink-0 overflow-hidden sticky top-24">
+                    <div class="p-4 border-b border-slate-200 flex flex-wrap gap-2 justify-between items-center shrink-0">
+                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2 w-full xl:w-auto mb-2 xl:mb-0">
+                            <i data-lucide="layers" class="w-5 h-5"></i> <span>Phase Estimates</span>
+                        </h2>
+                        <div class="flex items-center gap-2 w-full xl:w-auto justify-between xl:justify-end">
+                            <select id="import-level" onchange="currentImportLevel = parseInt(this.value)" title="Select Depth to Import" class="text-[10px] font-bold text-slate-600 uppercase tracking-wider border border-slate-200 bg-white rounded px-2 py-1.5 focus:outline-none focus:border-indigo-500 cursor-pointer shadow-sm">
+                                <option value="1" ${currentImportLevel === 1 ? 'selected' : ''}>L1 (Main)</option>
+                                <option value="2" ${currentImportLevel === 2 ? 'selected' : ''}>L2 (Phases)</option>
+                                <option value="3" ${currentImportLevel === 3 ? 'selected' : ''}>L3 (Tasks)</option>
+                            </select>
+                            <button onclick="addTask()" class="bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 px-3 py-1.5 rounded text-[10px] font-bold tracking-wider uppercase transition-colors shadow-sm flex items-center justify-center gap-1.5">
+                                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4 border-b border-slate-200 bg-indigo-50/50 shrink-0 flex flex-col gap-3">
+                        <h3 class="text-xs font-bold text-indigo-800 uppercase tracking-widest flex items-center gap-1.5"><i data-lucide="activity" class="w-3.5 h-3.5"></i> Progress Tracking</h3>
+                        <div class="flex items-center gap-3">
+                            <div class="w-1/3">
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Elapsed Days</label>
+                                <div class="w-full border border-slate-200 bg-slate-50 rounded p-1.5 text-sm font-bold text-slate-700 shadow-sm" id="elapsed-days" title="Sum of actual days of completed phases">${elapsed}</div>
+                            </div>
+                            <div class="w-2/3">
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Next Pending Phase</label>
+                                <select onchange="updateProgress('startIndex', this.value)" class="w-full border border-slate-300 bg-white rounded p-1.5 text-sm font-bold text-slate-800 focus:ring-2 focus:ring-indigo-600 outline-none transition-all cursor-pointer shadow-sm truncate">
+                                    ${state.tasks.map((t, i) => `<option value="${i}" ${state.progress.startIndex == i ? 'selected' : ''}>${i + 1}. ${esc(t.name)}</option>`).join('')}
+                                    <option value="${state.tasks.length}" ${state.progress.startIndex == state.tasks.length ? 'selected' : ''}>- All Phases Completed</option>
+                                </select>
+                            </div>
+                        </div>
+                        ${startSet ? `<p class="text-[10px] text-slate-500"><span class="font-bold">Start:</span> ${dayLabel(0)} &nbsp;·&nbsp; <span class="font-bold">Today in plan:</span> ${dayLabel(elapsed)}</p>`
+                            : `<p class="text-[10px] text-slate-400">Set a <b>Start</b> date in the toolbar to see calendar dates.</p>`}
+                    </div>
+                    <div class="p-4 overflow-y-auto max-h-[50vh] space-y-4">
+                        ${tasksHtml}
+                    </div>
+                    <div class="p-4 border-t border-slate-200 shrink-0">
+                        <button onclick="updateSimulation()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 px-4 rounded shadow-sm transition-all flex justify-center items-center gap-2 active:scale-95">
+                            <i data-lucide="play" class="w-5 h-5"></i> Re-run Simulation
+                        </button>
+                        <p class="text-[10px] text-slate-400 text-center mt-2">Runs automatically on every change.</p>
+                    </div>
+                </aside>
+                <main class="flex-1 min-w-0 flex flex-col gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-white border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-5 relative overflow-hidden">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-indigo-500"></div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Average Duration</p>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-3xl font-bold text-slate-800" id="kpi-avg">--</span>
+                                <span class="text-sm font-medium text-slate-500">days</span>
+                            </div>
+                            ${dateBadge('date-avg')}
+                        </div>
+                        <div class="bg-white border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-5 relative overflow-hidden">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-emerald-500"></div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Hit Target Deadline</p>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-3xl font-bold text-slate-800" id="kpi-chance">--%</span>
+                                <span class="text-sm font-medium text-slate-500">prob.</span>
+                            </div>
+                            ${dateBadge('date-target-kpi')}
+                        </div>
+                        <div class="bg-white border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-5 relative overflow-hidden">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-rose-500"></div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Worst-Case Buffer</p>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-3xl font-bold text-slate-800" id="kpi-buffer">--</span>
+                                <span class="text-sm font-medium text-slate-500">days needed</span>
+                            </div>
+                            <div class="text-[10px] font-medium text-slate-400 mt-1 min-h-[14px]">P95 minus P50</div>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-6">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                            <i data-lucide="activity" class="w-5 h-5"></i> Probability Density Function
+                        </h3>
+                        <div class="h-72 w-full"><canvas id="pdfChart"></canvas></div>
+                    </div>
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                        <div class="bg-white border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-6">
+                            <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
+                                <i data-lucide="sliders-horizontal" class="w-5 h-5"></i> Interactive Target
+                            </h3>
+                            <p class="text-xs text-slate-500 mb-6">Slide to see how altering your deadline impacts your confidence level.</p>
+                            <div class="flex justify-between items-end mb-4">
+                                <div>
+                                    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Target</div>
+                                    <div class="flex items-baseline gap-1">
+                                        <span id="slider-target-val" class="text-3xl font-bold text-slate-800">--</span>
+                                        <span class="text-slate-500 font-medium text-sm">days</span>
+                                    </div>
+                                    ${dateBadge('date-target')}
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Confidence</div>
+                                    <div id="slider-prob-val" class="text-3xl font-bold text-indigo-600">--%</div>
+                                </div>
+                            </div>
+                            <input type="range" id="deadline-slider" min="0" max="100" value="50" step="1" oninput="handleSliderChange(this.value)">
+                            ${startSet ? `
+                            <div class="mt-4 flex items-center gap-2">
+                                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Target date</label>
+                                <input type="date" id="target-date-input" onchange="setTargetFromDate(this.value)" class="border border-slate-300 bg-white rounded p-1 text-xs font-medium text-slate-700 focus:ring-2 focus:ring-indigo-600 outline-none">
+                                <span id="target-date-note" class="text-[10px] text-slate-400"></span>
+                            </div>` : ''}
+                            <div class="mt-6 p-3 bg-slate-50 border border-slate-200/60 rounded flex items-start gap-3">
+                                <i data-lucide="info" class="w-4 h-4 text-indigo-500 mt-0.5 shrink-0"></i>
+                                <p id="slider-microcopy" class="text-xs text-slate-600 leading-relaxed font-medium">--</p>
+                            </div>
+                        </div>
+                        <div class="bg-white border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-6">
+                            <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2 border-b border-slate-100 pb-3">
+                                <i data-lucide="milestone" class="w-5 h-5"></i> Commitment Milestones
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 rounded bg-slate-50 border border-slate-200">
+                                    <div><div class="text-sm font-bold text-slate-800">50th Percentile <span class="text-[10px] text-slate-400 uppercase tracking-wider ml-1">(Median)</span></div><div class="text-xs text-slate-500 mt-0.5">As likely to be early as late.</div></div>
+                                    <div class="text-right"><div class="text-base font-bold text-slate-700 bg-white px-2 py-1 border border-slate-200 rounded shadow-sm" id="p50-val">-- days</div>${dateBadge('date-p50')}</div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 rounded bg-indigo-50 border border-indigo-100 relative overflow-hidden">
+                                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-indigo-500"></div>
+                                    <div><div class="text-sm font-bold text-slate-800">80th Percentile <span class="text-[10px] text-indigo-500 uppercase tracking-wider ml-1">(Recommended)</span></div><div class="text-xs text-slate-600 mt-0.5">8 out of 10 times, you finish on/before this.</div></div>
+                                    <div class="text-right"><div class="text-base font-bold text-indigo-700 bg-white px-2 py-1 border border-indigo-100 rounded shadow-sm" id="p80-val">-- days</div>${dateBadge('date-p80')}</div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 rounded bg-rose-50 border border-rose-100 relative overflow-hidden">
+                                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-rose-500"></div>
+                                    <div><div class="text-sm font-bold text-slate-800">95th Percentile <span class="text-[10px] text-rose-500 uppercase tracking-wider ml-1">(Worst Case)</span></div><div class="text-xs text-slate-600 mt-0.5">Only a 5% chance of exceeding this date.</div></div>
+                                    <div class="text-right"><div class="text-base font-bold text-rose-700 bg-white px-2 py-1 border border-rose-100 rounded shadow-sm" id="p95-val">-- days</div>${dateBadge('date-p95')}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>`;
+            document.querySelectorAll('.task-input').forEach(input => {
+                const apply = (e) => {
+                    const index = parseInt(e.target.dataset.index);
+                    const field = e.target.dataset.field;
+                    const task = state.tasks[index];
+                    if (!task) return;
+                    if (field === 'name') {
+                        task.name = e.target.value;
+                        const opt = document.querySelector(`select option[value="${index}"]`);
+                        if (opt) opt.textContent = `${index + 1}. ${task.name}`;
+                    } else if (field === 'actual') {
+                        const v = parseFloat(e.target.value);
+                        task.actual = Number.isFinite(v) && v >= 0 ? v : task.m;
+                        const el = document.getElementById('elapsed-days');
+                        if (el) el.textContent = elapsedDays();
+                    } else {
+                        const v = parseFloat(e.target.value);
+                        task[field] = Number.isFinite(v) && v >= 1 ? v : 1;
+                    }
+                    if (e.type === 'input') noteTyping(); else markUnsaved();
+                    if (field !== 'name') scheduleSim();
+                };
+                input.addEventListener(input.dataset.field === 'name' ? 'change' : 'input', apply);
+                if (input.dataset.field !== 'name') input.addEventListener('change', () => syncTaskInputs());
+            });
+            lucide.createIcons();
+            populateBuilderData();
+        }
+        function syncTaskInputs() {
+            document.querySelectorAll('.task-input[data-field]').forEach(input => {
+                const t = state.tasks[parseInt(input.dataset.index)];
+                const f = input.dataset.field;
+                if (!t || f === 'name' || document.activeElement === input) return;
+                const v = f === 'actual' ? actualOf(t) : t[f];
+                if (String(input.value) !== String(v)) input.value = v;
+            });
+        }
+        function renderReport() {
+            const wrapper = document.getElementById('view-wrapper');
+            const probability = calculateProbabilityOf(state.currentTargetDeadline);
+            const microcopy = getSliderMicrocopy(probability, state.currentTargetDeadline);
+            const startSet = hasStart();
+            const elapsed = elapsedDays();
+            let tasksTableHtml = state.tasks.map((t, i) => {
+                const isCompleted = i < (state.progress.startIndex || 0);
+                return `
+                <tr class="border-b border-slate-100 last:border-0 ${isCompleted ? 'bg-slate-50/50 text-slate-500' : 'text-slate-700'}">
+                    <td class="py-3 pl-2 font-medium">${i + 1}. ${esc(t.name)}</td>
+                    <td class="py-3 text-center">
+                        <span class="${isCompleted ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'} text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                            ${isCompleted ? 'Done' : 'Pending'}
+                        </span>
+                    </td>
+                    <td class="py-3 text-center ${isCompleted ? 'opacity-30' : ''}">${esc(t.o)}</td>
+                    <td class="py-3 text-center ${isCompleted ? 'opacity-30' : 'font-bold text-indigo-600'}">${esc(t.m)}</td>
+                    <td class="py-3 text-center ${isCompleted ? 'opacity-30' : ''}">${esc(t.p)}</td>
+                    <td class="py-3 text-center pr-2 font-bold ${isCompleted ? 'text-green-600' : 'text-slate-300'}">${isCompleted ? esc(actualOf(t)) : '—'}</td>
+                </tr>
+                `;
+            }).join('');
+            const scoreColor = probability >= 80 ? 'bg-emerald-500' : probability >= 50 ? 'bg-yellow-500' : 'bg-red-500';
+            const dl = (n) => startSet ? `<span class="block text-[10px] font-medium text-slate-400 mt-0.5">${dayLabel(n)}</span>` : '';
+            wrapper.innerHTML = `
+            <div id="report-container" class="bg-white border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.06)] print-shadow-none w-full max-w-7xl mx-auto p-8 md:p-14 transition-opacity duration-300 rounded overflow-y-auto">
+                <div class="border-b border-slate-200/60 pb-6 mb-8 flex justify-between items-end">
+                    <div>
+                        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight leading-tight">${esc(state.projectData.title) || 'Untitled Project'}</h1>
+                        <p class="text-sm font-bold text-indigo-500 uppercase tracking-widest mt-3">Monte Carlo Simulation Report</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-slate-500 font-medium text-sm">${state.projectData.date ? esc(state.projectData.date.replace(/-/g, '.')) : ''}</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-4 gap-8 mb-12">
+                    <div class="col-span-1 border-r border-slate-200/60 pr-6">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">Project Lead</p>
+                        <p class="font-semibold text-slate-800 text-sm">${esc(state.projectData.lead) || 'Unassigned'}</p>
+                        ${startSet ? `<div class="mt-6">
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">Start Date</p>
+                            <p class="font-semibold text-slate-800 text-sm">${dayLabel(0)}</p>
+                        </div>` : ''}
+                        <div class="mt-6">
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">Evaluated Target</p>
+                            <p class="font-bold text-2xl text-slate-800 tracking-tight">${state.currentTargetDeadline} <span class="text-sm font-medium text-slate-500">days</span></p>
+                            ${dl(state.currentTargetDeadline)}
+                        </div>
+                    </div>
+                    <div class="col-span-3">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-3">Simulation Summary</p>
+                        <div class="bg-slate-50 p-5 rounded border border-slate-200/60 flex items-center justify-between relative overflow-hidden">
+                             <div class="absolute left-0 top-0 bottom-0 w-1 ${scoreColor}"></div>
+                             <div class="flex-1 pr-6">
+                                 <p class="text-sm text-slate-700 font-medium leading-relaxed">${microcopy}</p>
+                                 ${elapsed > 0 ? `<p class="text-xs text-indigo-600 font-bold mt-3"><i data-lucide="info" class="w-3 h-3 inline"></i> Forecast includes ${elapsed} days of actual elapsed progress (${state.progress.startIndex} phase${state.progress.startIndex === 1 ? '' : 's'} completed).</p>` : ''}
+                             </div>
+                             <div class="text-right border-l border-slate-200 pl-6 shrink-0">
+                                 <p class="text-[10px] font-bold text-indigo-500 uppercase tracking-wider mb-1">Confidence Score</p>
+                                 <p class="text-4xl font-bold text-indigo-600 tracking-tight">${probability.toFixed(1)}%</p>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-12 page-break-inside-avoid">
+                    <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center border-b border-slate-200/60 pb-3 tracking-tight">
+                        <i data-lucide="milestone" class="w-5 h-5 mr-2 text-indigo-600"></i> Commitment Milestones & Distribution
+                    </h2>
+                    <div class="flex gap-4 mb-8">
+                        <div class="flex-1 bg-white border border-slate-200/60 rounded shadow-sm p-4 flex items-center justify-between relative overflow-hidden">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-slate-500"></div>
+                            <div>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">P50 (Median)</p>
+                                <p class="text-2xl font-bold text-slate-800 tracking-tight">${state.stats.p50.toFixed(1)} <span class="text-xs font-medium text-slate-500">days</span></p>
+                                ${dl(state.stats.p50)}
+                            </div>
+                        </div>
+                        <div class="flex-1 bg-white border border-slate-200/60 rounded shadow-sm p-4 flex items-center justify-between relative overflow-hidden">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-indigo-500"></div>
+                            <div>
+                                <p class="text-[10px] font-bold text-indigo-600 uppercase tracking-wider mb-1">P80 (Recommended)</p>
+                                <p class="text-2xl font-bold text-indigo-700 tracking-tight">${state.stats.p80.toFixed(1)} <span class="text-xs font-medium text-indigo-600/70">days</span></p>
+                                ${dl(state.stats.p80)}
+                            </div>
+                        </div>
+                        <div class="flex-1 bg-white border border-slate-200/60 rounded shadow-sm p-4 flex items-center justify-between relative overflow-hidden">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-rose-500"></div>
+                            <div>
+                                <p class="text-[10px] font-bold text-rose-600 uppercase tracking-wider mb-1">P95 (Worst Case)</p>
+                                <p class="text-2xl font-bold text-rose-700 tracking-tight">${state.stats.p95.toFixed(1)} <span class="text-xs font-medium text-rose-600/70">days</span></p>
+                                ${dl(state.stats.p95)}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="h-[250px] w-full bg-white border border-none rounded p-4">
+                        <canvas id="pdfChart"></canvas>
+                    </div>
+                </div>
+                <div class="page-break-inside-avoid">
+                    <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center border-b border-slate-200/60 pb-3 tracking-tight">
+                        <i data-lucide="layers" class="w-5 h-5 mr-2 text-indigo-600"></i> Phase Estimates & Parameters
+                    </h2>
+                    <div class="border border-slate-200/60 rounded bg-white overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-slate-50">
+                                <tr class="border-b border-slate-200/60 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                                    <th class="py-3 pl-4">Phase Description</th>
+                                    <th class="py-3 text-center">Status</th>
+                                    <th class="py-3 text-center">Optimistic</th>
+                                    <th class="py-3 text-center">Likely</th>
+                                    <th class="py-3 text-center">Pessimistic</th>
+                                    <th class="py-3 text-center pr-2">Actual</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                ${tasksTableHtml}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="mt-20 pt-8 border-t border-slate-200/60 text-center text-[10px] text-slate-400 uppercase tracking-widest font-bold">
+                    Monte Carlo Analysis Report • 10,000 Iterations • Calendar days • GENERATED WITH LITE AECO ${new Date().toLocaleDateString()}
+                </div>
+            </div>`;
+            lucide.createIcons();
+            drawChart();
+        }
+        function switchTab(tabName) {
+            state.activeTab = tabName;
+            if (tabName === 'builder') {
+                document.getElementById('tab-builder').className = "px-4 py-1.5 rounded text-sm font-bold tracking-wide transition-all bg-white text-indigo-600 shadow-sm border border-slate-200/50";
+                document.getElementById('tab-report').className = "px-4 py-1.5 rounded text-sm font-bold tracking-wide transition-all flex items-center space-x-1.5 text-slate-500 hover:text-slate-700";
+                renderBuilder();
+            } else {
+                document.getElementById('tab-report').className = "px-4 py-1.5 rounded text-sm font-bold tracking-wide transition-all flex items-center space-x-1.5 bg-white text-indigo-600 shadow-sm border border-slate-200/50";
+                document.getElementById('tab-builder').className = "px-4 py-1.5 rounded text-sm font-bold tracking-wide transition-all text-slate-500 hover:text-slate-700";
+                renderReport();
+            }
+        }
+        function setText(id, txt) { const el = document.getElementById(id); if (el) el.textContent = txt; }
+        function populateBuilderData() {
+            setText('kpi-avg', state.stats.avgDuration.toFixed(1));
+            setText('kpi-buffer', (state.stats.p95 - state.stats.p50).toFixed(1));
+            setText('p50-val', `${state.stats.p50.toFixed(1)} days`);
+            setText('p80-val', `${state.stats.p80.toFixed(1)} days`);
+            setText('p95-val', `${state.stats.p95.toFixed(1)} days`);
+            setText('date-avg', dayLabel(state.stats.avgDuration));
+            setText('date-p50', dayLabel(state.stats.p50));
+            setText('date-p80', dayLabel(state.stats.p80));
+            setText('date-p95', dayLabel(state.stats.p95));
+            setText('elapsed-days', elapsedDays());
+            const minResult = Math.floor(simulationResults[0] || 0);
+            const maxResult = Math.ceil(simulationResults[ITERATIONS - 1] || 0);
+            const slider = document.getElementById('deadline-slider');
+            if (slider) {
+                slider.min = minResult;
+                slider.max = Math.max(maxResult, minResult + 1);
+                slider.disabled = maxResult <= minResult;
+                slider.value = state.currentTargetDeadline;
+            }
+            const tdi = document.getElementById('target-date-input');
+            if (tdi && hasStart()) {
+                tdi.min = toISO(dayToDate(minResult));
+                tdi.max = toISO(dayToDate(maxResult));
+            }
+            drawChart();
+            handleSliderChange(state.currentTargetDeadline, false);
+        }
+        function updateSimulation() {
+            clearTimeout(simTimer);
+            runSimulationLogic();
+            syncTaskInputs();
+            if (state.activeTab === 'report') renderReport();
+            else populateBuilderData();
+        }
+        function handleSliderChange(val, fromUser = true) {
+            const v = parseInt(val);
+            if (!Number.isFinite(v)) return;
+            if (fromUser && v !== state.currentTargetDeadline) noteTyping();
+            state.currentTargetDeadline = v;
+            const probability = calculateProbabilityOf(v);
+            setText('slider-target-val', v);
+            setText('slider-prob-val', `${probability.toFixed(1)}%`);
+            setText('kpi-chance', `${probability.toFixed(0)}%`);
+            setText('slider-microcopy', getSliderMicrocopy(probability, v));
+            setText('date-target', dayLabel(v));
+            setText('date-target-kpi', dayLabel(v));
+            const tdi = document.getElementById('target-date-input');
+            if (tdi && hasStart() && document.activeElement !== tdi) tdi.value = toISO(dayToDate(v));
+            if (chartInstance) chartInstance.update('none');
+        }
+        function setTargetFromDate(iso) {
+            const n = dateToDay(iso);
+            const note = document.getElementById('target-date-note');
+            if (!Number.isFinite(n)) return;
+            const slider = document.getElementById('deadline-slider');
+            const lo = slider ? parseInt(slider.min) : n, hi = slider ? parseInt(slider.max) : n;
+            const clamped = Math.min(hi, Math.max(lo, n));
+            if (slider) slider.value = clamped;
+            if (note) note.textContent = clamped !== n ? `Clamped to simulated range (${lo}–${hi} days)` : '';
+            handleSliderChange(clamped);
+        }
+        function addTask() {
+            state.tasks.push({ id: Date.now(), name: `New Phase ${state.tasks.length + 1}`, o: 10, m: 15, p: 25 });
+            markUnsaved();
+            renderBuilder();
+            updateSimulation();
+        }
+        const targetLinePlugin = {
+            id: 'targetLine',
+            afterDatasetsDraw: (chart) => {
+                const { min, binSize, numBins } = chartMeta;
+                if (!(binSize > 0)) return;
+                let idx = (state.currentTargetDeadline - min) / binSize - 0.5;
+                if (!Number.isFinite(idx)) return;
+                idx = Math.min(numBins - 1, Math.max(0, idx));
+                const xAxis = chart.scales.x, yAxis = chart.scales.y;
+                const i0 = Math.floor(idx), i1 = Math.min(numBins - 1, i0 + 1);
+                const x0 = xAxis.getPixelForValue(i0), x1 = xAxis.getPixelForValue(i1);
+                const x = x0 + (x1 - x0) * (idx - i0);
+                if (!Number.isFinite(x)) return;
+                const ctx = chart.ctx;
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(x, yAxis.top);
+                ctx.lineTo(x, yAxis.bottom);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#4f46e5';
+                ctx.setLineDash([5, 5]);
+                ctx.stroke();
+                ctx.fillStyle = '#4f46e5';
+                ctx.textAlign = 'center';
+                ctx.font = 'bold 12px Inter';
+                ctx.fillText('Target', x, yAxis.top - 5);
+                ctx.restore();
+            }
+        };
+        function drawChart() {
+            if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+            const ctxElement = document.getElementById('pdfChart');
+            if (!ctxElement) return;
+            const ctx = ctxElement.getContext('2d');
+            const numBins = 40;
+            const min = simulationResults[0] || 0;
+            const max = simulationResults[ITERATIONS - 1] || 0;
+            const binSize = (max - min) / numBins;
+            chartMeta = { min, binSize, numBins };
+            const bins = new Array(numBins).fill(0);
+            const labels = new Array(numBins);
+            if (binSize > 0) {
+                for (let i = 0; i < ITERATIONS; i++) {
+                    let binIndex = Math.floor((simulationResults[i] - min) / binSize);
+                    if (binIndex >= numBins) binIndex = numBins - 1;
+                    if (binIndex < 0) binIndex = 0;
+                    bins[binIndex]++;
+                }
+                for (let i = 0; i < numBins; i++) labels[i] = (min + (i * binSize) + (binSize / 2)).toFixed(0);
+            } else {
+                for (let i = 0; i < numBins; i++) labels[i] = min.toFixed(0);
+                bins[Math.floor(numBins / 2)] = ITERATIONS;
+            }
+            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, 'rgba(79, 70, 229, 0.2)');
+            gradient.addColorStop(1, 'rgba(79, 70, 229, 0.0)');
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Frequency',
+                        data: bins,
+                        borderColor: '#4f46e5',
+                        backgroundColor: gradient,
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        pointHoverRadius: 5,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: state.activeTab === 'report' ? false : { duration: 300 },
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#ffffff',
+                            titleColor: '#0f172a',
+                            bodyColor: '#475569',
+                            borderColor: '#e2e8f0',
+                            borderWidth: 1,
+                            padding: 10,
+                            bodyFont: { family: 'Inter' },
+                            titleFont: { family: 'Inter', weight: 'bold' },
+                            callbacks: {
+                                title: (items) => {
+                                    const d = items[0].label;
+                                    const when = dayLabel(parseFloat(d));
+                                    return `Duration: ~${d} days${when ? ' · ' + when : ''}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: true, color: '#f1f5f9', drawBorder: false },
+                            ticks: { color: '#64748b', maxTicksLimit: 10, font: { family: 'Inter' } }
+                        },
+                        y: {
+                            display: false,
+                            grid: { display: false }
+                        }
+                    }
+                },
+                plugins: [targetLinePlugin]
+            });
+        }
+        function initApp() {
+            renderHeaderInputs();
+            runSimulationLogic();
+            switchTab('builder');
+        }
+        document.addEventListener('DOMContentLoaded', initApp);
+        const Autosave = liteAECO.createAutosave({
+            toolId: "montecarlo",
+            fileSuffix: ".montecarlo.json",
+            debounceMs: 2000,
+            buildPayload: () => {
+                ensureProjectGuid();
+                return {
+                    app: "liteAECO-montecarlo",
+                    schema: 1,
+                    savedAt: new Date().toISOString(),
+                    state: {
+                        project: state.project,
+                        projectData: state.projectData,
+                        currentTargetDeadline: state.currentTargetDeadline,
+                        progress: state.progress,
+                        importLevel: currentImportLevel,
+                        tasks: state.tasks
+                    }
+                };
+            },
+            applyPayload: (d) => {
+                if (!d || d.app !== "liteAECO-montecarlo" || !d.state || !Array.isArray(d.state.tasks) || d.state.tasks.length === 0) return false;
+                const s = d.state;
+                state.project = Object.assign({ number: '', title: '', client: '', address: '', type: '', guid: '' }, s.project || {});
+                state.projectData = Object.assign({ guid: '', title: '', lead: '', date: '', startDate: '' }, s.projectData || {});
+                if (!state.project.guid && state.projectData.guid) state.project.guid = state.projectData.guid;
+                state.currentTargetDeadline = parseInt(s.currentTargetDeadline) || 0;
+                state.progress = { startIndex: parseInt(s.progress && s.progress.startIndex) || 0 };
+                if ([1, 2, 3].includes(s.importLevel)) currentImportLevel = s.importLevel;
+                state.tasks = s.tasks.map((t, i) => {
+                    const task = { id: t.id || (Date.now() + i), name: String(t.name || ''), o: parseFloat(t.o) || 1, m: parseFloat(t.m) || 1, p: parseFloat(t.p) || 1 };
+                    if (Number.isFinite(t.actual)) task.actual = t.actual;
+                    return task;
+                });
+                if (state.progress.startIndex > state.tasks.length) state.progress.startIndex = state.tasks.length;
+                ensureActuals();
+                renderHeaderInputs();
+                runSimulationLogic();
+                switchTab(state.activeTab || 'builder');
+                hasUnsavedChanges = false;
+                return true;
+            },
+            describe: (d) => (d && d.state && d.state.projectData ? (d.state.projectData.title || "") : ""),
+            iconOffId: "mc-save-icon-off",
+            iconOnId: "mc-save-icon-on",
+            disconnectBtnId: "mc-save-menu-disconnect",
+            toast: (m) => { try { alert(m); } catch (e) { } },
+            hasUnsaved: () => hasUnsavedChanges,
+            hasPendingInput: () => typingDirty,
+            commitPendingInput: () => commitTypingDirty()
+        });
+        function _cdeParams() {
+            try {
+                const q = new URLSearchParams(window.location.search);
+                const guid = q.get("project"), open = q.get("open");
+                return (guid && open) ? { guid: guid, open: open } : null;
+            } catch (e) { return null; }
+        }
+        async function _cdeFileHandle(handle, relPath, create) {
+            const parts = String(relPath).split("/").filter(Boolean);
+            const fname = parts.pop();
+            let dir = handle;
+            for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: !!create });
+            return { dir: dir, fname: fname, fh: await dir.getFileHandle(fname, { create: !!create }) };
+        }
+        async function _cdeReadFile(handle, relPath) {
+            const loc = await _cdeFileHandle(handle, relPath, false);
+            const f = await loc.fh.getFile();
+            return await f.arrayBuffer();
+        }
+        async function _cdeLoad(info, params) {
+            const t = window.BASE_PAGE || {};
+            let buf;
+            try { buf = await _cdeReadFile(info.handle, params.open); }
+            catch (err) {
+                alert(t.cdeFileMissing || "The project file was not found in the folder. It may have been moved or renamed - open the Projects page and rescan.");
+                console.error("CDE FILE READ ERROR:", err);
+                return true;
+            }
+            try {
+                importNativeExcel(XLSX.read(new Uint8Array(buf), { type: "array" }));
+            } catch (err) {
+                alert(t.cdeOpenFailed || "Could not open the project file.");
+                console.error("CDE IMPORT ERROR:", err);
+                return true;
+            }
+            if (state.project.guid && state.project.guid !== params.guid) {
+                const adopt = confirm(t.cdeForeignFile || "This file belongs to a different project. Import its content into this project? The file will be rebranded to this project on the next save.");
+                if (!adopt) {
+                    window.location.href = 'project-hub.html?project=' + encodeURIComponent(params.guid);
+                    return true;
+                }
+            }
+            hasUnsavedChanges = false;
+            window.__cdeCtx = { guid: params.guid, path: params.open, handle: info.handle };
+            const cs = document.getElementById('wrapper-cde-save');
+            if (cs) cs.classList.remove('hidden');
+            updateProjectBarVisibility();   
+            for (const elId of Object.keys(PROJECT_FIELD_MAP)) {
+                const el = document.getElementById(elId);
+                if (el) {
+                    el.readOnly = true;
+                    el.classList.add('text-slate-500', 'cursor-default', 'focus:ring-0');
+                    el.title = t.cdeFieldLocked || 'Managed in the Project Hub settings';
+                }
+            }
+            const infoCard = document.getElementById('info-app');
+            if (infoCard) infoCard.classList.add('hidden');
+            try {
+                await _cdeBridgeInit(info, params);
+                await _cdeFillProjectInfo(info, params);   
+            } catch (e) {
+                console.error("CDE bridge init failed:", e);
+                if (typeof Autosave !== "undefined" && Autosave.renderStatus) Autosave.renderStatus("error");
+                alert((t.cdeBridgeFailed ||
+                    "Project sync could not start - changes will NOT be saved to the project folder. Update js/liteaeco-cde.js to the latest build and reload.") +
+                    "\n\n(" + (e && e.message ? e.message : e) + ")");
+            }
+            window.addEventListener("beforeunload", function (e) {
+                if (window.__cdeUnsaved) {
+                    try { cdeBridge.flushWriteBack(); } catch (err) { }
+                    e.preventDefault(); e.returnValue = ""; return e.returnValue;
+                }
+            });
+            return true;
+        }
+        async function cdeSaveNow() {
+            if (!window.__cdeCtx) return;
+            const btn = document.getElementById('btn-cde-save');
+            if (btn) btn.disabled = true;
+            try {
+                commitTypingDirty();
+                clearTimeout(cdeBridge.timer);
+                await cdeBridge.flush();
+                clearTimeout(cdeBridge.writeBack.timer);
+                await cdeBridge.flushWriteBack();
+            } catch (e) {
+                console.warn('save now failed:', e);
+                if (typeof Autosave !== 'undefined' && Autosave.toastNotify) Autosave.toastNotify('error');
+            } finally {
+                if (btn) btn.disabled = false;
+            }
+        }
+        document.addEventListener('keydown', function (e) {
+            if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && String(e.key).toLowerCase() === 's') {
+                if (window.__cdeCtx) { e.preventDefault(); cdeSaveNow(); }
+            }
+        });
+        async function cdeAutoOpen() {
+            const t = window.BASE_PAGE || {};
+            const params = _cdeParams();
+            if (!params) return false;
+            if (!(window.liteAECO && liteAECO.cde)) return false;
+            try {
+                let info = await liteAECO.cde.openProject(params.guid);
+                if (!info) {
+                    alert(t.cdeNoHandle || "This project has no linked folder on this machine. Open it from the Projects page first.");
+                    return true;
+                }
+                if (info.permission === "granted") return await _cdeLoad(info, params);
+                const fileName = params.open.split("/").pop();
+                if (!confirm((t.cdeOpenPrompt || "Open project file:") + "\n" + fileName)) return true;
+                info = await liteAECO.cde.requestAccess(params.guid);
+                if (!info || info.permission !== "granted") {
+                    alert(t.cdeNoAccess || "Folder access was not granted.");
+                    return true;
+                }
+                return await _cdeLoad(info, params);
+            } catch (err) {
+                console.error("CDE OPEN ERROR:", err);
+                alert(t.cdeOpenFailed || "Could not open the project file.");
+                return true;
+            }
+        }
+        const cdeBridge = {
+            session: null, baseline: null, timer: null, author: null, appId: "montecarlo",
+            flushing: false, pending: false,
+            snap: function () {
+                return JSON.parse(JSON.stringify({
+                    analysis: {
+                        title: state.projectData.title || '',
+                        lead: state.projectData.lead || '',
+                        date: state.projectData.date || '',
+                        startDate: state.projectData.startDate || '',
+                        targetDeadline: state.currentTargetDeadline || 0,
+                        startIndex: (state.progress && state.progress.startIndex) || 0,
+                        importLevel: currentImportLevel
+                    },
+                    tasks: state.tasks || [],
+                    project: state.project || {}
+                }));
+            },
+            schedule: function () {
+                if (!this.session) return;
+                clearTimeout(this.timer);
+                const self = this;
+                this.timer = setTimeout(function () { self.flush(); }, window.__cdeDebounceMs || 2000);
+            },
+            _listDiff: function (prev, cur, key, names, events) {
+                const J = JSON.stringify;
+                const pm = {}, cm = {};
+                (prev || []).forEach(function (o) { pm[String(o[key])] = o; });
+                (cur || []).forEach(function (o) { cm[String(o[key])] = o; });
+                (cur || []).forEach(function (o) {
+                    const id = String(o[key]);
+                    const b = pm[id];
+                    if (!b) { events.push({ type: names[0], target: id, payload: o }); return; }
+                    const changed = {}; let n = 0; const keys = {};
+                    Object.keys(b).forEach(function (k) { keys[k] = 1; });
+                    Object.keys(o).forEach(function (k) { keys[k] = 1; });
+                    Object.keys(keys).forEach(function (k) {
+                        if (J(b[k]) !== J(o[k])) { changed[k] = (o[k] === undefined ? null : o[k]); n++; }
+                    });
+                    if (n) events.push({ type: names[1], target: id, payload: changed });
+                });
+                (prev || []).forEach(function (o) {
+                    const id = String(o[key]);
+                    if (!cm[id]) events.push({ type: names[2], target: id });
+                });
+            },
+            diff: function (prev, cur) {
+                const events = [];
+                const J = JSON.stringify;
+                const ctxPath = window.__cdeCtx ? window.__cdeCtx.path : null;
+                const flat = function (type, target, a, b) {
+                    const ch = {}; let n = 0; const keys = {};
+                    Object.keys(a || {}).forEach(function (k) { keys[k] = 1; });
+                    Object.keys(b || {}).forEach(function (k) { keys[k] = 1; });
+                    Object.keys(keys).forEach(function (k) {
+                        if (J((a || {})[k]) !== J((b || {})[k])) { ch[k] = (b || {})[k]; n++; }
+                    });
+                    if (n) events.push({ type: type, target: target, payload: ch });
+                };
+                flat("simulation.info", ctxPath, prev.analysis, cur.analysis);
+                this._listDiff(prev.tasks, cur.tasks, "id", ["phase.add", "phase.update", "phase.remove"], events);
+                flat("project.info", cur.project.guid || null, prev.project, cur.project);
+                return events;
+            },
+            append: function (events) {
+                if (!this.session || !events.length) return Promise.resolve();
+                return this.session.append(this.author, this.appId, events);
+            },
+            flush: async function () {
+                if (!this.session || !this.baseline) return;
+                if (this.flushing) { this.pending = true; return; }
+                this.flushing = true;
+                let appended = false;
+                try {
+                    do {
+                        this.pending = false;
+                        const cur = this.snap();
+                        const events = this.diff(this.baseline, cur);
+                        if (!events.length) continue;
+                        try {
+                            await this.append(events);
+                            this.baseline = cur;   
+                            appended = true;
+                        } catch (e) {
+                            console.warn("CDE append failed (kept for retry):", e);
+                            if (this.onError) this.onError();
+                            break;
+                        }
+                    } while (this.pending);
+                } finally {
+                    this.flushing = false;
+                }
+                if (appended) {
+                    if (this.onSaved) this.onSaved();
+                    if (typeof document !== "undefined" && document.visibilityState === "hidden") {
+                        await this.flushWriteBack();
+                    } else {
+                        this.scheduleWriteBack();
+                    }
+                }
+            },
+            _slugTitle: function () {
+                let t = String((state.projectData && state.projectData.title) || "").trim();
+                if (!t) return null;
+                t = t.replace(/[\\/:*?"<>|]/g, "-").replace(/\s+/g, " ").trim().slice(0, 60).replace(/[-\s]+$/, "");
+                return t || null;
+            },
+            maybeRename: async function () {
+                const ctx = window.__cdeCtx;
+                if (!ctx || !ctx.handle || !ctx.path) return;
+                const slug = this._slugTitle();
+                if (!slug) return;
+                const parts = String(ctx.path).split("/").filter(Boolean);
+                const fname = parts.pop();
+                const desired = slug + ".xlsx";
+                if (fname === desired) return;
+                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;   
+                try {
+                    let dir = ctx.handle;
+                    for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: false });
+                    const fh = await dir.getFileHandle(fname, { create: false });
+                    let target = desired, i = 2;
+                    while (i <= 20) {
+                        try { await dir.getFileHandle(target, { create: false }); target = slug + "-" + (i++) + ".xlsx"; }
+                        catch (e) { break; }
+                    }
+                    if (i > 20) return;
+                    let moved = false;
+                    if (typeof fh.move === "function") {
+                        try { await fh.move(target); moved = true; }
+                        catch (e) { console.warn("handle.move failed, copy+delete fallback:", e); }
+                    }
+                    if (!moved) {
+                        const bytes = new Uint8Array(await (await fh.getFile()).arrayBuffer());
+                        const nf = await dir.getFileHandle(target, { create: true });
+                        const w = await nf.createWritable(); await w.write(bytes); await w.close();
+                        await dir.removeEntry(fname);
+                    }
+                    const from = ctx.path;
+                    ctx.path = parts.concat([target]).join("/");
+                    this.append([{
+                        type: "file.rename", target: ctx.path,
+                        payload: { from: from, to: ctx.path, app: this.appId }
+                    }]).catch(function () { });
+                    this.lastAssignHash = null;   
+                    await this.markLoadedFileSeen();
+                } catch (e) { console.warn("CDE rename skipped (will retry):", e); }
+            },
+            writeBack: { timer: null, busy: false, pending: false, lastMtime: 0, lastSize: 0 },
+            lastAssignHash: null,
+            scheduleWriteBack: function () {
+                if (!window.__cdeCtx) return;
+                window.__cdeUnsaved = true;   
+                if (typeof Autosave !== "undefined" && Autosave.toastNotify) Autosave.toastNotify("dirty");
+                const wbk = this.writeBack;
+                clearTimeout(wbk.timer);
+                const self = this;
+                wbk.timer = setTimeout(function () { self.flushWriteBack(); }, window.__cdeWriteBackMs || 2000);
+            },
+            flushWriteBack: async function () {
+                const ctx = window.__cdeCtx;
+                if (!ctx || !ctx.handle || !ctx.path) return;
+                const wbk = this.writeBack;
+                if (wbk.busy) { wbk.pending = true; return; }
+                wbk.busy = true;
+                let wroteOk = false;   
+                try {
+                    await this.maybeRename();
+                    do {
+                        wbk.pending = false;
+                        let buf;
+                        try {
+                            const wb = buildWorkbook();
+                            buf = new Uint8Array(XLSX.write(wb, { bookType: "xlsx", type: "array", cellStyles: true }));
+                        } catch (e) {
+                            console.warn("CDE write-back build failed:", e);
+                            return;
+                        }
+                        try {
+                            const loc = await _cdeFileHandle(ctx.handle, ctx.path, true);
+                            const w = await loc.fh.createWritable();   
+                            await w.write(buf);
+                            await w.close();
+                            const f = await loc.fh.getFile();
+                            wbk.lastMtime = f.lastModified;   
+                            wbk.lastSize = f.size;
+                            wroteOk = true;
+                            try {
+                                if (window.crypto && window.crypto.subtle) {
+                                    const d = await window.crypto.subtle.digest("SHA-256", buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength));
+                                    const h = Array.prototype.map.call(new Uint8Array(d),
+                                        function (b) { return ("0" + b.toString(16)).slice(-2); }).join("");
+                                    if (h !== this.lastAssignHash) {
+                                        this.lastAssignHash = h;
+                                        await this.append([{
+                                            type: "file.assign", target: ctx.path,
+                                            payload: { app: this.appId, kind: "simulation", contentHash: h }
+                                        }]);
+                                    }
+                                }
+                            } catch (e) {  }
+                        } catch (e) {
+                            console.warn("CDE write-back failed (will retry on next change):", e);
+                            return;
+                        }
+                    } while (wbk.pending);
+                } finally {
+                    wbk.busy = false;
+                    if (wroteOk && !wbk.pending) window.__cdeUnsaved = false;
+                    if (typeof Autosave !== "undefined" && Autosave.toastNotify)
+                        Autosave.toastNotify(wroteOk ? "saved" : "error");
+                }
+            },
+            extSeen: { mtime: 0, size: 0 },
+            checking: false,
+            _statFile: async function () {
+                const ctx = window.__cdeCtx;
+                const loc = await _cdeFileHandle(ctx.handle, ctx.path, false);
+                return loc.fh;
+            },
+            markLoadedFileSeen: async function () {
+                try {
+                    const fh = await this._statFile();
+                    const f = await fh.getFile();
+                    this.extSeen = { mtime: f.lastModified, size: f.size };
+                } catch (e) {  }
+            },
+            checkExternal: async function () {
+                const ctx = window.__cdeCtx;
+                if (!ctx || !ctx.handle || !ctx.path) return;
+                if (this.checking || this.flushing || this.writeBack.busy) return;
+                this.checking = true;
+                try {
+                    let fh, f;
+                    try { fh = await this._statFile(); f = await fh.getFile(); }
+                    catch (e) { return; }   
+                    const wbk = this.writeBack;
+                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;   
+                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;   
+                    let wb;
+                    try { wb = XLSX.read(new Uint8Array(await f.arrayBuffer()), { type: "array" }); }
+                    catch (e) {
+                        console.warn("CDE external read failed (transient, will retry):", e);
+                        return;
+                    }
+                    if (!wb.Sheets["INFO"] || !wb.Sheets["Phase Estimates"]) {
+                        console.warn("CDE external file is not a simulation workbook; import skipped");
+                        return;
+                    }
+                    await this.flush();   
+                    try { importNativeExcel(wb); }
+                    catch (e) { console.warn("CDE external import failed:", e); return; }
+                    this.extSeen = { mtime: f.lastModified, size: f.size };
+                    hasUnsavedChanges = false;   
+                    await this.flush();   
+                } finally {
+                    this.checking = false;
+                }
+            }
+        };
+        async function _cdeFillProjectInfo(info, params) {
+            try {
+                let hs = {};
+                try {
+                    const hubState = await liteAECO.cde.loadState(info.handle);
+                    hs = (hubState && hubState.project) || {};
+                } catch (e) { }
+                try {
+                    const manifest = await liteAECO.cde.readManifest(info.handle);
+                    if (manifest && !manifest.__readError) hs = Object.assign({}, manifest, hs);
+                } catch (e) { }
+                try {
+                    if (liteAECO.projects) {
+                        const reg = (await liteAECO.projects.list()).find(r => r.guid === params.guid);
+                        if (reg) hs = Object.assign({}, reg, hs);
+                    }
+                } catch (e) { }
+                if (!hs.title) hs.title = info.name || '';
+                const addr = [hs.address1, hs.city].filter(Boolean).join(', ') || hs.address || '';
+                const fill = { number: hs.number || '', title: hs.title || '', client: hs.client || '', address: addr, type: hs.type || '' };
+                let changed = false;
+                if (!state.project.guid || state.project.guid === params.guid) {
+                    Object.keys(fill).forEach(function (k) {
+                        if (state.project[k] !== fill[k]) { state.project[k] = fill[k]; changed = true; }
+                    });
+                }
+                if (state.project.guid !== params.guid) { state.project.guid = params.guid; changed = true; }
+                if (changed) {
+                    renderProjectBar();
+                    hasUnsavedChanges = true;
+                    if (typeof Autosave !== "undefined") Autosave.markDirty();
+                }
+            } catch (e) { console.warn("CDE project-info fill skipped:", e); }
+        }
+        async function _cdeBridgeInit(info, params) {
+            if (!document.getElementById('cde-home-btn')) {
+                const anchor = document.getElementById('app-project-number');
+                if (anchor && anchor.parentElement) {
+                    const btn = document.createElement('a');
+                    btn.id = 'cde-home-btn';
+                    btn.href = 'project-hub.html?project=' + encodeURIComponent(params.guid) + '&tab=simulations';
+                    btn.title = (window.BASE_PAGE || {}).cdeBackToProject || 'Back to project';
+                    btn.className = 'shrink-0 w-10 h-10 rounded-lg bg-white border border-slate-100 shadow-sm hover:bg-indigo-50 flex items-center justify-center transition';
+                    btn.innerHTML = '<img src="../img/tools/liteaeco-cde.svg" alt="liteAECO" class="w-6 h-6" />';
+                    anchor.parentElement.insertBefore(btn, anchor);
+                }
+            }
+            const cde = liteAECO.cde;
+            cdeBridge.session = cde.session(info.handle);
+            cdeBridge.baseline = cdeBridge.snap();
+            const dev = await cde.identity.device();
+            const memberId = await cde.identity.getMember(params.guid);
+            cdeBridge.author = memberId || ("device:" + dev);
+            function _assign() {
+                var hp = cde.hashFile ? cde.hashFile(info.handle, params.open).catch(function () { return null; })
+                    : Promise.resolve(null);
+                return hp.then(function (h) {
+                    cdeBridge.lastAssignHash = h;
+                    return cdeBridge.append([{
+                        type: "file.assign", target: params.open,
+                        payload: { app: cdeBridge.appId, kind: "simulation", contentHash: h }
+                    }]);
+                });
+            }
+            cde.loadState(info.handle).then(function (st) {
+                var f = st && st.files ? st.files[params.open] : null;
+                if (f && f.app === cdeBridge.appId) {
+                    cdeBridge.lastAssignHash = f.contentHash || null;
+                    return null;
+                }
+                return _assign();
+            }).catch(function () {
+                return _assign();
+            }).catch(function (e) { console.warn("CDE assign append failed:", e); });
+            if (typeof Autosave !== "undefined" && Autosave && typeof Autosave.markDirty === "function") {
+                if (!Autosave.__cdeWrapped) {
+                    Autosave.__cdeWrapped = true;
+                    Autosave.markDirty = function () {
+                        Autosave.renderStatus('dirty');
+                        cdeBridge.schedule();
+                    };
+                    cdeBridge.onSaved = function () {
+                        Autosave.lastSavedAt = new Date();
+                        Autosave.renderStatus('saved');
+                    };
+                    cdeBridge.onError = function () { Autosave.renderStatus('error'); };
+                    Autosave.lastSavedAt = new Date();   
+                    Autosave.renderStatus('saved');      
+                }
+            }
+            document.addEventListener("visibilitychange", function () {
+                if (document.visibilityState === "hidden") { commitTypingDirty(); cdeBridge.flush(); }
+            });
+            await cdeBridge.markLoadedFileSeen();
+            window.addEventListener("focus", function () { cdeBridge.checkExternal(); });
+            cdeBridge.extTimer = setInterval(function () { cdeBridge.checkExternal(); },
+                window.__cdeExtPollMs || 60000);
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            cdeAutoOpen().then(function (viaCde) { if (!viaCde) Autosave.boot(); })
+                .catch(function (err) {
+                    console.error("CDE open failed:", err);
+                    Autosave.boot();
+                });
+        });
+    </script>
+</body>
+</html>

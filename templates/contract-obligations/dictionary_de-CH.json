@@ -1,0 +1,277 @@
+{
+  "app": "liteAECO-contract-dictionary",
+  "schema": 1,
+  "savedAt": "2026-08-29T00:00:00.000Z",
+  "id": "de-CH",
+  "name": "Deutsch – Schweizer Mietrecht (OR)",
+  "version": 1,
+  "language": "de",
+  "country": "CH",
+  "defaults": {
+    "currency": "CHF",
+    "dateLocale": "dach",
+    "vatRate": 8.1,
+    "highlightDates": true,
+    "highlightClauses": true,
+    "highlightBaselines": true,
+    "rentPeriod": "monthly"
+  },
+  "_help": {
+    "about": "liteAECO Contract Obligations dictionary. One file = one language/jurisdiction. All keys are English so anyone can adapt it.",
+    "keys": {
+      "app": "Must be liteAECO-contract-dictionary. Identifies the file.",
+      "schema": "Dictionary format version. Currently 1.",
+      "savedAt": "ISO timestamp, set on export.",
+      "defaults": "Config applied when this dictionary is selected: currency, dateLocale (dach|us|uk|iso), vatRate (%), rentPeriod (monthly|annual — how rent figures are stated), highlight toggles.",
+      "id": "Unique short id, e.g. de-CH, en-UK, fr-CH.",
+      "name": "Shown in the dictionary selector.",
+      "tocHeaders": "Lines that mark a table of contents. The block after them is removed before analysis.",
+      "clauses": "Keywords highlighted blue (Clause heatmap). Word-boundary at start, case-insensitive.",
+      "baselines": "Keywords highlighted purple (Baseline / REFM check).",
+      "coreAudit": "Baselines that MUST appear. Missing ones are listed in red.",
+      "fields": "Structured values extracted into cards. Order = evaluation order. Field ids are fixed by the app."
+    },
+    "fieldKeys": {
+      "id": "Fixed app id: landlord, tenant, address, purpose, area, netRent, totalRent, serviceCharges, deposit, vatNumber, vat, startDate, term, noticePeriod, exclusivity, sublease.",
+      "label": "Label used in exports and dropdowns.",
+      "description": "Free text for humans. Ignored by the app.",
+      "type": "text | money | number | date | area | flag. Drives the derived panel.",
+      "pattern": "JavaScript regex as a JSON string. Escape backslashes: \\\\d not \\d.",
+      "flags": "Regex flags. i = ignore case, m = multiline (^ matches line start), s = dot matches newline. g is added automatically.",
+      "group": "Capture group index to keep. 0 = whole match.",
+      "fallback": "Second pattern tried only when 'pattern' finds nothing.",
+      "suffix": "Text appended on the card, e.g. ' CHF'.",
+      "maxLen": "Truncate the displayed value.",
+      "yes": "flag type only: text shown when found.",
+      "no": "flag type only: text shown when not found."
+    },
+    "regexCheatSheet": [
+      "Money:     (?:CHF|Fr\\\\.)\\\\s*([\\\\d'’.,]+)               captures 3'600.00",
+      "Date:      (\\\\d{1,2}\\\\.\\\\d{1,2}\\\\.\\\\d{2,4})            captures 01.06.2026",
+      "ISO date:  (\\\\d{4}-\\\\d{2}-\\\\d{2})",
+      "Number:    (\\\\d+)\\\\s*(?:Jahr|Jahre)                   captures 5",
+      "Area:      ([\\\\d'.]+)\\\\s*(?:m2|m²)                    captures 120",
+      "Rest of line:   Keyword[: \\\\t]*([^\\\\n]+)",
+      "Sentence:       Keyword[^.]*\\\\.?                       use group 0",
+      "Same line only: use [^\\\\n] instead of . or \\\\s",
+      "Start of line:  ^Keyword  with flags 'im'",
+      "Lazy skip:      Keyword.*?CHF                          nearest CHF after keyword"
+    ]
+  },
+  "tocHeaders": [
+    "Inhaltsverzeichnis",
+    "Inhalt",
+    "Table of Contents"
+  ],
+  "clauses": [
+    "Kündigung",
+    "Kündigungsfrist",
+    "Mietzins",
+    "Total Miete",
+    "Zweck",
+    "Branche",
+    "Verwendungszweck",
+    "Bauliche Veränderungen",
+    "Fläche",
+    "Nutzfläche",
+    "Zweckänderung",
+    "Konkurrenzschutz",
+    "Option",
+    "Adresse",
+    "Sitz",
+    "Haftung",
+    "Vertraulichkeit",
+    "Höhere Gewalt",
+    "Gerichtsstand",
+    "Salvatorische Klausel",
+    "Abtretung",
+    "Zusicherungen",
+    "Anwendbares Recht"
+  ],
+  "baselines": [
+    "Mietzinsdepot",
+    "Kaution",
+    "Sicherheit",
+    "Nebenkosten",
+    "Betriebskosten",
+    "Indexierung",
+    "Landesindex",
+    "Untermiete",
+    "Untervermietung",
+    "Mehrwertsteuer",
+    "MWST",
+    "CHE-",
+    "SLA",
+    "Service Level Agreement",
+    "Instandhaltung",
+    "Arbeitssicherheit",
+    "Versicherungsnachweis",
+    "Zutrittsrecht",
+    "Betriebskontinuität"
+  ],
+  "coreAudit": [
+    "Kaution",
+    "Nebenkosten",
+    "Indexierung",
+    "Untermiete",
+    "Mehrwertsteuer"
+  ],
+  "fields": [
+    {
+      "id": "landlord",
+      "label": "Vermieter / Eigentümer",
+      "type": "text",
+      "description": "Name after 'Vermieter' or 'Eigentümer', same or next line, must start with a capital.",
+      "pattern": "(?:Vermieter|Eigentümer)(?:in)?(?:[\\s:]*)(?:\\r?\\n)?\\s*([A-ZÄÖÜ][^\\r\\n]{2,40})",
+      "flags": "",
+      "group": 1
+    },
+    {
+      "id": "tenant",
+      "label": "Mieter",
+      "type": "text",
+      "description": "Name after 'Mieter'. Case-sensitive so 'Vermieter' does not match.",
+      "pattern": "(?:Mieter)(?:in)?(?:[\\s:]*)(?:\\r?\\n)?\\s*([A-ZÄÖÜ][^\\r\\n]{2,40})",
+      "flags": "",
+      "group": 1
+    },
+    {
+      "id": "address",
+      "label": "Adresse / Objekt",
+      "type": "text",
+      "description": "Text after an address keyword up to a 4-digit Swiss postcode + town. Max 2 line breaks.",
+      "pattern": "(?:Adresse|Sitz|Liegenschaft|Mietobjekt|Objekt)[: \\t]*\\n?((?:[^\\n]{0,60}\\n){0,2}[^\\n]{0,80}?\\d{4}[ \\t]+[A-Za-zäöüÄÖÜß]+)",
+      "flags": "i",
+      "group": 1
+    },
+    {
+      "id": "purpose",
+      "label": "Zweck & Branche",
+      "type": "text",
+      "description": "Rest of the line after a purpose keyword, up to the first full stop.",
+      "pattern": "(?:Zweck|Verwendungszweck|Branche)[: \\t]*([^\\n\\.]{3,})",
+      "flags": "i",
+      "group": 1
+    },
+    {
+      "id": "area",
+      "label": "Fläche",
+      "type": "area",
+      "description": "Number before m2 / m² / Quadratmeter.",
+      "pattern": "([\\d\\.']+)\\s*(?:m2|m²|Quadratmeter)",
+      "flags": "i",
+      "group": 1,
+      "suffix": " m²"
+    },
+    {
+      "id": "netRent",
+      "label": "Nettomietzins (CHF)",
+      "type": "money",
+      "description": "First CHF amount after 'Netto'. Same line.",
+      "pattern": "(?:Netto|Nettomietzins|Mietzins netto)[^\\n]*?(?:CHF|Fr\\.)\\s*([\\d\\.']+)",
+      "flags": "i",
+      "group": 1,
+      "suffix": " CHF"
+    },
+    {
+      "id": "totalRent",
+      "label": "Total (CHF)",
+      "type": "money",
+      "description": "First CHF amount after Total / Gesamt / Brutto. Same line.",
+      "pattern": "(?:Total|Gesamt|Brutto)[^\\n]*?(?:CHF|Fr\\.)\\s*([\\d\\.']+)",
+      "flags": "i",
+      "group": 1,
+      "suffix": " CHF"
+    },
+    {
+      "id": "serviceCharges",
+      "label": "Nebenkosten (CHF)",
+      "type": "money",
+      "description": "First CHF amount after Nebenkosten. Same line.",
+      "pattern": "(?:Nebenkosten|Betriebskosten)[^\\n]*?(?:CHF|Fr\\.)\\s*([\\d\\.']+)",
+      "flags": "i",
+      "group": 1,
+      "suffix": " CHF"
+    },
+    {
+      "id": "deposit",
+      "label": "Kaution (CHF)",
+      "type": "money",
+      "description": "First CHF amount after Mietzinsdepot / Kaution / Sicherheit. Same line.",
+      "pattern": "(?:Mietzinsdepot|Kaution|Sicherheit)[^\\n]*?(?:CHF|Fr\\.)\\s*([\\d\\.']+)",
+      "flags": "i",
+      "group": 1,
+      "suffix": " CHF"
+    },
+    {
+      "id": "vatNumber",
+      "label": "MwSt-Nummer (UID)",
+      "type": "text",
+      "description": "Swiss UID: CHE-123.456.789.",
+      "pattern": "(CHE-\\d{3}\\.\\d{3}\\.\\d{3}(?:\\s*MWST)?)",
+      "flags": "i",
+      "group": 1
+    },
+    {
+      "id": "vat",
+      "label": "MWST",
+      "type": "flag",
+      "description": "Only checks presence. Details must be read in the text.",
+      "pattern": "Mehrwertsteuer|MWST|MwSt",
+      "flags": "i",
+      "group": 0,
+      "yes": "Erwähnt (Details im Text prüfen)",
+      "no": "Keine MWST Option gefunden"
+    },
+    {
+      "id": "startDate",
+      "label": "Mietbeginn",
+      "type": "date",
+      "description": "Date after Mietbeginn / beginnt am / Mietantritt. Accepts dd.mm.yyyy, yyyy.mm.dd, yyyy-mm-dd, '1. Juni 2026'.",
+      "pattern": "(?:Mietbeginn|beginnt\\s+am|Mietantritt|Mietantritt am)[\\s:]*(\\d{1,2}\\.\\d{1,2}\\.\\d{2,4}|\\d{4}\\.\\d{1,2}\\.\\d{1,2}|\\d{4}-\\d{2}-\\d{2}|\\d{1,2}\\.\\s*[A-Za-zäöüÄÖÜ]+\\s*\\d{4})",
+      "flags": "i",
+      "group": 1
+    },
+    {
+      "id": "term",
+      "label": "Mindestdauer (Jahre)",
+      "type": "number",
+      "description": "Years after a duration keyword. Fallback: any 'N Jahre'.",
+      "pattern": "(?:Mindestdauer|Mietdauer|Vertragsdauer|feste Dauer)[^\\n]*?(\\d+)\\s*(?:Jahr|Jahre)",
+      "fallback": "(\\d+)\\s*(?:Jahr|Jahre)",
+      "flags": "i",
+      "group": 1,
+      "suffix": " Jahre"
+    },
+    {
+      "id": "noticePeriod",
+      "label": "Kündigungsfrist (Monate)",
+      "type": "number",
+      "description": "Months after Kündigungsfrist / Frist. Same line.",
+      "pattern": "(?:Kündigungsfrist|Frist)[^\\n]*?(\\d+)\\s*(?:Monat|Monate)",
+      "flags": "i",
+      "group": 1,
+      "suffix": " Monate"
+    },
+    {
+      "id": "exclusivity",
+      "label": "Konkurrenzschutz",
+      "type": "text",
+      "description": "Sentence starting at Konkurrenzschutz / Wettbewerbsverbot.",
+      "pattern": "(?:Konkurrenzschutz|Wettbewerbsverbot)[^.]*\\.?",
+      "flags": "i",
+      "group": 0,
+      "maxLen": 40
+    },
+    {
+      "id": "sublease",
+      "label": "Untermiete",
+      "type": "text",
+      "description": "Sentence starting at Untermiete / Untervermietung.",
+      "pattern": "(?:Untermiete|Untervermietung)[^.]*\\.?",
+      "flags": "i",
+      "group": 0,
+      "maxLen": 40
+    }
+  ]
+}

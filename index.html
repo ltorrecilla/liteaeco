@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Luis Torrecilla">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>liteAECO - Free, Local AEC Tools for Project Teams</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="description" content="Free, fast, client-side tools for AEC project teams. Manage data, create timelines, and more. No uploads, no accounts, no tracking. Everything runs locally.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://liteaeco.com/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://liteaeco.com/">
+    <meta property="og:site_name" content="liteAECO">
+    <meta property="og:title" content="liteAECO - Free, Local AEC Tools for Project Teams">
+    <meta property="og:description" content="Free, fast, client-side tools for AEC project teams. Manage data, create timelines, and more. No uploads, no accounts, no tracking. Everything runs locally.">
+    <meta property="og:image" content="https://liteaeco.com/img/og-home.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="liteAECO - free local AEC tools">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://liteaeco.com/">
+    <meta name="twitter:title" content="liteAECO - Free, Local AEC Tools for Project Teams">
+    <meta name="twitter:description" content="Free, fast, client-side tools for AEC project teams. Manage data, create timelines, and more. No uploads, no accounts, no tracking. Everything runs locally.">
+    <meta name="twitter:image" content="https://liteaeco.com/img/og-home.png">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "liteAECO",
+      "url": "https://www.liteaeco.com/",
+      "description": "Free, No Signup, AECO ad-hoc tools. Private, running session based in your browser. Speed up workflows with small apps built to keep projects moving forward."
+    }
+    </script>
+
+    <!-- Scripts Design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./js/vendor/lucide-1.45.0.min.js"></script>
+
+    <!-- Scripts Internal -->
+    <script>window.SITE_ROOT = './';</script>
+    <script src="./lang/en/global.js"></script>
+    <script src="./js/common.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        // Mapping the old 'accent' to the new indigo palette to minimize JS changes
+                        accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/global.css">
+</head>
+
+<body
+    class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
+
+    <!-- BACKGROUND -->
+	<!--
+    <div id="heavy-background-effects">
+        <div
+            class="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-[radial-gradient(circle,rgba(165,180,252,0.4)_0%,transparent_70%)] pointer-events-none opacity-60 z-[-1]">
+        </div>
+        <div
+            class="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-[radial-gradient(circle,rgba(165,180,252,0.1)_0%,transparent_70%)] pointer-events-none opacity-60 z-0">
+        </div>
+        <div
+            class="fixed bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-[radial-gradient(circle,rgba(253,164,175,0.2)_0%,transparent_70%)] pointer-events-none opacity-60 z-0">
+        </div>
+        <div
+            class="fixed top-[30%] left-[50%] w-[40vw] h-[40vw] bg-[radial-gradient(circle,rgba(125,211,252,0.2)_0%,transparent_70%)] pointer-events-none opacity-50 z-0">
+        </div>
+    </div>
+	-->
+
+    <script>
+        if (!window.isHighPerformance()) {
+            document.getElementById('heavy-background-effects').style.display = 'none';
+        }
+    </script>
+
+    <!-- Skip link for keyboard users -->
+    <a href="#app-grid"
+        class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[200] focus:px-4 focus:py-2 focus:bg-slate-900 focus:text-white focus:text-xs focus:font-bold focus:uppercase focus:tracking-widest">
+        Skip to tools
+    </a>
+
+    <!-- TOP NAVIGATION -->
+
+    <!-- Main content -->
+    <header class="pt-20 pb-6 px-4 md:px-8 max-w-7xl mx-auto relative z-30 text-center md:text-left w-full">
+        <div class="w-full mx-auto md:mx-0">
+
+            <div
+                class="hidden inline-flex items-center gap-2 px-3 py-1 rounded-none bg-white border border-slate-100 shadow-sm text-indigo-700 text-xs font-semibold uppercase tracking-wider mb-8">
+                <span id="ui-hero-badge-dot" class="w-2 h-2 bg-indigo-500 animate-pulse"></span>
+                <span id="ui-hero-badge">AEC Software Suite</span>
+            </div>
+
+            <!-- NOTE: id is no longer 'ui-hero-title'. The auto-translator overwrites the innerHTML of
+                 every [id^="ui-"] element, which would wipe out the typing span and the calendar. -->
+            <section id="hero-title"
+                class="text-5xl md:text-6xl font-bold tracking-tight leading-[1.1] mb-6 text-slate-900">
+
+                <span class="flex flex-col md:flex-row md:items-center justify-between w-full">
+                    <h1>
+                        <span
+                            class='text-transparent bg-clip-text bg-gradient-to-r from-blue-950 to-indigo-600'>Lite</span><span
+                            id='typing-text' aria-hidden="true"
+                            class='text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-sky-500'></span>
+                        <!-- Static, crawlable, screen-reader-friendly version of the animated headline -->
+                        <span class="sr-only">AECO — free ad-hoc tools for architecture, engineering, construction and
+                            operations</span>
+                    </h1>
+
+                    <div
+                        class="flex flex-col items-center mt-4 md:mt-0 rounded-lg bg-white border border-slate-100 shadow-sm p-4 relative">
+
+                        <span id="current-date"
+                            class="text-xs font-medium uppercase tracking-widest text-slate-400 mb-1"></span>
+
+                        <button type="button" id="calendar-trigger" onclick="toggleCalendar(event)"
+                            aria-expanded="false" aria-controls="week-calendar-popup"
+                            class="flex items-center justify-center text-2xl text-slate-600 font-medium cursor-pointer hover:text-indigo-600 transition-colors select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded">
+                            <i data-lucide="calendar" class="w-6 h-6 mr-2"></i>
+                            <span id="ui-current-week-text" class="pr-2">Wk</span><span id="current-week-number"></span>
+                        </button>
+
+                        <div id="week-calendar-popup" onclick="event.stopPropagation()"
+                            class="hidden absolute top-[4rem] right-0 bg-white border border-slate-200 shadow-xl rounded-xl p-4 z-50 w-72">
+
+                            <div class="flex justify-between items-center mb-4">
+                                <button onclick="changeMonth(-1)" aria-label="Previous month"
+                                    class="p-1 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+                                    <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                                </button>
+                                <span id="calendar-month-year"
+                                    class="font-semibold text-slate-800 text-sm tracking-normal"></span>
+                                <button onclick="changeMonth(1)" aria-label="Next month"
+                                    class="p-1 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+                                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+
+                            <div id="calendar-days-header"
+                                class="grid grid-cols-8 gap-1 mb-2 text-[10px] font-bold text-slate-500 text-center border-b border-slate-100 pb-2 uppercase tracking-wide">
+                            </div>
+
+                            <div id="calendar-body"></div>
+                        </div>
+
+                        <div class="flex items-center gap-4 mt-3">
+                            <a href="https://www.linkedin.com/in/ltorrecilla/" target="_blank" rel="noopener noreferrer"
+                                class="text-slate-500 hover:text-indigo-600 transition-colors" aria-label="LinkedIn">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    class="w-5 h-5">
+                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                    <rect x="2" y="9" width="4" height="12"></rect>
+                                    <circle cx="4" cy="4" r="2"></circle>
+                                </svg>
+                            </a>
+                            <a href="https://x.com/liteaeco" target="_blank" rel="noopener noreferrer"
+                                class="hidden text-slate-500 hover:text-slate-900 transition-colors" aria-label="X">
+                                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                </svg>
+                            </a>
+                            <a href="https://github.com/ltorrecilla/liteaeco" target="_blank" rel="noopener noreferrer"
+                                class="text-slate-500 hover:text-indigo-600 transition-colors" aria-label="GitHub">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    class="w-5 h-5">
+                                    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+                                    <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                                </svg>
+                            </a>
+                            <a href="https://ko-fi.com/ltorrecilla" target="_blank" rel="noopener noreferrer"
+                                class="text-slate-500 hover:text-amber-800 transition-colors" aria-label="Ko-fi">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    class="w-5 h-5">
+                                    <path d="M17 8h1a4 4 0 1 1 0 8h-1"></path>
+                                    <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"></path>
+                                    <line x1="6" y1="2" x2="6" y2="4"></line>
+                                    <line x1="10" y1="2" x2="10" y2="4"></line>
+                                    <line x1="14" y1="2" x2="14" y2="4"></line>
+                                </svg>
+                            </a>
+                            <a href="mailto:hello@liteaeco.com"
+                                class="text-slate-500 hover:text-indigo-600 transition-colors" aria-label="Email">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    class="w-5 h-5">
+                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </span>
+
+                <span id="ui-herosubtitle" class='block mt-2 md:mt-4 text-3xl text-slate-900'>Free AECO ad-hoc tools.
+                    No Signup. No Cloud.</span>
+            </section>
+
+            <p id="ui-hero-desc"
+                class="text-lg text-slate-600 font-light leading-relaxed mb-6 max-w-2xl mx-auto md:mx-0">
+                Fast, private, browser-based apps for projects. No registration required, just the tools you need, when
+                you need them, to keep projects moving.
+            </p>
+        </div>
+    </header>
+
+    <main class="px-4 md:px-8 pb-32 max-w-7xl mx-auto relative z-10 flex-grow w-full">
+
+        <!-- TOOLBAR: search + category filters + result count -->
+        <div class="flex flex-col gap-4 mb-8 border-b border-slate-200 pb-4">
+
+            <div class="relative w-full md:max-w-md">
+                <i data-lucide="search"
+                    class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none z-10"></i>
+                <input id="tool-search" type="text" data-i18n="searchPlaceholder" placeholder="Search tools…"
+                    autocomplete="off" spellcheck="false" aria-label="Search tools"
+                    class="w-full pl-9 pr-9 py-2.5 bg-white/70 backdrop-blur-sm border border-slate-200 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-300 transition-all">
+                <button type="button" id="search-clear" onclick="clearSearch()" aria-label="Clear search"
+                    class="hidden absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+                    <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                </button>
+            </div>
+
+            <div class="flex items-center justify-between gap-4">
+                <div id="category-badges" class="flex flex-wrap items-center gap-2"></div>
+
+                <span id="tool-count"
+                    class="shrink-0 text-xs font-bold uppercase tracking-widest text-slate-500 bg-white/50 px-3 py-1 border border-white z-10">
+                    0 tools
+                </span>
+            </div>
+        </div>
+
+        <div id="app-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-6 xl:gap-y-16">
+        </div>
+
+        <!-- EMPTY STATE -->
+        <div id="empty-state" class="hidden text-center py-20">
+            <i data-lucide="search-x" class="w-10 h-10 mx-auto text-slate-300 mb-4"></i>
+            <p id="empty-state-msg" class="text-slate-600 mb-6"></p>
+            <div class="flex items-center justify-center gap-3">
+                <button type="button" id="empty-state-all" onclick="searchAllCategories()"
+                    class="hidden px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold uppercase tracking-widest transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                    Search all tools
+                </button>
+                <button type="button" onclick="clearSearch()"
+                    class="px-4 py-2 border border-slate-300 text-slate-700 hover:bg-white text-xs font-bold uppercase tracking-widest transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                    Clear search
+                </button>
+            </div>
+        </div>
+
+        <div class="mt-24 pt-12 border-t border-slate-200 text-center max-w-3xl mx-auto">
+            <h2 id="ui-trusted-tools" class="text-2xl font-bold text-slate-900 mb-4 tracking-tight">
+                The tools you need right now!
+            </h2>
+            <p id="ui-trusted-desc" class="text-slate-600 leading-relaxed">
+                LiteAECO is a collection of free apps, built from project experience.
+                Enjoy all the tools you need to work efficiently while keeping your data away from someone else cloud.
+            </p>
+        </div>
+    </main>
+
+    <!-- APP DETAILS MODAL -->
+    <div id="app-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"
+        class="fixed inset-0 z-[999] hidden items-center justify-center p-4 sm:p-6 opacity-0 transition-opacity duration-300">
+
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeAppModal()"></div>
+
+        <div class="relative bg-white rounded-lg shadow-2xl w-full max-w-5xl overflow-hidden flex flex-col max-h-[90vh] scale-95 transition-transform duration-300 transform"
+            id="app-modal-content">
+
+            <button type="button" id="modal-close-btn" onclick="closeAppModal()" aria-label="Close"
+                class="absolute top-3 right-3 z-20 p-2 bg-white/90 hover:bg-white text-slate-600 hover:text-slate-900 border border-slate-200 rounded-full shadow-sm backdrop-blur-md transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+
+            <!-- Height is set with an arbitrary value: `h-120` is not a class Tailwind v3 generates,
+                 which collapsed this container to 0px. Hidden entirely when a tool has no media. -->
+            <div id="modal-media-container"
+                class="hidden w-full h-56 sm:h-72 bg-slate-100 relative flex-shrink-0 border-b border-slate-100">
+            </div>
+
+            <div class="p-5 sm:p-6 overflow-y-auto flex-grow custom-scrollbar flex flex-col">
+                <div class="flex items-center gap-4 mb-5 pr-10">
+                    <div id="modal-icon-container"
+                        class="w-12 h-12 rounded-xl flex items-center justify-center border-2 bg-indigo-50 shadow-sm shrink-0">
+                    </div>
+                    <div>
+                        <div id="modal-category"
+                            class="text-[12px] font-bold uppercase tracking-widest text-indigo-500 mb-0"></div>
+                        <h3 id="modal-title" class="text-2xl font-bold text-slate-900 leading-tight"></h3>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-2 flex-grow">
+                    <div class="md:col-span-1">
+                        <ul id="modal-features" class="list-disc pl-5 text-sm text-slate-600 space-y-2">
+                        </ul>
+                    </div>
+                    <div class="md:col-span-2">
+                        <div id="modal-desc" class="text-slate-600 leading-relaxed text-sm sm:text-base">
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end pt-4 border-t border-slate-100 mt-auto">
+                    <a id="modal-launch-btn" href="#"
+                        class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold uppercase tracking-widest rounded-none shadow-md hover:shadow-lg transition-all flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                        <span id="modal-launch-text">Launch</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <!-- JAVASCRIPT -->
+    <script>
+        // ==========================================
+        // liteAECO - PAGE LOGIC
+        // ==========================================
+
+        window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
+
+        // Save the prefix so common.js knows what language file to load
+        window.pageScriptPrefix = 'index';
+
+        document.addEventListener('languageLoaded', () => {
+            // Re-render the cards to update the dynamic JS strings (launchTool, toolCount, etc.)
+            if (typeof window.renderCards === 'function') {
+                window.renderCards();
+            }
+        });
+
+        // --- Calculate Current ISO Week Number ---
+        function getWeekNumber(d) {
+            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+        }
+
+        // --- BOOT SEQUENCE ---
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Set Week Number ---
+            const weekNumberElement = document.getElementById('current-week-number');
+            if (weekNumberElement) {
+                weekNumberElement.textContent = getWeekNumber(new Date());
+            }
+
+            // --- Set Current Date (localized) ---
+            const dateElement = document.getElementById('current-date');
+            if (dateElement) {
+                const lang = localStorage.getItem('liteAECOLang') || 'en';
+                dateElement.textContent = new Intl.DateTimeFormat(lang, {
+                    weekday: 'short', day: 'numeric', month: 'short'
+                }).format(new Date());
+            }
+
+            autoDetectLanguage();
+
+            // Generate the Navigation Bar and Footer
+            window.injectUI({
+                showNav: true,
+                transparentNav: true,
+                showSignIn: true,
+                showCategories: true,
+                showHelp: false,
+                showFooter: true,
+                showFooterLinks: true,
+            });
+
+            // Inject Cookie Banner
+            window.injectCookieBanner();
+
+            // Start the translation engine
+            window.loadLanguage(currentLang, window.pageScriptPrefix);
+
+            // Wire up search
+            setupSearch();
+
+            // --- URL Hash Routing ---
+            const hash = window.location.hash.replace('#', '').toLowerCase();
+            const isValidCategory = typeof CATEGORIES !== 'undefined' && CATEGORIES.some(cat => cat.id === hash);
+
+            if (isValidCategory) {
+                window.setCategory(hash);
+            } else {
+                if (typeof window.renderCards === 'function') {
+                    window.renderCards();
+                }
+            }
+
+            // Start the hero text typing animation
+            if (typeof startTypingEffect === 'function') {
+                startTypingEffect();
+            }
+        });
+
+        // --- Listen for URL hash changes dynamically ---
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.replace('#', '').toLowerCase();
+            const isValidCategory = typeof CATEGORIES !== 'undefined' && CATEGORIES.some(cat => cat.id === hash);
+
+            if (isValidCategory) {
+                window.setCategory(hash);
+            } else if (hash === '') {
+                window.setCategory('all');
+            }
+        });
+
+        // ==========================================
+        // SEARCH
+        // ==========================================
+        let searchQuery = '';
+
+        function setupSearch() {
+            const input = document.getElementById('tool-search');
+            if (!input) return;
+
+            input.addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                document.getElementById('search-clear').classList.toggle('hidden', searchQuery.length === 0);
+                renderCards();
+            });
+
+            // Escape clears the field while it is focused
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && input.value !== '') {
+                    e.stopPropagation();
+                    clearSearch();
+                }
+            });
+
+            // Press "/" anywhere to jump to search
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey) return;
+                const tag = (document.activeElement && document.activeElement.tagName) || '';
+                if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+                if (!document.getElementById('app-modal').classList.contains('hidden')) return;
+                e.preventDefault();
+                input.focus();
+            });
+        }
+
+        window.clearSearch = function () {
+            searchQuery = '';
+            const input = document.getElementById('tool-search');
+            if (input) {
+                input.value = '';
+                input.focus();
+            }
+            document.getElementById('search-clear').classList.add('hidden');
+            renderCards();
+        };
+
+        // Used by the empty state when a query has no hits inside the active category
+        window.searchAllCategories = function () {
+            window.setCategory('all');
+        };
+
+        // Builds the text blob a tool is matched against
+        function getSearchHaystack(app, d) {
+            const a = (d.apps && d.apps[app.id]) || {};
+            const parts = [a.title, a.desc, a.description, a.longDescription];
+            if (Array.isArray(a.features)) parts.push(a.features.join(' '));
+            return parts.filter(Boolean).join(' ').toLowerCase();
+        }
+
+        function matchesQuery(app, d, q) {
+            if (!q) return true;
+            const haystack = getSearchHaystack(app, d);
+            // every term must appear somewhere: "ifc merge" matches "IFC Merger"
+            return q.split(/\s+/).filter(Boolean).every(term => haystack.includes(term));
+        }
+
+        // ==========================================
+        // CARD RENDERING
+        // ==========================================
+        window.renderCards = function () {
+            const appGrid = document.getElementById('app-grid');
+            const categoryBadges = document.getElementById('category-badges');
+            if (!appGrid) return;
+
+            const d = typeof getTranslations === 'function' ? getTranslations() : {};
+            const q = searchQuery.trim().toLowerCase();
+
+            const inCategory = activeCategory === 'all'
+                ? APPS
+                : APPS.filter(app => app.categories && app.categories.includes(activeCategory));
+
+            const filteredApps = inCategory.filter(app => matchesQuery(app, d, q));
+
+            // Update the tool counter
+            const toolCount = document.getElementById('tool-count');
+            if (toolCount) {
+                const toolWord = filteredApps.length === 1 ? (d.toolCountSingular || 'tool') : (d.toolCountPlural || 'tools');
+                toolCount.textContent = `${filteredApps.length} ${toolWord}`;
+            }
+
+            // 1. Define Category Borders
+            const categoryBorders = {
+                'all': 'border-slate-400',
+                'pm': 'border-rose-400',
+                'data': 'border-emerald-400',
+                'bim': 'border-indigo-400',
+                'ops': 'border-sky-400',
+                'default': 'border-slate-400'
+            };
+
+            // 2. Render Interactive Category Badges (Pills)
+            if (categoryBadges) {
+                categoryBadges.innerHTML = CATEGORIES.map(cat => {
+                    const isActive = activeCategory === cat.id;
+                    const activeBorder = categoryBorders[cat.id] || categoryBorders['default'];
+                    const catLabel = (d.categories && d.categories[cat.id]) || cat.label;
+
+                    const btnClass = isActive
+                        ? `border-2 ${activeBorder} bg-white text-slate-900 shadow-sm`
+                        : `border border-slate-200 bg-white/50 text-slate-500 hover:border-slate-300 hover:text-slate-700 hover:bg-white`;
+
+                    return `
+            <button type="button" onclick="setCategory('${cat.id}')" aria-pressed="${isActive}" class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 ${btnClass}">
+                ${catLabel}
+            </button>
+            `;
+                }).join('');
+            }
+
+            // --- Empty state handling ---
+            const emptyState = document.getElementById('empty-state');
+            const emptyMsg = document.getElementById('empty-state-msg');
+            const emptyAllBtn = document.getElementById('empty-state-all');
+
+            if (filteredApps.length === 0) {
+                appGrid.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+
+                const hitsElsewhere = APPS.filter(app => matchesQuery(app, d, q)).length;
+                const noResults = d.noResults || 'No tools match';
+                emptyMsg.textContent = `${noResults} “${searchQuery.trim()}”.`;
+
+                // Offer to widen the search only when there really are hits in other categories
+                emptyAllBtn.classList.toggle('hidden', !(activeCategory !== 'all' && hitsElsewhere > 0));
+            } else {
+                appGrid.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+            }
+
+            // --- Check Performance Status Once ---
+            const isHighPerf = typeof window.isHighPerformance === 'function' ? window.isHighPerformance() : true;
+
+            const cardStyleClass = isHighPerf
+                ? "bg-white/50 backdrop-blur-lg border-slate-200 shadow-[0_8px_20px_rgba(0,0,0,0.04)] hover:bg-indigo-50/60 hover:border-indigo-100"
+                : "bg-white border-slate-200 shadow-sm hover:bg-indigo-50/60 hover:border-indigo-200";
+
+            const detailsLabel = d.moreInfo || 'Details';
+
+            // 3. Render Application Cards
+            appGrid.innerHTML = filteredApps.map(app => {
+                const primaryCatId = app.categories && app.categories[0] ? app.categories[0] : 'all';
+                const appCatLabel = (d.categories && d.categories[primaryCatId]) || primaryCatId;
+                const appTitle = (d.apps && d.apps[app.id] && d.apps[app.id].title) || 'Unknown Tool';
+                const appDesc = (d.apps && d.apps[app.id] && (d.apps[app.id].desc || d.apps[app.id].description)) || '';
+                const borderColor = categoryBorders[primaryCatId] || categoryBorders['default'];
+
+                let rotationClass = '';
+                if (app.rotation == 90) rotationClass = 'rotate-90';
+                if (app.rotation == 180) rotationClass = 'rotate-180';
+                if (app.rotation == -90) rotationClass = '-rotate-90';
+
+                // The card is a plain container; a transparent <a> stretched over it makes the whole
+                // surface a real link (cmd/middle-click, keyboard, "copy link", crawlable) while the
+                // info button stays above it on its own z-index.
+                return `
+        <div class="group relative border p-4 rounded-xl transition-colors duration-300 overflow-hidden flex flex-col justify-between h-[180px] ${cardStyleClass}">
+
+            ${isHighPerf ? `<div class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-50 pointer-events-none"></div>` : ''}
+
+            <a href="${app.url}" class="absolute inset-0 z-[5] rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-inset">
+                <span class="sr-only">${appTitle}</span>
+            </a>
+
+            <div>
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 shrink-0 rounded-lg bg-white border-2 ${borderColor} shadow-sm flex items-center justify-center group-hover:bg-indigo-50 group-hover:border-indigo-100 group-hover:text-indigo-600 text-slate-600 transition-all duration-300">
+                        <i data-lucide="${app.icon}" class="w-5 h-5 stroke-[1.5] transition-transform ${rotationClass}"></i>
+                    </div>
+
+                    <div class="flex flex-col overflow-hidden pr-7">
+                        <h3 class="text-base font-semibold text-slate-900 leading-tight truncate group-hover:text-indigo-700 transition-colors">${appTitle}</h3>
+                        <div class="text-[10px] font-bold uppercase tracking-widest text-indigo-500 mt-0.5 truncate">${appCatLabel}</div>
+                    </div>
+                </div>
+
+                <p class="pt-4 text-sm font-light text-slate-600 leading-relaxed group-hover:text-slate-700 transition-colors line-clamp-3">
+                    ${appDesc}
+                </p>
+            </div>
+
+            ${app.skipModal ? '' : `
+            <button type="button" onclick="openAppModal(${app.id})" title="${detailsLabel}" aria-label="${detailsLabel}: ${appTitle}"
+                class="absolute top-3 right-3 z-10 p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+                <i data-lucide="info" class="w-4 h-4"></i>
+            </button>`}
+        </div>
+        `;
+            }).join('');
+
+            // Re-initialize Lucide icons for the newly injected HTML
+            if (window.lucide) lucide.createIcons();
+        };
+
+        // --- Typing Animation State ---
+        const typingWords = ["AECO", "Architecture", "Engineering", "Construction", "Operations"];
+        let typingWordIndex = 0;
+        let typingCharIndex = 0;
+        let isDeletingText = false;
+        window.typingTimeout = null;
+
+        function startTypingEffect() {
+            const typingSpan = document.getElementById('typing-text');
+            if (!typingSpan) return;
+
+            // Respect the OS "reduce motion" setting: show the word, skip the animation
+            //if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            //    typingSpan.textContent = typingWords[0];
+            //    return;
+            //}
+
+            const currentWord = typingWords[typingWordIndex];
+
+            if (isDeletingText) {
+                typingSpan.textContent = currentWord.substring(0, typingCharIndex - 1);
+                typingCharIndex--;
+            } else {
+                typingSpan.textContent = currentWord.substring(0, typingCharIndex + 1);
+                typingCharIndex++;
+            }
+
+            let typeSpeed = isDeletingText ? 50 : 100;
+
+            if (!isDeletingText && typingCharIndex === currentWord.length) {
+                typeSpeed = 3000;
+                isDeletingText = true;
+            } else if (isDeletingText && typingCharIndex === 0) {
+                isDeletingText = false;
+                typingWordIndex = (typingWordIndex + 1) % typingWords.length;
+                typeSpeed = 200;
+            }
+
+            window.typingTimeout = setTimeout(startTypingEffect, typeSpeed);
+        }
+
+        // ==========================================
+        // CALENDAR POPUP LOGIC
+        // ==========================================
+        let calendarDate = new Date();
+        const todayDate = new Date();
+
+        function renderCalendar() {
+            const year = calendarDate.getFullYear();
+            const month = calendarDate.getMonth();
+
+            const lang = localStorage.getItem('liteAECOLang') || 'en';
+
+            document.getElementById('calendar-month-year').textContent =
+                new Intl.DateTimeFormat(lang, { month: 'long', year: 'numeric' }).format(calendarDate);
+
+            const daysHeader = document.getElementById('calendar-days-header');
+            if (daysHeader) {
+                const d = typeof getTranslations === 'function' ? getTranslations() : {};
+                const wkText = d['currentWeekText'] || 'Wk';
+
+                daysHeader.innerHTML = `<div>${wkText}</div>`;
+
+                // Jan 1, 2024 was a Monday. Used as a reference to generate the 7 day labels.
+                const refDate = new Date(Date.UTC(2024, 0, 1));
+                for (let i = 0; i < 7; i++) {
+                    const dayStr = new Intl.DateTimeFormat(lang, { weekday: 'narrow' }).format(refDate);
+                    daysHeader.innerHTML += `<div>${dayStr}</div>`;
+                    refDate.setUTCDate(refDate.getUTCDate() + 1);
+                }
+            }
+
+            const firstDayOfMonth = new Date(year, month, 1);
+            const lastDayOfMonth = new Date(year, month + 1, 0);
+
+            let startDay = firstDayOfMonth.getDay() || 7;
+            startDay--;
+
+            const startDate = new Date(year, month, 1 - startDay);
+            const calBody = document.getElementById('calendar-body');
+            calBody.innerHTML = '';
+
+            let currentDate = new Date(startDate);
+            const currentRealWeek = getWeekNumber(todayDate);
+
+            for (let w = 0; w < 6; w++) {
+                if (w > 0 && currentDate.getMonth() !== month && currentDate > lastDayOfMonth) {
+                    break;
+                }
+
+                const row = document.createElement('div');
+                row.className = 'grid grid-cols-8 gap-1 mb-1 text-sm text-center items-center h-8';
+
+                const rowThursday = new Date(currentDate.getTime() + 3 * 86400000);
+                const weekNum = getWeekNumber(rowThursday);
+                const isCurrentWeek = (weekNum === currentRealWeek && todayDate.getFullYear() === rowThursday.getFullYear());
+
+                const weekCell = document.createElement('div');
+                weekCell.textContent = weekNum;
+                weekCell.className = isCurrentWeek
+                    ? 'text-accent font-bold bg-accent-lighter rounded-md h-[28px] flex items-center justify-center ring-1 ring-accent'
+                    : 'text-accent-lighthov font-bold h-[28px] flex items-center justify-center';
+                row.appendChild(weekCell);
+
+                for (let d = 0; d < 7; d++) {
+                    const dayCell = document.createElement('div');
+                    dayCell.textContent = currentDate.getDate();
+                    dayCell.className = 'h-[28px] flex items-center justify-center rounded-md';
+
+                    const isToday = currentDate.getDate() === todayDate.getDate() &&
+                        currentDate.getMonth() === todayDate.getMonth() &&
+                        currentDate.getFullYear() === todayDate.getFullYear();
+                    const isWeekend = d >= 5;
+                    const isCurrentMonth = currentDate.getMonth() === month;
+
+                    if (!isCurrentMonth) {
+                        dayCell.classList.add('text-slate-300', 'font-thin');
+                    } else if (isToday) {
+                        dayCell.classList.add('text-red-700', 'font-bold', 'bg-red-50', 'ring-1', 'ring-red-500');
+                    } else if (isWeekend) {
+                        dayCell.classList.add('text-slate-400', 'font-light');
+                    } else {
+                        dayCell.classList.add('text-slate-700', 'font-light');
+                    }
+
+                    row.appendChild(dayCell);
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+                calBody.appendChild(row);
+            }
+
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // Listen for global language changes and re-render the calendar
+        document.addEventListener('languageLoaded', () => {
+            if (typeof renderCalendar === 'function') {
+                renderCalendar();
+            }
+            // Re-localize the hero date
+            const dateElement = document.getElementById('current-date');
+            if (dateElement) {
+                const lang = localStorage.getItem('liteAECOLang') || 'en';
+                dateElement.textContent = new Intl.DateTimeFormat(lang, {
+                    weekday: 'short', day: 'numeric', month: 'short'
+                }).format(new Date());
+            }
+        });
+
+        function changeMonth(delta) {
+            calendarDate.setMonth(calendarDate.getMonth() + delta);
+            renderCalendar();
+        }
+
+        function toggleCalendar(event) {
+            if (event) event.stopPropagation();
+
+            const cal = document.getElementById('week-calendar-popup');
+            const trigger = document.getElementById('calendar-trigger');
+            cal.classList.toggle('hidden');
+
+            const isOpen = !cal.classList.contains('hidden');
+            if (trigger) trigger.setAttribute('aria-expanded', String(isOpen));
+
+            if (isOpen) {
+                calendarDate = new Date();
+                renderCalendar();
+            }
+        }
+
+        function closeCalendar() {
+            const cal = document.getElementById('week-calendar-popup');
+            const trigger = document.getElementById('calendar-trigger');
+            if (cal && !cal.classList.contains('hidden')) {
+                cal.classList.add('hidden');
+                if (trigger) trigger.setAttribute('aria-expanded', 'false');
+            }
+        }
+
+        // Close calendar when clicking anywhere else on the document
+        document.addEventListener('click', closeCalendar);
+
+        // ==========================================
+        // APP MODAL LOGIC
+        // ==========================================
+        let lastFocusedElement = null;
+
+        function openAppModal(appId) {
+            const app = APPS.find(a => a.id === appId);
+            if (!app) return;
+
+            if (app.skipModal) {
+                window.location.href = app.url;
+                return;
+            }
+
+            lastFocusedElement = document.activeElement;
+
+            const d = typeof getTranslations === 'function' ? getTranslations() : {};
+            const appData = (d.apps && d.apps[app.id]) || {};
+
+            const title = appData.title || 'Unknown Tool';
+            const desc = appData.longDescription || appData.description || appData.desc || '';
+            const primaryCatId = app.categories && app.categories[0] ? app.categories[0] : 'all';
+            const appCatLabel = (d.categories && d.categories[primaryCatId]) || primaryCatId;
+            const launchText = d.launchTool || 'Launch Tool';
+
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-category').textContent = appCatLabel;
+            document.getElementById('modal-desc').innerHTML = desc;
+            document.getElementById('modal-launch-text').textContent = launchText;
+            document.getElementById('modal-launch-btn').href = app.url;
+
+            const featuresList = document.getElementById('modal-features');
+            const features = appData.features || [];
+
+            if (features.length > 0) {
+                featuresList.innerHTML = features.map(feature => `<li>${feature}</li>`).join('');
+                featuresList.classList.remove('hidden');
+            } else {
+                featuresList.innerHTML = '';
+                featuresList.classList.add('hidden');
+            }
+
+            // Media: only shown when the tool actually has a screenshot or video.
+            // A half-screen decorative gradient pushed all the useful text below the fold.
+            const mediaContainer = document.getElementById('modal-media-container');
+            if (app.videoUrl || app.imageUrl) {
+                const mediaContent = app.videoUrl
+                    ? `<video src="${app.videoUrl}" autoplay loop muted playsinline class="w-full h-full object-cover"></video>`
+                    : `<img src="${app.imageUrl}" alt="${title} screenshot" class="w-full h-full object-cover" />`;
+
+                mediaContainer.innerHTML = `<a href="${app.url}" class="block w-full h-full overflow-hidden group cursor-pointer" title="${launchText}">${mediaContent}</a>`;
+                mediaContainer.classList.remove('hidden');
+            } else {
+                mediaContainer.innerHTML = '';
+                mediaContainer.classList.add('hidden');
+            }
+
+            const iconContainer = document.getElementById('modal-icon-container');
+            const categoryBorders = {
+                'all': 'border-slate-400 text-slate-600', 'pm': 'border-rose-400 text-rose-600',
+                'data': 'border-emerald-400 text-emerald-600', 'bim': 'border-indigo-400 text-indigo-600',
+                'ops': 'border-sky-400 text-sky-600', 'default': 'border-slate-400 text-slate-600'
+            };
+            const colorClass = categoryBorders[primaryCatId] || categoryBorders['default'];
+            iconContainer.className = `w-12 h-12 rounded-xl flex items-center justify-center border-2 bg-white shadow-sm shrink-0 ${colorClass}`;
+            iconContainer.innerHTML = `<i data-lucide="${app.icon}" class="w-6 h-6"></i>`;
+
+            const modal = document.getElementById('app-modal');
+            const modalContent = document.getElementById('app-modal-content');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            });
+
+            // Lock scroll without the page jumping when the scrollbar disappears
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            document.body.style.overflow = 'hidden';
+            if (scrollbarWidth > 0) document.body.style.paddingRight = scrollbarWidth + 'px';
+
+            if (window.lucide) lucide.createIcons();
+
+            document.getElementById('modal-close-btn').focus();
+        }
+
+        function closeAppModal() {
+            const modal = document.getElementById('app-modal');
+            const modalContent = document.getElementById('app-modal-content');
+            if (modal.classList.contains('hidden')) return;
+
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
+                // Clear media so videos stop playing in the background
+                document.getElementById('modal-media-container').innerHTML = '';
+            }, 300);
+
+            // Send focus back to whatever opened the modal
+            if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+                lastFocusedElement.focus();
+            }
+            lastFocusedElement = null;
+        }
+
+        // Escape closes the modal; Tab stays inside it while it is open
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('app-modal');
+            if (!modal || modal.classList.contains('hidden')) return;
+
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                closeAppModal();
+                return;
+            }
+
+            if (e.key === 'Tab') {
+                const focusables = modal.querySelectorAll('a[href], button:not([disabled]), video[controls]');
+                if (focusables.length === 0) return;
+
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://liteaeco.com/templates/Project_Timeline/schema.json",
+  "title": "liteAECO Project Timeline Template",
+  "type": "object",
+  "required": ["app", "kind", "schema", "template", "durationMode", "timeline"],
+  "additionalProperties": true,
+  "properties": {
+    "app": { "const": "liteAECO-timeline" },
+    "kind": { "const": "template" },
+    "schema": { "type": "integer", "minimum": 2 },
+    "template": {
+      "type": "object",
+      "required": ["id", "version", "locale", "name", "category", "author", "minAppSchema"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+        "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+        "locale": { "type": "string", "pattern": "^[a-z]{2}(-[a-z]{2})?$" },
+        "country": { "type": "string", "maxLength": 2 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "category": {
+          "type": "string",
+          "enum": ["generic", "bim", "preproject", "construction", "renovation", "infrastructure"]
+        },
+        "description": { "type": "string", "maxLength": 300 },
+        "author": { "type": "string", "minLength": 1 },
+        "license": { "type": "string" },
+        "source": { "type": "string" },
+        "minAppSchema": { "type": "integer", "minimum": 2 }
+      }
+    },
+    "durationMode": { "enum": ["calendar", "working"] },
+    "calendar": {
+      "type": "object",
+      "properties": {
+        "workweek": { "type": "array", "minItems": 7, "maxItems": 7, "items": { "type": "boolean" } },
+        "holidays": { "type": "array" }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "number": { "type": "string" },
+        "client": { "type": "string" },
+        "address": { "type": "string" },
+        "type": { "type": "string" }
+      },
+      "not": { "required": ["guid"] }
+    },
+    "timeline": {
+      "type": "object",
+      "required": ["phases", "tasks"],
+      "not": { "required": ["startDate"] },
+      "properties": {
+        "phases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "name"],
+            "properties": {
+              "id": { "type": "string" },
+              "parentId": { "type": ["string", "null"] },
+              "name": { "type": "string" },
+              "color": { "type": "string" },
+              "lightColor": { "type": "string" },
+              "collapsed": { "type": "boolean" }
+            }
+          }
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "phaseId", "name", "type", "start", "duration"],
+            "properties": {
+              "id": { "type": "string" },
+              "phaseId": { "type": "string" },
+              "name": { "type": "string" },
+              "type": { "enum": ["task", "milestone"] },
+              "start": { "type": "integer", "minimum": 0 },
+              "duration": { "type": "integer", "minimum": 0 },
+              "dependsOn": { "type": "array" },
+              "contact": { "type": "string" },
+              "budget": { "type": "number" },
+              "tags": { "type": "array", "items": { "type": "string" } }
+            },
+            "not": {
+              "anyOf": [
+                { "required": ["ES"] }, { "required": ["EF"] },
+                { "required": ["LS"] }, { "required": ["LF"] },
+                { "required": ["TF"] }, { "required": ["isCritical"] }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

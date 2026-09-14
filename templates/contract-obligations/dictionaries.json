@@ -1,0 +1,60 @@
+{
+  "app": "liteAECO-contract-dictionaries",
+  "schema": 1,
+  "generated": "2026-09-13T18:26:12.422Z",
+  "default": "de-CH",
+  "dictionaries": [
+    {
+      "id": "de-CH",
+      "file": "de-CH.json",
+      "name": "Deutsch – Schweizer Mietrecht (OR)",
+      "language": "de",
+      "country": "CH",
+      "category": "Commercial lease",
+      "description": "Swiss commercial tenancy under the Code of Obligations (OR Art. 253 ff.). German keywords, CHF amounts, dd.mm.yyyy dates.",
+      "author": "liteAECO",
+      "license": "CC-BY-4.0",
+      "source": "",
+      "version": 1,
+      "tags": [
+        "mietrecht",
+        "obligationenrecht",
+        "gewerbemiete",
+        "schweiz",
+        "CHF",
+        "MWST"
+      ],
+      "counts": {
+        "fields": 16,
+        "clauses": 23,
+        "baselines": 19
+      }
+    },
+    {
+      "id": "en-GB",
+      "file": "en-GB.json",
+      "name": "English – UK commercial lease",
+      "language": "en",
+      "country": "GB",
+      "category": "Commercial lease",
+      "description": "UK commercial lease. Principal rent per annum, service charge, rent review, Landlord and Tenant Act 1954 and break clauses.",
+      "author": "liteAECO",
+      "license": "CC-BY-4.0",
+      "source": "",
+      "version": 1,
+      "tags": [
+        "lease",
+        "landlord and tenant",
+        "rent review",
+        "break clause",
+        "VAT",
+        "RICS"
+      ],
+      "counts": {
+        "fields": 16,
+        "clauses": 36,
+        "baselines": 34
+      }
+    }
+  ]
+}
