@@ -16,15 +16,28 @@
 [**liteAECO**](https://liteAECO.com) · [live](https://liteAECO.com/)
 > The entry gate to a collection of free open source webapps for the AECO inductry, from Project Management to BIM and VDC
 - Project Portfolio
+  - Keep track of multiple running projects and visulize progress over time
+  - Display them all as a gantt chart or in dashboard with valuable information
 - Project Timeline
+  - A tool for scheduling projects that helps you to keep track of progress and resources
+  - Compatible with XML or MS project files directly
 - Organizational Chart
+  - Organise your contacts and visualise the hierarchy
+  - Multiple views, Matrix, Tree and Holacracy
 - Meetings
+  - A protocol tool is the ideal way to keep track of your project meetings
+  - Record every past meeting and prepare future ones
+  - Assign tasks and set due dates
 - Responsibility Matrix
+  - Use a RASCI matrix to assign tasks to specific contacts
+- Contract Obligations
+  - Review your contracts and extact information regarding dates, value and permissions
+- Incident RCA
+  - Record any incident and use the root cause analysis to prevent future issues.
+ 
 - IFC Coordination and Audit [Under development]
 - IDS Generator [Under development]
 - PDF Viewer [Under development]
-- Contract Obligations
-- Incident RCA
 - IFC Merger / Optimizer [Under development]
 - IFC Pset Operations (Export, Inject, Delete and Rename) [Under development]
 - IFC Application Changer and Reposition [Under development]
