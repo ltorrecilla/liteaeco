@@ -1,3 +1,21 @@
+<!--
+  Copyright 2026 Luis Torrecilla (liteAECO)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  liteAECO - (meetings.html)
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,12 +25,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meetings - Create Notes, Track Discussions & Open Issues | liteAECO</title>
 
-    <!-- Primary Meta Tags -->
     <meta name="description" content="Free client-side tool to create meeting notes, track project discussions, and manage open issues locally. No uploads, private, fast, and built for AEC project teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/meetings.html">
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/meetings.html">
     <meta property="og:site_name" content="liteAECO">
@@ -24,14 +40,12 @@
     <meta property="og:image:alt" content="liteAECO Meetings tool interface">
     <meta property="og:locale" content="en_US">
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/meetings.html">
     <meta name="twitter:title" content="Meetings - Create Notes, Track Discussions & Open Issues | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to create meeting notes, track project discussions, and manage open issues locally. No uploads, private, fast, and built for AEC project teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-meetings.png">
 
-    <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -40,21 +54,16 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- Anti-flash: .hidden works before Tailwind loads -->
     <style>
         .hidden{display:none}
-        
         .as-switch:has(#mtg-save-menu-disconnect:not(.hidden)){background:#22c55e}
         .as-switch:has(#mtg-save-menu-disconnect:not(.hidden)) .as-knob{transform:translateX(16px)}
-        
         #mtg-save-icon-on.text-slate-600{color:#fff}
     </style>
 
-    <!-- Scripts Design -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
-    <!-- Scripts Internal -->
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
@@ -62,7 +71,6 @@
     <script src="../js/liteaeco-autosave.js"></script>
     <script src="../js/liteaeco-cde.js"></script>
 
-    <!-- Scripts External -->
     <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
 
     <script>
@@ -80,7 +88,6 @@
         }
     </script>
 
-    <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="../css/global.css">
     <link rel="stylesheet" type="text/css" href="../css/pdf_report.css">
 </head>
@@ -88,9 +95,6 @@
 <body
     class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
 
-    <!-- TOP NAVIGATION -->
-
-    <!-- Main content -->
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
 
         <div id="info-app" class="info-app">
@@ -139,7 +143,6 @@
         <div
             class="p-4 mb-4 flex flex-wrap gap-4 justify-between items-center shrink-0 border-b border-slate-300">
 
-            <!-- PROJECT INFORMATION BAR (shared across liteAECO apps) -->
             <div id="project-bar" class="hidden w-full flex flex-wrap items-center gap-3 border-b border-slate-100 pb-3">
                 <input type="text" id="app-project-number" placeholder="No."
                     class="border-0 bg-slate-50 rounded p-1.5 w-24 text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-accent outline-none transition-all" />
@@ -209,8 +212,6 @@
 
             <div class="flex items-center">
                 <div class="flex items-center rounded overflow-visible relative gap-2">
-                    <!-- Real Save - CDE mode only: flushes the event log AND
-                         the xlsx write-back immediately, no 2s debounce. -->
                     <div class="relative flex-1 min-w-[80px] hidden" id="wrapper-cde-save">
                         <button onclick="cdeSaveNow()" id="btn-cde-save"
                             class="w-full px-3 py-1.5 bg-indigo-600 border border-indigo-600 hover:bg-indigo-700 text-white rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1 disabled:opacity-60 disabled:pointer-events-none">
@@ -220,8 +221,6 @@
                         </button>
                     </div>
 
-                    <!-- Open: a file, or ONLY the contacts out of any workbook
-                         with a CONTACTS tab -->
                     <div class="relative group flex-1 min-w-[80px]">
                         <button
                             class="w-full px-3 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1">
@@ -269,7 +268,6 @@
                         </button>
                     </div>
 
-                    <!-- Options: gear icon only, menu anchors right -->
                     <div class="relative group shrink-0">
                         <button
                             class="px-3 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center"
@@ -278,9 +276,6 @@
                         </button>
                         <div
                             class="absolute top-full right-0 w-44 mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden">
-                            <!-- Autosave TOGGLE: the module flips .hidden on
-                                 mtg-save-menu-disconnect (its disconnectBtnId);
-                                 the CSS moves the knob / colors the track -->
                             <button onclick="autosaveToggle()" id="mtg-autosave-row"
                                 class="px-3 py-2.5 text-[10px] font-bold text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 uppercase tracking-widest border-b border-slate-100 text-left transition-colors flex items-center justify-between gap-3">
                                 <span data-i18n="autosaveToggle">Autosave</span>
@@ -471,7 +466,6 @@
         </div>
     </div>
 
-    <!-- Metadata inspector host (populated by openAttachmentMeta) -->
     <div id="meta-modal"></div>
 
     <div id="custom-dialog"
@@ -493,8 +487,6 @@
         </div>
     </div>
 
-    <!-- FOOTER -->
-    <!-- JAVASCRIPT -->
     <script>
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
@@ -524,7 +516,6 @@
         };
 
         function bootApp() {
-            
             autoDetectLanguage();
 
             window.injectUI({
@@ -617,7 +608,7 @@
             const show = !!(window.__cdeCtx || projectBarHasData() || window.__projectBarManual);
             bar.classList.toggle('hidden', !show);
             const mi = document.getElementById('menu-project-info');
-            if (mi) mi.classList.toggle('hidden', show);   
+            if (mi) mi.classList.toggle('hidden', show);
         }
         window.showProjectBar = function () {
             window.__projectBarManual = true;
@@ -629,7 +620,6 @@
                 const el = document.getElementById(elId);
                 if (el) el.value = state.project[key] || '';
             }
-            
             updateProjectBarVisibility();
         }
 
@@ -638,7 +628,7 @@
                 const el = document.getElementById(elId);
                 if (el) el.addEventListener('input', e => {
                     state.project[key] = e.target.value.trim();
-                    noteTyping(); 
+                    noteTyping();
                 });
             }
             const btn = document.getElementById('btn-project-details');
@@ -680,10 +670,10 @@
         }
 
         state.attachments = [];
-        let pendingAttachTarget = null;   
-        let pendingLtmHydration = null;   
+        let pendingAttachTarget = null;
+        let pendingLtmHydration = null;
 
-        const PDF_EMBED_LIMIT = 5 * 1048576; 
+        const PDF_EMBED_LIMIT = 5 * 1048576;
 
         function u8ToBase64(u8) {
             let s = '';
@@ -713,7 +703,7 @@
             const meta = { capturedAt: '', gps: null, device: '' };
             try {
                 const dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
-                if (dv.getUint16(0) !== 0xFFD8) return meta; 
+                if (dv.getUint16(0) !== 0xFFD8) return meta;
                 let p = 2, tiff = -1;
                 while (p + 4 < u8.length) {
                     if (dv.getUint8(p) !== 0xFF) break;
@@ -858,7 +848,7 @@
 
             for (const file of files) {
                 const isPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name || '');
-                const isImg = /^image\
+                const isImg = /^image\//.test(file.type);
                 if (!isPdf && !isImg) {
                     alert(file.name + ': ' + ((window.BASE_PAGE && window.BASE_PAGE.alertOnlyImagesPdf) || 'only images and PDF files can be attached.'));
                     continue;
@@ -868,7 +858,6 @@
                         const buf = new Uint8Array(await file.arrayBuffer());
                         const sha = await sha256Hex(buf);
                         if (buf.length > PDF_EMBED_LIMIT) {
-                            
                             const mb = (buf.length / 1048576).toFixed(1);
                             if (!confirm(file.name + ' ' + ((window.BASE_PAGE && window.BASE_PAGE.confirmPdfReference) || 'is {0} MB (limit for embedding is 5 MB).\n\nAttach it as a REFERENCE instead? The file itself stays where it is; only its name, size and fingerprint travel in the .ltm.').replace('{0}', mb))) continue;
                             state.attachments.push({
@@ -917,12 +906,12 @@
                         mimeType: processed.mime,
                         dataBase64: u8ToBase64(processed.u8),
                         size: processed.u8.length,
-                        originalSize: file.size || 0,                
+                        originalSize: file.size || 0,
                         sha256: sha,
                         createdAt: new Date().toISOString(),
-                        capturedAt: processed.meta.capturedAt || '', 
-                        gps: processed.meta.gps || null,             
-                        device: processed.meta.device || '',         
+                        capturedAt: processed.meta.capturedAt || '',
+                        gps: processed.meta.gps || null,
+                        device: processed.meta.device || '',
                         embedded: true,
                         reference: null,
                         linkedTo: { ...linkedTo },
@@ -965,7 +954,7 @@
 
         function attachmentTileHtml(a, isHistory) {
             const t = window.BASE_PAGE || {};
-            const isImg = /^image\
+            const isImg = /^image\//.test(a.mimeType);
             const noPrintCls = 'att-noprint';
             const metaBits = [];
             if (a.device) metaBits.push(escapeHtml(a.device));
@@ -1097,7 +1086,7 @@
                 ? `<a href="https://www.openstreetmap.org/?mlat=${encodeURIComponent(att.gps.lat)}&mlon=${encodeURIComponent(att.gps.lon)}#map=19/${encodeURIComponent(att.gps.lat)}/${encodeURIComponent(att.gps.lon)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:underline mt-1"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i> ${t.ttOpenMap || 'Open in OpenStreetMap'}</a>`
                 : '';
 
-            const isImg = /^image\
+            const isImg = /^image\//.test(att.mimeType) && att.dataBase64;
             const preview = isImg
                 ? `<img src="data:${escapeHtml(att.mimeType)};base64,${att.dataBase64}" alt="${escapeHtml(att.originalName)}" class="w-full max-h-48 object-contain bg-slate-50 border border-slate-200 rounded mb-4" />`
                 : `<div class="w-full h-24 flex items-center justify-center gap-2 bg-slate-50 border border-slate-200 rounded mb-4 text-slate-400">
@@ -1162,7 +1151,7 @@
             };
         }
 
-        function zipStore(entries) { 
+        function zipStore(entries) {
             const enc = new TextEncoder();
             const now = dosDateTime(new Date());
             const le16 = (v) => [v & 0xFF, (v >>> 8) & 0xFF];
@@ -1206,7 +1195,7 @@
             return new Uint8Array(await new Response(stream).arrayBuffer());
         }
 
-        async function readZip(u8) { 
+        async function readZip(u8) {
             const dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
             let eocd = -1;
             for (let i = u8.length - 22; i >= Math.max(0, u8.length - 22 - 65536); i--) {
@@ -1276,23 +1265,23 @@
                 spreadsheet: 'meeting.xlsx',
                 attachments: state.attachments.map(a => ({
                     guid: a.guid,
-                    linkedTo: { ...a.linkedTo },                 
+                    linkedTo: { ...a.linkedTo },
                     topicRef: a.linkedTo && a.linkedTo.type === 'subthread' ? sthTopicRef(a.linkedTo.refGuid) : 'meeting',
                     file: a.embedded === false ? '' : attachmentZipPath(a),
                     originalName: a.originalName,
                     mimeType: a.mimeType,
                     size: a.size,
-                    sha256: a.sha256,                            
+                    sha256: a.sha256,
                     createdAt: a.createdAt,
-                    capturedAt: a.capturedAt || '',              
-                    gps: a.gps ? { ...a.gps } : null,            
-                    device: a.device || '',                      
-                    originalSize: a.originalSize || 0,           
-                    embedded: a.embedded !== false,              
+                    capturedAt: a.capturedAt || '',
+                    gps: a.gps ? { ...a.gps } : null,
+                    device: a.device || '',
+                    originalSize: a.originalSize || 0,
+                    embedded: a.embedded !== false,
                     reference: a.embedded === false ? { ...(a.reference || { sourcePath: '', note: '' }) } : null,
-                    meetingNo: a.meetingNo || 0,                 
+                    meetingNo: a.meetingNo || 0,
                     comments: (a.comments || []).map(c => ({ ...c })),
-                    isSnapshot: false                            
+                    isSnapshot: false
                 }))
             };
         }
@@ -1367,7 +1356,6 @@
             if (!manifest) {
                 showDialog('alert', (window.BASE_PAGE && window.BASE_PAGE.warnNoManifest) || "No valid manifest.json in this container, spreadsheet loaded, attachments skipped.");
             } else {
-                
                 pendingLtmHydration = { manifest, entries };
             }
             importExcelData(wb);
@@ -1384,7 +1372,7 @@
             state.attachments = (manifest.attachments || []).map(m => {
                 const isRef = m.embedded === false;
                 const data = (!isRef && m.file) ? entries.get(m.file) : null;
-                if (!isRef && !data) return null; 
+                if (!isRef && !data) return null;
 
                 const refGuid = m.linkedTo ? String(m.linkedTo.refGuid || '') : '';
                 const linkedTo = (m.linkedTo && m.linkedTo.type === 'subthread' && sthGuids.has(refGuid))
@@ -1434,11 +1422,9 @@
 
         const sanitizeStr = (str) => {
             if (!str) return '';
-            
             return String(str).replace(/["'<>\&]/g, '').trim();
         };
 
-        // NEW: Escape HTML so badges don't break on hover
         const escapeHtml = (unsafe) => {
             if (!unsafe) return '';
             return String(unsafe)
@@ -1461,7 +1447,6 @@
             return String.fromCharCode(65 + Math.floor(i / 26) % 26) + String.fromCharCode(65 + (i % 26));
         }
 
-        // Generates a standard v4 UUID (e.g., "123e4567-e89b-12d3-a456-426614174000")
         function generatePersonId() {
             return crypto.randomUUID();
         }
@@ -1484,9 +1469,6 @@
             return strDate.replace(/\./g, '-');
         }
 
-        // ==========================================
-        // RENDER FUNCTIONS
-        // ==========================================
         function renderApp() {
             const displayNo = state.viewingHistory ? state.historyMeetingNo : (state.meetingNo || state.No);
             const displayDate = state.viewingHistory ? state.historyDate : state.date;
@@ -1571,14 +1553,12 @@
                 return !p.archived || historicalPresentIds.includes(p.id);
             });
 
-            // Show empty text only if there are no active AND no archived people
             if (peopleToRender.length === 0 && !state.people.some(p => p.archived && !isHistory)) {
                 const emptyStr = window.BASE_PAGE.emptyAttendees || 'No attendees added yet.';
                 listEl.innerHTML = `<p class="text-sm text-slate-400 italic" data-i18n="emptyAttendees">${emptyStr}</p>`;
                 return;
             }
 
-            // Mapped dynamically with data-i18n tags injected
             const renderGroup = (titleKey, defaultTitle, peopleArr) => {
                 if (peopleArr.length === 0) return '';
                 const translatedTitle = window.BASE_PAGE[titleKey] || defaultTitle;
@@ -1616,7 +1596,6 @@
                 renderGroup('optRequired', 'Required', reqPeople) +
                 renderGroup('optOptional', 'Optional', optPeople);
 
-            // --- Clickable All Contacts Link ---
             if (state.people.length > 0 && !isHistory) {
                 finalHtml += `
                 <button onclick="openAllContactsModal()" class="w-full text-left text-[10px] font-bold text-slate-400 hover:text-indigo-600 uppercase tracking-wider mt-4 border-t border-slate-100 pt-3 transition-colors print:hidden flex justify-between items-center group">
@@ -1629,30 +1608,25 @@
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: listEl });
         }
 
-        // ==========================================
-        // ALL CONTACTS MODAL CONTROLS
-        // ==========================================
         let currentContactSort = { field: 'status', direction: 'asc' };
         let currentContactSearch = '';
         let currentContactPage = 1;
-        const CONTACTS_PER_PAGE = 12; // You can adjust this number
+        const CONTACTS_PER_PAGE = 12;
 
         function updateContactSearch(query) {
             currentContactSearch = query.toLowerCase();
-            currentContactPage = 1; // Reset to first page on new search
+            currentContactPage = 1;
             renderAllContactsList();
         }
 
         function changeContactSort(field) {
             if (currentContactSort.field === field) {
-                // If clicking the same column, toggle direction
                 currentContactSort.direction = currentContactSort.direction === 'asc' ? 'desc' : 'asc';
             } else {
-                // If clicking a new column, default to ascending
                 currentContactSort.field = field;
                 currentContactSort.direction = 'asc';
             }
-            currentContactPage = 1; // Reset to first page on sort change
+            currentContactPage = 1;
             renderAllContactsList();
         }
 
@@ -1660,13 +1634,11 @@
             currentContactPage = newPage;
             renderAllContactsList();
 
-            // Scroll back to the top of the modal list
             const scrollContainer = document.getElementById('all-contacts-list').parentElement;
             if (scrollContainer) scrollContainer.scrollTop = 0;
         }
 
         function openAllContactsModal() {
-            // Reset search and page when opening the modal
             currentContactSearch = '';
             currentContactPage = 1;
             const searchInput = document.getElementById('modal-search-input');
@@ -1682,7 +1654,6 @@
             renderThreads();
         }
 
-        // Helper to draw the sort arrows
         function getSortIcon(field) {
             if (currentContactSort.field !== field) return '<i data-lucide="chevrons-up-down" class="w-3 h-3 opacity-30 group-hover:opacity-100 transition-opacity"></i>';
             return currentContactSort.direction === 'asc'
@@ -1696,15 +1667,12 @@
 
             if (state.people.length === 0) return;
 
-            // 1. Filter the array based on the Search Input
             let filteredPeople = state.people.filter(p => {
                 if (!currentContactSearch) return true;
-                // Combine all fields into one string to search across everything
                 const searchStr = `${p.name} ${p.company} ${p.role} ${p.contactInfo}`.toLowerCase();
                 return searchStr.includes(currentContactSearch);
             });
 
-            // 2. Sort the filtered array
             let sortedPeople = filteredPeople.sort((a, b) => {
                 let valA, valB;
 
@@ -1737,11 +1705,9 @@
                 return currentContactSort.direction === 'asc' ? (valA - valB) : (valB - valA);
             });
 
-            // 3. Pagination Math
             const totalItems = sortedPeople.length;
             const totalPages = Math.max(1, Math.ceil(totalItems / CONTACTS_PER_PAGE));
 
-            // Failsafe: if deleting an item reduces total pages, push user to the last valid page
             if (currentContactPage > totalPages) currentContactPage = totalPages;
             if (currentContactPage < 1) currentContactPage = 1;
 
@@ -1750,7 +1716,6 @@
 
             const paginatedPeople = sortedPeople.slice(startIndex, endIndex);
 
-            // 4. Build the Clickable Headers
             let html = `
             <div class="grid grid-cols-12 gap-3 p-4 border-b border-slate-200 bg-slate-50 text-[11px] font-bold text-slate-500 uppercase tracking-wider sticky top-0 z-10 shadow-sm">
                 <button onclick="changeContactSort('name')" class="col-span-3 flex items-center gap-1 hover:text-indigo-600 transition-colors group outline-none text-left">Name ${getSortIcon('name')}</button>
@@ -1760,7 +1725,6 @@
                 <button onclick="changeContactSort('status')" class="col-span-1 flex items-center justify-center gap-1 hover:text-indigo-600 transition-colors group outline-none">Status ${getSortIcon('status')}</button>
             </div>`;
 
-            // 5. Build the Rows for the Current Page
             if (paginatedPeople.length === 0) {
                 html += `<div class="p-8 text-center text-sm text-slate-400 italic">No contacts match your search.</div>`;
             } else {
@@ -1792,12 +1756,10 @@
                 });
             }
 
-            // 6. Build Pagination Controls
             const paginationEl = document.getElementById('all-contacts-pagination');
             let paginationHtml = '';
 
             if (totalItems > CONTACTS_PER_PAGE) {
-                // Notice the removal of "border-t bg-slate-50 mt-auto sticky bottom-0" since the parent wrapper handles that now
                 paginationHtml = `
                 <div class="flex items-center justify-between px-6 py-3">
                     <div class="text-xs text-slate-500">
@@ -1815,11 +1777,9 @@
                 </div>`;
             }
 
-            // Inject the HTML into their respective containers
             listEl.innerHTML = html;
             if (paginationEl) paginationEl.innerHTML = paginationHtml;
 
-            // Re-initialize icons for both containers
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons({ root: listEl });
                 if (paginationEl) lucide.createIcons({ root: paginationEl });
@@ -1832,11 +1792,9 @@
             return assignees.map(id => {
                 if (id.startsWith('c_')) {
                     const compName = id.substring(2);
-                    // Added print:bg-slate-200 print:text-black print:border-slate-400
                     return `<span class="bg-amber-100 text-amber-700 border border-amber-200 text-[10px] font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 shadow-sm cursor-help print:bg-slate-200 print:text-black print:border-slate-400 print:shadow-none" title="${escapeHtml(compName)}">${getInitials(compName)}</span>`;
                 } else {
                     const p = state.people.find(x => x.id === id);
-                    // Added print:bg-white print:text-black print:border-slate-400
                     if (p) return `<span class="bg-slate-100 text-slate-700 border border-indigo-200 text-[10px] font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 shadow-sm cursor-help print:bg-white print:text-black print:border-slate-400 print:shadow-none" title="${escapeHtml(p.name)}">${getInitials(p.name)}</span>`;
                     return '';
                 }
@@ -1854,7 +1812,6 @@
 
             const uniqueCompanies = [...new Set(state.people.filter(p => p.company && p.company.trim() !== '').map(p => p.company.trim()))];
 
-            // Translation Strings
             const phNotesStr = window.BASE_PAGE.phNotes || 'Notes...';
             const statusInfoStr = window.BASE_PAGE.statusInfo || 'INFO';
             const statusOpenStr = window.BASE_PAGE.statusOpen || 'OPEN';
@@ -1899,7 +1856,7 @@
                 let subthreadsHTML = subthreadsToRender.map((sth, sthIndex) => {
                     if (!sth.assignees) sth.assignees = sth.assignee ? [sth.assignee] : [];
                     if (!sth.number) sth.number = sthIndex + 1;
-                    if (!sth.guid) sth.guid = crypto.randomUUID(); // stable GUID: attachments + .ltm round-trips
+                    if (!sth.guid) sth.guid = crypto.randomUUID();
 
                     let displayStatus = sth.status || 'open';
                     if (isHistory && sth.closeDate && sth.closeDate > histDate) displayStatus = 'open';
@@ -1945,15 +1902,15 @@
             <div class="mt-3 pt-3 pl-6 border-l-2 border-slate-100 relative group" data-sth-id="${sth.id}" style="z-index: ${50 - sthIndex};">
                 <div class="absolute -left-[5px] top-2 w-2 h-2 rounded-full bg-slate-300"></div>
                 <div class="flex flex-col gap-2">
-                    
+
                     <div class="flex items-start gap-2">
                         <button class="btn-collapse-sth text-xs font-bold text-slate-400 pt-1.5 hover:text-indigo-600 flex items-center gap-0.5 transition-colors shrink-0" data-sthid="${sth.id}" title="Toggle Details">
                             ${paddedId}.${subthreadNumStr}
                             <i data-lucide="chevron-down" class="w-3 h-3 transition-transform duration-200 transform"></i>
                         </button>
-                        
+
                         <textarea class="input-sth-text flex-grow border ${noBorderClass} rounded p-2 pt-0.5 text-sm focus:ring-2 focus:ring-accent outline-none min-h-[60px] resize-y leading-relaxed text-slate-700" placeholder="${phNotesStr}" ${readOnlyAttr}>${escapeHtml(sth.text)}</textarea>
-                        
+
                         <div class="flex flex-col gap-2 shrink-0 w-24">
                             <select class="input-sth-status text-[10px] p-1.5 border-b-2 border-t-none border-l-none border-r-none border-slate-200 rounded-none outline-none font-bold uppercase tracking-wider transition-colors shrink-0 mt-0 ${displayStatus === 'closed' ? 'text-emerald-600 border-b-emerald-500' : (displayStatus === 'open' ? 'text-amber-600 border-b-amber-500' : 'text-blue-600 border-b-blue-500')} ${isHistory ? 'bg-transparent' : 'bg-white cursor-pointer'}" ${disabledAttr}>
                                 <option value="info" class="text-slate-700" ${displayStatus === 'info' ? 'selected' : ''}>${statusInfoStr}</option>
@@ -1971,11 +1928,11 @@
                         <button class="btn-attach-sth att-noprint text-slate-300 hover:text-indigo-600 pt-1.5 shrink-0 transition-colors ${hiddenClass}" data-guid="${sth.guid}" title="${window.BASE_PAGE.btnAttach || 'Attach image or PDF'}"><i data-lucide="paperclip" class="w-4 h-4"></i></button>
                         <button class="btn-del-sth text-slate-300 hover:text-red-500 pt-1.5 shrink-0 transition-colors ${hiddenClass}" data-id="${sth.id}"><i data-lucide="x" class="w-4 h-4"></i></button>
                     </div>
-                    
+
                     <div class="sth-controls-wrapper flex flex-wrap items-center gap-3 pl-[58px] transition-all ${historyOpacityClass}" id="sth-ctrl-${sth.id}">
-                        
-                        ${dateHTML} 
-                        
+
+                        ${dateHTML}
+
                         <div class="relative group/assignee dropdown-container">
                             <div class="flex items-center border-none border-slate-200 rounded ${isHistory ? '' : 'cursor-pointer'} bg-white min-h-[28px]" ${dropdownToggleAttr}>
                                 <div class="bg-white px-2 h-full flex items-center border-r border-slate-200">
@@ -2011,7 +1968,7 @@
             <div class="flex justify-between items-start mb-2 group">
                 <div class="flex items-center gap-3 w-full">
                     <button class="btn-collapse-thread bg-white hover:bg-indigo-50 text-indigo-800 border border-indigo-200 font-bold px-2 py-0.5 rounded-md flex items-center gap-1.5 shrink-0 transition-colors text-sm shadow-sm" data-id="${thread.id}" title="Toggle Sub-threads">
-                        ${paddedId} 
+                        ${paddedId}
                         <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200 transform"></i>
                     </button>
                     <input type="text" class="input-thread-title font-bold text-md text-slate-800 border-0 bg-transparent hover:bg-slate-50 focus:bg-white focus:ring-2 focus:ring-accent rounded p-1 w-full outline-none transition-all" value="${escapeHtml(thread.title)}" data-id="${thread.id}" placeholder="${window.BASE_PAGE.phThreadTopic || 'Thread Topic...'}" ${readOnlyAttr}/>
@@ -2035,7 +1992,6 @@
 
             renderMeetingAttachments();
 
-            // FIX: check actual rendered threads (only the attachments tray means "empty")
             if (container.childElementCount <= 1 && !isHistory) {
                 const emptyThreadsStr = window.BASE_PAGE.emptyThreads || 'No topics found';
                 container.innerHTML = `<div class="text-center py-12"><div class="bg-slate-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="clipboard-list" class="w-8 h-8 text-slate-400"></i></div><h3 class="text-slate-500 font-medium">${emptyThreadsStr}</h3></div>`;
@@ -2052,9 +2008,6 @@
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: container });
         }
 
-        // ==========================================
-        // MODAL CONTROLS (Unified & Fixed)
-        // ==========================================
         function openContactModal(id) {
             const person = state.people.find(p => p.id === id);
             if (!person) return;
@@ -2081,7 +2034,6 @@
             const person = state.people.find(p => p.id === id);
 
             if (person) {
-                // NEW: Sanitize all inputs before saving
                 person.name = sanitizeStr(document.getElementById('contact-modal-name').value);
                 person.company = sanitizeStr(document.getElementById('contact-modal-company').value);
                 person.role = sanitizeStr(document.getElementById('contact-modal-role').value);
@@ -2095,9 +2047,6 @@
             }
         }
 
-        // ==========================================
-        // CUSTOM DIALOG CONTROLS
-        // ==========================================
         function showDialog(type, message, onConfirm = null) {
             const overlay = document.getElementById('custom-dialog');
             const box = document.getElementById('custom-dialog-box');
@@ -2144,7 +2093,6 @@
             overlay.classList.remove('hidden');
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: overlay });
 
-            // Small delay to trigger CSS transition
             setTimeout(() => {
                 overlay.classList.remove('opacity-0');
                 box.classList.remove('scale-95');
@@ -2163,9 +2111,6 @@
             setTimeout(() => { overlay.classList.add('hidden'); }, 200);
         }
 
-        // ==========================================
-        // PRINT PREPARATION
-        // ==========================================
         function prepareAndPrint() {
             document.querySelectorAll('.thread-content-wrapper.hidden, .sth-controls-wrapper.hidden').forEach(el => {
                 el.classList.remove('hidden');
@@ -2185,9 +2130,6 @@
             setTimeout(() => { window.print(); }, 300);
         }
 
-        // ==========================================
-        // EVENT LISTENERS & LOGIC
-        // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
 
             document.addEventListener('keydown', (e) => {
@@ -2198,8 +2140,6 @@
             const elSearch = document.getElementById('app-search');
             if (elTitle) elTitle.addEventListener('input', e => {
                 state.title = e.target.value;
-                // Deferred: autosave (and the CDE rename that rides on it)
-                // now fires on click-away or after 30s idle - not per key.
                 noteTyping();
             });
             if (elSearch) elSearch.addEventListener('input', e => {
@@ -2213,15 +2153,12 @@
                 const inputName = document.getElementById('input-new-person');
                 const inputPart = document.getElementById('input-new-participation');
 
-                // NEW: Sanitize the input
                 const rawName = inputName.value.trim();
                 const name = sanitizeStr(rawName);
 
-                // Organizer is a MANUAL choice - never auto-assigned.
                 let part = inputPart ? inputPart.value : 'Required';
 
                 if (name) {
-                    // FIX: match any existing contact (active or archived) to avoid duplicate IDs
                     const activeMatch = state.people.find(p => p.name.toLowerCase() === name.toLowerCase() && !p.archived);
                     const archivedMatch = state.people.find(p => p.name.toLowerCase() === name.toLowerCase() && p.archived);
 
@@ -2282,13 +2219,10 @@
                     renderApp();
                 }
 
-                // Close dropdowns correctly (closes others if you open a new one)
                 const activeDropdown = e.target.closest('.dropdown-container');
                 if (!activeDropdown) {
-                    // Clicked outside: strictly hide the absolute menu
                     document.querySelectorAll('.dropdown-container > .absolute').forEach(el => el.classList.add('hidden'));
                 } else {
-                    // Clicked inside: close all OTHER absolute menus
                     document.querySelectorAll('.dropdown-container').forEach(container => {
                         if (container !== activeDropdown) {
                             const menu = container.querySelector('.absolute');
@@ -2303,7 +2237,6 @@
                     const id = e.target.closest('.btn-del-person').dataset.id;
                     const confirmStr = window.BASE_PAGE.confirmRemovePerson || 'Remove this person from the active contacts list? (They will be preserved in past meeting records)';
 
-                    // Uses custom dialog and marks as dirty
                     showDialog('confirm', confirmStr, () => {
                         const person = state.people.find(p => p.id === id);
                         if (person) person.archived = true;
@@ -2322,7 +2255,6 @@
                     const id = e.target.closest('.btn-del-thread').dataset.id;
                     const confirmStr = window.BASE_PAGE.confirmDeleteThread || 'Delete this entire thread and its subthreads?';
 
-                    // Uses custom dialog and marks as dirty
                     showDialog('confirm', confirmStr, () => {
                         state.threads = state.threads.filter(t => t.id !== id);
                         isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
@@ -2339,7 +2271,7 @@
                             id: generateId('sth'), guid: crypto.randomUUID(), number: maxSthNum + 1, text: '', assignees: [], dueDate: '', priority: 'low', status: 'open',
                             initialDate: state.date, closeDate: ''
                         });
-                        isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); // Mark as dirty
+                        isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
                         renderThreads();
                     }
                 }
@@ -2358,7 +2290,7 @@
                     const searchEl = document.getElementById('app-search');
                     if (searchEl) searchEl.value = '';
 
-                    isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); // Mark as dirty
+                    isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
                     renderThreads();
 
                     const container = document.getElementById('threads-container');
@@ -2398,7 +2330,7 @@
                         att.comments.push({
                             guid: crypto.randomUUID(),
                             author: organizer ? organizer.name : '',
-                            authorId: organizer ? organizer.id : '',   // interop with shared CONTACTS
+                            authorId: organizer ? organizer.id : '',
                             date: new Date().toISOString(),
                             text: text
                         });
@@ -2441,7 +2373,7 @@
                         const idx = thread.subthreads.findIndex(sth => sth.id === sthId);
                         if (idx > -1) thread.subthreads.splice(idx, 1);
                     });
-                    isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); // Mark as dirty
+                    isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
                     renderThreads();
                 }
 
@@ -2493,7 +2425,6 @@
             });
 
             document.addEventListener('change', (e) => {
-                // Mark as dirty for any dropdown, checkbox, or date change
                 if (e.target.id !== 'excel-upload') {
                     isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
                 }
@@ -2505,12 +2436,10 @@
                 }
 
                 if (e.target.classList.contains('input-sth-assignee-cb')) {
-                    // Uses getAttribute to perfectly bypass dataset bugs
                     const sthId = e.target.getAttribute('data-sthid');
                     const pId = e.target.getAttribute('data-pid');
                     const cId = e.target.getAttribute('data-cid');
 
-                    // FIX: Explicitly handle null/empty strings to prevent corrupted assignId values
                     let assignId = null;
                     if (pId && pId !== "null" && pId !== "") {
                         assignId = pId;
@@ -2565,10 +2494,8 @@
                         }
                         if (e.target.classList.contains('input-sth-date')) {
                             sth.dueDate = e.target.value;
-                            // Add this line so the print CSS knows it is no longer empty!
                             e.target.setAttribute('value', e.target.value);
 
-                            // --- NEW: Dynamically update overdue colors instantly ---
                             const todayStr = new Date().toISOString().split('T')[0];
                             const isOverdue = sth.dueDate && sth.dueDate < todayStr && sth.status !== 'closed' && !state.viewingHistory;
                             const parentWrapper = e.target.parentElement;
@@ -2590,13 +2517,10 @@
             });
 
             document.addEventListener('input', (e) => {
-                // Mark as dirty if typing anywhere EXCEPT the search bars.
-                // Typing is DEFERRED: autosave commits on focusout/idle.
                 if (e.target.id !== 'app-search' && e.target.id !== 'modal-search-input' && !e.target.classList.contains('input-sth-assignee-search')) {
                     noteTyping();
                 }
 
-                // --- Assignee Dropdown Search Logic ---
                 if (e.target.classList.contains('input-sth-assignee-search')) {
                     const query = e.target.value.toLowerCase();
                     const listContainer = e.target.closest('.absolute').querySelector('.assignee-list-container');
@@ -2605,7 +2529,6 @@
                         const labels = listContainer.querySelectorAll('label');
                         labels.forEach(label => {
                             const text = label.textContent.toLowerCase();
-                            // Hide or show the label based on the search query
                             label.style.display = text.includes(query) ? '' : 'none';
                         });
                     }
@@ -2623,7 +2546,6 @@
                     }
                 }
 
-                // --- Auto-save inline edits in the All Contacts Modal ---
                 if (e.target.classList.contains('input-allcontacts-edit')) {
                     const id = e.target.dataset.id;
                     const field = e.target.dataset.field;
@@ -2631,7 +2553,7 @@
                     if (person) {
                         if (field === 'name') {
                             let safeName = sanitizeStr(e.target.value);
-                            e.target.value = safeName; // Force the UI to reflect the sanitized string
+                            e.target.value = safeName;
                             person.name = safeName;
                         } else {
                             person[field] = e.target.value;
@@ -2640,8 +2562,6 @@
                 }
             });
 
-            /* ---- Deferred-typing commit points ---- */
-            // 1. Click-away: leaving any text field commits pending typing.
             document.addEventListener('focusout', (e) => {
                 if (!typingDirty) return;
                 const t = e.target;
@@ -2649,16 +2569,12 @@
                     commitTypingDirty();
                 }
             });
-            // 2. Tab hidden: commit and flush so nothing is lost.
             document.addEventListener('visibilitychange', () => {
                 if (document.visibilityState === 'hidden' && typingDirty) {
                     commitTypingDirty();
                     if (typeof Autosave !== "undefined" && Autosave.flush) Autosave.flush();
                 }
             });
-            // 3. Closing/leaving, CDE mode only. In CDE mode Autosave.boot()
-            // never runs, so the shared module's leave-warning is absent and
-
             window.addEventListener('beforeunload', (e) => {
                 if (!window.__cdeCtx) return;
                 let cdePending = false;
@@ -2668,7 +2584,7 @@
                             (cdeBridge.baseline && cdeBridge.diff(cdeBridge.baseline, cdeBridge.snap()).length > 0));
                 } catch (err) { }
                 if (typingDirty || cdePending) {
-                    commitTypingDirty(); 
+                    commitTypingDirty();
                     try { if (typeof cdeBridge !== 'undefined' && cdeBridge.flush) cdeBridge.flush(); } catch (err) { }
                     e.preventDefault();
                     e.returnValue = (window.BASE_PAGE && window.BASE_PAGE.unsavedLeaveMessage) || "You have unsaved changes. Are you sure you want to leave?";
@@ -2722,7 +2638,7 @@
                     if (isDirty && isModified) {
                         const msg = (window.BASE_PAGE && window.BASE_PAGE.confirmImportReplace) || "Are you sure you want to import this Meeting? Existing unsaved data will be replaced.";
                         if (!confirm(msg)) {
-                            e.target.value = ''; 
+                            e.target.value = '';
                             return;
                         }
                     }
@@ -2744,7 +2660,7 @@
                             showDialog('alert', errorStr);
                             console.error(err);
                         }
-                        e.target.value = ''; 
+                        e.target.value = '';
                     };
                     reader.readAsArrayBuffer(file);
                 });
@@ -2755,7 +2671,7 @@
                 attachInput.addEventListener('change', (e) => {
                     handleAttachmentFiles(e.target.files, pendingAttachTarget);
                     pendingAttachTarget = null;
-                    e.target.value = ''; 
+                    e.target.value = '';
                 });
             }
 
@@ -2796,14 +2712,12 @@
             }
 
             document.addEventListener('click', (e) => {
-                
                 if (e.target.closest('.name-suggestion')) {
                     const suggestion = e.target.closest('.name-suggestion');
                     const pId = suggestion.dataset.id;
                     const person = state.people.find(p => p.id === pId);
 
                     if (person) {
-                        
                         if (person.archived || !['Required', 'Optional', 'Organizer'].includes(person.participation)) {
                             person.archived = false;
                             person.present = true;
@@ -2827,9 +2741,9 @@
                     const person = state.people.find(p => p.id === id);
                     if (person) {
                         person.archived = !person.archived;
-                        if (!person.archived) person.present = true; 
+                        if (!person.archived) person.present = true;
                         isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
-                        renderAllContactsList(); 
+                        renderAllContactsList();
                     }
                 }
             });
@@ -2944,7 +2858,6 @@
                 console.error("CDE IMPORT LOGIC ERROR:", err);
                 return true;
             }
-            
             if (state.project.guid && state.project.guid !== params.guid) {
                 const adopt = await new Promise(function (resolve) {
                     showDialog('confirm',
@@ -2960,7 +2873,6 @@
             window.__cdeCtx = { guid: params.guid, path: params.open, handle: info.handle };
             const cs = document.getElementById('wrapper-cde-save');
             if (cs) cs.classList.remove('hidden');
-
             try {
                 const q = new URLSearchParams(window.location.search);
                 const sess = parseInt(q.get('session'), 10);
@@ -2975,8 +2887,7 @@
                     }
                 }
             } catch (e) {  }
-            updateProjectBarVisibility();   
-
+            updateProjectBarVisibility();
             for (const elId of Object.keys(PROJECT_FIELD_MAP)) {
                 const el = document.getElementById(elId);
                 if (el) {
@@ -2987,13 +2898,12 @@
             }
             const infoCard = document.getElementById('info-app');
             if (infoCard) infoCard.classList.add('hidden');
-
             const ltmBtn = document.getElementById('btn-save-ltm');
             if (ltmBtn) ltmBtn.classList.add('hidden');
             try {
                 await _cdeBridgeInit(info, params);
-                await _cdeFillProjectInfo(info, params);   
-                await _cdeSyncMembers(info);               
+                await _cdeFillProjectInfo(info, params);
+                await _cdeSyncMembers(info);
             } catch (e) {
                 console.error("CDE bridge init failed:", e);
                 if (typeof Autosave !== "undefined" && Autosave.renderStatus) Autosave.renderStatus("error");
@@ -3001,7 +2911,6 @@
                     "Project sync could not start - changes will NOT be saved to the project folder. Update js/liteaeco-cde.js to the latest build and reload.") +
                     "\n\n(" + (e && e.message ? e.message : e) + ")");
             }
-            
             window.addEventListener("beforeunload", function (e) {
                 if (window.__cdeUnsaved) {
                     try { cdeBridge.flushWriteBack(); } catch (err) { }
@@ -3018,7 +2927,7 @@
             const ci = function (label) { return hdr.indexOf(label); };
             const iID = ci('ID'), iName = ci('Name'), iComp = ci('Company'),
                 iRole = ci('Role'), iMail = ci('Contact Mail');
-            if (iName === -1) return { added: 0, updated: 0 };   
+            if (iName === -1) return { added: 0, updated: 0 };
             const byId = {}, byMail = {}, byName = {};
             state.people.forEach(function (p) {
                 if (p.id) byId[String(p.id)] = p;
@@ -3115,7 +3024,7 @@
                     const adir = await info.handle.getDirectoryHandle('admin', { create: false });
                     const fh = await adir.getFileHandle('members.xlsx', { create: false });
                     buf = await (await fh.getFile()).arrayBuffer();
-                } catch (e) { return; }                       
+                } catch (e) { return; }
                 if (!(window.crypto && crypto.subtle)) return;
                 let hash;
                 try {
@@ -3123,23 +3032,23 @@
                     hash = Array.prototype.map.call(new Uint8Array(d),
                         function (b) { return ('0' + b.toString(16)).slice(-2); }).join('');
                 } catch (e) { return; }
-                if (hash === state.membersHash) return;       
+                if (hash === state.membersHash) return;
                 let rows;
                 try {
                     const rwb = XLSX.read(buf, { type: 'array', sheets: ['CONTACTS'] });
                     const ws = rwb.Sheets['CONTACTS'];
                     rows = ws ? XLSX.utils.sheet_to_json(ws, { header: 1 }) : [];
-                } catch (e) { return; }                       
+                } catch (e) { return; }
                 const res = mergeContactRows(rows);
                 const added = res.added, updated = res.updated;
-                state.membersHash = hash;   
+                state.membersHash = hash;
                 if (added || updated) {
                     isDirty = true;
                     if (typeof Autosave !== 'undefined' && Autosave.markDirty) Autosave.markDirty();
                     if (typeof renderApp === 'function') renderApp();
-                    cdeBridge.schedule();            
+                    cdeBridge.schedule();
                 }
-                cdeBridge.scheduleWriteBack();       
+                cdeBridge.scheduleWriteBack();
                 if (added) {
                     _cdeToast((window.BASE_PAGE.msgRosterNew || 'New contacts found') + ' (' + added + ')');
                 }
@@ -3218,7 +3127,6 @@
             diff: function (prev, cur) {
                 const events = [];
                 const J = JSON.stringify;
-                
                 const prevP = {}; prev.people.forEach(function (p) { prevP[p.id] = p; });
                 const curP = {}; cur.people.forEach(function (p) { curP[p.id] = p; });
                 cur.people.forEach(function (p) {
@@ -3234,7 +3142,6 @@
                     if (n) events.push({ type: "contact.update", target: p.id, payload: changed });
                 });
                 prev.people.forEach(function (p) { if (!curP[p.id]) events.push({ type: "contact.remove", target: p.id }); });
-                
                 const prevT = {}; prev.threads.forEach(function (t) { prevT[t.id] = t; });
                 const curT = {}; cur.threads.forEach(function (t) { curT[t.id] = t; });
                 cur.threads.forEach(function (t) {
@@ -3243,20 +3150,17 @@
                     if (J(b) !== J(t)) events.push({ type: "thread.update", target: t.id, payload: t });
                 });
                 prev.threads.forEach(function (t) { if (!curT[t.id]) events.push({ type: "thread.remove", target: t.id }); });
-                
                 const key = function (h, i) { return (h && h.meetingNo != null) ? String(h.meetingNo) : ("i" + i); };
                 const prevA = {}; prev.attendance.forEach(function (h, i) { prevA[key(h, i)] = h; });
                 cur.attendance.forEach(function (h, i) {
                     const k = key(h, i);
                     if (!prevA[k] || J(prevA[k]) !== J(h)) events.push({ type: "attendance.update", target: k, payload: h });
                 });
-                
                 const mm = {}; let mn = 0;
                 Object.keys(cur.meta).forEach(function (k) {
                     if (J(cur.meta[k]) !== J(prev.meta[k])) { mm[k] = cur.meta[k]; mn++; }
                 });
                 if (mn) events.push({ type: "meeting.info", target: window.__cdeCtx ? window.__cdeCtx.path : null, payload: mm });
-                
                 const pj = {}; let pn = 0;
                 Object.keys(cur.project).forEach(function (k) {
                     if (cur.project[k] !== prev.project[k]) { pj[k] = cur.project[k]; pn++; }
@@ -3281,7 +3185,7 @@
                         if (!events.length) continue;
                         try {
                             await this.append(events);
-                            this.baseline = cur;   
+                            this.baseline = cur;
                             appended = true;
                         } catch (e) {
                             console.warn("CDE append failed (kept for retry):", e);
@@ -3317,7 +3221,7 @@
                 const fname = parts.pop();
                 const desired = slug + ".xlsx";
                 if (fname === desired) return;
-                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;   // collision-suffixed twin
+                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;
                 try {
                     let dir = ctx.handle;
                     for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: false });
@@ -3330,8 +3234,6 @@
                     if (i > 20) return;
                     let moved = false;
                     if (typeof fh.move === "function") {
-                        // same-dir rename; not guaranteed on every Chromium /
-                        // filesystem combination -> copy+delete is the truth
                         try { await fh.move(target); moved = true; }
                         catch (e) { console.warn("handle.move failed, copy+delete fallback:", e); }
                     }
@@ -3347,18 +3249,16 @@
                         type: "file.rename", target: ctx.path,
                         payload: { from: from, to: ctx.path, app: this.appId }
                     }]).catch(function () { });
-                    this.lastAssignHash = null;   // force a fresh assign on the new path
+                    this.lastAssignHash = null;
                     await this.markLoadedFileSeen();
                 } catch (e) { console.warn("CDE rename skipped (will retry):", e); }
             },
 
-            /* ---- xlsx write-back (single writer per file per session) ---- */
             writeBack: { timer: null, busy: false, pending: false, lastMtime: 0, lastSize: 0 },
             lastAssignHash: null,
             scheduleWriteBack: function () {
                 if (!window.__cdeCtx) return;
-                window.__cdeUnsaved = true;   // cleared on CONFIRMED write
-                // xlsx not on disk yet: pin the save indicator until it is
+                window.__cdeUnsaved = true;
                 if (typeof Autosave !== "undefined" && Autosave.toastNotify) Autosave.toastNotify("dirty");
                 const wbk = this.writeBack;
                 clearTimeout(wbk.timer);
@@ -3371,7 +3271,7 @@
                 const wbk = this.writeBack;
                 if (wbk.busy) { wbk.pending = true; return; }
                 wbk.busy = true;
-                let wroteOk = false;   // save indicator: only a CONFIRMED write clears it
+                let wroteOk = false;
                 try {
                     await this.maybeRename();
                     do {
@@ -3389,11 +3289,11 @@
                             let dir = ctx.handle;
                             for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: true });
                             const fh = await dir.getFileHandle(fname, { create: true });
-                            const w = await fh.createWritable();   // full rewrite, not append
+                            const w = await fh.createWritable();
                             await w.write(buf);
                             await w.close();
                             const f = await fh.getFile();
-                            wbk.lastMtime = f.lastModified;   // own-write marker
+                            wbk.lastMtime = f.lastModified;
                             wbk.lastSize = f.size;
                             wroteOk = true;
                             try {
@@ -3410,7 +3310,7 @@
                                         }]);
                                     }
                                 }
-                            } catch (e) { /* hash refresh is best effort */ }
+                            } catch (e) {  }
                         } catch (e) {
                             console.warn("CDE write-back failed (will retry on next change):", e);
                             return;
@@ -3424,7 +3324,6 @@
                 }
             },
 
-            /* ---- external-edit import ---- */
             extSeen: { mtime: 0, size: 0 },
             checking: false,
             _statFile: async function () {
@@ -3440,7 +3339,7 @@
                     const fh = await this._statFile();
                     const f = await fh.getFile();
                     this.extSeen = { mtime: f.lastModified, size: f.size };
-                } catch (e) { /* transient: first poll will handle it */ }
+                } catch (e) {  }
             },
             checkExternal: async function () {
                 const ctx = window.__cdeCtx;
@@ -3453,11 +3352,11 @@
                         fh = await this._statFile();
                         f = await fh.getFile();
                     } catch (e) {
-                        return;   // locked or missing: transient, retry next poll
+                        return;
                     }
                     const wbk = this.writeBack;
-                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;   // our own write
-                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;   // already imported
+                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;
+                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;
                     let workbook;
                     try {
                         const buf = await f.arrayBuffer();
@@ -3466,11 +3365,8 @@
                         console.warn("CDE external read/parse failed (transient, will retry):", e);
                         return;
                     }
-                    await this.flush();   // local unflushed changes reach the log first
+                    await this.flush();
                     try {
-                        // Background import must NEVER raise dialogs. Gate the
-                        // template check; anything foreign is skipped silently
-                        // (not marked seen -> retried, half-synced heals later).
                         const wsInfo = workbook.Sheets && workbook.Sheets["INFO"];
                         const aoa = wsInfo ? XLSX.utils.sheet_to_json(wsInfo, { header: 1 }) : [];
                         const a2 = aoa[1] ? String(aoa[1][0] || "").trim() : "";
@@ -3485,15 +3381,14 @@
                         return;
                     }
                     this.extSeen = { mtime: f.lastModified, size: f.size };
-                    isDirty = false;   // folder version is now the app state
-                    await this.flush();   // emit the external diff as events
+                    isDirty = false;
+                    await this.flush();
                 } finally {
                     this.checking = false;
                 }
             }
         };
 
-        // Hub is TRUTH, the file is a mirror. OVERWRITE, not fill-if-empty.
         async function _cdeFillProjectInfo(info, params) {
             try {
                 let hs = {};
@@ -3530,7 +3425,6 @@
         }
 
         async function _cdeBridgeInit(info, params) {
-            // Back to the hub, straight into THIS project.
             if (!document.getElementById('cde-home-btn')) {
                 const anchor = document.getElementById('app-project-number');
                 if (anchor && anchor.parentElement) {
@@ -3549,7 +3443,6 @@
             const dev = await cde.identity.device();
             const memberId = await cde.identity.getMember(params.guid);
             cdeBridge.author = memberId || ("device:" + dev);
-            // Rename-proof file identity. Assign ONCE per content.
             function _assign() {
                 var hp = cde.hashFile ? cde.hashFile(info.handle, params.open).catch(function () { return null; })
                     : Promise.resolve(null);
@@ -3572,7 +3465,6 @@
                 return _assign();
             }).catch(function (e) { console.warn("CDE assign append failed:", e); });
 
-            // Hook the existing dirty cycle.
             if (typeof Autosave !== "undefined" && Autosave && typeof Autosave.markDirty === "function") {
                 if (!Autosave.__cdeWrapped) {
                     Autosave.__cdeWrapped = true;
@@ -3585,8 +3477,8 @@
                         Autosave.renderStatus('saved');
                     };
                     cdeBridge.onError = function () { Autosave.renderStatus('error'); };
-                    Autosave.lastSavedAt = new Date();   // renderStatus('saved') formats this
-                    Autosave.renderStatus('saved');      // session live from the start
+                    Autosave.lastSavedAt = new Date();
+                    Autosave.renderStatus('saved');
                 }
             }
             document.addEventListener("visibilitychange", function () {
@@ -3607,7 +3499,6 @@
                 });
         });
 
-        /* ---- Cross-tool registry upsert on export ---- */
         function _registryUpsert() {
             if (window.liteAECO && liteAECO.projects && state.project && state.project.guid) {
                 liteAECO.projects.save({ guid: state.project.guid, number: state.project.number || "", title: state.project.title || "", client: state.project.client || "", address: state.project.address || "", type: state.project.type || "" }, "meetings").catch(() => { });
@@ -3629,11 +3520,9 @@
             const built = buildWorkbook();
             XLSX.writeFile(built.wb, `${built.filenameBase}.${ext}`);
 
-            // Clear dirty flag after saving
             isDirty = false;
         }
 
-        // Builds the full workbook (INFO/CONTACTS/THREADS/ATTENDANCE), shared by xlsx export and .ltm container
         function buildWorkbook() {
             const wb = XLSX.utils.book_new();
             const meetStr = String(state.meetingNo || state.No).padStart(3, '0');
@@ -3641,10 +3530,9 @@
 
             const organizers = state.people.filter(p => p.participation === 'Organizer').map(p => p.name).join(', ');
 
-            // --- 1. INFO TAB (A2 = "Meetings", app identifier) ---
             const infoData = [
                 ["www.liteAECO.com"],
-                ["Meetings"],                            // A2: identifier
+                ["Meetings"],
                 ["info@liteAECO.com (Switzerland)"],
                 [],
                 ...buildProjectInfoRows(),
@@ -3653,21 +3541,14 @@
                 ["Initial Date:", toExcelDate(state.initialDate || state.date)],
                 ["Organizer name:", organizers],
                 ["Current meeting number:", state.meetingNo || state.No],
-                // "open": a LIVE working file (CDE write-back). Reopening it
-                // RESUMES this session. Absent / anything else: legacy export
-                // semantics - minutes issued, next import starts session +1.
                 ["Session state:", (window.__cdeCtx ? "open" : "closed")],
-                // Roster fingerprint: SHA-256 of admin/members.xlsx at the
-                // last sync. _cdeSyncMembers compares against it on open.
                 ["Members Hash:", state.membersHash || ""],
             ];
 
             const wsInfo = XLSX.utils.aoa_to_sheet(infoData);
             wsInfo['!cols'] = [{ wch: 30 }, { wch: 36 }];
-            // Style A2 identifier
             const a2c = XLSX.utils.encode_cell({ c: 0, r: 1 });
             if (wsInfo[a2c]) wsInfo[a2c].s = { fill: { fgColor: { rgb: 'FF4F46E5' } }, font: { bold: true, color: { rgb: 'FFFFFFFF' } } };
-            // Style all "---" section headers dynamically (row positions shift with the PROJECT block)
             for (let R = 0; R < infoData.length; R++) {
                 if (typeof infoData[R][0] === 'string' && String(infoData[R][0]).startsWith("---")) {
                     for (let C = 0; C < 2; C++) {
@@ -3678,7 +3559,6 @@
             }
             XLSX.utils.book_append_sheet(wb, wsInfo, "INFO");
 
-            // --- 2. CONTACTS TAB (shared schema across all liteAECO apps) ---
             const contactHeaders = [
                 "ID", "Employee Code", "Employee Number", "Name", "Company", "Employee Type",
                 "Role", "Teams", "Contact Mail", "Contact Phone",
@@ -3696,36 +3576,29 @@
                 if (p.rawData && Array.isArray(p.rawData)) {
                     const srcHdr = state.contactsRawHeaders;
                     if (srcHdr && srcHdr.length > 0) {
-                        // FIX: remap by header name, safe even if the source file's columns were reordered
                         rowData = contactHeaders.map(h => {
                             let idx = srcHdr.indexOf(h);
-                            // Legacy header alias
                             if (idx < 0 && h === 'Meeting participation') idx = srcHdr.indexOf('Participation');
                             const v = idx >= 0 ? p.rawData[idx] : undefined;
                             return (v !== undefined && v !== null && v !== '') ? v : "-";
                         });
                     } else {
-                        // Fallback: clone the original row positionally
                         rowData = [...p.rawData];
                     }
 
-                    // Ensure the row is long enough for all headers (31 columns)
                     while (rowData.length < contactHeaders.length) rowData.push("-");
 
-                    // Overwrite only the fields managed by the app
                     rowData[0] = p.id || "-";
                     rowData[3] = p.name;
                     rowData[4] = p.company || "-";
                     rowData[6] = p.role || "-";
                     rowData[8] = p.contactInfo || "-";
 
-                    // If they are actively in the meeting, print their participation. Otherwise, print "No".
                     const isActive = ['Organizer', 'Required', 'Optional'].includes(p.participation) && !p.archived;
                     rowData[27] = isActive ? p.participation : "No";
 
                     rowData[30] = p.archived ? "Archived" : "Active";
                 } else {
-                    // Fallback for new contacts added manually in the app
                     rowData = new Array(contactHeaders.length).fill("-");
                     rowData[0] = p.id || "-";
                     rowData[3] = p.name;
@@ -3753,7 +3626,6 @@
                 const cr = XLSX.utils.encode_cell({ c: C, r: 0 });
                 if (wsContacts[cr]) wsContacts[cr].s = { fill: { fgColor: { rgb: darkColors[1] } }, font: { bold: true } };
             }
-            // Color-code Meeting participation column (col 27)
             for (let R = 1; R < contactsData.length; R++) {
                 const cr = XLSX.utils.encode_cell({ c: 27, r: R });
                 if (wsContacts[cr]) {
@@ -3865,13 +3737,11 @@
         function importExcelData(workbook) {
             const sheetNames = workbook.SheetNames || [];
 
-            // Check INFO A2, should be "Meetings" for native files
             const wsInfoChk = workbook.Sheets["INFO"];
             const infoChkAoA = wsInfoChk ? XLSX.utils.sheet_to_json(wsInfoChk, { header: 1 }) : [];
             const infoA2 = infoChkAoA[1] ? String(infoChkAoA[1][0] || '').trim() : '';
             const isMeetingsFile = infoA2 === "Meetings";
 
-            // Must have CONTACTS tab OR legacy --- CONTACTS --- in INFO
             const hasContacts = sheetNames.includes("CONTACTS");
             const hasLegacy = infoChkAoA.some(r => r && r[0] === "--- CONTACTS ---");
 
@@ -3902,10 +3772,6 @@
             }
         }
 
-        /* Close the running session: attendance is archived under its
-         * number, the next session opens. This replaces the old solo-only
-         * "export then reimport" loop - one explicit action, works in solo
-         * AND CDE mode. Presence resets: a new session starts blank. */
         function closeMeeting() {
             const cur = parseInt(state.meetingNo || state.No, 10) || 1;
             const msg = (window.BASE_PAGE.confirmCloseMeeting ||
@@ -3933,7 +3799,7 @@
         }
 
         function processImportData(workbook) {
-            let _liveSession = false;   // set while parsing INFO, used at ATTENDANCE
+            let _liveSession = false;
             const getValue = (aoa, key) => {
                 if (!aoa) return null;
                 const row = aoa.find(r => r && r[0] && String(r[0]).trim() === key);
@@ -3942,7 +3808,7 @@
 
             const wsInfo = workbook.Sheets["INFO"];
             let importedOrganizer = "";
-            state.membersHash = "";   // reset: old files have no stamp -> first open syncs once
+            state.membersHash = "";
             if (wsInfo) {
                 const infoAoA = XLSX.utils.sheet_to_json(wsInfo, { header: 1 });
                 state.membersHash = String(getValue(infoAoA, "Members Hash:") || "");
@@ -3952,38 +3818,24 @@
                 const _storedNo = parseInt(getValue(infoAoA, "Current meeting number:")) || 0;
                 const _sessState = String(getValue(infoAoA, "Session state:") || '').trim().toLowerCase();
                 _liveSession = (_sessState === 'open');
-                // open = live CDE file: RESUME the stored session. Anything
-                // else = issued minutes: advance to the next session (legacy).
                 state.meetingNo = (_sessState === 'open') ? Math.max(_storedNo, 1) : _storedNo + 1;
                 state.No = state.meetingNo;
                 importedOrganizer = getValue(infoAoA, "Organizer name:") || "";
-                // Legacy seeds wrote "-" as a placeholder and exports join
-                // multiple organizers with ", ". Sanitize into a NAME LIST:
-                // "-" (and any "-" fragment) is noise, never a person.
                 importedOrganizer = importedOrganizer
                     .split(',').map(s => s.trim()).filter(n => n && n !== '-').join(', ');
                 parseProjectInfo(infoAoA, getValue);
             }
 
-            // ── READ CONTACTS: prefer CONTACTS tab, fall back to legacy INFO section ──
             state.people = [];
             const wsContacts = workbook.Sheets["CONTACTS"];
 
             if (wsContacts) {
-                // Shared CONTACTS tab schema:
-                // ID(0) EmpCode(1) EmpNo(2) Name(3) Company(4) EmpType(5) Role(6) Teams(7)
-                // ContactMail(8) ContactPhone(9) Dept(10) ReportTo(11) MgrMail(12) Assistant(13)
-                // Location(14..18) HR(19..22) Skills(23) InContact(24) Influence(25) Engagement(26)
-                // Participation(27) Comments(28) Status(29)
                 const rows = XLSX.utils.sheet_to_json(wsContacts, { header: 1 });
                 const hdr = rows[0] || [];
-                // FIX (export alignment): remember source header order so export can remap rawData by name
                 state.contactsRawHeaders = hdr.map(h => String(h || '').trim());
-                // Detect column positions by header name (robust to future reordering)
                 const ci = (label) => hdr.findIndex(h => String(h || '').trim() === label);
                 const iID = ci('ID'), iName = ci('Name'), iComp = ci('Company');
                 const iRole = ci('Role'), iMail = ci('Contact Mail');
-                // Support 'Meeting participation' (new) and 'Participation' (old)
                 const iPart = ci('Meeting participation') >= 0 ? ci('Meeting participation') : ci('Participation');
                 const iStat = ci('Status');
                 const col = (row, detected, fallback) => {
@@ -3998,7 +3850,6 @@
                     if (!name) continue;
 
                     let id = col(row, iID, 0);
-                    // If the Excel row has no ID, check if the person already exists by name
                     if (!id || id === '-') {
                         const existingPerson = state.people.find(p => p.name.toLowerCase() === name.toLowerCase());
                         id = existingPerson ? existingPerson.id : generatePersonId();
@@ -4009,11 +3860,9 @@
                     let part = col(row, iPart, 27) || '';
                     let archived = String(row[iStat >= 0 ? iStat : 30] || '').trim().toLowerCase() === 'archived';
 
-                    // Check if they are already flagged as a participant
                     let isParticipant = ['Required', 'Optional', 'Organizer'].includes(part);
 
                     if (!isParticipant) {
-                        // If not a participant or empty, add them to the database but keep them hidden (archived)
                         part = 'No';
                         archived = true;
                     } else if (!part && importedOrganizer && importedOrganizer.split(', ').includes(name)) {
@@ -4021,11 +3870,9 @@
                         isParticipant = true;
                     }
 
-                    // Push everyone so the lookup table works, keeping the raw row data
                     state.people.push({ id, name, company, role, contactInfo: mail, participation: part, archived, present: false, rawData: row });
                 }
             } else if (wsInfo) {
-                // Legacy: contacts inside INFO tab under --- CONTACTS ---
                 const infoAoA = XLSX.utils.sheet_to_json(wsInfo, { header: 1 });
                 const atthIndex = infoAoA.findIndex(row => row[0] === "--- CONTACTS ---");
                 if (atthIndex > -1) {
@@ -4051,7 +3898,6 @@
                         }
                         if (['Required', 'Optional', 'Organizer'].includes(role)) { part = role; role = ''; }
 
-                        // Apply the same logic: check if they are a participant, archive them if not
                         let isParticipant = ['Required', 'Optional', 'Organizer'].includes(part);
                         if (!isParticipant) {
                             part = 'No';
@@ -4070,11 +3916,6 @@
                 }
             }
 
-            // Organizer resolves against the CONTACT LIST ONLY - never
-            // create a person from the INFO string. (Legacy "-" seeds and
-            // ", "-joined multi-organizer exports minted ghost contacts
-            // like "-, Username" here.) Names without a contact are dropped;
-            // stored participation from the CONTACTS tab stays the truth.
             if (importedOrganizer) {
                 const orgNames = importedOrganizer.split(', ');
                 state.people.forEach(p => {
@@ -4100,9 +3941,6 @@
                     });
                 }
             }
-            // Live CDE file: the write-back snapshots the CURRENT session
-            // into ATTENDANCE. On resume that row is the live meeting, NOT
-            // history - keeping it produced two "No. 1" in the nav.
             if (_liveSession) {
                 const curN = parseInt(state.meetingNo || state.No, 10);
                 state.attendanceHistory = state.attendanceHistory.filter(
@@ -4119,7 +3957,7 @@
                 const headerRow = threadsAoA[0] || [];
                 const hasCloseDate = headerRow[7] === "Close Date";
                 const assignIdx = hasCloseDate ? 8 : 7;
-                const guidIdx = headerRow.indexOf("GUID"); // label-based: robust to column shifts
+                const guidIdx = headerRow.indexOf("GUID");
 
                 for (let i = 1; i < threadsAoA.length; i++) {
                     const row = threadsAoA[i];
@@ -4160,7 +3998,6 @@
                         return matchedPerson.id;
                     });
 
-                    // Stable GUID survives round-trips (attachments link to it); generated once for legacy files
                     const sthGuid = (guidIdx >= 0 && row[guidIdx] && String(row[guidIdx]).trim() !== '-') ? String(row[guidIdx]).trim() : crypto.randomUUID();
 
                     currentThread.subthreads.push({
@@ -4173,14 +4010,13 @@
             state.historyMeetingNo = null;
             state.historyDate = null;
 
-            state.attachments = []; // xlsx never carries attachments; .ltm hydration repopulates below
+            state.attachments = [];
 
-            // Clear dirty flag after loading a new file
             isDirty = false;
 
             renderApp();
             renderProjectBar();
-            hydrateLtmAttachments(); // no-op unless an .ltm import is pending
+            hydrateLtmAttachments();
         }
     </script>
 </body>

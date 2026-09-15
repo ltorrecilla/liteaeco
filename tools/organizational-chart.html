@@ -1,3 +1,21 @@
+<!--
+  Copyright 2026 Luis Torrecilla (liteAECO)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  liteAECO - (organizational-chart.html)
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,12 +25,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Organizational Chart - Org Chart Builder & Contacts Manager | liteAECO</title>
 
-    <!-- Primary Meta Tags -->
     <meta name="description" content="Free client-side tool to manage contacts and build organizational charts locally. Create, edit, and visualize team structures. No uploads, private, fast, and built for AEC project teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/organizational-chart.html">
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/organizational-chart.html">
     <meta property="og:site_name" content="liteAECO">
@@ -24,14 +40,12 @@
     <meta property="og:image:alt" content="liteAECO Organizational Chart tool interface">
     <meta property="og:locale" content="en_US">
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/organizational-chart.html">
     <meta name="twitter:title" content="Organizational Chart - Org Chart Builder & Contacts Manager | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to manage contacts and build organizational charts locally. Create, edit, and visualize team structures. No uploads, private, fast, and built for AEC project teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-organizational-chart.png">
 
-    <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -40,21 +54,16 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- Anti-flash: .hidden works before Tailwind loads -->
     <style>
         .hidden{display:none}
-        
         .as-switch:has(#org-save-menu-disconnect:not(.hidden)){background:#22c55e}
         .as-switch:has(#org-save-menu-disconnect:not(.hidden)) .as-knob{transform:translateX(16px)}
-        
         #org-cde-save-icon-on.text-slate-600{color:#fff}
     </style>
 
-    <!-- Scripts Design -->
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
-    <!-- Scripts Internal -->
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
@@ -62,7 +71,6 @@
     <script src="../js/liteaeco-autosave.js"></script>
     <script src="../js/liteaeco-cde.js"></script>
 
-    <!-- Scripts External -->
     <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
     <script src="../js/vendor/d3-7.9.0.min.js"></script>
     <script src="../js/vendor/d3-flextree-2.1.2.min.js"></script>
@@ -83,12 +91,10 @@
         }
     </script>
 
-    <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="../css/global.css">
     <link rel="stylesheet" type="text/css" href="../css/pdf-org-chart.css">
 
     <style>
-        
         #contact-modal .modal-panel-stack { display: grid; }
         #contact-modal .modal-panel { grid-area: 1 / 1; }
         #contact-modal .modal-panel.inactive { visibility: hidden; pointer-events: none; }
@@ -98,9 +104,6 @@
 <body
     class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
 
-    <!-- TOP NAVIGATION -->
-
-    <!-- Main content -->
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
 
         <div id="info-app" class="info-app">
@@ -150,9 +153,6 @@
         <div
             class="p-4 mb-4 flex flex-wrap gap-4 justify-between items-center shrink-0 border-b border-slate-300">
 
-            <!-- PROJECT INFORMATION BAR (shared across liteAECO apps)
-                 Hidden for solo users. Shown when: CDE project mode, any
-                 project field carries data, or the gear menu reveals it. -->
             <div id="project-bar" class="hidden w-full flex flex-wrap items-center gap-3 border-b border-slate-100 pb-3">
                 <input type="text" id="app-project-number" placeholder="No."
                     class="border-0 bg-slate-50 rounded p-1.5 w-24 text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-accent outline-none transition-all" />
@@ -228,8 +228,6 @@
 
             <div class="flex items-center">
                 <div class="flex items-center rounded overflow-visible relative gap-2">
-                    <!-- Real Save - CDE mode only: flushes the event log AND
-                         the xlsx write-back immediately, no 2s debounce. -->
                     <div class="relative flex-1 min-w-[80px] hidden" id="wrapper-cde-save">
                         <button onclick="cdeSaveNow()" id="btn-cde-save"
                             class="w-full px-3 py-1.5 bg-indigo-600 border border-indigo-600 hover:bg-indigo-700 text-white rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1 disabled:opacity-60 disabled:pointer-events-none">
@@ -291,9 +289,6 @@
                         </button>
                         <div
                             class="absolute top-full right-0 min-w-32 w-max mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden">
-                            <!-- Autosave TOGGLE: the module flips .hidden on
-                                 org-save-menu-disconnect (its disconnectBtnId);
-                                 the CSS moves the knob / colors the track -->
                             <button onclick="autosaveToggle()" id="org-autosave-row"
                                 class="px-3 py-2.5 text-[10px] font-bold text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 uppercase tracking-widest border-b border-slate-100 text-left transition-colors flex items-center justify-between gap-3">
                                 <span data-i18n="autosaveToggle">Autosave</span>
@@ -415,7 +410,6 @@
 
             <div class="overflow-y-auto flex-grow modal-panel-stack">
 
-                <!-- TAB: GENERAL -->
                 <div id="modal-panel-general" class="modal-panel p-5 flex flex-col gap-3.5">
                     <div class="flex gap-3 items-end">
                         <div class="flex-[3]">
@@ -557,7 +551,6 @@
                     </div>
                 </div>
 
-                <!-- TAB: ORG & TEAMS -->
                 <div id="modal-panel-contact" class="modal-panel inactive p-5 flex flex-col gap-3.5">
                     <div class="flex gap-3">
                         <div class="flex-[2]">
@@ -644,7 +637,6 @@
                     </div>
                 </div>
 
-                <!-- TAB: HR & PROFILE -->
                 <div id="modal-panel-hr" class="modal-panel inactive p-5 flex flex-col gap-3.5">
                     <div class="flex gap-3">
                         <div class="flex-1">
@@ -716,7 +708,7 @@
                     </div>
                 </div>
 
-            </div><!-- end scroll -->
+            </div>
 
             <div class="px-6 py-4 border-t border-slate-100 flex justify-end gap-2 bg-slate-50/50 shrink-0">
                 <button onclick="closeContactModal()"
@@ -810,8 +802,6 @@
         </div>
     </div>
 
-    <!-- FOOTER -->
-    <!-- JAVASCRIPT -->
     <script>
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
@@ -841,7 +831,6 @@
         };
 
         function bootApp() {
-            
             autoDetectLanguage();
 
             window.injectUI({
@@ -946,7 +935,7 @@
             const show = !!(window.__cdeCtx || projectBarHasData() || window.__projectBarManual);
             bar.classList.toggle('hidden', !show);
             const mi = document.getElementById('menu-project-info');
-            if (mi) mi.classList.toggle('hidden', show);   
+            if (mi) mi.classList.toggle('hidden', show);
         }
         window.showProjectBar = function () {
             window.__projectBarManual = true;
@@ -958,7 +947,6 @@
                 const el = document.getElementById(elId);
                 if (el) el.value = state.project[key] || '';
             }
-            
             updateProjectBarVisibility();
         }
 
@@ -967,7 +955,7 @@
                 const el = document.getElementById(elId);
                 if (el) el.addEventListener('input', e => {
                     state.project[key] = e.target.value.trim();
-                    noteTyping(); 
+                    noteTyping();
                 });
             }
             const btn = document.getElementById('btn-project-details');
@@ -1012,11 +1000,9 @@
 
         const sanitizeStr = (str) => {
             if (!str) return '';
-            
             return String(str).replace(/["'<>\&]/g, '').trim();
         };
 
-        // NEW: Escape HTML so badges don't break on hover
         const escapeHtml = (unsafe) => {
             if (!unsafe) return '';
             return String(unsafe)
@@ -1034,13 +1020,11 @@
             return (words[0][0] + words[words.length - 1][0]).toUpperCase();
         };
 
-        // Convert sequential number to 2-letter code: 1→AA, 2→AB, ... 26→AZ, 27→BA ...
         function numToLetterCode(n) {
             const i = Math.max(0, n - 1);
             return String.fromCharCode(65 + Math.floor(i / 26) % 26) + String.fromCharCode(65 + (i % 26));
         }
 
-        // Generates a standard v4 UUID (e.g., "123e4567-e89b-12d3-a456-426614174000")
         function generatePersonId() {
             return crypto.randomUUID();
         }
@@ -1074,9 +1058,6 @@
             return strDate.replace(/\./g, '-');
         }
 
-        // ==========================================
-        // RENDER FUNCTIONS
-        // ==========================================
         function renderApp() {
             const titleInput = document.getElementById('app-organization-title');
             const dateInput = document.getElementById('app-organization-date');
@@ -1085,7 +1066,6 @@
             if (titleInput) titleInput.value = state.title;
             if (dateInput) dateInput.value = state.date;
 
-            // This line guarantees the dropdown visually updates to match the loaded Excel file
             if (chartTypeInput) chartTypeInput.value = state.chartType || 'Standard';
 
             renderPeople();
@@ -1094,8 +1074,6 @@
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
-        // We use a small delay (debounce) so that if multiple updates happen 
-        // at the exact same millisecond, the heavy chart only draws once.
         let renderDebounce;
         function updateVisuals() {
             clearTimeout(renderDebounce);
@@ -1104,34 +1082,28 @@
             }, 50);
         }
 
-        // Redirect the old event triggers to draw the new chart
         function renderPeople() { updateVisuals(); }
         function renderTasks() { updateVisuals(); }
 
-        // ==========================================
-        // ALL CONTACTS MODAL CONTROLS
-        // ==========================================
         let currentContactSort = { field: 'status', direction: 'asc' };
         let currentContactSearch = '';
         let currentContactPage = 1;
-        const CONTACTS_PER_PAGE = 12; // You can adjust this number
+        const CONTACTS_PER_PAGE = 12;
 
         function updateContactSearch(query) {
             currentContactSearch = query.toLowerCase();
-            currentContactPage = 1; // Reset to first page on new search
+            currentContactPage = 1;
             renderAllContactsList();
         }
 
         function changeContactSort(field) {
             if (currentContactSort.field === field) {
-                // If clicking the same column, toggle direction
                 currentContactSort.direction = currentContactSort.direction === 'asc' ? 'desc' : 'asc';
             } else {
-                // If clicking a new column, default to ascending
                 currentContactSort.field = field;
                 currentContactSort.direction = 'asc';
             }
-            currentContactPage = 1; // Reset to first page on sort change
+            currentContactPage = 1;
             renderAllContactsList();
         }
 
@@ -1139,13 +1111,11 @@
             currentContactPage = newPage;
             renderAllContactsList();
 
-            // Scroll back to the top of the modal list
             const scrollContainer = document.getElementById('all-contacts-list').parentElement;
             if (scrollContainer) scrollContainer.scrollTop = 0;
         }
 
         function openAllContactsModal() {
-            // Reset search when opening the modal
             currentContactSearch = '';
             currentContactPage = 1;
             const searchInput = document.getElementById('modal-search-input');
@@ -1161,7 +1131,6 @@
             renderTasks();
         }
 
-        // Helper to draw the sort arrows
         function getSortIcon(field) {
             if (currentContactSort.field !== field) return '<i data-lucide="chevrons-up-down" class="w-3 h-3 opacity-30 group-hover:opacity-100 transition-opacity"></i>';
             return currentContactSort.direction === 'asc'
@@ -1175,14 +1144,12 @@
 
             if (state.people.length === 0) return;
 
-            // 1. Filter the array based on the Search Input
             let filteredPeople = state.people.filter(p => {
                 if (!currentContactSearch) return true;
                 const searchStr = `${p.name} ${p.company} ${p.location} ${p.campus || ''} ${p.role} ${p.department} ${p.teams} ${p.reportingTo} ${p.inContactWith} ${p.contactMail || p.contactInfo || ''} ${p.employeeCode || ''} ${p.employeeNumber || ''} ${p.skills || ''} ${p.comments || ''}`.toLowerCase();
                 return searchStr.includes(currentContactSearch);
             });
 
-            // 2. Sort the filtered array dynamically
             let sortedPeople = filteredPeople.sort((a, b) => {
                 let valA, valB;
 
@@ -1208,11 +1175,9 @@
                 return currentContactSort.direction === 'asc' ? (valA - valB) : (valB - valA);
             });
 
-            // 3. Pagination Math
             const totalItems = sortedPeople.length;
             const totalPages = Math.max(1, Math.ceil(totalItems / CONTACTS_PER_PAGE));
 
-            // Failsafe
             if (currentContactPage > totalPages) currentContactPage = totalPages;
             if (currentContactPage < 1) currentContactPage = 1;
 
@@ -1221,7 +1186,6 @@
 
             const paginatedPeople = sortedPeople.slice(startIndex, endIndex);
 
-            // 4. Build the Headers
             let html = `
             <div class="grid grid-cols-[1.5fr_1fr_1fr_1.5fr_1fr_1.5fr_1fr_60px_1.5fr_1.5fr_1fr_1fr_70px] gap-2 p-4 border-b border-slate-200 bg-slate-50 text-[10px] font-bold text-slate-500 uppercase tracking-wider sticky top-0 z-[70] shadow-sm">
                 <button onclick="changeContactSort('name')" class="flex items-center gap-1 hover:text-indigo-600 transition-colors group outline-none text-left">${window.BASE_PAGE.colName || 'Name'} ${getSortIcon('name')}</button>
@@ -1239,7 +1203,6 @@
                 <button onclick="changeContactSort('status')" class="flex items-center justify-center gap-1 hover:text-indigo-600 transition-colors group outline-none">${window.BASE_PAGE.colStatus || 'Status'} ${getSortIcon('status')}</button>
             </div>`;
 
-            // Helper to generate inputs with dropdowns dynamically
             const createInlineInput = (id, field, val, ph = '...', useAutocomplete = true) => {
                 const inputHtml = `<input type="text" class="input-allcontacts-edit w-full border border-slate-200 bg-white rounded px-2 py-1 text-xs focus:outline-none focus:border-indigo-500 transition-colors" data-field="${field}" data-id="${id}" value="${escapeHtml(val || '')}" placeholder="${ph}">`;
                 if (useAutocomplete) {
@@ -1248,7 +1211,6 @@
                 return `<div>${inputHtml}</div>`;
             };
 
-            // 5. Build the Rows for Current Page
             if (paginatedPeople.length === 0) {
                 html += `<div class="p-8 text-center text-sm text-slate-400 italic">${window.BASE_PAGE.emptySearchContacts || 'No contacts match your search.'}</div>`;
             } else {
@@ -1287,12 +1249,10 @@
                 });
             }
 
-            // 6. Build Pagination Controls
             const paginationEl = document.getElementById('all-contacts-pagination');
             let paginationHtml = '';
 
             if (totalItems > CONTACTS_PER_PAGE) {
-                // Notice the removal of "border-t sticky bottom-0" since the parent wrapper handles that now
                 paginationHtml = `
                 <div class="flex items-center justify-between px-6 py-3">
                     <div class="text-xs text-slate-500">
@@ -1310,18 +1270,15 @@
                 </div>`;
             }
 
-            // Inject the HTML into their respective containers
             listEl.innerHTML = html;
             if (paginationEl) paginationEl.innerHTML = paginationHtml;
 
-            // Re-initialize icons for both containers
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons({ root: listEl });
                 if (paginationEl) lucide.createIcons({ root: paginationEl });
             }
         }
 
-        // --- TEAMS MODAL LOGIC ---
         function openAllTeamsModal() {
             document.getElementById('all-teams-modal').classList.remove('hidden');
             setTimeout(() => document.getElementById('all-teams-modal').classList.remove('opacity-0'), 10);
@@ -1400,20 +1357,15 @@
             return assignees.map(id => {
                 if (id.startsWith('c_')) {
                     const compName = id.substring(2);
-                    // Added print:bg-slate-200 print:text-black print:border-slate-400
                     return `<span class="bg-amber-100 text-amber-700 border border-amber-200 text-[10px] font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 shadow-sm cursor-help print:bg-slate-200 print:text-black print:border-slate-400 print:shadow-none" title="${escapeHtml(compName)}">${getInitials(compName)}</span>`;
                 } else {
                     const p = state.people.find(x => x.id === id);
-                    // Added print:bg-white print:text-black print:border-slate-400
                     if (p) return `<span class="bg-slate-100 text-slate-700 border border-indigo-200 text-[10px] font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 shadow-sm cursor-help print:bg-white print:text-black print:border-slate-400 print:shadow-none" title="${escapeHtml(p.name)}">${getInitials(p.name)}</span>`;
                     return '';
                 }
             }).join('');
         }
 
-        // ==========================================
-        // MODAL CONTROLS (Unified & Fixed)
-        // ==========================================
         function switchModalTab(tab) {
             document.querySelectorAll('.modal-tab').forEach(t => {
                 t.classList.remove('border-indigo-500', 'text-indigo-600');
@@ -1439,7 +1391,6 @@
 
             document.getElementById('contact-modal-id').value = person.id;
 
-            // General tab
             document.getElementById('contact-modal-name').value = person.name || '';
             document.getElementById('contact-modal-isassistant').checked = !!person.isAssistant;
             document.getElementById('contact-modal-company').value = person.company || '';
@@ -1450,13 +1401,11 @@
             document.getElementById('contact-modal-employeecode').value = person.employeeCode || '';
             document.getElementById('contact-modal-employeenumber').value = person.employeeNumber || '';
 
-            // Org tab
             document.getElementById('contact-modal-reportingto').value = person.reportingTo || '';
             document.getElementById('contact-modal-secondarymanager').value = person.secondaryManager || '';
             document.getElementById('contact-modal-teams').value = person.teams || '';
             document.getElementById('contact-modal-incontactwith').value = person.inContactWith || '';
 
-            // Contact & Location tab
             document.getElementById('contact-modal-contactmail').value = person.contactMail || person.contactInfo || '';
             document.getElementById('contact-modal-contactphone').value = person.contactPhone || '';
             document.getElementById('contact-modal-location').value = person.location || '';
@@ -1466,7 +1415,6 @@
             document.getElementById('contact-modal-hood').value = person.hood || '';
             autoFillManagerMail();
 
-            // HR & Profile tab
             document.getElementById('contact-modal-startingdate').value = person.startingDate || '';
             document.getElementById('contact-modal-percentage').value = person.percentage || '';
             document.getElementById('contact-modal-costcenter').value = person.costCenter || '';
@@ -1476,7 +1424,6 @@
             document.getElementById('contact-modal-engagement').value = person.engagement || '';
             document.getElementById('contact-modal-comments').value = person.comments || '';
 
-            // Always open on General tab
             switchModalTab('general');
 
             const compDropdown = document.getElementById('company-autocomplete-dropdown');
@@ -1494,7 +1441,6 @@
             const person = state.people.find(p => p.id === id);
 
             if (person) {
-                // General
                 person.name = sanitizeStr(document.getElementById('contact-modal-name').value);
                 person.isAssistant = document.getElementById('contact-modal-isassistant').checked;
                 person.company = sanitizeStr(document.getElementById('contact-modal-company').value);
@@ -1503,12 +1449,10 @@
                 person.department = sanitizeStr(document.getElementById('contact-modal-department').value);
                 person.employeeCode = document.getElementById('contact-modal-employeecode').value.trim();
                 person.employeeNumber = document.getElementById('contact-modal-employeenumber').value.trim();
-                // Org
                 person.reportingTo = sanitizeStr(document.getElementById('contact-modal-reportingto').value);
                 person.secondaryManager = sanitizeStr(document.getElementById('contact-modal-secondarymanager').value);
                 person.teams = sanitizeStr(document.getElementById('contact-modal-teams').value);
                 person.inContactWith = sanitizeStr(document.getElementById('contact-modal-incontactwith').value);
-                // Contact & Location
                 person.contactMail = document.getElementById('contact-modal-contactmail').value.trim();
                 person.contactPhone = document.getElementById('contact-modal-contactphone').value.trim();
                 person.location = sanitizeStr(document.getElementById('contact-modal-location').value);
@@ -1516,7 +1460,6 @@
                 person.building = sanitizeStr(document.getElementById('contact-modal-building').value);
                 person.floor = sanitizeStr(document.getElementById('contact-modal-floor').value);
                 person.hood = sanitizeStr(document.getElementById('contact-modal-hood').value);
-                // HR & Profile
                 person.startingDate = document.getElementById('contact-modal-startingdate').value;
                 person.percentage = document.getElementById('contact-modal-percentage').value.trim();
                 person.costCenter = document.getElementById('contact-modal-costcenter').value.trim();
@@ -1531,9 +1474,6 @@
             }
         }
 
-        // ==========================================
-        // CUSTOM DIALOG CONTROLS
-        // ==========================================
         function showDialog(type, message, onConfirm = null, onCancel = null) {
             const overlay = document.getElementById('custom-dialog');
             const box = document.getElementById('custom-dialog-box');
@@ -1580,7 +1520,6 @@
             overlay.classList.remove('hidden');
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: overlay });
 
-            // Small delay to trigger CSS transition
             setTimeout(() => {
                 overlay.classList.remove('opacity-0');
                 box.classList.remove('scale-95');
@@ -1599,11 +1538,7 @@
             setTimeout(() => { overlay.classList.add('hidden'); }, 200);
         }
 
-        // ==========================================
-        // PRINT PREPARATION
-        // ==========================================
         function prepareAndPrint() {
-            // 1. Expand UI elements for printing
             document.querySelectorAll('.task-content-wrapper.hidden, .st-controls-wrapper.hidden').forEach(el => {
                 el.classList.remove('hidden');
             });
@@ -1620,16 +1555,12 @@
                 ta.style.height = ta.scrollHeight + 'px';
             });
 
-            // 2. WYSIWYG PRINT FIX
-            // Freezes the user's exact screen framing into the SVG.
-
             const container = document.getElementById('org-chart-container');
             const svg = (container && state.chartType !== 'Contact List')
                 ? container.querySelector('svg:not(.lucide)')
                 : null;
 
             if (svg) {
-                
                 const screenWidth = svg.clientWidth || container.clientWidth;
                 const screenHeight = svg.clientHeight || container.clientHeight;
 
@@ -1749,10 +1680,8 @@
 
                 const activeDropdown = e.target.closest('.dropdown-container');
                 if (!activeDropdown) {
-                    
                     document.querySelectorAll('.dropdown-container > .absolute').forEach(el => el.classList.add('hidden'));
                 } else {
-                    
                     document.querySelectorAll('.dropdown-container').forEach(container => {
                         if (container !== activeDropdown) {
                             const menu = container.querySelector('.absolute');
@@ -1801,7 +1730,7 @@
                             id: generateId('s'), number: maxStNum + 1, text: '', assignees: [], dueDate: '', priority: 'low', status: 'open',
                             initialDate: state.date, closeDate: ''
                         });
-                        isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); 
+                        isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
                         renderTasks();
                     }
                 }
@@ -1820,7 +1749,7 @@
                     const searchEl = document.getElementById('app-search');
                     if (searchEl) searchEl.value = '';
 
-                    isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); 
+                    isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
                     renderTasks();
 
                     const container = document.getElementById('tasks-container');
@@ -1833,7 +1762,7 @@
                         const idx = task.subtasks.findIndex(st => st.id === stId);
                         if (idx > -1) task.subtasks.splice(idx, 1);
                     });
-                    isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); 
+                    isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
                     renderTasks();
                 }
 
@@ -1911,7 +1840,6 @@
             });
 
             document.addEventListener('change', (e) => {
-                
                 if (e.target.classList.contains('input-allcontacts-cb')) {
                     const id = e.target.dataset.id;
                     const field = e.target.dataset.field;
@@ -1943,7 +1871,6 @@
                 }
 
                 if (e.target.classList.contains('input-st-assignee-cb')) {
-                    
                     const stId = e.target.getAttribute('data-stid');
                     const pId = e.target.getAttribute('data-pid');
                     const cId = e.target.getAttribute('data-cid');
@@ -2002,7 +1929,6 @@
                         }
                         if (e.target.classList.contains('input-st-date')) {
                             st.dueDate = e.target.value;
-                            
                             e.target.setAttribute('value', e.target.value);
                         }
                     }
@@ -2046,7 +1972,6 @@
             }
 
             document.addEventListener('input', (e) => {
-
                 if (e.target.id !== 'app-search' && e.target.id !== 'modal-search-input' && e.target.id !== 'cl-search') {
                     noteTyping();
                 }
@@ -2107,7 +2032,6 @@
                                     }
                                 }
                             });
-                            
                             state.teams.forEach(t => {
                                 if (t.parentTeam === oldName) t.parentTeam = newName;
                             });
@@ -2115,7 +2039,6 @@
                             team[field] = e.target.value;
                         }
                     }
-                    
                     handleInlineAutocomplete(e.target);
                 }
             });
@@ -2127,14 +2050,12 @@
                     commitTypingDirty();
                 }
             });
-            
             document.addEventListener('visibilitychange', () => {
                 if (document.visibilityState === 'hidden' && typingDirty) {
                     commitTypingDirty();
                     if (typeof Autosave !== "undefined" && Autosave.flush) Autosave.flush();
                 }
             });
-
             window.addEventListener('beforeunload', (e) => {
                 if (!window.__cdeCtx) return;
                 let cdePending = false;
@@ -2144,7 +2065,7 @@
                             (cdeBridge.baseline && cdeBridge.diff(cdeBridge.baseline, cdeBridge.snap()).length > 0));
                 } catch (err) { }
                 if (typingDirty || cdePending) {
-                    commitTypingDirty(); 
+                    commitTypingDirty();
                     try { if (typeof cdeBridge !== 'undefined' && cdeBridge.flush) cdeBridge.flush(); } catch (err) { }
                     e.preventDefault();
                     e.returnValue = (window.BASE_PAGE && window.BASE_PAGE.unsavedLeaveMessage) || "You have unsaved changes. Are you sure you want to leave?";
@@ -2159,7 +2080,7 @@
                     if (!file) return;
 
                     const mode = excelUploadMode;
-                    excelUploadMode = 'open';   
+                    excelUploadMode = 'open';
 
                     if (mode === 'open' && isDirty && state.people.length > 0) {
                         const msg = window.BASE_PAGE.confirmImportReplace || "Are you sure you want to import this file? Existing unsaved data will be replaced.";
@@ -2238,7 +2159,6 @@
             }
 
             document.addEventListener('click', (e) => {
-                
                 if (e.target.closest('.name-suggestion')) {
                     const suggestion = e.target.closest('.name-suggestion');
                     const pId = suggestion.dataset.id;
@@ -2264,8 +2184,8 @@
                     const person = state.people.find(p => p.id === id);
                     if (person) {
                         person.archived = !person.archived;
-                        if (!person.archived) person.present = true; 
-                        renderAllContactsList(); 
+                        if (!person.archived) person.present = true;
+                        renderAllContactsList();
                     }
                 }
 
@@ -2296,7 +2216,6 @@
                     }
 
                     input.dispatchEvent(new Event('input', { bubbles: true }));
-
                     input.dispatchEvent(new Event('change', { bubbles: true }));
                     dropdown.classList.add('hidden');
                 } else if (!e.target.classList.contains('input-allcontacts-edit') &&
@@ -2333,7 +2252,6 @@
                 if (field === 'parentTeam' && state.teams) {
                     state.teams.forEach(t => allValues.push(t.name.trim()));
                 } else {
-                    
                     state.people.forEach(p => {
                         let fieldVal = p[field];
                         if (fieldVal) {
@@ -2393,7 +2311,6 @@
                                 allValues.push(fieldVal.trim());
                             }
                         }
-                        
                         if (includeNames && p.name) {
                             allValues.push(formatPersonRef(p));
                         }
@@ -2422,8 +2339,8 @@
 
                         if (isCommaSeparated) {
                             const parts = input.value.split(',');
-                            parts.pop(); 
-                            parts.push(' ' + selectedVal); 
+                            parts.pop();
+                            parts.push(' ' + selectedVal);
                             input.value = parts.join(',').trim() + ', ';
                         } else {
                             input.value = selectedVal;
@@ -2489,7 +2406,6 @@
             hasPendingInput: () => typingDirty,
             commitPendingInput: () => commitTypingDirty()
         });
-        
         function _cdeParams() {
             try {
                 const q = new URLSearchParams(window.location.search);
@@ -2529,7 +2445,6 @@
                 console.error("CDE IMPORT LOGIC ERROR:", err);
                 return true;
             }
-
             if (state.project.guid && state.project.guid !== params.guid) {
                 const adopt = await new Promise(function (resolve) {
                     showDialog('confirm',
@@ -2545,8 +2460,7 @@
             window.__cdeCtx = { guid: params.guid, path: params.open, handle: info.handle };
             const cs = document.getElementById('wrapper-cde-save');
             if (cs) cs.classList.remove('hidden');
-            updateProjectBarVisibility();   
-
+            updateProjectBarVisibility();
             for (const elId of Object.keys(PROJECT_FIELD_MAP)) {
                 const el = document.getElementById(elId);
                 if (el) {
@@ -2559,16 +2473,14 @@
             if (infoCard) infoCard.classList.add('hidden');
             try {
                 await _cdeBridgeInit(info, params);
-                await _cdeFillProjectInfo(info, params);   
+                await _cdeFillProjectInfo(info, params);
             } catch (e) {
-
                 console.error("CDE bridge init failed:", e);
                 if (typeof Autosave !== "undefined" && Autosave.renderStatus) Autosave.renderStatus("error");
                 showDialog('alert', (window.BASE_PAGE.cdeBridgeFailed ||
                     "Project sync could not start - changes will NOT be saved to the project folder. Update js/liteaeco-cde.js to the latest build and reload.") +
                     "\n\n(" + (e && e.message ? e.message : e) + ")");
             }
-            
             window.addEventListener("beforeunload", function (e) {
                 if (window.__cdeUnsaved) {
                     try { cdeBridge.flushWriteBack(); } catch (err) { }
@@ -2589,7 +2501,6 @@
                     return true;
                 }
                 if (info.permission === "granted") return await _cdeLoad(info, params);
-                
                 const fileName = params.open.split("/").pop();
                 showDialog('confirm', (window.BASE_PAGE.cdeOpenPrompt || "Open project file:") + "\n" + fileName, async function () {
                     try {
@@ -2604,7 +2515,7 @@
                         console.error("CDE OPEN ERROR:", err);
                     }
                 });
-                return true;   
+                return true;
             } catch (err) {
                 console.error("CDE OPEN ERROR:", err);
                 showDialog('alert', window.BASE_PAGE.cdeOpenFailed || "Could not open the project file.");
@@ -2694,7 +2605,6 @@
             },
             flush: async function () {
                 if (!this.session || !this.baseline) return;
-
                 if (this.flushing) { this.pending = true; return; }
                 this.flushing = true;
                 let appended = false;
@@ -2706,22 +2616,21 @@
                         if (!events.length) continue;
                         try {
                             await this.append(events);
-                            this.baseline = cur;   
+                            this.baseline = cur;
                             appended = true;
                         } catch (e) {
                             console.warn("CDE append failed (kept for retry):", e);
                             if (this.onError) this.onError();
-                            break;   
+                            break;
                         }
                     } while (this.pending);
                 } finally {
                     this.flushing = false;
                 }
-
                 if (appended) {
                     if (this.onSaved) this.onSaved();
                     if (typeof document !== "undefined" && document.visibilityState === "hidden") {
-                        await this.flushWriteBack();   
+                        await this.flushWriteBack();
                     } else {
                         this.scheduleWriteBack();
                     }
@@ -2732,8 +2641,7 @@
             lastAssignHash: null,
             scheduleWriteBack: function () {
                 if (!window.__cdeCtx) return;
-                window.__cdeUnsaved = true;   
-                
+                window.__cdeUnsaved = true;
                 if (typeof Autosave !== "undefined" && Autosave.toastNotify) Autosave.toastNotify("dirty");
                 const wbk = this.writeBack;
                 clearTimeout(wbk.timer);
@@ -2746,7 +2654,7 @@
                 const wbk = this.writeBack;
                 if (wbk.busy) { wbk.pending = true; return; }
                 wbk.busy = true;
-                let wroteOk = false;   
+                let wroteOk = false;
                 try {
                     do {
                         wbk.pending = false;
@@ -2763,14 +2671,13 @@
                             let dir = ctx.handle;
                             for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: true });
                             const fh = await dir.getFileHandle(fname, { create: true });
-                            const w = await fh.createWritable();   
+                            const w = await fh.createWritable();
                             await w.write(buf);
                             await w.close();
                             const f = await fh.getFile();
-                            wbk.lastMtime = f.lastModified;   
+                            wbk.lastMtime = f.lastModified;
                             wbk.lastSize = f.size;
                             wroteOk = true;
-
                             try {
                                 if (window.crypto && window.crypto.subtle) {
                                     const d = await window.crypto.subtle.digest("SHA-256",
@@ -2787,7 +2694,6 @@
                                 }
                             } catch (e) {  }
                         } catch (e) {
-
                             console.warn("CDE write-back failed (will retry on next change):", e);
                             return;
                         }
@@ -2820,7 +2726,6 @@
             checkExternal: async function () {
                 const ctx = window.__cdeCtx;
                 if (!ctx || !ctx.handle || !ctx.path) return;
-                
                 if (this.checking || this.flushing || this.writeBack.busy) return;
                 this.checking = true;
                 try {
@@ -2829,23 +2734,21 @@
                         fh = await this._statFile();
                         f = await fh.getFile();
                     } catch (e) {
-                        return;   
+                        return;
                     }
                     const wbk = this.writeBack;
-                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;   
-                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;   
+                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;
+                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;
                     let workbook;
                     try {
                         const buf = await f.arrayBuffer();
                         workbook = XLSX.read(new Uint8Array(buf), { type: "array" });
                     } catch (e) {
                         console.warn("CDE external read/parse failed (transient, will retry):", e);
-                        return;   
+                        return;
                     }
-
                     await this.flush();
                     try {
-
                         const wsInfo = workbook.Sheets && workbook.Sheets["INFO"];
                         const aoa = wsInfo ? XLSX.utils.sheet_to_json(wsInfo, { header: 1 }) : [];
                         const a2 = aoa[1] ? String(aoa[1][0] || "").trim() : "";
@@ -2857,11 +2760,11 @@
                         processImportData(workbook, true);
                     } catch (e) {
                         console.warn("CDE external import failed:", e);
-                        return;   
+                        return;
                     }
                     this.extSeen = { mtime: f.lastModified, size: f.size };
-                    isDirty = false;   
-                    await this.flush();   
+                    isDirty = false;
+                    await this.flush();
                 } finally {
                     this.checking = false;
                 }
@@ -2887,7 +2790,6 @@
                 } catch (e) { }
                 if (!hs.title) hs.title = info.name || '';
                 const addr = [hs.address1, hs.city].filter(Boolean).join(', ') || hs.address || '';
-
                 const fill = { number: hs.number || '', title: hs.title || '', client: hs.client || '', address: addr, type: hs.type || '' };
                 let changed = false;
                 if (!state.project.guid || state.project.guid === params.guid) {
@@ -2905,7 +2807,6 @@
         }
 
         async function _cdeBridgeInit(info, params) {
-
             if (!document.getElementById('cde-home-btn')) {
                 const anchor = document.getElementById('app-project-number');
                 if (anchor && anchor.parentElement) {
@@ -2922,12 +2823,9 @@
             cdeBridge.session = cde.session(info.handle);
             cdeBridge.baseline = cdeBridge.snap();
             const dev = await cde.identity.device();
-
             const memberId = await cde.identity.getMember(params.guid);
             cdeBridge.author = memberId || ("device:" + dev);
-
             function _assign() {
-
                 var hp = cde.hashFile ? cde.hashFile(info.handle, params.open).catch(function () { return null; })
                     : Promise.resolve(null);
                 return hp.then(function (h) {
@@ -2950,10 +2848,8 @@
             }).catch(function (e) { console.warn("CDE assign append failed:", e); });
 
             if (typeof Autosave !== "undefined" && Autosave && typeof Autosave.markDirty === "function") {
-                
                 if (!Autosave.__cdeWrapped) {
                     Autosave.__cdeWrapped = true;
-
                     Autosave.markDirty = function () {
                         Autosave.renderStatus('dirty');
                         cdeBridge.schedule();
@@ -2963,8 +2859,8 @@
                         Autosave.renderStatus('saved');
                     };
                     cdeBridge.onError = function () { Autosave.renderStatus('error'); };
-                    Autosave.lastSavedAt = new Date();   
-                    Autosave.renderStatus('saved');      
+                    Autosave.lastSavedAt = new Date();
+                    Autosave.renderStatus('saved');
                 }
             }
             document.addEventListener("visibilitychange", function () {
@@ -2980,7 +2876,6 @@
         document.addEventListener("DOMContentLoaded", () => {
             cdeAutoOpen().then(function (viaCde) { if (!viaCde) Autosave.boot(); })
                 .catch(function (err) {
-
                     console.error("CDE open failed:", err);
                     showDialog('alert', (window.BASE_PAGE.cdeOpenFailed || "Could not open the project file.") +
                         "\n\n(" + (err && err.message ? err.message : err) + ")");
@@ -2999,7 +2894,7 @@
 
             const infoData = [
                 ["www.liteAECO.com"],
-                ["Org Chart Data"],                     
+                ["Org Chart Data"],
                 ["Application: Org Chart Builder"],
                 [],
                 ...buildProjectInfoRows(),
@@ -3010,10 +2905,8 @@
             ];
             const wsInfo = XLSX.utils.aoa_to_sheet(infoData);
             wsInfo['!cols'] = [{ wch: 24 }, { wch: 36 }];
-            
             const a2cell = XLSX.utils.encode_cell({ c: 0, r: 1 });
             if (wsInfo[a2cell]) wsInfo[a2cell].s = { fill: { fgColor: { rgb: 'FF4F46E5' } }, font: { bold: true, color: { rgb: 'FFFFFFFF' } } };
-            
             for (let R = 0; R < infoData.length; R++) {
                 if (typeof infoData[R][0] === 'string' && String(infoData[R][0]).startsWith("---")) {
                     for (let C = 0; C < 2; C++) {
@@ -3068,10 +2961,10 @@
                     p.inContactWith || "-",
                     p.influence || "-",
                     p.engagement || "-",
-                    p.participation || "-",        
-                    p.rasciMatrix || "-",         
-                    p.comments || "-",             
-                    p.archived ? "Archived" : "Active" 
+                    p.participation || "-",
+                    p.rasciMatrix || "-",
+                    p.comments || "-",
+                    p.archived ? "Archived" : "Active"
                 ]);
             });
 
@@ -3111,7 +3004,6 @@
         }
 
         function exportToExcel(ext) {
-
             if (window.__cdeCtx) _registryUpsert();
             if (!state.title || state.title.trim() === '') {
                 showDialog('alert', window.BASE_PAGE.alertMissingTitle || "Please enter a Title before saving.");
@@ -3134,17 +3026,14 @@
             const wsContactsSrc = workbook.Sheets["CONTACTS"];
 
             if (wsContactsSrc) {
-
                 const contactsAoA = XLSX.utils.sheet_to_json(wsContactsSrc, { header: 1 });
                 for (let i = 1; i < contactsAoA.length; i++) {
                     const row = contactsAoA[i];
                     if (!row) continue;
                     const clean = (v) => (v && v !== '-') ? String(v).trim() : '';
-                    
                     const h1 = String(contactsAoA[0]?.[1] || '').trim();
                     const h2 = String(contactsAoA[0]?.[2] || '').trim();
                     const h28 = String(contactsAoA[0]?.[28] || '').trim();
-
                     const isLatest = h1 === 'Employee Code' && h2 === 'Employee Number' && h28 === 'RASCI Matrix';
                     const isV2 = h1 === 'Employee Code' && h2 === 'Employee Number' && h28 !== 'RASCI Matrix';
                     const isOldV2 = h1 === 'Employee Code' && h2 !== 'Employee Number';
@@ -3191,14 +3080,13 @@
                             inContactWith: clean(row[24]),
                             influence: clean(row[25]),
                             engagement: clean(row[26]),
-                            participation: clean(row[27]),   
-                            rasciMatrix: clean(row[28]),   
+                            participation: clean(row[27]),
+                            rasciMatrix: clean(row[28]),
                             comments: clean(row[29]),
                             archived: String(row[30] || '').trim().toLowerCase() === 'archived',
                             contactInfo: clean(row[8]), secondaryManager: '', present: false
                         });
                     } else if (isV2) {
-                        
                         people.push({
                             id, name,
                             employeeCode: clean(row[1]),
@@ -3233,7 +3121,6 @@
                             contactInfo: clean(row[8]), secondaryManager: '', present: false
                         });
                     } else if (isOldV2) {
-                        
                         people.push({
                             id, name, employeeCode: '', employeeNumber: '',
                             company: clean(row[2]),
@@ -3259,7 +3146,6 @@
                     }
                 }
             } else if (workbook.Sheets["INFO"]) {
-                
                 const infoAoA = XLSX.utils.sheet_to_json(workbook.Sheets["INFO"], { header: 1 });
                 const attIndex = infoAoA.findIndex(row => row && row[0] === "--- CONTACTS ---");
                 if (attIndex > -1) {
@@ -3325,7 +3211,6 @@
                     added++;
                 }
             });
-            
             if (!state.teams) state.teams = [];
             const existingTeamNames = new Set(state.teams.map(t => (t.name || '').toLowerCase()));
             state.people.forEach(p => {
@@ -3361,7 +3246,6 @@
                 state.date = new Date().toISOString().split('T')[0];
                 state.initialDate = fromExcelDate(getValue(infoAoA, "Initial Date:")) || state.date;
                 parseProjectInfo(infoAoA, getValue);
-                
             }
 
             state.people = parsePeopleFromWorkbook(workbook);
@@ -3456,7 +3340,7 @@
             }
         }
 
-        let orgChart; 
+        let orgChart;
 
         const contactListUI = { sortCol: 'name', sortDir: 1, search: '', company: '', editingId: null, editBackup: null };
 
@@ -3469,7 +3353,6 @@
         function renderContactList(container) {
             const T = window.BASE_PAGE || {};
             const dash = '<span class="text-slate-400">-</span>';
-            
             const getActive = () => state.people.filter(p => !p.archived);
 
             container.innerHTML = `
@@ -3554,7 +3437,6 @@
 
                     if (editing) {
                         const inp = (field, val) => `<input type="text" class="input-cl-edit w-full border border-slate-200 bg-white rounded px-2 py-1 text-xs focus:outline-none focus:border-indigo-500 transition-colors" data-field="${field}" data-id="${p.id}" value="${escapeHtml(val)}">`;
-                        
                         const inpLookup = (field, val) => `<div class="relative focus-within:z-50">${inp(field, val)}<div class="inline-autocomplete-dropdown absolute top-full left-0 w-full mt-1 bg-white border border-slate-200 shadow-xl rounded z-[100] hidden flex-col max-h-40 overflow-y-auto"></div></div>`;
                         cells = `
                             <td class="${tdCls}">${inp('name', p.name || '')}</td>
@@ -3637,10 +3519,9 @@
             wrap.addEventListener('keydown', e => {
                 if (!e.target.classList.contains('input-cl-edit')) return;
                 if (e.key === 'Enter') {
-                    e.target.blur();   
+                    e.target.blur();
                     exitEdit();
                 } else if (e.key === 'Escape') {
-                    
                     const p = state.people.find(x => x.id === contactListUI.editingId);
                     if (p && contactListUI.editBackup) {
                         p.name = contactListUI.editBackup.name;
@@ -3735,8 +3616,8 @@
             const THEME = {
                 network: {
                     links: "#94a3b8",
-                    teamBgLight: "rgba(79, 70, 229, 0.03)", 
-                    teamBgDark: "rgba(79, 70, 229, 0.08)",  
+                    teamBgLight: "rgba(79, 70, 229, 0.03)",
+                    teamBgDark: "rgba(79, 70, 229, 0.08)",
                     teamBorder: "rgba(79, 70, 229, 0)",
                     managerBg: "#c7d2fe",
                     personBg: "#f8fafc",
@@ -3753,7 +3634,6 @@
             };
 
             const activePeople = state.people.filter(p => !p.archived);
-            
             const activeTeams = (state.teams || []).filter(t => !t.archived);
 
             if (activePeople.length === 0) {
@@ -3805,7 +3685,6 @@
 
                 const placed = {};
                 activePeople.forEach(p => {
-                    
                     let nx = p.engagement && !isNaN(Number(p.engagement)) ? (Number(p.engagement) - 1) / 4 : interestScores[p.id] / maxInterest;
                     let ny = p.influence && !isNaN(Number(p.influence)) ? (Number(p.influence) - 1) / 4 : powerScores[p.id] / maxPower;
                     const seed = p.id.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
@@ -4000,7 +3879,7 @@
                         .style("opacity", d => {
                             let scale = d.depth >= 4 ? 0.45 : (d.depth === 3 ? 0.60 : 0.75);
                             const apparentRadius = (d.r * scale) * event.transform.k;
-                            return apparentRadius > 10 ? 1 : 0; 
+                            return apparentRadius > 10 ? 1 : 0;
                         });
                 });
 
@@ -4028,7 +3907,7 @@
                     }
                 });
 
-                svgGroup.append("g").attr("fill", "none").attr("stroke", THEME.network.links).attr("stroke-opacity", 0.0).attr("stroke-dasharray", "4,4") 
+                svgGroup.append("g").attr("fill", "none").attr("stroke", THEME.network.links).attr("stroke-opacity", 0.0).attr("stroke-dasharray", "4,4")
                     .selectAll("path").data(links).join("path")
                     .attr("vector-effect", "non-scaling-stroke")
                     .attr("stroke-width", 2)
@@ -4047,10 +3926,9 @@
                 node.append("circle")
                     .attr("r", d => {
                         if (!d.data.isPerson) return d.r;
-                        
-                        if (d.depth >= 4) return d.r * 0.45; 
-                        if (d.depth === 3) return d.r * 0.60; 
-                        return d.r * 0.75; 
+                        if (d.depth >= 4) return d.r * 0.45;
+                        if (d.depth === 3) return d.r * 0.60;
+                        return d.r * 0.75;
                     })
                     .attr("fill", d => {
                         if (d.data.isDummy) return "transparent";
@@ -4077,9 +3955,8 @@
                 const leaves = node.filter(d => d.data.isPerson);
                 const textGroup = leaves.append("text")
                     .attr("text-anchor", "middle")
-                    .attr("class", "person-label font-bold fill-slate-800 pointer-events-none") 
+                    .attr("class", "person-label font-bold fill-slate-800 pointer-events-none")
                     .style("font-size", d => {
-                        
                         let scale = d.depth >= 4 ? 0.45 : (d.depth === 3 ? 0.60 : 0.75);
                         return Math.max(6, Math.min((d.r * scale) * 0.3, 12)) + "px";
                     })
@@ -4184,7 +4061,6 @@
                 const mapLvl1 = {};
 
                 activePeople.forEach(p => {
-                    
                     let val1 = (p[state.treeLevel1] || '').trim() || `(No ${lvl1Cfg.label})`;
                     let val2 = (p[state.treeLevel2] || '').trim() || `(No ${lvl2Cfg.label})`;
                     let val3 = (p[state.treeLevel3] || '').trim() || `(No ${lvl3Cfg.label})`;
@@ -4253,7 +4129,6 @@
                     const leaves = hier.leaves().length;
                     const NODE_VSEP = 20;
                     const tH = Math.max(cH - 20, leaves * NODE_VSEP + 60);
-                    
                     const tW = Math.max(cW * 0.45, 360);
 
                     const tree = d3.tree()
@@ -4276,10 +4151,10 @@
                     svg.call(zm.transform, d3.zoomIdentity.translate(20, (cH - tH * sc) / 2 + 8).scale(sc));
 
                     const LC = [
-                        '#4f46e5', 
-                        '#0891b2', 
-                        '#059669', 
-                        '#d97706'  
+                        '#4f46e5',
+                        '#0891b2',
+                        '#059669',
+                        '#d97706'
                     ];
 
                     svgG.append('g').selectAll('path').data(root.links()).join('path')
@@ -4291,7 +4166,6 @@
                         .style('cursor', d => (d.data.isPerson || d.data.isCategory || d.data.isRoot) ? 'pointer' : 'default');
 
                     const catG = nodeG.filter(d => !d.data.isPerson);
-                    
                     const catW = d => d.data.level === 0 ? 150 : d.data.level === 1 ? 126 : d.data.level === 2 ? 108 : 96;
                     const catH = 20;
 
@@ -4641,7 +4515,6 @@
                 });
 
             } else {
-                
                 activePeople.forEach(p => {
                     let parentId = extractId(p.reportingTo);
                     if (!parentId || !activePeople.some(ap => ap.id === parentId)) parentId = 'VIRTUAL_ROOT';
@@ -4657,14 +4530,12 @@
                     if (p.inContactWith) {
                         const targets = p.inContactWith.split(',').map(s => s.trim()).filter(Boolean);
                         targets.forEach(target => {
-                            
                             let targetId = extractId(target);
                             if (targetId === target && nameToId[target.toLowerCase()]) {
                                 targetId = nameToId[target.toLowerCase()];
                             }
 
                             if (targetId && targetId !== p.id && chartData.some(d => d.id === targetId)) {
-                                
                                 const exists = connections.some(c => (c.from === p.id && c.to === targetId) || (c.from === targetId && c.to === p.id));
                                 if (!exists) {
                                     connections.push({ from: p.id, to: targetId, label: '' });
@@ -4683,7 +4554,7 @@
                 .connectionsUpdate(function (d, i, arr) {
 
                     d3.select(this)
-                        .attr('stroke', '#3b82f6') 
+                        .attr('stroke', '#3b82f6')
                         .attr('stroke-width', 2)
                         .attr('stroke-dasharray', '6, 6')
                         .attr('stroke-linecap', 'round')
@@ -4694,23 +4565,21 @@
                         const tx = d._target.x;
                         const sourceTop = d._source.y;
                         const targetTop = d._target.y;
-                        const h = 120; 
+                        const h = 120;
 
                         let path = '';
 
                         if (Math.abs(sourceTop - targetTop) < 10) {
-                            
                             path = `M ${sx} ${sourceTop + h / 2} L ${tx} ${targetTop + h / 2}`;
                         } else {
-                            
                             let startY, endY;
 
                             if (sourceTop < targetTop) {
-                                startY = sourceTop + h; 
-                                endY = targetTop;       
+                                startY = sourceTop + h;
+                                endY = targetTop;
                             } else {
-                                startY = sourceTop;     
-                                endY = targetTop + h;   
+                                startY = sourceTop;
+                                endY = targetTop + h;
                             }
 
                             const midY = startY + (endY - startY) / 2;
@@ -4733,7 +4602,6 @@
                         let mgrName = window.BASE_PAGE.chartNoManager || 'No Manager';
                         if (person.manager) {
                             const parsedId = extractId(person.manager);
-                            
                             const mgrObj = state.people.find(p => p.id === parsedId);
                             mgrName = mgrObj ? escapeHtml(mgrObj.name) : escapeHtml(person.manager.split('[')[0].trim());
                         }

@@ -1,3 +1,23 @@
+/*
+ * Copyright 2026 Luis Torrecilla (liteAECO)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// ========
+// liteAECO - (liteaeco-autosave.js)
+// ========
+
 (function () {
     "use strict";
     window.liteAECO = window.liteAECO || {};
@@ -71,7 +91,7 @@
 
         const A = {
             adapter: null, dirty: false, timer: null, paused: false,
-            writing: false,   
+            writing: false,
             lastSavedAt: null, writeCount: 0,
             channel: ("BroadcastChannel" in window) ? new BroadcastChannel(DB) : null,
             sessionId: Math.random().toString(36).slice(2),
@@ -159,7 +179,6 @@
                     if (document.visibilityState === "hidden" && this.dirty) this.flush();
                 });
                 window.addEventListener("beforeunload", (e) => {
-
                     try {
                         if (typeof cfg.hasPendingInput === "function" && cfg.hasPendingInput()
                             && typeof cfg.commitPendingInput === "function") {
@@ -167,7 +186,6 @@
                         }
                     } catch (err) { }
                     if (this.adapter && !this.paused) {
-
                         if (this.dirty || this.writing) {
                             this.flush();
                             e.preventDefault();
@@ -280,7 +298,6 @@
                     if (this._toastEl) { this._toastEl.remove(); this._toastEl = null; }
                     return;
                 }
-
                 if (state === "saved" && !this._toastArmed) return;
                 if (state === "dirty" || state === "error") this._toastArmed = true;
                 let wrap = document.getElementById("las-toasts");
@@ -351,7 +368,6 @@
                 const ons = this._pickIcons(cfg.iconOnId);
                 const disc = cfg.disconnectBtnId ? document.getElementById(cfg.disconnectBtnId) : null;
                 if (!offs.length || !ons.length) return;
-
                 const COLORS = ["text-white", "text-green-600", "text-slate-600", "text-amber-500", "text-rose-500"];
                 const setTitle = (title) => {
                     offs.forEach((o) => { const b = o.closest("button"); if (b) b.title = title; });

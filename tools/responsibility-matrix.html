@@ -1,3 +1,21 @@
+<!--
+  Copyright 2026 Luis Torrecilla (liteAECO)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  liteAECO - (responsibility-matrix.html)
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,12 +25,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responsibility Matrix - RACI & RASCI Assignment Tool | liteAECO</title>
 
-    <!-- Primary Meta Tags -->
     <meta name="description" content="Free client-side tool to create RACI and RASCI responsibility matrices. Assign roles, track accountability, and clarify project responsibilities. No uploads, private, fast, and built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/responsibility-matrix.html">
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/responsibility-matrix.html">
     <meta property="og:site_name" content="liteAECO">
@@ -24,14 +40,12 @@
     <meta property="og:image:alt" content="liteAECO Responsibility Matrix tool interface">
     <meta property="og:locale" content="en_US">
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/responsibility-matrix.html">
     <meta name="twitter:title" content="Responsibility Matrix - RACI & RASCI Assignment Tool | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to create RACI and RASCI responsibility matrices. Assign roles, track accountability, and clarify project responsibilities. No uploads, private, fast, and built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-responsibility-matrix.png">
 
-    <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -40,21 +54,16 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- Anti-flash: .hidden works before Tailwind loads -->
     <style>
         .hidden{display:none}
-        
         .rasci-switch:has(#rasci-save-menu-disconnect:not(.hidden)){background:#22c55e}
         .rasci-switch:has(#rasci-save-menu-disconnect:not(.hidden)) .rasci-knob{transform:translateX(16px)}
-        
         #rasci-save-icon-on.text-slate-600{color:#fff}
     </style>
 
-    <!-- Scripts Design -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
-    <!-- Scripts Internal -->
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
@@ -62,7 +71,6 @@
     <script src="../js/liteaeco-autosave.js"></script>
     <script src="../js/liteaeco-cde.js"></script>
 
-    <!-- Scripts External -->
     <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
 
     <script>
@@ -80,7 +88,6 @@
         }
     </script>
 
-    <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="../css/global.css">
     <link rel="stylesheet" type="text/css" href="../css/pdf_report.css">
 </head>
@@ -88,9 +95,6 @@
 <body
     class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
 
-    <!-- TOP NAVIGATION -->
-
-    <!-- Main content -->
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
 
         <div id="info-app" class="info-app">
@@ -143,7 +147,6 @@
         <div
             class="p-4 mb-4 flex flex-wrap gap-4 justify-between items-center shrink-0 border-b border-slate-300">
 
-            <!-- PROJECT INFORMATION BAR (shared across liteAECO apps) -->
             <div id="project-bar" class="hidden w-full flex flex-wrap items-center gap-3 border-b border-slate-100 pb-3">
                 <input type="text" id="app-project-number" placeholder="No."
                     class="border-0 bg-slate-50 rounded p-1.5 w-24 text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-accent outline-none transition-all" />
@@ -200,10 +203,6 @@
 
             <div class="flex items-center">
                 <div class="flex items-center rounded overflow-visible relative gap-2">
-                    <!-- P1: real Save - CDE mode only. One click flushes the
-                         event log AND the xlsx write-back immediately, no
-                         2s debounce. Standalone stays hidden: there is no
-                         original file to save over. -->
                     <div class="relative flex-1 min-w-[80px] hidden" id="wrapper-cde-save">
                         <button onclick="cdeSaveNow()" id="btn-cde-save"
                             class="w-full px-3 py-1.5 bg-indigo-600 border border-indigo-600 hover:bg-indigo-700 text-white rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1 disabled:opacity-60 disabled:pointer-events-none">
@@ -213,8 +212,6 @@
                         </button>
                     </div>
 
-                    <!-- P2: Open menu - open a file, or pull only the
-                         contacts out of any workbook with a CONTACTS tab -->
                     <div class="relative group flex-1 min-w-[80px]">
                         <button
                             class="w-full px-3 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1">
@@ -232,7 +229,6 @@
                         <input type="file" id="contacts-upload" class="hidden" accept=".xlsx, .xls, .ods" />
                     </div>
 
-                    <!-- P3: old Save, new Export -->
                     <div class="relative group flex-1 min-w-[80px]" id="wrapper-save-excel">
                         <button
                             class="w-full px-3 py-1.5 bg-white border border-slate-200 hover:border-green-200 hover:bg-green-50 hover:text-green-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1">
@@ -259,8 +255,6 @@
                         </button>
                     </div>
 
-                    <!-- Options: gear icon only, same pattern as the timeline
-                         app. Rightmost button, menu anchors right. -->
                     <div class="relative group">
                         <button
                             class="px-3 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center"
@@ -268,17 +262,9 @@
                                 class="w-3.5 h-3.5"></i></button>
                         <div
                             class="absolute top-full right-0 w-44 mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden">
-                            <!-- single Autosave TOGGLE: the autosave module flips
-                                 the hidden class on rasci-save-menu-disconnect (its
-                                 disconnectBtnId) - the ON pill IS that element, the
-                                 OFF pill hides via CSS while ON is visible -->
                             <button onclick="autosaveToggle()" id="rasci-autosave-row"
                                 class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 uppercase tracking-widest border-b border-slate-100 text-left transition-colors flex items-center justify-between gap-3">
                                 <span data-i18n="autosaveToggle">Autosave</span>
-                                <!-- switch track + knob; the autosave module flips
-                                     the hidden class on rasci-save-menu-disconnect
-                                     (its disconnectBtnId) and the CSS below moves
-                                     the knob / colors the track -->
                                 <span class="rasci-switch relative inline-block w-8 h-4 rounded-full bg-slate-300 shrink-0 transition-colors">
                                     <span id="rasci-save-menu-disconnect" class="hidden"></span>
                                     <span class="rasci-knob absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white shadow transition-transform duration-200"></span>
@@ -320,8 +306,6 @@
                 </div>
             </div>
 
-            <!-- RASCI LEGEND: always visible - it must survive CDE mode,
-                 where the intro card (its old home) is hidden entirely. -->
             <div id="roles-legend-container"
                 class="bg-white/50 border border-slate-200 rounded p-3 m-4 text-[11.5px] font-mono text-slate-700 mb-3 shadow-sm flex flex-col md:flex-row gap-4 justify-between items-center shrink-0">
                 <div class="flex flex-col sm:flex-row sm:items-center">
@@ -652,8 +636,6 @@
         </div>
     </div>
 
-    <!-- FOOTER -->
-    <!-- JAVASCRIPT -->
     <script>
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
@@ -682,7 +664,6 @@
             if (typeof state !== 'undefined' && state.roles) {
                 state.roles.forEach(role => {
                     const dictChar = window.BASE_PAGE[role.charKey];
-                    
                     if (dictChar && dictChar !== role.char) {
                         const oldChar = role.char;
                         role.char = dictChar;
@@ -708,7 +689,6 @@
         };
 
         function bootApp() {
-            
             autoDetectLanguage();
 
             window.injectUI({
@@ -737,13 +717,12 @@
         const state = {
             title: '',
             date: new Date().toISOString().split('T')[0],
-            initialDate: new Date().toISOString().split('T')[0], 
+            initialDate: new Date().toISOString().split('T')[0],
             searchQuery: '',
             people: [],
             tasks: [],
             hideGroups: true,
             hideCompanies: true,
-            
             roles: [
                 { id: 'r', defaultDesc: 'The person(s) executing the task; they do the work', charKey: 'roleCharR', char: 'R', nameKey: 'roleResponsible', defaultName: 'Responsible', tooltipKey: 'roleRDesc', bg: 'bg-red-50', text: 'text-red-600', border: 'border-red-300', bgDark: 'bg-red-100', hexBg: 'FFFEE2E2', hexText: 'FF7F1D1D' },
                 { id: 'a', defaultDesc: 'The one ultimate authority who signs off and owns the outcome; only one per task', charKey: 'roleCharA', char: 'A', nameKey: 'roleAccountable', defaultName: 'Accountable', tooltipKey: 'roleADesc', bg: 'bg-amber-50', text: 'text-orange-600', border: 'border-amber-300', bgDark: 'bg-orange-100', hexBg: 'FFFFEDD5', hexText: 'FF7C2D12' },
@@ -752,7 +731,6 @@
                 { id: 'i', defaultDesc: 'People updated on progress after decisions are made', charKey: 'roleCharI', char: 'I', nameKey: 'roleInformed', defaultName: 'Informed', tooltipKey: 'roleIDesc', bg: 'bg-slate-50', text: 'text-slate-600', border: 'border-slate-300', bgDark: 'bg-slate-100', hexBg: 'FFE2E8F0', hexText: 'FF0F172A' }
             ]
         };
-        
         let hasUnsavedChanges = false;
         function markUnsaved() { hasUnsavedChanges = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); }
         function clearUnsaved() { hasUnsavedChanges = false; }
@@ -797,7 +775,7 @@
             const show = !!(window.__cdeCtx || projectBarHasData() || window.__projectBarManual);
             bar.classList.toggle('hidden', !show);
             const mi = document.getElementById('menu-project-info');
-            if (mi) mi.classList.toggle('hidden', show);   
+            if (mi) mi.classList.toggle('hidden', show);
         }
         window.showProjectBar = function () {
             window.__projectBarManual = true;
@@ -809,7 +787,6 @@
                 const el = document.getElementById(elId);
                 if (el) el.value = state.project[key] || '';
             }
-
             updateProjectBarVisibility();
         }
 
@@ -818,7 +795,7 @@
                 const el = document.getElementById(elId);
                 if (el) el.addEventListener('input', e => {
                     state.project[key] = e.target.value.trim();
-                    noteTyping(); 
+                    noteTyping();
                 });
             }
             const btn = document.getElementById('btn-project-details');
@@ -1012,8 +989,8 @@
             const dateInput = document.getElementById('app-rasci-date');
             if (dateInput) dateInput.value = state.date;
 
-            renderRolesLegend(); 
-            syncMatrixToggleButtons(); 
+            renderRolesLegend();
+            syncMatrixToggleButtons();
             renderTasks();
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
@@ -1144,7 +1121,6 @@
                 task.number = tIndex + 1;
                 task.subtasks.forEach((st, stIndex) => {
                     if (!st.number) st.number = stIndex + 1;
-                    
                     if (!st.archived) {
                         taskCols.push({ task, st });
                     }
@@ -1222,12 +1198,11 @@
             const matrixRows = [];
 
             if (!isTransposed) {
-                
                 let currentGroup = null;
                 displayTasks.forEach((col, i) => {
                     const gName = col.task.title || window.BASE_PAGE.uiUnnamedGroup || 'Unnamed Group';
                     if (gName !== currentGroup) {
-                        if (!state.hideGroups) { 
+                        if (!state.hideGroups) {
                             matrixCols.push({ isDivider: true, title: gName, color: 'bg-slate-100' });
                         }
                         currentGroup = gName;
@@ -1239,7 +1214,7 @@
                 displayPeople.forEach(p => {
                     const cName = p.company || window.BASE_PAGE.uiNoCompany || 'No Company';
                     if (cName !== currentComp) {
-                        if (!state.hideCompanies) { 
+                        if (!state.hideCompanies) {
                             matrixRows.push({ isDivider: true, title: cName, color: 'bg-slate-100' });
                         }
                         currentComp = cName;
@@ -1247,12 +1222,11 @@
                     matrixRows.push({ isDivider: false, rowData: p, color: 'bg-slate-50' });
                 });
             } else {
-                
                 let currentComp = null;
                 displayPeople.forEach((p, i) => {
                     const cName = p.company || window.BASE_PAGE.uiNoCompany || 'No Company';
                     if (cName !== currentComp) {
-                        if (!state.hideCompanies) { 
+                        if (!state.hideCompanies) {
                             matrixCols.push({ isDivider: true, title: cName, color: 'bg-slate-100' });
                         }
                         currentComp = cName;
@@ -1264,7 +1238,7 @@
                 displayTasks.forEach(col => {
                     const gName = col.task.title || window.BASE_PAGE.uiUnnamedGroup || 'Unnamed Group';
                     if (gName !== currentGroup) {
-                        if (!state.hideGroups) { 
+                        if (!state.hideGroups) {
                             matrixRows.push({ isDivider: true, title: gName, color: 'bg-slate-100' });
                         }
                         currentGroup = gName;
@@ -1324,7 +1298,6 @@
             } else {
                 matrixRows.forEach(r => {
                     if (r.isDivider) {
-                        
                         html += `<tr class="h-[25px] max-h-[25px]"><td colspan="${matrixCols.length + 1}" class="px-3 py-1 border border-slate-300 ${r.color} text-slate-800 font-bold text-[11px] uppercase tracking-widest sticky left-0 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] overflow-hidden text-left">${String(r.title).toUpperCase()}</td></tr>`;
                     } else {
                         html += `<tr class="h-[30px] max-h-[30px]">`;
@@ -1373,7 +1346,6 @@
 
                         matrixCols.forEach(c => {
                             if (c.isDivider) {
-                                
                                 html += `<td class="p-0 border border-slate-300 ${c.color}" style="width: 25px;min-width: 25px; max-width: 25px;"></td>`;
                             } else {
                                 const entityId = !isTransposed ? r.rowData.id : c.colData.id;
@@ -1384,7 +1356,7 @@
                                 const emptyBgClass = role === '' ? 'bg-white text-slate-700' : getColorClass(role);
 
                                 html += `<td class="p-0 border border-slate-300 text-center relative group bg-white" style="width: 40px; min-width: 40px; max-width: 40px;">
-                                    <input type="text" maxlength="1" placeholder="" 
+                                    <input type="text" maxlength="1" placeholder=""
                                         class="input-st-rasci-cell w-full h-full min-h-[32px] max-h-[32px] text-xs text-center outline-none font-bold uppercase transition-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 relative z-10 peer ${emptyBgClass}"
                                         value="${role}" data-pid="${entityId}" data-stid="${stId}" data-row="${rowIndex}" data-col="${c.colIndex}">
                                     <div class="fill-handle absolute -bottom-[1px] -right-[1px] w-1.5 h-1.5 bg-indigo-600 border border-white cursor-crosshair hidden peer-focus:block z-30"></div>
@@ -1430,7 +1402,6 @@
         function cancelImportConflict() {
             document.getElementById('import-conflict-modal').classList.add('hidden');
             pendingImportData = null;
-            
         }
 
         state.isAnalysisOpen = false;
@@ -1466,8 +1437,8 @@
             const txtUnnamedTask = window.BASE_PAGE.uiUnnamedTask || "Unnamed Task";
 
             const issues = [];
-            const rChar = state.roles[0].char; 
-            const aChar = state.roles[1].char; 
+            const rChar = state.roles[0].char;
+            const aChar = state.roles[1].char;
 
             const workload = activePeople.map(p => {
                 let countsObj = {};
@@ -1532,7 +1503,7 @@
                     <i data-lucide="${icon}" class="w-4 h-4 text-slate-400 shrink-0"></i>
                     </span>
                 </button>
-                
+
                 <div class="${isCollapsed ? 'hidden' : 'block'} p-0">
                     <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100">
                         <div class="p-5 bg-white overflow-x-auto">
@@ -1604,7 +1575,7 @@
                 closeContactModal();
                 if (typeof renderPeople === 'function') renderPeople();
                 renderTasks();
-                renderAllContacts(); 
+                renderAllContacts();
             }
         }
 
@@ -1617,8 +1588,8 @@
             document.getElementById('task-modal-tid').value = task.id;
             document.getElementById('task-modal-stid').value = st.id;
             document.getElementById('task-modal-group').value = task.title || '';
-            document.getElementById('task-modal-title').value = st.title || ''; 
-            document.getElementById('task-modal-desc').value = st.text || '';   
+            document.getElementById('task-modal-title').value = st.title || '';
+            document.getElementById('task-modal-desc').value = st.text || '';
 
             document.getElementById('task-modal').classList.remove('hidden');
         }
@@ -1644,7 +1615,7 @@
 
             closeTaskModal();
             renderTasks();
-            if (typeof renderAllTasks === 'function') renderAllTasks(); 
+            if (typeof renderAllTasks === 'function') renderAllTasks();
         }
 
         function showDialog(type, message, onConfirm = null) {
@@ -1712,9 +1683,9 @@
         }
 
         let currentContactSearch = '';
-        let currentContactSort = { field: 'name', direction: 'asc' }; 
+        let currentContactSort = { field: 'name', direction: 'asc' };
         let currentContactPage = 1;
-        const CONTACTS_PER_PAGE = 12; 
+        const CONTACTS_PER_PAGE = 12;
 
         function openAllContactsModal() {
             document.getElementById('modal-search-input').value = '';
@@ -1730,7 +1701,7 @@
 
         function updateContactSearch(query) {
             currentContactSearch = query.toLowerCase().trim();
-            currentContactPage = 1; 
+            currentContactPage = 1;
             renderAllContacts();
         }
 
@@ -1741,7 +1712,7 @@
                 currentContactSort.field = field;
                 currentContactSort.direction = 'asc';
             }
-            currentContactPage = 1; 
+            currentContactPage = 1;
             renderAllContacts();
         }
 
@@ -1877,7 +1848,6 @@
             let paginationHtml = '';
 
             if (totalItems > CONTACTS_PER_PAGE) {
-                
                 paginationHtml = `
                 <div class="flex items-center justify-between px-6 py-3">
                     <div class="text-xs text-slate-500">
@@ -1919,8 +1889,8 @@
             if (person) {
                 person.archived = !person.archived;
                 markUnsaved();
-                renderAllContacts(); 
-                renderTasks(); 
+                renderAllContacts();
+                renderTasks();
                 if (typeof renderPeople === 'function') renderPeople();
             }
         }
@@ -1983,7 +1953,7 @@
 
             let html = `
             <div class="grid grid-cols-12 gap-3 p-4 border-b border-slate-200 bg-slate-50/50 text-[11px] font-bold text-slate-500 uppercase tracking-wider sticky top-0 z-10">
-                
+
                 <div class="col-span-3">Task Name</div>
                 <div class="col-span-3">Group</div>
                 <div class="col-span-3">Description</div>
@@ -2012,7 +1982,7 @@
 
                 html += `
                 <div class="grid grid-cols-12 gap-3 p-3 border-b border-slate-100 last:border-0 hover:bg-slate-50 items-center transition-all ${rowOpacity}">
-                    
+
                     <div class="col-span-3">
                         <input type="text" value="${safeTask}" onchange="updateSubtaskInline('${item.task.id}', '${item.st.id}', 'title', this.value)" class="${inputClass} text-slate-800" placeholder="Task Name">
                     </div>
@@ -2035,7 +2005,6 @@
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: listEl });
         }
 
-        // Inline update helpers for Tasks
         function updateTaskGroupInline(tid, value) {
             const task = state.tasks.find(t => t.id === tid);
             if (task) {
@@ -2061,30 +2030,25 @@
                 const st = task.subtasks.find(s => s.id === stid);
                 if (st) {
                     st.archived = !st.archived;
-                    renderAllTasks(); // Refresh modal view
-                    renderTasks();    // Refresh background matrix
+                    renderAllTasks();
+                    renderTasks();
                 }
             }
         }
 
-        // Dedicated delete function that updates both views
         function deleteTaskFromModal(stId) {
             showDialog('confirm', "Delete this task?", () => {
                 state.tasks.forEach(task => {
                     const idx = task.subtasks.findIndex(st => st.id === stId);
                     if (idx > -1) task.subtasks.splice(idx, 1);
                 });
-                // Clean up parent tasks if they are completely empty
                 state.tasks = state.tasks.filter(t => t.subtasks.length > 0);
 
-                renderAllTasks(); // Refresh the modal
-                renderTasks();    // Refresh the background matrix
+                renderAllTasks();
+                renderTasks();
             });
         }
 
-        // ==========================================
-        // PRINT PREPARATION
-        // ==========================================
         function prepareAndPrint() {
             document.querySelectorAll('.task-content-wrapper.hidden, .st-controls-wrapper.hidden').forEach(el => {
                 el.classList.remove('hidden');
@@ -2104,16 +2068,8 @@
             setTimeout(() => { window.print(); }, 300);
         }
 
-        // ==========================================
-        // EVENT LISTENERS & LOGIC
-        // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
 
-            // ==========================================
-            // EXCEL-LIKE SPREADSHEET LOGIC
-            // ==========================================
-
-            // 1. Arrow Key Navigation
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     closeContactModal();
@@ -2143,7 +2099,6 @@
                 }
             });
 
-            // 2. Paste Multiple Values (from Excel or text)
             document.addEventListener('paste', (e) => {
                 if (e.target.classList.contains('input-st-rasci-cell')) {
                     e.preventDefault();
@@ -2166,7 +2121,6 @@
                                 } else {
                                     target.value = '';
                                 }
-                                // Dispatch input event to dynamically trigger your color logic
                                 target.dispatchEvent(new Event('input', { bubbles: true }));
                             }
                         });
@@ -2174,23 +2128,21 @@
                 }
             });
 
-            // 3. Drag-to-Fill Logic
             let isDragging = false;
             let dragStartInput = null;
             let dragStartValue = '';
 
             document.addEventListener('mousedown', (e) => {
                 if (e.target.classList.contains('fill-handle')) {
-                    e.preventDefault(); // Prevents input from losing focus
+                    e.preventDefault();
                     isDragging = true;
-                    dragStartInput = e.target.previousElementSibling; // Grab the input next to the handle
+                    dragStartInput = e.target.previousElementSibling;
                     dragStartValue = dragStartInput.value;
                 }
             });
 
             document.addEventListener('mouseover', (e) => {
                 if (isDragging && e.target.classList.contains('input-st-rasci-cell')) {
-                    // Clear previous highlights
                     document.querySelectorAll('.input-st-rasci-cell').forEach(el => {
                         el.classList.remove('ring-2', 'ring-indigo-500', 'ring-dashed');
                     });
@@ -2200,13 +2152,11 @@
                     const endRow = parseInt(e.target.dataset.row);
                     const endCol = parseInt(e.target.dataset.col);
 
-                    // Allow dragging in any direction
                     const minRow = Math.min(startRow, endRow);
                     const maxRow = Math.max(startRow, endRow);
                     const minCol = Math.min(startCol, endCol);
                     const maxCol = Math.max(startCol, endCol);
 
-                    // Highlight the target zone
                     document.querySelectorAll('.input-st-rasci-cell').forEach(input => {
                         const r = parseInt(input.dataset.row);
                         const c = parseInt(input.dataset.col);
@@ -2222,23 +2172,18 @@
                     isDragging = false;
                     const highlighted = document.querySelectorAll('.input-st-rasci-cell.ring-dashed');
 
-                    // Apply values and clear ALL highlight classes
                     highlighted.forEach(input => {
                         input.classList.remove('ring-dashed', 'ring-2', 'ring-indigo-500');
 
                         if (input !== dragStartInput) {
                             input.value = dragStartValue;
-                            input.dispatchEvent(new Event('input', { bubbles: true })); // Triggers color save
+                            input.dispatchEvent(new Event('input', { bubbles: true }));
                         }
                     });
                     dragStartInput = null;
                 }
             });
-            // ==========================================
 
-            // ==========================================
-            // 4. MULTI-CELL SELECTION & COPY (Ctrl+C)
-            // ==========================================
             let isSelecting = false;
             let selectStartRow = null;
             let selectStartCol = null;
@@ -2274,13 +2219,11 @@
                     const c = parseInt(e.target.dataset.col);
 
                     if (e.shiftKey && selectStartRow !== null) {
-                        // Handle Shift + Click for quick range selection
                         selectEndRow = r;
                         selectEndCol = c;
                         highlightSelection(selectStartRow, selectStartCol, selectEndRow, selectEndCol);
-                        e.preventDefault(); // Prevents browser text-highlighting interference
+                        e.preventDefault();
                     } else {
-                        // Standard Click
                         selectStartRow = r;
                         selectStartCol = c;
                         selectEndRow = r;
@@ -2289,7 +2232,6 @@
                         e.target.classList.add('selected-cell', '!ring-2', '!ring-indigo-600', '!ring-inset', 'z-20');
                     }
                 } else if (!e.target.closest('.input-st-rasci-cell') && !e.target.classList.contains('fill-handle')) {
-                    // Clicked outside the matrix table entirely
                     clearSelection();
                     selectStartRow = null;
                 }
@@ -2307,13 +2249,11 @@
                 isSelecting = false;
             });
 
-            // Intercept standard Ctrl+C (Copy)
             document.addEventListener('copy', (e) => {
                 const selectedCells = document.querySelectorAll('.selected-cell');
 
-                // Only hijack the copy command if we actually have matrix cells selected
                 if (selectedCells.length > 0 && selectStartRow !== null) {
-                    e.preventDefault(); // Stop standard browser copy
+                    e.preventDefault();
 
                     const minRow = Math.min(selectStartRow, selectEndRow);
                     const maxRow = Math.max(selectStartRow, selectEndRow);
@@ -2322,7 +2262,6 @@
 
                     let copyText = '';
 
-                    // Build a Tab-Separated Value (TSV) string of the grid
                     for (let r = minRow; r <= maxRow; r++) {
                         let rowVals = [];
                         for (let c = minCol; c <= maxCol; c++) {
@@ -2332,7 +2271,6 @@
                         copyText += rowVals.join('\t') + '\n';
                     }
 
-                    // Push the TSV grid directly to the user's OS clipboard
                     e.clipboardData.setData('text/plain', copyText.replace(/\n$/, ''));
                 }
             });
@@ -2354,14 +2292,12 @@
                 if (name) {
                     markUnsaved();
 
-                    // Check if there is an exact match in the inactive contacts
                     let existingPerson = state.people.find(p => p.name.toLowerCase() === name.toLowerCase() && (p.rasciMatrix !== 'Yes' || p.archived));
 
                     if (existingPerson) {
                         existingPerson.archived = false;
                         existingPerson.rasciMatrix = 'Yes';
                     } else {
-                        // Create a new person if no match is found
                         state.people.push({
                             id: generatePersonId(name),
                             name: name,
@@ -2395,9 +2331,9 @@
                     state.tasks.push({
                         id: generateId('t'),
                         number: state.tasks.length + 1,
-                        title: 'New Group', // Default group name
+                        title: 'New Group',
                         subtasks: [
-                            { id: generateId('s'), number: 1, title: title, text: '', rasci: {} } // "title" maps to Task Name
+                            { id: generateId('s'), number: 1, title: title, text: '', rasci: {} }
                         ]
                     });
                     inputTask.value = '';
@@ -2406,10 +2342,6 @@
             });
 
             document.addEventListener('click', (e) => {
-                /* Additions mutate immediately, so they can mark dirty here.
-                 * Deletions are confirmed first - they mark dirty inside their
-                 * confirm callback, otherwise the 2s autosave can write the file
-                 * BEFORE the user confirms and the deletion is lost on reload. */
                 if (e.target.closest('.btn-add-st') || e.target.closest('.btn-add-task')) {
                     markUnsaved();
                 }
@@ -2506,24 +2438,19 @@
             });
 
             document.addEventListener('input', (e) => {
-                // Ignore search bar inputs so we don't trigger unsaved changes just for searching.
-                // Typing is DEFERRED: autosave commits on focusout/idle.
                 if (e.target.id !== 'app-search' && e.target.id !== 'modal-search-input' && e.target.id !== 'modal-task-search-input') {
                     noteTyping();
                 }
 
-                // --- EXCEL-LIKE CELL LOGIC ---
                 if (e.target.classList.contains('input-st-rasci-cell')) {
                     let val = e.target.value.toUpperCase();
 
-                    // Validate input dynamically against state.roles
                     const validChars = state.roles.map(r => r.char);
                     if (val && !validChars.includes(val)) {
                         val = '';
                     }
                     e.target.value = val;
 
-                    // Update State silently
                     const stId = e.target.dataset.stid;
                     const pId = e.target.dataset.pid;
                     const cId = e.target.dataset.cid;
@@ -2539,12 +2466,10 @@
                         }
                     }
 
-                    // Dynamically update flat Excel colors using your helper
                     const colorClass = val === "" ? 'bg-white text-slate-700' : getColorClass(val);
                     const baseClasses = "input-st-rasci-cell w-full h-full min-h-[32px] text-xs text-center outline-none font-bold uppercase transition-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 relative z-10 peer";
                     e.target.className = `${baseClasses} ${colorClass}`;
 
-                    // Refresh the analysis widget in real-time when a cell changes
                     if (typeof renderAnalysis === 'function') renderAnalysis();
                 }
                 if (e.target.classList.contains('input-task-title')) {
@@ -2560,8 +2485,6 @@
                 }
             });
 
-            /* ---- Deferred-typing commit points ---- */
-            // 1. Click-away: leaving any text field commits pending typing.
             document.addEventListener('focusout', (e) => {
                 if (!typingDirty) return;
                 const t = e.target;
@@ -2569,18 +2492,12 @@
                     commitTypingDirty();
                 }
             });
-            // 2. Tab hidden: commit and flush so nothing is lost.
             document.addEventListener('visibilitychange', () => {
                 if (document.visibilityState === 'hidden' && typingDirty) {
                     commitTypingDirty();
                     if (typeof Autosave !== "undefined" && Autosave.flush) Autosave.flush();
                 }
             });
-            // 3. Closing/leaving, CDE mode only. In CDE mode Autosave.boot()
-            // never runs, so the shared module's leave-warning is absent and
-            // Autosave.dirty is never set (markDirty is wrapped). Warn while
-            // typing is uncommitted or the CDE bridge has unconfirmed writes.
-            // Non-CDE sessions are fully handled by the shared module.
             window.addEventListener('beforeunload', (e) => {
                 if (!window.__cdeCtx) return;
                 let cdePending = false;
@@ -2590,7 +2507,7 @@
                             (cdeBridge.baseline && cdeBridge.diff(cdeBridge.baseline, cdeBridge.snap()).length > 0));
                 } catch (err) { }
                 if (typingDirty || cdePending) {
-                    commitTypingDirty(); // routes to the CDE-wrapped markDirty
+                    commitTypingDirty();
                     try { if (typeof cdeBridge !== 'undefined' && cdeBridge.flush) cdeBridge.flush(); } catch (err) { }
                     e.preventDefault();
                     e.returnValue = (window.BASE_PAGE && window.BASE_PAGE.unsavedLeaveMessage) || "You have unsaved changes. Are you sure you want to leave?";
@@ -2657,12 +2574,12 @@
                         showDialog('confirm', msg, () => {
                             executeImport(file);
                         });
-                        e.target.value = ''; // Reset input immediately
+                        e.target.value = '';
                         return;
                     }
 
                     executeImport(file);
-                    e.target.value = ''; // Reset input immediately
+                    e.target.value = '';
                 });
             }
 
@@ -2685,7 +2602,6 @@
                 }
             }
 
-            // --- PERSON AUTOCOMPLETE LOGIC ---
             const personInput = document.getElementById('input-new-person');
             const personDropdown = document.getElementById('person-autocomplete-dropdown');
 
@@ -2698,7 +2614,6 @@
                     return;
                 }
 
-                // Find matching people (only show those not currently active in the matrix)
                 const matches = state.people.filter(p => p.name.toLowerCase().includes(val) && (p.rasciMatrix !== 'Yes' || p.archived));
 
                 if (matches.length > 0) {
@@ -2723,28 +2638,25 @@
 
             if (personInput) {
                 personInput.addEventListener('input', updatePersonDropdown);
-                personInput.addEventListener('click', updatePersonDropdown); // Show when clicked if text exists
+                personInput.addEventListener('click', updatePersonDropdown);
             }
 
-            // Global click listener to handle selection & clicking outside
             document.addEventListener('click', (e) => {
-                // If they click a suggestion in the dropdown
                 if (e.target.closest('.person-suggestion')) {
                     const suggestion = e.target.closest('.person-suggestion');
                     const id = suggestion.dataset.id;
                     const person = state.people.find(p => p.id === id);
 
                     if (person) {
-                        person.archived = false; // Instantly restore and make active
-                        person.rasciMatrix = 'Yes'; // Add them to the matrix
-                        if (personInput) personInput.value = ''; // Clear the input
+                        person.archived = false;
+                        person.rasciMatrix = 'Yes';
+                        if (personInput) personInput.value = '';
                         if (typeof renderPeople === 'function') renderPeople();
                         renderTasks();
                         if (typeof renderAllContacts === 'function') renderAllContacts();
                     }
                     if (personDropdown) personDropdown.classList.add('hidden');
                 }
-                // If they click anywhere else on the screen, hide the dropdown
                 else if (personDropdown && !e.target.closest('#input-new-person') && !e.target.closest('#person-autocomplete-dropdown')) {
                     personDropdown.classList.add('hidden');
                 }
@@ -2768,7 +2680,6 @@
                 }
             });
 
-            // Start the App
             renderApp();
         });
 
@@ -2780,10 +2691,6 @@
             return null;
         }
 
-        // ==========================================
-        // EXPORT & IMPORT EXCEL LOGIC
-        // ==========================================
-        /* ---- Shared autosave (js/liteaeco-autosave.js) ---- */
         const Autosave = liteAECO.createAutosave({
             toolId: "rasci",
             fileSuffix: ".rasci.json",
@@ -2793,7 +2700,6 @@
                 if (!d || d.app !== "liteAECO-rasci" || !d.state) return false;
                 Object.keys(state).forEach(k => delete state[k]);
                 Object.assign(state, d.state);
-                // Older files predate these flags; default them instead of leaving undefined
                 if (typeof state.hideGroups !== "boolean") state.hideGroups = true;
                 if (typeof state.hideCompanies !== "boolean") state.hideCompanies = true;
                 if (typeof state.isTransposed !== "boolean") state.isTransposed = false;
@@ -2818,11 +2724,6 @@
                 });
         });
 
-        /* ==================== CDE project handoff ====================
-         * ?project=<guid>&open=<relpath>. The hub hands over a matrix file
-         * inside the linked project folder. Folder = persistence layer:
-         * the Autosave resume modal is skipped (leave-warning kept).
-         * Ported from meetings.html - keep the two in sync. */
         function _cdeParams() {
             const q = new URLSearchParams(window.location.search);
             const guid = q.get("project");
@@ -2862,7 +2763,6 @@
                 console.error("CDE IMPORT LOGIC ERROR:", err);
                 return true;
             }
-            // Foreign file: its INFO block carries another project's GUID.
             if (state.project.guid && state.project.guid !== params.guid) {
                 const adopt = await new Promise(function (resolve) {
                     showDialog('confirm',
@@ -2876,11 +2776,9 @@
             }
             clearUnsaved();
             window.__cdeCtx = { guid: params.guid, path: params.open, handle: info.handle };
-
             const cs = document.getElementById('wrapper-cde-save');
             if (cs) cs.classList.remove('hidden');
-            updateProjectBarVisibility();   
-
+            updateProjectBarVisibility();
             for (const elId of Object.keys(PROJECT_FIELD_MAP)) {
                 const el = document.getElementById(elId);
                 if (el) {
@@ -2893,8 +2791,8 @@
             if (infoCard) infoCard.classList.add('hidden');
             try {
                 await _cdeBridgeInit(info, params);
-                await _cdeFillProjectInfo(info, params);   
-                await _cdeSyncMembers(info);               
+                await _cdeFillProjectInfo(info, params);
+                await _cdeSyncMembers(info);
             } catch (e) {
                 console.error("CDE bridge init failed:", e);
                 if (typeof Autosave !== "undefined" && Autosave.renderStatus) Autosave.renderStatus("error");
@@ -2902,7 +2800,6 @@
                     "Project sync could not start - changes will NOT be saved to the project folder. Update js/liteaeco-cde.js to the latest build and reload.") +
                     "\n\n(" + (e && e.message ? e.message : e) + ")");
             }
-            
             window.addEventListener("beforeunload", function (e) {
                 if (window.__cdeUnsaved) {
                     try { cdeBridge.flushWriteBack(); } catch (err) { }
@@ -2993,7 +2890,7 @@
                 clearTimeout(cdeBridge.timer);
                 await cdeBridge.flush();
                 clearTimeout(cdeBridge.writeBack.timer);
-                await cdeBridge.flushWriteBack();   
+                await cdeBridge.flushWriteBack();
             } catch (e) {
                 console.warn('save now failed:', e);
                 if (typeof Autosave !== 'undefined' && Autosave.toastNotify) Autosave.toastNotify('error');
@@ -3116,7 +3013,6 @@
             diff: function (prev, cur) {
                 const events = [];
                 const J = JSON.stringify;
-                
                 const prevP = {}; prev.people.forEach(function (p) { prevP[p.id] = p; });
                 const curP = {}; cur.people.forEach(function (p) { curP[p.id] = p; });
                 cur.people.forEach(function (p) {
@@ -3132,7 +3028,6 @@
                     if (n) events.push({ type: "contact.update", target: p.id, payload: changed });
                 });
                 prev.people.forEach(function (p) { if (!curP[p.id]) events.push({ type: "contact.remove", target: p.id }); });
-                
                 const prevT = {}; prev.tasks.forEach(function (t) { prevT[t.id] = t; });
                 const curT = {}; cur.tasks.forEach(function (t) { curT[t.id] = t; });
                 cur.tasks.forEach(function (t) {
@@ -3141,13 +3036,11 @@
                     if (J(b) !== J(t)) events.push({ type: "task.update", target: t.id, payload: t });
                 });
                 prev.tasks.forEach(function (t) { if (!curT[t.id]) events.push({ type: "task.remove", target: t.id }); });
-                
                 const mm = {}; let mn = 0;
                 Object.keys(cur.meta).forEach(function (k) {
                     if (J(cur.meta[k]) !== J(prev.meta[k])) { mm[k] = cur.meta[k]; mn++; }
                 });
                 if (mn) events.push({ type: "matrix.info", target: window.__cdeCtx ? window.__cdeCtx.path : null, payload: mm });
-                
                 const pj = {}; let pn = 0;
                 Object.keys(cur.project).forEach(function (k) {
                     if (cur.project[k] !== prev.project[k]) { pj[k] = cur.project[k]; pn++; }
@@ -3172,7 +3065,7 @@
                         if (!events.length) continue;
                         try {
                             await this.append(events);
-                            this.baseline = cur;   
+                            this.baseline = cur;
                             appended = true;
                         } catch (e) {
                             console.warn("CDE append failed (kept for retry):", e);
@@ -3208,7 +3101,7 @@
                 const fname = parts.pop();
                 const desired = slug + ".xlsx";
                 if (fname === desired) return;
-                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;   // collision-suffixed twin
+                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;
                 try {
                     let dir = ctx.handle;
                     for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: false });
@@ -3236,18 +3129,16 @@
                         type: "file.rename", target: ctx.path,
                         payload: { from: from, to: ctx.path, app: this.appId }
                     }]).catch(function () { });
-                    this.lastAssignHash = null;   // force a fresh assign on the new path
+                    this.lastAssignHash = null;
                     await this.markLoadedFileSeen();
                 } catch (e) { console.warn("CDE rename skipped (will retry):", e); }
             },
 
-            /* ---- xlsx write-back (single writer per file per session) ---- */
             writeBack: { timer: null, busy: false, pending: false, lastMtime: 0, lastSize: 0 },
             lastAssignHash: null,
             scheduleWriteBack: function () {
                 if (!window.__cdeCtx) return;
-                window.__cdeUnsaved = true;   // cleared on CONFIRMED write
-                // xlsx not on disk yet: pin the save indicator until it is
+                window.__cdeUnsaved = true;
                 if (typeof Autosave !== "undefined" && Autosave.toastNotify) Autosave.toastNotify("dirty");
                 const wbk = this.writeBack;
                 clearTimeout(wbk.timer);
@@ -3260,7 +3151,7 @@
                 const wbk = this.writeBack;
                 if (wbk.busy) { wbk.pending = true; return; }
                 wbk.busy = true;
-                let wroteOk = false;   // save indicator: only a CONFIRMED write clears it
+                let wroteOk = false;
                 try {
                     await this.maybeRename();
                     do {
@@ -3278,11 +3169,11 @@
                             let dir = ctx.handle;
                             for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: true });
                             const fh = await dir.getFileHandle(fname, { create: true });
-                            const w = await fh.createWritable();   // full rewrite, not append
+                            const w = await fh.createWritable();
                             await w.write(buf);
                             await w.close();
                             const f = await fh.getFile();
-                            wbk.lastMtime = f.lastModified;   // own-write marker
+                            wbk.lastMtime = f.lastModified;
                             wbk.lastSize = f.size;
                             wroteOk = true;
                             try {
@@ -3299,7 +3190,7 @@
                                         }]);
                                     }
                                 }
-                            } catch (e) { /* hash refresh is best effort */ }
+                            } catch (e) {  }
                         } catch (e) {
                             console.warn("CDE write-back failed (will retry on next change):", e);
                             return;
@@ -3313,7 +3204,6 @@
                 }
             },
 
-            /* ---- external-edit import ---- */
             extSeen: { mtime: 0, size: 0 },
             checking: false,
             _statFile: async function () {
@@ -3329,7 +3219,7 @@
                     const fh = await this._statFile();
                     const f = await fh.getFile();
                     this.extSeen = { mtime: f.lastModified, size: f.size };
-                } catch (e) { /* transient: first poll will handle it */ }
+                } catch (e) {  }
             },
             checkExternal: async function () {
                 const ctx = window.__cdeCtx;
@@ -3342,11 +3232,11 @@
                         fh = await this._statFile();
                         f = await fh.getFile();
                     } catch (e) {
-                        return;   // locked or missing: transient, retry next poll
+                        return;
                     }
                     const wbk = this.writeBack;
-                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;   // our own write
-                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;   // already imported
+                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;
+                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;
                     let workbook;
                     try {
                         const buf = await f.arrayBuffer();
@@ -3355,10 +3245,8 @@
                         console.warn("CDE external read/parse failed (transient, will retry):", e);
                         return;
                     }
-                    await this.flush();   // local unflushed changes reach the log first
+                    await this.flush();
                     try {
-                        // Background import must NEVER raise dialogs. Gate the
-                        // template check; anything foreign is skipped silently.
                         const wsInfo = workbook.Sheets && workbook.Sheets["INFO"];
                         const aoa = wsInfo ? XLSX.utils.sheet_to_json(wsInfo, { header: 1 }) : [];
                         const a2 = aoa[1] ? String(aoa[1][0] || "").trim() : "";
@@ -3373,8 +3261,8 @@
                         return;
                     }
                     this.extSeen = { mtime: f.lastModified, size: f.size };
-                    clearUnsaved();   // folder version is now the app state
-                    await this.flush();   // emit the external diff as events
+                    clearUnsaved();
+                    await this.flush();
                     if (typeof renderApp === "function") renderApp();
                 } finally {
                     this.checking = false;
@@ -3417,7 +3305,6 @@
         }
 
         async function _cdeBridgeInit(info, params) {
-            // Back to the hub, straight into THIS project.
             if (!document.getElementById('cde-home-btn')) {
                 const anchor = document.getElementById('app-project-number');
                 if (anchor && anchor.parentElement) {
@@ -3436,7 +3323,6 @@
             const dev = await cde.identity.device();
             const memberId = await cde.identity.getMember(params.guid);
             cdeBridge.author = memberId || ("device:" + dev);
-            // Rename-proof file identity. Assign ONCE per content.
             function _assign() {
                 var hp = cde.hashFile ? cde.hashFile(info.handle, params.open).catch(function () { return null; })
                     : Promise.resolve(null);
@@ -3459,7 +3345,6 @@
                 return _assign();
             }).catch(function (e) { console.warn("CDE assign append failed:", e); });
 
-            // Hook the existing dirty cycle.
             if (typeof Autosave !== "undefined" && Autosave && typeof Autosave.markDirty === "function") {
                 if (!Autosave.__cdeWrapped) {
                     Autosave.__cdeWrapped = true;
@@ -3472,8 +3357,8 @@
                         Autosave.renderStatus('saved');
                     };
                     cdeBridge.onError = function () { Autosave.renderStatus('error'); };
-                    Autosave.lastSavedAt = new Date();   // renderStatus('saved') formats this
-                    Autosave.renderStatus('saved');      // session live from the start
+                    Autosave.lastSavedAt = new Date();
+                    Autosave.renderStatus('saved');
                 }
             }
             document.addEventListener("visibilitychange", function () {
@@ -3485,33 +3370,26 @@
                 window.__cdeExtPollMs || 60000);
         }
 
-        /* ---- Cross-tool registry upsert on export ---- */
         function _registryUpsert() {
             if (window.liteAECO && liteAECO.projects && state.project && state.project.guid) {
                 liteAECO.projects.save({ guid: state.project.guid, number: state.project.number || "", title: state.project.title || "", client: state.project.client || "", address: state.project.address || "", type: state.project.type || "" }, "rasci").catch(() => { });
             }
         }
 
-        // Builds the full workbook (INFO/CONTACTS/RASCI MATRIX) - shared
-        // by the xlsx export and the CDE write-back. Extracted verbatim
-        // from exportToExcel: content and styling are unchanged.
         function buildWorkbook() {
             const wb = XLSX.utils.book_new();
             const meetStr = String(state.rasciNo || state.No).padStart(3, '0');
             const darkColors = ["FFB8CDE2", "FFCADAE9"];
 
-            // --- 1. INFO TAB (A2 = "Responsibility Matrix", app identifier) ---
             const infoData = [
                 ["www.liteAECO.com"],
-                ["Responsibility Matrix"],               // A2: identifier
+                ["Responsibility Matrix"],
                 ["info@liteAECO.com (Switzerland)"],
                 [],
                 ...buildProjectInfoRows(),
                 ["--- GENERAL INFORMATION ---"],
                 ["Matrix Title:", state.title],
                 ["Initial Date:", toExcelDate(state.initialDate || state.date)],
-                // Roster fingerprint: SHA-256 of admin/members.xlsx at the
-                // last sync. _cdeSyncMembers compares against it on open.
                 ["Members Hash:", state.membersHash || ""],
                 [],
                 ["--- SETUP ---"],
@@ -3522,10 +3400,8 @@
 
             const wsInfo = XLSX.utils.aoa_to_sheet(infoData);
             wsInfo['!cols'] = [{ wch: 30 }, { wch: 36 }];
-            // Style A2 identifier
             const a2c = XLSX.utils.encode_cell({ c: 0, r: 1 });
             if (wsInfo[a2c]) wsInfo[a2c].s = { fill: { fgColor: { rgb: 'FF4F46E5' } }, font: { bold: true, color: { rgb: 'FFFFFFFF' } } };
-            // Style section headers dynamically
             for (let R = 0; R < infoData.length; R++) {
                 if (typeof infoData[R][0] === 'string' && infoData[R][0].startsWith("---")) {
                     for (let C = 0; C < 2; C++) {
@@ -3542,7 +3418,6 @@
             }
             XLSX.utils.book_append_sheet(wb, wsInfo, "INFO");
 
-            // --- 2. CONTACTS TAB (shared schema across all liteAECO apps) ---
             const contactHeaders = [
                 "ID", "Employee Code", "Employee Number", "Name", "Company", "Employee Type",
                 "Role", "Teams", "Contact Mail", "Contact Phone",
@@ -3558,13 +3433,10 @@
                 let rowData;
 
                 if (p.rawData && Array.isArray(p.rawData)) {
-                    // Start with the original row to keep extra info (Campus, etc.) intact
                     rowData = [...p.rawData];
 
-                    // Ensure the row is long enough for all headers (31 columns)
                     while (rowData.length < contactHeaders.length) rowData.push("-");
 
-                    // Overwrite only the fields managed by the app
                     rowData[0] = p.id || "-";
                     rowData[3] = p.name;
                     rowData[4] = p.company || "-";
@@ -3573,7 +3445,6 @@
                     rowData[28] = p.rasciMatrix === 'Yes' ? 'Yes' : 'No';
                     rowData[30] = p.archived ? "Archived" : "Active";
                 } else {
-                    // Fallback for new contacts added manually in the app
                     rowData = new Array(contactHeaders.length).fill("-");
                     rowData[0] = p.id || "-";
                     rowData[3] = p.name;
@@ -3601,7 +3472,6 @@
                 const cr = XLSX.utils.encode_cell({ c: C, r: 0 });
                 if (wsContacts[cr]) wsContacts[cr].s = { fill: { fgColor: { rgb: darkColors[1] } }, font: { bold: true } };
             }
-            // Color-code RASCI Matrix column (col 28)
             for (let R = 1; R < contactsData.length; R++) {
                 const cr = XLSX.utils.encode_cell({ c: 28, r: R });
                 if (wsContacts[cr]) {
@@ -3612,16 +3482,13 @@
             }
             XLSX.utils.book_append_sheet(wb, wsContacts, "CONTACTS");
 
-            // 1. Add Dynamic Headers
             const tasksData = [
                 ["ID", "Group", "Task title", "Description", ...state.roles.map(r => r.char)]
             ];
 
             state.tasks.forEach((task, tIndex) => {
-                // 2. Format Group ID to 2 digits (e.g., '01')
                 const groupNumStr = String(tIndex + 1).padStart(2, '0');
                 task.subtasks.forEach((st, stIndex) => {
-                    // 3. Format Task ID to 3 digits (e.g., '001')
                     const taskNumStr = String(st.number || stIndex + 1).padStart(3, '0');
                     const getNamesForRole = (roleChar) => {
                         if (!st.rasci) return "-";
@@ -3629,26 +3496,23 @@
                         return ids.length > 0 ? ids.join(', ') : "-";
                     };
 
-                    // 4. Push the new 9-column layout
                     tasksData.push([
                         `${groupNumStr}.${taskNumStr}`,
                         task.title,
                         st.title || "",
                         st.text || "",
-                        ...state.roles.map(r => getNamesForRole(r.char)) // Dynamic columns
+                        ...state.roles.map(r => getNamesForRole(r.char))
                     ]);
                 });
             });
 
             const wsTasks = XLSX.utils.aoa_to_sheet(tasksData);
 
-            // 5. Adjust column count to 9 and set their widths
             wsTasks['!cols'] = [
                 { wch: 10 }, { wch: 20 }, { wch: 30 }, { wch: 50 },
                 { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 }
             ];
 
-            // 6. Color the 9 header columns
             for (let C = 0; C < 9; C++) {
                 const cellRef = XLSX.utils.encode_cell({ c: C, r: 0 });
                 if (wsTasks[cellRef]) wsTasks[cellRef].s = { fill: { fgColor: { rgb: darkColors[0] } }, font: { bold: true } };
@@ -3656,14 +3520,10 @@
 
             XLSX.utils.book_append_sheet(wb, wsTasks, "TASKS");
 
-            // ==========================================
-            // 3. BUILD "RASCI MATRIX" VISUAL SHEET
-            // ==========================================
             const matrixData = [];
             const groupHeaderRow = ["Task Group"];
             const taskHeaderRow = ["Participants \\ Tasks"];
 
-            // Get flat list of active tasks for columns
             const flatTasks = [];
             state.tasks.forEach(task => {
                 task.subtasks.forEach(st => {
@@ -3674,19 +3534,15 @@
                     }
                 });
             });
-            // Push BOTH header rows
             matrixData.push(groupHeaderRow);
             matrixData.push(taskHeaderRow);
 
-            // Get active people for rows
             const activePeople = state.people.filter(p => !p.archived && p.rasciMatrix === 'Yes');
             activePeople.forEach(person => {
                 const row = [];
-                // Format: "John Smith - Apple Inc"
                 const nameString = person.company ? `${person.name} - ${person.company}` : person.name;
                 row.push(nameString);
 
-                // Fill in R/A/S/C/I letters for each task column
                 flatTasks.forEach(col => {
                     const role = (col.st.rasci && col.st.rasci[person.id]) ? col.st.rasci[person.id] : "";
                     row.push(role);
@@ -3696,15 +3552,12 @@
 
             const wsMatrix = XLSX.utils.aoa_to_sheet(matrixData);
 
-            // Set Column Widths (Wide first column, ultra-narrow task columns)
             const matrixCols = [{ wch: 35 }];
             flatTasks.forEach(() => matrixCols.push({ wch: 5 }));
             wsMatrix['!cols'] = matrixCols;
 
-            // Set Header Row Heights (Row 0 for Groups, Row 1 for Tasks)
             wsMatrix['!rows'] = [{ hpt: 80 }, { hpt: 120 }];
 
-            // Apply Tailwind-equivalent Colors to the Excel cells
             const roleColors = {
                 'R': { bg: 'FFFEE2E2', text: 'FF7F1D1D' },
                 'A': { bg: 'FFFFEDD5', text: 'FF7C2D12' },
@@ -3713,17 +3566,14 @@
                 'I': { bg: 'FFE2E8F0', text: 'FF0F172A' }
             };
 
-            // Iterate through the matrix to apply styling
             for (let R = 0; R < matrixData.length; R++) {
                 for (let C = 0; C < matrixData[R].length; C++) {
                     const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
                     if (!wsMatrix[cellRef]) continue;
 
                     if (R === 0 || R === 1) {
-                        // Dynamically assign darkColors[0] to Row 0, and darkColors[1] to Row 1
                         const rowColor = R === 0 ? darkColors[0] : darkColors[1];
 
-                        // Header Rows Styling
                         if (C === 0) {
                             wsMatrix[cellRef].s = {
                                 fill: { fgColor: { rgb: rowColor } },
@@ -3738,10 +3588,8 @@
                             };
                         }
                     } else if (C === 0) {
-                        // First Column (Names) Styling
                         wsMatrix[cellRef].s = { font: { bold: true } };
                     } else {
-                        // Grid Data (R, A, S, C, I) Styling
                         const val = matrixData[R][C];
                         if (val && roleColors[val]) {
                             wsMatrix[cellRef].s = {
@@ -3756,9 +3604,7 @@
                 }
             }
 
-            // Append the 3rd sheet
             XLSX.utils.book_append_sheet(wb, wsMatrix, "RASCI MATRIX");
-            // ==========================================
 
             return wb;
         }
@@ -3786,14 +3632,13 @@
             const filename = `${yy}${mm}${dd}_RASCI Matrix_${safeTitle}.${ext}`;
 
             XLSX.writeFile(wb, filename);
-            clearUnsaved(); // <-- Clears the warning flag after saving
+            clearUnsaved();
         }
 
         function importExcelData(workbook) {
             const sheetNames = workbook.SheetNames || [];
-            state.membersHash = "";   // old files carry no stamp -> first CDE open syncs once
+            state.membersHash = "";
 
-            // Check INFO A2, should be "Responsibility Matrix" for native files
             const wsInfoChk = workbook.Sheets["INFO"];
             const infoChkAoA = wsInfoChk ? XLSX.utils.sheet_to_json(wsInfoChk, { header: 1 }) : [];
             const infoA2 = infoChkAoA[1] ? String(infoChkAoA[1][0] || '').trim() : '';
@@ -3809,10 +3654,6 @@
             }
 
             let warnings = [];
-            // CDE-born files start with INFO + CONTACTS only: the app adds
-            // TASKS / RASCI MATRIX on first save. Missing tabs on a native
-            // file are NOT an issue worth a dialog - especially not in the
-            // hub handoff, where the confirm would block every fresh open.
             const freshCdeFile = isRMFile && !sheetNames.includes("TASKS") && !sheetNames.includes("RASCI MATRIX");
             if (!freshCdeFile && !sheetNames.includes("TASKS") && !sheetNames.includes("RASCI MATRIX")) {
                 warnings.push("- Missing both 'TASKS' and 'RASCI MATRIX' tabs.");
@@ -3850,7 +3691,6 @@
                 state.initialDate = fromExcelDate(getValue(infoAoA, "Initial Date:")) || state.date;
                 parseProjectInfo(infoAoA, getValue);
 
-                // --- PARSE SETUP BLOCK (roles) ---
                 const setupIndex = infoAoA.findIndex(row => row && row[0] === "--- SETUP ---");
                 if (setupIndex > -1) {
                     for (let i = setupIndex + 2; i < infoAoA.length; i++) {
@@ -3864,14 +3704,12 @@
                 }
             }
 
-            // ── READ CONTACTS: prefer CONTACTS tab, fall back to legacy INFO section ──
             const wsContacts = workbook.Sheets["CONTACTS"];
 
             if (wsContacts) {
                 const rows = XLSX.utils.sheet_to_json(wsContacts, { header: 1 });
                 const hdr = rows[0] || [];
 
-                // Mapping columns
                 const ci = (label) => hdr.findIndex(h => String(h || '').trim() === label);
                 const iID = ci('ID'), iName = ci('Name'), iComp = ci('Company'),
                     iRole = ci('Role'), iMail = ci('Contact Mail'),
@@ -3898,7 +3736,6 @@
                         rasciMatrix: String(row[iRasci] || '').trim() === 'Yes' ? 'Yes' : 'No',
                         archived: String(row[iStat] || '').trim().toLowerCase() === 'archived',
                         present: false,
-                        // NEW: Store the entire row to preserve columns like Campus, Floor, etc.
                         rawData: row
                     };
 
@@ -3909,7 +3746,6 @@
                     }
                 }
             } else if (wsInfo) {
-                // Legacy: contacts inside INFO tab
                 const infoAoA = XLSX.utils.sheet_to_json(wsInfo, { header: 1 });
                 const attIndex = infoAoA.findIndex(row => row && row[0] === "--- CONTACTS ---");
                 if (attIndex > -1) {
@@ -3937,13 +3773,11 @@
                 }
             }
 
-            // Save a baseline of people imported
             const basePeople = JSON.parse(JSON.stringify(state.people));
 
             const wsTasks = workbook.Sheets["TASKS"];
             const wsMatrix = workbook.Sheets["RASCI MATRIX"];
 
-            // --- 1. PARSE TASKS TAB (Structured Data) ---
             let structTasks = [];
             let structPeople = JSON.parse(JSON.stringify(basePeople));
 
@@ -3998,7 +3832,6 @@
                             });
                         };
 
-                        // Dynamically map Excel columns to current roles
                         state.roles.forEach((r, idx) => {
                             processRoleCell(4 + idx, r.char);
                         });
@@ -4010,7 +3843,6 @@
                 }
             }
 
-            // --- 2. PARSE RASCI MATRIX TAB (Visual Data) ---
             let visualTasks = [];
             let visualPeople = JSON.parse(JSON.stringify(basePeople));
 
@@ -4025,18 +3857,15 @@
                     let currentGroup = null;
                     let lastGroupTitle = null;
 
-                    // Reconstruct the Task Groups sequentially (column by column)
                     for (let c = 1; c < taskHeaders.length; c++) {
                         const rawGroup = groupHeaders[c] ? String(groupHeaders[c]).trim() : "";
                         const rawTask = taskHeaders[c] ? String(taskHeaders[c]).trim() : "";
 
-                        // Prevent "ghost columns" from empty formatted cells in Excel
                         if (!rawGroup && !rawTask) continue;
 
                         const groupTitle = rawGroup || "Unnamed Group";
                         const taskTitle = rawTask || `Task ${c}`;
 
-                        // Create a new group if the name changes, or if it's the very first column
                         if (groupTitle !== lastGroupTitle || !currentGroup) {
                             currentGroup = {
                                 id: generateId('t'),
@@ -4102,12 +3931,10 @@
                 }
             }
 
-            // --- 3. CONFLICT RESOLUTION ---
             const hasStructData = structTasks.length > 0;
             const hasVisualData = visualTasks.length > 0;
 
             const doTabsMatch = (sTasks, vTasks) => {
-                // Flatten both arrays to purely sequential tasks to ignore visual group merging
                 const flatS = [];
                 sTasks.forEach(g => g.subtasks.forEach(st => flatS.push({ groupTitle: g.title, st: st })));
 
@@ -4116,7 +3943,6 @@
 
                 if (flatS.length !== flatV.length) return false;
 
-                // Smart string normalizer to ignore case, spacing, and nulls
                 const normalize = (str) => str ? String(str).toLowerCase().trim().replace(/\s+/g, ' ') : "";
 
                 const isDefaultGroup = (name) => {
@@ -4136,7 +3962,6 @@
                     const sG = normalize(sItem.groupTitle);
                     const vG = normalize(vItem.groupTitle);
 
-                    // Only fail if they differ AND they aren't both default placeholders
                     if (sG !== vG) {
                         if (!isDefaultGroup(sG) || !isDefaultGroup(vG)) return false;
                     }
@@ -4144,12 +3969,10 @@
                     const sT = normalize(sItem.st.title);
                     const vT = normalize(vItem.st.title);
 
-                    // Only fail if they differ AND they aren't both default placeholders
                     if (sT !== vT) {
                         if (!isDefaultTask(sT) || !isDefaultTask(vT)) return false;
                     }
 
-                    // Check RASCI assignments
                     const sKeys = Object.keys(sItem.st.rasci || {});
                     const vKeys = Object.keys(vItem.st.rasci || {});
                     if (sKeys.length !== vKeys.length) return false;
@@ -4176,7 +3999,7 @@
                     conflictModal.classList.remove('hidden');
                     if (typeof lucide !== 'undefined') lucide.createIcons({ root: conflictModal });
                 }
-                return; // Stop execution
+                return;
 
             } else if (hasStructData) {
                 state.tasks = structTasks;

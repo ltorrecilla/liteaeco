@@ -1,3 +1,23 @@
+/*
+ * Copyright 2026 Luis Torrecilla (liteAECO)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// ========
+// liteAECO - (contract-obligations.js)
+// ========
+
 window.PAGE_I18N = {
     title: 'Contract Obligations',
     subtitle: 'REFM Swiss Commercial Lease (Swiss Code)',
@@ -5,11 +25,13 @@ window.PAGE_I18N = {
     ruleDesc1: 'This tool is meant to be used only for Rental Contracts within <strong>Switzerland</strong>, the current parser is set up for the Swiss Code. Load or paste the contract text below, the tool uses browser-based regular expressions (Regex) to extract structured parameters, identify data, and highlight standard clauses. You can also use the integrated search and map attributes manually if needed.',
     alertTitle: 'Limitation (Information Overload):',
     alertText: 'This tool now combines highly specific data extraction with broad clause highlighting. Regular expressions extract syntactic patterns but do not understand legal context. Missing clauses do not necessarily mean missing obligations (the discretionary “OR” often applies).',
+
     step1: 'Contract Text Input',
     loadPdf: 'Load PDF',
     loadSample: 'Load Sample Text',
     extracting: 'Extracting text from PDF...',
-    txtPlaceholder: 'Paste contract text here...', 
+    txtPlaceholder: 'Paste contract text here...',
+
     step2: 'Configuration',
     dateFormat: 'Date Format',
     optDach: 'Switzerland/DACH (DD.MM.YYYY)',
@@ -20,8 +42,10 @@ window.PAGE_I18N = {
     hlClause: 'Highlight Standard Clauses',
     chkDach: 'Check for Missing DACH Baselines',
     btnAnalyze: 'Analyze Document',
+
     step3: 'Analysis Results',
     waiting: 'Waiting for document analysis...',
+
     lblVermieter: 'Vermieter / Eigentümer',
     lblMieter: 'Mieter',
     lblAdresse: 'Liegenschaft / Objektadresse',
@@ -37,14 +61,17 @@ window.PAGE_I18N = {
     lblNotice: 'Notice Period',
     lblCompprot: 'Competition Prot.',
     lblSublease: 'Sublease',
+
     widData: 'Found Data',
     widClauses: 'Detected Clauses',
     widMissing: 'Missing DACH-Baselines (Keywords)',
+
     legDate: 'Date',
     legClause: 'Clause',
     legBaseline: 'Baseline',
     allocTo: 'Allocate to:',
     btnAssign: 'Assign',
+
     optMenuAdresse: 'Adresse / Objekt',
     optMenuZweck: 'Zweck & Branche',
     optMenuFlaeche: 'Fläche',

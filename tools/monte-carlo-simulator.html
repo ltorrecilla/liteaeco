@@ -1,3 +1,21 @@
+<!--
+  Copyright 2026 Luis Torrecilla (liteAECO)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  liteAECO - (monte-carlo-simulator.html)
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,12 +25,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monte Carlo Simulator - Probabilistic Risk Analysis for Schedules | liteAECO</title>
 
-    <!-- Primary Meta Tags -->
     <meta name="description" content="Free client-side tool to perform probabilistic risk analysis on schedule data using Monte Carlo simulation. No uploads, private, fast, and built for AEC project teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/monte-carlo-simulator.html">
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/monte-carlo-simulator.html">
     <meta property="og:site_name" content="liteAECO">
@@ -24,14 +40,12 @@
     <meta property="og:image:alt" content="liteAECO Monte Carlo Simulator tool interface">
     <meta property="og:locale" content="en_US">
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/monte-carlo-simulator.html">
     <meta name="twitter:title" content="Monte Carlo Simulator - Probabilistic Risk Analysis for Schedules | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to perform probabilistic risk analysis on schedule data using Monte Carlo simulation. No uploads, private, fast, and built for AEC project teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-monte-carlo-simulator.png">
 
-    <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -40,11 +54,9 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- Scripts Design -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
-    <!-- Scripts Internal -->
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
@@ -52,7 +64,6 @@
     <script src="../js/liteaeco-autosave.js"></script>
     <script src="../js/liteaeco-cde.js"></script>
 
-    <!-- Scripts External -->
     <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
     <script src="../js/vendor/chart-0.3.24.js"></script>
 
@@ -64,7 +75,6 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        
                         accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
                     }
                 }
@@ -72,14 +82,11 @@
         }
     </script>
 
-    <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="../css/global.css">
 
     <style>
-        
         .as-switch:has(#mc-save-menu-disconnect:not(.hidden)){background:#22c55e}
         .as-switch:has(#mc-save-menu-disconnect:not(.hidden)) .as-knob{transform:translateX(16px)}
-        
         #mc-save-icon-on.text-white{color:#16a34a}
 
         input[type=range] {
@@ -97,7 +104,6 @@
             width: 20px;
             border-radius: 50%;
             background: #4f46e5;
-            
             cursor: pointer;
             margin-top: -8px;
             box-shadow: 0 0 10px rgba(79, 70, 229, 0.3);
@@ -109,7 +115,6 @@
             height: 4px;
             cursor: pointer;
             background: #e2e8f0;
-            
             border-radius: 2px;
         }
 
@@ -187,12 +192,8 @@
 <body
     class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col font-sans">
 
-    <!-- TOP NAVIGATION -->
-
-    <!-- Main content -->
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
 
-        <!-- INFO BANNER & TABS -->
         <div id="info-app"
             class="info-app bg-white shrink-0">
             <div
@@ -209,7 +210,6 @@
                             Schedule Analysis</p>
                     </div>
                 </div>
-                <!-- View Toggles -->
                 <div class="flex bg-slate-100 p-1 rounded-md border border-slate-200/60 shrink-0">
                     <button id="tab-builder" onclick="switchTab('builder')"
                         class="px-4 py-1.5 rounded text-sm font-bold tracking-wide transition-all bg-white text-indigo-600 shadow-sm border border-slate-200/50">
@@ -242,11 +242,9 @@
 			</details>
         </div>
 
-        <!-- ACTION TOOLBAR (Project Context) -->
         <div
             class="action-toolbar p-4 mb-4 flex flex-wrap gap-4 justify-between items-center shrink-0 border-b border-slate-300 transition-all">
 
-            <!-- PROJECT INFORMATION BAR (shared across liteAECO apps) -->
             <div id="project-bar" class="hidden w-full flex flex-wrap items-center gap-3 border-b border-slate-100 pb-3">
                 <input type="text" id="app-project-number" placeholder="No."
                     class="border-0 bg-slate-50 rounded p-1.5 w-24 text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-accent outline-none transition-all" />
@@ -328,8 +326,6 @@
                 <div class="flex items-center w-full md:w-auto mt-2 md:mt-0">
                     <div class="flex items-center rounded overflow-visible relative gap-2 w-full">
 
-                        <!-- Real Save - CDE mode only: flushes the event log AND
-                             the workbook write-back immediately, no debounce. -->
                         <div class="relative flex-1 min-w-[80px] hidden" id="wrapper-cde-save">
                             <button onclick="cdeSaveNow()" id="btn-cde-save"
                                 class="w-full px-3 py-1.5 bg-indigo-600 border border-indigo-600 hover:bg-indigo-700 text-white rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1 disabled:opacity-60 disabled:pointer-events-none">
@@ -380,7 +376,6 @@
                             </button>
                         </div>
 
-                        <!-- Options: gear icon only, menu anchors right -->
                         <div class="relative group shrink-0">
                             <button
                                 class="px-3 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center"
@@ -389,9 +384,6 @@
                             </button>
                             <div
                                 class="absolute top-full right-0 w-44 mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden">
-                                <!-- Autosave TOGGLE: the module flips .hidden on
-                                     mc-save-menu-disconnect (its disconnectBtnId);
-                                     the CSS moves the knob / colors the track -->
                                 <button onclick="autosaveToggle()" id="mc-autosave-row"
                                     class="px-3 py-2.5 text-[10px] font-bold text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 uppercase tracking-widest border-b border-slate-100 text-left transition-colors flex items-center justify-between gap-3">
                                     <span data-i18n="autosaveToggle">Autosave</span>
@@ -411,38 +403,24 @@
                 </div>
         </div>
 
-        <!-- VIEWS WRAPPER -->
         <div id="view-wrapper" class="w-full flex-grow flex flex-col">
-            <!-- Content injected via JS -->
         </div>
 
     </div>
 
-    <!-- --- FOOTER --- -->
-    <!-- JAVASCRIPT -->
     <script>
-        // ==========================================
-        // liteAECO - PAGE LOGIC
-        // ==========================================
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
-        // --- DYNAMIC TRANSLATION HOOK ---
-        // common.js will call this automatically when the language changes
         window.updateToolDynamicUI = function (d) {
-            // 1. Load the dictionary
             window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
-            // 3. Force the app to redraw the views in the new language
             if (typeof switchTab === 'function' && typeof state !== 'undefined') switchTab(state.activeTab);
         };
 
-        // --- CONSOLIDATED BOOT SEQUENCE ---
         function bootApp() {
-            // 1. Detect language FIRST
             autoDetectLanguage();
 
-            // 2. Generate the Navigation Bar & Footer
             window.injectUI({
                 showNav: true,
                 linkTarget: '_blank',
@@ -455,42 +433,31 @@
                 showFooterLinks: true,
             });
 
-            // Inject Cookie Banner
             window.injectCookieBanner();
 
-            // 3. Start the translation engine
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
 
-        // Execute immediately if DOM is ready, otherwise wait
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
-        // ==========================================
-        // END PAGE LOGIC
-        // ==========================================
     </script>
     <script>
 
-        // --- Smart Print Controller ---
         function triggerPrint() {
-            // Check if we are already on the report tab
             if (state.activeTab !== 'report') {
                 switchTab('report');
 
-                // Wait briefly for the DOM to draw the new layout and the Chart.js canvas to render
                 setTimeout(() => {
                     window.print();
                 }, 250);
             } else {
-                // If we are already on the report tab, print immediately
                 window.print();
             }
         }
 
-        // --- Excel Export (Save State - Matched to RCA Format) ---
         function exportExcel(ext = 'xlsx') {
             if (typeof XLSX === 'undefined') {
                 alert("XLSX library is not loaded.");
@@ -498,12 +465,10 @@
             }
             const wb = buildWorkbook();
 
-            // Generate safe filename matching RCA logic
             const dateStr = state.projectData.date ? state.projectData.date.replace(/-/g, '') : '';
             const safeTitle = state.projectData.title ? state.projectData.title.replace(/[^a-zA-Z0-9\s-_]/gi, '').trim() : 'Simulation';
             const filename = `${dateStr}_MonteCarlo_${safeTitle.replace(/\s+/g, '_')}.${ext}`;
 
-            // Cross-tool registry upsert (no-op until project-registry.js is included)
             if (window.liteAECO && window.liteAECO.projects) {
                 window.liteAECO.projects.save({
                     guid: state.project.guid,
@@ -515,19 +480,14 @@
             hasUnsavedChanges = false;
         }
 
-        /* Builds the whole workbook. One place, two callers: the Export
-         * menu (download) and the CDE write-back (project folder). */
         function buildWorkbook() {
 
             const wb = XLSX.utils.book_new();
 
-            // Mint a project GUID on first save (suite standard)
             ensureProjectGuid();
 
-            // Exactly matches incident-rca.html color hexes
             const darkColors = ["FFB8CDE2", "FFCADAE9"];
 
-            // 1. INFO TAB
             const infoData = [
                 ["www.liteAECO.com"],
                 ["Monte Carlo Predictor"],
@@ -555,10 +515,8 @@
             ];
 
             const wsInfo = XLSX.utils.aoa_to_sheet(infoData);
-            // Matching column widths (25 for labels, 80 for values)
             wsInfo['!cols'] = [{ wch: 25 }, { wch: 80 }];
 
-            // Apply exact RCA Styles to Info Tab
             const a2c = XLSX.utils.encode_cell({ c: 0, r: 1 });
             if (wsInfo[a2c]) wsInfo[a2c].s = { fill: { fgColor: { rgb: 'FF4F46E5' } }, font: { bold: true, color: { rgb: 'FFFFFFFF' } } };
 
@@ -570,7 +528,6 @@
 
             XLSX.utils.book_append_sheet(wb, wsInfo, "INFO");
 
-            // 2. PHASE ESTIMATES TAB
             const tasksHeaders = ["ID", "Phase Name", "Status", "Actual Days", "Optimistic", "Likely", "Pessimistic"];
             const tasksData = [tasksHeaders];
 
@@ -590,7 +547,6 @@
             const wsTasks = XLSX.utils.aoa_to_sheet(tasksData);
             wsTasks['!cols'] = [{ wch: 10 }, { wch: 50 }, { wch: 12 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 }];
 
-            // Apply exact RCA Styles to Table Headers
             for (let C = 0; C < tasksHeaders.length; C++) {
                 const cr = XLSX.utils.encode_cell({ c: C, r: 0 });
                 if (wsTasks[cr]) wsTasks[cr].s = { fill: { fgColor: { rgb: darkColors[1] } }, font: { bold: true } };
@@ -601,7 +557,6 @@
             return wb;
         }
 
-        // --- Native Save File Restorer ---
         function importNativeExcel(workbook) {
             const wsInfo = workbook.Sheets["INFO"];
             const wsTasks = workbook.Sheets["Phase Estimates"];
@@ -614,8 +569,6 @@
                 return (row && row[1] !== undefined && row[1] !== null) ? row[1] : '';
             };
 
-            // 1. Restore Project Context
-            // Project bar. Legacy files kept the GUID under projectData.
             state.project.guid = String(getValue("Project GUID:") || state.project.guid || '');
             state.project.number = String(getValue("Project No.:") || '');
             state.project.title = String(getValue("Project Name:") || '');
@@ -626,7 +579,6 @@
             state.projectData.title = String(getValue("Project Title:"));
             state.projectData.lead = String(getValue("Analysis Lead:"));
 
-            // Excel may hand back the date as a serial number
             let rawDate = getValue("Date:");
             if (typeof rawDate === 'number') {
                 const dObj = new Date(Math.round((rawDate - 25569) * 86400 * 1000));
@@ -644,11 +596,9 @@
             const savedDeadline = parseInt(getValue("Target Deadline:"));
             if (!isNaN(savedDeadline)) state.currentTargetDeadline = savedDeadline;
 
-            // Restore Progress Tracking (elapsed days derive from per-phase actuals)
             const legacyElapsed = parseFloat(getValue("Elapsed Days:")) || 0;
             state.progress.startIndex = parseInt(getValue("Pending Phase Index:")) || 0;
 
-            // 2. Restore Task Array (label-based mapping, survives column reordering)
             const headerRow = (taskAoA[0] || []).map(c => String(c).toLowerCase().trim());
             const colOf = (label, fallback) => {
                 const idx = headerRow.indexOf(label);
@@ -660,8 +610,6 @@
             let cM = colOf("likely", 5);
             let cP = colOf("pessimistic", 6);
 
-            // Legacy repair: v1 files wrote 5 headers over 7 data columns,
-            // so the labels point at Status/Actual instead of o/m/p.
             const firstDataRow = taskAoA[1] || [];
             if (headerRow.length === 5 && firstDataRow.length >= 7) {
                 cO = 4; cM = 5; cP = 6;
@@ -689,11 +637,9 @@
                 return;
             }
 
-            // Clamp progress to the restored task list
             if (state.progress.startIndex > state.tasks.length) state.progress.startIndex = state.tasks.length;
             if (state.progress.startIndex < 0 || isNaN(state.progress.startIndex)) state.progress.startIndex = 0;
 
-            // Legacy file (no per-phase actuals): spread old Elapsed Days over completed phases
             const done = state.tasks.slice(0, state.progress.startIndex);
             if (done.length && done.every(t => t.actual === undefined) && legacyElapsed > 0) {
                 const sumM = done.reduce((a, t) => a + t.m, 0) || 1;
@@ -701,7 +647,6 @@
             }
             ensureActuals();
 
-            // 3. Re-initialize UI & Engine
             renderHeaderInputs();
             updateSimulation();
             switchTab('builder');
@@ -709,7 +654,6 @@
             if (typeof Autosave !== "undefined") Autosave.markDirty();
         }
 
-        // --- File Import Engine ---
         let currentImportLevel = 1;
 
         function triggerImport(level) {
@@ -727,12 +671,9 @@
                 const data = new Uint8Array(e.target.result);
                 const workbook = XLSX.read(data, { type: 'array' });
 
-                // --- SMART ROUTING ---
-                // 1. Detect Native Save File
                 if (workbook.SheetNames.includes("INFO") && workbook.SheetNames.includes("Phase Estimates")) {
                     importNativeExcel(workbook);
                 }
-                // 2. External Timeline Import (MS Project / liteAECO)
                 else {
                     const sheetName = workbook.SheetNames.includes("Timeline") ? "Timeline" : workbook.SheetNames[0];
                     const worksheet = workbook.Sheets[sheetName];
@@ -771,7 +712,6 @@
             if (state.tasks.length <= 1) return;
             state.tasks.splice(index, 1);
 
-            // Adjust progress index if a task is deleted
             if (state.progress.startIndex > index) {
                 state.progress.startIndex--;
             }
@@ -782,13 +722,11 @@
         }
 
         function processImportedData(data, targetLevel) {
-            // --- 1. Detect File Type & Find Headers (Multi-Language) ---
             let isLiteAECO = false;
             let isGeneric = false;
             let headerRowIdx = -1;
             let colMap = { name: -1, start: -1, end: -1, duration: -1 };
 
-            // Dictionary of common MS Project header translations (EN, ES, DE, FR, IT, PT)
             const dict = {
                 name: ["name", "task name", "task_name", "nombre", "nombre de tarea", "vorgangsname", "nom", "nom de la tâche", "nome", "nome attività", "nome da tarefa", "tarea", "aufgabe", "tâche", "task"],
                 duration: ["duration", "duración", "duracion", "dauer", "durée", "duração", "durata"],
@@ -796,35 +734,29 @@
                 end: ["finish", "finish_date", "fin", "ende", "fine", "término", "termino"]
             };
 
-            // Smart Column Finder: Looks for exact matches first, then partial matches (e.g. "Duration (days)")
             function findCol(rowArr, keywords) {
                 let idx = rowArr.findIndex(cell => keywords.includes(cell));
                 if (idx > -1) return idx;
                 return rowArr.findIndex(cell => keywords.some(kw => cell.startsWith(kw)));
             }
 
-            // Scan the first 20 rows to identify the table structure
             for (let i = 0; i < Math.min(20, data.length); i++) {
                 let row = data[i];
                 if (!row) continue;
 
-                // Convert row to lowercase and trim spaces for clean matching
                 let rowString = row.map(cell => String(cell).toLowerCase().trim());
 
-                // Detect liteAECO Custom Export
                 if (rowString.includes("phase") && rowString.includes("task name")) {
                     isLiteAECO = true;
                     headerRowIdx = i;
                     break;
                 }
 
-                // Detect MS Project / Generic via Dictionary
                 let nameIdx = findCol(rowString, dict.name);
                 let durIdx = findCol(rowString, dict.duration);
                 let startIdx = findCol(rowString, dict.start);
                 let endIdx = findCol(rowString, dict.end);
 
-                // A valid generic project file needs a Name, AND either a Duration OR Start+Finish dates
                 if (nameIdx > -1 && (durIdx > -1 || (startIdx > -1 && endIdx > -1))) {
                     isGeneric = true;
                     headerRowIdx = i;
@@ -839,7 +771,6 @@
             let aggregatedData = {};
             let wbsNames = {};
 
-            // --- 2. Parser: Generic / MS Project (Indentation-based Hierarchy) ---
             if (isGeneric && headerRowIdx > -1) {
                 let currentWBS = [];
                 let spaceToLevelMap = [];
@@ -849,24 +780,21 @@
                     if (!row || row[colMap.name] === undefined || row[colMap.name] === null) continue;
 
                     let rawName = String(row[colMap.name]);
-                    if (!rawName.trim()) continue; // Skip empty rows
+                    if (!rawName.trim()) continue;
 
-                    // Count leading spaces to determine hierarchy depth
                     let spaces = rawName.length - rawName.trimLeft().length;
                     let cleanName = rawName.trim();
 
-                    // Dynamic Hierarchy Engine
                     if (currentWBS.length === 0) {
                         currentWBS = [1];
                         spaceToLevelMap[0] = spaces;
                     } else {
                         if (spaces > spaceToLevelMap[currentWBS.length - 1]) {
-                            currentWBS.push(1); // Deeper level (Child)
+                            currentWBS.push(1);
                             spaceToLevelMap[currentWBS.length - 1] = spaces;
                         } else if (spaces === spaceToLevelMap[currentWBS.length - 1]) {
-                            currentWBS[currentWBS.length - 1]++; // Same level (Sibling)
+                            currentWBS[currentWBS.length - 1]++;
                         } else {
-                            // Shallower level (Ancestor/Uncle)
                             let foundLevel = 0;
                             for (let lvl = currentWBS.length - 1; lvl >= 0; lvl--) {
                                 if (spaces >= spaceToLevelMap[lvl] || lvl === 0) {
@@ -882,7 +810,6 @@
                     let outlineLevel = currentWBS.length;
                     let wbs = currentWBS.join('.');
 
-                    // Extract Data
                     let parsedDuration = null;
                     let sTime = NaN, eTime = NaN;
 
@@ -897,7 +824,6 @@
                     if (startStr) sTime = (typeof startStr === 'number') ? Math.round((startStr - 25569) * 86400 * 1000) : new Date(startStr).getTime();
                     if (endStr) eTime = (typeof endStr === 'number') ? Math.round((endStr - 25569) * 86400 * 1000) : new Date(endStr).getTime();
 
-                    // Find the target rollup WBS prefix
                     let pathLevels = [];
                     let parts = wbs.split('.');
                     let roll = "";
@@ -909,7 +835,6 @@
                     let targetWbs = pathLevels[targetLevel - 1];
                     if (!targetWbs) targetWbs = pathLevels[pathLevels.length - 1];
 
-                    // Aggregate data upwards
                     if (!aggregatedData[targetWbs]) {
                         aggregatedData[targetWbs] = { minStart: sTime, maxEnd: eTime, fallbackDur: parsedDuration || 0 };
                     } else {
@@ -918,7 +843,6 @@
                         if (parsedDuration && outlineLevel === targetLevel) aggregatedData[targetWbs].fallbackDur = parsedDuration;
                     }
 
-                    // Capture exact Name and Duration if this specific row matches the target depth exactly
                     if (outlineLevel === targetLevel || wbs === targetWbs) {
                         wbsNames[targetWbs] = cleanName;
                         if (parsedDuration && outlineLevel === targetLevel) {
@@ -927,7 +851,6 @@
                     }
                 }
             }
-            // --- 3. Parser: liteAECO Custom Export ---
             else if (isLiteAECO && headerRowIdx > -1) {
                 let dataStartIdx = headerRowIdx + 1;
                 for (let i = dataStartIdx; i < data.length; i++) {
@@ -985,7 +908,6 @@
                 return;
             }
 
-            // --- 4. Format & Inject into Monte Carlo State ---
             let sortedWbsKeys = Object.keys(aggregatedData).sort((a, b) => {
                 let pA = a.split('.').map(Number);
                 let pB = b.split('.').map(Number);
@@ -1010,23 +932,20 @@
 
                 let durationDays;
 
-                // Priority 1: Exact duration from the parent row
                 if (node.explicitDur) {
                     durationDays = node.explicitDur;
                 }
-                // Priority 2: Mathematical rollup (End minus Start of all nested tasks)
                 else if (!isNaN(node.minStart) && !isNaN(node.maxEnd)) {
                     durationDays = Math.max(1, Math.ceil((node.maxEnd - node.minStart) / (1000 * 60 * 60 * 24)));
                 }
-                // Priority 3: Fallback duration if dates were completely unreadable
                 else if (node.fallbackDur) {
                     durationDays = node.fallbackDur;
                 } else {
-                    durationDays = 10; // Failsafe
+                    durationDays = 10;
                 }
 
-                const optimistic = Math.max(1, Math.round(durationDays * 0.85)); // 15% Faster
-                const pessimistic = Math.round(durationDays * 1.50);             // 50% Slower
+                const optimistic = Math.max(1, Math.round(durationDays * 0.85));
+                const pessimistic = Math.round(durationDays * 1.50);
 
                 state.tasks.push({
                     id: Date.now() + idx,
@@ -1037,21 +956,17 @@
                 });
             });
 
-            // Sync the global variable so the UI remembers the selection
             currentImportLevel = targetLevel;
 
-            // External import replaced the task list, clamp stale progress
             if (state.progress.startIndex > state.tasks.length) state.progress.startIndex = state.tasks.length;
             if (state.progress.startIndex < 0 || isNaN(state.progress.startIndex)) state.progress.startIndex = 0;
             ensureActuals();
 
-            // Re-render Predictor and trigger engine
             markUnsaved();
             renderBuilder();
             updateSimulation();
         }
 
-        // --- State Management ---
         const ITERATIONS = 10000;
         let chartInstance = null;
         let chartMeta = { min: 0, binSize: 1, numBins: 40 };
@@ -1061,8 +976,6 @@
 
         const state = {
             activeTab: 'builder',
-            // Shared liteAECO project identity (the bar). Distinct from
-            // projectData, which holds THIS analysis: its name, lead, dates.
             project: { number: '', title: '', client: '', address: '', type: '', guid: '' },
             projectData: {
                 guid: '',
@@ -1084,15 +997,12 @@
 
         const inputClass = "w-full border border-slate-300 bg-white rounded p-1.5 text-sm focus:ring-2 focus:ring-indigo-600 outline-none transition-all placeholder:text-slate-400";
 
-        // --- Helpers ---
         function esc(v) {
             return String(v ?? '')
                 .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
                 .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
-        /* Autosave menu toggle: state source is the module's own
-         * hidden-flip on mc-save-menu-disconnect (its disconnectBtnId). */
         async function autosaveToggle() {
             const pill = document.getElementById('mc-save-menu-disconnect');
             const on = pill && !pill.classList.contains('hidden');
@@ -1128,12 +1038,10 @@
             const t = e.target;
             if (t && t.matches && t.matches('input, textarea, select')) commitTypingDirty();
         });
-        
         document.addEventListener('change', (e) => {
             const t = e.target;
             if (typingDirty && t && t.id === 'deadline-slider') commitTypingDirty();
         });
-        
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'hidden' && typingDirty) {
                 commitTypingDirty();
@@ -1171,8 +1079,8 @@
         }
         function isoWeek(d) {
             const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-            const day = t.getUTCDay() || 7;            
-            t.setUTCDate(t.getUTCDate() + 4 - day);   
+            const day = t.getUTCDay() || 7;
+            t.setUTCDate(t.getUTCDate() + 4 - day);
             const yStart = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
             return Math.ceil((((t - yStart) / 86400000) + 1) / 7);
         }
@@ -1213,7 +1121,6 @@
         }
 
         function runSimulationLogic() {
-            
             state.tasks.forEach(task => {
                 task.o = Math.max(1, parseFloat(task.o) || 1);
                 task.m = Math.max(1, parseFloat(task.m) || 1);
@@ -1291,7 +1198,7 @@
             const show = !!(window.__cdeCtx || projectBarHasData() || window.__projectBarManual);
             bar.classList.toggle('hidden', !show);
             const mi = document.getElementById('menu-project-info');
-            if (mi) mi.classList.toggle('hidden', show);   
+            if (mi) mi.classList.toggle('hidden', show);
         }
         window.showProjectBar = function () {
             window.__projectBarManual = true;
@@ -1303,7 +1210,6 @@
                 const el = document.getElementById(elId);
                 if (el) el.value = state.project[key] || '';
             }
-            
             updateProjectBarVisibility();
         }
 
@@ -1312,7 +1218,7 @@
                 const el = document.getElementById(elId);
                 if (el) el.addEventListener('input', e => {
                     state.project[key] = e.target.value.trim();
-                    noteTyping(); 
+                    noteTyping();
                 });
             }
             const btn = document.getElementById('btn-project-details');
@@ -1888,7 +1794,6 @@
                 }
                 for (let i = 0; i < numBins; i++) labels[i] = (min + (i * binSize) + (binSize / 2)).toFixed(0);
             } else {
-                
                 for (let i = 0; i < numBins; i++) labels[i] = min.toFixed(0);
                 bins[Math.floor(numBins / 2)] = ITERATIONS;
             }
@@ -1986,7 +1891,6 @@
                 const s = d.state;
                 state.project = Object.assign({ number: '', title: '', client: '', address: '', type: '', guid: '' }, s.project || {});
                 state.projectData = Object.assign({ guid: '', title: '', lead: '', date: '', startDate: '' }, s.projectData || {});
-                
                 if (!state.project.guid && state.projectData.guid) state.project.guid = state.projectData.guid;
                 state.currentTargetDeadline = parseInt(s.currentTargetDeadline) || 0;
                 state.progress = { startIndex: parseInt(s.progress && s.progress.startIndex) || 0 };
@@ -2065,7 +1969,7 @@
             window.__cdeCtx = { guid: params.guid, path: params.open, handle: info.handle };
             const cs = document.getElementById('wrapper-cde-save');
             if (cs) cs.classList.remove('hidden');
-            updateProjectBarVisibility();   
+            updateProjectBarVisibility();
 
             for (const elId of Object.keys(PROJECT_FIELD_MAP)) {
                 const el = document.getElementById(elId);
@@ -2080,7 +1984,7 @@
 
             try {
                 await _cdeBridgeInit(info, params);
-                await _cdeFillProjectInfo(info, params);   
+                await _cdeFillProjectInfo(info, params);
             } catch (e) {
                 console.error("CDE bridge init failed:", e);
                 if (typeof Autosave !== "undefined" && Autosave.renderStatus) Autosave.renderStatus("error");
@@ -2236,7 +2140,7 @@
                         if (!events.length) continue;
                         try {
                             await this.append(events);
-                            this.baseline = cur;   
+                            this.baseline = cur;
                             appended = true;
                         } catch (e) {
                             console.warn("CDE append failed (kept for retry):", e);
@@ -2272,7 +2176,7 @@
                 const fname = parts.pop();
                 const desired = slug + ".xlsx";
                 if (fname === desired) return;
-                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;   // collision-suffixed twin
+                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;
                 try {
                     let dir = ctx.handle;
                     for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: false });
@@ -2300,17 +2204,16 @@
                         type: "file.rename", target: ctx.path,
                         payload: { from: from, to: ctx.path, app: this.appId }
                     }]).catch(function () { });
-                    this.lastAssignHash = null;   // force a fresh assign on the new path
+                    this.lastAssignHash = null;
                     await this.markLoadedFileSeen();
                 } catch (e) { console.warn("CDE rename skipped (will retry):", e); }
             },
 
-            /* ---- workbook write-back (single writer per file per session) ---- */
             writeBack: { timer: null, busy: false, pending: false, lastMtime: 0, lastSize: 0 },
             lastAssignHash: null,
             scheduleWriteBack: function () {
                 if (!window.__cdeCtx) return;
-                window.__cdeUnsaved = true;   // cleared on CONFIRMED write
+                window.__cdeUnsaved = true;
                 if (typeof Autosave !== "undefined" && Autosave.toastNotify) Autosave.toastNotify("dirty");
                 const wbk = this.writeBack;
                 clearTimeout(wbk.timer);
@@ -2323,7 +2226,7 @@
                 const wbk = this.writeBack;
                 if (wbk.busy) { wbk.pending = true; return; }
                 wbk.busy = true;
-                let wroteOk = false;   // save indicator: only a CONFIRMED write clears it
+                let wroteOk = false;
                 try {
                     await this.maybeRename();
                     do {
@@ -2338,11 +2241,11 @@
                         }
                         try {
                             const loc = await _cdeFileHandle(ctx.handle, ctx.path, true);
-                            const w = await loc.fh.createWritable();   // full rewrite, not append
+                            const w = await loc.fh.createWritable();
                             await w.write(buf);
                             await w.close();
                             const f = await loc.fh.getFile();
-                            wbk.lastMtime = f.lastModified;   // own-write marker
+                            wbk.lastMtime = f.lastModified;
                             wbk.lastSize = f.size;
                             wroteOk = true;
                             try {
@@ -2358,7 +2261,7 @@
                                         }]);
                                     }
                                 }
-                            } catch (e) { /* hash refresh is best effort */ }
+                            } catch (e) {  }
                         } catch (e) {
                             console.warn("CDE write-back failed (will retry on next change):", e);
                             return;
@@ -2372,11 +2275,6 @@
                 }
             },
 
-            /* ---- external-edit import ----
-             * Someone else (or Excel) touched the file. The INFO sheet is
-             * the gate: anything that is not a simulation workbook is
-             * skipped silently (and not marked seen, so a half-synced file
-             * heals on the next poll). */
             extSeen: { mtime: 0, size: 0 },
             checking: false,
             _statFile: async function () {
@@ -2389,7 +2287,7 @@
                     const fh = await this._statFile();
                     const f = await fh.getFile();
                     this.extSeen = { mtime: f.lastModified, size: f.size };
-                } catch (e) { /* transient: first poll will handle it */ }
+                } catch (e) {  }
             },
             checkExternal: async function () {
                 const ctx = window.__cdeCtx;
@@ -2399,34 +2297,32 @@
                 try {
                     let fh, f;
                     try { fh = await this._statFile(); f = await fh.getFile(); }
-                    catch (e) { return; }   // locked or missing: transient, retry next poll
+                    catch (e) { return; }
                     const wbk = this.writeBack;
-                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;   // our own write
-                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;   // already imported
+                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;
+                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;
                     let wb;
                     try { wb = XLSX.read(new Uint8Array(await f.arrayBuffer()), { type: "array" }); }
                     catch (e) {
                         console.warn("CDE external read failed (transient, will retry):", e);
                         return;
                     }
-                    // Background import must NEVER raise dialogs: gate on the shape.
                     if (!wb.Sheets["INFO"] || !wb.Sheets["Phase Estimates"]) {
                         console.warn("CDE external file is not a simulation workbook; import skipped");
                         return;
                     }
-                    await this.flush();   // local unflushed changes reach the log first
+                    await this.flush();
                     try { importNativeExcel(wb); }
                     catch (e) { console.warn("CDE external import failed:", e); return; }
                     this.extSeen = { mtime: f.lastModified, size: f.size };
-                    hasUnsavedChanges = false;   // folder version is now the app state
-                    await this.flush();   // emit the external diff as events
+                    hasUnsavedChanges = false;
+                    await this.flush();
                 } finally {
                     this.checking = false;
                 }
             }
         };
 
-        // Hub is TRUTH, the file is a mirror. OVERWRITE, not fill-if-empty.
         async function _cdeFillProjectInfo(info, params) {
             try {
                 let hs = {};
@@ -2463,7 +2359,6 @@
         }
 
         async function _cdeBridgeInit(info, params) {
-            // Back to the hub, straight into THIS project.
             if (!document.getElementById('cde-home-btn')) {
                 const anchor = document.getElementById('app-project-number');
                 if (anchor && anchor.parentElement) {
@@ -2483,7 +2378,6 @@
             const memberId = await cde.identity.getMember(params.guid);
             cdeBridge.author = memberId || ("device:" + dev);
 
-            // Rename-proof file identity. Assign ONCE per content.
             function _assign() {
                 var hp = cde.hashFile ? cde.hashFile(info.handle, params.open).catch(function () { return null; })
                     : Promise.resolve(null);
@@ -2506,8 +2400,6 @@
                 return _assign();
             }).catch(function (e) { console.warn("CDE assign append failed:", e); });
 
-            // Hook the existing dirty cycle: in CDE mode markDirty no longer
-            // writes a file, it only paints and schedules the bridge.
             if (typeof Autosave !== "undefined" && Autosave && typeof Autosave.markDirty === "function") {
                 if (!Autosave.__cdeWrapped) {
                     Autosave.__cdeWrapped = true;
@@ -2520,8 +2412,8 @@
                         Autosave.renderStatus('saved');
                     };
                     cdeBridge.onError = function () { Autosave.renderStatus('error'); };
-                    Autosave.lastSavedAt = new Date();   // renderStatus('saved') formats this
-                    Autosave.renderStatus('saved');      // session live from the start
+                    Autosave.lastSavedAt = new Date();
+                    Autosave.renderStatus('saved');
                 }
             }
             document.addEventListener("visibilitychange", function () {
@@ -2533,8 +2425,6 @@
                 window.__cdeExtPollMs || 60000);
         }
 
-        /* Solo mode boots the file-handle autosave; CDE mode does not
-         * (the folder is the persistence layer). */
         document.addEventListener("DOMContentLoaded", function () {
             cdeAutoOpen().then(function (viaCde) { if (!viaCde) Autosave.boot(); })
                 .catch(function (err) {

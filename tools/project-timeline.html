@@ -1,3 +1,21 @@
+<!--
+  Copyright 2026 Luis Torrecilla (liteAECO)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  liteAECO - (project-timeline.html)
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,12 +25,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Timeline - Lightweight MS Project Alternative with Gantt Charts | liteAECO</title>
 
-    <!-- Primary Meta Tags -->
     <meta name="description" content="Free client-side project timeline tool that's light, fast, and MS Project compatible. Create Gantt charts, manage tasks, and view dashboards. No uploads, private, and built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/project-timeline.html">
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/project-timeline.html">
     <meta property="og:site_name" content="liteAECO">
@@ -24,14 +40,12 @@
     <meta property="og:image:alt" content="liteAECO Project Timeline tool interface">
     <meta property="og:locale" content="en_US">
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/project-timeline.html">
     <meta name="twitter:title" content="Project Timeline - Lightweight MS Project Alternative with Gantt Charts | liteAECO">
     <meta name="twitter:description" content="Free client-side project timeline tool that's light, fast, and MS Project compatible. Create Gantt charts, manage tasks, and view dashboards. No uploads, private, and built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-project-timeline.png">
 
-    <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -40,23 +54,20 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- Scripts Design -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
-    <!-- Scripts Internal -->
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/liteaeco-autosave.js"></script>
     <script src="../js/liteaeco-cde.js"></script>
     <script src="../js/project-registry.js"></script>
-    <script src="../templates/project-timeline/templates.js"></script> <!-- optional: start templates; page works without it -->
+    <script src="../templates/project-timeline/templates.js"></script>
 
-    <!-- Scripts External -->
     <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
     <script src="../js/vendor/chart-4.5.1.js"></script>
-    <script src="../js/vendor/lz-string-1.5.0.min.js"></script>  <!-- optional: cross-tool project registry; page works without it -->
+    <script src="../js/vendor/lz-string-1.5.0.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -66,7 +77,6 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        
                         accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
                     }
                 }
@@ -74,7 +84,6 @@
         }
     </script>
 
-    <!-- CSS -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -130,9 +139,7 @@
             justify-content: space-between;
             padding: 0 1rem;
             border-bottom: 1px solid rgba(226, 232, 240, 0.6);
-            
             background: rgba(248, 250, 252, 0.5);
-            
         }
 
         .gantt-header {
@@ -159,7 +166,6 @@
         .gantt-row {
             height: 40px;
             border-bottom: 1px solid rgba(241, 245, 249, 0.5);
-            
             display: flex;
             align-items: center;
             box-sizing: border-box;
@@ -224,7 +230,6 @@
             display: flex;
             pointer-events: none;
             z-index: 1;
-            
             background-color: rgb(255, 255, 255);
         }
 
@@ -241,7 +246,6 @@
             justify-content: center;
             font-size: 10px;
             color: #64748b;
-            
             border-right: 1px solid rgba(226, 232, 240, 0.6);
             overflow: hidden;
         }
@@ -437,15 +441,12 @@
             -webkit-filter: drop-shadow(0px 5px 5px rgba(99, 102, 241, 0.3));
             filter: drop-shadow(0px 5px 5px rgba(99, 102, 241, 0.3));
             transition: all 0.3s ease;
-            
         }
 
         .shadow-logo:hover {
             -webkit-filter: drop-shadow(0px 5px 5px rgba(99, 102, 241, 0.1));
             filter: drop-shadow(0px 5px 5px rgba(99, 102, 241, 0.1));
-            
         }
-        
         #print-sheet { display: none; }
 
         @media print {
@@ -472,7 +473,6 @@
         #print-sheet .print-side { flex-shrink: 0; overflow: hidden; border-right: 1px solid #e2e8f0; }
         #print-sheet .print-main { overflow: hidden; }
         #print-sheet .print-crop { overflow: hidden; }
-        
         #print-sheet button, #print-sheet [data-lucide] { pointer-events: none; }
         #print-sheet .custom-scrollbar { overflow: visible !important; }
     </style>
@@ -563,9 +563,6 @@
                     <option value="fr">FR</option>
                     <option value="pt">PT</option>
                     <option value="it">IT</option>
-                    <!--<option value="ko">KO</option>
-                    <option value="ja">JA</option>
-                    <option value="zh">ZH</option>-->
                 </select>
             </div>
         </div>
@@ -745,8 +742,6 @@
                 </div>
 
                 <div class="flex gap-2 stack-on-min">
-                    <!-- Real Save - CDE mode only: flushes the event log AND
-                         the xlsx write-back immediately, no 2s debounce. -->
                     <div class="relative flex-1 min-w-[60px] hidden" id="wrapper-cde-save">
                         <button onclick="cdeSaveNow()" id="btn-cde-save"
                             class="w-full px-1 py-1.5 bg-indigo-600 border border-indigo-600 hover:bg-indigo-700 text-white rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1 disabled:opacity-60 disabled:pointer-events-none">
@@ -797,7 +792,7 @@
                                 class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-green-600 hover:bg-green-50 uppercase tracking-widest text-left transition-colors" data-i18n="exportTemplateMenu">Template</button>
                         </div>
                     </div>
-                    
+
                     <button onclick="toggleViewMenu()"
                         class="px-2 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-none text-[10px] font-bold uppercase transition flex items-center justify-center gap-1 hide-on-min"
                         title="Toggle View Menu"><i data-lucide="eye-off" id="view-menu-icon" class="w-3.5 h-3.5 shrink-0"></i>
@@ -807,13 +802,8 @@
                             class="px-2 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold uppercase transition flex items-center justify-center"
                             title="Advanced Options" data-i18n-title="advancedOptions"><i data-lucide="settings"
                                 class="w-3.5 h-3.5 shrink-0"></i></button>
-                        <!-- icon-only button is the RIGHTMOST in the row: the
-                             menu anchors right so it never overflows the sidebar -->
                         <div
                             class="absolute bottom-full right-0 w-44 mb-1 bg-white/95 backdrop-blur-xl border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col">
-                            <!-- Autosave TOGGLE: the module flips .hidden on
-                                 save-menu-disconnect (its disconnectBtnId);
-                                 the CSS moves the knob / colors the track -->
                             <button onclick="autosaveToggle()" id="tl-autosave-row"
                                 class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 uppercase tracking-widest border-b border-slate-100 text-left transition-colors flex items-center justify-between gap-3">
                                 <span data-i18n="autosaveToggle">Autosave</span>
@@ -902,13 +892,6 @@
                                     <i data-lucide="bar-chart" class="w-4 h-4 text-indigo-400"></i> <span
                                         data-i18n="phaseCompletion">Phase Completion</span>
                                 </h3>
-                                <!--
-                                <div class="flex justify-between items-center mb-4 border-b border-white pb-3">
-                                    <h3 class="text-xs font-bold text-indigo-500 uppercase tracking-widest flex items-center gap-2">
-                                        <i data-lucide="bar-chart" class="w-4 h-4 text-indigo-400"></i> <span data-i18n="phaseCompletion">Phase Completion</span>
-                                    </h3>
-                                </div>
-                                -->
                             </div>
                             <div class="flex-1 relative max-h-[320px] w-full"><canvas id="dashBarChart"></canvas></div>
                         </div>
@@ -954,13 +937,6 @@
                                     <i data-lucide="align-end-horizontal" class="w-4 h-4 text-indigo-400"></i> Budget
                                     Variance
                                 </h3>
-                                <!--
-                                <div class="flex justify-between items-center mb-4 border-b border-white pb-3">
-                                    <h3 class="text-xs font-bold text-indigo-500 uppercase tracking-widest flex items-center gap-2">
-                                        <i data-lucide="align-end-horizontal" class="w-4 h-4 text-indigo-400"></i> Budget Variance
-                                    </h3>
-                                </div>
-                                -->
                             </div>
                             <div class="flex-1 relative w-full"><canvas id="dashWaterfallChart"></canvas></div>
                         </div>
@@ -972,13 +948,6 @@
                                     <i data-lucide="circle-fading-arrow-up" class="w-4 h-4 text-indigo-400"></i>
                                     Hierarchy Breakdown
                                 </h3>
-                                <!--
-                                <div class="flex justify-between items-center mb-4 border-b border-white pb-3">
-                                    <h3 class="text-xs font-bold text-indigo-500 uppercase tracking-widest flex items-center gap-2">
-                                        <i data-lucide="circle-fading-arrow-up" class="w-4 h-4 text-indigo-400"></i> Hierarchy Breakdown
-                                    </h3>
-                                </div>
-                                -->
                             </div>
                             <div class="flex-1 relative w-full"><canvas id="dashSunburstChart"></canvas></div>
                             <div id="sunburst-legend"
@@ -1384,11 +1353,11 @@
                         <div class="grid grid-cols-3 gap-2" id="preset-themes-container">
                             <button onclick="applyPresetPalette(['#4f46e5', '#0ea5e9', '#8b5cf6', '#f43f5e'], 0)"
                                 class="preset-btn flex h-6 rounded overflow-hidden border-2 border-transparent transition cursor-pointer outline-none focus:outline-none"
-                                title="Lite AEC"> <!-- ['#207f9d', '#fec260', '#f79556', '#9fdce7'] -->
-                                <div class="flex-1 bg-[#4f46e5]"></div> <!-- <div class="flex-1 bg-[#207f9d]"></div> -->
-                                <div class="flex-1 bg-[#0ea5e9]"></div> <!-- <div class="flex-1 bg-[#fec260]"></div> -->
-                                <div class="flex-1 bg-[#8b5cf6]"></div> <!-- <div class="flex-1 bg-[#f79556]"></div> -->
-                                <div class="flex-1 bg-[#f43f5e]"></div> <!-- <div class="flex-1 bg-[#9fdce7]"></div> -->
+                                title="Lite AEC">
+                                <div class="flex-1 bg-[#4f46e5]"></div>
+                                <div class="flex-1 bg-[#0ea5e9]"></div>
+                                <div class="flex-1 bg-[#8b5cf6]"></div>
+                                <div class="flex-1 bg-[#f43f5e]"></div>
                             </button>
                             <button onclick="applyPresetPalette(['#0460A9', '#A13323', '#EC7F22', '#FFD430'], 1)"
                                 class="preset-btn flex h-6 rounded overflow-hidden border-2 border-transparent transition cursor-pointer outline-none focus:outline-none"
@@ -1830,7 +1799,6 @@
         </div>
     </div>
 
-    <!-- Template picker modal -->
     <div id="template-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[70] hidden items-center justify-center p-4" onclick="if(event.target===this)closeTemplateModal()">
         <div class="bg-white border border-slate-200 shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col">
             <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100">
@@ -1898,14 +1866,9 @@
     </div>
 
     <script>
-        // ==========================================
-        // liteAECO - PROJECT TIMELINE PAGE LOGIC
-        // ==========================================
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
-        // common.js calls this automatically after applying a language file.
-        // Project Timeline has many JS-generated elements, so they need to be redrawn.
         window.updateToolDynamicUI = function () {
             if (typeof updateAndRenderAll === "function") {
                 updateAndRenderAll();
@@ -1964,111 +1927,33 @@
             bootTranslationLayer();
         }
 
-        // ==========================================
-        // END PROJECT TIMELINE PAGE LOGIC
-        // ==========================================
     </script>
     <script>
 
-        /* ==========================================================================
-         * liteAECO – PROJECT TIMELINE
-         * --------------------------------------------------------------------------
-         * Browser-based Gantt / Project-Timeline tool.
-         * The entire application lives in a single HTML file so it can be opened
-         * locally without any server.
-         * 
-         * TO DO
-         * -----
-         * Replace all Lucide icons for its svg vector version
-         * Translate all text within the app
-         *
-         * ARCHITECTURE
-         * ------------
-         *  1.  CONSTANTS & CONFIG ........ default zoom, palette, sizing
-         *  2.  STATE ..................... mutable application state (tasks, phases,
-         *                                  drag state, toggles, modal state…)
-         *  3.  UTILITIES ................. date helpers, color helpers, HTML escape
-         *  4.  DATA SYNC ................. keep globalContacts/globalTags in sync
-         *  5.  CRITICAL PATH (CPM) ....... forward/backward pass, slack, isCritical
-         *  6.  RENDER LIST (WBS) ......... flatten phases+tasks into renderList rows
-         *  7.  RENDERERS ................. sidebar, grid, bars, dependencies
-         *  8.  HEADER DISPLAYS ........... project completion %, budget, end-date
-         *  9.  MAIN ORCHESTRATOR ......... updateAndRenderAll()
-         * 10.  HISTORY .................... undo / redo snapshots
-         * 11.  MODALS .................... phase, task, active-task, settings,
-         *                                  confirm, advanced-options, unsaved
-         * 12.  DRAG & RESIZE ............. mouse-driven bar/diamond manipulation
-         * 13.  SIDEBAR DND & RESIZER ..... drag-drop tasks into phases, drag handle
-         * 14.  DASHBOARD ................. ring / line / bar / waterfall / sunburst
-         * 15.  SEARCH .................... live filter
-         * 16.  ZOOM & SCROLL HELPERS
-         * 17.  IMPORT / EXPORT ........... XLSX (native+MSP) and MS-Project XML
-         * 18.  EVENT LISTENERS & INIT
-         *
-         * DATA MODEL
-         * ----------
-         *  phase = {
-         *      id, parentId (string | null), name,
-         *      color, lightColor, collapsed,
-         *      wbs (computed)
-         *  }
-         *
-         *  task  = {
-         *      id, phaseId, name, type ('task' | 'milestone'),
-         *      start (day offset from config.startDate),
-         *      duration (days; 0 for milestones),
-         *      dependsOn: [{ id, type: 'FS'|'SS'|'FF'|'SF', lag }],
-         *      contact, budget, resources, assignments, comments,
-         *      actualStart, actualDuration, actualBudget,    // nullable
-         *      locked, tags, label,
-         *      wbs, ES, EF, LS, LF, TF, isCritical            // computed
-         *  }
-         * ========================================================================= */
-
-        /* ==========================================================================
-         * 1.  CONSTANTS & CONFIGURATION
-         * ========================================================================= */
-
-        /** Maximum number of states retained for undo/redo. */
         const MAX_HISTORY = 100;
 
-        /** Template project anchor – two weeks before "today". */
         const __defStart = new Date();
         __defStart.setDate(__defStart.getDate() - 14);
 
-        /**
-         * Runtime configuration. Mutated when the user zooms, when imports adjust
-         * the project start date, and when adjustTimelinePadding() shifts bounds.
-         */
         const config = {
-            cellWidth: 30,   // pixel width of one day column
-            rowHeight: 40,   // pixel height of one row in the gantt
-            totalDays: 65,   // total visible days (computed on render)
+            cellWidth: 30,
+            rowHeight: 40,
+            totalDays: 65,
             startDate: __defStart,
         };
 
-        /** Default phase colour palette (overridable via Advanced Options). */
         const colorPalette = [
-            { color: "#4f46e5", lightColor: "#e0e7ff" }, // Indigo
-            { color: "#0ea5e9", lightColor: "#e0f2fe" }, // Sky
-            { color: "#8b5cf6", lightColor: "#ede9fe" }, // Violet
-            { color: "#f43f5e", lightColor: "#ffe4e6" }, // Rose
+            { color: "#4f46e5", lightColor: "#e0e7ff" },
+            { color: "#0ea5e9", lightColor: "#e0f2fe" },
+            { color: "#8b5cf6", lightColor: "#ede9fe" },
+            { color: "#f43f5e", lightColor: "#ffe4e6" },
         ];
 
-        /** Colour mapping for task "labels" (A..J). Editable in the task modal. */
         let taskLabelMap = {
             A: "#EA027E", B: "#13EB3B", C: "#C0FC04", D: "#5CDEFF", E: "#9002BD",
             F: "#B40542", G: "#FFEE00", H: "#FF5500", I: "#FD0D25", J: "#3601FB",
         };
 
-        /* ==========================================================================
-         * 2.  APPLICATION STATE - TEMPLATE PROJECT
-         * --------------------------------------------------------------------------
-         *  All mutable state lives here so it is easy to scan. Functions further
-         *  down read and write these variables freely.
-         * ========================================================================= */
-
-        // --- Core data ---------------------------------------------------------
         let phases = [
             { id: "p1", parentId: null, name: "Planning Phase", color: colorPalette[0].color, lightColor: colorPalette[0].lightColor, collapsed: false },
             { id: "p2", parentId: null, name: "Approval", color: colorPalette[1].color, lightColor: colorPalette[1].lightColor, collapsed: false },
@@ -2093,15 +1978,12 @@
             { id: "m4", phaseId: "p4", name: "Project Closure", type: "milestone", start: 54, duration: 0, dependsOn: ["t10"], contact: "", budget: 0, resources: "", assignments: "", actualStart: null, actualDuration: null, actualBudget: null, locked: false, tags: [] },
         ];
 
-        // --- Derived / render state -------------------------------------------
-        let renderList = [];        // ordered list of rows the UI is drawing
-        let taskPositions = {};     // {taskId: {rowIndex,y,x1,x2}} – used by dep-lines
+        let renderList = [];
+        let taskPositions = {};
 
-        // --- Global lookups (built from tasks for autocompletion) -------------
         let globalContacts = [];
         let globalTags = [];
 
-        // --- UI toggles --------------------------------------------------------
         let isPresentationMode = false;
         let isTodayViewActive = false;
         let isCriticalPathActive = false;
@@ -2118,14 +2000,11 @@
         let showColDepends = false;
         let showColBudget = false;
 
-        // --- Project-wide budget / currency -----------------------------------
         let overallBudget = 0;
         let currentCurrency = "CHF";
 
-        // --- Search filter -----------------------------------------------------
         let searchQuery = "";
 
-        // --- Drag / resize state ----------------------------------------------
         let isDragging = false;
         let isResizing = false;
         let resizeEdge = null;
@@ -2144,49 +2023,34 @@
         let dragIntendedActualDuration = null;
         let dragIntendedPhaseId = null;
         let hasMovedDuringDrag = false;
-        /* Phase-bar drag gesture (moves a whole phase subtree horizontally) */
         let isPhaseDragging = false;
         let phaseDragEl = null;
         let phaseDragInitialLeft = 0;
         let selectedTaskIds = new Set();
         let dragInitialStates = {};
 
-        // Sidebar drag-and-drop (re-arranging tasks/phases in the list)
         let draggedSidebarTaskId = null;
         let draggedSidebarPhaseId = null;
 
-        // Sidebar manual resizer
         let isResizingSidebar = false;
         let sidebarBaseWidth = 320;
 
-        // --- Modal state -------------------------------------------------------
         let currentModalTags = [];
         let currentModalLocked = false;
         let confirmActionCallback = null;
 
-        // --- Chart instances (Dashboard) – kept so we can destroy() before redraw ---
         let ringChartInst = null;
         let lineChartInst = null;
         let barChartInst = null;
 
-        // --- Undo / redo -------------------------------------------------------
         let stateHistory = [];
         let historyIndex = -1;
-        let lastSavedHistoryIndex = 0;   // updated whenever the user exports a file
+        let lastSavedHistoryIndex = 0;
 
-        /* ==========================================================================
-         * 3.  UTILITIES
-         * ========================================================================= */
-
-        // -- 3a. Chart.js defaults & icon library ------------------------------
         Chart.defaults.font.family = "'Inter', sans-serif";
         Chart.defaults.color = "#6b7280";
         lucide.createIcons();
 
-        /**
-         * HTML-escape a string so it can be safely inserted into innerHTML.
-         * Non-strings are returned untouched (so numbers/null pass through).
-         */
         function escapeHTML(str) {
             if (typeof str !== "string") return str;
             return str.replace(/[&<>'"]/g, (tag) => ({
@@ -2206,37 +2070,27 @@
             return escapeHTML(i18n(key, vars));
         }
 
-        /** Convert spreadsheet-style truthy strings ("Y", "YES", "TRUE") to bool. */
         const parseBoolOpt = (val) =>
             ["Y", "TRUE", "YES"].includes(String(val).trim().toUpperCase());
 
-        // -- 3b. DATE HELPERS ---------------------------------------------------
-
-        /** Return a *new* Date that is `days` days after `date`. Does not mutate. */
         function addDays(date, days) {
             const result = new Date(date);
             result.setDate(result.getDate() + days);
             return result;
         }
 
-        /**
-         * Number of whole calendar days between `start` and `end`. Uses UTC math
-         * so DST transitions do not introduce off-by-one errors.
-         */
         function diffDays(start, end) {
             const utc1 = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
             const utc2 = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate());
             return Math.floor((utc2 - utc1) / (1000 * 60 * 60 * 24));
         }
 
-        /** Parse an `<input type="date">` string ("YYYY-MM-DD") as local midnight. */
         function parseLocal(dateStr) {
             if (!dateStr) return new Date();
             const [y, m, d] = dateStr.split("-");
             return new Date(y, m - 1, d);
         }
 
-        /** Format a Date back to "YYYY-MM-DD" for `<input type="date">`. */
         function formatDateInput(date) {
             if (!date || isNaN(date)) return "";
             const y = date.getFullYear();
@@ -2245,7 +2099,6 @@
             return `${y}-${m}-${d}`;
         }
 
-        /** ISO-8601 week number (Mon-first, week 1 = first week containing Thursday). */
         function getWeekNumber(d) {
             const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
             date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
@@ -2253,23 +2106,18 @@
             return Math.ceil(((date - yearStart) / 86400000 + 1) / 7);
         }
 
-        /** "Today" expressed as an offset from config.startDate (in days). */
         function getTodayOffset() {
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             return diffDays(config.startDate, today);
         }
 
-        // -- 3c. COLOUR HELPERS -------------------------------------------------
-
-        /** Locale-aware currency formatting (no decimals, suffix = currentCurrency). */
         function formatCurrency(value) {
             return (value || 0).toLocaleString("en-US", {
                 minimumFractionDigits: 0, maximumFractionDigits: 0,
             }) + " " + currentCurrency;
         }
 
-        /** "L. T." -> "LT". Single-word names -> first two letters. */
         function extractInitials(name) {
             if (!name || name.trim() === "") return "";
             const words = name.trim().split(/\s+/);
@@ -2277,10 +2125,6 @@
             return (words[0][0] + words[words.length - 1][0]).toUpperCase();
         }
 
-        /**
-         * Lighten a hex colour by mixing it with white. opacity = 0 → white,
-         * opacity = 1 → original colour. Returns "#RRGGBB".
-         */
         function hexToLight(hex, opacity) {
             hex = hex.replace("#", "");
             const expand = (s) => s.length === 3 ? s.repeat(2) : s;
@@ -2291,7 +2135,6 @@
             return `#${mix(r).toString(16).padStart(2, "0")}${mix(g).toString(16).padStart(2, "0")}${mix(b).toString(16).padStart(2, "0")}`;
         }
 
-        /** Darken a hex colour. opacity = 0 → unchanged, opacity = 1 → black. */
         function hexToDark(hex, opacity) {
             hex = hex.replace("#", "");
             const expand = (s) => s.length === 3 ? s.repeat(2) : s;
@@ -2302,15 +2145,8 @@
             return `#${mix(r).toString(16).padStart(2, "0")}${mix(g).toString(16).padStart(2, "0")}${mix(b).toString(16).padStart(2, "0")}`;
         }
 
-        // -- 3d. SCROLL-HEIGHT SYNC ---------------------------------------------
-
-        /**
-         * Compute the height the timeline needs so that the sidebar and timeline
-         * have *the same* maximum scroll position. The sidebar has a fixed bottom
-         * controls panel; we compensate by padding the timeline by that difference.
-         */
         function getTimelineScrollHeight() {
-            const extraRow = isPresentationMode ? 0 : 1;            // "Add new phase" row
+            const extraRow = isPresentationMode ? 0 : 1;
             const baseHeight = (renderList.length + extraRow) * config.rowHeight;
 
             const sidebar = document.getElementById("sidebar-scroll");
@@ -2322,15 +2158,6 @@
             return baseHeight + padding;
         }
 
-        /* ==========================================================================
-         * 4.  DATA SYNC & AUTOCOMPLETE
-         * ========================================================================= */
-
-        /**
-         * Append any contact / tag found in tasks into the global lists so that the
-         * Advanced Options dialog can manage them. Does NOT clear the lists – the
-         * caller is responsible for that when loading a fresh project.
-         */
         function normalizeContact(value) {
             return String(value || "").trim();
         }
@@ -2363,10 +2190,6 @@
             globalTags = uniqueSorted(tags);
         }
 
-        /**
-         * Rebuild hidden <datalist> elements so inline cell inputs (contact /
-         * resources) and the dependency picker get up-to-date autocomplete data.
-         */
         function updateDatalists() {
             syncGlobalsFromTasks();
 
@@ -2412,11 +2235,6 @@
             `;
         }
 
-        /**
-         * Inline cell edit from the sidebar. `field` ∈ {contact, resources, budget,
-         * dependsOn}. For contact/resources, a value of "__NEW__" triggers a prompt
-         * for a new entry; cancelling re-renders to revert the inline value.
-         */
         function updateTaskInline(taskId, field, inputElement) {
             const task = tasks.find(t => t.id === taskId);
             if (!task) return;
@@ -2428,7 +2246,7 @@
                     if (newVal !== null && newVal.trim() !== "") {
                         task[field] = newVal.trim();
                     } else {
-                        updateAndRenderAll();   // revert
+                        updateAndRenderAll();
                         return;
                     }
                 } else {
@@ -2438,14 +2256,12 @@
                 val = val.replace(/[^0-9.-]+/g, "");
                 task.budget = parseFloat(val) || 0;
             } else if (field === 'dependsOn') {
-                // Inline picker edits only the FIRST dependency; any additional
-                // dependencies (managed in the task modal) are preserved.
                 const rest = (task.dependsOn || []).slice(1);
                 if (val && wouldCreateCycle(val, task.id)) {
                     showWarningToast(i18n("cycleBlocked") !== "cycleBlocked"
                         ? i18n("cycleBlocked")
                         : "Dependency not set – it would create a circular loop.");
-                    updateAndRenderAll();   // revert the select
+                    updateAndRenderAll();
                     return;
                 }
                 const prevFirst = (task.dependsOn || [])[0];
@@ -2456,38 +2272,10 @@
             updateAndRenderAll();
         }
 
-        /* ==========================================================================
-         * 5.  CRITICAL PATH METHOD (CPM)
-         * --------------------------------------------------------------------------
-         *  Standard 2-pass CPM:
-         *   • Forward pass  → ES / EF for each task
-         *   • Backward pass → LS / LF and total float TF
-         *   • A task is critical when TF ≤ 0.05 (small tolerance for rounding)
-         *
-         *  Supports four relationship types (with lag in days):
-         *     FS  finish-to-start   (default)
-         *     SS  start-to-start
-         *     FF  finish-to-finish
-         *     SF  start-to-finish
-         *
-         *  Pure orphans (no preds, no succs) keep their manual start position and
-         *  are excluded from the critical path so a stray task can't poison the CP.
-         * ========================================================================= */
-        /* ==========================================================================
-         * 9b. WORKING-DAY CALENDAR
-         * ------------------------------------------------------------------------
-         * durationMode 'calendar': t.duration = calendar days (legacy behaviour).
-         * durationMode 'working':  t.duration = working days; bars span the
-         * calendar days needed to contain them. All geometry goes through
-         * taskSpan()/actualSpan() so calendar mode remains bit-identical.
-         * Offsets are days relative to config.startDate throughout.
-         * ========================================================================= */
-
-        let durationMode = "calendar";         // matches the authored template data;
-                                               // boot converts to "working" (keep-bars) for new projects
+        let durationMode = "calendar";
         let calendar = {
-            workweek: [false, true, true, true, true, true, false],   // Sun..Sat
-            holidays: []                                              // [{date:"YYYY-MM-DD", label}]
+            workweek: [false, true, true, true, true, true, false],
+            holidays: []
         };
 
         let _calCache = { holidaySet: null, key: "" };
@@ -2512,16 +2300,12 @@
             return _holidaySet().has(formatDateInput(addDays(config.startDate, offset)));
         }
 
-        /** Next working day at or after offset (forward=true) / at or before (false). */
         function snapToWorkingDay(offset, forward = true) {
             let o = offset, guard = 0;
             while (!isWorkingDay(o) && guard++ < 366) o += forward ? 1 : -1;
             return guard >= 366 ? offset : o;
         }
 
-        /** Calendar-day span occupied by `n` working days starting at `start`.
-         *  Result counts from `start` to the day AFTER the n-th working day
-         *  (end-exclusive), matching the app's calendar-day convention. */
         function calSpan(start, n) {
             if (n <= 0) return 0;
             let o = snapToWorkingDay(start, true), count = 0, guard = 0;
@@ -2532,14 +2316,12 @@
             return o - start;
         }
 
-        /** Working days in [a, b) (end-exclusive). */
         function workingDaysBetween(a, b) {
             let count = 0;
             for (let o = a; o < b; o++) if (isWorkingDay(o)) count++;
             return count;
         }
 
-        /** Calendar days a task's bar occupies. */
         function taskSpan(t) {
             const dur = t.type === "milestone" ? 0 : t.duration;
             if (durationMode === "calendar" || dur === 0) return dur;
@@ -2553,22 +2335,18 @@
             return calSpan(t.actualStart ?? t.start, dur);
         }
 
-        /** Convert a calendar-day span at `start` into the stored duration value. */
         function spanToDuration(start, span) {
             if (span <= 0) return 0;
             if (durationMode === "calendar") return span;
             return Math.max(1, workingDaysBetween(start, start + span));
         }
 
-        /** Keep-bars migration: switch mode preserving each bar's calendar span. */
         function setDurationMode(newMode) {
             if (newMode === durationMode) return;
-            // Phase 1: capture every bar's span under the CURRENT mode
             const spans = tasks.map(t => ({
                 span: t.type === "milestone" ? 0 : taskSpan(t),
                 aSpan: (t.type !== "milestone" && t.actualDuration != null) ? actualSpan(t) : null
             }));
-            // Phase 2: switch mode, rewrite durations to preserve those spans
             durationMode = newMode;
             calInvalidate();
             tasks.forEach((t, i) => {
@@ -2578,7 +2356,6 @@
             });
         }
 
-        /** Shift the whole plan by n working days (or calendar days in calendar mode). */
         function rebasePlan(n) {
             if (n === 0) return;
             const dir = n > 0;
@@ -2594,7 +2371,6 @@
             updateAndRenderAll();
         }
 
-        /* ISO 3166-1 alpha-2 country lookup for the holiday search (compact "Name:CC" table). */
         const COUNTRY_TABLE = "Albania:AL;Andorra:AD;Argentina:AR;Armenia:AM;Australia:AU;Austria:AT;Belarus:BY;Belgium:BE;Bolivia:BO;Bosnia and Herzegovina:BA;Botswana:BW;Brazil:BR;Bulgaria:BG;Canada:CA;Chile:CL;China:CN;Colombia:CO;Costa Rica:CR;Croatia:HR;Cuba:CU;Cyprus:CY;Czechia:CZ;Denmark:DK;Dominican Republic:DO;Ecuador:EC;Egypt:EG;Estonia:EE;Faroe Islands:FO;Finland:FI;France:FR;Georgia:GE;Germany:DE;Gibraltar:GI;Greece:GR;Greenland:GL;Grenada:GD;Guatemala:GT;Guernsey:GG;Guyana:GY;Haiti:HT;Honduras:HN;Hong Kong:HK;Hungary:HU;Iceland:IS;India:IN;Indonesia:ID;Ireland:IE;Isle of Man:IM;Israel:IL;Italy:IT;Jamaica:JM;Japan:JP;Jersey:JE;Kazakhstan:KZ;Kenya:KE;Latvia:LV;Lesotho:LS;Liechtenstein:LI;Lithuania:LT;Luxembourg:LU;Madagascar:MG;Malawi:MW;Malaysia:MY;Malta:MT;Mexico:MX;Moldova:MD;Monaco:MC;Mongolia:MN;Montenegro:ME;Morocco:MA;Mozambique:MZ;Namibia:NA;Netherlands:NL;New Zealand:NZ;Nicaragua:NI;Niger:NE;Nigeria:NG;North Macedonia:MK;Norway:NO;Panama:PA;Papua New Guinea:PG;Paraguay:PY;Peru:PE;Philippines:PH;Poland:PL;Portugal:PT;Puerto Rico:PR;Romania:RO;Russia:RU;San Marino:SM;Serbia:RS;Singapore:SG;Slovakia:SK;Slovenia:SI;South Africa:ZA;South Korea:KR;Spain:ES;Suriname:SR;Sweden:SE;Switzerland:CH;Tunisia:TN;Turkey:TR;Ukraine:UA;United Kingdom:GB;United States:US;Uruguay:UY;Vatican City:VA;Venezuela:VE;Vietnam:VN;Zimbabwe:ZW"
             .split(";").map(e => { const ix = e.lastIndexOf(":"); return { name: e.slice(0, ix), code: e.slice(ix + 1) }; });
 
@@ -2604,7 +2380,6 @@
             dl.innerHTML = COUNTRY_TABLE.map(c => `<option value="${c.name} (${c.code})"></option>`).join("");
         }
 
-        /** Resolve typed text to a country code: "(CH)" suffix, exact code, or name prefix. */
         function resolveCountryCode(text) {
             const t = String(text || "").trim();
             const paren = t.match(/\(([A-Za-z]{2})\)\s*$/);
@@ -2624,8 +2399,6 @@
             chev.style.transform = open ? "" : "rotate(180deg)";
         }
 
-        /** Fetch public holidays for a country/year from the free Nager.Date API
-         *  (user-triggered; public data only; cached in localStorage). */
         async function fetchCountryHolidays(countryCode, year) {
             const key = `liteaeco_holidays_${countryCode}_${year}`;
             try {
@@ -2641,10 +2414,6 @@
             return list;
         }
 
-        /* ==========================================================================
-         * 10. CPM helpers
-         * ========================================================================= */
-        /** Lightweight, non-blocking warning toast (bottom-center, auto-dismiss). */
         let cpmToastTimer = null;
         function showWarningToast(msg) {
             let el = document.getElementById("cpm-toast");
@@ -2664,11 +2433,6 @@
             }, 4000);
         }
 
-        /**
-         * Returns true if making `candidatePredId` a predecessor of `taskId`
-         * would create a circular dependency (i.e. taskId is already reachable
-         * as an ancestor-predecessor of candidatePredId).
-         */
         function wouldCreateCycle(candidatePredId, taskId) {
             if (candidatePredId === taskId) return true;
             const taskMap = {};
@@ -2686,8 +2450,7 @@
             return false;
         }
 
-        /* Work-axis mapping for CPM: k-th working day <-> calendar offset. */
-        let _workDays = [];   // _workDays[k] = calendar offset of the k-th working day
+        let _workDays = [];
         function _ensureWorkDays(uptoOffset) {
             let o = _workDays.length ? _workDays[_workDays.length - 1] + 1 : 0;
             let guard = 0;
@@ -2716,7 +2479,6 @@
             if (W) { _workDays = []; _ensureWorkDays(730); }
             const toAxis = (off) => W ? offsetToWorkIndex(off) : Math.max(0, off);
             const fromAxis = (v) => W ? workIndexToOffset(v) : v;
-            // 1. Reset all CPM properties --------------------------------------
             tasks.forEach((t) => {
                 t.isCritical = false;
                 t.ES = 0; t.EF = 0;
@@ -2728,13 +2490,11 @@
             const taskMap = {};
             tasks.forEach(t => taskMap[t.id] = t);
 
-            // 2. Build successors map and in-degree (for topo sort) ------------
             const successors = {};
             const inDegree = {};
             tasks.forEach(t => { successors[t.id] = []; inDegree[t.id] = 0; });
 
             tasks.forEach((t) => {
-                // Failsafe – auto-upgrade legacy string deps to object form
                 if (t.dependsOn && t.dependsOn.length > 0 && typeof t.dependsOn[0] === 'string') {
                     t.dependsOn = t.dependsOn.map(id => ({ id, type: 'FS', lag: 0 }));
                 }
@@ -2748,7 +2508,6 @@
                 }
             });
 
-            // 3. Topological sort (Kahn's algorithm) ---------------------------
             const queue = tasks.filter(t => inDegree[t.id] === 0).map(t => t.id);
             const topoOrder = [];
             while (queue.length > 0) {
@@ -2767,17 +2526,12 @@
                 return;
             }
 
-            // 4. FORWARD PASS – Early Start / Early Finish ---------------------
             topoOrder.forEach((id) => {
                 const t = taskMap[id];
                 const dur = t.type === "milestone" ? 0 : t.duration;
-                // Only consider predecessors that actually exist. A dependency
-                // pointing at a deleted/unknown id must not count as a
-                // constraint, otherwise the task would collapse to day 0.
                 const preds = (t.dependsOn || []).filter(dep => taskMap[dep.id]);
 
                 if (preds.length === 0 || t.locked) {
-                    // Independent or pinned: keep manual placement.
                     t.ES = toAxis(t.start);
                 } else {
                     let maxES = 0;
@@ -2792,13 +2546,11 @@
                         if (constraintES > maxES) maxES = constraintES;
                     });
                     t.ES = maxES;
-                    t.start = fromAxis(t.ES);  // auto-reschedule into the CPM solution
+                    t.start = fromAxis(t.ES);
                 }
                 t.EF = t.ES + dur;
             });
 
-            // 5. Project end-date = max EF *of networked tasks only* -----------
-            // (a dependency on a deleted id does not make a task "networked")
             const networkedTasks = tasks.filter(t =>
                 (t.dependsOn && t.dependsOn.some(dep => taskMap[dep.id])) ||
                 (successors[t.id] && successors[t.id].length > 0)
@@ -2807,7 +2559,6 @@
                 ? networkedTasks.reduce((max, t) => Math.max(max, t.EF), 0)
                 : tasks.reduce((max, t) => Math.max(max, t.EF), 0);
 
-            // 6. BACKWARD PASS – Late Start / Late Finish / TF ------------------
             [...topoOrder].reverse().forEach((id) => {
                 const t = taskMap[id];
                 const dur = t.type === "milestone" ? 0 : t.duration;
@@ -2836,10 +2587,6 @@
                         else if (succObj.type === 'SF') constraintLF = s.LF - lag + dur;
                         if (constraintLF < minLF) minLF = constraintLF;
                     });
-                    // Clamp to projectEnd: with SS/SF links a predecessor can
-                    // finish *after* all of its successors, so successor
-                    // constraints alone may allow an LF beyond the project end.
-                    // No task may finish later than the project itself.
                     t.LF = Math.min(minLF, projectEnd);
                 }
                 t.LS = t.LF - dur;
@@ -2848,18 +2595,6 @@
             });
         }
 
-        /* ==========================================================================
-         * 6.  RENDER-LIST GENERATION (WBS)
-         * --------------------------------------------------------------------------
-         *  Walks the phase hierarchy depth-first and flattens it into `renderList`
-         *  (one entry per visible row). Also assigns WBS codes ("1.2.3") to phases
-         *  and tasks – stored on the objects themselves so exports can use them.
-         *
-         *  When `ignoreCollapsed = true` (used by exports) the whole tree is
-         *  emitted regardless of the collapsed flag.
-         * ========================================================================= */
-
-        /** Compute the day-offset bounds of each phase (and roll up to parents). */
         function calculatePhaseBounds() {
             const bounds = {};
             phases.forEach(p => bounds[p.id] = { start: Infinity, end: -Infinity });
@@ -2871,7 +2606,6 @@
                 if (endDay > bounds[t.phaseId].end) bounds[t.phaseId].end = endDay;
             });
 
-            // Recursively roll children → parent
             function rollupBounds(phaseId) {
                 phases.filter(p => p.parentId === phaseId).forEach(child => {
                     rollupBounds(child.id);
@@ -2881,18 +2615,12 @@
             }
             phases.filter(p => !p.parentId).forEach(p => rollupBounds(p.id));
 
-            // Empty phases → collapse to (0,0) so rendering doesn't break
             phases.forEach((p) => {
                 if (bounds[p.id].start === Infinity) { bounds[p.id].start = 0; bounds[p.id].end = 0; }
             });
             return bounds;
         }
 
-        /**
-         * Build `renderList` from phases+tasks. Side-effect: writes `wbs` onto
-         * each phase and task. `taskPositions` is rebuilt for the dependency
-         * line renderer to reference.
-         */
         function generateRenderList(ignoreCollapsed = false) {
             renderList = [];
             taskPositions = {};
@@ -2907,10 +2635,9 @@
                     .sort((a, b) => a.start - b.start);
                 const subPhases = phases.filter(p => p.parentId === phase.id);
 
-                // Skip empty branches in presentation/search modes
                 if ((isPresentationMode || searchQuery !== "") && phaseTasks.length === 0 && subPhases.length === 0) return;
 
-                phase.wbs = wbsPrefix; // Store for exports even when hidden
+                phase.wbs = wbsPrefix;
 
                 if (isVisible || ignoreCollapsed) {
                     renderList.push({
@@ -2934,7 +2661,7 @@
 
                 phaseTasks.forEach((task) => {
                     const taskWBS = `${wbsPrefix}.${childIndex}`;
-                    task.wbs = taskWBS;     // always store WBS on the source object
+                    task.wbs = taskWBS;
 
                     if (childrenVisible) {
                         renderList.push({
@@ -2964,13 +2691,6 @@
             });
         }
 
-        /* ==========================================================================
-         * 7.  PROJECT-WIDE TIMELINE PADDING
-         * --------------------------------------------------------------------------
-         *  Ensures the timeline starts on a Sunday and extends a comfortable
-         *  distance past the last task. May shift every task's `start` (and
-         *  `actualStart`) by an offset, but never alters their relative position.
-         * ========================================================================= */
         function adjustTimelinePadding() {
             if (tasks.length === 0) return;
 
@@ -2985,7 +2705,6 @@
             const projectStartDate = addDays(config.startDate, minStart);
             const projectEndDate = addDays(config.startDate, maxEnd);
 
-            // Snap timeline origin to the Sunday on/before the first task
             const desiredStartDate = new Date(projectStartDate);
             desiredStartDate.setDate(desiredStartDate.getDate() - desiredStartDate.getDay());
 
@@ -3000,7 +2719,6 @@
                 });
             }
 
-            // Extend ~1 month + trailing Saturday past the last task
             const desiredEndDate = new Date(projectEndDate);
             desiredEndDate.setMonth(desiredEndDate.getMonth() + 1);
             desiredEndDate.setDate(desiredEndDate.getDate() + (6 - desiredEndDate.getDay()));
@@ -3008,39 +2726,24 @@
             config.totalDays = Math.max(14, diffDays(config.startDate, desiredEndDate));
         }
 
-        /* ==========================================================================
-         * 8.  MAIN RENDER ORCHESTRATOR
-         * --------------------------------------------------------------------------
-         *  Single source-of-truth for "redraw everything after a data mutation".
-         *  ORDER MATTERS, CPM must run before render-list generation because
-         *  CPM may shift `task.start` values that those rendering steps will use.
-         * ========================================================================= */
         function updateAndRenderAll() {
-            calculateCriticalPath();      // 1. Reschedule via CPM
-            adjustTimelinePadding();      // 2. Snap origin / extend bounds
-            generateRenderList();         // 3. Flatten hierarchy → renderList
-            renderSidebar();              // 4. Sidebar rows
-            renderTimelineGrid();         // 5. Day/week/month columns
-            renderBars();                 // 6. Task bars + milestone diamonds
-            renderDependencies();         // 7. SVG dependency lines
+            calculateCriticalPath();
+            adjustTimelinePadding();
+            generateRenderList();
+            renderSidebar();
+            renderTimelineGrid();
+            renderBars();
+            renderDependencies();
             updateCompletionDisplay();
             updateEndDateDisplay();
             updateCurrentTaskHeader();
             updateBudgetDisplay();
             updateToggleButtonStyles();
-            setupDragListeners();         // 8. Wire mouse listeners on new bars
+            setupDragListeners();
             updateSelectionVisuals();
-            updateDatalists();            // 9. Autocomplete
+            updateDatalists();
         }
 
-        /* ==========================================================================
-         * 9.  HEADER DISPLAYS
-         * --------------------------------------------------------------------------
-         *  Small read-only badges in the top header that summarise the project.
-         *  Each one is toggled by its own checkbox in the sidebar.
-         * ========================================================================= */
-
-        /** Project completion as a percentage based on actual or planned duration. */
         function getProjectCompletionPct() {
             if (tasks.length === 0) return 0;
             let totalWork = 0, completedWork = 0;
@@ -3048,7 +2751,6 @@
 
             tasks.forEach((t) => {
                 if (t.type === "milestone") return;
-                // Use actuals when present, otherwise planned values
                 const s = (t.actualStart !== null && t.actualStart !== undefined) ? t.actualStart : t.start;
                 const d = (t.actualDuration !== null && t.actualDuration !== undefined) ? t.actualDuration : t.duration;
                 totalWork += d;
@@ -3060,7 +2762,6 @@
             return Math.max(0, Math.min(100, Math.round((completedWork / totalWork) * 100)));
         }
 
-        /** Shows the name + % completion of whichever task is active "today". */
         function updateCurrentTaskHeader() {
             const headerEl = document.getElementById("active-task-header");
             const labelEl = document.getElementById("active-task-label");
@@ -3096,7 +2797,6 @@
             headerEl.classList.add("flex");
         }
 
-        /** Totals planned/actual budget + populates header and sidebar widgets. */
         function updateBudgetDisplay() {
             const headerDisplay = document.getElementById("header-budget-display");
             const headerValue = document.getElementById("header-budget-value");
@@ -3132,7 +2832,6 @@
                 headerDisplay.classList.add("hidden"); headerDisplay.classList.remove("flex");
             }
 
-            // Highlight the budget input red when overall < actual
             const budgetInput = document.getElementById("sidebar-budget-input");
             if (overallBudget > 0 && overallBudget < totalActual) {
                 budgetInput.classList.add("border-red-500", "text-red-700", "focus:border-red-500", "bg-red-50");
@@ -3143,7 +2842,6 @@
             }
         }
 
-        /** Optional "% complete" badge in the header. */
         function updateCompletionDisplay() {
             const headerDisplay = document.getElementById("header-completion-display");
             const headerValue = document.getElementById("header-completion-value");
@@ -3155,7 +2853,6 @@
             }
         }
 
-        /** Optional "end date + deviation" badge in the header. */
         function updateEndDateDisplay() {
             const headerDisplay = document.getElementById("header-enddate-display");
             const headerValue = document.getElementById("header-enddate-value");
@@ -3185,7 +2882,6 @@
             headerDisplay.classList.remove("hidden"); headerDisplay.classList.add("flex");
         }
 
-        /** Syncs the visual state of toggle buttons/checkboxes to the state vars. */
         function updateToggleButtonStyles() {
             const presBtn = document.getElementById("presentation-btn");
             if (isPresentationMode) {
@@ -3204,16 +2900,7 @@
             set("sidebar-taskbudget-toggle", showTaskBudget);
         }
 
-        /* ==========================================================================
-         * 10. UNDO / REDO HISTORY
-         * --------------------------------------------------------------------------
-         *  Push a deep snapshot of tasks/phases/config.startDate onto a bounded
-         *  ring buffer. Ctrl+Z / Ctrl+Y restore.
-         * ========================================================================= */
-
-        /** Append the current state to the history stack. */
         function saveState() {
-            // Discard redo-tail if we branched off after an undo
             if (historyIndex < stateHistory.length - 1) {
                 stateHistory = stateHistory.slice(0, historyIndex + 1);
             }
@@ -3228,7 +2915,6 @@
             });
             if (stateHistory.length > MAX_HISTORY) {
                 stateHistory.shift();
-                // historyIndex stays the same – the buffer just lost its oldest entry
             } else {
                 historyIndex++;
             }
@@ -3242,7 +2928,6 @@
             if (historyIndex < stateHistory.length - 1) { historyIndex++; restoreState(stateHistory[historyIndex]); }
         }
 
-        /** Replace tasks/phases/startDate from a snapshot and trigger a render. */
         function restoreState(snapshot) {
             tasks = JSON.parse(JSON.stringify(snapshot.tasks));
             phases = JSON.parse(JSON.stringify(snapshot.phases));
@@ -3253,30 +2938,19 @@
             globalContacts = snapshot.globalContacts ? JSON.parse(JSON.stringify(snapshot.globalContacts)) : [];
             globalTags = snapshot.globalTags ? JSON.parse(JSON.stringify(snapshot.globalTags)) : [];
             syncGlobalsFromTasks();
-            selectedTaskIds.clear();        // prevent ghost-drags
+            selectedTaskIds.clear();
             updateAndRenderAll();
             if (isDashboardMode) renderDashboard();
         }
 
-        /* ==========================================================================
-         * 10b. PROJECT META · JSON FORMAT · AUTOSAVE · PLAN HISTORY
-         * ------------------------------------------------------------------------
-         * Native save format + continuous local persistence. Storage is behind a
-         * small adapter interface (FileSystemAdapter / SnapshotAdapter) so the
-         * same pipeline can later target a CDE container directory instead of a
-         * single file without rewriting the callers.
-         * ========================================================================= */
-
         const TOOL_ID = "project_timeline";
-        const JSON_SCHEMA_VERSION = 2;   // v2 adds durationMode + calendar
+        const JSON_SCHEMA_VERSION = 2;
 
-        /** i18n with hardcoded fallback for keys not yet in the lang files. */
         function tt(key, fallback) {
             const v = i18n(key);
             return v !== key ? v : fallback;
         }
 
-        // --- Shared project meta (identical schema to the RASCI "--- PROJECT ---" block)
         let projectMeta = { schemaVersion: 1, guid: "", number: "", title: "", client: "", address: "", type: "" };
 
         function ensureProjectGuid() {
@@ -3285,7 +2959,6 @@
             }
         }
 
-        // Builds the shared "--- PROJECT ---" INFO-tab rows (identical schema in all apps)
         function buildProjectInfoRows() {
             ensureProjectGuid();
             return [
@@ -3300,19 +2973,10 @@
             ];
         }
 
-        // Full INFO sheet: identifier (A2 = "Project Timeline") + shared
-        // PROJECT block + DERIVED tracking blocks (GENERAL INFORMATION /
-        // PHASES / MILESTONES). Derived blocks are regenerated on every
-        // save and NEVER parsed back, only the "--- PROJECT ---" block
-        // round-trips (parseProjectInfoAoA). The hub sniffs this sheet to
-        // route the file and render the timelines preview without opening
-        // the app. Colors follow the RASCI matrix INFO convention.
         function buildInfoSheet() {
             const darkColors = ["FFB8CDE2", "FFCADAE9"];
             const title = document.getElementById("project-title-text").innerText;
 
-            // Project planned end + deviation (same math as the Timeline
-            // sheet header rows).
             let maxPlannedEnd = -Infinity, maxActualEnd = -Infinity;
             tasks.forEach((t) => {
                 const pe = taskEnd(t);
@@ -3327,7 +2991,7 @@
 
             const infoData = [
                 ["www.liteAECO.com"],
-                ["Project Timeline"],                    // A2: identifier
+                ["Project Timeline"],
                 ["info@liteAECO.com (Switzerland)"],
                 [],
                 ...buildProjectInfoRows(),
@@ -3337,8 +3001,6 @@
                 ["End Date:", hasTasks ? formatDateInput(addDays(config.startDate, maxPlannedEnd)) : ""],
                 ["Deviation in days:", deviation > 0 ? "+" + deviation : String(deviation)],
                 ["Completion:", getProjectCompletionPct() + "%"],
-                // "open": a LIVE working file (CDE write-back). Anything
-                // else: a plain export. Same semantics as meetings/RASCI.
                 ["Session state:", (window.__cdeCtx ? "open" : "closed")],
                 [],
                 ["--- PHASES ---", "", "", ""],
@@ -3382,10 +3044,8 @@
 
             const wsInfo = XLSX.utils.aoa_to_sheet(infoData);
             wsInfo["!cols"] = [{ wch: 30 }, { wch: 36 }, { wch: 14 }, { wch: 14 }];
-            // A2 identifier style (RASCI convention)
             const a2c = XLSX.utils.encode_cell({ c: 0, r: 1 });
             if (wsInfo[a2c]) wsInfo[a2c].s = { fill: { fgColor: { rgb: "FF4F46E5" } }, font: { bold: true, color: { rgb: "FFFFFFFF" } } };
-            // "---" section headers + the row right below them
             for (let R = 0; R < infoData.length; R++) {
                 if (typeof infoData[R][0] === "string" && String(infoData[R][0]).startsWith("---")) {
                     for (let C = 0; C < 4; C++) {
@@ -3403,7 +3063,6 @@
             return wsInfo;
         }
 
-        // Parses the shared "--- PROJECT ---" block back from an INFO sheet AoA
         function parseProjectInfoAoA(infoAoA) {
             const getValue = (aoa, key) => {
                 if (!aoa) return null;
@@ -3424,10 +3083,6 @@
         }
 
         function registryUpsert() {
-            // CDE: the hub maintains the registry - a timeline file must
-            // NEVER write project identity upstream (a template load once
-            // renamed whole projects through this call). __cdeOpening also
-            // covers the initial load, which runs before the ctx exists.
             if (window.__cdeCtx || window.__cdeOpening) return;
             if (window.liteAECO && window.liteAECO.projects &&
                 (projectMeta.guid || projectMeta.number || projectMeta.title || projectMeta.client)) {
@@ -3438,11 +3093,7 @@
         }
 
         function populateRegistryPicker() {
-            // Disabled: the "Known projects" picker is retired - in CDE the
-            // hub owns the link, standalone types the fields directly. The
-            // select stays in the markup with .hidden and is never unhidden.
             return;
-            // eslint-disable-next-line no-unreachable
             const sel = document.getElementById("settings-project-picker");
             if (!sel || !window.liteAECO || !window.liteAECO.projects) return;
             window.liteAECO.projects.list().then(all => {
@@ -3473,7 +3124,6 @@
             });
         }
 
-        // --- Native JSON format ------------------------------------------------
         function serializeProject() {
             ensureProjectGuid();
             syncGlobalsFromTasks();
@@ -3509,15 +3159,10 @@
                 return false;
             }
             const tl = data.timeline || {};
-            // CDE: the HUB owns project identity. Imports (JSON, templates,
-            // shared plans) bring CONTENT only - the linked projectMeta
-            // survives untouched. Standalone: only a JSON that actually
-            // CARRIES a meta block replaces it - templates never do, so
-            // loading one keeps whatever the user typed.
             if (!window.__cdeCtx && data.meta) {
                 projectMeta = { schemaVersion: 1, guid: "", number: "", title: "", client: "", address: "", type: "", ...data.meta };
             }
-            durationMode = data.durationMode === "working" ? "working" : "calendar";   // schema-1 files: calendar semantics
+            durationMode = data.durationMode === "working" ? "working" : "calendar";
             if (data.calendar && Array.isArray(data.calendar.workweek) && data.calendar.workweek.length === 7) {
                 calendar = { workweek: data.calendar.workweek.map(Boolean), holidays: Array.isArray(data.calendar.holidays) ? data.calendar.holidays : [] };
             }
@@ -3545,7 +3190,6 @@
             showColContact = !!tl.showColContact; showColResources = !!tl.showColResources;
             showColDepends = !!tl.showColDepends; showColBudget = !!tl.showColBudget;
 
-            // Sync DOM controls (mirrors the Excel-import processConfig path)
             const setEl = (id, fn) => { const el = document.getElementById(id); if (el) fn(el); };
             setEl("project-title-text", el => el.innerText = tl.displayTitle || data.meta?.title || "New Project");
             setEl("sidebar-budget-input", el => el.value = overallBudget);
@@ -3579,7 +3223,6 @@
             setTimeout(() => URL.revokeObjectURL(a.href), 5000);
         }
 
-        // --- Templates ---------------------------------------------------------
         const TEMPLATE_RUNTIME_KEYS = ["ES", "EF", "LS", "LF", "TF", "isCritical"];
         function getTemplates() {
             const t = (window.LITEAECO_TEMPLATES || {})["Project_Timeline"];
@@ -3594,9 +3237,6 @@
             }
             const d = JSON.parse(JSON.stringify(tpl));
             delete d.kind;
-            // Templates are CONTENT, never identity: the current projectMeta
-            // survives in BOTH modes. (The old random-guid mint here is what
-            // broke the hub link and re-branded whole projects.)
             delete d.meta;
             d.timeline = d.timeline || {};
             d.timeline.startDate = Date.now();
@@ -3676,7 +3316,6 @@
                     license: "CC-BY-4.0", source: "", minAppSchema: 2
                 },
                 durationMode: s.durationMode, calendar: s.calendar,
-                
                 timeline: { ...s.timeline }
             };
             delete tpl.timeline.startDate;
@@ -3705,7 +3344,6 @@
                 req.onerror = () => resolve(null);
             });
         }
-        
         const Autosave = liteAECO.createAutosave({
             toolId: "timeline",
             fileSuffix: ".timeline.json",
@@ -3797,7 +3435,6 @@
                 console.error("CDE IMPORT LOGIC ERROR:", err);
                 return true;
             }
-            
             if (projectMeta.guid && projectMeta.guid !== params.guid) {
                 const adopt = window.confirm(tt("cdeForeignFile",
                     "This file belongs to a different project. Import its content into this project? The file will be rebranded to this project on the next save."));
@@ -3806,11 +3443,10 @@
                     return true;
                 }
             }
-            lastSavedHistoryIndex = historyIndex;   
+            lastSavedHistoryIndex = historyIndex;
             window.__cdeCtx = { guid: params.guid, path: params.open, handle: info.handle };
             const _cs = document.getElementById('wrapper-cde-save');
             if (_cs) _cs.classList.remove('hidden');
-
             ["settings-meta-number", "settings-meta-type", "settings-meta-client", "settings-meta-address"].forEach(function (elId) {
                 const el = document.getElementById(elId);
                 if (el) {
@@ -3821,7 +3457,7 @@
             });
             try {
                 await _cdeBridgeInit(info, params);
-                await _cdeFillProjectInfo(info, params);   
+                await _cdeFillProjectInfo(info, params);
             } catch (e) {
                 console.error("CDE bridge init failed:", e);
                 if (typeof Autosave !== "undefined" && Autosave.renderStatus) Autosave.renderStatus("error");
@@ -3829,7 +3465,6 @@
                     "Project sync could not start - changes will NOT be saved to the project folder. Update js/liteaeco-cde.js to the latest build and reload.") +
                     "\n\n(" + (e && e.message ? e.message : e) + ")");
             }
-            
             window.addEventListener("beforeunload", function (e) {
                 let cdePending = false;
                 try {
@@ -3850,7 +3485,7 @@
             const params = _cdeParams();
             if (!params) return false;
             if (!(window.liteAECO && liteAECO.cde)) return false;
-            window.__cdeOpening = true;   
+            window.__cdeOpening = true;
             try {
                 let info = await liteAECO.cde.openProject(params.guid);
                 if (!info) {
@@ -3904,7 +3539,6 @@
             diff: function (prev, cur) {
                 const events = [];
                 const J = JSON.stringify;
-                
                 const prevT = {}; prev.tasks.forEach(function (t) { prevT[t.id] = t; });
                 const curT = {}; cur.tasks.forEach(function (t) { curT[t.id] = t; });
                 cur.tasks.forEach(function (t) {
@@ -3913,7 +3547,6 @@
                     if (J(b) !== J(t)) events.push({ type: "task.update", target: String(t.id), payload: t });
                 });
                 prev.tasks.forEach(function (t) { if (!curT[t.id]) events.push({ type: "task.remove", target: String(t.id) }); });
-                
                 const prevP = {}; prev.phases.forEach(function (p) { prevP[p.id] = p; });
                 const curP = {}; cur.phases.forEach(function (p) { curP[p.id] = p; });
                 cur.phases.forEach(function (p) {
@@ -3922,13 +3555,11 @@
                     if (J(b) !== J(p)) events.push({ type: "phase.update", target: String(p.id), payload: p });
                 });
                 prev.phases.forEach(function (p) { if (!curP[p.id]) events.push({ type: "phase.remove", target: String(p.id) }); });
-                
                 const mm = {}; let mn = 0;
                 Object.keys(cur.meta).forEach(function (k) {
                     if (J(cur.meta[k]) !== J(prev.meta[k])) { mm[k] = cur.meta[k]; mn++; }
                 });
                 if (mn) events.push({ type: "timeline.info", target: window.__cdeCtx ? window.__cdeCtx.path : null, payload: mm });
-
                 return events;
             },
             append: function (events) {
@@ -3948,7 +3579,7 @@
                         if (!events.length) continue;
                         try {
                             await this.append(events);
-                            this.baseline = cur;   
+                            this.baseline = cur;
                             appended = true;
                         } catch (e) {
                             console.warn("CDE append failed (kept for retry):", e);
@@ -3984,7 +3615,7 @@
                 const fname = parts.pop();
                 const desired = slug + ".xlsx";
                 if (fname === desired) return;
-                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;   // collision-suffixed twin
+                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;
                 try {
                     let dir = ctx.handle;
                     for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: false });
@@ -4012,18 +3643,16 @@
                         type: "file.rename", target: ctx.path,
                         payload: { from: from, to: ctx.path, app: this.appId }
                     }]).catch(function () { });
-                    this.lastAssignHash = null;   // force a fresh assign on the new path
+                    this.lastAssignHash = null;
                     await this.markLoadedFileSeen();
                 } catch (e) { console.warn("CDE rename skipped (will retry):", e); }
             },
 
-            /* ---- xlsx write-back (single writer per file per session) ---- */
             writeBack: { timer: null, busy: false, pending: false, lastMtime: 0, lastSize: 0 },
             lastAssignHash: null,
             scheduleWriteBack: function () {
                 if (!window.__cdeCtx) return;
-                window.__cdeUnsaved = true;   // cleared on CONFIRMED write
-                // xlsx not on disk yet: pin the save indicator until it is
+                window.__cdeUnsaved = true;
                 if (typeof Autosave !== "undefined" && Autosave.toastNotify) Autosave.toastNotify("dirty");
                 const wbk = this.writeBack;
                 clearTimeout(wbk.timer);
@@ -4036,7 +3665,7 @@
                 const wbk = this.writeBack;
                 if (wbk.busy) { wbk.pending = true; return; }
                 wbk.busy = true;
-                let wroteOk = false;   // save indicator: only a CONFIRMED write clears it
+                let wroteOk = false;
                 try {
                     await this.maybeRename();
                     do {
@@ -4054,14 +3683,14 @@
                             let dir = ctx.handle;
                             for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: true });
                             const fh = await dir.getFileHandle(fname, { create: true });
-                            const w = await fh.createWritable();   // full rewrite, not append
+                            const w = await fh.createWritable();
                             await w.write(buf);
                             await w.close();
                             const f = await fh.getFile();
-                            wbk.lastMtime = f.lastModified;   // own-write marker
+                            wbk.lastMtime = f.lastModified;
                             wbk.lastSize = f.size;
                             wroteOk = true;
-                            lastSavedHistoryIndex = historyIndex;   // in-app unsaved marker follows the disk
+                            lastSavedHistoryIndex = historyIndex;
                             try {
                                 if (window.crypto && window.crypto.subtle) {
                                     const d = await window.crypto.subtle.digest("SHA-256",
@@ -4076,7 +3705,7 @@
                                         }]);
                                     }
                                 }
-                            } catch (e) { /* hash refresh is best effort */ }
+                            } catch (e) {  }
                         } catch (e) {
                             console.warn("CDE write-back failed (will retry on next change):", e);
                             return;
@@ -4090,7 +3719,6 @@
                 }
             },
 
-            /* ---- external-edit import ---- */
             extSeen: { mtime: 0, size: 0 },
             checking: false,
             _statFile: async function () {
@@ -4106,7 +3734,7 @@
                     const fh = await this._statFile();
                     const f = await fh.getFile();
                     this.extSeen = { mtime: f.lastModified, size: f.size };
-                } catch (e) { /* transient: first poll will handle it */ }
+                } catch (e) {  }
             },
             checkExternal: async function () {
                 const ctx = window.__cdeCtx;
@@ -4119,11 +3747,11 @@
                         fh = await this._statFile();
                         f = await fh.getFile();
                     } catch (e) {
-                        return;   // locked or missing: transient, retry next poll
+                        return;
                     }
                     const wbk = this.writeBack;
-                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;   // our own write
-                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;   // already imported
+                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;
+                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;
                     let workbook;
                     try {
                         const buf = await f.arrayBuffer();
@@ -4132,10 +3760,8 @@
                         console.warn("CDE external read/parse failed (transient, will retry):", e);
                         return;
                     }
-                    await this.flush();   // local unflushed changes reach the log first
+                    await this.flush();
                     try {
-                        // Background import must NEVER raise dialogs. Gate the
-                        // template check; anything foreign is skipped silently.
                         const wsInfo = workbook.Sheets && workbook.Sheets["INFO"];
                         const aoa = wsInfo ? XLSX.utils.sheet_to_json(wsInfo, { header: 1 }) : [];
                         const a2 = aoa[1] ? String(aoa[1][0] || "").trim() : "";
@@ -4150,8 +3776,8 @@
                         return;
                     }
                     this.extSeen = { mtime: f.lastModified, size: f.size };
-                    lastSavedHistoryIndex = historyIndex;   // folder version is now the app state
-                    await this.flush();   // emit the external diff as events
+                    lastSavedHistoryIndex = historyIndex;
+                    await this.flush();
                 } finally {
                     this.checking = false;
                 }
@@ -4179,23 +3805,17 @@
                 const addr = [hs.address1, hs.city].filter(Boolean).join(', ') || hs.address || '';
                 const fill = { number: hs.number || '', title: hs.title || '', client: hs.client || '', address: addr, type: hs.type || '' };
                 let changed = false;
-                // Hub OWNS project identity in CDE: fill unconditionally.
-                // This also heals files corrupted by the old template-guid
-                // bug - adopt the file, and the hub info moves back in.
                 Object.keys(fill).forEach(function (k) {
                     if (projectMeta[k] !== fill[k]) { projectMeta[k] = fill[k]; changed = true; }
                 });
                 if (projectMeta.guid !== params.guid) { projectMeta.guid = params.guid; changed = true; }
                 if (changed) {
-                    if (typeof Autosave !== "undefined") Autosave.markDirty();   // -> bridge schedule
+                    if (typeof Autosave !== "undefined") Autosave.markDirty();
                 }
             } catch (e) { console.warn("CDE project-info fill skipped:", e); }
         }
 
         async function _cdeBridgeInit(info, params) {
-            // Back to the hub, straight into THIS project's timelines tab.
-            // CDE mode swaps the top-bar liteAECO logo for the CDE icon and
-            // repoints the link - no extra button, only ever in CDE mode.
             const logoLink = document.getElementById('app-logo-link');
             const logoSvg = document.getElementById('app-logo-svg');
             if (logoLink && logoSvg && !document.getElementById('cde-home-btn')) {
@@ -4214,7 +3834,6 @@
             const dev = await cde.identity.device();
             const memberId = await cde.identity.getMember(params.guid);
             cdeBridge.author = memberId || ("device:" + dev);
-            // Rename-proof file identity. Assign ONCE per content.
             function _assign() {
                 var hp = cde.hashFile ? cde.hashFile(info.handle, params.open).catch(function () { return null; })
                     : Promise.resolve(null);
@@ -4237,7 +3856,6 @@
                 return _assign();
             }).catch(function (e) { console.warn("CDE assign append failed:", e); });
 
-            // Hook the existing dirty cycle.
             if (typeof Autosave !== "undefined" && Autosave && typeof Autosave.markDirty === "function") {
                 if (!Autosave.__cdeWrapped) {
                     Autosave.__cdeWrapped = true;
@@ -4250,8 +3868,8 @@
                         Autosave.renderStatus('saved');
                     };
                     cdeBridge.onError = function () { Autosave.renderStatus('error'); };
-                    Autosave.lastSavedAt = new Date();   // renderStatus('saved') formats this
-                    Autosave.renderStatus('saved');      // session live from the start
+                    Autosave.lastSavedAt = new Date();
+                    Autosave.renderStatus('saved');
                 }
             }
             document.addEventListener("visibilitychange", function () {
@@ -4263,15 +3881,7 @@
                 window.__cdeExtPollMs || 60000);
         }
 
-        /* ==========================================================================
-         * 10c. PRINTING
-         * ------------------------------------------------------------------------
-         * Builds a detached #print-sheet clone (header banner + sidebar + timeline)
-         * at natural size, then shrinks it to the page width via CSS zoom. The
-         * live app is hidden by @media print, so screen layout is never touched.
-         * ========================================================================= */
-
-        const PRINT_PAGE_PX = 1512;   // A3 landscape (420mm) minus 2×10mm margins @96dpi
+        const PRINT_PAGE_PX = 1512;
 
         function openPrintModal() {
             if (isDashboardMode) {
@@ -4287,8 +3897,6 @@
             m.classList.add("hidden"); m.classList.remove("flex");
         }
 
-        /** Copy live input/select/checkbox state into a cloned subtree (cloneNode
-         *  keeps attributes, not current values). Pairs elements by DOM order. */
         function syncCloneFormState(srcRoot, cloneRoot) {
             const srcEls = srcRoot.querySelectorAll("input, select, textarea");
             const cloneEls = cloneRoot.querySelectorAll("input, select, textarea");
@@ -4309,7 +3917,6 @@
             const sheet = document.createElement("div");
             sheet.id = "print-sheet";
 
-            // --- Banner ---------------------------------------------------------
             let range = "";
             if (tasks.length > 0) {
                 let minS = Infinity, maxE = -Infinity;
@@ -4336,7 +3943,6 @@
                     </div>
                 </div>`;
 
-            // --- Columns --------------------------------------------------------
             const cols = document.createElement("div");
             cols.className = "print-cols";
 
@@ -4362,8 +3968,6 @@
             main.style.width = cropW + "px";
 
             const mkCrop = (srcEl, height) => {
-                // The timeline layers are position:absolute with height:100%, so the
-                // clone needs an explicit pixel height or everything collapses to 0.
                 const contentH = height || srcEl.scrollHeight;
                 const crop = document.createElement("div");
                 crop.className = "print-crop";
@@ -4391,7 +3995,6 @@
             cols.appendChild(main);
             sheet.appendChild(cols);
 
-            // --- Scale to page width via zoom -----------------------------------
             const totalW = sideW + cropW;
             const z = Math.min(1, PRINT_PAGE_PX / totalW);
             sheet.style.zoom = z;
@@ -4409,29 +4012,18 @@
             closePrintModal();
             printViaDialog = true;
             buildPrintSheet(mode);
-            // Two RAFs let the sheet lay out before the print snapshot
             requestAnimationFrame(() => requestAnimationFrame(() => {
                 window.print();
                 printViaDialog = false;
             }));
         }
 
-        // Browser-menu print (no dialog): default to fit mode
         window.addEventListener("beforeprint", () => {
             if (!printViaDialog && !document.getElementById("print-sheet") && !isDashboardMode) {
                 buildPrintSheet("fit");
             }
         });
         window.addEventListener("afterprint", removePrintSheet);
-
-        /* ==========================================================================
-         * 10e. PASTE-TO-IMPORT  +  AI PROMPT TEMPLATES
-         * ------------------------------------------------------------------------
-         * Parses markdown tables / TSV / CSV pasted into the modal, previews the
-         * result with per-row validation, and applies it as ONE undo step.
-         * The AI buttons copy prompts that hard-code the column contract, so an
-         * answer from any LLM parses on the first paste.
-         * ========================================================================= */
 
         const PASTE_FIELDS = ["ignore", "name", "phase", "start", "end", "duration", "depends", "milestone"];
         const PASTE_ALIASES = {
@@ -4443,7 +4035,7 @@
             depends: ["depends", "depends on", "dependency", "dependencies", "predecessor", "predecessors", "pred"],
             milestone: ["milestone", "ms", "is milestone"]
         };
-        let _pasteParsed = null;     // { headers, rows, colMap }
+        let _pasteParsed = null;
         let _pasteTimer = null;
 
         function schedulePastePreview() {
@@ -4451,18 +4043,16 @@
             _pasteTimer = setTimeout(renderPastePreview, 250);
         }
 
-        /** Split pasted text into rows of cells (markdown | TSV | CSV). */
         function splitPastedTable(text) {
             const lines = text.split(/\r?\n/).map(l => l.replace(/\s+$/, "")).filter(l => l.trim() !== "");
             if (lines.length === 0) return [];
             const isMd = lines.filter(l => l.includes("|")).length >= Math.max(2, lines.length * 0.6);
             if (isMd) {
                 return lines
-                    .filter(l => l.includes("|") && !/^\s*\|?[\s:|-]+\|?\s*$/.test(l))   // drop separator + stray prose
+                    .filter(l => l.includes("|") && !/^\s*\|?[\s:|-]+\|?\s*$/.test(l))
                     .map(l => l.replace(/^\s*\|/, "").replace(/\|\s*$/, "").split("|").map(c => c.trim()));
             }
             if (lines[0].includes("\t")) return lines.map(l => l.split("\t").map(c => c.trim()));
-            // simple CSV with quote support
             return lines.map(l => {
                 const cells = []; let cur = "", q = false;
                 for (const ch of l) {
@@ -4506,7 +4096,6 @@
 
         const PASTE_TRUTHY = new Set(["yes", "y", "true", "1", "x", "\u2713", "ms", "milestone"]);
 
-        /** Parse dependency cell: "3; 5FS+2; Excavation SS-1" (row numbers are 1-based data rows). */
         function parsePasteDeps(str) {
             return String(str || "").split(/[;,]/).map(tok => tok.trim()).filter(Boolean).map(tok => {
                 const m = tok.match(/^(.*?)\s*(FS|SS|FF|SF)?\s*([+-]\s*\d+)?$/i);
@@ -4550,7 +4139,6 @@
                 return;
             }
             const headers = table[0];
-            // keep user remappings when the header set is unchanged
             let colMap;
             if (_pasteParsed && _pasteParsed.headers.join("\u0001") === headers.join("\u0001")) {
                 colMap = _pasteParsed.colMap;
@@ -4596,7 +4184,6 @@
             applyBtn.disabled = okCount === 0;
         }
 
-        /** Turn parsed rows + mapping into task drafts with validation. */
         function buildPasteTasks() {
             const { rows, colMap } = _pasteParsed;
             const idx = {};
@@ -4632,7 +4219,6 @@
             const replace = document.querySelector('input[name="paste-mode"]:checked').value === "replace";
             if (replace) { tasks = []; phases = []; }
 
-            // Phases: reuse by name (case-insensitive) or create
             const phaseByName = {};
             phases.forEach(p => phaseByName[p.name.toLowerCase()] = p.id);
             const ensurePhase = (nm) => {
@@ -4646,8 +4232,7 @@
                 return id;
             };
 
-            // Create tasks first so row-number and name references resolve
-            const rowTaskIds = [];   // 1-based data-row -> task id
+            const rowTaskIds = [];
             const newTasks = valid.map((r) => {
                 const id = "t_" + Math.random().toString(36).substr(2, 9);
                 rowTaskIds[built.rows.indexOf(r) + 1] = id;
@@ -4681,19 +4266,17 @@
 
             syncGlobalsFromTasks();
             selectedTaskIds.clear();
-            saveState();                       // ONE undo step for the whole import
+            saveState();
             updateAndRenderAll();
             closePasteModal();
             showWarningToast(`${tt("pasteImported", "Imported tasks:")} ${newTasks.length}` +
                 (skippedDeps ? ` \u2013 ${tt("pasteDepsUnresolved", "unresolved dependency references:")} ${skippedDeps}` : ""));
         }
 
-        /* ---- AI prompt templates ------------------------------------------- */
         const PASTE_CONTRACT = `Output ONLY a markdown table with exactly these columns and no other text:
 | Name | Phase | Start | Duration | Depends | Milestone |
 Rules: Start = YYYY-MM-DD. Duration = whole working days (0 for milestones). Depends = row numbers of predecessor rows (1 = first data row), optionally with a link type and lag like "3FS+2"; leave empty if none. Milestone = Yes or empty. Do not merge cells, do not add a numbering column, do not wrap the table in code fences.`;
 
-        /** Current plan as a markdown table (also used by the Expand/Review prompts). */
         function planToMarkdown() {
             const phaseName = {};
             phases.forEach(p => phaseName[p.id] = p.name);
@@ -4724,7 +4307,6 @@ ${planToMarkdown()}
 Add one level more detail for ${horizon}: break the listed tasks into concrete subtasks where useful, keep everything else consistent (same phases, dates that respect the existing sequence). Return the COMPLETE updated plan, existing rows included.
 ${PASTE_CONTRACT}`;
             }
-            // review
             return `Here is my current project plan:
 
 ${planToMarkdown()}
@@ -4753,18 +4335,8 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             copyTextToClipboard(planToMarkdown(), "Plan copied as a markdown table.");
         }
 
-        /* ==========================================================================
-         * 10f. BULK EDIT  (multi-select bar + right-click context menu)
-         * ------------------------------------------------------------------------
-         * Builds on the existing selectedTaskIds model (click / Ctrl-click on
-         * bars and sidebar rows). Adds Shift-click ranges, a floating action
-         * bar for 2+ selected tasks, and a context menu. Every bulk operation
-         * commits as ONE undo step via a single saveState().
-         * ========================================================================= */
-
         let lastSelectedTaskId = null;
 
-        /** Visible task ids in visual order (sidebar row order). */
         function visibleTaskIdOrder() {
             return [...document.querySelectorAll(".sidebar-task-row")].map(r => r.getAttribute("data-id"));
         }
@@ -4859,7 +4431,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     id: "t_" + Math.random().toString(36).substr(2, 9),
                     name: t.name + " (copy)"
                 }));
-                // Internal dependencies between duplicated tasks point at the new copies
                 const idMap = {};
                 sel.forEach((t, i) => idMap[t.id] = clones[i].id);
                 clones.forEach(c => { if (c.dependsOn) c.dependsOn = c.dependsOn.map(d => ({ ...d, id: idMap[d.id] || d.id })); });
@@ -4882,11 +4453,10 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             }
             else return;
 
-            saveState();                 // ONE undo step for the whole bulk operation
+            saveState();
             updateAndRenderAll();
         }
 
-        /* ---- Context menu --------------------------------------------------- */
         function hideTaskContextMenu() {
             const m = document.getElementById("task-context-menu");
             if (m) { m.classList.add("hidden"); m.innerHTML = ""; }
@@ -4897,7 +4467,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             if (isPresentationMode) return;
             const task = tasks.find(t => t.id === taskId);
             if (!task) return;
-            // Right-clicking outside the current selection selects that task alone
             if (!selectedTaskIds.has(taskId)) {
                 selectedTaskIds.clear();
                 selectedTaskIds.add(taskId);
@@ -4929,7 +4498,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             }
             m.innerHTML = html;
             m.classList.remove("hidden");
-            // Position within viewport
             const pad = 6;
             const rect = { w: 208, h: m.offsetHeight || 200 };
             m.style.left = Math.min(e.clientX, window.innerWidth - rect.w - pad) + "px";
@@ -4943,7 +4511,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             else { t.type = "milestone"; t.duration = 0; }
             saveState(); updateAndRenderAll();
         }
-        /* ---- "Add" row chooser (phase / paste) ---- */
         function openAddMenu(event) {
             if (event) event.stopPropagation();
             const m = document.getElementById("add-menu-modal");
@@ -4955,7 +4522,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             m.classList.add("hidden"); m.classList.remove("flex");
         }
 
-        /** "+" on a phase row: create an empty task at the end of that phase. */
         function quickAddTask(phaseId) {
             const phaseTasks = tasks.filter(t => t.phaseId === phaseId);
             let start = 0;
@@ -4981,12 +4547,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             t.locked = !t.locked;
             saveState(); updateAndRenderAll();
         }
-
-        /* ==========================================================================
-         * 10g. SHARE VIA URL  (fragment #p2=..., fully client-side)
-         * ------------------------------------------------------------------------
-         * pack -> lz-string -> URL fragment. Fragment never reaches a server.
-         * ========================================================================= */
 
         const SHARE_PREFIX = "p2=";
         const DEP_TYPES = ["FS", "SS", "FF", "SF"];
@@ -5064,7 +4624,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
         }
 
         function applySharedPlan(up) {
-            // CDE: hub owns identity - a shared link only brings content
             if (!window.__cdeCtx) projectMeta = { schemaVersion: 1, ...up.meta };
             durationMode = up.durationMode;
             calendar = up.calendar;
@@ -5082,7 +4641,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             updateAndRenderAll();
         }
 
-        /* ---- Share modal ---- */
         function openShareModal() {
             const m = document.getElementById("share-modal");
             m.classList.remove("hidden"); m.classList.add("flex");
@@ -5117,7 +4675,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             copyTextToClipboard(document.getElementById("share-link-input").value, tt("linkCopied", "Link copied."));
         }
 
-        /* ---- Receiving side ---- */
         function checkSharedPlanInURL() {
             const h = location.hash || "";
             if (!h.startsWith("#" + SHARE_PREFIX)) return;
@@ -5151,29 +4708,15 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             history.replaceState(null, "", location.pathname + location.search);
         }
 
-        /* ==========================================================================
-         * 11. SEARCH
-         * ========================================================================= */
-
-        /** Live filter callback – stores the query and re-renders. */
         function handleSearch(event) {
             searchQuery = event.target.value.toLowerCase();
             updateAndRenderAll();
         }
 
-        /** Tasks that currently match the search query (or all when empty). */
         function getVisibleTasks() {
             if (!searchQuery) return tasks;
             return tasks.filter(t => t.name.toLowerCase().includes(searchQuery));
         }
-
-        /* ==========================================================================
-         * 12. UNSAVED-CHANGES GUARD
-         * --------------------------------------------------------------------------
-         *  Compares historyIndex with lastSavedHistoryIndex (which only advances
-         *  when the user successfully exports a file). If they differ, a modal is
-         *  shown when the user clicks the home link or refreshes/closes the tab.
-         * ========================================================================= */
 
         function handleHomeNavigation(event) {
             if (historyIndex !== lastSavedHistoryIndex) {
@@ -5191,11 +4734,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
         }
         function confirmLeave() { window.location.href = "../index.html"; }
 
-        // beforeunload handled by the shared autosave module
-
-        /* ==========================================================================
-         * 13. CONFIRMATION MODAL (generic)
-         * ========================================================================= */
         function openConfirmModal(title, message, callback) {
             document.getElementById("confirm-modal-title").innerText = title;
             document.getElementById("confirm-modal-message").innerText = message;
@@ -5214,9 +4752,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             closeConfirmModal();
         }
 
-        /* ==========================================================================
-         * 14. LOADER OVERLAY (used by import / export)
-         * ========================================================================= */
         function showLoader(text = "Processing...", percentage = 0) {
             document.getElementById("loader-text").innerText = text;
             document.getElementById("loader-progress").style.width = `${percentage}%`;
@@ -5232,9 +4767,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             document.getElementById("app-loader").classList.remove("flex");
         }
 
-        /* ==========================================================================
-         * 15. SELECTION (multi-select via Ctrl/Cmd-click)
-         * ========================================================================= */
         function updateSelectionVisuals() {
             renderBulkBar();
             document.querySelectorAll(".task-draggable").forEach((el) => {
@@ -5253,12 +4785,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             });
         }
 
-        /* ==========================================================================
-         * 16. SIDEBAR MIN/MAX + RESIZER
-         * --------------------------------------------------------------------------
-         *  The sidebar can be (a) collapsed to a 64px icon strip, or (b) resized
-         *  by dragging the divider between sidebar and timeline.
-         * ========================================================================= */
         function toggleSidebar() {
             isSidebarMinimized = !isSidebarMinimized;
             const sidebar = document.getElementById("main-sidebar");
@@ -5278,7 +4804,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             lucide.createIcons();
         }
 
-        /** Installs the divider drag handle between the sidebar and timeline. */
         function installSidebarResizer() {
             const sidebar = document.getElementById("main-sidebar");
             const resizer = document.createElement("div");
@@ -5291,7 +4816,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 isResizingSidebar = true;
                 resizer.classList.add("bg-indigo-500");
                 document.body.style.cursor = "col-resize";
-                sidebar.style.transition = "none";   // no rubber-banding while dragging
+                sidebar.style.transition = "none";
                 e.preventDefault();
             });
             document.addEventListener("mousemove", (e) => {
@@ -5309,11 +4834,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             });
         }
 
-        /* ==========================================================================
-         * 17. ZOOM & "JUMP TO TODAY"
-         * ========================================================================= */
-
-        /** Adjust the day-column width and re-render layers that depend on it. */
         function zoomTimeline(delta) {
             config.cellWidth = Math.max(3, Math.min(80, config.cellWidth + delta));
             generateRenderList();
@@ -5323,7 +4843,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             setupDragListeners();
         }
 
-        /** Scroll the timeline (and viewport) so that "today" sits near the left. */
         function scrollToToday() {
             const timelineScroll = document.getElementById("timeline-scroll");
             const todayOffset = getTodayOffset();
@@ -5331,7 +4850,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 alert(i18n("todayOutsideTimeline"));
                 return;
             }
-            // Force zoom-out if more than ~2 weeks won't fit on screen
             const requiredVisibleDays = 16;
             const maxAllowedCellWidth = Math.floor(timelineScroll.clientWidth / requiredVisibleDays);
             if (config.cellWidth > maxAllowedCellWidth) {
@@ -5407,7 +4925,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
         function toggleAllPhases() {
             if (phases.length === 0) return;
             const anyExpanded = phases.some(p => !p.collapsed);
-            const targetState = anyExpanded;     
+            const targetState = anyExpanded;
             phases.forEach(p => p.collapsed = targetState);
 
             const icon = document.getElementById("toggle-all-icon");
@@ -5771,7 +5289,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 task.dependsOn.forEach((dep) => {
                     const fromPos = taskPositions[dep.id];
                     const parentTask = tasks.find(t => t.id === dep.id);
-                    if (!fromPos || !toPos || !parentTask) return;     
+                    if (!fromPos || !toPos || !parentTask) return;
                     const isCriticalLink = isCriticalPathActive && task.isCritical && parentTask.isCritical;
                     html += createPath(fromPos, toPos, isCompleted, isCriticalLink, dep.type);
                 });
@@ -5994,7 +5512,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
         }
 
         function setupDragListeners() {
-            
             document.getElementById("gantt-bars").querySelectorAll(".task-draggable").forEach((bar) => {
                 bar.addEventListener("mousedown", (e) => {
                     const taskId = bar.getAttribute("data-id");
@@ -6020,11 +5537,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
                     dragStartX = e.clientX;
                     initialStartDay = currentTask.start;
-                    initialDuration = taskSpan(currentTask) || 0;          
+                    initialDuration = taskSpan(currentTask) || 0;
                     initialActualStart = currentTask.actualStart;
                     initialActualDuration = currentTask.actualDuration !== null ? actualSpan(currentTask) : null;
                     dragStartPhaseId = currentTask.phaseId;
-                    currentTaskMinStart = 0;       
+                    currentTaskMinStart = 0;
 
                     dragIntendedStart = currentTask.start;
                     dragIntendedDuration = taskSpan(currentTask) || 0;
@@ -6054,7 +5571,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         isResizing = true;
                         resizeEdge = e.target.getAttribute("data-resize");
                         document.body.style.cursor = "col-resize";
-                        
                         selectedTaskIds.clear();
                         selectedTaskIds.add(taskId);
                         updateSelectionVisuals();
@@ -6070,7 +5586,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 pb.addEventListener("mousedown", (e) => {
                     if (e.button !== 0) return;
                     const phaseId = pb.getAttribute("data-phase-id");
-                    
                     const subtreeIds = [phaseId];
                     for (let i = 0; i < subtreeIds.length; i++) {
                         phases.filter(p => p.parentId === subtreeIds[i]).forEach(c => subtreeIds.push(c.id));
@@ -6117,11 +5632,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
             document.querySelectorAll(".sidebar-task-row").forEach((row) => {
                 row.addEventListener("mousedown", (e) => {
-                    if (e.target.closest("input, select, textarea, button")) return;   
+                    if (e.target.closest("input, select, textarea, button")) return;
                     const taskId = row.getAttribute("data-id");
                     if (e.shiftKey && lastSelectedTaskId) {
                         selectRangeTo(taskId);
-                        e.preventDefault();          
+                        e.preventDefault();
                     } else if (e.ctrlKey || e.metaKey) {
                         if (selectedTaskIds.has(taskId)) selectedTaskIds.delete(taskId);
                         else selectedTaskIds.add(taskId);
@@ -6299,7 +5814,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             let daysMoved = Math.round(deltaX / config.cellWidth);
 
             if (isResizing) {
-                
                 const phaseObj = renderList.find(r => !r.isPhase && r.task.id === currentTask.id)?.phase;
                 const phaseColor = phaseObj ? phaseObj.color : "#000";
                 const isCrit = isCriticalPathActive && currentTask.isCritical;
@@ -6450,7 +5964,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         let ns = Math.max(0, state.start + actualDaysMoved);
                         if (durationMode === "working" && task.type !== "milestone") ns = snapToWorkingDay(ns, true);
                         task.start = ns;
-                        
                         if (task.actualStart !== null) {
                             task.actualStart = Math.max(0, state.actualStart + actualDaysMoved);
                         }
@@ -6551,7 +6064,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             }
 
             if (draggedSidebarPhaseId) {
-                if (draggedSidebarPhaseId === targetPhaseId) return;     
+                if (draggedSidebarPhaseId === targetPhaseId) return;
 
                 let cur = targetPhaseId ? phases.find(p => p.id === targetPhaseId) : null;
                 while (cur) {
@@ -6969,11 +6482,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     }
 
                     phaseMilestonesHtml += `
-                        <div class="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 z-10 group" 
+                        <div class="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 z-10 group"
                              style="left: calc(${leftPct}% - 5px);">
-                            
+
                             <div class="w-full h-full rounded-full border border-white shadow-sm bg-slate-400 transition-transform duration-200 group-hover:scale-150"></div>
-                            
+
                             <div class="absolute bottom-full ${tooltipAlignClass} mb-2 px-1 py-1 bg-slate-800 rounded shadow-none opacity-0 group-hover:opacity-100 transition-all duration-0 pointer-events-none whitespace-nowrap flex flex-col items-center z-[60]">
                                 <span class="font-bold text-[9px] tracking-wider uppercase mb-0.5 text-white">${escapeHTML(m.name)}</span>
                                 <span class="text-slate-300 text-[8px] font-medium flex items-center gap-1">
@@ -7010,15 +6523,14 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         }
 
                         let isCurrentPhase = currentPhase && p.id === currentPhase.id;
-                        
                         let milestoneColor = isCurrentPhase ? p.color : "#ef4444";
 
                         phaseMilestonesHtml += `
-                            <div class="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 z-20 group" 
+                            <div class="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 z-20 group"
                                  style="left: calc(${leftPct}% - 7px);">
-                                
+
                                 <div class="w-full h-full rounded-full border-2 border-white shadow-sm transition-transform duration-200 group-hover:scale-125" style="background-color: ${milestoneColor};"></div>
-                                
+
                                 <div class="absolute bottom-full ${tooltipAlignClass} mb-2 px-1 py-1 bg-slate-800 rounded shadow-none opacity-0 group-hover:opacity-100 transition-all duration-0 pointer-events-none whitespace-nowrap flex flex-col items-center z-[60]">
                                     <span class="font-bold text-[9px] tracking-wider uppercase mb-0.5 text-white">${escapeHTML(p.name)}</span>
                                     <span class="text-slate-300 text-[8px] font-medium flex items-center gap-1">
@@ -7258,7 +6770,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
                 tasks.filter(t => t.phaseId === p.id).forEach(t => {
                     hasTasks = true;
-                    
                     const pEnd = taskEnd(t);
                     if (pEnd > maxP) maxP = pEnd;
 
@@ -7371,7 +6882,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                                         currentCurrency
                                     );
                                 },
-                                
                                 afterLabel: function (context) {
                                     let isPlanned = context.datasetIndex === 0;
                                     let mapToUse = isPlanned ? plannedPhaseEndsMap : actualPhaseEndsMap;
@@ -7473,7 +6983,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 } else if (pct === 0) {
                     barBg.push("#d1d5db");
                 } else {
-                    
                     let barColor = p.color;
                     if (!barColor && p.parentId) {
                         const parentPhase = phases.find(parent => parent.id === p.parentId);
@@ -7575,7 +7084,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             const data = [{ x: i18n("originalBudget"), y: [0, totalPlanned] }];
 
             displayPhases.forEach(p => {
-                
                 const pTasks = getTasksForPhaseTree(p.id);
 
                 const pPlanned = pTasks.reduce((sum, t) => sum + (t.budget || 0), 0);
@@ -7598,9 +7106,9 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         label: i18n("phaseVariance"),
                         data: data,
                         backgroundColor: (ctx) => {
-                            if (ctx.index === 0 || ctx.index === data.length - 1) return '#cbd5e1'; 
+                            if (ctx.index === 0 || ctx.index === data.length - 1) return '#cbd5e1';
                             const val = ctx.raw?.y;
-                            return val[1] > val[0] ? '#f43f5e' : '#22c55e'; 
+                            return val[1] > val[0] ? '#f43f5e' : '#22c55e';
                         },
                         borderRadius: 4
                     }]
@@ -7774,7 +7282,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
         };
 
         const MPP_MAGIC = 0xFADFADBA;
-        const MPP_EPOCH = Date.UTC(1983, 11, 31); 
+        const MPP_EPOCH = Date.UTC(1983, 11, 31);
 
         const mppU16 = (b, o) => b[o] | (b[o + 1] << 8);
         const mppI32 = (b, o) => (b[o] | (b[o + 1] << 8) | (b[o + 2] << 16) | (b[o + 3] << 24)) | 0;
@@ -7792,7 +7300,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
         const DUR_DIVISOR = { 3: 10, 4: 10, 5: 600, 6: 600, 7: 4800, 8: 14400, 9: 24000, 10: 100800, 11: 96000, 12: 432000 };
         function mppDurationDays(tenthMinutes, units) {
-            
             if (tenthMinutes === null) return null;
             return tenthMinutes / 4800;
         }
@@ -7810,7 +7317,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
         function parseVarMeta9(b) {
             if (mppU32(b, 0) !== MPP_MAGIC) throw new Error("VarMeta9: bad magic");
             const itemCount = mppU32(b, 8);
-            const table = new Map(); 
+            const table = new Map();
             let p = 24;
             for (let i = 0; i < itemCount; i++) {
                 const uid = b[p] | (b[p + 1] << 8) | (b[p + 2] << 16);
@@ -7824,7 +7331,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
         }
 
         function parseVar2Data(b, varMeta) {
-            const data = new Map(); 
+            const data = new Map();
             for (const m of varMeta.values()) {
                 for (const off of m.values()) {
                     if (off >= b.length || data.has(off)) continue;
@@ -7861,7 +7368,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
         function parseFixedData(fixedMeta, b, maxExpectedSize) {
             const n = fixedMeta.items.length;
-            const out = []; 
+            const out = [];
             for (let i = 0; i < n; i++) {
                 const off = mppI32(fixedMeta.items[i], 4);
                 if (off < 0 || off > b.length) { out.push(null); continue; }
@@ -7898,8 +7405,8 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 const item = fixedData[i];
                 if (!item) continue;
                 const d = item.data;
-                if (d.length === 8) continue;              
-                if (d.length < 126) continue;              
+                if (d.length === 8) continue;
+                if (d.length < 126) continue;
                 const uid = mppI32(d, 0);
                 if (uid < 0) continue;
                 const meta = fixedMeta.items[i];
@@ -7936,7 +7443,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 consData.forEach((it, idx) => { if (it) byOffset.set(it.offset, idx); });
                 for (let i = 0; i < consMeta.itemCount && i < consMeta.items.length; i++) {
                     const meta = consMeta.items[i];
-                    if (mppU16(meta, 0) !== 0) continue;                 
+                    if (mppU16(meta, 0) !== 0) continue;
                     const idx = byOffset.get(mppI32(meta, 4));
                     if (idx === undefined) continue;
                     const d = consData[idx].data;
@@ -8002,22 +7509,22 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             const fixed2Meta = parseFixedMetaHeuristic(need("   114/TBkndTask/Fixed2Meta"), fixedMeta.items.length, [92, 93, 94, 95, 96]);
             const fixed2Data = parseFixedData(fixed2Meta, need("   114/TBkndTask/Fixed2Data"), 0);
 
-            const byUid = new Map();   
+            const byUid = new Map();
             for (let i = 3; i < fixedData.length; i++) {
                 const item = fixedData[i], item2 = fixed2Data[i];
                 if (!item || !item2) continue;
                 const meta = fixedMeta.items[i];
-                if ((mppI32(meta, 0) & 0x02) !== 0) continue;      
+                if ((mppI32(meta, 0) & 0x02) !== 0) continue;
                 const d = item.data, d2 = item2.data;
-                if (d.length === 16 || d.length < 92) continue;    
+                if (d.length === 16 || d.length < 92) continue;
                 const uid = mppI32(d, 0);
                 if (uid < 0 || (uid !== 0 && !varMeta.has(uid))) continue;
                 const name = varData.str(uid, 14);
                 const durTenthMin = mppI32(d, 42);
                 let start = d2.length >= 58 ? mppTimestamp(d2, 50) : null;
                 let finish = d2.length >= 58 ? mppTimestamp(d2, 54) : null;
-                if (!start) start = mppTimestamp(d, 64);       
-                if (!finish) finish = mppTimestamp(d, 68);     
+                if (!start) start = mppTimestamp(d, 64);
+                if (!finish) finish = mppTimestamp(d, 68);
                 byUid.set(uid, {
                     uniqueID: uid,
                     id: mppI32(d, 4),
@@ -8055,7 +7562,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     if (d.length < 14) continue;
                     const pred = mppI32(d, 4), succ = mppI32(d, 8);
                     if (pred === 0 || succ === 0 || pred === succ) continue;
-                    
                     let lagDays = 0;
                     if (d.length >= 20) {
                         if (MPP_PLAUSIBLE_UNITS.has(mppU16(d, 14))) lagDays = mppI32(d, 16) / 4800;
@@ -8080,8 +7586,8 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
             const newPhases = [];
             const newTasks = [];
-            const phaseByUid = {};      
-            const taskByUid = {};       
+            const phaseByUid = {};
+            const taskByUid = {};
             const palette = colorPalette;
             let colorIdx = 0;
 
@@ -8129,7 +7635,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             tasks = newTasks;
             phases = newPhases;
             config.startDate = projStart;
-            durationMode = "working";           
+            durationMode = "working";
             calInvalidate();
             if (projectSummary && projectSummary.name) {
                 document.getElementById("project-title-text").innerText = projectSummary.name;
@@ -8163,14 +7669,12 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             if (!result.isCfb) return result;
 
             const scanAscii = (bytes) => {
-                
                 const txt = Array.from(bytes, b => (b >= 32 && b < 127) ? String.fromCharCode(b) : "\u0000").join("");
                 const m = txt.match(/MSProject\.(MPP|MPT|GLOBAL)(\d+)/);
                 return m ? { kind: m[1], version: m[2] } : null;
             };
 
             let hit = null;
-            
             try {
                 if (typeof XLSX !== "undefined" && XLSX.CFB && XLSX.CFB.read) {
                     const cfb = XLSX.CFB.read(uint8, { type: "array" });
@@ -8208,7 +7712,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 title = tt("invalidFileFormat", "Invalid file format.");
                 msg = tt("mppNotCfb", `"${fileName}" is not a valid Microsoft Project MPP file (wrong container format). If it was exported by another tool, try requesting MS Project XML instead.`);
             } else if ((info.version === "9" || info.version === "14") && info.cfb && info.projectDirFound && !info.isTemplate) {
-                
                 try {
                     const parsed = info.version === "9" ? readMpp9(info.cfb, XLSX.CFB) : readMpp14(info.cfb);
                     if (applyMpp9Project(parsed, fileName)) return;
@@ -8221,7 +7724,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 const v = MPP_VERSIONS[info.version];
                 const kind = info.isTemplate ? tt("mppTemplateWord", "template") : tt("mppFileWord", "file");
                 if (info.version === "14" || info.version === "9") {
-                    
                     msg = `${tt("mppIsA", "This is a")} ${v.product} ${kind} (${v.label}). ` + xmlHint;
                 } else {
                     msg = `${tt("mppIsA", "This is a")} ${v.product} ${kind} (${v.label}). ` +
@@ -8302,8 +7804,8 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
         }
 
         const WEEKDAY_SHORT = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-        const WEEKDAY_ORDER = [1, 2, 3, 4, 5, 6, 0];   
-        let _pendingCalendar = null;   
+        const WEEKDAY_ORDER = [1, 2, 3, 4, 5, 6, 0];
+        let _pendingCalendar = null;
 
         function renderCalendarSettings() {
             if (!_pendingCalendar) _pendingCalendar = JSON.parse(JSON.stringify(calendar));
@@ -8325,7 +7827,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             populateCountryDatalist();
         }
         function uiToggleWeekday(i) {
-            if (_pendingCalendar.workweek.filter(Boolean).length === 1 && _pendingCalendar.workweek[i]) return; 
+            if (_pendingCalendar.workweek.filter(Boolean).length === 1 && _pendingCalendar.workweek[i]) return;
             _pendingCalendar.workweek[i] = !_pendingCalendar.workweek[i];
             renderCalendarSettings();
         }
@@ -8366,7 +7868,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             rebasePlan(n);
             document.getElementById("settings-rebase-days").value = 0;
         }
-        
         function commitCalendarSettings() {
             if (_pendingCalendar) {
                 calendar = JSON.parse(JSON.stringify(_pendingCalendar));
@@ -8374,7 +7875,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             }
             const wantWorking = document.getElementById("settings-working-mode").checked;
             const wantMode = wantWorking ? "working" : "calendar";
-            if (wantMode !== durationMode) setDurationMode(wantMode);   
+            if (wantMode !== durationMode) setDurationMode(wantMode);
         }
 
         function openProjectSettingsModal() {
@@ -8423,7 +7924,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 "Clear Project",
                 "Are you sure you want to clear the entire project? This will delete all phases and tasks. This action cannot be undone.",
                 () => {
-                    
                     tasks = [];
                     phases = [];
 
@@ -8451,7 +7951,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             if (newDateStr) {
                 const newDate = parseLocal(newDateStr);
                 if (!isNaN(newDate)) {
-                    
                     let minStart = Infinity;
                     tasks.forEach((t) => {
                         if (t.start < minStart) minStart = t.start;
@@ -8462,7 +7961,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     const deltaDays = diffDays(currentProjectStart, newDate);
 
                     if (deltaDays !== 0) {
-                        
                         config.startDate = addDays(config.startDate, deltaDays);
                     }
                 }
@@ -8887,7 +8385,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
             const presets = [
                 ["#4f46e5", "#0ea5e9", "#8b5cf6", "#f43f5e"],
-                
                 ["#0460a9", "#a13323", "#ec7f22", "#ffd430"],
                 ["#0b41cd", "#1482fa", "#ed4a0d", "#f68a08"],
                 ["#2f32f3", "#f5006a", "#fb590e", "#feaf0c"],
@@ -9059,12 +8556,10 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     if (t.id === currentTaskId) {
                         optionsHtml += `<option value="${t.id}" disabled>>> ${pIndex + 1}.${tIndex + 1} ${escapeHTML(t.name)} (${i18nEsc("currentTask")})</option>`;
                     } else {
-                        
                         optionsHtml += `<option value="${t.id}">${t.wbs ? t.wbs + ' ' : ''}${escapeHTML(t.name)}</option>`;
                     }
                 });
             });
-            
             window.currentTaskOptionsHtml = optionsHtml;
         }
 
@@ -9117,7 +8612,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
         function deleteTaskFast(id, event) {
             if (event) event.stopPropagation();
             openConfirmModal(i18n("deleteTask"), i18n("confirmDeleteTask"), () => {
-                selectedTaskIds.delete(id); 
+                selectedTaskIds.delete(id);
                 tasks = tasks.filter((t) => t.id !== id);
                 tasks.forEach((t) => {
                     t.dependsOn = t.dependsOn.filter((dep) => dep.id !== id);
@@ -9131,7 +8626,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             const id = document.getElementById("modal-id").value;
             if (!id) return;
             openConfirmModal(i18n("deleteTask"), i18n("confirmDeleteTask"), () => {
-                selectedTaskIds.delete(id); 
+                selectedTaskIds.delete(id);
                 tasks = tasks.filter((t) => t.id !== id);
                 tasks.forEach((t) => {
                     t.dependsOn = t.dependsOn.filter((dep) => dep.id !== id);
@@ -9201,12 +8696,12 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             document.getElementById("modal-actual-budget").value = task.actualBudget !== null && task.actualBudget !== undefined ? task.actualBudget : "";
 
             const depListContainer = document.getElementById("modal-dependencies-list");
-            depListContainer.innerHTML = ""; 
+            depListContainer.innerHTML = "";
 
             if (task.dependsOn && task.dependsOn.length > 0) {
                 task.dependsOn.forEach(dep => addDependencyRow(dep));
             } else {
-                addDependencyRow(); 
+                addDependencyRow();
             }
 
             toggleDurationField();
@@ -9269,9 +8764,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         alert(i18n("selfDependencyRemoved"));
                         return;
                     }
-                    
                     if (!depArray.find(d => d.id === targetId)) {
-
                         if (id && wouldCreateCycle(targetId, id)) {
                             showWarningToast(i18n("cycleBlocked") !== "cycleBlocked"
                                 ? i18n("cycleBlocked")
@@ -9287,7 +8780,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 const task = tasks.find((t) => t.id === id);
                 task.name = name; task.label = labelVal; task.type = type; task.phaseId = phaseId; task.start = startOffset; task.duration = duration;
                 task.dependsOn = depArray;
-                task.contact = contact; task.budget = budget; task.resources = resources; task.assignments = assignments; task.comments = comments; 
+                task.contact = contact; task.budget = budget; task.resources = resources; task.assignments = assignments; task.comments = comments;
                 task.actualStart = actStartOff; task.actualDuration = actDur; task.actualBudget = actBudget;
                 task.locked = currentModalLocked; task.tags = [...currentModalTags];
             } else {
@@ -9295,7 +8788,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     id: "t_" + Math.random().toString(36).substr(2, 9),
                     name: name, label: labelVal, type: type, phaseId: phaseId, start: startOffset, duration: duration,
                     dependsOn: depArray,
-                    contact: contact, budget: budget, resources: resources, assignments: assignments, comments: comments, 
+                    contact: contact, budget: budget, resources: resources, assignments: assignments, comments: comments,
                     actualStart: actStartOff, actualDuration: actDur, actualBudget: actBudget,
                     locked: currentModalLocked, tags: [...currentModalTags],
                 });
@@ -9331,7 +8824,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     const aoaTimeline = [
                         ["Project Title", title], ["Planned end date", plannedDateStr], ["Deviation in days", projectDeviation > 0 ? "+" + projectDeviation : projectDeviation],
                         ["Planned Budget", totalPlanned], ["Actual Budget", totalActual], [],
-                        
                         ["Phase", "Task Name", "Start Date", "End Date", "Predecessor", "Contact Person", "Task Budget", "Resources", "Assignments", "Actual Start", "Actual End", "Actual Budget", "Locked", "Tags", "Label", "Comments"],
                     ];
 
@@ -9365,7 +8857,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                             aoaTimeline.push([
                                 "", `${indentSpace}${item.wbs} ${t.name}`, formatDateInput(startD), formatDateInput(endD),
                                 predNames, t.contact || "", t.budget || 0, t.resources || "", t.assignments || "",
-                                aStartStr, aEndStr, aBudget, t.locked ? "Y" : "N", tagStr, t.label || "", t.comments || "" 
+                                aStartStr, aEndStr, aBudget, t.locked ? "Y" : "N", tagStr, t.label || "", t.comments || ""
                             ]);
                         }
                     });
@@ -9418,7 +8910,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
                         XLSX.utils.book_append_sheet(wb, wsTimeline, "Timeline");
                         XLSX.utils.book_append_sheet(wb, wsSetup, "Setup");
-
                         XLSX.utils.book_append_sheet(wb, buildInfoSheet(), "INFO");
             return { wb, title, dateStr };
         }
@@ -9438,7 +8929,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         setTimeout(hideLoader, 500);
                     }, 50);
                 } catch (e) {
-                    generateRenderList(false); 
+                    generateRenderList(false);
                     alert(i18n("errorExportingExcelFile"));
                     hideLoader();
                 }
@@ -9454,7 +8945,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     generateRenderList(false);
 
                     const title = escapeHTML(document.getElementById("project-title-text").innerText);
-
                     const dateStr = `${String(config.startDate.getFullYear()).slice(-2)}${String(config.startDate.getMonth() + 1).padStart(2, "0")}${String(config.startDate.getDate()).padStart(2, "0")}`;
                     let xml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Project xmlns="http://schemas.microsoft.com/project">\n<Name>${title}</Name>\n`;
                     const projectStartStr = `${config.startDate.toISOString().split("T")[0]}T08:00:00`;
@@ -9503,7 +8993,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                                         if (dep.type === 'FF') typeVal = 0;
                                         if (dep.type === 'SF') typeVal = 2;
                                         if (dep.type === 'SS') typeVal = 3;
-                                        let lagVal = (dep.lag || 0) * 4800; 
+                                        let lagVal = (dep.lag || 0) * 4800;
                                         xml += `    <PredecessorLink>\n      <PredecessorUID>${idMap[dep.id]}</PredecessorUID>\n      <Type>${typeVal}</Type>\n      <LinkLag>${lagVal}</LinkLag>\n    </PredecessorLink>\n`;
                                     }
                                 });
@@ -9531,7 +9021,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         setTimeout(hideLoader, 500);
                     }, 500);
                 } catch (e) {
-                    generateRenderList(false); 
+                    generateRenderList(false);
                     alert(i18n("errorFormattingXmlFile"));
                     hideLoader();
                 }
@@ -9540,16 +9030,14 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
         function parseAndLoadExcel(workbook) {
             let sawDurationMode = false;
-            durationMode = "calendar";   
+            durationMode = "calendar";
             calInvalidate();
             if (!workbook || !workbook.SheetNames || workbook.SheetNames.length === 0) return alert(i18n("invalidFileFormat"));
 
             window.__nativeTimelineImport = false;
             if (workbook.SheetNames.includes("INFO")) {
                 const infoAoA = XLSX.utils.sheet_to_json(workbook.Sheets["INFO"], { header: 1, raw: false, defval: "" });
-                
                 window.__nativeTimelineImport = !!(infoAoA[1] && String(infoAoA[1][0] || "").trim() === "Project Timeline");
-
                 if (!window.__cdeCtx) parseProjectInfoAoA(infoAoA);
             }
 
@@ -9626,19 +9114,14 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
             let newPhases = []; let newTasks = [];
             const headerRow = timelineRows[0] || [];
-            
             let colName = -1, colStart = -1, colEnd = -1, colPred = -1, colContact = -1;
 
             for (let i = 0; i < headerRow.length; i++) {
                 let h = String(headerRow[i]).trim().toLowerCase();
-                
                 if (colName === -1 && (h.includes("name") || h.includes("vorgang") || h.includes("tâche") || h.includes("tarea"))) colName = i;
-                
                 else if (colStart === -1 && (h.includes("start") || h.includes("anfang") || h.includes("début") || h.includes("comienzo") || h.includes("inicio"))) colStart = i;
                 else if (colEnd === -1 && (h.includes("finish") || h.includes("ende") || h.includes("fin"))) colEnd = i;
-                
                 else if (colPred === -1 && (h.includes("pred") || h.includes("vorgänger") || h.includes("vorganger") || h.includes("préd") || h.includes("predec"))) colPred = i;
-                
                 else if (colContact === -1 && (h.includes("res") || h.includes("ressource") || h.includes("recurso"))) colContact = i;
             }
 
@@ -9760,7 +9243,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                                 let finalType = typeMap[rawType] || rawType;
 
                                 return {
-                                    id: match[1], 
+                                    id: match[1],
                                     type: finalType,
                                     lag: match[3] ? parseFloat(match[3].replace(/\s+/g, '')) : 0
                                 };
@@ -9782,7 +9265,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 newTasks.forEach(t => {
                     if (t._mspPredIds) {
                         t._mspPredIds.forEach(pObj => {
-                            
                             if (mspIdMap[pObj.id] && mspIdMap[pObj.id].startsWith("t_")) {
                                 t.dependsOn.push({ id: mspIdMap[pObj.id], type: pObj.type, lag: pObj.lag });
                             }
@@ -9899,14 +9381,14 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 newTasks.forEach((t) => {
                     if (t._predNameTemp) {
                         const predNames = t._predNameTemp.split(',').map(s => {
-                            let clean = s.trim().replace(/^[\d\.]+\s+/, "").trim(); 
-                            clean = clean.replace(/\s+(FS|SS|FF|SF)([+-]\d+.*?)*$/i, "").trim(); 
+                            let clean = s.trim().replace(/^[\d\.]+\s+/, "").trim();
+                            clean = clean.replace(/\s+(FS|SS|FF|SF)([+-]\d+.*?)*$/i, "").trim();
                             return clean;
                         });
 
                         predNames.forEach(cleanName => {
                             if (cleanName && taskNameMap[cleanName]) {
-                                t.dependsOn.push({ id: taskNameMap[cleanName], type: "FS", lag: 0 }); 
+                                t.dependsOn.push({ id: taskNameMap[cleanName], type: "FS", lag: 0 });
                             }
                         });
                     }
@@ -9918,7 +9400,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 phases = newPhases; tasks = newTasks;
                 updateAndRenderAll();
             } else if (window.__nativeTimelineImport) {
-
                 phases = []; tasks = [];
                 updateAndRenderAll();
             } else {
@@ -10042,7 +9523,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         newTasks.push({
                             id: taskId, name: name, type: type, phaseId: targetPhaseId, start: startOffset, duration: duration,
                             dependsOn: [], contact: contactNode ? contactNode.textContent : "", budget: parsedBudget, resources: "", assignments: "",
-                            comments: notesNode ? notesNode.textContent : "", 
+                            comments: notesNode ? notesNode.textContent : "",
                             actualStart: actStartOff, actualDuration: actDur, actualBudget: actBudget, locked: false, tags: [], _mspPreds: preds,
                         });
                     }
@@ -10075,7 +9556,6 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
         }
 
         function initializeProjectTimelineApp() {
-            
             let converted = false;
             tasks.forEach((t) => {
                 if (t.dependsOn && t.dependsOn.length > 0 && typeof t.dependsOn[0] === "string") {
@@ -10116,9 +9596,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
         document.addEventListener("DOMContentLoaded", () => {
             initializeProjectTimelineApp();
-
             setDurationMode("working");
-
             cdeAutoOpen().then((viaCde) => {
                 if (viaCde) return;
                 checkSharedPlanInURL();

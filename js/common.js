@@ -1,3 +1,100 @@
+/*
+ * Copyright 2026 Luis Torrecilla (liteAECO)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// ========
+// liteAECO - (common.js)
+// ========
+
+window.dataLayer = window.dataLayer || [];
+function gtag() { dataLayer.push(arguments); }
+gtag('js', new Date());
+
+if (localStorage.getItem('cookieConsent') === 'declined') {
+    window['ga-disable-G-WF672S6T88'] = true;
+}
+
+gtag('config', 'G-WF672S6T88');
+
+(function () {
+    const gaScript = document.createElement('script');
+    gaScript.async = true;
+    gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-WF672S6T88';
+    const firstScript = document.getElementsByTagName('script')[0];
+    if (firstScript && firstScript.parentNode) {
+        firstScript.parentNode.insertBefore(gaScript, firstScript);
+    } else {
+        document.head.appendChild(gaScript);
+    }
+})();
+
+window.handleCookieChoice = function (choice) {
+    localStorage.setItem('cookieConsent', choice);
+    const banner = document.getElementById('cookie-banner');
+    if (banner) banner.remove();
+
+    if (choice === 'declined') {
+        window['ga-disable-G-WF672S6T88'] = true;
+
+        if (window._paq) {
+            _paq.push(['forgetConsentGiven']);
+            _paq.push(['optUserOut']);
+        }
+    } else if (choice === 'accepted') {
+        window['ga-disable-G-WF672S6T88'] = false;
+    }
+};
+
+window.injectCookieBanner = function () {
+    if (localStorage.getItem('cookieConsent')) {
+        return;
+    }
+
+    const banner = document.createElement('div');
+    banner.id = 'cookie-banner';
+
+    banner.className = 'fixed bottom-4 left-4 right-4 md:left-auto md:max-w-sm z-[999] bg-white rounded border border-slate-200 shadow-lg p-4 flex flex-col gap-3 transition-opacity duration-300';
+
+    banner.innerHTML = `
+        <span class="text-xs text-slate-600 leading-relaxed text-center">
+            We use third-party cookies that help us analyze and understand how you use this website. These will be stored locally, but you still have the option to opt-out.
+        </span>
+        <div class="flex items-center justify-center gap-4 pt-1">
+            <button onclick="window.handleCookieChoice('declined')" class="text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-slate-800 transition-colors">
+                Opt-out
+            </button>
+            <button onclick="window.handleCookieChoice('accepted')" class="text-[10px] font-bold uppercase tracking-widest text-indigo-600 hover:text-indigo-800 transition-colors">
+                Accept
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(banner);
+};
+
+window.handleCookieChoice = function (choice) {
+    localStorage.setItem('cookieConsent', choice);
+    const banner = document.getElementById('cookie-banner');
+    if (banner) banner.remove();
+
+    if (choice === 'declined' && window._paq) {
+        _paq.push(['forgetConsentGiven']);
+        _paq.push(['optUserOut']);
+    }
+};
+
 window.isHighPerformance = function () {
     let isHighPerf = true;
 
@@ -59,12 +156,12 @@ const APPS = [
     { id: 20, skipModal: false, icon: 'triangle-alert', categories: ['ops'], url: window.SITE_ROOT + 'tools/incident-rca.html' },
     { id: 18, skipModal: false, icon: 'zap', categories: ['bim'], url: window.SITE_ROOT + 'tools/ifc-optimizer.html' },
     { id: 4, skipModal: false, icon: 'merge', rotation: 90, categories: ['bim'], url: window.SITE_ROOT + 'tools/ifc-merger.html' },
-    
+
     { id: 22, skipModal: false, icon: 'chart-spline', categories: ['pm'], url: window.SITE_ROOT + 'tools/monte-carlo-simulator.html' },
     { id: 8, skipModal: false, icon: 'square-arrow-right-exit', categories: ['data'], url: window.SITE_ROOT + 'tools/ifc-pset-export.html' },
     { id: 9, skipModal: false, icon: 'square-arrow-right-enter', rotation: 180, categories: ['data'], url: window.SITE_ROOT + 'tools/ifc-inject-properties.html' },
     { id: 16, skipModal: false, icon: 'combine', rotation: 180, categories: ['data'], url: window.SITE_ROOT + 'tools/data-merger.html' },
-    
+
     { id: 6, skipModal: false, icon: 'spell-check-2', categories: ['bim'], url: window.SITE_ROOT + 'tools/ifc-pset-renamer.html' },
     { id: 7, skipModal: false, icon: 'shredder', categories: ['bim'], url: window.SITE_ROOT + 'tools/ifc-pset-delete.html' },
     { id: 5, skipModal: false, icon: 'app-window-mac', categories: ['bim'], url: window.SITE_ROOT + 'tools/ifc-application-changer.html' },
@@ -72,13 +169,12 @@ const APPS = [
 
     { id: 24, skipModal: false, icon: 'drafting-compass', categories: ['ops'], url: window.SITE_ROOT + 'tools/dxf-editor.html' },
     { id: 25, skipModal: false, icon: 'columns-2', categories: ['ops'], url: window.SITE_ROOT + 'tools/dxf-compare.html' },
-    { id: 23, skipModal: false, icon: 'equal-not', categories: ['bim'], url: window.SITE_ROOT + 'tools/ifc-compare.html' }, 
-
+    { id: 23, skipModal: false, icon: 'equal-not', categories: ['bim'], url: window.SITE_ROOT + 'tools/ifc-compare.html' },
 ];
 
 let activeCategory = 'all';
 
-const LANGS = ['en', 'de', 'es', 'fr', 'pt', 'it', 'ko', 'ja', 'zh']; 
+const LANGS = ['en', 'de', 'es', 'fr', 'pt', 'it', 'ko', 'ja', 'zh'];
 const LANG_NAMES = {
     en: 'English', de: 'German', es: 'Spanish', fr: 'French',
     pt: 'Portuguese', it: 'Italian', ko: 'Korean', ja: 'Japanese', zh: 'Chinese'
@@ -131,12 +227,10 @@ function selectLang(code) {
 }
 
 let langRequestSeq = 0;
-
 let activeGlobalSnapshot = null;
 let activePageSnapshot = null;
 
 window.loadLanguage = function (lang, pageScriptPrefix) {
-    
     const seq = ++langRequestSeq;
 
     window.GLOBAL_I18N = { ...BASE_GLOBAL, categories: { ...BASE_GLOBAL.categories }, apps: { ...BASE_GLOBAL.apps } };
@@ -166,7 +260,6 @@ window.loadLanguage = function (lang, pageScriptPrefix) {
     }
 
     Promise.all(scriptsToLoad).then((results) => {
-
         if (seq !== langRequestSeq) {
             if (activeGlobalSnapshot) window.GLOBAL_I18N = activeGlobalSnapshot;
             if (activePageSnapshot) window.PAGE_I18N = activePageSnapshot;
@@ -235,12 +328,10 @@ function getTranslations() {
 
 window.t = function (key) {
     const d = typeof getTranslations === 'function' ? getTranslations() : (window.PAGE_I18N || {});
-    
     return d[key] !== undefined ? d[key] : key;
 };
 
 function applyLanguage() {
-    
     const d = typeof getTranslations === 'function' ? getTranslations() : window.PAGE_I18N;
     if (!d) return;
 
@@ -296,7 +387,6 @@ function applyUiLinkTarget(root) {
 }
 
 window.injectUI = function (options = {}) {
-    
     if (typeof options.linkTarget === 'string' && options.linkTarget) window._uiLinkTarget = options.linkTarget;
     const showSignIn = options.showSignIn !== false;
     const showCategories = options.showCategories !== false;
@@ -322,14 +412,14 @@ window.injectUI = function (options = {}) {
 
         let useTransparency;
         if (typeof options.transparentNav === 'boolean') {
-            useTransparency = options.transparentNav; 
+            useTransparency = options.transparentNav;
         } else {
-            useTransparency = window.isHighPerformance(); 
+            useTransparency = window.isHighPerformance();
         }
 
         const navBgClass = useTransparency
             ? "bg-white/80 backdrop-blur-md border-slate-50"
-            : "bg-white border-slate-200"; 
+            : "bg-white border-slate-200";
 
         nav.className = `fixed top-0 left-0 right-0 z-[150] transition-all duration-300 border-b shadow-[0_4px_30px_rgba(0,0,0,0.03)] ${navBgClass}`;
 
@@ -352,7 +442,7 @@ window.injectUI = function (options = {}) {
                 ${showCategories ? `<div id="desktop-nav" class="hidden md:flex items-center h-full"></div>` : ''}
 
                 <div class="hidden md:flex items-center gap-3 h-full">
-    
+
                     ${showNews ? `
                     <a href="https://liteaeco.com/news/" target="_blank" rel="noopener noreferrer" class="text-[12px] font-bold uppercase tracking-widest text-slate-600 hover:text-indigo-600 transition-colors px-2" id="ui-link-news">
                         News
@@ -505,7 +595,6 @@ window.injectUI = function (options = {}) {
 };
 
 function renderNav() {
-    
     const desktopNav = document.getElementById('desktop-nav');
     const mobileNav = document.getElementById('mobile-nav');
 
@@ -514,7 +603,6 @@ function renderNav() {
     const d = getTranslations();
 
     desktopNav.innerHTML = CATEGORIES.map(cat => {
-        
         const catLabel = (d.categories && d.categories[cat.id]) || cat.label;
 
         if (cat.id === 'all') {
@@ -628,7 +716,7 @@ window.toggleMobileCat = function (catId) {
     window._mobileOpenCat = (window._mobileOpenCat === catId) ? null : catId;
 
     if (window._mobileOpenCat && typeof renderCards === 'function') {
-        window.setCategory(catId); 
+        window.setCategory(catId);
     } else {
         renderNav();
     }
@@ -648,7 +736,6 @@ window.setCategory = function (catId) {
 };
 
 function setupHelpButton() {
-    
     const fileNameFull = window.location.pathname.split('/').pop();
     if (!fileNameFull) return;
 
