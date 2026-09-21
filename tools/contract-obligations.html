@@ -16,1025 +16,53 @@
   liteAECO - (contract-obligations.html)
 -->
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="author" content="Luis Torrecilla">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contract Obligations - Extract & Format Contract Data for REFM | liteAECO</title>
-
-    <meta name="description" content="Free client-side tool to extract key obligations from contracts and format them for REFM requirements. No uploads, private, fast, and built for AEC project teams.">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://liteaeco.com/tools/contract-obligations.html">
-
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://liteaeco.com/tools/contract-obligations.html">
-    <meta property="og:site_name" content="liteAECO">
-    <meta property="og:title" content="Contract Obligations - Extract & Format Contract Data for REFM | liteAECO">
-    <meta property="og:description" content="Free client-side tool to extract key obligations from contracts and format them for REFM requirements. No uploads, private, fast, and built for AEC project teams.">
-    <meta property="og:image" content="https://liteaeco.com/img/og-contract-obligations.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="liteAECO Contract Obligations tool interface">
-    <meta property="og:locale" content="en_US">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://liteaeco.com/tools/contract-obligations.html">
-    <meta name="twitter:title" content="Contract Obligations - Extract & Format Contract Data for REFM | liteAECO">
-    <meta name="twitter:description" content="Free client-side tool to extract key obligations from contracts and format them for REFM requirements. No uploads, private, fast, and built for AEC project teams.">
-    <meta name="twitter:image" content="https://liteaeco.com/img/og-contract-obligations.png">
-
-    <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="../img/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
-    <meta name="theme-color" content="#ffffff">
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../js/vendor/lucide-1.45.0.min.js"></script>
-
-    <script>window.SITE_ROOT = '../';</script>
-    <script src="../lang/en/global.js"></script>
-    <script src="../js/common.js"></script>
-    <script src="../js/liteaeco-autosave.js"></script>
-
-    <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
-    <script src="../templates/contract-obligations/contract-templates.js"></script>
-    <script type="module">
-        let resolveReady;
-        window.pdfjsReady = new Promise(res => { resolveReady = res; });
-        import('../js/pdf/pdf-6.1.200.min.js').then(pdfjsLib => {
-            pdfjsLib.GlobalWorkerOptions.workerSrc = '../js/pdf/pdf-worker-6.1.200.min.js';
-            window.pdfjsLib = pdfjsLib;
-            resolveReady(pdfjsLib);
-        }).catch(err => {
-            console.error('PDF.js failed to load', err);
-            window.pdfjsLoadError = err;
-        });
-    </script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
-                    }
-                }
-            }
-        }
-    </script>
-
-    <link rel="stylesheet" type="text/css" href="../css/global.css">
-
-    <style>
-        .co-switch:has(#co-save-menu-disconnect:not(.hidden)){background:#22c55e}
-        .co-switch:has(#co-save-menu-disconnect:not(.hidden)) .co-knob{transform:translateX(16px)}
-
-        mark.hl-date {
-            background-color: #fef08a;
-            color: #854d0e;
-            padding: 0.125rem 0.25rem;
-            border-radius: 0.25rem;
-            font-weight: 600;
-        }
-
-        mark.hl-clause {
-            background-color: #c7d2fe;
-            color: #3730a3;
-            padding: 0.125rem 0.25rem;
-            border-radius: 0.25rem;
-            font-weight: 600;
-        }
-
-        mark.hl-refm {
-            background-color: #bbf7d0;
-            color: #166534;
-            padding: 0.125rem 0.25rem;
-            border-radius: 0.25rem;
-            font-weight: 600;
-        }
-    </style>
-</head>
-
-<body
-    class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
-
-    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
-
-        <div class="bg-white">
-            <div
-                class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4">
-                <div class="flex items-center gap-3">
-                    <div
-                        class="w-10 h-10 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-900 shrink-0">
-                        <i data-lucide="book-search" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-2xl font-bold text-slate-900 tracking-tight leading-tight" id="ui-title">
-                            Contract Obligations Extraction</h1>
-                        <p class="text-sm font-medium text-indigo-500 uppercase tracking-widest mt-0.5"
-                            id="ui-subtitle">REFM Swiss Commercial Lease (Swiss Code)</p>
-                    </div>
-                </div>
-
-                <div class="flex items-center">
-                    <span class="hidden">
-                        <i data-lucide="save" id="co-save-icon-off"></i>
-                        <i data-lucide="save-check" id="co-save-icon-on" class="hidden"></i>
-                    </span>
-                    <div class="flex items-center rounded overflow-visible relative gap-2">
-
-                        <div class="relative group flex-1 min-w-[80px]">
-                            <button
-                                class="w-full px-3 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1">
-                                <i data-lucide="folder-open" class="w-3.5 h-3.5 shrink-0"></i> <span
-                                    data-i18n="btnOpen">Open</span>
-                            </button>
-                            <div
-                                class="absolute top-full left-0 min-w-full w-max mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden">
-                                <button onclick="document.getElementById('jsonUpload').click()"
-                                    class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 uppercase tracking-widest border-b border-slate-100 text-left whitespace-nowrap transition-colors" data-i18n="openFileMenu">Open file…</button>
-                                <button onclick="document.getElementById('pdfUpload').click()"
-                                    class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 uppercase tracking-widest border-b border-slate-100 text-left whitespace-nowrap transition-colors">Load PDF…</button>
-                                <button onclick="document.getElementById('dictImportBtn').click()"
-                                    class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 uppercase tracking-widest text-left whitespace-nowrap transition-colors">Import dictionary…</button>
-                            </div>
-                            <input type="file" id="jsonUpload" class="hidden" accept=".json" />
-                        </div>
-
-                        <div class="relative group flex-1 min-w-[80px]">
-                            <button
-                                class="w-full px-3 py-1.5 bg-white border border-slate-200 hover:border-green-200 hover:bg-green-50 hover:text-green-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1">
-                                <i data-lucide="file-output" class="w-3.5 h-3.5 shrink-0"></i>
-                                <span data-i18n="btnExport">Export</span>
-                            </button>
-                            <div
-                                class="absolute top-full left-0 min-w-full w-max mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden">
-                                <button onclick="exportResults('xlsx')"
-                                    class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-green-600 hover:bg-green-50 uppercase tracking-widest border-b border-slate-100 text-left transition-colors">XLSX</button>
-                                <button onclick="exportResults('ods')"
-                                    class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-green-600 hover:bg-green-50 uppercase tracking-widest border-b border-slate-100 text-left transition-colors">ODS</button>
-                                <button onclick="exportResults('xml')"
-                                    class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-green-600 hover:bg-green-50 uppercase tracking-widest border-b border-slate-100 text-left transition-colors">XML</button>
-                                <button onclick="exportResults('json')"
-                                    class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-green-600 hover:bg-green-50 uppercase tracking-widest border-b border-slate-100 text-left transition-colors">JSON</button>
-                                <button onclick="document.getElementById('dictExportBtn').click()"
-                                    class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-green-600 hover:bg-green-50 uppercase tracking-widest text-left whitespace-nowrap transition-colors">Dictionary…</button>
-                            </div>
-                        </div>
-
-                        <div class="relative group">
-                            <button
-                                class="px-3 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center"
-                                title="Options" data-i18n-title="optionsMenu"><i data-lucide="settings"
-                                    class="w-3.5 h-3.5"></i></button>
-                            <div
-                                class="absolute top-full right-0 w-44 mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden">
-                                <button onclick="autosaveToggle()" id="co-autosave-row"
-                                    class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 uppercase tracking-widest border-b border-slate-100 text-left transition-colors flex items-center justify-between gap-3">
-                                    <span data-i18n="autosaveToggle">Autosave</span>
-                                    <span class="co-switch relative inline-block w-8 h-4 rounded-full bg-slate-300 shrink-0 transition-colors">
-                                        <span id="co-save-menu-disconnect" class="hidden"></span>
-                                        <span class="co-knob absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white shadow transition-transform duration-200"></span>
-                                    </span>
-                                </button>
-                                <button onclick="Autosave.openHistory()"
-                                    class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 uppercase tracking-widest border-b border-slate-100 text-left transition-colors" data-i18n="historyMenu">History</button>
-                                <button onclick="openDictPicker()"
-                                    class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 uppercase tracking-widest text-left whitespace-nowrap transition-colors">Dictionaries…</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <details class="text-sm text-slate-600 leading-relaxed group border-b border-slate-300 pb-4 mb-6 md:mb-8">
-				<summary class="cursor-pointer list-none flex items-center gap-2 font-semibold text-slate-900 select-none">
-					<i data-lucide="chevron-right" class="w-4 h-4 text-indigo-500 transition-transform group-open:rotate-90"></i>
-					<span id="ui-rule-title">What this tool does</span>
-				</summary>
-
-				<p><span
-                        id="ui-rule-desc-1">This tool is meant to be used only for Rental Contracts within
-                        <strong>Switzerland</strong>, the current parser is set up for the Swiss Code. Load or paste the
-                        contract text below, the tool uses browser-based regular expressions (Regex) to extract
-                        structured parameters, identify data, and highlight standard clauses. You can also use the
-                        integrated search and map attributes manually if needed.</span></p>
-                <div
-                    class="bg-amber-50 border border-amber-200 rounded p-3 text-[11.5px] font-mono text-amber-800 mt-4 shadow-sm flex items-start gap-2">
-                    <i data-lucide="alert-triangle" class="w-4 h-4 shrink-0 mt-0.5"></i>
-                    <p><strong id="ui-alert-title">Limitation (Information Overload):</strong> <span
-                            id="ui-alert-text">This tool now combines highly specific data extraction with broad clause
-                            highlighting. Regular expressions extract syntactic patterns but do not understand legal
-                            context. Missing clauses do not necessarily mean missing obligations (the discretionary “OR”
-                            often applies).</span></p>
-                </div>
-			</details>
-        </div>
-
-        <div class="grid grid-cols-1 xl:grid-cols-[400px_1fr] gap-6">
-            <div class="flex flex-col gap-6">
-                <div class="pr-6 border-r border-slate-300 ">
-                    <h2 class="text-base font-bold text-slate-800 flex items-center justify-between mb-4">
-                        <div class="flex items-center">
-                            <span
-                                class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold">1</span>
-                            <span id="ui-step-1">Contract Text Input</span>
-                        </div>
-                    </h2>
-
-                    <div class="flex gap-2 mb-4">
-                        <label
-                            class="flex-1 text-center text-xs font-semibold text-slate-700 hover:text-indigo-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 px-2.5 py-2 rounded transition cursor-pointer flex items-center justify-center gap-1.5">
-                            <i data-lucide="file-up" class="w-3.5 h-3.5"></i> <span id="ui-load-pdf">Load PDF</span>
-                            <input type="file" id="pdfUpload" accept=".pdf" class="hidden" />
-                        </label>
-                        <button id="loadSampleBtn"
-                            class="flex-1 text-xs font-semibold text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-2.5 py-2 rounded transition">
-                            <span id="ui-load-sample">Load Sample Text</span>
-                        </button>
-                    </div>
-
-                    <div id="pdfLoadingIndicator"
-                        class="hidden bg-indigo-50 border border-indigo-100 rounded p-3 mb-3 text-xs text-indigo-700 font-medium flex items-center gap-2">
-                        <span
-                            class="animate-spin inline-block w-4 h-4 border-2 border-current border-t-transparent text-indigo-600 rounded-full"
-                            role="status" aria-label="loading"></span>
-                        <span id="ui-extracting">Extracting text from PDF...</span>
-                    </div>
-
-                    <textarea id="contractInput"
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="author" content="Luis Torrecilla"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Contract Obligations - Extract & Format Contract Data for REFM | liteAECO</title> <meta name="description" content="Free client-side tool to extract key obligations from contracts and format them for REFM requirements. No uploads, private, fast, and built for AEC project teams."> <meta name="robots" content="index, follow"> <link rel="canonical" href="https://liteaeco.com/tools/contract-obligations.html"> <meta property="og:type" content="website"> <meta property="og:url" content="https://liteaeco.com/tools/contract-obligations.html"> <meta property="og:site_name" content="liteAECO"> <meta property="og:title" content="Contract Obligations - Extract & Format Contract Data for REFM | liteAECO"> <meta property="og:description" content="Free client-side tool to extract key obligations from contracts and format them for REFM requirements. No uploads, private, fast, and built for AEC project teams."> <meta property="og:image" content="https://liteaeco.com/img/og-contract-obligations.png"> <meta property="og:image:width" content="1200"> <meta property="og:image:height" content="630"> <meta property="og:image:alt" content="liteAECO Contract Obligations tool interface"> <meta property="og:locale" content="en_US"> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:url" content="https://liteaeco.com/tools/contract-obligations.html"> <meta name="twitter:title" content="Contract Obligations - Extract & Format Contract Data for REFM | liteAECO"> <meta name="twitter:description" content="Free client-side tool to extract key obligations from contracts and format them for REFM requirements. No uploads, private, fast, and built for AEC project teams."> <meta name="twitter:image" content="https://liteaeco.com/img/og-contract-obligations.png"> <link rel="icon" type="image/x-icon" href="../img/favicon.ico"> <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png"> <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png"> <link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png"> <link rel="icon" type="image/png" sizes="192x192" href="../img/android-chrome-192x192.png"> <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png"> <meta name="theme-color" content="#ffffff"> <script src="https://cdn.tailwindcss.com"></script> <script src="../js/vendor/lucide-1.45.0.min.js"></script> <script>window.SITE_ROOT='../';</script> <script src="../lang/en/global.js"></script> <script src="../js/common.js"></script> <script src="../js/liteaeco-autosave.js"></script> <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script> <script src="../templates/contract-obligations/contract-templates.js"></script> <script type="module">let resolveReady;window.pdfjsReady=new Promise(res=>{resolveReady=res;});import('../js/pdf/pdf-6.1.200.min.js').then(pdfjsLib=>{pdfjsLib.GlobalWorkerOptions.workerSrc='../js/pdf/pdf-worker-6.1.200.min.js';window.pdfjsLib=pdfjsLib;resolveReady(pdfjsLib);}).catch(err=>{console.error('PDF.js failed to load',err);window.pdfjsLoadError=err;});</script> <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],},colors:{accent:{DEFAULT:'#4f46e5',hover:'#4338ca',light:'#e0e7ff',lighthov:'#c7d2fe',lighter:'#eef2ff',}}}}}
+</script> <link rel="stylesheet" type="text/css" href="../css/global.css"> <style>.co-switch:has(#co-save-menu-disconnect:not(.hidden)){background:#22c55e}.co-switch:has(#co-save-menu-disconnect:not(.hidden)) .co-knob{transform:translateX(16px)}mark.hl-date{background-color:#fef08a;color:#854d0e;padding:0.125rem 0.25rem;border-radius:0.25rem;font-weight:600}mark.hl-clause{background-color:#c7d2fe;color:#3730a3;padding:0.125rem 0.25rem;border-radius:0.25rem;font-weight:600}mark.hl-refm{background-color:#bbf7d0;color:#166534;padding:0.125rem 0.25rem;border-radius:0.25rem;font-weight:600}</style> </head> <body class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col"> <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow"> <div class="bg-white"> <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4"> <div class="flex items-center gap-3"> <div class="w-10 h-10 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-900 shrink-0"> <i data-lucide="book-search" class="w-5 h-5"></i> </div> <div> <h1 class="text-2xl font-bold text-slate-900 tracking-tight leading-tight" id="ui-title"> Contract Obligations Extraction</h1> <p class="text-sm font-medium text-indigo-500 uppercase tracking-widest mt-0.5" id="ui-subtitle">REFM Swiss Commercial Lease (Swiss Code)</p> </div> </div> <div class="flex items-center"> <span class="hidden"> <i data-lucide="save" id="co-save-icon-off"></i> <i data-lucide="save-check" id="co-save-icon-on" class="hidden"></i> </span> <div class="flex items-center rounded overflow-visible relative gap-2"> <div class="relative group flex-1 min-w-[80px]"> <button class="w-full px-3 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1"> <i data-lucide="folder-open" class="w-3.5 h-3.5 shrink-0"></i> <span data-i18n="btnOpen">Open</span> </button> <div class="absolute top-full left-0 min-w-full w-max mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden"> <button onclick="document.getElementById('jsonUpload').click()" class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 uppercase tracking-widest border-b border-slate-100 text-left whitespace-nowrap transition-colors" data-i18n="openFileMenu">Open file…</button> <button onclick="document.getElementById('pdfUpload').click()" class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 uppercase tracking-widest border-b border-slate-100 text-left whitespace-nowrap transition-colors">Load PDF…</button> <button onclick="document.getElementById('dictImportBtn').click()" class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 uppercase tracking-widest text-left whitespace-nowrap transition-colors">Import dictionary…</button> </div> <input type="file" id="jsonUpload" class="hidden" accept=".json" /> </div> <div class="relative group flex-1 min-w-[80px]"> <button class="w-full px-3 py-1.5 bg-white border border-slate-200 hover:border-green-200 hover:bg-green-50 hover:text-green-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1"> <i data-lucide="file-output" class="w-3.5 h-3.5 shrink-0"></i> <span data-i18n="btnExport">Export</span> </button> <div class="absolute top-full left-0 min-w-full w-max mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden"> <button onclick="exportResults('xlsx')" class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-green-600 hover:bg-green-50 uppercase tracking-widest border-b border-slate-100 text-left transition-colors">XLSX</button> <button onclick="exportResults('ods')" class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-green-600 hover:bg-green-50 uppercase tracking-widest border-b border-slate-100 text-left transition-colors">ODS</button> <button onclick="exportResults('xml')" class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-green-600 hover:bg-green-50 uppercase tracking-widest border-b border-slate-100 text-left transition-colors">XML</button> <button onclick="exportResults('json')" class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-green-600 hover:bg-green-50 uppercase tracking-widest border-b border-slate-100 text-left transition-colors">JSON</button> <button onclick="document.getElementById('dictExportBtn').click()" class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-green-600 hover:bg-green-50 uppercase tracking-widest text-left whitespace-nowrap transition-colors">Dictionary…</button> </div> </div> <div class="relative group"> <button class="px-3 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center" title="Options" data-i18n-title="optionsMenu"><i data-lucide="settings" class="w-3.5 h-3.5"></i></button> <div class="absolute top-full right-0 w-44 mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden"> <button onclick="autosaveToggle()" id="co-autosave-row" class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 uppercase tracking-widest border-b border-slate-100 text-left transition-colors flex items-center justify-between gap-3"> <span data-i18n="autosaveToggle">Autosave</span> <span class="co-switch relative inline-block w-8 h-4 rounded-full bg-slate-300 shrink-0 transition-colors"> <span id="co-save-menu-disconnect" class="hidden"></span> <span class="co-knob absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white shadow transition-transform duration-200"></span> </span> </button> <button onclick="Autosave.openHistory()" class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 uppercase tracking-widest border-b border-slate-100 text-left transition-colors" data-i18n="historyMenu">History</button> <button onclick="openDictPicker()" class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 uppercase tracking-widest text-left whitespace-nowrap transition-colors">Dictionaries…</button> </div> </div> </div> </div> </div> <details class="text-sm text-slate-600 leading-relaxed group border-b border-slate-300 pb-4 mb-6 md:mb-8"> <summary class="cursor-pointer list-none flex items-center gap-2 font-semibold text-slate-900 select-none"> <i data-lucide="chevron-right" class="w-4 h-4 text-indigo-500 transition-transform group-open:rotate-90"></i> <span id="ui-rule-title">What this tool does</span> </summary> <p><span id="ui-rule-desc-1">This tool is meant to be used only for Rental Contracts within <strong>Switzerland</strong>, the current parser is set up for the Swiss Code. Load or paste the contract text below, the tool uses browser-based regular expressions (Regex) to extract structured parameters, identify data, and highlight standard clauses. You can also use the integrated search and map attributes manually if needed.</span></p> <div class="bg-amber-50 border border-amber-200 rounded p-3 text-[11.5px] font-mono text-amber-800 mt-4 shadow-sm flex items-start gap-2"> <i data-lucide="alert-triangle" class="w-4 h-4 shrink-0 mt-0.5"></i> <p><strong id="ui-alert-title">Limitation (Information Overload):</strong> <span id="ui-alert-text">This tool now combines highly specific data extraction with broad clause highlighting. Regular expressions extract syntactic patterns but do not understand legal context. Missing clauses do not necessarily mean missing obligations (the discretionary “OR” often applies).</span></p> </div> </details> </div> <div class="grid grid-cols-1 xl:grid-cols-[400px_1fr] gap-6"> <div class="flex flex-col gap-6"> <div class="pr-6 border-r border-slate-300 "> <h2 class="text-base font-bold text-slate-800 flex items-center justify-between mb-4"> <div class="flex items-center"> <span class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold">1</span> <span id="ui-step-1">Contract Text Input</span> </div> </h2> <div class="flex gap-2 mb-4"> <label class="flex-1 text-center text-xs font-semibold text-slate-700 hover:text-indigo-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 px-2.5 py-2 rounded transition cursor-pointer flex items-center justify-center gap-1.5"> <i data-lucide="file-up" class="w-3.5 h-3.5"></i> <span id="ui-load-pdf">Load PDF</span> <input type="file" id="pdfUpload" accept=".pdf" class="hidden" /> </label> <button id="loadSampleBtn" class="flex-1 text-xs font-semibold text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-2.5 py-2 rounded transition"> <span id="ui-load-sample">Load Sample Text</span> </button> </div> <div id="pdfLoadingIndicator" class="hidden bg-indigo-50 border border-indigo-100 rounded p-3 mb-3 text-xs text-indigo-700 font-medium flex items-center gap-2"> <span class="animate-spin inline-block w-4 h-4 border-2 border-current border-t-transparent text-indigo-600 rounded-full" role="status" aria-label="loading"></span> <span id="ui-extracting">Extracting text from PDF...</span> </div> <textarea id="contractInput"
                         class="w-full h-[350px] bg-slate-50 border border-slate-300 rounded p-4 text-sm font-mono text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none custom-scroll resize-y"
-                        placeholder="Paste contract text here..."></textarea>
-                </div>
-
-                <div class="pr-6 border-r border-slate-300 ">
-                    <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
-                        <span
-                            class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold">2</span>
-                        <span id="ui-step-2">Configuration</span>
-                    </h2>
-
-                    <div class="space-y-4 mb-6">
-                        <div class="flex flex-col gap-1 mb-4">
-                            <span class="font-medium text-sm text-slate-700 block" id="ui-date-format">Date
-                                Format</span>
-                            <select id="dateLocale"
-                                class="text-xs bg-slate-50 border border-slate-300 text-slate-700 rounded px-2 py-2 outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer shadow-sm w-full">
-                                <option value="dach" id="ui-opt-dach">Switzerland/DACH (DD.MM.YYYY)</option>
-                                <option value="us" id="ui-opt-us">US Format (MM/DD/YYYY)</option>
-                                <option value="uk" id="ui-opt-uk">UK/Global (DD/MM/YYYY)</option>
-                                <option value="iso" id="ui-opt-iso">ISO 8601 (YYYY-MM-DD)</option>
-                            </select>
-                        </div>
-
-                        <label class="flex items-start space-x-3 cursor-pointer group">
-                            <input type="checkbox" id="cfgDates"
-                                class="mt-0.5 accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer"
-                                checked>
-                            <div>
-                                <span
-                                    class="font-medium text-sm text-slate-700 group-hover:text-indigo-600 transition-colors block"
-                                    id="ui-ext-crit">Extract Critical Data</span>
-                            </div>
-                        </label>
-                        <label class="flex items-start space-x-3 cursor-pointer group pt-1">
-                            <input type="checkbox" id="cfgClauses"
-                                class="mt-0.5 accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer"
-                                checked>
-                            <div>
-                                <span
-                                    class="font-medium text-sm text-slate-700 group-hover:text-indigo-600 transition-colors block"
-                                    id="ui-hl-clause">Highlight Standard Clauses</span>
-                            </div>
-                        </label>
-                        <label class="flex items-start space-x-3 cursor-pointer group pt-1">
-                            <input type="checkbox" id="cfgRefm"
-                                class="mt-0.5 accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer"
-                                checked>
-                            <div>
-                                <span
-                                    class="font-medium text-sm text-slate-700 group-hover:text-indigo-600 transition-colors block"
-                                    id="ui-chk-dach">Check for Missing DACH Baselines</span>
-                            </div>
-                        </label>
-                    </div>
-
-                    <div class="border-t border-slate-200 pt-4 mb-4">
-                        <span class="font-medium text-sm text-slate-700 block mb-1">Dictionary</span>
-                        <div class="flex gap-1">
-                            <button id="dictPickBtn" title="Browse dictionaries"
-                                class="text-xs bg-slate-50 border border-slate-300 text-slate-700 rounded px-2 py-2 outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer shadow-sm flex-1 min-w-0 flex items-center gap-1.5 hover:bg-slate-100 transition">
-                                <i data-lucide="book-open" class="w-3.5 h-3.5 text-indigo-500 shrink-0"></i>
-                                <span id="dictPickLabel" class="truncate text-left flex-1">Loading…</span>
-                                <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
-                            </button>
-                            <button id="dictEditBtn" title="Edit dictionary JSON"
-                                class="px-2 border border-slate-300 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 transition"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
-                            <button id="dictImportBtn" title="Import dictionary JSON"
-                                class="px-2 border border-slate-300 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 transition"><i data-lucide="upload" class="w-3.5 h-3.5"></i></button>
-                            <button id="dictExportBtn" title="Export dictionary JSON"
-                                class="px-2 border border-slate-300 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 transition"><i data-lucide="download" class="w-3.5 h-3.5"></i></button>
-                            <input type="file" id="dictUpload" class="hidden" accept=".json" />
-                        </div>
-                        <p id="dictInfo" class="text-[10px] text-slate-400 mt-1"></p>
-                    </div>
-
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="font-medium text-sm text-slate-700">MWST rate (%)</span>
-                        <input type="number" id="mwstRate" value="8.1" step="0.1" min="0" max="50"
-                            class="w-16 text-xs bg-slate-50 border border-slate-300 text-slate-700 rounded px-2 py-1.5 outline-none focus:ring-2 focus:ring-indigo-500 text-right">
-                    </div>
-
-                    <button id="analyzeBtn"
-                        class="w-full px-6 py-3 bg-slate-900 hover:bg-indigo-600 text-white text-sm font-bold rounded shadow-sm transition-all flex items-center justify-center gap-2">
-                        <i data-lucide="file-search-corner" class="w-4 h-4"></i> <span id="ui-btn-analyze">Analyze
-                            Document</span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="flex flex-col gap-6">
-                <div
-                    class="bg-white border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-6 h-full flex flex-col">
-                    <h2 class="text-base font-bold text-slate-800 flex items-center justify-between mb-4">
-                        <div class="flex items-center">
-                            <span
-                                class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold">3</span>
-                            <span id="ui-step-3">Analysis Results</span>
-                        </div>
-                    </h2>
-
-                    <div id="emptyState"
-                        class="flex-grow flex flex-col items-center justify-center text-slate-400 py-12 border-2 border-dashed border-slate-200 rounded">
-                        <i data-lucide="clipboard-list" class="w-12 h-12 mb-3 text-slate-300"></i>
-                        <p class="text-sm" id="ui-waiting">Waiting for document analysis...</p>
-                    </div>
-
-                    <div id="resultsState" class="hidden flex-col h-full gap-6">
-
-                        <div>
-                            <h3
-                                class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2 border-b border-slate-200 pb-2">
-                                <i data-lucide="table-properties" class="w-4 h-4 text-indigo-500"></i> Structured Data
-                                (Heuristics)
-                                <span
-                                    class="text-[10px] ml-auto bg-indigo-50 text-indigo-500 px-2 py-0.5 rounded border border-indigo-100">Click
-                                    cards to locate in text</span>
-                            </h3>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div
-                                    class="bg-white border border-slate-200 rounded shadow-sm p-3 gap-3 flex flex-col transition-all">
-                                    <div class="grid grid-cols-2 gap-2 border-b border-slate-100 pb-2 mb-1">
-                                        <div id="card-landlord" onclick="scrollToMark('mark-landlord')"
-                                            class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors">
-                                            <span class="block text-[10px] font-bold text-slate-400 uppercase"
-                                                id="ui-lbl-vermieter">Vermieter / Eigentümer</span>
-                                            <div id="landlord" class="font-medium text-slate-800 text-sm">-</div>
-                                        </div>
-                                        <div id="card-tenant" onclick="scrollToMark('mark-tenant')"
-                                            class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors">
-                                            <span class="block text-[10px] font-bold text-slate-400 uppercase"
-                                                id="ui-lbl-mieter">Mieter</span>
-                                            <div id="tenant" class="font-medium text-slate-800 text-sm">-</div>
-                                        </div>
-                                    </div>
-                                    <div id="card-address" onclick="scrollToMark('mark-address')"
-                                        class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors">
-                                        <span class="block text-[10px] font-bold text-slate-400 uppercase"
-                                            id="ui-lbl-adresse">Liegenschaft
-                                            / Objektadresse</span>
-                                        <div id="address" class="font-medium text-slate-800 text-sm">-</div>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-2 border-t border-slate-100 pt-2 mt-1">
-                                        <div id="card-purpose" onclick="scrollToMark('mark-purpose')"
-                                            class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors">
-                                            <span class="block text-[10px] font-bold text-slate-400 uppercase"
-                                                id="ui-lbl-purpose">Purpose &
-                                                Industry</span>
-                                            <div id="purpose" class="font-medium text-slate-800 text-sm">-</div>
-                                        </div>
-                                        <div id="card-area" onclick="scrollToMark('mark-area')"
-                                            class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors">
-                                            <span class="block text-[10px] font-bold text-slate-400 uppercase"
-                                                id="ui-lbl-area">Area</span>
-                                            <div id="area" class="font-medium text-slate-800 text-sm">-</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="bg-white border border-slate-200 rounded shadow-sm p-3 gap-3 flex flex-col transition-all">
-                                    <div class="grid grid-cols-2 gap-2">
-                                        <div id="card-netRent" onclick="scrollToMark('mark-netRent')"
-                                            class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors">
-                                            <span class="block text-[10px] font-bold text-slate-400 uppercase"
-                                                id="ui-lbl-netto">Net Rent (CHF)</span>
-                                            <div id="netRent" class="font-medium text-slate-800 text-sm">-</div>
-                                        </div>
-                                        <div id="card-totalRent" onclick="scrollToMark('mark-totalRent')"
-                                            class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors">
-                                            <span class="block text-[10px] font-bold text-slate-400 uppercase"
-                                                id="ui-lbl-total">Total
-                                                Cost (CHF)</span>
-                                            <div id="totalRent" class="font-medium text-slate-800 text-sm">-</div>
-                                        </div>
-                                        <div id="card-serviceCharges" onclick="scrollToMark('mark-serviceCharges')"
-                                            class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors">
-                                            <span class="block text-[10px] font-bold text-slate-400 uppercase"
-                                                id="ui-lbl-addcost">Additional
-                                                Costs (CHF)</span>
-                                            <div id="serviceCharges" class="font-medium text-slate-800 text-sm">-</div>
-                                        </div>
-                                        <div id="card-deposit" onclick="scrollToMark('mark-deposit')"
-                                            class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors">
-                                            <span class="block text-[10px] font-bold text-slate-400 uppercase"
-                                                id="ui-lbl-deposit">Deposit
-                                                (CHF)</span>
-                                            <div id="deposit" class="font-medium text-slate-800 text-sm">-</div>
-                                        </div>
-                                        <div id="card-vatNumber" onclick="scrollToMark('mark-vatNumber')"
-                                            class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors">
-                                            <span class="block text-[10px] font-bold text-slate-400 uppercase"
-                                                id="ui-lbl-uid">MwSt-Number
-                                                (UID)</span>
-                                            <div id="vatNumber" class="font-medium text-slate-800 text-sm">-</div>
-                                        </div>
-                                    </div>
-                                    <div id="card-vat"
-                                        class="border-t border-slate-100 pt-2 cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors">
-                                        <span class="block text-[10px] font-bold text-slate-400 uppercase"
-                                            id="ui-lbl-mwst">Mehrwertsteuer
-                                            (MWST)</span>
-                                        <div id="vat" class="font-medium text-slate-800 text-sm">-</div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="bg-white border border-slate-200 rounded shadow-sm p-3 col-span-1 md:col-span-2 transition-all">
-                                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-                                        <div id="card-startDate" onclick="scrollToMark('mark-startDate')"
-                                            class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors">
-                                            <span class="block text-[10px] font-bold text-slate-400 uppercase"
-                                                id="ui-lbl-mietbeginn">Mietbeginn</span>
-                                            <div id="startDate" class="font-medium text-slate-800 text-sm">-</div>
-                                        </div>
-                                        <div id="card-term" onclick="scrollToMark('mark-term')"
-                                            class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors">
-                                            <span class="block text-[10px] font-bold text-slate-400 uppercase"
-                                                id="ui-lbl-minterm">Minimum
-                                                Term</span>
-                                            <div id="term" class="font-medium text-slate-800 text-sm">-</div>
-                                        </div>
-                                        <div id="card-noticePeriod" onclick="scrollToMark('mark-noticePeriod')"
-                                            class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors">
-                                            <span class="block text-[10px] font-bold text-slate-400 uppercase"
-                                                id="ui-lbl-notice">Notice
-                                                Period</span>
-                                            <div id="noticePeriod" class="font-medium text-slate-800 text-sm">-</div>
-                                        </div>
-                                        <div id="card-exclusivity" onclick="scrollToMark('mark-exclusivity')"
-                                            class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors">
-                                            <span class="block text-[10px] font-bold text-slate-400 uppercase"
-                                                id="ui-lbl-compprot">Competition
-                                                Prot.</span>
-                                            <div id="exclusivity" class="font-medium text-slate-800 text-sm">-</div>
-                                        </div>
-                                        <div id="card-sublease" onclick="scrollToMark('mark-sublease')"
-                                            class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors">
-                                            <span class="block text-[10px] font-bold text-slate-400 uppercase"
-                                                id="ui-lbl-sublease">Sublease</span>
-                                            <div id="sublease" class="font-medium text-slate-800 text-sm">-</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-4">
-                            <h3
-                                class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2 border-b border-slate-200 pb-2">
-                                <i data-lucide="calculator" class="w-4 h-4 text-indigo-500"></i> Derived
-                                <span class="text-[10px] ml-auto text-slate-400 normal-case font-medium">Computed from cards above</span>
-                            </h3>
-                            <div id="derivedPanel" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
-                        </div>
-
-                        <div class="mt-4">
-                            <h3
-                                class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2 border-b border-slate-200 pb-2">
-                                <i data-lucide="layout-dashboard" class="w-4 h-4 text-indigo-500"></i> Heatmap
-                                Analysis
-                            </h3>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="bg-white border border-slate-200 rounded p-3 shadow-sm">
-                                    <div class="text-[10px] font-bold text-slate-400 uppercase mb-2" id="ui-wid-data">
-                                        Found Data</div>
-                                    <div id="resDatesList"
-                                        class="flex flex-wrap gap-1.5 max-h-[80px] overflow-y-auto custom-scroll"></div>
-                                </div>
-                                <div class="bg-white border border-slate-200 rounded p-3 shadow-sm">
-                                    <div class="text-[10px] font-bold text-slate-400 uppercase mb-2"
-                                        id="ui-wid-clauses">Detected Clauses</div>
-                                    <div id="resClausesList"
-                                        class="flex flex-wrap gap-1.5 max-h-[80px] overflow-y-auto custom-scroll"></div>
-                                </div>
-                                <div
-                                    class="bg-rose-50 border border-rose-200 rounded p-3 shadow-sm col-span-1 md:col-span-2">
-                                    <div
-                                        class="text-[10px] font-bold text-rose-700 uppercase mb-2 flex items-center gap-1.5">
-                                        <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> <span
-                                            id="ui-wid-missing">Missing DACH-Baselines (Keywords)</span>
-                                    </div>
-                                    <div id="resMissingRefm" class="flex flex-wrap gap-1.5"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div
-                            class="flex-grow flex flex-col bg-white border border-slate-200 rounded shadow-sm overflow-hidden mt-4">
-                            <div
-                                class="bg-slate-50 border-b border-slate-200 px-3 py-2 flex flex-col md:flex-row md:items-center justify-between gap-3">
-                                <div class="flex items-center gap-1 flex-grow max-w-md relative">
-                                    <div class="relative flex-grow">
-                                        <i data-lucide="search"
-                                            class="w-4 h-4 text-slate-400 absolute left-2 top-1/2 -translate-y-1/2"></i>
-                                        <input type="text" id="contractSearch" placeholder="Suche im Vertrag..."
-                                            class="pl-8 pr-16 text-sm bg-white border border-slate-300 rounded px-2 py-1.5 w-full focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
-                                        <span id="searchCount"
-                                            class="text-[10px] text-slate-500 font-medium absolute right-2 top-1/2 -translate-y-1/2"></span>
-                                    </div>
-                                    <div
-                                        class="flex items-center bg-white border border-slate-300 rounded overflow-hidden h-[34px] shadow-sm">
-                                        <button id="searchPrev"
-                                            class="px-2 h-full hover:bg-slate-100 text-slate-500 border-r border-slate-200 transition-colors focus:bg-slate-100 outline-none"
-                                            title="Vorheriger Treffer">
-                                            <i data-lucide="chevron-up" class="w-4 h-4"></i>
-                                        </button>
-                                        <button id="searchNext"
-                                            class="px-2 h-full hover:bg-slate-100 text-slate-500 transition-colors focus:bg-slate-100 outline-none"
-                                            title="Nächster Treffer">
-                                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="flex gap-3 text-[10px] font-bold text-slate-600 uppercase">
-                                    <span class="flex items-center gap-1"><span
-                                            class="w-2 h-2 rounded-full bg-yellow-300"></span> <span
-                                            id="ui-leg-date">Date</span></span>
-                                    <span class="flex items-center gap-1"><span
-                                            class="w-2 h-2 rounded-full bg-indigo-300"></span> <span
-                                            id="ui-leg-clause">Clause</span></span>
-                                    <span class="flex items-center gap-1"><span
-                                            class="w-2 h-2 rounded-full bg-green-300"></span> <span
-                                            id="ui-leg-baseline">Baseline</span></span>
-                                </div>
-                            </div>
-                            <div id="highlightedOutput"
-                                class="p-4 text-sm text-slate-700 font-serif leading-relaxed overflow-y-auto custom-scroll whitespace-pre-wrap min-h-[600px] max-h-[1200px] resize-y scroll-smooth">
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="dictModal" class="fixed inset-0 hidden z-[70] items-center justify-center" style="background:rgba(15,23,42,.35)">
-        <div class="bg-white/95 backdrop-blur-xl border border-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] w-[min(900px,95vw)] h-[85vh] flex flex-col overflow-hidden">
-            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-                <h2 class="font-bold text-sm uppercase tracking-widest text-slate-900">Dictionary JSON</h2>
-                <button id="dictModalClose" class="text-slate-400 hover:text-slate-700 transition-colors text-lg leading-none">&#10005;</button>
-            </div>
-            <textarea id="dictEditor" spellcheck="false"
-                class="flex-1 p-4 text-xs font-mono text-slate-700 outline-none resize-none custom-scroll"></textarea>
-            <div id="dictError" class="hidden px-6 py-2 text-xs text-rose-600 bg-rose-50 border-t border-rose-100"></div>
-            <div class="px-6 py-4 border-t border-slate-100 flex justify-between items-center gap-2 bg-slate-50/50">
-                <button id="dictReset" class="px-3 py-2 text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-rose-600 transition">Reset to built-in</button>
-                <div class="flex gap-2">
-                    <button id="dictCancel" class="px-3 py-2 text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-slate-800 transition">Cancel</button>
-                    <button id="dictApply" class="px-4 py-2 text-xs font-bold uppercase tracking-widest text-white bg-indigo-600 hover:bg-indigo-700 transition">Apply</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="dict-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[70] hidden items-center justify-center p-4"
-        onclick="if(event.target===this)closeDictPicker()">
-        <div class="bg-white border border-slate-200 rounded-lg shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col">
-            <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100">
-                <h2 class="font-bold text-sm uppercase tracking-widest text-slate-900">Choose dictionary</h2>
-                <button onclick="closeDictPicker()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-4 h-4"></i></button>
-            </div>
-            <div class="flex gap-2 px-4 py-2 border-b border-slate-100">
-                <select id="dict-filter-category" onchange="renderDictList()"
-                    class="text-xs border border-slate-200 rounded px-2 py-1 bg-white text-slate-600"></select>
-                <select id="dict-filter-language" onchange="renderDictList()"
-                    class="text-xs border border-slate-200 rounded px-2 py-1 bg-white text-slate-600"></select>
-                <div class="relative ml-auto">
-                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                    <input type="search" id="dict-filter-search" oninput="renderDictList()" autocomplete="off"
-                        class="text-xs border border-slate-200 rounded pl-7 pr-2 py-1 bg-white text-slate-600 w-48 focus:outline-none focus:border-indigo-300"
-                        placeholder="Search…">
-                </div>
-            </div>
-            <div id="dict-list" class="overflow-y-auto p-4 grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
-            <div class="flex items-center justify-between gap-3 px-4 py-2 border-t border-slate-100">
-                <span class="text-[10px] text-slate-400">Switching replaces the active dictionary. Analysis settings are reset to its defaults.</span>
-                <button onclick="closeDictPicker(); document.getElementById('dictImportBtn').click();"
-                    class="text-[10px] font-bold uppercase tracking-widest text-indigo-600 hover:text-indigo-800 whitespace-nowrap">Import file…</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="toast"
-        class="fixed bottom-6 right-6 bg-slate-900 text-white font-medium text-sm px-5 py-3 rounded-lg shadow-xl transition-all duration-300 opacity-0 pointer-events-none translate-y-4 z-50 flex items-center gap-2">
-        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
-        <span id="toastMessage"></span>
-    </div>
-
-    <div id="selectionMenu"
-        class="fixed z-50 bg-slate-900 shadow-xl rounded-lg p-2 border border-slate-700 flex items-center gap-2 transition-all duration-200 transform scale-95 opacity-0 hidden -translate-x-1/2 mt-2">
-        <span class="text-xs font-semibold text-slate-300 whitespace-nowrap pl-1" id="ui-alloc-to">Allocate to:</span>
-        <select id="assignTarget"
-            class="bg-slate-800 text-white text-xs border border-slate-600 rounded px-2 py-1 outline-none focus:border-indigo-500 cursor-pointer">
-            <option value="address">Adresse / Objekt</option>
-            <option value="purpose">Zweck & Branche</option>
-            <option value="area">Fläche</option>
-            <option value="netRent">Nettomietzins (CHF)</option>
-            <option value="totalRent">Total Preis (CHF)</option>
-            <option value="serviceCharges">Nebenkosten (CHF)</option>
-            <option value="deposit">Kaution (CHF)</option>
-            <option value="vatNumber">MwSt-Nummer (UID)</option>
-            <option value="term">Mindestdauer</option>
-            <option value="noticePeriod">Kündigungsfrist</option>
-            <option value="exclusivity">Konkurrenzschutz</option>
-            <option value="sublease">Untermiete</option>
-            <option value="landlord">Vermieter / Eigentümer</option>
-            <option value="tenant">Mieter</option>
-            <option value="startDate">Mietbeginn</option>
-        </select>
-        <button id="assignBtn"
-            class="bg-indigo-500 hover:bg-indigo-400 text-white text-xs font-bold px-3 py-1 rounded transition-colors flex items-center gap-1">
-            <i data-lucide="check" class="w-3 h-3"></i> <span id="ui-btn-assign">Assign</span>
-        </button>
-    </div>
-
-    <script>
-
-        window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
-
-        window.updateToolDynamicUI = function (d) { };
-
-        function bootApp() {
-            autoDetectLanguage();
-
-            window.injectUI({
-                showNav: true,
-                linkTarget: '_blank',
-                transparentNav: false,
-                showSignIn: false,
-                showCategories: true,
-                showNews: false,
-                showHelp: true,
-                showFooter: true,
-                showFooterLinks: true,
-            });
-
-            window.injectCookieBanner();
-
-            window.loadLanguage(currentLang, window.pageScriptPrefix);
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', bootApp);
-        } else {
-            bootApp();
-        }
-    </script>
-    <script>
-        lucide.createIcons();
-
-        function pdfEngineReady() {
-            if (window.pdfjsLoadError) return Promise.reject(window.pdfjsLoadError);
-            if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
-            if (!window.pdfjsReady) {
-                return Promise.reject(new Error('PDF engine not loaded. Check js/pdf/pdf-6.1.200.min.js exists.'));
-            }
-            return Promise.race([
-                window.pdfjsReady,
-                new Promise((_, rej) => setTimeout(() => rej(new Error(
-                    'PDF engine timed out. Check the file names pdf-6.1.200.min.js and pdf-worker-6.1.200.min.js, and that the server serves them as text/javascript. Does not work over file://.'
-                )), 15000))
-            ]);
-        }
-
-        const REGEX_DATES = {
-            dach: /\b(?:\d{4}\.\d{1,2}\.\d{1,2}|\d{1,2}\.\d{1,2}\.\d{2,4}|\d{1,2}\.\s+(?:Jan(?:uar)?|Feb(?:ruar)?|Mär(?:z)?|Apr(?:il)?|Mai|Jun(?:i)?|Jul(?:i)?|Aug(?:ust)?|Sep(?:tember)?|Okt(?:ober)?|Nov(?:ember)?|Dez(?:ember)?)\s+\d{4})\b/gi,
-            us: /\b(?:\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4}|(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+\d{1,2},?\s+\d{4})\b/gi,
-            uk: /\b(?:\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4}|\d{1,2}\s+(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+\d{4})\b/gi,
-            iso: /\b(?:\d{4}-\d{2}-\d{2})\b/gi
-        };
-
-        function guardTag(re) { return new RegExp('(?![^<]*>)' + re.source, re.flags); }
-
-        const elInput = document.getElementById('contractInput');
-        const elAnalyze = document.getElementById('analyzeBtn');
-        const elEmptyState = document.getElementById('emptyState');
-        const elResultsState = document.getElementById('resultsState');
-
-        const outDatesList = document.getElementById('resDatesList');
-        const outClausesList = document.getElementById('resClausesList');
-        const outMissingRefm = document.getElementById('resMissingRefm');
-        const outHighlighted = document.getElementById('highlightedOutput');
-
-        const cfgDates = document.getElementById('cfgDates');
-        const cfgClauses = document.getElementById('cfgClauses');
-        const cfgRefm = document.getElementById('cfgRefm');
-        const dateLocaleSelect = document.getElementById('dateLocale');
-
-        const DICT_DIR = '../templates/contract-obligations/';
-        const DICT_MANIFEST = 'dictionaries.json';
-
-        let DICT_CATALOG = [];
-        let BUILTIN_DICTS = {};
-        let DEFAULT_DICT_ID = null;
-        let dictLoadError = null;
-        let dictsReady = null;
-
-        function dictToast(msg, tone) {
-            let wrap = document.getElementById('cde-toasts');
-            if (!wrap) {
-                wrap = document.createElement('div');
-                wrap.id = 'cde-toasts';
-                wrap.className = 'fixed bottom-4 right-4 z-[90] flex flex-col gap-2 items-end';
-                document.body.appendChild(wrap);
-            }
-            const bad = tone === 'error';
-            const t = document.createElement('div');
-            t.className = 'flex items-center gap-2 bg-white border shadow-lg rounded-lg px-4 py-3 text-sm font-semibold transition-opacity duration-500 '
-                + (bad ? 'border-red-200 text-red-700' : 'border-slate-200 text-slate-700');
-            t.innerHTML = '<i data-lucide="' + (bad ? 'alert-triangle' : 'book-open')
-                + '" class="w-4 h-4 ' + (bad ? 'text-red-500' : 'text-indigo-500') + ' shrink-0"></i><span></span>';
-            t.querySelector('span').textContent = msg;
-            wrap.appendChild(t);
-            if (window.lucide) try { lucide.createIcons(); } catch (e) { }
-            setTimeout(function () { t.style.opacity = '0'; }, bad ? 8000 : 4000);
-            setTimeout(function () { t.remove(); }, bad ? 8600 : 4600);
-        }
-
-        function entryFromDict(d, file) {
-            return {
-                id: d.id, file: file || (d.id + '.json'), name: d.name,
-                language: d.language || '', country: d.country || '',
-                category: d.category || 'General', description: d.description || '',
-                author: d.author || '', license: d.license || '', source: d.source || '',
-                version: d.version != null ? d.version : 1,
-                tags: Array.isArray(d.tags) ? d.tags : [],
-                counts: {
-                    fields: (d.fields || []).length,
-                    clauses: (d.clauses || []).length,
-                    baselines: (d.baselines || []).length
-                }
-            };
-        }
-
-        async function fetchCatalog() {
-            const res = await fetch(DICT_DIR + DICT_MANIFEST, { cache: 'no-cache' });
-            if (!res.ok) throw new Error(DICT_MANIFEST + ': HTTP ' + res.status);
-            const idx = await res.json();
-            const entries = (Array.isArray(idx) ? idx : (idx.dictionaries || []))
-                .filter(e => e && e.id)
-                .map(e => ({ ...e, file: e.file || (e.id + '.json'), counts: e.counts || {} }));
-            if (!entries.length) throw new Error(DICT_MANIFEST + ' lists no dictionaries');
-            DICT_CATALOG = entries;
-            if (idx.default && entries.some(e => e.id === idx.default)) DEFAULT_DICT_ID = idx.default;
-        }
-
-        function catalogFromBundle() {
-            const g = window.LITEAECO_CONTRACT_DICTS;
-            if (!g) return 0;
-            const list = Array.isArray(g) ? g : (g.dictionaries || []);
-            const entries = [];
-            list.forEach((d, i) => {
-                const err = validateDict(d);
-                if (err) { console.warn('Skipped bundled dictionary #' + (i + 1) + ': ' + err); return; }
-                BUILTIN_DICTS[d.id] = d;
-                entries.push(entryFromDict(d));
-            });
-            if (!entries.length) return 0;
-            DICT_CATALOG = entries;
-            if (g.default && entries.some(e => e.id === g.default)) DEFAULT_DICT_ID = g.default;
-            return entries.length;
-        }
-
-        async function loadCatalog() {
-            try {
-                await fetchCatalog();
-            } catch (err) {
-                console.warn('Dictionary catalogue fetch failed, trying the offline bundle.', err);
-                if (catalogFromBundle()) {
-                    dictToast('Offline mode: dictionaries loaded from contract-templates.js.');
-                } else {
-                    dictLoadError = err;
-                    console.error('No dictionaries available.', err);
-                    dictToast('No dictionaries found (' + err.message + '). Import a dictionary JSON to continue.', 'error');
-                }
-            }
-            if (!DEFAULT_DICT_ID && DICT_CATALOG.length) DEFAULT_DICT_ID = DICT_CATALOG[0].id;
-            return DICT_CATALOG;
-        }
-
-        async function getDict(id) {
-            if (!id) return null;
-            if (BUILTIN_DICTS[id]) return BUILTIN_DICTS[id];
-            const entry = DICT_CATALOG.find(e => e.id === id);
-            if (!entry) return null;
-            try {
-                const r = await fetch(DICT_DIR + entry.file, { cache: 'no-cache' });
-                if (!r.ok) throw new Error('HTTP ' + r.status);
-                const d = await r.json();
-                const err = validateDict(d);
-                if (err) throw new Error(err);
-                BUILTIN_DICTS[d.id] = d;
-                return d;
-            } catch (err) {
-                console.warn('Dictionary not loaded: ' + entry.file, err);
-                dictToast('Could not load ' + entry.file + ' (' + err.message + ').', 'error');
-                return null;
-            }
-        }
-
-        function defaultEntryId() {
-            return DEFAULT_DICT_ID || (DICT_CATALOG[0] && DICT_CATALOG[0].id) || null;
-        }
-
-        let DICT = null;
-        let dictCompiled = null;
-
-        function validateDict(d) {
-            if (!d || typeof d !== "object") return "Not an object";
-            if (d.app !== "liteAECO-contract-dictionary") return 'Not a contract dictionary (missing "app": "liteAECO-contract-dictionary")';
-            if (d.schema !== 1) return "Unsupported dictionary schema " + d.schema;
-            if (!d.id || !d.name) return "Missing id / name";
-            if (!Array.isArray(d.fields)) return "fields must be an array";
-            const KNOWN = ["landlord","tenant","address","purpose","area","netRent","totalRent","serviceCharges","deposit","vatNumber","vat","startDate","term","noticePeriod","exclusivity","sublease"];
-            for (const f of d.fields) {
-                if (!f.id || !f.pattern) return "Field missing id or pattern";
-                if (!KNOWN.includes(f.id)) return `Unknown field id "${f.id}". Allowed: ${KNOWN.join(", ")}`;
-                try { new RegExp(f.pattern, "g" + (f.flags || "")); } catch (e) { return `Field ${f.id}: ${e.message}`; }
-                if (f.fallback) { try { new RegExp(f.fallback, "g" + (f.flags || "")); } catch (e) { return `Field ${f.id} fallback: ${e.message}`; } }
-            }
-            ["clauses", "baselines", "coreAudit"].forEach(k => { if (d[k] && !Array.isArray(d[k])) return `${k} must be an array`; });
-            return null;
-        }
-
-        function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
-
-        function compileDict(d) {
-            const kw = (arr) => (arr && arr.length) ? new RegExp(`\\b(?:${arr.map(escapeRe).join('|')})`, 'gi') : null;
-            return {
-                clause: kw(d.clauses),
-                refm: kw(d.baselines),
-                fields: d.fields.map(f => ({
-                    ...f,
-                    re: new RegExp(f.pattern, "g" + (f.flags || "").replace("g", "")),
-                    reFallback: f.fallback ? new RegExp(f.fallback, "g" + (f.flags || "").replace("g", "")) : null
-                }))
-            };
-        }
-
-        function setDict(d, opts = {}) {
-            const err = validateDict(d);
-            if (err) { showToast("Dictionary error: " + err); return false; }
-            DICT = JSON.parse(JSON.stringify(d));
-            dictCompiled = compileDict(DICT);
-            const df = DICT.defaults || {};
-            if (!opts.keepConfig) {
-                if (df.dateLocale && REGEX_DATES[df.dateLocale]) dateLocaleSelect.value = df.dateLocale;
-                if (df.vatRate != null) document.getElementById('mwstRate').value = df.vatRate;
-                if (df.highlightDates != null) cfgDates.checked = !!df.highlightDates;
-                if (df.highlightClauses != null) cfgClauses.checked = !!df.highlightClauses;
-                if (df.highlightBaselines != null) cfgRefm.checked = !!df.highlightBaselines;
-            }
-            refreshDictSelect();
-            return true;
-        }
-
-        function stableStringify(v) {
-            if (Array.isArray(v)) return '[' + v.map(stableStringify).join(',') + ']';
-            if (v && typeof v === 'object') {
-                return '{' + Object.keys(v).sort()
-                    .filter(k => v[k] !== undefined)
-                    .map(k => JSON.stringify(k) + ':' + stableStringify(v[k]))
-                    .join(',') + '}';
-            }
-            return JSON.stringify(v === undefined ? null : v);
-        }
-
-        function isBuiltinUnchanged(d) {
-            const b = d && BUILTIN_DICTS[d.id];
-            if (!b) return false;
-            const strip = (x) => { const c = { ...x }; delete c.savedAt; return stableStringify(c); };
-            return strip(b) === strip(d);
-        }
-
-        function refreshDictSelect() {
-            const label = document.getElementById('dictPickLabel');
-            const btn = document.getElementById('dictPickBtn');
-            const custom = DICT && !isBuiltinUnchanged(DICT);
-
-            if (label) {
-                label.textContent = DICT
-                    ? DICT.name + (custom ? " (custom)" : "")
-                    : (dictLoadError ? "No dictionary" : "Choose dictionary…");
-            }
-            if (btn) btn.disabled = false;
-
-            document.getElementById('dictInfo').textContent = DICT
-                ? `${DICT.fields.length} fields · ${(DICT.clauses || []).length} clauses · ${(DICT.baselines || []).length} baselines${custom ? " · custom, saved with file" : ""}`
-                : (dictLoadError
-                    ? "Could not load " + DICT_DIR + DICT_MANIFEST + " import a dictionary JSON."
-                    : "");
-
-            if (!document.getElementById('dict-modal').classList.contains('hidden')) renderDictList();
-        }
-
-        function dictCatalogView() {
-            const list = DICT_CATALOG.slice();
-            if (DICT && !list.some(e => e.id === DICT.id)) list.unshift(entryFromDict(DICT, null));
-            return list;
-        }
-
-        function openDictPicker() {
-            const modal = document.getElementById('dict-modal');
-            const list = dictCatalogView();
-            const uniq = (arr) => [...new Set(arr.filter(Boolean))].sort();
-            const fill = (id, items, allLabel) => {
-                const el = document.getElementById(id);
-                const keep = el.value;
-                el.innerHTML = `<option value="">${allLabel}</option>`
-                    + items.map(v => `<option value="${escapeHTML(v)}">${escapeHTML(v)}</option>`).join("");
-                if (items.includes(keep)) el.value = keep;
-            };
-            fill('dict-filter-category', uniq(list.map(e => e.category)), 'All categories');
-            fill('dict-filter-language', uniq(list.map(e => e.language || e.id)), 'All languages');
-            const q = document.getElementById('dict-filter-search');
-            if (q) q.value = "";
-            renderDictList();
-            modal.classList.remove('hidden'); modal.classList.add('flex');
-            if (window.lucide) try { lucide.createIcons(); } catch (e) { }
-            if (q) setTimeout(() => q.focus(), 50);
-        }
-
-        function closeDictPicker() {
-            const modal = document.getElementById('dict-modal');
-            if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
-        }
-
-        function renderDictList() {
-            const cat = document.getElementById('dict-filter-category').value;
-            const lang = document.getElementById('dict-filter-language').value;
-            const q = (document.getElementById('dict-filter-search')?.value || "").trim().toLowerCase();
-            const box = document.getElementById('dict-list');
-
-            const hit = e => {
-                if (!q) return true;
-                return [e.name, e.id, e.description, e.category, e.author, e.country, e.language,
-                    ...(e.tags || [])].join(" ").toLowerCase().includes(q);
-            };
-
-            const list = dictCatalogView().filter(e =>
-                (!cat || e.category === cat) && (!lang || (e.language || e.id) === lang) && hit(e));
-
-            if (!list.length) {
-                box.innerHTML = `<div class="col-span-full text-xs text-slate-400 text-center py-6">${dictLoadError
+                        placeholder="Paste contract text here..."></textarea> </div> <div class="pr-6 border-r border-slate-300 "> <h2 class="text-base font-bold text-slate-800 flex items-center mb-4"> <span class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold">2</span> <span id="ui-step-2">Configuration</span> </h2> <div class="space-y-4 mb-6"> <div class="flex flex-col gap-1 mb-4"> <span class="font-medium text-sm text-slate-700 block" id="ui-date-format">Date Format</span> <select id="dateLocale" class="text-xs bg-slate-50 border border-slate-300 text-slate-700 rounded px-2 py-2 outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer shadow-sm w-full"> <option value="dach" id="ui-opt-dach">Switzerland/DACH (DD.MM.YYYY)</option> <option value="us" id="ui-opt-us">US Format (MM/DD/YYYY)</option> <option value="uk" id="ui-opt-uk">UK/Global (DD/MM/YYYY)</option> <option value="iso" id="ui-opt-iso">ISO 8601 (YYYY-MM-DD)</option> </select> </div> <label class="flex items-start space-x-3 cursor-pointer group"> <input type="checkbox" id="cfgDates" class="mt-0.5 accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer" checked> <div> <span class="font-medium text-sm text-slate-700 group-hover:text-indigo-600 transition-colors block" id="ui-ext-crit">Extract Critical Data</span> </div> </label> <label class="flex items-start space-x-3 cursor-pointer group pt-1"> <input type="checkbox" id="cfgClauses" class="mt-0.5 accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer" checked> <div> <span class="font-medium text-sm text-slate-700 group-hover:text-indigo-600 transition-colors block" id="ui-hl-clause">Highlight Standard Clauses</span> </div> </label> <label class="flex items-start space-x-3 cursor-pointer group pt-1"> <input type="checkbox" id="cfgRefm" class="mt-0.5 accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer" checked> <div> <span class="font-medium text-sm text-slate-700 group-hover:text-indigo-600 transition-colors block" id="ui-chk-dach">Check for Missing DACH Baselines</span> </div> </label> </div> <div class="border-t border-slate-200 pt-4 mb-4"> <span class="font-medium text-sm text-slate-700 block mb-1">Dictionary</span> <div class="flex gap-1"> <button id="dictPickBtn" title="Browse dictionaries" class="text-xs bg-slate-50 border border-slate-300 text-slate-700 rounded px-2 py-2 outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer shadow-sm flex-1 min-w-0 flex items-center gap-1.5 hover:bg-slate-100 transition"> <i data-lucide="book-open" class="w-3.5 h-3.5 text-indigo-500 shrink-0"></i> <span id="dictPickLabel" class="truncate text-left flex-1">Loading…</span> <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i> </button> <button id="dictEditBtn" title="Edit dictionary JSON" class="px-2 border border-slate-300 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 transition"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button> <button id="dictImportBtn" title="Import dictionary JSON" class="px-2 border border-slate-300 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 transition"><i data-lucide="upload" class="w-3.5 h-3.5"></i></button> <button id="dictExportBtn" title="Export dictionary JSON" class="px-2 border border-slate-300 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 transition"><i data-lucide="download" class="w-3.5 h-3.5"></i></button> <input type="file" id="dictUpload" class="hidden" accept=".json" /> </div> <p id="dictInfo" class="text-[10px] text-slate-400 mt-1"></p> </div> <div class="flex items-center justify-between mb-4"> <span class="font-medium text-sm text-slate-700">MWST rate (%)</span> <input type="number" id="mwstRate" value="8.1" step="0.1" min="0" max="50" class="w-16 text-xs bg-slate-50 border border-slate-300 text-slate-700 rounded px-2 py-1.5 outline-none focus:ring-2 focus:ring-indigo-500 text-right"> </div> <button id="analyzeBtn" class="w-full px-6 py-3 bg-slate-900 hover:bg-indigo-600 text-white text-sm font-bold rounded shadow-sm transition-all flex items-center justify-center gap-2"> <i data-lucide="file-search-corner" class="w-4 h-4"></i> <span id="ui-btn-analyze">Analyze Document</span> </button> </div> </div> <div class="flex flex-col gap-6"> <div class="bg-white border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-6 h-full flex flex-col"> <h2 class="text-base font-bold text-slate-800 flex items-center justify-between mb-4"> <div class="flex items-center"> <span class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold">3</span> <span id="ui-step-3">Analysis Results</span> </div> </h2> <div id="emptyState" class="flex-grow flex flex-col items-center justify-center text-slate-400 py-12 border-2 border-dashed border-slate-200 rounded"> <i data-lucide="clipboard-list" class="w-12 h-12 mb-3 text-slate-300"></i> <p class="text-sm" id="ui-waiting">Waiting for document analysis...</p> </div> <div id="resultsState" class="hidden flex-col h-full gap-6"> <div> <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2 border-b border-slate-200 pb-2"> <i data-lucide="table-properties" class="w-4 h-4 text-indigo-500"></i> Structured Data (Heuristics) <span class="text-[10px] ml-auto bg-indigo-50 text-indigo-500 px-2 py-0.5 rounded border border-indigo-100">Click cards to locate in text</span> </h3> <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> <div class="bg-white border border-slate-200 rounded shadow-sm p-3 gap-3 flex flex-col transition-all"> <div class="grid grid-cols-2 gap-2 border-b border-slate-100 pb-2 mb-1"> <div id="card-landlord" onclick="scrollToMark('mark-landlord')" class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors"> <span class="block text-[10px] font-bold text-slate-400 uppercase" id="ui-lbl-vermieter">Vermieter / Eigentümer</span> <div id="landlord" class="font-medium text-slate-800 text-sm">-</div> </div> <div id="card-tenant" onclick="scrollToMark('mark-tenant')" class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors"> <span class="block text-[10px] font-bold text-slate-400 uppercase" id="ui-lbl-mieter">Mieter</span> <div id="tenant" class="font-medium text-slate-800 text-sm">-</div> </div> </div> <div id="card-address" onclick="scrollToMark('mark-address')" class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors"> <span class="block text-[10px] font-bold text-slate-400 uppercase" id="ui-lbl-adresse">Liegenschaft / Objektadresse</span> <div id="address" class="font-medium text-slate-800 text-sm">-</div> </div> <div class="grid grid-cols-2 gap-2 border-t border-slate-100 pt-2 mt-1"> <div id="card-purpose" onclick="scrollToMark('mark-purpose')" class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors"> <span class="block text-[10px] font-bold text-slate-400 uppercase" id="ui-lbl-purpose">Purpose & Industry</span> <div id="purpose" class="font-medium text-slate-800 text-sm">-</div> </div> <div id="card-area" onclick="scrollToMark('mark-area')" class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors"> <span class="block text-[10px] font-bold text-slate-400 uppercase" id="ui-lbl-area">Area</span> <div id="area" class="font-medium text-slate-800 text-sm">-</div> </div> </div> </div> <div class="bg-white border border-slate-200 rounded shadow-sm p-3 gap-3 flex flex-col transition-all"> <div class="grid grid-cols-2 gap-2"> <div id="card-netRent" onclick="scrollToMark('mark-netRent')" class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors"> <span class="block text-[10px] font-bold text-slate-400 uppercase" id="ui-lbl-netto">Net Rent (CHF)</span> <div id="netRent" class="font-medium text-slate-800 text-sm">-</div> </div> <div id="card-totalRent" onclick="scrollToMark('mark-totalRent')" class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors"> <span class="block text-[10px] font-bold text-slate-400 uppercase" id="ui-lbl-total">Total Cost (CHF)</span> <div id="totalRent" class="font-medium text-slate-800 text-sm">-</div> </div> <div id="card-serviceCharges" onclick="scrollToMark('mark-serviceCharges')" class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors"> <span class="block text-[10px] font-bold text-slate-400 uppercase" id="ui-lbl-addcost">Additional Costs (CHF)</span> <div id="serviceCharges" class="font-medium text-slate-800 text-sm">-</div> </div> <div id="card-deposit" onclick="scrollToMark('mark-deposit')" class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors"> <span class="block text-[10px] font-bold text-slate-400 uppercase" id="ui-lbl-deposit">Deposit (CHF)</span> <div id="deposit" class="font-medium text-slate-800 text-sm">-</div> </div> <div id="card-vatNumber" onclick="scrollToMark('mark-vatNumber')" class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors"> <span class="block text-[10px] font-bold text-slate-400 uppercase" id="ui-lbl-uid">MwSt-Number (UID)</span> <div id="vatNumber" class="font-medium text-slate-800 text-sm">-</div> </div> </div> <div id="card-vat" class="border-t border-slate-100 pt-2 cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors"> <span class="block text-[10px] font-bold text-slate-400 uppercase" id="ui-lbl-mwst">Mehrwertsteuer (MWST)</span> <div id="vat" class="font-medium text-slate-800 text-sm">-</div> </div> </div> <div class="bg-white border border-slate-200 rounded shadow-sm p-3 col-span-1 md:col-span-2 transition-all"> <div class="grid grid-cols-2 md:grid-cols-5 gap-3"> <div id="card-startDate" onclick="scrollToMark('mark-startDate')" class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors"> <span class="block text-[10px] font-bold text-slate-400 uppercase" id="ui-lbl-mietbeginn">Mietbeginn</span> <div id="startDate" class="font-medium text-slate-800 text-sm">-</div> </div> <div id="card-term" onclick="scrollToMark('mark-term')" class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors"> <span class="block text-[10px] font-bold text-slate-400 uppercase" id="ui-lbl-minterm">Minimum Term</span> <div id="term" class="font-medium text-slate-800 text-sm">-</div> </div> <div id="card-noticePeriod" onclick="scrollToMark('mark-noticePeriod')" class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors"> <span class="block text-[10px] font-bold text-slate-400 uppercase" id="ui-lbl-notice">Notice Period</span> <div id="noticePeriod" class="font-medium text-slate-800 text-sm">-</div> </div> <div id="card-exclusivity" onclick="scrollToMark('mark-exclusivity')" class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors"> <span class="block text-[10px] font-bold text-slate-400 uppercase" id="ui-lbl-compprot">Competition Prot.</span> <div id="exclusivity" class="font-medium text-slate-800 text-sm">-</div> </div> <div id="card-sublease" onclick="scrollToMark('mark-sublease')" class="cursor-pointer hover:bg-indigo-50/50 rounded -mx-1 px-1 transition-colors"> <span class="block text-[10px] font-bold text-slate-400 uppercase" id="ui-lbl-sublease">Sublease</span> <div id="sublease" class="font-medium text-slate-800 text-sm">-</div> </div> </div> </div> </div> </div> <div class="mt-4"> <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2 border-b border-slate-200 pb-2"> <i data-lucide="calculator" class="w-4 h-4 text-indigo-500"></i> Derived <span class="text-[10px] ml-auto text-slate-400 normal-case font-medium">Computed from cards above</span> </h3> <div id="derivedPanel" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div> </div> <div class="mt-4"> <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2 border-b border-slate-200 pb-2"> <i data-lucide="layout-dashboard" class="w-4 h-4 text-indigo-500"></i> Heatmap Analysis </h3> <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> <div class="bg-white border border-slate-200 rounded p-3 shadow-sm"> <div class="text-[10px] font-bold text-slate-400 uppercase mb-2" id="ui-wid-data"> Found Data</div> <div id="resDatesList" class="flex flex-wrap gap-1.5 max-h-[80px] overflow-y-auto custom-scroll"></div> </div> <div class="bg-white border border-slate-200 rounded p-3 shadow-sm"> <div class="text-[10px] font-bold text-slate-400 uppercase mb-2" id="ui-wid-clauses">Detected Clauses</div> <div id="resClausesList" class="flex flex-wrap gap-1.5 max-h-[80px] overflow-y-auto custom-scroll"></div> </div> <div class="bg-rose-50 border border-rose-200 rounded p-3 shadow-sm col-span-1 md:col-span-2"> <div class="text-[10px] font-bold text-rose-700 uppercase mb-2 flex items-center gap-1.5"> <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> <span id="ui-wid-missing">Missing DACH-Baselines (Keywords)</span> </div> <div id="resMissingRefm" class="flex flex-wrap gap-1.5"></div> </div> </div> </div> <div class="flex-grow flex flex-col bg-white border border-slate-200 rounded shadow-sm overflow-hidden mt-4"> <div class="bg-slate-50 border-b border-slate-200 px-3 py-2 flex flex-col md:flex-row md:items-center justify-between gap-3"> <div class="flex items-center gap-1 flex-grow max-w-md relative"> <div class="relative flex-grow"> <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-2 top-1/2 -translate-y-1/2"></i> <input type="text" id="contractSearch" placeholder="Suche im Vertrag..." class="pl-8 pr-16 text-sm bg-white border border-slate-300 rounded px-2 py-1.5 w-full focus:ring-2 focus:ring-indigo-500 outline-none transition-all"> <span id="searchCount" class="text-[10px] text-slate-500 font-medium absolute right-2 top-1/2 -translate-y-1/2"></span> </div> <div class="flex items-center bg-white border border-slate-300 rounded overflow-hidden h-[34px] shadow-sm"> <button id="searchPrev" class="px-2 h-full hover:bg-slate-100 text-slate-500 border-r border-slate-200 transition-colors focus:bg-slate-100 outline-none" title="Vorheriger Treffer"> <i data-lucide="chevron-up" class="w-4 h-4"></i> </button> <button id="searchNext" class="px-2 h-full hover:bg-slate-100 text-slate-500 transition-colors focus:bg-slate-100 outline-none" title="Nächster Treffer"> <i data-lucide="chevron-down" class="w-4 h-4"></i> </button> </div> </div> <div class="flex gap-3 text-[10px] font-bold text-slate-600 uppercase"> <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-yellow-300"></span> <span id="ui-leg-date">Date</span></span> <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-indigo-300"></span> <span id="ui-leg-clause">Clause</span></span> <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-300"></span> <span id="ui-leg-baseline">Baseline</span></span> </div> </div> <div id="highlightedOutput" class="p-4 text-sm text-slate-700 font-serif leading-relaxed overflow-y-auto custom-scroll whitespace-pre-wrap min-h-[600px] max-h-[1200px] resize-y scroll-smooth"> </div> </div> </div> </div> </div> </div> </div> <div id="dictModal" class="fixed inset-0 hidden z-[70] items-center justify-center" style="background:rgba(15,23,42,.35)"> <div class="bg-white/95 backdrop-blur-xl border border-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] w-[min(900px,95vw)] h-[85vh] flex flex-col overflow-hidden"> <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50"> <h2 class="font-bold text-sm uppercase tracking-widest text-slate-900">Dictionary JSON</h2> <button id="dictModalClose" class="text-slate-400 hover:text-slate-700 transition-colors text-lg leading-none">&#10005;</button> </div> <textarea id="dictEditor" spellcheck="false"
+                class="flex-1 p-4 text-xs font-mono text-slate-700 outline-none resize-none custom-scroll"></textarea> <div id="dictError" class="hidden px-6 py-2 text-xs text-rose-600 bg-rose-50 border-t border-rose-100"></div> <div class="px-6 py-4 border-t border-slate-100 flex justify-between items-center gap-2 bg-slate-50/50"> <button id="dictReset" class="px-3 py-2 text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-rose-600 transition">Reset to built-in</button> <div class="flex gap-2"> <button id="dictCancel" class="px-3 py-2 text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-slate-800 transition">Cancel</button> <button id="dictApply" class="px-4 py-2 text-xs font-bold uppercase tracking-widest text-white bg-indigo-600 hover:bg-indigo-700 transition">Apply</button> </div> </div> </div> </div> <div id="dict-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[70] hidden items-center justify-center p-4" onclick="if(event.target===this)closeDictPicker()"> <div class="bg-white border border-slate-200 rounded-lg shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col"> <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100"> <h2 class="font-bold text-sm uppercase tracking-widest text-slate-900">Choose dictionary</h2> <button onclick="closeDictPicker()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-4 h-4"></i></button> </div> <div class="flex gap-2 px-4 py-2 border-b border-slate-100"> <select id="dict-filter-category" onchange="renderDictList()" class="text-xs border border-slate-200 rounded px-2 py-1 bg-white text-slate-600"></select> <select id="dict-filter-language" onchange="renderDictList()" class="text-xs border border-slate-200 rounded px-2 py-1 bg-white text-slate-600"></select> <div class="relative ml-auto"> <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none"></i> <input type="search" id="dict-filter-search" oninput="renderDictList()" autocomplete="off" class="text-xs border border-slate-200 rounded pl-7 pr-2 py-1 bg-white text-slate-600 w-48 focus:outline-none focus:border-indigo-300" placeholder="Search…"> </div> </div> <div id="dict-list" class="overflow-y-auto p-4 grid grid-cols-1 sm:grid-cols-2 gap-3"></div> <div class="flex items-center justify-between gap-3 px-4 py-2 border-t border-slate-100"> <span class="text-[10px] text-slate-400">Switching replaces the active dictionary. Analysis settings are reset to its defaults.</span> <button onclick="closeDictPicker(); document.getElementById('dictImportBtn').click();" class="text-[10px] font-bold uppercase tracking-widest text-indigo-600 hover:text-indigo-800 whitespace-nowrap">Import file…</button> </div> </div> </div> <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white font-medium text-sm px-5 py-3 rounded-lg shadow-xl transition-all duration-300 opacity-0 pointer-events-none translate-y-4 z-50 flex items-center gap-2"> <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> <span id="toastMessage"></span> </div> <div id="selectionMenu" class="fixed z-50 bg-slate-900 shadow-xl rounded-lg p-2 border border-slate-700 flex items-center gap-2 transition-all duration-200 transform scale-95 opacity-0 hidden -translate-x-1/2 mt-2"> <span class="text-xs font-semibold text-slate-300 whitespace-nowrap pl-1" id="ui-alloc-to">Allocate to:</span> <select id="assignTarget" class="bg-slate-800 text-white text-xs border border-slate-600 rounded px-2 py-1 outline-none focus:border-indigo-500 cursor-pointer"> <option value="address">Adresse / Objekt</option> <option value="purpose">Zweck & Branche</option> <option value="area">Fläche</option> <option value="netRent">Nettomietzins (CHF)</option> <option value="totalRent">Total Preis (CHF)</option> <option value="serviceCharges">Nebenkosten (CHF)</option> <option value="deposit">Kaution (CHF)</option> <option value="vatNumber">MwSt-Nummer (UID)</option> <option value="term">Mindestdauer</option> <option value="noticePeriod">Kündigungsfrist</option> <option value="exclusivity">Konkurrenzschutz</option> <option value="sublease">Untermiete</option> <option value="landlord">Vermieter / Eigentümer</option> <option value="tenant">Mieter</option> <option value="startDate">Mietbeginn</option> </select> <button id="assignBtn" class="bg-indigo-500 hover:bg-indigo-400 text-white text-xs font-bold px-3 py-1 rounded transition-colors flex items-center gap-1"> <i data-lucide="check" class="w-3 h-3"></i> <span id="ui-btn-assign">Assign</span> </button> </div> <script>window.BASE_PAGE=JSON.parse(JSON.stringify(window.PAGE_I18N||{}));window.updateToolDynamicUI=function(d){};function bootApp(){autoDetectLanguage();window.injectUI({showNav:true,linkTarget:'',transparentNav:false,showSignIn:false,showCategories:true,showNews:false,showHelp:true,showFooter:true,showFooterLinks:true,});window.injectCookieBanner();window.loadLanguage(currentLang,window.pageScriptPrefix);}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',bootApp);}else{bootApp();}
+</script> <script>lucide.createIcons();function pdfEngineReady(){if(window.pdfjsLoadError)return Promise.reject(window.pdfjsLoadError);if(window.pdfjsLib)return Promise.resolve(window.pdfjsLib);if(!window.pdfjsReady){return Promise.reject(new Error('PDF engine not loaded. Check js/pdf/pdf-6.1.200.min.js exists.'));}
+return Promise.race([window.pdfjsReady,new Promise((_,rej)=>setTimeout(()=>rej(new Error('PDF engine timed out. Check the file names pdf-6.1.200.min.js and pdf-worker-6.1.200.min.js, and that the server serves them as text/javascript. Does not work over file://.')),15000))]);}
+const REGEX_DATES={dach:/\b(?:\d{4}\.\d{1,2}\.\d{1,2}|\d{1,2}\.\d{1,2}\.\d{2,4}|\d{1,2}\.\s+(?:Jan(?:uar)?|Feb(?:ruar)?|Mär(?:z)?|Apr(?:il)?|Mai|Jun(?:i)?|Jul(?:i)?|Aug(?:ust)?|Sep(?:tember)?|Okt(?:ober)?|Nov(?:ember)?|Dez(?:ember)?)\s+\d{4})\b/gi,us:/\b(?:\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4}|(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+\d{1,2},?\s+\d{4})\b/gi,uk:/\b(?:\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4}|\d{1,2}\s+(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+\d{4})\b/gi,iso:/\b(?:\d{4}-\d{2}-\d{2})\b/gi};function guardTag(re){return new RegExp('(?![^<]*>)'+re.source,re.flags);}
+const elInput=document.getElementById('contractInput');const elAnalyze=document.getElementById('analyzeBtn');const elEmptyState=document.getElementById('emptyState');const elResultsState=document.getElementById('resultsState');const outDatesList=document.getElementById('resDatesList');const outClausesList=document.getElementById('resClausesList');const outMissingRefm=document.getElementById('resMissingRefm');const outHighlighted=document.getElementById('highlightedOutput');const cfgDates=document.getElementById('cfgDates');const cfgClauses=document.getElementById('cfgClauses');const cfgRefm=document.getElementById('cfgRefm');const dateLocaleSelect=document.getElementById('dateLocale');const DICT_DIR='../templates/contract-obligations/';const DICT_MANIFEST='dictionaries.json';let DICT_CATALOG=[];let BUILTIN_DICTS={};let DEFAULT_DICT_ID=null;let dictLoadError=null;let dictsReady=null;function dictToast(msg,tone){let wrap=document.getElementById('cde-toasts');if(!wrap){wrap=document.createElement('div');wrap.id='cde-toasts';wrap.className='fixed bottom-4 right-4 z-[90] flex flex-col gap-2 items-end';document.body.appendChild(wrap);}
+const bad=tone==='error';const t=document.createElement('div');t.className='flex items-center gap-2 bg-white border shadow-lg rounded-lg px-4 py-3 text-sm font-semibold transition-opacity duration-500 '
++(bad?'border-red-200 text-red-700':'border-slate-200 text-slate-700');t.innerHTML='<i data-lucide="'+(bad?'alert-triangle':'book-open')
++'" class="w-4 h-4 '+(bad?'text-red-500':'text-indigo-500')+' shrink-0"></i><span></span>';t.querySelector('span').textContent=msg;wrap.appendChild(t);if(window.lucide)try{lucide.createIcons();}catch(e){}
+setTimeout(function(){t.style.opacity='0';},bad?8000:4000);setTimeout(function(){t.remove();},bad?8600:4600);}
+function entryFromDict(d,file){return{id:d.id,file:file||(d.id+'.json'),name:d.name,language:d.language||'',country:d.country||'',category:d.category||'General',description:d.description||'',author:d.author||'',license:d.license||'',source:d.source||'',version:d.version!=null?d.version:1,tags:Array.isArray(d.tags)?d.tags:[],counts:{fields:(d.fields||[]).length,clauses:(d.clauses||[]).length,baselines:(d.baselines||[]).length}};}
+async function fetchCatalog(){const res=await fetch(DICT_DIR+DICT_MANIFEST,{cache:'no-cache'});if(!res.ok)throw new Error(DICT_MANIFEST+': HTTP '+res.status);const idx=await res.json();const entries=(Array.isArray(idx)?idx:(idx.dictionaries||[])).filter(e=>e&&e.id).map(e=>({...e,file:e.file||(e.id+'.json'),counts:e.counts||{}}));if(!entries.length)throw new Error(DICT_MANIFEST+' lists no dictionaries');DICT_CATALOG=entries;if(idx.default&&entries.some(e=>e.id===idx.default))DEFAULT_DICT_ID=idx.default;}
+function catalogFromBundle(){const g=window.LITEAECO_CONTRACT_DICTS;if(!g)return 0;const list=Array.isArray(g)?g:(g.dictionaries||[]);const entries=[];list.forEach((d,i)=>{const err=validateDict(d);if(err){console.warn('Skipped bundled dictionary #'+(i+1)+': '+err);return;}
+BUILTIN_DICTS[d.id]=d;entries.push(entryFromDict(d));});if(!entries.length)return 0;DICT_CATALOG=entries;if(g.default&&entries.some(e=>e.id===g.default))DEFAULT_DICT_ID=g.default;return entries.length;}
+async function loadCatalog(){try{await fetchCatalog();}catch(err){console.warn('Dictionary catalogue fetch failed, trying the offline bundle.',err);if(catalogFromBundle()){dictToast('Offline mode: dictionaries loaded from contract-templates.js.');}else{dictLoadError=err;console.error('No dictionaries available.',err);dictToast('No dictionaries found ('+err.message+'). Import a dictionary JSON to continue.','error');}}
+if(!DEFAULT_DICT_ID&&DICT_CATALOG.length)DEFAULT_DICT_ID=DICT_CATALOG[0].id;return DICT_CATALOG;}
+async function getDict(id){if(!id)return null;if(BUILTIN_DICTS[id])return BUILTIN_DICTS[id];const entry=DICT_CATALOG.find(e=>e.id===id);if(!entry)return null;try{const r=await fetch(DICT_DIR+entry.file,{cache:'no-cache'});if(!r.ok)throw new Error('HTTP '+r.status);const d=await r.json();const err=validateDict(d);if(err)throw new Error(err);BUILTIN_DICTS[d.id]=d;return d;}catch(err){console.warn('Dictionary not loaded: '+entry.file,err);dictToast('Could not load '+entry.file+' ('+err.message+').','error');return null;}}
+function defaultEntryId(){return DEFAULT_DICT_ID||(DICT_CATALOG[0]&&DICT_CATALOG[0].id)||null;}
+let DICT=null;let dictCompiled=null;function validateDict(d){if(!d||typeof d!=="object")return"Not an object";if(d.app!=="liteAECO-contract-dictionary")return'Not a contract dictionary (missing "app": "liteAECO-contract-dictionary")';if(d.schema!==1)return"Unsupported dictionary schema "+d.schema;if(!d.id||!d.name)return"Missing id / name";if(!Array.isArray(d.fields))return"fields must be an array";const KNOWN=["landlord","tenant","address","purpose","area","netRent","totalRent","serviceCharges","deposit","vatNumber","vat","startDate","term","noticePeriod","exclusivity","sublease"];for(const f of d.fields){if(!f.id||!f.pattern)return"Field missing id or pattern";if(!KNOWN.includes(f.id))return`Unknown field id "${f.id}". Allowed: ${KNOWN.join(", ")}`;try{new RegExp(f.pattern,"g"+(f.flags||""));}catch(e){return`Field ${f.id}: ${e.message}`;}
+if(f.fallback){try{new RegExp(f.fallback,"g"+(f.flags||""));}catch(e){return`Field ${f.id} fallback: ${e.message}`;}}}
+["clauses","baselines","coreAudit"].forEach(k=>{if(d[k]&&!Array.isArray(d[k]))return`${k} must be an array`;});return null;}
+function escapeRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+function compileDict(d){const kw=(arr)=>(arr&&arr.length)?new RegExp(`\\b(?:${arr.map(escapeRe).join('|')})`,'gi'):null;return{clause:kw(d.clauses),refm:kw(d.baselines),fields:d.fields.map(f=>({...f,re:new RegExp(f.pattern,"g"+(f.flags||"").replace("g","")),reFallback:f.fallback?new RegExp(f.fallback,"g"+(f.flags||"").replace("g","")):null}))};}
+function setDict(d,opts={}){const err=validateDict(d);if(err){showToast("Dictionary error: "+err);return false;}
+DICT=JSON.parse(JSON.stringify(d));dictCompiled=compileDict(DICT);const df=DICT.defaults||{};if(!opts.keepConfig){if(df.dateLocale&&REGEX_DATES[df.dateLocale])dateLocaleSelect.value=df.dateLocale;if(df.vatRate!=null)document.getElementById('mwstRate').value=df.vatRate;if(df.highlightDates!=null)cfgDates.checked=!!df.highlightDates;if(df.highlightClauses!=null)cfgClauses.checked=!!df.highlightClauses;if(df.highlightBaselines!=null)cfgRefm.checked=!!df.highlightBaselines;}
+refreshDictSelect();return true;}
+function stableStringify(v){if(Array.isArray(v))return'['+v.map(stableStringify).join(',')+']';if(v&&typeof v==='object'){return'{'+Object.keys(v).sort().filter(k=>v[k]!==undefined).map(k=>JSON.stringify(k)+':'+stableStringify(v[k])).join(',')+'}';}
+return JSON.stringify(v===undefined?null:v);}
+function isBuiltinUnchanged(d){const b=d&&BUILTIN_DICTS[d.id];if(!b)return false;const strip=(x)=>{const c={...x};delete c.savedAt;return stableStringify(c);};return strip(b)===strip(d);}
+function refreshDictSelect(){const label=document.getElementById('dictPickLabel');const btn=document.getElementById('dictPickBtn');const custom=DICT&&!isBuiltinUnchanged(DICT);if(label){label.textContent=DICT
+?DICT.name+(custom?" (custom)":""):(dictLoadError?"No dictionary":"Choose dictionary…");}
+if(btn)btn.disabled=false;document.getElementById('dictInfo').textContent=DICT
+?`${DICT.fields.length} fields · ${(DICT.clauses || []).length} clauses · ${(DICT.baselines || []).length} baselines${custom ? " · custom, saved with file" : ""}`:(dictLoadError
+?"Could not load "+DICT_DIR+DICT_MANIFEST+" import a dictionary JSON.":"");if(!document.getElementById('dict-modal').classList.contains('hidden'))renderDictList();}
+function dictCatalogView(){const list=DICT_CATALOG.slice();if(DICT&&!list.some(e=>e.id===DICT.id))list.unshift(entryFromDict(DICT,null));return list;}
+function openDictPicker(){const modal=document.getElementById('dict-modal');const list=dictCatalogView();const uniq=(arr)=>[...new Set(arr.filter(Boolean))].sort();const fill=(id,items,allLabel)=>{const el=document.getElementById(id);const keep=el.value;el.innerHTML=`<option value="">${allLabel}</option>`
++items.map(v=>`<option value="${escapeHTML(v)}">${escapeHTML(v)}</option>`).join("");if(items.includes(keep))el.value=keep;};fill('dict-filter-category',uniq(list.map(e=>e.category)),'All categories');fill('dict-filter-language',uniq(list.map(e=>e.language||e.id)),'All languages');const q=document.getElementById('dict-filter-search');if(q)q.value="";renderDictList();modal.classList.remove('hidden');modal.classList.add('flex');if(window.lucide)try{lucide.createIcons();}catch(e){}
+if(q)setTimeout(()=>q.focus(),50);}
+function closeDictPicker(){const modal=document.getElementById('dict-modal');if(modal){modal.classList.add('hidden');modal.classList.remove('flex');}}
+function renderDictList(){const cat=document.getElementById('dict-filter-category').value;const lang=document.getElementById('dict-filter-language').value;const q=(document.getElementById('dict-filter-search')?.value||"").trim().toLowerCase();const box=document.getElementById('dict-list');const hit=e=>{if(!q)return true;return[e.name,e.id,e.description,e.category,e.author,e.country,e.language,...(e.tags||[])].join(" ").toLowerCase().includes(q);};const list=dictCatalogView().filter(e=>(!cat||e.category===cat)&&(!lang||(e.language||e.id)===lang)&&hit(e));if(!list.length){box.innerHTML=`<div class="col-span-full text-xs text-slate-400 text-center py-6">${dictLoadError
                     ? "No dictionaries available. Use “Import file…” to load one."
-                    : "No dictionaries match this filter."}</div>`;
-                return;
-            }
-
-            box.innerHTML = list.map(e => {
-                const active = DICT && DICT.id === e.id;
-                const locale = [e.language, e.country].filter(Boolean).join("-") || e.id;
-                const c = e.counts || {};
-                const meta = [
-                    c.fields != null ? c.fields + " fields" : null,
-                    c.clauses != null ? c.clauses + " clauses" : null,
-                    c.baselines != null ? c.baselines + " baselines" : null,
-                    e.version != null ? "v" + e.version : null,
-                    e.author || null
-                ].filter(Boolean).join(" · ");
-                return `<button onclick="chooseDict('${escapeHTML(e.id).replace(/'/g, "&#39;")}')"
+                    : "No dictionaries match this filter."}</div>`;return;}
+box.innerHTML=list.map(e=>{const active=DICT&&DICT.id===e.id;const locale=[e.language,e.country].filter(Boolean).join("-")||e.id;const c=e.counts||{};const meta=[c.fields!=null?c.fields+" fields":null,c.clauses!=null?c.clauses+" clauses":null,c.baselines!=null?c.baselines+" baselines":null,e.version!=null?"v"+e.version:null,e.author||null].filter(Boolean).join(" · ");return`<button onclick="chooseDict('${escapeHTML(e.id).replace(/'/g, "&#39;")}')"
                     class="text-left border rounded p-3 transition group ${active
                         ? "border-indigo-400 bg-indigo-50/60 ring-1 ring-indigo-200"
                         : "border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/40"}">
@@ -1045,421 +73,90 @@
                     <div class="text-[9px] font-bold uppercase tracking-widest text-indigo-500 mt-0.5">${escapeHTML(e.category || "General")}</div>
                     <div class="text-[10px] text-slate-500 mt-1 line-clamp-2">${escapeHTML(e.description || "")}</div>
                     <div class="text-[9px] text-slate-400 mt-2">${escapeHTML(meta)}</div>
-                </button>`;
-            }).join("");
-        }
-
-        async function chooseDict(id) {
-            if (DICT && DICT.id === id && isBuiltinUnchanged(DICT)) { closeDictPicker(); return; }
-            const box = document.getElementById('dict-list');
-            box.style.opacity = '0.5';
-            const d = await getDict(id);
-            box.style.opacity = '';
-            if (!d) return;                 // getDict already toasted
-            if (setDict(d)) {
-                markUnsaved();
-                showToast("Dictionary: " + DICT.name);
-                closeDictPicker();
-            }
-        }
-
-        // ---- Dictionary UI ----
-        document.getElementById('dictPickBtn').addEventListener('click', openDictPicker);
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !document.getElementById('dict-modal').classList.contains('hidden')) closeDictPicker();
-        });
-        document.getElementById('dictEditBtn').addEventListener('click', () => {
-            document.getElementById('dictEditor').value = JSON.stringify(DICT, null, 2);
-            document.getElementById('dictError').classList.add('hidden');
-            const m = document.getElementById('dictModal'); m.classList.remove('hidden'); m.classList.add('flex');
-        });
-        function closeDictModal() { const m = document.getElementById('dictModal'); m.classList.add('hidden'); m.classList.remove('flex'); }
-        document.getElementById('dictModalClose').addEventListener('click', closeDictModal);
-        document.getElementById('dictCancel').addEventListener('click', closeDictModal);
-        document.getElementById('dictReset').addEventListener('click', () => {
-            const base = (DICT && BUILTIN_DICTS[DICT.id]) || DICT;
-            if (!base) { showToast("No dictionary available."); return; }
-            document.getElementById('dictEditor').value = JSON.stringify(base, null, 2);
-        });
-        document.getElementById('dictApply').addEventListener('click', () => {
-            const errEl = document.getElementById('dictError');
-            try {
-                const d = JSON.parse(document.getElementById('dictEditor').value);
-                const err = validateDict(d);
-                if (err) throw new Error(err);
-                setDict(d, { keepConfig: true });
-                closeDictModal();
-                markUnsaved();
-                showToast("Dictionary applied.");
-            } catch (e) { errEl.textContent = e.message; errEl.classList.remove('hidden'); }
-        });
-        document.getElementById('dictImportBtn').addEventListener('click', () => document.getElementById('dictUpload').click());
-        document.getElementById('dictUpload').addEventListener('change', async (e) => {
-            const f = e.target.files[0]; e.target.value = '';
-            if (!f) return;
-            try {
-                const d = JSON.parse(await f.text());
-                if (setDict(d)) { markUnsaved(); showToast("Dictionary imported: " + d.name); }
-            } catch (err) { showToast("Invalid dictionary JSON."); }
-        });
-        document.getElementById('dictExportBtn').addEventListener('click', () => {
-            const out = { ...DICT, savedAt: new Date().toISOString() };
-            downloadBlob(new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' }), `dictionary_${DICT.id}.json`);
-        });
-
-        // ==========================================
-        // PARSERS: numbers + dates
-        // ==========================================
-        function parseMoney(s) {
-            if (!s) return null;
-            let t = String(s).replace(/[\s'’]/g, '');
-            // decide decimal separator: last . or , followed by exactly 2 digits
-            const m = t.match(/[.,](\d{1,2})$/);
-            if (m) { const dec = t.slice(-m[0].length + 1); t = t.slice(0, -m[0].length).replace(/[.,]/g, '') + '.' + dec; }
-            else t = t.replace(/[.,]/g, '');
-            const n = parseFloat(t);
-            return isNaN(n) ? null : n;
-        }
-        const MONTHS = {
-            jan: 1, januar: 1, january: 1, feb: 2, februar: 2, february: 2, mär: 3, märz: 3, mar: 3, march: 3, apr: 4, april: 4,
-            mai: 5, may: 5, jun: 6, juni: 6, june: 6, jul: 7, juli: 7, july: 7, aug: 8, august: 8, sep: 9, sept: 9, september: 9,
-            okt: 10, oktober: 10, oct: 10, october: 10, nov: 11, november: 11, dez: 12, dezember: 12, dec: 12, december: 12
-        };
-        function mkDate(y, m, d) {
-            if (y < 100) y += (y < 50 ? 2000 : 1900);
-            if (m < 1 || m > 12 || d < 1 || d > 31) return null;
-            const dt = new Date(Date.UTC(y, m - 1, d));
-            return (dt.getUTCMonth() === m - 1) ? dt : null;
-        }
-        // Returns Date (UTC) or null. Locale decides ambiguous a/b/c order.
-        function parseDate(s, locale) {
-            if (!s) return null;
-            const t = String(s).trim().replace(/(\d)(?:st|nd|rd|th)\b/gi, '$1');
-            let m;
-            if ((m = t.match(/^(\d{4})[-.](\d{1,2})[-.](\d{1,2})$/))) return mkDate(+m[1], +m[2], +m[3]);
-            if ((m = t.match(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2,4})$/))) {
-                const a = +m[1], b = +m[2], y = +m[3];
-                const us = (locale === "us");
-                if (a > 12 && b <= 12) return mkDate(y, b, a);
-                if (b > 12 && a <= 12) return mkDate(y, a, b);
-                return us ? mkDate(y, a, b) : mkDate(y, b, a);
-            }
-            if ((m = t.match(/^(\d{1,2})\.?\s+([A-Za-zäöü]+)\.?\s+(\d{4})$/))) { const mo = MONTHS[m[2].toLowerCase()]; return mo ? mkDate(+m[3], mo, +m[1]) : null; }
-            if ((m = t.match(/^([A-Za-z]+)\.?\s+(\d{1,2}),?\s+(\d{4})$/))) { const mo = MONTHS[m[1].toLowerCase()]; return mo ? mkDate(+m[3], mo, +m[2]) : null; }
-            return null;
-        }
-        // Area string -> m². Detects sq ft.
-        function parseArea(v) {
-            if (!v) return null;
-            const n = parseMoney(String(v).replace(/[^\d.,'’]/g, m => /[\s]/.test(m) ? '' : m).match(/[\d.,'’]+/)?.[0]);
-            if (n == null) return null;
-            return /ft|feet/i.test(v) ? Math.round(n * 0.092903 * 10) / 10 : n;
-        }
-        function isoDate(d) { return d ? d.toISOString().slice(0, 10) : null; }
-        function addMonths(d, n) { const r = new Date(d.getTime()); r.setUTCMonth(r.getUTCMonth() + n); return r; }
-        function fmtMoney(n) { return n == null ? "–" : n.toLocaleString('de-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).replace(/’/g, "'"); }
-
-        // ---- Candidates ----
-        let candidates = {};   // fieldId -> [{value, match}]
-        let picks = {};        // fieldId -> chosen index (persisted)
-        const MAX_CANDIDATES = 10;
-
-        function collectCandidates(text, re, f) {
-            const out = []; const seen = new Set();
-            re.lastIndex = 0;
-            for (const m of text.matchAll(re)) {
-                let v = m[f.group || 0];
-                if (v == null) continue;
-                v = v.trim();
-                if (f.type === "flag") { return [{ value: f.yes || "yes", match: m[0] }]; }
-                if (f.maxLen && v.length > f.maxLen) v = v.slice(0, f.maxLen) + "…";
-                if (!v || seen.has(v)) continue;
-                seen.add(v);
-                out.push({ value: v, match: m[0] });
-                if (out.length >= MAX_CANDIDATES) break;
-            }
-            return out;
-        }
-
-        function fieldDef(id) { return dictCompiled.fields.find(f => f.id === id); }
-        function pickedValue(id) {
-            if (manualAssign[id]) return manualAssign[id];
-            const list = candidates[id] || [];
-            const c = list[picks[id] || 0];
-            return c ? c.value : null;
-        }
-
-        function renderCard(f) {
-            const el = document.getElementById(f.id);
-            if (!el) return;
-            if (manualAssign[f.id]) { renderManualCard(f.id, manualAssign[f.id]); return; }
-            const list = candidates[f.id] || [];
-            if (!list.length) {
-                el.innerHTML = f.type === "flag"
-                    ? `<span class="text-slate-500 font-sans text-xs">${escapeHTML(f.no || "no")}</span>`
-                    : `<span class="text-slate-400 italic text-[11px] font-serif">Nicht gefunden / Unstrukturiert</span>`;
-                return;
-            }
-            const i = picks[f.id] || 0;
-            const c = list[i];
-            let html = `<span class="text-indigo-700 font-sans tracking-tight">${escapeHTML(c.value)}${f.suffix || ""}</span>`;
-            if (list.length > 1) {
-                html += ` <select data-field="${f.id}" onclick="event.stopPropagation()" title="${list.length} candidates"
+                </button>`;}).join("");}
+async function chooseDict(id){if(DICT&&DICT.id===id&&isBuiltinUnchanged(DICT)){closeDictPicker();return;}
+const box=document.getElementById('dict-list');box.style.opacity='0.5';const d=await getDict(id);box.style.opacity='';if(!d)return;//getDict already toasted
+if(setDict(d)){markUnsaved();showToast("Dictionary: "+DICT.name);closeDictPicker();}}
+//---- Dictionary UI ----document.getElementById('dictPickBtn').addEventListener('click',openDictPicker);document.addEventListener('keydown',(e)=>{if(e.key==='Escape'&&!document.getElementById('dict-modal').classList.contains('hidden'))closeDictPicker();});document.getElementById('dictEditBtn').addEventListener('click',()=>{document.getElementById('dictEditor').value=JSON.stringify(DICT,null,2);document.getElementById('dictError').classList.add('hidden');const m=document.getElementById('dictModal');m.classList.remove('hidden');m.classList.add('flex');});function closeDictModal(){const m=document.getElementById('dictModal');m.classList.add('hidden');m.classList.remove('flex');}
+document.getElementById('dictModalClose').addEventListener('click',closeDictModal);document.getElementById('dictCancel').addEventListener('click',closeDictModal);document.getElementById('dictReset').addEventListener('click',()=>{const base=(DICT&&BUILTIN_DICTS[DICT.id])||DICT;if(!base){showToast("No dictionary available.");return;}
+document.getElementById('dictEditor').value=JSON.stringify(base,null,2);});document.getElementById('dictApply').addEventListener('click',()=>{const errEl=document.getElementById('dictError');try{const d=JSON.parse(document.getElementById('dictEditor').value);const err=validateDict(d);if(err)throw new Error(err);setDict(d,{keepConfig:true});closeDictModal();markUnsaved();showToast("Dictionary applied.");}catch(e){errEl.textContent=e.message;errEl.classList.remove('hidden');}});document.getElementById('dictImportBtn').addEventListener('click',()=>document.getElementById('dictUpload').click());document.getElementById('dictUpload').addEventListener('change',async(e)=>{const f=e.target.files[0];e.target.value='';if(!f)return;try{const d=JSON.parse(await f.text());if(setDict(d)){markUnsaved();showToast("Dictionary imported: "+d.name);}}catch(err){showToast("Invalid dictionary JSON.");}});document.getElementById('dictExportBtn').addEventListener('click',()=>{const out={...DICT,savedAt:new Date().toISOString()};downloadBlob(new Blob([JSON.stringify(out,null,2)],{type:'application/json'}),`dictionary_${DICT.id}.json`);});//==========================================//PARSERS:numbers+dates
+//==========================================function parseMoney(s){if(!s)return null;let t=String(s).replace(/[\s'’]/g,'');//decide decimal separator:last . or,followed by exactly 2 digits
+const m=t.match(/[.,](\d{1,2})$/);if(m){const dec=t.slice(-m[0].length+1);t=t.slice(0,-m[0].length).replace(/[.,]/g,'')+'.'+dec;}
+else t=t.replace(/[.,]/g,'');const n=parseFloat(t);return isNaN(n)?null:n;}
+const MONTHS={jan:1,januar:1,january:1,feb:2,februar:2,february:2,mär:3,märz:3,mar:3,march:3,apr:4,april:4,mai:5,may:5,jun:6,juni:6,june:6,jul:7,juli:7,july:7,aug:8,august:8,sep:9,sept:9,september:9,okt:10,oktober:10,oct:10,october:10,nov:11,november:11,dez:12,dezember:12,dec:12,december:12};function mkDate(y,m,d){if(y<100)y+=(y<50?2000:1900);if(m<1||m>12||d<1||d>31)return null;const dt=new Date(Date.UTC(y,m - 1,d));return(dt.getUTCMonth()===m - 1)?dt:null;}
+// Returns Date (UTC) or null. Locale decides ambiguous a/b/c order.
+function parseDate(s,locale){if(!s)return null;const t=String(s).trim().replace(/(\d)(?:st|nd|rd|th)\b/gi,'$1');let m;if((m=t.match(/^(\d{4})[-.](\d{1,2})[-.](\d{1,2})$/)))return mkDate(+m[1],+m[2],+m[3]);if((m=t.match(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2,4})$/))){const a=+m[1],b=+m[2],y=+m[3];const us=(locale==="us");if(a>12&&b<=12)return mkDate(y,b,a);if(b>12&&a<=12)return mkDate(y,a,b);return us?mkDate(y,a,b):mkDate(y,b,a);}
+if((m=t.match(/^(\d{1,2})\.?\s+([A-Za-zäöü]+)\.?\s+(\d{4})$/))){const mo=MONTHS[m[2].toLowerCase()];return mo?mkDate(+m[3],mo,+m[1]):null;}
+if((m=t.match(/^([A-Za-z]+)\.?\s+(\d{1,2}),?\s+(\d{4})$/))){const mo=MONTHS[m[1].toLowerCase()];return mo?mkDate(+m[3],mo,+m[2]):null;}
+return null;}
+//Area string ->m². Detects sq ft.
+function parseArea(v){if(!v)return null;const n=parseMoney(String(v).replace(/[^\d.,'’]/g,m=>/[\s]/.test(m)?'':m).match(/[\d.,'’]+/)?.[0]);if(n==null)return null;return/ft|feet/i.test(v)?Math.round(n*0.092903*10)/10:n;}
+function isoDate(d){return d?d.toISOString().slice(0,10):null;}
+function addMonths(d,n){const r=new Date(d.getTime());r.setUTCMonth(r.getUTCMonth()+n);return r;}
+function fmtMoney(n){return n==null?"–":n.toLocaleString('de-CH',{minimumFractionDigits:2,maximumFractionDigits:2}).replace(/’/g,"'");}
+//---- Candidates ----let candidates={};//fieldId ->[{value,match}]
+let picks={};//fieldId ->chosen index(persisted)
+const MAX_CANDIDATES=10;function collectCandidates(text,re,f){const out=[];const seen=new Set();re.lastIndex=0;for(const m of text.matchAll(re)){let v=m[f.group||0];if(v==null)continue;v=v.trim();if(f.type==="flag"){return[{value:f.yes||"yes",match:m[0]}];}
+if(f.maxLen&&v.length>f.maxLen)v=v.slice(0,f.maxLen)+"…";if(!v||seen.has(v))continue;seen.add(v);out.push({value:v,match:m[0]});if(out.length>=MAX_CANDIDATES)break;}
+return out;}
+function fieldDef(id){return dictCompiled.fields.find(f=>f.id===id);}
+function pickedValue(id){if(manualAssign[id])return manualAssign[id];const list=candidates[id]||[];const c=list[picks[id]||0];return c?c.value:null;}
+function renderCard(f){const el=document.getElementById(f.id);if(!el)return;if(manualAssign[f.id]){renderManualCard(f.id,manualAssign[f.id]);return;}
+const list=candidates[f.id]||[];if(!list.length){el.innerHTML=f.type==="flag"
+?`<span class="text-slate-500 font-sans text-xs">${escapeHTML(f.no || "no")}</span>`:`<span class="text-slate-400 italic text-[11px] font-serif">Nicht gefunden / Unstrukturiert</span>`;return;}
+const i=picks[f.id]||0;const c=list[i];let html=`<span class="text-indigo-700 font-sans tracking-tight">${escapeHTML(c.value)}${f.suffix || ""}</span>`;if(list.length>1){html+=` <select data-field="${f.id}" onclick="event.stopPropagation()" title="${list.length} candidates"
                     class="cand-select ml-1 text-[10px] bg-amber-50 border border-amber-200 text-amber-800 rounded px-1 py-0.5 max-w-[140px] cursor-pointer align-middle">`
-                    + list.map((x, k) => `<option value="${k}" ${k === i ? "selected" : ""}>${k + 1}/${list.length}: ${escapeHTML(x.value.slice(0, 40))}</option>`).join('')
-                    + `</select>`;
-            }
-            el.innerHTML = html;
-            const sel = el.querySelector('select');
-            if (sel) sel.addEventListener('change', (e) => {
-                picks[f.id] = +e.target.value;
-                renderCard(f);
-                placeMark(f.id);
-                renderDerived();
-                markUnsaved();
-            });
-        }
-
-        // Wrap the picked match text with the jump ID (moves mark if it exists)
-        function placeMark(id) {
-            const old = document.getElementById(`mark-${id}`);
-            if (old) { const p = old.parentNode; while (old.firstChild) p.insertBefore(old.firstChild, old); p.removeChild(old); }
-            let txt = manualAssign[id];
-            if (!txt) { const c = (candidates[id] || [])[picks[id] || 0]; txt = c ? c.match : null; }
-            if (!txt) { baseHighlightedHTML = outHighlighted.innerHTML; return; }
-            const range = findTextRange(outHighlighted, txt);
-            if (range) wrapRangeWithId(range, `mark-${id}`, !!manualAssign[id]);
-            extractedMatches[id] = txt;
-            baseHighlightedHTML = outHighlighted.innerHTML;
-        }
-
-        // ---- Derived (dates + rent math) ----
-        function renderDerived() {
-            const panel = document.getElementById('derivedPanel');
-            if (!panel) return;
-            const locale = dateLocaleSelect.value;
-            const rate = (parseFloat(document.getElementById('mwstRate').value) || 0) / 100;
-            const num = (id) => { const v = pickedValue(id); return v ? parseMoney(v) : null; };
-            const start = parseDate(pickedValue('startDate'), locale);
-            const years = num('term'), months = num('noticePeriod');
-            const annual = ((DICT.defaults || {}).rentPeriod === "annual");
-            const per = annual ? 12 : 1;                 // figures stated per year?
-            const net = num('netRent'), nk = num('serviceCharges'), total = num('totalRent'), dep = num('deposit');
-            const area = parseArea(pickedValue('area'));
-            const pLabel = annual ? " (p.a.)" : " (p.m.)";
-            const tiles = [];
-            const tile = (label, value, tone = "slate", note = "") => tiles.push({ label, value, tone, note });
-
-            // Dates
-            tile("Start (ISO)", isoDate(start) || "–", start ? "slate" : "muted", start ? "" : "Unparsed date");
-            let end = null, deadline = null;
-            if (start && years) { end = new Date(addMonths(start, years * 12).getTime() - 86400000); tile("End (ISO)", isoDate(end)); }
-            else tile("End (ISO)", "–", "muted", "Needs start + term");
-            if (end && months) {
-                deadline = addMonths(new Date(end.getTime() + 86400000), -months);
-                const days = Math.round((deadline - Date.now()) / 86400000);
-                tile("Notice deadline", isoDate(deadline), days < 0 ? "rose" : days < 90 ? "amber" : "green", days < 0 ? `${-days} days ago` : `in ${days} days`);
-            } else tile("Notice deadline", "–", "muted", "Needs end + notice");
-            tile("Term", (years ? years + " y" : "–") + (months ? " / notice " + months + " m" : ""));
-
-            // Rent
-            tile("Net rent" + pLabel, fmtMoney(net), net == null ? "muted" : "slate", (net != null && annual) ? `${fmtMoney(net / 12)} / month` : "");
-            if (net != null && nk != null && total != null) {
-                const diff = net + nk - total;
-                tile("Net + charges vs Total", fmtMoney(net + nk), Math.abs(diff) < 0.01 ? "green" : "rose", Math.abs(diff) < 0.01 ? "Matches total" : `Total says ${fmtMoney(total)} (Δ ${fmtMoney(diff)})`);
-            } else tile("Net + charges vs Total", "–", "muted", "Needs net, NK, total");
-            const base = total != null ? total : (net != null && nk != null ? net + nk : null);
-            tile("Gross incl. VAT" + pLabel, base != null ? fmtMoney(base * (1 + rate)) : "–", base != null ? "slate" : "muted", base != null ? `${(rate * 100).toFixed(1)}% on ${fmtMoney(base)}` : "");
-            if (net != null && area) tile("Net / m² / year", fmtMoney(net * (12 / per) / area), "slate", `${area} m²`);
-            else tile("Net / m² / year", "–", "muted", "Needs net + area");
-            if (dep != null && net) { const mo = dep / (net / per); tile("Deposit", fmtMoney(dep), mo > 3.05 ? "amber" : "slate", `≈ ${mo.toFixed(1)} months net${mo > 3.05 ? " · >3 (OR 257e: only residential cap)" : ""}`); }
-            else tile("Deposit", dep != null ? fmtMoney(dep) : "–", dep != null ? "slate" : "muted");
-
-            const tones = {
-                slate: "border-slate-200 bg-white", muted: "border-slate-100 bg-slate-50 text-slate-400",
-                green: "border-emerald-200 bg-emerald-50", amber: "border-amber-200 bg-amber-50", rose: "border-rose-200 bg-rose-50"
-            };
-            panel.innerHTML = tiles.map(t => `
++list.map((x,k)=>`<option value="${k}" ${k === i ? "selected" : ""}>${k + 1}/${list.length}: ${escapeHTML(x.value.slice(0, 40))}</option>`).join('')
++`</select>`;}
+el.innerHTML=html;const sel=el.querySelector('select');if(sel)sel.addEventListener('change',(e)=>{picks[f.id]=+e.target.value;renderCard(f);placeMark(f.id);renderDerived();markUnsaved();});}
+//Wrap the picked match text with the jump ID(moves mark if it exists)
+function placeMark(id){const old=document.getElementById(`mark-${id}`);if(old){const p=old.parentNode;while(old.firstChild)p.insertBefore(old.firstChild,old);p.removeChild(old);}
+let txt=manualAssign[id];if(!txt){const c=(candidates[id]||[])[picks[id]||0];txt=c?c.match:null;}
+if(!txt){baseHighlightedHTML=outHighlighted.innerHTML;return;}
+const range=findTextRange(outHighlighted,txt);if(range)wrapRangeWithId(range,`mark-${id}`,!!manualAssign[id]);extractedMatches[id]=txt;baseHighlightedHTML=outHighlighted.innerHTML;}
+//---- Derived(dates+rent math)----function renderDerived(){const panel=document.getElementById('derivedPanel');if(!panel)return;const locale=dateLocaleSelect.value;const rate=(parseFloat(document.getElementById('mwstRate').value)||0)/100;const num=(id)=>{const v=pickedValue(id);return v?parseMoney(v):null;};const start=parseDate(pickedValue('startDate'),locale);const years=num('term'),months=num('noticePeriod');const annual=((DICT.defaults||{}).rentPeriod==="annual");const per=annual?12:1;//figures stated per year?const net=num('netRent'),nk=num('serviceCharges'),total=num('totalRent'),dep=num('deposit');const area=parseArea(pickedValue('area'));const pLabel=annual?" (p.a.)":" (p.m.)";const tiles=[];const tile=(label,value,tone="slate",note="")=>tiles.push({label,value,tone,note});//Dates
+tile("Start (ISO)",isoDate(start)||"–",start?"slate":"muted",start?"":"Unparsed date");let end=null,deadline=null;if(start&&years){end=new Date(addMonths(start,years*12).getTime()- 86400000);tile("End (ISO)",isoDate(end));}
+else tile("End (ISO)","–","muted","Needs start + term");if(end&&months){deadline=addMonths(new Date(end.getTime()+86400000),-months);const days=Math.round((deadline - Date.now())/86400000);tile("Notice deadline",isoDate(deadline),days<0?"rose":days<90?"amber":"green",days<0?`${-days} days ago`:`in ${days} days`);}else tile("Notice deadline","–","muted","Needs end + notice");tile("Term",(years?years+" y":"–")+(months?" / notice "+months+" m":""));//Rent
+tile("Net rent"+pLabel,fmtMoney(net),net==null?"muted":"slate",(net!=null&&annual)?`${fmtMoney(net / 12)} / month`:"");if(net!=null&&nk!=null&&total!=null){const diff=net+nk - total;tile("Net + charges vs Total",fmtMoney(net+nk),Math.abs(diff)<0.01?"green":"rose",Math.abs(diff)<0.01?"Matches total":`Total says ${fmtMoney(total)} (Δ ${fmtMoney(diff)})`);}else tile("Net + charges vs Total","–","muted","Needs net, NK, total");const base=total!=null?total:(net!=null&&nk!=null?net+nk:null);tile("Gross incl. VAT"+pLabel,base!=null?fmtMoney(base*(1+rate)):"–",base!=null?"slate":"muted",base!=null?`${(rate * 100).toFixed(1)}% on ${fmtMoney(base)}`:"");if(net!=null&&area)tile("Net / m² / year",fmtMoney(net*(12/per)/area),"slate",`${area} m²`);else tile("Net / m² / year","–","muted","Needs net + area");if(dep!=null&&net){const mo=dep/(net/per);tile("Deposit",fmtMoney(dep),mo>3.05?"amber":"slate",`≈ ${mo.toFixed(1)} months net${mo > 3.05 ? " · >3 (OR 257e: only residential cap)" : ""}`);}
+else tile("Deposit",dep!=null?fmtMoney(dep):"–",dep!=null?"slate":"muted");const tones={slate:"border-slate-200 bg-white",muted:"border-slate-100 bg-slate-50 text-slate-400",green:"border-emerald-200 bg-emerald-50",amber:"border-amber-200 bg-amber-50",rose:"border-rose-200 bg-rose-50"};panel.innerHTML=tiles.map(t=>`
                 <div class="border rounded p-2 ${tones[t.tone]}">
                     <span class="block text-[10px] font-bold text-slate-400 uppercase">${t.label}</span>
                     <div class="font-medium text-sm text-slate-800 truncate" title="${escapeHTML(String(t.value))}">${escapeHTML(String(t.value))}</div>
-                    ${t.note ? `<span class="block text-[10px] text-slate-500 truncate" title="${escapeHTML(t.note)}">${escapeHTML(t.note)}</span>` : ""}
-                </div>`).join('');
-        }
-        document.getElementById('mwstRate').addEventListener('input', () => { if (hasAnalyzed) renderDerived(); markUnsaved(); });
-        dateLocaleSelect.addEventListener('change', () => { if (hasAnalyzed) renderDerived(); });
-
-        // Function to handle scrolling to a matched section
-        function scrollToMark(id) {
-            const target = document.getElementById(id);
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                // Highlight animation
-                const originalClasses = target.className;
-                target.className = originalClasses + " ring-4 ring-indigo-400 ring-offset-2 bg-indigo-100 rounded transition-all duration-300";
-                setTimeout(() => {
-                    target.className = originalClasses;
-                }, 1500);
-            } else {
-                showToast("The highlighted section was not found in the text.");
-            }
-        }
-
-        // Global variable to store base HTML state for searching
-        let baseHighlightedHTML = "";
-        // Global variable to store jump matches
-        let extractedMatches = {};
-        // Manual assignments {targetId: text} survive re-analysis + autosave
-        let manualAssign = {};
-        let hasAnalyzed = false;
-        let hasUnsavedChanges = false;
-        function markUnsaved() { hasUnsavedChanges = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); }
-
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMessage').innerText = message;
-            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
-            toast.classList.add('opacity-100', 'translate-y-0');
-            setTimeout(() => {
-                toast.classList.remove('opacity-100', 'translate-y-0');
-                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
-            }, 3000);
-        }
-
-        function escapeHTML(str) {
-            return str.replace(/[&<>'"]/g,
-                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])
-            );
-        }
-
-        // Helper to create safe HTML IDs from text
-        function makeIdSafe(str) {
-            return encodeURIComponent(str.trim().toLowerCase()).replace(/%/g, '-');
-        }
-
-        function searchForTag(term) {
-            const searchInput = document.getElementById('contractSearch');
-            searchInput.value = term;
-
-            // Programmatically trigger the search input event
-            searchInput.dispatchEvent(new Event('input'));
-        }
-
-        function createBadge(text, type) {
-            let classes = "text-[10px] px-2 py-0.5 rounded font-semibold border shadow-sm ";
-            let onClickStr = "";
-
-            const safeText = escapeHTML(text).replace(/'/g, "\\'").replace(/\\/g, "\\\\");
-            const safeLabel = escapeHTML(text);
-
-            if (type === 'date') {
-                classes += "bg-yellow-50 text-yellow-800 border-yellow-200 cursor-pointer hover:bg-yellow-100 transition-colors";
-                onClickStr = `onclick="searchForTag('${safeText}')"`;
-            }
-            else if (type === 'clause') {
-                classes += "bg-indigo-50 text-indigo-800 border-indigo-200 cursor-pointer hover:bg-indigo-100 transition-colors";
-                onClickStr = `onclick="searchForTag('${safeText}')"`;
-            }
-            else if (type === 'missing') {
-                classes += "bg-rose-100 text-rose-800 border-rose-300";
-                // Missing baselines don't get click handlers because they aren't in the text
-            }
-
-            return `<span ${onClickStr} class="${classes}" title="Klicken, um alle Treffer zu suchen und zu durchlaufen">${safeLabel}</span>`;
-        }
-
-        function analyzeText() {
-            if (!DICT || !dictCompiled) {
-                showToast("No dictionary loaded. Select or import a dictionary first.");
-                return;
-            }
-            extractedMatches = {};
-            // Change from const to let so we can sanitize it
-            let rawText = elInput.value.trim();
-
-            if (!rawText) {
-                showToast("Please enter the contract text first.");
-                return;
-            }
-
-            // ==========================================
-            // SANITIZATION: TABLE OF CONTENTS REMOVAL
-            // DELETE IF ANY ISSUE
-            // ==========================================
-
-            // 1. Remove standalone headers
-            const toc = (DICT.tocHeaders || []).map(escapeRe).join('|');
-            if (toc) rawText = rawText.replace(new RegExp(`^\\s*(?:${toc})\\s*$`, 'gim'), '');
-
-            // 2. Remove typical ToC lines:
-            // Matches text, then 3+ dots OR large spaces, then a 1-3 digit number at the end of the line.
-            rawText = rawText.replace(/^.+?(?:\.{3,}|\s{4,})\s*\d{1,3}\s*$/gm, '');
-
-            // ==========================================
-
-            elEmptyState.classList.add('hidden');
-            elResultsState.classList.remove('hidden');
-            elResultsState.classList.add('flex');
-
-            // Reset search bar
-            document.getElementById('contractSearch').value = "";
-            document.getElementById('searchCount').innerText = "";
-
-            // ==========================================
-            // PART 1: DICTIONARY-DRIVEN EXTRACTION (all candidates)
-            // ==========================================
-            candidates = {};
-            dictCompiled.fields.forEach(f => {
-                let list = collectCandidates(rawText, f.re, f);
-                if (!list.length && f.reFallback) list = collectCandidates(rawText, f.reFallback, f);
-                candidates[f.id] = list;
-                if (picks[f.id] != null && picks[f.id] >= list.length) delete picks[f.id];
-            });
-
-            // ==========================================
-            // PART 2: HEATMAP & DASHBOARD EXTRACTION
-            // ==========================================
-            let highlightedText = escapeHTML(rawText);
-
-            let foundDates = new Set();
-            let foundClauses = new Set();
-            let foundRefmText = new Set();
-
-            // Dates
-            if (cfgDates.checked) {
-                const selectedLocale = dateLocaleSelect.value;
-                const activeDateRegex = REGEX_DATES[selectedLocale];
-                const matches = [...rawText.matchAll(activeDateRegex)];
-                matches.forEach(m => foundDates.add(m[0].trim()));
-
-                highlightedText = highlightedText.replace(guardTag(activeDateRegex), match => {
-                    return `<mark class="hl-date transition-all inline-block">${match}</mark>`;
-                });
-            }
-
-            // Clauses
-            if (cfgClauses.checked && dictCompiled.clause) {
-                const REGEX_CLAUSE = dictCompiled.clause;
-                const matches = [...rawText.matchAll(REGEX_CLAUSE)];
-                matches.forEach(m => {
-                    let clause = m[0].toLowerCase();
-                    clause = clause.charAt(0).toUpperCase() + clause.slice(1);
-                    foundClauses.add(clause);
-                });
-
-                highlightedText = highlightedText.replace(guardTag(REGEX_CLAUSE), match => {
-                    return `<mark class="hl-clause transition-all inline-block">${match}</mark>`;
-                });
-            }
-
-            // Baselines (Missing Check)
-            let missingRefm = [];
-            if (cfgRefm.checked && dictCompiled.refm) {
-                const REGEX_REFM = dictCompiled.refm;
-                const matches = [...rawText.matchAll(REGEX_REFM)];
-                matches.forEach(m => foundRefmText.add(m[0].toLowerCase()));
-                // Baselines don't need IDs because we only list the 'Missing' ones in the UI
+                    ${t.note ? `<span class="block text-[10px] text-slate-500 truncate"title="${escapeHTML(t.note)}">${escapeHTML(t.note)}</span>` : ""}
+                </div>`).join('');}
+document.getElementById('mwstRate').addEventListener('input',()=>{if(hasAnalyzed)renderDerived();markUnsaved();});dateLocaleSelect.addEventListener('change',()=>{if(hasAnalyzed)renderDerived();});//Function to handle scrolling to a matched section
+function scrollToMark(id){const target=document.getElementById(id);if(target){target.scrollIntoView({behavior:'smooth',block:'center'});//Highlight animation
+const originalClasses=target.className;target.className=originalClasses+" ring-4 ring-indigo-400 ring-offset-2 bg-indigo-100 rounded transition-all duration-300";setTimeout(()=>{target.className=originalClasses;},1500);}else{showToast("The highlighted section was not found in the text.");}}
+//Global variable to store base HTML state for searching
+let baseHighlightedHTML="";//Global variable to store jump matches
+let extractedMatches={};//Manual assignments{targetId:text}survive re-analysis+autosave
+let manualAssign={};let hasAnalyzed=false;let hasUnsavedChanges=false;function markUnsaved(){hasUnsavedChanges=true;if(typeof Autosave!=="undefined")Autosave.markDirty();}
+function showToast(message){const toast=document.getElementById('toast');document.getElementById('toastMessage').innerText=message;toast.classList.remove('opacity-0','pointer-events-none','translate-y-4');toast.classList.add('opacity-100','translate-y-0');setTimeout(()=>{toast.classList.remove('opacity-100','translate-y-0');toast.classList.add('opacity-0','pointer-events-none','translate-y-4');},3000);}
+function escapeHTML(str){return str.replace(/[&<>'"]/g,tag=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[tag]));}
+//Helper to create safe HTML IDs from text
+function makeIdSafe(str){return encodeURIComponent(str.trim().toLowerCase()).replace(/%/g,'-');}
+function searchForTag(term){const searchInput=document.getElementById('contractSearch');searchInput.value=term;//Programmatically trigger the search input event
+searchInput.dispatchEvent(new Event('input'));}
+function createBadge(text,type){let classes="text-[10px] px-2 py-0.5 rounded font-semibold border shadow-sm ";let onClickStr="";const safeText=escapeHTML(text).replace(/'/g,"\\'").replace(/\\/g,"\\\\");const safeLabel=escapeHTML(text);if(type==='date'){classes+="bg-yellow-50 text-yellow-800 border-yellow-200 cursor-pointer hover:bg-yellow-100 transition-colors";onClickStr=`onclick="searchForTag('${safeText}')"`;}
+else if(type==='clause'){classes+="bg-indigo-50 text-indigo-800 border-indigo-200 cursor-pointer hover:bg-indigo-100 transition-colors";onClickStr=`onclick="searchForTag('${safeText}')"`;}
+else if(type==='missing'){classes+="bg-rose-100 text-rose-800 border-rose-300";//Missing baselines don't get click handlers because they aren't in the text}
+return`<span ${onClickStr} class="${classes}" title="Klicken, um alle Treffer zu suchen und zu durchlaufen">${safeLabel}</span>`;}
+function analyzeText(){if(!DICT||!dictCompiled){showToast("No dictionary loaded. Select or import a dictionary first.");return;}
+extractedMatches={};//Change from const to let so we can sanitize it
+let rawText=elInput.value.trim();if(!rawText){showToast("Please enter the contract text first.");return;}
+//==========================================//SANITIZATION:TABLE OF CONTENTS REMOVAL
+//DELETE IF ANY ISSUE
+//==========================================//1. Remove standalone headers
+const toc=(DICT.tocHeaders||[]).map(escapeRe).join('|');if(toc)rawText=rawText.replace(new RegExp(`^\\s*(?:${toc})\\s*$`,'gim'),'');//2. Remove typical ToC lines://Matches text,then 3+dots OR large spaces,then a 1-3 digit number at the end of the line.
+rawText=rawText.replace(/^.+?(?:\.{3,}|\s{4,})\s*\d{1,3}\s*$/gm,'');//==========================================elEmptyState.classList.add('hidden');elResultsState.classList.remove('hidden');elResultsState.classList.add('flex');//Reset search bar
+document.getElementById('contractSearch').value="";document.getElementById('searchCount').innerText="";//==========================================//PART 1:DICTIONARY-DRIVEN EXTRACTION(all candidates)
+//==========================================candidates={};dictCompiled.fields.forEach(f=>{let list=collectCandidates(rawText,f.re,f);if(!list.length&&f.reFallback)list=collectCandidates(rawText,f.reFallback,f);candidates[f.id]=list;if(picks[f.id]!=null&&picks[f.id]>=list.length)delete picks[f.id];});//==========================================//PART 2:HEATMAP&DASHBOARD EXTRACTION
+//==========================================let highlightedText=escapeHTML(rawText);let foundDates=new Set();let foundClauses=new Set();let foundRefmText=new Set();//Dates
+if(cfgDates.checked){const selectedLocale=dateLocaleSelect.value;const activeDateRegex=REGEX_DATES[selectedLocale];const matches=[...rawText.matchAll(activeDateRegex)];matches.forEach(m=>foundDates.add(m[0].trim()));highlightedText=highlightedText.replace(guardTag(activeDateRegex),match=>{return`<mark class="hl-date transition-all inline-block">${match}</mark>`;});}
+//Clauses
+if(cfgClauses.checked&&dictCompiled.clause){const REGEX_CLAUSE=dictCompiled.clause;const matches=[...rawText.matchAll(REGEX_CLAUSE)];matches.forEach(m=>{let clause=m[0].toLowerCase();clause=clause.charAt(0).toUpperCase()+clause.slice(1);foundClauses.add(clause);});highlightedText=highlightedText.replace(guardTag(REGEX_CLAUSE),match=>{return`<mark class="hl-clause transition-all inline-block">${match}</mark>`;});}
+//Baselines(Missing Check)
+let missingRefm=[];if(cfgRefm.checked&&dictCompiled.refm){const REGEX_REFM=dictCompiled.refm;const matches=[...rawText.matchAll(REGEX_REFM)];matches.forEach(m=>foundRefmText.add(m[0].toLowerCase()));//Baselines don't need IDs because we only list the 'Missing' ones in the UI
                 highlightedText = highlightedText.replace(guardTag(REGEX_REFM), match => `<mark class="hl-refm">${match}</mark>`);
 
                 (DICT.coreAudit || []).forEach(req => {
@@ -1479,7 +176,7 @@
                     Array.from(foundClauses).map(c => createBadge(c, 'clause')).join('');
 
             outMissingRefm.innerHTML = (!cfgRefm.checked) ? '<span class="text-xs text-slate-400 italic">Deaktiviert</span>' :
-                (missingRefm.length === 0) ? '<span class="text-xs text-emerald-600 font-medium flex items-center gap-1"><i data-lucide="check-circle" class="w-4 h-4"></i> Alle Kern-Baselines vorhanden.</span>' :
+                (missingRefm.length === 0) ? '<span class="text-xs text-emerald-600 font-medium flex items-center gap-1"><i data-lucide="check-circle"class="w-4 h-4"></i> Alle Kern-Baselines vorhanden.</span>' :
                     missingRefm.map(r => createBadge(r, 'missing')).join('');
 
             // Output and save base HTML for Search functionality
@@ -1510,12 +207,12 @@
 
         // Locate text across text nodes (whitespace-normalised)
         function findTextRange(root, text) {
-            const needle = text.replace(/\s+/g, ' ').trim();
+            const needle = text.replace(/\s+/g, '').trim();
             if (!needle) return null;
             const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
             const nodes = []; let flat = ''; let n;
             while ((n = walker.nextNode())) { nodes.push({ node: n, start: flat.length }); flat += n.nodeValue; }
-            const norm = flat.replace(/\s+/g, ' ');
+            const norm = flat.replace(/\s+/g, '');
             // map normalised index -> raw index
             const map = []; let inWs = false;
             for (let i = 0; i < flat.length; i++) {
@@ -1543,7 +240,7 @@
                 source: manualAssign[f.id] ? 'manual' : ((candidates[f.id] || []).length ? 'auto' : 'none'),
                 candidates: (candidates[f.id] || []).length
             }));
-            const derived = [...document.querySelectorAll('#derivedPanel > div')].map(d => [d.children[0].innerText, d.children[1].innerText, d.children[2] ? d.children[2].innerText : ""]);
+            const derived = [...document.querySelectorAll('#derivedPanel>div')].map(d => [d.children[0].innerText, d.children[1].innerText, d.children[2] ? d.children[2].innerText : ""]);
             const grab = (id) => [...document.querySelectorAll(`#${id} span[onclick]`)].map(e => e.innerText);
             return {
                 fields: rows, derived,
@@ -1614,7 +311,7 @@
                 [],
                 ["--- GENERAL INFORMATION ---"],
                 ["Item", "Value"],
-                ["Exported:", new Date().toISOString().slice(0, 16).replace('T', ' ')],
+                ["Exported:", new Date().toISOString().slice(0, 16).replace('T', '')],
                 ["Date format:", dateLocaleSelect.value],
                 ["VAT rate (%):", document.getElementById('mwstRate').value],
                 ["Characters analysed:", elInput.value.trim().length],
@@ -1805,7 +502,7 @@
             fileSuffix: ".contract.json",
             debounceMs: 2000,
             buildPayload, applyPayload,
-            describe: (d) => (d && d.state && d.state.text ? d.state.text.slice(0, 40).replace(/\s+/g, ' ') : ""),
+            describe: (d) => (d && d.state && d.state.text ? d.state.text.slice(0, 40).replace(/\s+/g, '') : ""),
             iconOffId: "co-save-icon-off",
             iconOnId: "co-save-icon-on",
             disconnectBtnId: "co-save-menu-disconnect",
@@ -1980,105 +677,26 @@
         ['mouseup', 'touchend'].forEach(evt => document.addEventListener(evt, onSelectEnd));
         function onSelectEnd(e) {
             // If the user clicks the menu itself, don't hide it
-            if (selectionMenu.contains(e.target)) return;
-
-            // Check if we are selecting inside the highlighted output
-            if (!outHighlighted.contains(e.target)) {
-                hideSelectionMenu();
-                return;
-            }
-
-            const selection = window.getSelection();
-            const text = selection.toString().trim();
-
-            if (text.length > 0) {
-                // Get physical position of the selected text
-                const range = selection.getRangeAt(0);
-                const rect = range.getBoundingClientRect();
-
-                // Position the menu directly above the selected text
-                selectionMenu.style.top = `${rect.top - 50}px`;
-                selectionMenu.style.left = `${rect.left + (rect.width / 2)}px`;
-
-                showSelectionMenu();
-            } else {
-                hideSelectionMenu();
-            }
-        }
-
-        function showSelectionMenu() {
-            selectionMenu.classList.remove('hidden');
-            // Force a reflow so the CSS transition works
-            void selectionMenu.offsetWidth;
-            selectionMenu.classList.remove('scale-95', 'opacity-0');
-            selectionMenu.classList.add('scale-100', 'opacity-100');
-        }
-
-        function hideSelectionMenu() {
-            selectionMenu.classList.add('scale-95', 'opacity-0');
-            selectionMenu.classList.remove('scale-100', 'opacity-100');
-            setTimeout(() => {
-                if (selectionMenu.classList.contains('opacity-0')) {
-                    selectionMenu.classList.add('hidden');
-                }
-            }, 200);
-        }
-
-        // Handle the manual assignment click
-        assignBtn.addEventListener('click', () => {
-            const selection = window.getSelection();
-            const text = selection.toString().trim();
-            const targetId = assignTarget.value;
-
-            if (text && targetId) {
-                manualAssign[targetId] = text;
-                renderManualCard(targetId, text);
-                wrapSelectionWithId(`mark-${targetId}`);
-                extractedMatches[targetId] = text;
-                baseHighlightedHTML = outHighlighted.innerHTML;
-                renderDerived();
-                markUnsaved();
-
-                showToast("Wert manuell zugewiesen!");
-                hideSelectionMenu();
-                selection.removeAllRanges(); // Clear the text selection
-                lucide.createIcons();
-            }
-        });
-
-        function wrapSelectionWithId(id) {
-            const selection = window.getSelection();
-            if (!selection.rangeCount) return;
-            wrapRangeWithId(selection.getRangeAt(0), id, true);
-        }
-
-        // Wrap a Range with an ID span (manual = emerald style)
-        function wrapRangeWithId(range, id, manual) {
-
-            // Check if the target ID already exists (from the automated scan) and remove the old ID mapping
-            const oldMark = document.getElementById(id);
-            if (oldMark) {
-                // Un-wrap the old mark, keeping its text
-                const parent = oldMark.parentNode;
-                while (oldMark.firstChild) {
-                    parent.insertBefore(oldMark.firstChild, oldMark);
-                }
-                parent.removeChild(oldMark);
-            }
-
-            // Create the new highlight wrapper
-            const span = document.createElement('span');
-            span.id = id;
-            // Style it slightly differently (emerald) so the user knows it was manually assigned
-            span.className = manual ? "bg-emerald-200 text-emerald-900 rounded px-0.5 shadow-sm scroll-mt-12 transition-all cursor-pointer" : "scroll-mt-12 transition-all";
-
-            // Extract; drop cloned IDs from partially-overlapped marks (keeps IDs unique)
-            const frag = range.extractContents();
-            frag.querySelectorAll('[id]').forEach(e => e.removeAttribute('id'));
-            span.appendChild(frag);
-            range.insertNode(span);
-
-            // Update the base HTML so the search functionality doesn't overwrite our new wrapper
+if(selectionMenu.contains(e.target))return;//Check if we are selecting inside the highlighted output
+if(!outHighlighted.contains(e.target)){hideSelectionMenu();return;}
+const selection=window.getSelection();const text=selection.toString().trim();if(text.length>0){//Get physical position of the selected text
+const range=selection.getRangeAt(0);const rect=range.getBoundingClientRect();//Position the menu directly above the selected text
+selectionMenu.style.top=`${rect.top - 50}px`;selectionMenu.style.left=`${rect.left + (rect.width / 2)}px`;showSelectionMenu();}else{hideSelectionMenu();}}
+function showSelectionMenu(){selectionMenu.classList.remove('hidden');//Force a reflow so the CSS transition works
+void selectionMenu.offsetWidth;selectionMenu.classList.remove('scale-95','opacity-0');selectionMenu.classList.add('scale-100','opacity-100');}
+function hideSelectionMenu(){selectionMenu.classList.add('scale-95','opacity-0');selectionMenu.classList.remove('scale-100','opacity-100');setTimeout(()=>{if(selectionMenu.classList.contains('opacity-0')){selectionMenu.classList.add('hidden');}},200);}
+//Handle the manual assignment click
+assignBtn.addEventListener('click',()=>{const selection=window.getSelection();const text=selection.toString().trim();const targetId=assignTarget.value;if(text&&targetId){manualAssign[targetId]=text;renderManualCard(targetId,text);wrapSelectionWithId(`mark-${targetId}`);extractedMatches[targetId]=text;baseHighlightedHTML=outHighlighted.innerHTML;renderDerived();markUnsaved();showToast("Wert manuell zugewiesen!");hideSelectionMenu();selection.removeAllRanges();//Clear the text selection
+lucide.createIcons();}});function wrapSelectionWithId(id){const selection=window.getSelection();if(!selection.rangeCount)return;wrapRangeWithId(selection.getRangeAt(0),id,true);}
+//Wrap a Range with an ID span(manual=emerald style)
+function wrapRangeWithId(range,id,manual){//Check if the target ID already exists(from the automated scan)and remove the old ID mapping
+const oldMark=document.getElementById(id);if(oldMark){//Un-wrap the old mark,keeping its text
+const parent=oldMark.parentNode;while(oldMark.firstChild){parent.insertBefore(oldMark.firstChild,oldMark);}
+parent.removeChild(oldMark);}
+//Create the new highlight wrapper
+const span=document.createElement('span');span.id=id;//Style it slightly differently(emerald)so the user knows it was manually assigned
+span.className=manual?"bg-emerald-200 text-emerald-900 rounded px-0.5 shadow-sm scroll-mt-12 transition-all cursor-pointer":"scroll-mt-12 transition-all";//Extract;drop cloned IDs from partially-overlapped marks(keeps IDs unique)
+const frag=range.extractContents();frag.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));span.appendChild(frag);range.insertNode(span);//Update the base HTML so the search functionality doesn't overwrite our new wrapper
             baseHighlightedHTML = outHighlighted.innerHTML;
         }
 
@@ -2091,7 +709,7 @@
 
             // 1. Save original button state and inject spinner
             const originalBtnText = elAnalyze.innerHTML;
-            elAnalyze.innerHTML = '<span class="animate-spin inline-block w-4 h-4 border-2 border-current border-t-transparent text-white rounded-full"></span> Analyzing...';
+            elAnalyze.innerHTML = '<span class="animate-spin inline-block w-4 h-4 border-2 border-current border-t-transparent text-white rounded-full"></span>Analyzing...';
             elAnalyze.disabled = true;
             elAnalyze.classList.add('opacity-80', 'cursor-not-allowed');
 
@@ -2146,22 +764,18 @@ Die ordentliche Kündigungsfrist für Geschäftsräume beträgt gemäss OR Art. 
 
 3. Nettomietzins, Nebenkosten und Mehrwertsteuer
 Nettomietzins pro Monat: CHF 3'600.00
-Nebenkosten (Akonto): CHF 480.00
-Total Miete exkl. allfälliger MwSt: CHF 4'080.00
+Nebenkosten(Akonto):CHF 480.00
+Total Miete exkl. allfälliger MwSt:CHF 4'080.00
 
 Mehrwertsteuer-Option (MWSTG Art. 22): Der Vermieter optiert für die Versteuerung des Mietzinses. Auf die obengenannten Beträge wird zusätzlich die gesetzliche Mehrwertsteuer (MWST) erhoben.
 Zusicherungen zur Betriebskontinuität werden separat geregelt.
 
 4. Sicherheitsleistung (Kaution)
 Der Mieter leistet eine Sicherheit in der Höhe von CHF 10'800.00 als Mietzinsdepot auf ein Sperrkonto. Bei höherer Gewalt entfällt die Haftung.
-
 12. Schlussbestimmungen und weitere Vereinbarungen
 Die Untervermietung ist nur mit schriftlicher Zustimmung gestattet. Anwendbares Recht ist ausschliesslich das Schweizerische Recht.`;
             markUnsaved();
             showToast("Mustertext geladen.");
         });
 
-    </script>
-</body>
-
-</html>
+    </script> </body> </html>
