@@ -6,6 +6,8 @@
   <a href="https://liteaeco.com/info/About.html">About</a>
   |
   <a href="https://liteaeco.com/info/FAQs.html">FAQ</a>
+  |
+  <a href="https://liteaeco.com/info/fund.html">Support</a>
 </p>
 
 ![cover](https://github.com/ltorrecilla/liteaeco/blob/main/img/LiteAECO_banner.png)
@@ -50,10 +52,10 @@ Making BIM avaliable for free & open-source, you can support the project via:
 
 ## Contact
 
-- 🌐 LiteAECO: [liteAECO](https://liteAECO.com)  
-- 💬 LinkedIn: [Luis Torrecilla](https://www.linkedin.com/in/ltorrecilla)  
-- ✉️ Email: hello@liteaeco.com
+- LiteAECO: [liteAECO](https://liteAECO.com)  
+- LinkedIn: [Luis Torrecilla](https://www.linkedin.com/in/ltorrecilla)  
+- Email: hello@liteaeco.com
 
-## 🤝 Want to help?
+## Want to help?
 
 You are welcome! Please get in contact at hello@liteaeco.com
