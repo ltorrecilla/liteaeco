@@ -1,8 +1,11 @@
 window.PAGE_I18N = {
+    // Specific Content Elements
     title: "Monte Carlo Simulator",
     subtitle: "Meeting Minutes & Tasks tracking",
     ruleTitle: "What this tool does",
     ruleDesc1: "Performs a quantitative risk analysis technique by modeling thousands of possible scenarios to forecast potential project schedules. By combining task or phase durations with probability distributions (like triangular or PERT), calculating the statistical probability of meeting specific deadlines. <br /><br />You can load external project timelines and gantt charts as <span class='bg-white px-1.5 py-0.5 rounded border border-slate-200'>Excel</span> files either from this webapp or other LiteAECO tools, as well as MS Project .xml files.",
+
+    // Top Bar Controls
     lblNo: "No.",
     phMeetingTitle: "Enter Meeting Title...",
     btnSave: "Save",
@@ -13,10 +16,14 @@ window.PAGE_I18N = {
     autosaveToggle: "Autosave",
     historyMenu: "History",
     projectInfoMenu: "Project info",
+
+    // --- Project Information Bar (shared across liteAECO apps) ---
     lblProjectDetails: "Details",
     lblClient: "Client",
     lblAddress: "Address",
     lblProjectType: "Project Type",
+
+    // --- CDE project mode (shared across liteAECO apps) ---
     cdeFileMissing: "The project file was not found in the folder. It may have been moved or renamed \u2013 open the Projects page and rescan.",
     cdeForeignFile: "This file belongs to a different project. Import its content into this project? The file will be rebranded to this project on the next save.",
     cdeFieldLocked: "Managed in the Project Hub settings",
@@ -27,10 +34,14 @@ window.PAGE_I18N = {
     cdeOpenFailed: "Could not open the project file.",
     cdeBackToProject: "Back to project",
     historyCurrent: "(Current)",
+
+    // Main Columns
     titleTopics: "Topics & Minutes",
     phSearch: "Search minutes...",
     titleParticipants: "Participants",
     phName: "Name...",
+
+    // Dropdowns & Statuses
     optRequired: "Required",
     optOptional: "Optional",
     optOrganizer: "Organizer",
@@ -40,6 +51,8 @@ window.PAGE_I18N = {
     priorityLow: "Low",
     priorityMed: "Med",
     priorityHigh: "High",
+
+    // Modal
     modalTitleEdit: "Edit Contact",
     modalLblName: "Name",
     modalLblCompany: "Company",
@@ -49,6 +62,8 @@ window.PAGE_I18N = {
     modalLblParticipation: "Participation",
     btnCancel: "Cancel",
     btnSaveModal: "Save",
+
+    // Dynamic UI (Rendered by JS)
     emptyAttendees: "No attendees added yet.",
     archivedTag: "(Archived)",
     badgeUnassigned: "Unassigned",
@@ -57,6 +72,8 @@ window.PAGE_I18N = {
     btnAddSubtask: "Add Sub-task",
     btnAddNewTask: "Add New Task",
     emptyTasks: "No tasks found",
+
+    // Alerts & Confirmations
     alertMissingTitle: "Please enter a Meeting Title before saving.",
     alertParseError: "Error parsing Excel file. Make sure xlsx.bundle.js is loaded correctly.",
     confirmRemovePerson: "Remove this person from the active contacts list? (They will be preserved in past meeting records)",

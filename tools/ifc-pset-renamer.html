@@ -1,0 +1,911 @@
+<!--
+  Copyright 2026 Luis Torrecilla (liteAECO)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  liteAECO - (ifc-pset-renamer.html)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Luis Torrecilla">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pset Renamer - Inspect IFC Classes & Batch Rename PSets | liteAECO</title>
+
+    <meta name="description" content="Free client-side tool to inspect IFC classes and batch rename property sets in IFC models. No uploads, private, fast, and built for AEC teams.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://liteaeco.com/tools/ifc-pset-renamer.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://liteaeco.com/tools/ifc-pset-renamer.html">
+    <meta property="og:site_name" content="liteAECO">
+    <meta property="og:title" content="Pset Renamer - Inspect IFC Classes & Batch Rename Property Sets | liteAECO">
+    <meta property="og:description" content="Free client-side tool to inspect IFC classes and batch rename property sets in IFC models. No uploads, private, fast, and built for AEC teams.">
+    <meta property="og:image" content="https://liteaeco.com/img/og-ifc-pset-renamer.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="liteAECO Pset Renamer tool interface">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-pset-renamer.html">
+    <meta name="twitter:title" content="Pset Renamer - Inspect IFC Classes & Batch Rename Property Sets | liteAECO">
+    <meta name="twitter:description" content="Free client-side tool to inspect IFC classes and batch rename property sets in IFC models. No uploads, private, fast, and built for AEC teams.">
+    <meta name="twitter:image" content="https://liteaeco.com/img/og-ifc-pset-renamer.png">
+
+    <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/vendor/lucide-1.41.0.min.js"></script>
+
+    <script>window.SITE_ROOT = '../';</script>
+    <script src="../lang/en/global.js"></script>
+    <script src="../js/common.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="../css/global.css">
+</head>
+
+<body
+    class="bg-slate-50 text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
+
+    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full transition-all flex-grow">
+
+        <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded p-6 md:p-8 mb-6">
+            <div
+                class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 border-b border-slate-200/60 pb-4">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-lg bg-white border border-slate-100 shadow-sm flex items-center justify-center text-indigo-600 shrink-0">
+                        <i data-lucide="spell-check-2" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-900 tracking-tight leading-tight" id="ui-title">IFC
+                            Property Set Renamer</h1>
+                        <p class="text-sm font-medium text-indigo-500 uppercase tracking-widest mt-0.5"
+                            id="ui-subtitle">Streaming Pset Operations</p>
+                    </div>
+                </div>
+            </div>
+
+            <details class="text-sm text-slate-600 leading-relaxed group">
+				<summary class="cursor-pointer list-none flex items-center gap-2 font-semibold text-slate-900 select-none">
+					<i data-lucide="chevron-right" class="w-4 h-4 text-indigo-500 transition-transform group-open:rotate-90"></i>
+					<span id="ui-rule-title">What this tool does</span>
+				</summary>
+
+				<div class="mt-3 space-y-3">
+					<p>
+						<span id="ui-rule-desc-1">This tool parses an IFC file entirely in your browser using
+                        <code>web-ifc</code>. It maps all available IFC Classes to their associated Property Sets
+                        (Psets). You can select a class, select a specific Pset attached to elements of that class,
+                        batch-rename the Pset, and download the modified topological graph as a new IFC file.</span>
+					</p>
+				</div>
+			</details>
+        </div>
+
+        <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-6 md:p-8">
+
+            <div class="mb-8">
+                <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
+                    <span
+                        class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                            data-lucide="file-code-2" class="w-3.5 h-3.5"></i></span>
+                    <span id="ui-step-1">Step 1: Load Model</span>
+                </h2>
+
+                <div
+                    class="bg-white/50 p-6 rounded border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex flex-col h-full">
+                        <label id="drop-zone" for="fileInput"
+                            class="drop-zone flex flex-col items-center justify-center w-full h-full min-h-[140px] px-4 py-4 border-2 border-slate-300 border-dashed rounded-lg hover:border-indigo-500 hover:bg-indigo-50/30 bg-slate-50/50 cursor-pointer transition-all">
+                            <div
+                                class="flex flex-col items-center justify-center space-y-2 text-center pointer-events-none">
+                                <i data-lucide="file-input"
+                                    class="w-8 h-8 text-slate-400 mb-1 group-hover:text-indigo-500 transition-colors"></i>
+                                <div class="flex text-sm text-slate-600 justify-center font-medium">
+                                    <span
+                                        class="text-indigo-600 hover:text-indigo-700 pointer-events-auto cursor-pointer"
+                                        id="ui-drop1-upload">Load IFC file</span>
+                                    <p class="pl-1" id="ui-drop1-or">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-slate-500 font-medium mt-1 truncate max-w-[300px]"
+                                    id="fileNameDisplay">No file selected</p>
+                            </div>
+                            <input id="fileInput" name="fileInput" type="file" accept=".ifc" class="hidden" />
+                        </label>
+                    </div>
+
+                    <div class="flex flex-col h-full bg-white/60 p-4 rounded border border-slate-200/60 shadow-sm">
+                        <p id="ui-modelInfoTitle"
+                            class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200/60 pb-1">Model
+                            Information</p>
+                        <div class="grid grid-cols-4 gap-x-4 gap-y-2 text-[12px] flex-grow content-start">
+                            <div id="ui-infoDate" class="text-slate-500 font-medium">Date:</div>
+                            <div id="info-date" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div id="ui-infoSize" class="text-slate-500 font-medium">File Size:</div>
+                            <div id="info-size" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div id="ui-infoSchema" class="text-slate-500 font-medium">Schema:</div>
+                            <div id="info-schema" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div id="ui-infoApp" class="text-slate-500 font-medium">Application:</div>
+                            <div id="info-app" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div id="ui-infoPerson" class="text-slate-500 font-medium">Person:</div>
+                            <div id="info-person" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div id="ui-infoUnits" class="text-slate-500 font-medium">Units:</div>
+                            <div id="info-units" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div id="ui-infoXyz" class="text-slate-500 font-medium">lat. / lon. / elev.:</div>
+                            <div id="info-xyz" class="col-span-3 text-slate-800 font-semibold truncate">- / - / -</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="step2Area" class="hidden mb-8">
+                <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
+                    <span
+                        class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                            data-lucide="edit" class="w-3.5 h-3.5"></i></span>
+                    <span id="ui-step-2">Step 2: Inspect & Modify Psets</span>
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="flex flex-col h-full bg-white/50 p-4 rounded border border-slate-200 shadow-sm">
+                        <div class="flex justify-between items-end mb-2 border-b border-slate-200/60 pb-1">
+                            <p class="font-semibold text-sm text-slate-800" id="ui-class-label">1. Select IFC Class(es)
+                            </p>
+                            <span class="text-[10px] text-slate-500">Ctrl/Cmd to multi-select</span>
+                        </div>
+                        <select id="bulkClassSelect" multiple disabled
+                            class="block w-full flex-grow min-h-[225px] bg-slate-50/50 border border-slate-300 rounded p-2 text-sm text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed outline-none log-scroll">
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col h-full bg-white/50 p-4 rounded border border-slate-200 shadow-sm">
+                        <div class="flex justify-between items-end mb-2 border-b border-slate-200/60 pb-1">
+                            <p class="font-semibold text-sm text-slate-800" id="ui-pset-label">2. Select a Property Set
+                            </p>
+                            <span class="text-[10px] text-slate-500">Select only 1 to rename</span>
+                        </div>
+                        <select id="bulkPsetSelect" multiple disabled
+                            class="block w-full flex-grow min-h-[225px] bg-slate-50/50 border border-slate-300 rounded p-2 text-sm text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed outline-none log-scroll">
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col h-full bg-white/50 p-4 rounded border border-slate-200 shadow-sm">
+                        <div class="mb-2 border-b border-slate-200/60 pb-1">
+                            <p class="font-semibold text-sm text-slate-800" id="ui-rename-label">3. Rename Selected Pset
+                            </p>
+                        </div>
+                        <p class="text-xs text-slate-500 mb-3 leading-relaxed">Select exactly one Property Set from the
+                            list to rename it across all selected classes.</p>
+
+                        <div id="renameStats"
+                            class="hidden items-center gap-2 mb-4 px-3 py-2 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded border border-indigo-100">
+                            <i data-lucide="layers" class="w-4 h-4"></i>
+                            <span>Targeting <span id="instanceCountNum">0</span> instance(s)</span>
+                        </div>
+
+                        <div id="securityWarning"
+                            class="hidden items-start gap-2 mb-4 px-3 py-2 bg-red-50 text-red-700 text-xs font-semibold rounded border border-red-200">
+                            <i data-lucide="shield-alert" class="w-4 h-4 mt-0.5 shrink-0"></i>
+                            <span>This Property Set is protected by standard schema rules and cannot be modified.</span>
+                        </div>
+
+                        <div class="flex flex-col gap-3 mt-auto">
+                            <input type="text" id="newNameInput" disabled placeholder="New Pset Name"
+                                class="w-full px-3 py-2 border border-slate-300 rounded text-sm text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed outline-none transition-colors">
+                            <p id="newNameHint" class="hidden"></p>
+
+                            <button id="renameBtn" disabled
+                                class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed transition-all duration-300 rounded shadow-sm">
+                                <span id="ui-btn-rename">Apply Rename</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="downloadArea" class="hidden">
+                <button id="exportBtn" disabled
+                    class="w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-bold text-white bg-slate-900 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 disabled:bg-slate-300 disabled:text-slate-500 disabled:shadow-none disabled:cursor-not-allowed transition-all duration-300 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5">
+                    <i data-lucide="download" class="w-4 h-4 mr-2"></i>
+                    <span id="exportBtnText">Generate Modified IFC</span>
+                </button>
+            </div>
+
+            <div>
+                <div id="logAreaWrapper" class="hidden flex-col gap-4 mt-6 pt-6 border-t border-slate-200">
+                    <details
+                        class="group bg-white/60 backdrop-blur-md border border-slate-200 rounded shadow-sm overflow-hidden mb-2 transition-all">
+                        <summary
+                            class="flex justify-between items-center font-medium cursor-pointer list-none p-4 hover:bg-white/80 transition-colors [&::-webkit-details-marker]:hidden">
+                            <span
+                                class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                                <i data-lucide="terminal" class="w-4 h-4 text-indigo-500"></i>
+                                <span id="ui-log-title">System Log Output</span>
+
+                                <div id="inline-loader"
+                                    class="hidden ml-3 w-20 h-1.5 bg-slate-200 rounded-full overflow-hidden relative">
+                                    <div
+                                        class="absolute top-0 left-0 h-full w-1/2 bg-indigo-500 animate-load-slide rounded-full">
+                                    </div>
+                                </div>
+                            </span>
+                            <span
+                                class="transition-transform duration-200 group-open:rotate-180 bg-slate-100 p-1 rounded text-slate-500 group-hover:bg-slate-200">
+                                <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                            </span>
+                        </summary>
+                        <div class="p-4 border-t border-slate-100 bg-slate-50/50 flex flex-col gap-3">
+                            <div id="logArea"
+                                class="bg-slate-900 text-slate-300 font-mono text-[12px] p-4 rounded-lg h-40 overflow-y-auto whitespace-pre-wrap leading-relaxed shadow-inner border border-slate-800 log-scroll">
+                            </div>
+                        </div>
+                    </details>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
+
+        window.updateToolDynamicUI = function (d) {
+            if (typeof refreshTable === 'function') refreshTable();
+        };
+
+        function bootApp() {
+            autoDetectLanguage();
+
+            window.injectUI({
+                showNav: true,
+                transparentNav: false,
+                showSignIn: false,
+                showCategories: true,
+                showNews: false,
+                showHelp: true,
+                showFooter: true,
+                showFooterLinks: true,
+            });
+
+            window.injectCookieBanner();
+
+            const currentYear = new Date().getFullYear();
+            const targetVersionInput = document.getElementById('targetVersionInput');
+            if (targetVersionInput) {
+                targetVersionInput.max = currentYear;
+                if (!targetVersionInput.value) targetVersionInput.value = currentYear;
+            }
+
+            const updateAppCb = document.getElementById('updateAppCb');
+            const versionInputContainer = document.getElementById('versionInputContainer');
+
+            function toggleVersionInput() {
+                if (updateAppCb && versionInputContainer) {
+                    if (updateAppCb.checked) {
+                        versionInputContainer.style.opacity = '1';
+                        versionInputContainer.style.pointerEvents = 'auto';
+                    } else {
+                        versionInputContainer.style.opacity = '0.4';
+                        versionInputContainer.style.pointerEvents = 'none';
+                    }
+                }
+            }
+
+            if (updateAppCb) {
+                updateAppCb.addEventListener('change', toggleVersionInput);
+                toggleVersionInput();
+            }
+
+            window.loadLanguage(currentLang, window.pageScriptPrefix);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', bootApp);
+        } else {
+            bootApp();
+        }
+    </script>
+    <script type="module">
+
+        let classData = {};
+        let classCounts = {};
+        let psetNameToIds = {};
+        let fileLoaded = false;
+
+        const SECURITY_BLACKLIST = {
+            systemCols: ["_hash", "_globalId", "_elementName"],
+
+            exactPsets: [
+                "IfcRelDefinesByType", "BaseQuantities"
+            ],
+
+            psetPatterns: [
+                /^Qto_/i,
+                /Common$/i,
+                /Dimensions$/i,
+                /Constraints$/i,
+                /Quantity$/i,
+                /Requirements$/i
+            ],
+
+            exactProperties: [
+                "Length", "Width", "Height", "Thickness",
+                "GrossVolume", "NetVolume", "GrossArea", "NetArea", "CrossSectionArea",
+                "IsExternal"
+            ],
+
+            propertyPatterns: [
+                /storey/i,
+                /level/i,
+                /opening\s*id/i,
+                /layer/i,
+                /omniclass/i
+            ]
+        };
+
+        function isPsetLocked(psetName) {
+            if (!psetName) return false;
+            if (SECURITY_BLACKLIST.exactPsets.includes(psetName)) return true;
+            if (SECURITY_BLACKLIST.psetPatterns.some(pattern => pattern.test(psetName))) return true;
+            return false;
+        }
+
+        function getPsetDisplayName(pset) {
+            return (pset && pset.Name && pset.Name.value) ? pset.Name.value : "Unnamed_Pset";
+        }
+
+        function indexGlobalPset(psetID, pset) {
+            const psetName = getPsetDisplayName(pset);
+            if (!psetNameToIds[psetName]) psetNameToIds[psetName] = new Set();
+            psetNameToIds[psetName].add(psetID);
+            return psetName;
+        }
+
+        function ensureClassPsetEntry(className, psetName) {
+            if (!classData[className]) classData[className] = {};
+            if (!classData[className][psetName]) {
+                classData[className][psetName] = {
+                    psetIds: new Set(),
+                    objectIds: new Set()
+                };
+            }
+            return classData[className][psetName];
+        }
+
+        let pendingRenames = {};
+
+        let preparedDownloadUrl = null;
+        let preparedDownloadName = null;
+
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const dropZone = document.getElementById('drop-zone');
+        const step2Area = document.getElementById('step2Area');
+        const bulkClassSelect = document.getElementById('bulkClassSelect');
+        const bulkPsetSelect = document.getElementById('bulkPsetSelect');
+        const newNameInput = document.getElementById('newNameInput');
+        const renameBtn = document.getElementById('renameBtn');
+        const logAreaWrapper = document.getElementById('logAreaWrapper');
+        const logArea = document.getElementById('logArea');
+        const downloadArea = document.getElementById('downloadArea');
+        const exportBtn = document.getElementById('exportBtn');
+        const exportBtnText = document.getElementById('exportBtnText');
+
+        function log(msg, isWarning = false) {
+            logAreaWrapper.classList.remove('hidden');
+            logAreaWrapper.classList.add('flex');
+            const color = isWarning ? 'text-amber-400 font-bold' : 'text-slate-300';
+            logArea.innerHTML += `<span class="${color}">[System] ${msg}</span>\n`;
+            logArea.scrollTop = logArea.scrollHeight;
+            console.log(msg);
+        }
+
+        function showLoader() {
+            const loader = document.getElementById('inline-loader');
+            if (loader) loader.classList.remove('hidden');
+
+            if (logAreaWrapper) {
+                logAreaWrapper.classList.remove('hidden');
+                logAreaWrapper.classList.add('flex');
+            }
+        }
+
+        function hideLoader() {
+            const loader = document.getElementById('inline-loader');
+            if (loader) loader.classList.add('hidden');
+        }
+
+        function clearPreparedDownload() {
+            if (preparedDownloadUrl) {
+                URL.revokeObjectURL(preparedDownloadUrl);
+            }
+            preparedDownloadUrl = null;
+            preparedDownloadName = null;
+            if (exportBtnText) exportBtnText.textContent = "Generate Modified IFC";
+        }
+
+        function triggerPreparedDownload() {
+            if (!preparedDownloadUrl || !preparedDownloadName) return;
+
+            const a = document.createElement('a');
+            a.href = preparedDownloadUrl;
+            a.download = preparedDownloadName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            log(`Download started: ${preparedDownloadName}`);
+            exportBtnText.textContent = "Download File";
+        }
+
+        const WORKER_VERSION = 8;
+        const WORKER_URL = window.SITE_ROOT + 'js/ifc-worker.js?v=' + WORKER_VERSION;
+        const STALE_WORKER_MSG = 'js/ifc-worker.js is missing or out of date (browser cache?). Hard-refresh the page (Ctrl+F5 / Cmd+Shift+R) and make sure the new ifc-worker.js is deployed.';
+
+        function createCoordinator() {
+            const w = new Worker(WORKER_URL);
+            let readyResolve, readyReject;
+            const ready = new Promise((res, rej) => { readyResolve = res; readyReject = rej; });
+            const readyTimer = setTimeout(() => readyReject(new Error(STALE_WORKER_MSG)), 8000);
+            const pending = new Map();
+            let seq = 0;
+            const failAll = (msg) => {
+                const err = new Error(msg);
+                for (const p of pending.values()) p.reject(err);
+                pending.clear();
+                readyReject(err);
+            };
+            w.onmessage = (e) => {
+                const d = e.data || {};
+                if (d.type === 'ready') {
+                    clearTimeout(readyTimer);
+                    if (d.proto !== WORKER_VERSION) failAll(`Worker protocol ${d.proto} != page ${WORKER_VERSION}. ${STALE_WORKER_MSG}`);
+                    else readyResolve();
+                    return;
+                }
+                if (d.type === 'log') { log('  ' + d.msg, !!d.warn); return; }
+                const p = pending.get(d.reqId);
+                if (!p) { failAll(`Unexpected worker reply (${d.type || d.error || 'unknown'}). ${STALE_WORKER_MSG}`); return; }
+                pending.delete(d.reqId);
+                if (d.type === 'error') p.reject(new Error(d.msg)); else p.resolve(d);
+            };
+            w.onerror = (err) => {
+                clearTimeout(readyTimer);
+                failAll((err && err.message) ? `Worker error: ${err.message}` : STALE_WORKER_MSG);
+            };
+            return {
+                async call(action, payload, transfer) {
+                    await ready;
+                    return new Promise((resolve, reject) => {
+                        const reqId = ++seq;
+                        pending.set(reqId, { resolve, reject });
+                        w.postMessage(Object.assign({ action, reqId }, payload), transfer || []);
+                    });
+                },
+                terminate() { clearTimeout(readyTimer); w.terminate(); }
+            };
+        }
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.add('dragover'), false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.remove('dragover'), false);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileSelect(fileInput.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) handleFileSelect(e.target.files[0]);
+        });
+
+        async function handleFileSelect(file) {
+            fileNameDisplay.textContent = file.name;
+            fileNameDisplay.classList.replace('text-slate-500', 'text-indigo-600');
+            fileNameDisplay.classList.add('font-bold');
+            fileLoaded = true;
+
+            step2Area.classList.add('hidden');
+            downloadArea.classList.add('hidden');
+            bulkClassSelect.innerHTML = '';
+            bulkPsetSelect.innerHTML = '';
+            bulkClassSelect.disabled = true;
+            bulkPsetSelect.disabled = true;
+            classData = {};
+            psetNameToIds = {};
+            pendingRenames = {};
+            clearPreparedDownload();
+            newNameInput.value = '';
+            newNameInput.disabled = true;
+            renameBtn.disabled = true;
+            exportBtn.disabled = true;
+
+            const renameStats = document.getElementById('renameStats');
+            if (renameStats) {
+                renameStats.classList.add('hidden');
+                renameStats.classList.remove('flex');
+            }
+
+            showLoader();
+
+            setTimeout(async () => {
+                await processIfcFile(file);
+                hideLoader();
+            }, 150);
+        }
+
+        let sessionCoord = null;
+
+        async function processIfcFile(file) {
+            try {
+                if (sessionCoord) { sessionCoord.terminate(); sessionCoord = null; }
+                sessionCoord = createCoordinator();
+
+                log(`Loading model: ${file.name} (${(file.size / 1048576).toFixed(2)} MB) in background worker...`);
+                const res = await sessionCoord.call('psetLoad', { file, fileName: file.name });
+                const meta = res.meta;
+
+                document.getElementById('info-size').innerText = (meta.sizeBytes / 1048576).toFixed(2) + " MB";
+                document.getElementById('info-schema').innerText = meta.schema || "Unknown";
+                document.getElementById('info-date').innerText = meta.date || "Unknown";
+                document.getElementById('info-app').innerText = meta.app || "-";
+                document.getElementById('info-person').innerText = meta.person || "-";
+                if (meta.site) {
+                    const elev = (meta.site.elev && meta.site.elev !== '$') ? Number(meta.site.elev).toFixed(3) : '-';
+                    document.getElementById('info-xyz').innerText = `${meta.site.lat || '-'} / ${meta.site.lon || '-'} / ${elev}`;
+                }
+                const unitNames = { MILLIMETER: 'Millimeters', CENTIMETER: 'Centimeters', METER: 'Meters', FOOT: 'Feet', INCH: 'Inches' };
+                document.getElementById('info-units').innerText = unitNames[meta.unit] || 'Unknown';
+
+                classData = {};
+                classCounts = res.classCounts || {};
+                for (const cls in res.classData) {
+                    classData[cls] = {};
+                    for (const psetName in res.classData[cls]) {
+                        const e = res.classData[cls][psetName];
+                        classData[cls][psetName] = { psetIds: new Set(e.psetIds), objectCount: e.objectCount };
+                    }
+                }
+                psetNameToIds = {};
+                for (const name in res.psetNameToIds) psetNameToIds[name] = new Set(res.psetNameToIds[name]);
+
+                bulkClassSelect.innerHTML = '';
+                Object.keys(classData).sort().forEach(cls => {
+                    const opt = document.createElement('option');
+                    opt.value = cls;
+                    opt.innerText = `${cls} (${classCounts[cls] || 0})`;
+                    bulkClassSelect.appendChild(opt);
+                });
+
+                bulkClassSelect.disabled = false;
+                step2Area.classList.remove('hidden');
+                downloadArea.classList.remove('hidden');
+
+            } catch (err) {
+                log(`ERROR parsing file: ${err.message}`, true);
+            }
+        }
+
+        bulkClassSelect.addEventListener('change', () => {
+            const selectedClasses = Array.from(bulkClassSelect.selectedOptions).map(opt => opt.value);
+            bulkPsetSelect.innerHTML = '';
+
+            if (selectedClasses.length > 0) {
+                let availablePsets = new Set();
+                selectedClasses.forEach(cls => {
+                    if (classData[cls]) {
+                        Object.keys(classData[cls]).forEach(p => availablePsets.add(p));
+                    }
+                });
+
+                if (availablePsets.size > 0) {
+                    const sortedPsets = Array.from(availablePsets).sort();
+                    const editablePsets = [];
+                    const lockedPsets = [];
+
+                    sortedPsets.forEach(p => {
+                        if (isPsetLocked(p)) lockedPsets.push(p);
+                        else editablePsets.push(p);
+                    });
+
+                    const appendOption = (p, isLocked) => {
+                        const opt = document.createElement('option');
+                        opt.value = p;
+
+                        if (isLocked) {
+                            opt.innerText = p;
+                            opt.classList.add('text-slate-400', 'bg-slate-50/50', 'italic');
+                        } else {
+                            opt.innerText = p;
+                        }
+
+                        bulkPsetSelect.appendChild(opt);
+                    };
+
+                    editablePsets.forEach(p => appendOption(p, false));
+
+                    if (lockedPsets.length > 0) {
+                        if (editablePsets.length > 0) {
+                            const separator = document.createElement('option');
+                            separator.disabled = true;
+                            separator.innerText = "────── Protected Schema ──────";
+                            separator.classList.add('text-center', 'text-slate-300', 'py-1');
+                            bulkPsetSelect.appendChild(separator);
+                        }
+                        lockedPsets.forEach(p => appendOption(p, true));
+                    }
+
+                    bulkPsetSelect.disabled = false;
+                } else {
+                    bulkPsetSelect.disabled = true;
+                }
+            } else {
+                bulkPsetSelect.disabled = true;
+            }
+            updateRenameAction();
+        });
+
+        bulkPsetSelect.addEventListener('change', () => {
+            updateRenameAction();
+        });
+
+        newNameInput.addEventListener('input', updateRenameAction);
+
+        function updateRenameAction() {
+            const selectedClasses = Array.from(bulkClassSelect.selectedOptions).map(opt => opt.value);
+            const selectedPsets = Array.from(bulkPsetSelect.selectedOptions).map(opt => opt.value);
+            const val = newNameInput.value.trim();
+
+            const renameStats = document.getElementById('renameStats');
+            const instanceCountNum = document.getElementById('instanceCountNum');
+            const securityWarning = document.getElementById('securityWarning');
+
+            let isLocked = false;
+
+            if (selectedClasses.length > 0 && selectedPsets.length === 1) {
+                const targetPset = selectedPsets[0];
+
+                isLocked = isPsetLocked(targetPset);
+
+                let count = 0;
+                selectedClasses.forEach(cls => {
+                    if (classData[cls] && classData[cls][targetPset]) {
+                        count += classData[cls][targetPset].objectCount;
+                    }
+                });
+                instanceCountNum.innerText = count;
+
+                if (isLocked) {
+                    renameStats.classList.add('hidden');
+                    renameStats.classList.remove('flex');
+                    securityWarning.classList.remove('hidden');
+                    securityWarning.classList.add('flex');
+
+                    newNameInput.value = '';
+                    newNameInput.disabled = true;
+                    newNameInput.placeholder = "Protected Schema Name";
+                } else {
+                    securityWarning.classList.add('hidden');
+                    securityWarning.classList.remove('flex');
+                    renameStats.classList.remove('hidden');
+                    renameStats.classList.add('flex');
+
+                    newNameInput.disabled = false;
+                    newNameInput.placeholder = "New Pset Name";
+
+                    if (document.activeElement !== newNameInput) {
+                        newNameInput.value = targetPset;
+                    }
+                }
+            } else {
+                renameStats.classList.add('hidden');
+                renameStats.classList.remove('flex');
+                if (securityWarning) {
+                    securityWarning.classList.add('hidden');
+                    securityWarning.classList.remove('flex');
+                }
+                newNameInput.value = '';
+                newNameInput.disabled = true;
+                newNameInput.placeholder = "New Pset Name";
+            }
+
+            const currentNameVal = newNameInput.value.trim();
+            const targetIsLocked = currentNameVal !== '' && isPsetLocked(currentNameVal);
+            const targetExists = currentNameVal !== '' && currentNameVal !== selectedPsets[0] && selectedClasses.some(cls => classData[cls] && classData[cls][currentNameVal]);
+
+            const nameHint = document.getElementById('newNameHint');
+            if (nameHint) {
+                if (targetIsLocked) {
+                    nameHint.textContent = 'Target name is a protected schema name.';
+                    nameHint.className = 'text-[11px] text-red-600 font-semibold';
+                } else if (targetExists) {
+                    nameHint.textContent = 'A Pset with this name already exists on the selected class(es). Renaming will merge them.';
+                    nameHint.className = 'text-[11px] text-amber-600 font-semibold';
+                } else {
+                    nameHint.textContent = '';
+                    nameHint.className = 'hidden';
+                }
+            }
+
+            renameBtn.disabled = isLocked || targetIsLocked || selectedClasses.length === 0 || selectedPsets.length !== 1 || currentNameVal === '' || currentNameVal === selectedPsets[0];
+        }
+
+        renameBtn.addEventListener('click', () => {
+            const newName = newNameInput.value.trim();
+            const selectedClasses = Array.from(bulkClassSelect.selectedOptions).map(opt => opt.value);
+            const selectedPsets = Array.from(bulkPsetSelect.selectedOptions).map(opt => opt.value);
+
+            if (!newName || selectedClasses.length === 0 || selectedPsets.length !== 1) return;
+            if (isPsetLocked(newName)) {
+                log(`Rename blocked: "${newName}" is a protected schema name.`, true);
+                return;
+            }
+            const targetPset = selectedPsets[0];
+
+            clearPreparedDownload();
+            showLoader();
+
+            setTimeout(() => {
+                const queuedPsetIds = new Set();
+                let affectedObjects = 0;
+                const allClassValues = Array.from(bulkClassSelect.options).map(opt => opt.value);
+                const isAllClassesSelected = allClassValues.length > 0 && selectedClasses.length === allClassValues.length;
+
+                log(`Queueing rename: "${targetPset}" -> "${newName}" across ${selectedClasses.length} selected class(es)...`);
+
+                selectedClasses.forEach(cls => {
+                    if (classData[cls] && classData[cls][targetPset]) {
+                        const targetEntry = classData[cls][targetPset];
+
+                        targetEntry.psetIds.forEach(psetId => {
+                            pendingRenames[psetId] = newName;
+                            queuedPsetIds.add(psetId);
+                        });
+                        affectedObjects += targetEntry.objectCount;
+
+                        if (!classData[cls][newName]) {
+                            classData[cls][newName] = { psetIds: new Set(), objectCount: 0 };
+                        }
+                        targetEntry.psetIds.forEach(id => classData[cls][newName].psetIds.add(id));
+                        classData[cls][newName].objectCount += targetEntry.objectCount;
+                        delete classData[cls][targetPset];
+                    }
+                });
+
+                if (isAllClassesSelected && psetNameToIds[targetPset]) {
+                    const before = queuedPsetIds.size;
+                    psetNameToIds[targetPset].forEach(psetId => {
+                        pendingRenames[psetId] = newName;
+                        queuedPsetIds.add(psetId);
+                    });
+                    const extra = queuedPsetIds.size - before;
+                    if (extra > 0) {
+                        log(`All classes selected: also queued ${extra} additional global definition(s) named "${targetPset}" that were not reached through class relationships.`, true);
+                    }
+                }
+
+                if (!psetNameToIds[newName]) psetNameToIds[newName] = new Set();
+                queuedPsetIds.forEach(id => {
+                    psetNameToIds[newName].add(id);
+                    if (psetNameToIds[targetPset]) psetNameToIds[targetPset].delete(id);
+                });
+                if (psetNameToIds[targetPset] && psetNameToIds[targetPset].size === 0) {
+                    delete psetNameToIds[targetPset];
+                }
+
+                log(`Successfully queued ${queuedPsetIds.size} Property Set / Quantity definition(s), covering ${affectedObjects} selected object/type relationship(s).`);
+                log(`Note: if an IFC Property Set definition is shared by objects outside the selected class(es), those references will see the same renamed Pset because they point to the same #ID.`, true);
+
+                downloadArea.classList.remove('hidden');
+                exportBtn.disabled = false;
+
+                bulkClassSelect.dispatchEvent(new Event('change'));
+                newNameInput.value = '';
+                newNameInput.disabled = true;
+                renameBtn.disabled = true;
+
+                log(`Rename queue ready. The source IFC text will be modified during export.`);
+                hideLoader();
+            }, 50);
+        });
+
+        exportBtn.addEventListener('click', async () => {
+            if (!fileLoaded || !sessionCoord) return;
+
+            if (preparedDownloadUrl && preparedDownloadName) {
+                triggerPreparedDownload();
+                return;
+            }
+
+            exportBtn.disabled = true;
+            exportBtnText.textContent = 'Generating File...';
+            showLoader();
+            const tStart = performance.now();
+
+            try {
+                const file = fileInput.files[0];
+                log("Applying modifications in background worker...");
+                const res = await sessionCoord.call('psetApply', {
+                    ops: { renames: pendingRenames, actionLabel: 'PSet Renamed' }
+                });
+
+                if (res.renamed === 0) {
+                    log(`WARNING: Export completed, but 0 Property Set definitions were renamed. Check that the queued #IDs match IFCPROPERTYSET / IFCELEMENTQUANTITY lines.`, true);
+                }
+
+                const blob = new Blob(res.parts, { type: "application/x-step" });
+                clearPreparedDownload();
+                preparedDownloadUrl = URL.createObjectURL(blob);
+                preparedDownloadName = file.name.replace(/\.ifc$/i, '_RenamedPsets.ifc');
+
+                exportBtnText.textContent = "Download File";
+                exportBtn.disabled = false;
+                log(`File generated (${(res.bytes / 1048576).toFixed(2)} MB) in ${((performance.now() - tStart) / 1000).toFixed(1)} s. Click "Download File" to save it.`);
+
+            } catch (err) {
+                log(`EXPORT ERROR: ${err.message}`, true);
+                clearPreparedDownload();
+                exportBtn.disabled = false;
+                exportBtnText.textContent = "Generate Modified IFC";
+            } finally {
+                hideLoader();
+            }
+        });
+
+    </script>
+</body>
+
+</html>

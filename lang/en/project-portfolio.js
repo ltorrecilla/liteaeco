@@ -1,12 +1,17 @@
 window.PAGE_I18N = {
+    // Specific Content Elements
     title: "Project Portfolio",
     subtitle: "Structure & Directory",
+
+// --- Top Bar Controls & Inputs ---
     lblNo: "No.",
     apporganizationtitle: "Enter Title...",
     btnTemplate: "Excel Template",
     btnSave: "Save",
     btnOpen: "Open",
     btnPdf: "PDF",
+    
+    // --- Chart Type Dropdown ---
     chartTypeStandard: "Standard Hierarchy",
     chartTypeMatrix: "Matrix Organization",
     chartTypeTeam: "Team-based",
@@ -14,23 +19,31 @@ window.PAGE_I18N = {
     chartTypeTree: "Stakeholder Tree",
     chartTypeMap: "Stakeholder Map",
     toggleCommsTitle: "Toggle Communication Lines",
+
+    // --- Main Toolbar Inputs & Placeholders ---
     phOrganizationTitle: "Enter Organization Title...",
     phAddTeam: "Add Team...",
     phAddPerson: "Add Team Member...",
-    phSearch: "Search minutes...", 
+    phSearch: "Search minutes...", // Note: Exists in your JS hooks
     phName: "Name...",
     titleManageTeams: "Manage All Teams",
     titleManageContacts: "Manage All Contacts",
     emptyStateChart: "Add team members to generate the chart...",
+
+    // --- Modals General ---
     btnCancel: "Cancel",
     btnSaveModal: "Save",
     statusActive: "Active",
     statusArchived: "Archived",
+    
+    // --- Contact Modal: Tabs ---
     modalTitleEdit: "Edit Contact",
     tabGeneral: "General",
     tabOrg: "Org & Teams",
     tabContact: "Contact & Location",
     tabHR: "HR & Profile",
+
+    // --- Contact Modal: Fields & Labels ---
     lblContactName: "Name",
     lblStaffRole: "Staff Role",
     lblCompany: "Company",
@@ -52,7 +65,7 @@ window.PAGE_I18N = {
     lblContactPhone: "Contact Phone",
     lblManagerMail: "Manager Mail",
     lblAutoFilledManager: "(auto-filled from Reporting To)",
-    lblLocationHeader: "Location", 
+    lblLocationHeader: "Location", // Group header
     lblLocation: "Location",
     lblCampus: "Campus",
     lblBuilding: "Building",
@@ -68,6 +81,8 @@ window.PAGE_I18N = {
     lblEngagement: "Engagement",
     lblEngagementSub: "(1–5, blank = auto)",
     lblComments: "Comments",
+
+    // --- Contact Modal: Placeholders ---
     phCompanySearch: "Type to search...",
     phStartTyping: "Start typing...",
     phEmpCode: "e.g. EC-2024-001",
@@ -90,6 +105,8 @@ window.PAGE_I18N = {
     phSkills: "e.g. BIM, Revit, Project Management",
     phAuto: "Auto",
     phInternalNotes: "Internal notes...",
+
+    // --- All Contacts Modal ---
     modalTitleAllContacts: "All Contacts",
     phSearchContacts: "Search contacts...",
     colName: "Name",
@@ -114,6 +131,8 @@ window.PAGE_I18N = {
     btnPrev: "Prev",
     txtPage: "Page",
     btnNext: "Next",
+
+    // --- All Teams Modal ---
     modalTitleTeamsManager: "Teams Manager",
     colTeamName: "Team Name",
     colParentTeam: "Parent Team",
@@ -127,10 +146,14 @@ window.PAGE_I18N = {
     titleRestoreTeam: "Restore Team",
     txtArchivedTeams: "Archived Teams",
     emptyTeams: "No teams added yet.",
+
+    // --- Custom Dialog ---
     dialogTitleNotice: "Notice",
     dialogTitleConfirm: "Please Confirm",
     btnOk: "OK",
     btnConfirm: "Confirm",
+
+    // --- JavaScript Generated Alerts & Strings ---
     badgeUnassigned: "Unassigned",
     alertParseError: "Error parsing Excel file.",
     alertImportDataError: "Data Logic Error during import. Please check the console (F12) for details.",
@@ -144,6 +167,8 @@ window.PAGE_I18N = {
     confirmForeignImport2: "This file doesn't match the Org Chart template but has a legacy CONTACTS section. Import anyway?",
     confirmMinorIssues: "Minor issues detected:\n\n",
     txtImportAnyway: "\n\nImport anyway?",
+    
+    // --- Chart/Matrix Specific Generated Labels ---
     lblTreeCompany: "Company",
     lblTreeDepartment: "Department",
     lblTreeTeams: "Teams",
@@ -153,11 +178,15 @@ window.PAGE_I18N = {
     lblTreeRole: "Role",
     lblTreeBuilding: "Building",
     lblNone: "(None)",
-    lblNoValue: "(No {0})", 
+    lblNoValue: "(No {0})", // Can be used to replace `(No ${lvl1Cfg.label})` in JS
+    
+    // --- Chart Box Texts ---
     chartNoManager: "No Manager",
     chartProjectOrg: "Project / Organization",
     chartCrossFunc: "Cross-Functional Team",
     chartMgrPrefix: "Mgr: ",
+
+    // Buttons / menus
     save: "Save",
     open: "Open",
     view: "View",
@@ -174,6 +203,8 @@ window.PAGE_I18N = {
     portfolioSession: "Portfolio Session",
     projectMenu: "Project",
     projectsFolder: "Projects Folder",
+ 
+    // Autosave
     autosaved: "Autosaved",
     autosaveDirty: "Autosave: unsaved changes…",
     autosaveOff: "Autosave off – enable it in this menu",
@@ -191,6 +222,8 @@ window.PAGE_I18N = {
     multiTabWarning: "This session is now autosaving in another tab – autosave here is paused.",
     browserSnapshot: "browser snapshot",
     projectsWord: "projects",
+ 
+    // Working calendar
     workingCalendar: "Working Calendar",
     holidays: "Holidays",
     typeACountryPh: "Type a country…",
@@ -202,6 +235,8 @@ window.PAGE_I18N = {
     countryNotRecognized: "Country not recognized – pick one from the suggestion list.",
     holidayFetchFailed: "Could not fetch holidays – check the country and your connection.",
     pfCalendarNote: "Shades non-working days in the timeline and flags them when editing project dates. Saved with the session.",
+ 
+    // Printing
     print: "Print",
     printTitle: "Print Timeline",
     printFit: "Fit entire project",
@@ -211,6 +246,8 @@ window.PAGE_I18N = {
     printHint: "Default paper is A3 landscape – adjust in the browser dialog if needed.",
     printedOn: "Printed",
     projectPortfolio: "Project Portfolio",
+ 
+    // Share via link
     shareLink: "Share link",
     shareLinkTitle: "Share via Link",
     shareSizeGreen: "Safe in any channel (chat, email, browser)",
@@ -225,9 +262,15 @@ window.PAGE_I18N = {
     openShared: "Open",
     copy: "Copy",
     cancel: "Cancel",
+ 
+    // Settings modal
     portfolioSettings: "Portfolio Settings",
+ 
+    // Leaving the page
     autosaveLeaveMessage: "Autosave is on and the changes to this project have been saved. Your session will be restored when you return.",
     unsavedLeaveMessage: "You have unsaved changes. Are you sure you want to leave?",
+
+    // --- Static UI (tagged in HTML) ---
     overviewTitle: "Overview",
     projectName: "Project Name",
     infoTitle: "Info",

@@ -1,0 +1,1334 @@
+<!--
+  Copyright 2026 Luis Torrecilla (liteAECO)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  liteAECO - (ifc-reposition.html)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Luis Torrecilla">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFC Reposition - Edit Georeferencing Coordinates & Elevation | liteAECO</title>
+
+    <meta name="description" content="Free client-side tool to edit georeferencing coordinates and elevation of IFC files. Adjust model positioning, and height locally. No uploads, private, fast, built for AEC teams.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://liteaeco.com/tools/ifc-reposition.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://liteaeco.com/tools/ifc-reposition.html">
+    <meta property="og:site_name" content="liteAECO">
+    <meta property="og:title" content="IFC Reposition - Edit Georeferencing Coordinates & Elevation | liteAECO">
+    <meta property="og:description" content="Free client-side tool to edit georeferencing coordinates and elevation of IFC files. Adjust model positioning, and height locally. No uploads, private, fast, built for AEC teams.">
+    <meta property="og:image" content="https://liteaeco.com/img/og-ifc-reposition.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="liteAECO IFC Reposition tool interface">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-reposition.html">
+    <meta name="twitter:title" content="IFC Reposition - Edit Georeferencing Coordinates & Elevation | liteAECO">
+    <meta name="twitter:description" content="Free client-side tool to edit georeferencing coordinates and elevation of IFC files. Adjust model positioning, and height locally. No uploads, private, fast, built for AEC teams.">
+    <meta name="twitter:image" content="https://liteaeco.com/img/og-ifc-reposition.png">
+
+    <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/vendor/lucide-1.41.0.min.js"></script>
+
+    <script>window.SITE_ROOT = '../';</script>
+    <script src="../lang/en/global.js"></script>
+    <script src="../js/common.js"></script>
+
+    <script src="../js/vendor/jszip-3.10.1.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="../css/global.css">
+</head>
+
+<body
+    class="bg-slate-50 text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
+
+    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full transition-all flex-grow">
+
+        <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded p-6 md:p-8 mb-6">
+            <div
+                class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 border-b border-slate-200/60 pb-4">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-lg bg-white border border-slate-100 shadow-sm flex items-center justify-center text-indigo-600 shrink-0">
+                        <i data-lucide="map-pin" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-900 tracking-tight leading-tight" id="ui-title">IFC
+                            Reposition</h1>
+                        <p class="text-sm font-medium text-indigo-500 uppercase tracking-widest mt-0.5"
+                            id="ui-subtitle">Coordinates Editor</p>
+                    </div>
+                </div>
+            </div>
+
+            <details class="text-sm text-slate-600 leading-relaxed group">
+				<summary class="cursor-pointer list-none flex items-center gap-2 font-semibold text-slate-900 select-none">
+					<i data-lucide="chevron-right" class="w-4 h-4 text-indigo-500 transition-transform group-open:rotate-90"></i>
+					<span id="ui-rule-title">What this tool does</span>
+				</summary>
+
+				<div class="mt-3 space-y-3">
+					<p>
+						<span id="ui-rule-desc-1">Allows you to quickly update the georeferencing
+                    coordinates (Latitude, Longitude) and Elevation within the IFCSITE entity of your IFC files. Load
+                    IFC files, define your target coordinates in Decimal Degrees, and process the files to reposition
+                    them accurately.</span>
+					</p>
+				</div>
+			</details>
+        </div>
+
+        <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-6 md:p-8">
+
+            <div class="mb-8">
+                <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
+                    <span
+                        class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                            data-lucide="file-input" class="w-3.5 h-3.5"></i></span>
+                    <span id="ui-step-1">Step 1: Load Files & Information</span>
+                </h2>
+
+                <div
+                    class="bg-white/50 p-6 rounded border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex flex-col h-full">
+                        <label id="dropzone" for="fileInput"
+                            class="drop-zone flex flex-col items-center justify-center w-full h-full min-h-[160px] px-4 py-4 border-2 border-slate-300 border-dashed rounded-lg hover:border-indigo-500 hover:bg-indigo-50/30 bg-slate-50/50 cursor-pointer transition-all">
+                            <div
+                                class="flex flex-col items-center justify-center space-y-2 text-center pointer-events-none">
+                                <i data-lucide="file-input"
+                                    class="w-8 h-8 text-slate-400 mb-1 group-hover:text-indigo-500 transition-colors"></i>
+                                <div class="flex text-sm text-slate-600 justify-center font-medium">
+                                    <span
+                                        class="text-indigo-600 hover:text-indigo-700 pointer-events-auto cursor-pointer"
+                                        id="browseBtn">Load file</span>
+                                    <p class="pl-1" id="ui-drop-text">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-slate-500 font-medium mt-1">.ifc files</p>
+                            </div>
+                            <input id="fileInput" type="file" multiple accept=".ifc" class="hidden" />
+                        </label>
+                    </div>
+
+                    <div class="flex flex-col h-full bg-white p-4 rounded border border-slate-200/60 shadow-sm">
+                        <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200/60 pb-1"
+                            id="ui-model-info-title">Model Information</p>
+                        <div class="grid grid-cols-4 gap-x-4 gap-y-2 text-[12px] flex-grow content-start">
+                            <div class="text-slate-500 font-medium" id="ui-info-date">Date:</div>
+                            <div id="info-date" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div class="text-slate-500 font-medium" id="ui-info-size">File Size:</div>
+                            <div id="info-size" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div class="text-slate-500 font-medium" id="ui-info-schema">Schema:</div>
+                            <div id="info-schema" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div class="text-slate-500 font-medium" id="ui-info-app">Application:</div>
+                            <div id="info-app" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div class="text-slate-500 font-medium" id="ui-info-person">Person:</div>
+                            <div id="info-person" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div class="text-slate-500 font-medium" id="ui-info-units">Units:</div>
+                            <div id="info-units" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div class="text-slate-500 font-medium" id="ui-info-xyz">lat. / lon. / elev.:</div>
+                            <div id="info-xyz" class="col-span-3 text-slate-800 font-semibold truncate">- / - / -</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
+                    <span
+                        class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                            data-lucide="settings-2" class="w-3.5 h-3.5"></i></span>
+                    <span id="ui-step-2">Step 2: Target Location Configuration</span>
+                </h2>
+
+                <div
+                    class="bg-white/50 p-6 rounded border border-slate-200 shadow-sm flex flex-col justify-start relative">
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-32 w-full mb-6">
+
+                        <div class="flex flex-col space-y-4 text-[13px] h-full">
+                            <div id="ui-world-coords-title" class="font-semibold text-sm text-slate-800 border-b border-slate-200/60 pb-2">World Coordinates (IFCSITE)</div>
+
+                            <div class="flex items-start justify-between">
+                                <label class="flex items-start space-x-3 cursor-pointer group/opt mt-1">
+                                    <input type="checkbox" id="updateCoordsCb"
+                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer shrink-0 mt-0.5">
+                                    <span id="ui-opt-coords"
+                                        class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors">Update
+                                        Coordinates (Lat/Lon)</span>
+                                </label>
+                                <div id="coordsInputContainer"
+                                    class="flex flex-col gap-2 transition-all duration-200 items-end shrink-0 pl-4">
+                                    <div class="flex items-center gap-2">
+                                        <span id="ui-lat-label" class="text-[12px] text-slate-500">Latitude (DD)</span>
+                                        <input type="number" step="any" id="latInput"
+                                            class="border border-slate-300 rounded px-2 py-1 w-24 text-[12px] focus:outline-none focus:ring-2 focus:ring-indigo-500/50 font-mono transition-all bg-white"
+                                            placeholder="47.5596" />
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span id="ui-lon-label" class="text-[12px] text-slate-500">Longitude (DD)</span>
+                                        <input type="number" step="any" id="lonInput"
+                                            class="border border-slate-300 rounded px-2 py-1 w-24 text-[12px] focus:outline-none focus:ring-2 focus:ring-indigo-500/50 font-mono transition-all bg-white"
+                                            placeholder="7.5886" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex-grow"></div>
+
+                            <div class="flex items-start justify-between border-t border-slate-100 pt-4 mt-auto">
+                                <label class="flex items-start space-x-3 cursor-pointer group/opt mt-1">
+                                    <input type="checkbox" id="updateElevCb"
+                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer shrink-0 mt-0.5"
+                                        checked>
+                                    <span id="ui-opt-elev"
+                                        class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors">Update
+                                        Elevation</span>
+                                </label>
+                                <div id="elevInputContainer"
+                                    class="flex items-center gap-2 transition-all duration-200 shrink-0 pl-4">
+                                    <span id="ui-elev-label" class="text-[12px] text-slate-500">Elevation</span>
+                                    <input type="number" step="any" id="elevInput"
+                                        class="border border-slate-300 rounded px-2 py-1 w-24 text-[12px] focus:outline-none focus:ring-2 focus:ring-indigo-500/50 font-mono transition-all bg-white"
+                                        placeholder="0.00" value="0.00" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col space-y-4 text-[13px] h-full">
+                            <div id="ui-proj-coords-title" class="font-semibold text-sm text-slate-800 border-b border-slate-200/60 pb-2">IFC 4 - Project Coordinates (IFCMAPCONVERSION)</div>
+
+                            <div class="flex items-start justify-between">
+                                <label class="flex items-start space-x-3 cursor-pointer group/opt mt-1">
+                                    <input type="checkbox" id="updateMapConvCb"
+                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer shrink-0 mt-0.5">
+                                    <span id="ui-opt-mapconv"
+                                        class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors leading-snug">
+                                        Update Map Coordinates
+                                    </span>
+                                </label>
+                                <div id="mapConvInputContainer"
+                                    class="flex flex-col gap-2 transition-all duration-200 items-end shrink-0 pl-4">
+                                    <div class="flex items-center gap-2">
+                                        <span id="ui-easting-label" class="text-[12px] text-slate-500">Eastings (X)</span>
+                                        <input type="number" step="any" id="eastingInput"
+                                            class="border border-slate-300 rounded px-2 py-1 w-24 text-[12px] focus:outline-none focus:ring-2 focus:ring-indigo-500/50 font-mono transition-all bg-white"
+                                            placeholder="0.00" />
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span id="ui-northing-label" class="text-[12px] text-slate-500">Northings (Y)</span>
+                                        <input type="number" step="any" id="northingInput"
+                                            class="border border-slate-300 rounded px-2 py-1 w-24 text-[12px] focus:outline-none focus:ring-2 focus:ring-indigo-500/50 font-mono transition-all bg-white"
+                                            placeholder="0.00" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex-grow"></div>
+
+                            <div class="flex items-start justify-between border-t border-slate-100 pt-4 mt-auto">
+                                <label class="flex items-start space-x-3 cursor-pointer group/opt mt-1">
+                                    <input type="checkbox" id="updateMapConvZCb"
+                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer shrink-0 mt-0.5">
+                                    <span id="ui-opt-mapconv-z"
+                                        class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors">Update Ortho. Height</span>
+                                </label>
+                                <div id="mapConvZInputContainer"
+                                    class="flex items-center gap-2 transition-all duration-200 shrink-0 pl-4">
+                                    <span id="ui-ortho-height-label" class="text-[12px] text-slate-500">Ortho. Height (Z)</span>
+                                    <input type="number" step="any" id="orthoHeightInput"
+                                        class="border border-slate-300 rounded px-2 py-1 w-24 text-[12px] focus:outline-none focus:ring-2 focus:ring-indigo-500/50 font-mono transition-all bg-white"
+                                        placeholder="0.00" value="0.00" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="pt-4 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <label class="flex items-center space-x-3 cursor-pointer group/opt">
+                            <input type="checkbox" id="updateTimestampCb"
+                                class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer shrink-0">
+                            <span id="ui-opt-timestamp"
+                                class="font-medium text-[13px] text-slate-700 group-hover/opt:text-indigo-600 transition-colors">Update
+                                File Timestamp</span>
+                        </label>
+
+                        <button id="applyBtn" disabled
+                            class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded shadow-sm disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center min-w-[160px] w-full md:w-auto">
+                            <span id="ui-apply-btn">Apply Location</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="flex flex-col">
+                <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
+                    <span
+                        class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                            data-lucide="download" class="w-3.5 h-3.5"></i></span>
+                    <span id="ui-step-3">Step 3: Process & Download</span>
+                </h2>
+
+                <div class="bg-white/50 rounded border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+
+                    <div class="flex flex-wrap items-center gap-3 p-4 bg-slate-50/50 border-b border-slate-200">
+                        <button id="zipBtn" disabled
+                            class="flex items-center px-4 py-2 border border-transparent text-xs font-bold text-white bg-slate-900 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-300 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:-translate-y-0 disabled:hover:shadow-sm">
+                            <svg class="mr-1.5 h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            <span id="ui-zip-btn">Download as ZIP</span>
+                        </button>
+                        <button id="saveBtn" disabled
+                            class="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded-lg shadow-sm font-semibold text-xs hover:bg-slate-50 focus:ring-2 focus:ring-offset-1 focus:ring-slate-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"><span
+                                id="ui-save-btn">Save to Folder</span></button>
+                        <button id="downloadBtn" disabled
+                            class="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded-lg shadow-sm font-semibold text-xs hover:bg-slate-50 focus:ring-2 focus:ring-offset-1 focus:ring-slate-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"><span
+                                id="ui-download-btn">Download Individually</span></button>
+                        <div class="flex-grow"></div>
+                        <button id="clearBtn" disabled
+                            class="px-4 py-2 bg-white text-rose-600 border border-slate-300 rounded-lg shadow-sm font-semibold text-xs hover:bg-rose-50 hover:border-rose-200 hover:text-rose-700 focus:ring-2 focus:ring-offset-1 focus:ring-rose-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"><span
+                                id="ui-clear-btn">Clear List</span></button>
+                    </div>
+
+                    <div id="zipProgressWrapper" class="hidden p-4 bg-white border-b border-slate-100">
+                        <div class="flex justify-between text-xs mb-1.5 font-semibold text-slate-700">
+                            <span id="ui-zip-progress-text">Creating ZIP...</span>
+                            <span id="zipProgressPercent">0%</span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div id="zipProgressBar" class="bg-indigo-500 h-2 transition-all duration-150"
+                                style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto max-h-[300px] overflow-y-auto custom-scroll">
+                        <table class="w-full text-sm text-left table-fixed">
+                            <thead
+                                class="bg-white/80 backdrop-blur-sm border-b border-slate-200 text-slate-500 uppercase tracking-wider text-[11px] font-bold sticky top-0 z-10 shadow-sm">
+                                <tr>
+                                    <th class="px-4 py-3 w-[25%]" id="ui-th-orig">Filename</th>
+                                    <th class="px-4 py-3 w-[55%]" id="ui-th-status">Changes</th>
+                                    <th class="px-4 py-3 w-[10%]" id="ui-th-type">Type</th>
+                                    <th class="px-4 py-3 w-[10%]" id="ui-th-size">Size</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultTable" class="divide-y divide-slate-100 bg-transparent"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast"
+        class="fixed bottom-6 right-6 bg-slate-900 text-white font-medium text-sm px-5 py-3 rounded-lg shadow-xl transition-all duration-300 opacity-0 pointer-events-none translate-y-4 z-50 flex items-center gap-2">
+        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+
+        window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
+
+        window.updateToolDynamicUI = function (d) {
+            if (typeof refreshTable === 'function') refreshTable();
+        };
+
+        function bootApp() {
+            autoDetectLanguage();
+
+            window.injectUI({
+                showNav: true,
+                transparentNav: false,
+                showSignIn: false,
+                showCategories: true,
+                showNews: false,
+                showHelp: true,
+                showFooter: true,
+                showFooterLinks: true,
+            });
+
+            window.injectCookieBanner();
+
+            window.loadLanguage(currentLang, window.pageScriptPrefix);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', bootApp);
+        } else {
+            bootApp();
+        }
+    </script>
+    <script>
+        const I18N_FALLBACK = {
+            statusEmpty: "No IFC file loaded yet.",
+            statusPending: "Pending configuration",
+            statusProcessing: "Processing...",
+            statusNoChangesApplied: "No changes applied",
+            statusSiteNotFound: "IFCSITE not found",
+            statusUpdatedPrefix: "Updated: ",
+            statusErrorParsing: "Error parsing file",
+            statusNoMapConv: " (no IFCMAPCONVERSION)",
+            lblLatLon: "Lat/Lon",
+            lblElevation: "Elevation",
+            lblMap: "Map",
+            lblTimestamp: "Timestamp",
+            details: "Show details",
+            detailsLat: "Latitude",
+            detailsLon: "Longitude",
+            detailsElev: "Elevation",
+            detailsMap: "Project Coordinates (Map)",
+            detailsTs: "Timestamp",
+            detailsOld: "Old",
+            detailsNew: "New",
+            removeFile: "Remove file",
+            typeIfc: "IFC",
+            toastApplySuccess: "Location data applied successfully.",
+            toastNoChangesToDownload: "No files have changes to download.",
+            toastNoChangesToSave: "No files have changes to save.",
+            errValLatLon: "Enter both Latitude and Longitude.",
+            errValLatRange: "Latitude must be between -90 and 90.",
+            errValLonRange: "Longitude must be between -180 and 180.",
+            errValElev: "Enter a valid Elevation.",
+            errValMapXY: "Enter valid Eastings and Northings.",
+            errValMapZ: "Enter a valid Ortho. Height.",
+            errValNothing: "Select at least one option to update.",
+            errBrowserSupport: "Browser not supported.",
+            saveFailed: "Save failed: ",
+        };
+        function T(key, ...args) {
+            let v;
+            if (typeof window.t === 'function') { const r = window.t(key); if (r !== key) v = r; }
+            if (v === undefined) v = I18N_FALLBACK[key] !== undefined ? I18N_FALLBACK[key] : key;
+            return typeof v === 'function' ? v(...args) : v;
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = message;
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+            }, 3000);
+        }
+
+        function getZipFileName() {
+            const now = new Date();
+            const yy = String(now.getFullYear()).slice(-2);
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+            const hr = String(now.getHours()).padStart(2, '0');
+            const min = String(now.getMinutes()).padStart(2, '0');
+            return `${yy}${mm}${dd}_${hr}${min}_Repositioned_IFC.zip`;
+        }
+
+        function esc(str) {
+            return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+
+        function bytesToLatin1(u8) {
+            let out = '';
+            const CH = 0x8000;
+            for (let i = 0; i < u8.length; i += CH) out += String.fromCharCode.apply(null, u8.subarray(i, i + CH));
+            return out;
+        }
+        function latin1ToBytes(str) {
+            const out = new Uint8Array(str.length);
+            for (let i = 0; i < str.length; i++) out[i] = str.charCodeAt(i) & 0xFF;
+            return out;
+        }
+
+        function fmtIfcReal(v) {
+            let str = String(v);
+            if (/e/i.test(str)) {
+                let [m, e] = str.split(/e/i);
+                if (!m.includes('.')) m += '.';
+                return m + 'E' + e;
+            }
+            if (!str.includes('.')) str += '.';
+            return str;
+        }
+
+        function makeTimestamp() {
+            const now = new Date();
+            const pad = (n) => String(n).padStart(2, '0');
+            const tzMin = -now.getTimezoneOffset();
+            const sign = tzMin >= 0 ? '+' : '-';
+            return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}${sign}${pad(Math.floor(Math.abs(tzMin) / 60))}:${pad(Math.abs(tzMin) % 60)}`;
+        }
+
+        const RE_FILENAME_TS = /(FILE_NAME\s*\(\s*'[^']*'\s*,\s*')([^']*?)('\s*,)/i;
+        const RE_SITE = /(#\d+\s*=\s*IFCSITE\s*\()([^;]*?)(\)\s*;)/gi;
+        const RE_MAPCONV = /(#\d+\s*=\s*IFCMAPCONVERSION\s*\()([^;]*?)(\)\s*;)/gi;
+
+        window.removeItem = function (index) {
+            items.splice(index, 1);
+            recalculateMeta();
+            refreshTable();
+        };
+
+        function decToDMS(deg) {
+            const sign = deg < 0 ? -1 : 1;
+            const absDeg = Math.abs(deg);
+            const d = Math.floor(absDeg);
+            const minFloat = (absDeg - d) * 60;
+            const m = Math.floor(minFloat);
+            const secFloat = (minFloat - m) * 60;
+            let s = Math.floor(secFloat);
+            let micro = Math.round((secFloat - s) * 1000000);
+            if (micro >= 1000000) { micro -= 1000000; s += 1; }
+            if (s >= 60) { s -= 60; m += 1; }
+            if (m >= 60) { m -= 60; d += 1; }
+            return { sign, d, m, s, micro };
+        }
+
+        function dmsToIfcTuple(dms) {
+            let { sign, d, m, s, micro } = dms;
+            d = d * sign;
+            if (d === 0) m = m * sign;
+            if (d === 0 && m === 0) s = s * sign;
+            if (d === 0 && m === 0 && s === 0) micro = micro * sign;
+
+            const ds = Object.is(d, -0) ? "-0" : d;
+            const ms = Object.is(m, -0) ? "-0" : m;
+            const ss = Object.is(s, -0) ? "-0" : s;
+            const micros = Object.is(micro, -0) ? "-0" : micro;
+
+            if (Math.abs(micro) > 0) return `(${ds},${ms},${ss},${micros})`;
+            return `(${ds},${ms},${ss})`;
+        }
+
+        function ifcTupleToDecimal(tupleStr) {
+            if (!tupleStr || typeof tupleStr !== 'string') return null;
+            const nums = tupleStr.replace(/[()]/g, '').split(',').map(v => parseFloat(v.trim()));
+            if (!nums.length || nums.some(n => isNaN(n))) return null;
+            const negative = nums.some(n => n < 0 || Object.is(n, -0));
+            const [d = 0, m = 0, s = 0, micro = 0] = nums.map(Math.abs);
+            const dec = d + m / 60 + s / 3600 + micro / 3600000000;
+            return negative ? -dec : dec;
+        }
+
+        function parseIfcArgs(argString) {
+            const args = [];
+            let currentArg = "";
+            let depth = 0;
+            let inQuotes = false;
+
+            for (let i = 0; i < argString.length; i++) {
+                const char = argString[i];
+                if (char === "'") {
+                    inQuotes = !inQuotes;
+                    currentArg += char;
+                } else if (char === "(" && !inQuotes) {
+                    depth++;
+                    currentArg += char;
+                } else if (char === ")" && !inQuotes) {
+                    depth--;
+                    currentArg += char;
+                } else if (char === "," && depth === 0 && !inQuotes) {
+                    args.push(currentArg.trim());
+                    currentArg = "";
+                } else {
+                    currentArg += char;
+                }
+            }
+            args.push(currentArg.trim());
+            return args;
+        }
+
+        function extractMetadata(content, file) {
+            let meta = {
+                size: (file.size / 1024 / 1024).toFixed(2) + " MB",
+                date: "-",
+                schema: "-",
+                app: "-",
+                person: "-",
+                units: "-",
+                xyz: "- / - / -"
+            };
+
+            const headerLimit = Math.min(content.length, 2 * 1024 * 1024);
+            const headerMatch = content.slice(0, headerLimit);
+
+            const schemaMatch = headerMatch.match(/FILE_SCHEMA\(\(\s*'([^']+)'\s*\)\)/i);
+            if (schemaMatch) meta.schema = schemaMatch[1];
+
+            const dateMatch = headerMatch.match(/FILE_NAME\([^,]*,[^\d]*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})/i);
+            if (dateMatch) meta.date = dateMatch[1].replace('T', ' ');
+
+            const appMatch = headerMatch.match(/IFCAPPLICATION\s*\([^,]+,\s*'[^']*'\s*,\s*'([^']+)'/i);
+            if (appMatch) meta.app = appMatch[1];
+
+            const personMatch = headerMatch.match(/IFCPERSON\s*\([^,]*,\s*(?:'([^']+)'|\$)\s*,\s*(?:'([^']+)'|\$)/i);
+            if (personMatch) {
+                let family = personMatch[1] && personMatch[1] !== '$' ? personMatch[1] : '';
+                let given = personMatch[2] && personMatch[2] !== '$' ? personMatch[2] : '';
+                meta.person = [given, family].filter(Boolean).join(' ') || '-';
+            }
+
+            const unitRegex = /IFCSIUNIT\s*\([^,]+,\s*\.LENGTHUNIT\.\s*,\s*(?:\.(MILLI|CENTI)\.)?[^,]*,\s*\.(METRE|FOOT|INCH)\./i;
+            const uMatch = headerMatch.match(unitRegex);
+            if (uMatch) {
+                let prefix = uMatch[1] ? uMatch[1].toUpperCase() : '';
+                let name = uMatch[2] ? uMatch[2].toUpperCase() : '';
+                if (name === 'METRE') {
+                    if (prefix === 'MILLI') meta.units = 'Millimeters';
+                    else if (prefix === 'CENTI') meta.units = 'Centimeters';
+                    else meta.units = 'Meters';
+                } else if (name === 'FOOT') meta.units = 'Feet';
+                else if (name === 'INCH') meta.units = 'Inches';
+            }
+
+            let siteIdx = content.indexOf('IFCSITE');
+            if (siteIdx !== -1) {
+                let chunkStart = Math.max(0, siteIdx - 100);
+                let chunkEnd = Math.min(content.length, siteIdx + 4000);
+                let chunk = content.substring(chunkStart, chunkEnd);
+
+                const siteRegex = /(#\d+\s*=\s*IFCSITE\s*\()([\s\S]*?)(\)\s*;)/i;
+                const sMatch = chunk.match(siteRegex);
+                if (sMatch) {
+                    const args = parseIfcArgs(sMatch[2]);
+                    if (args.length >= 12) {
+                        let lat = args[9] !== '$' ? args[9] : '-';
+                        let lon = args[10] !== '$' ? args[10] : '-';
+                        let elev = args[11] !== '$' ? args[11] : '-';
+                        if (elev !== '-' && !isNaN(parseFloat(elev))) elev = parseFloat(elev).toFixed(3);
+                        meta.xyz = `${lat} / ${lon} / ${elev}`;
+                    }
+                }
+            }
+
+            return meta;
+        }
+
+        function recalculateMeta() {
+            if (items.length === 0) {
+                document.getElementById('info-date').innerText = "-";
+                document.getElementById('info-size').innerText = "-";
+                document.getElementById('info-schema').innerText = "-";
+                document.getElementById('info-app').innerText = "-";
+                document.getElementById('info-person').innerText = "-";
+                document.getElementById('info-units').innerText = "-";
+                document.getElementById('info-xyz').innerText = "- / - / -";
+                return;
+            }
+
+            let combinedMeta = { ...items[0].meta };
+            for (let i = 1; i < items.length; i++) {
+                let m = items[i].meta;
+                for (let key in combinedMeta) {
+                    if (combinedMeta[key] !== m[key] && combinedMeta[key] !== "Varies") {
+                        combinedMeta[key] = "Varies";
+                    }
+                }
+            }
+
+            document.getElementById('info-date').innerText = combinedMeta.date;
+            document.getElementById('info-size').innerText = combinedMeta.size;
+            document.getElementById('info-schema').innerText = combinedMeta.schema;
+            document.getElementById('info-app').innerText = combinedMeta.app;
+            document.getElementById('info-person').innerText = combinedMeta.person;
+            document.getElementById('info-units').innerText = combinedMeta.units;
+            document.getElementById('info-xyz').innerText = combinedMeta.xyz;
+        }
+
+        function transformIFC(content, shouldUpdateCoords, targetLat, targetLon, shouldUpdateElev, targetElev, shouldUpdateTimestamp, shouldUpdateMapConv, targetEasting, targetNorthing, targetOrthoHeight) {
+            let coordsUpdated = false, elevUpdated = false, mapConvUpdated = false, timestampUpdated = false, parsingError = false;
+            let oldLatTuple = null, oldLonTuple = null, oldElev = null;
+            let newLatTuple = null, newLonTuple = null, newElevStr = null;
+            let oldEasting = null, oldNorthing = null, oldOrthoHeight = null;
+            let newEastingStr = null, newNorthingStr = null, newOrthoHeightStr = null;
+            let newDate = null, oldDate = null;
+            let siteCount = 0, mapConvCount = 0;
+            const originalLines = [];
+
+            let currentContent = content.replace(RE_SITE, (match, prefix, innerArgs, suffix) => {
+                const args = parseIfcArgs(innerArgs);
+                if (args.length < 12) { parsingError = true; return match; }
+                siteCount++;
+                let changed = false;
+                if (oldLatTuple === null) { oldLatTuple = args[9]; oldLonTuple = args[10]; oldElev = args[11]; }
+
+                if (shouldUpdateCoords && targetLat !== '' && targetLon !== '') {
+                    const lt = dmsToIfcTuple(decToDMS(parseFloat(targetLat)));
+                    const ln = dmsToIfcTuple(decToDMS(parseFloat(targetLon)));
+                    newLatTuple = lt; newLonTuple = ln;
+                    if (args[9] !== lt || args[10] !== ln) {
+                        args[9] = lt; args[10] = ln;
+                        coordsUpdated = true; changed = true;
+                    }
+                }
+
+                if (shouldUpdateElev && targetElev !== '') {
+                    const eVal = parseFloat(targetElev);
+                    newElevStr = fmtIfcReal(eVal);
+                    const oldEVal = parseFloat(args[11]);
+                    if (isNaN(oldEVal) || oldEVal !== eVal) {
+                        args[11] = newElevStr;
+                        elevUpdated = true; changed = true;
+                    }
+                }
+
+                if (changed) {
+                    originalLines.push(match.trim());
+                    return prefix + args.join(',') + suffix;
+                }
+                return match;
+            });
+
+            if (shouldUpdateMapConv) {
+                currentContent = currentContent.replace(RE_MAPCONV, (match, prefix, innerArgs, suffix) => {
+                    const args = parseIfcArgs(innerArgs);
+                    if (args.length < 5) { parsingError = true; return match; }
+                    mapConvCount++;
+                    let changed = false;
+                    if (oldEasting === null) { oldEasting = args[2]; oldNorthing = args[3]; oldOrthoHeight = args[4]; }
+
+                    if (targetEasting !== '' && targetNorthing !== '') {
+                        const e = parseFloat(targetEasting), n = parseFloat(targetNorthing);
+                        newEastingStr = fmtIfcReal(e); newNorthingStr = fmtIfcReal(n);
+                        if (parseFloat(args[2]) !== e || parseFloat(args[3]) !== n) {
+                            args[2] = newEastingStr; args[3] = newNorthingStr; changed = true;
+                        }
+                    }
+                    if (targetOrthoHeight !== '') {
+                        const h = parseFloat(targetOrthoHeight);
+                        newOrthoHeightStr = fmtIfcReal(h);
+                        if (parseFloat(args[4]) !== h) { args[4] = newOrthoHeightStr; changed = true; }
+                    }
+
+                    if (changed) {
+                        mapConvUpdated = true;
+                        originalLines.push(match.trim());
+                        return prefix + args.join(',') + suffix;
+                    }
+                    return match;
+                });
+                if (newEastingStr === null) newEastingStr = oldEasting;
+                if (newNorthingStr === null) newNorthingStr = oldNorthing;
+                if (newOrthoHeightStr === null) newOrthoHeightStr = oldOrthoHeight;
+            }
+
+            if (shouldUpdateTimestamp) {
+                const m = currentContent.match(RE_FILENAME_TS);
+                if (m) {
+                    oldDate = m[2];
+                    newDate = makeTimestamp();
+                    currentContent = currentContent.replace(RE_FILENAME_TS, `$1${newDate}$3`);
+                    timestampUpdated = true;
+                }
+            }
+
+            if (coordsUpdated || elevUpdated || mapConvUpdated || timestampUpdated) {
+                const fmtDec = (v) => (v === null || isNaN(v)) ? null : String(parseFloat(v.toFixed(7)));
+                const actionLogs = [];
+
+                if (coordsUpdated) {
+                    const oldLatDec = fmtDec(ifcTupleToDecimal(oldLatTuple));
+                    const newLatDec = fmtDec(ifcTupleToDecimal(newLatTuple));
+                    const oldLonDec = fmtDec(ifcTupleToDecimal(oldLonTuple));
+                    const newLonDec = fmtDec(ifcTupleToDecimal(newLonTuple));
+                    const latDec = (oldLatDec !== null && newLatDec !== null) ? `  (dec deg: ${oldLatDec} -> ${newLatDec})` : '';
+                    const lonDec = (oldLonDec !== null && newLonDec !== null) ? `  (dec deg: ${oldLonDec} -> ${newLonDec})` : '';
+                    actionLogs.push(`* Latitude:  ${oldLatTuple} -> ${newLatTuple}${latDec}`);
+                    actionLogs.push(`* Longitude: ${oldLonTuple} -> ${newLonTuple}${lonDec}`);
+                }
+                if (elevUpdated) actionLogs.push(`* Elevation: ${oldElev} -> ${newElevStr}`);
+                if (mapConvUpdated) actionLogs.push(`* Map Conversion (E/N/H): ${oldEasting}, ${oldNorthing}, ${oldOrthoHeight} -> ${newEastingStr}, ${newNorthingStr}, ${newOrthoHeightStr}`);
+                if (timestampUpdated) actionLogs.push(`* Timestamp: ${oldDate} -> ${newDate}`);
+                if (siteCount > 1 && (coordsUpdated || elevUpdated)) actionLogs.push(`* Note: ${siteCount} IFCSITE entities updated`);
+                if (originalLines.length) {
+                    actionLogs.push(`* --- Original line(s) for recovery (copy & paste to restore) ---`);
+                    for (const ln of originalLines) actionLogs.push(ln);
+                }
+
+                const commentBody = actionLogs.join('\n').replace(/\*\//g, '* /');
+                const commentBlock = `/******************************************************
+* IFC Operations with liteAECO.com
+* Action: Site Repositioning
+${commentBody}
+******************************************************/
+`;
+                const dataIndex = currentContent.indexOf('DATA;');
+                if (dataIndex !== -1) {
+                    currentContent = currentContent.slice(0, dataIndex) + commentBlock + currentContent.slice(dataIndex);
+                }
+            }
+
+            return {
+                content: currentContent,
+                coordsUpdated, elevUpdated, mapConvUpdated, timestampUpdated, parsingError,
+                siteFound: siteCount > 0, mapConvFound: mapConvCount > 0,
+                oldLatTuple, oldLonTuple, oldElev, newLatTuple, newLonTuple, newElevStr,
+                oldEasting, oldNorthing, oldOrthoHeight, newEastingStr, newNorthingStr, newOrthoHeightStr,
+                newDate
+            };
+        }
+
+        let items = [];
+
+        function renderDetails(it) {
+            const blocks = [];
+
+            if (it.coordsUpdated) {
+                blocks.push(`
+                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-md shadow-sm">
+                        <div class="font-semibold mb-1.5 text-slate-800 text-[10px] uppercase tracking-wide">${T("detailsLat")}</div>
+                        <div class="text-slate-500 mb-0.5 text-[10px]">${T("detailsOld")}:</div>
+                        <div class="mb-2.5 text-[11px] font-mono"><code class="text-slate-500">${esc(it.oldLatTuple)}</code></div>
+                        <div class="text-slate-500 mb-0.5 text-[10px]">${T("detailsNew")}:</div>
+                        <div class="text-[11px]"><code class="bg-white border border-slate-200 px-1.5 py-0.5 rounded text-[10px] break-all font-mono text-slate-700">${esc(it.newLatTuple)}</code></div>
+                    </div>
+                `);
+                blocks.push(`
+                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-md shadow-sm">
+                        <div class="font-semibold mb-1.5 text-slate-800 text-[10px] uppercase tracking-wide">${T("detailsLon")}</div>
+                        <div class="text-slate-500 mb-0.5 text-[10px]">${T("detailsOld")}:</div>
+                        <div class="mb-2.5 text-[11px] font-mono"><code class="text-slate-500">${esc(it.oldLonTuple)}</code></div>
+                        <div class="text-slate-500 mb-0.5 text-[10px]">${T("detailsNew")}:</div>
+                        <div class="text-[11px]"><code class="bg-white border border-slate-200 px-1.5 py-0.5 rounded text-[10px] break-all font-mono text-slate-700">${esc(it.newLonTuple)}</code></div>
+                    </div>
+                `);
+            }
+
+            if (it.elevUpdated) {
+                blocks.push(`
+                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-md shadow-sm">
+                        <div class="font-semibold mb-1.5 text-slate-800 text-[10px] uppercase tracking-wide">${T("detailsElev")}</div>
+                        <div class="text-slate-500 mb-0.5 text-[10px]">${T("detailsOld")}:</div>
+                        <div class="mb-2.5 text-[11px] font-mono"><code class="text-slate-500">${esc(it.oldElev)}</code></div>
+                        <div class="text-slate-500 mb-0.5 text-[10px]">${T("detailsNew")}:</div>
+                        <div class="text-[11px]"><code class="bg-white border border-slate-200 px-1.5 py-0.5 rounded text-[10px] break-all font-mono text-slate-700">${esc(it.newElevStr)}</code></div>
+                    </div>
+                `);
+            }
+
+            if (it.mapConvUpdated) {
+                blocks.push(`
+                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-md shadow-sm">
+                        <div class="font-semibold mb-1.5 text-slate-800 text-[10px] uppercase tracking-wide">${T("detailsMap")}</div>
+                        <div class="text-slate-500 mb-0.5 text-[10px]">${T("detailsOld")} (E/N/H):</div>
+                        <div class="mb-2.5 text-[11px] font-mono"><code class="text-slate-500">${esc(it.oldEasting)}, ${esc(it.oldNorthing)}, ${esc(it.oldOrthoHeight)}</code></div>
+                        <div class="text-slate-500 mb-0.5 text-[10px]">${T("detailsNew")} (E/N/H):</div>
+                        <div class="text-[11px]"><code class="bg-white border border-slate-200 px-1.5 py-0.5 rounded text-[10px] break-all font-mono text-slate-700">${esc(it.newEastingStr)}, ${esc(it.newNorthingStr)}, ${esc(it.newOrthoHeightStr)}</code></div>
+                    </div>
+                `);
+            }
+
+            if (it.timestampUpdated) {
+                blocks.push(`
+                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-md shadow-sm">
+                        <div class="font-semibold mb-1.5 text-slate-800 text-[10px] uppercase tracking-wide">${T("detailsTs")}</div>
+                        <div class="text-slate-500 mb-0.5 text-[10px]">${T("detailsNew")}:</div>
+                        <div class="text-[11px]"><code class="bg-white border border-slate-200 px-1.5 py-0.5 rounded text-[10px] break-all font-mono text-slate-700">${esc(it.newDate)}</code></div>
+                    </div>
+                `);
+            }
+
+            if (blocks.length === 0) return '';
+
+            return `
+                <details class="mt-2.5 group">
+                    <summary class="cursor-pointer text-indigo-500 hover:text-indigo-700 font-semibold text-[11px] inline-flex items-center gap-1 transition-colors">
+                        <svg class="w-3.5 h-3.5 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        ${T("details")}
+                    </summary>
+                    <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs">
+                        ${blocks.join('')}
+                    </div>
+                </details>
+            `;
+        }
+
+        function refreshTable() {
+            const $tbody = document.getElementById("resultTable");
+            const hasItems = items.length > 0;
+            const allProcessed = hasItems && items.every(it => it.isProcessed);
+
+            ['zipBtn', 'saveBtn', 'downloadBtn'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) btn.disabled = !allProcessed;
+            });
+
+            const clearBtn = document.getElementById('clearBtn');
+            if (clearBtn) clearBtn.disabled = !hasItems;
+
+            const applyBtn = document.getElementById('applyBtn');
+            if (applyBtn) applyBtn.disabled = !hasItems;
+
+            if (!hasItems) {
+                $tbody.innerHTML = `<tr><td colspan="4" class="px-5 py-8 text-center text-slate-400 italic text-sm border-b border-slate-100">${T("statusEmpty")}</td></tr>`;
+                return;
+            }
+
+            $tbody.innerHTML = items.map((it, index) => {
+                const displaySize = it.size > 1024 * 1024 ? (it.size / (1024 * 1024)).toFixed(2) + ' MB' : (it.size / 1024).toFixed(1) + ' KB';
+
+                if (it.isProcessing) {
+                    return `
+                        <tr class="bg-slate-50/50 transition align-top">
+                            <td class="px-4 py-3 overflow-hidden">
+                                <div class="font-mono text-slate-700 truncate font-medium text-[11.5px]" title="${esc(it.name)}">${esc(it.name)}</div>
+                            </td>
+                            <td class="px-4 py-3">
+                                <div class="text-indigo-700 font-semibold bg-indigo-50 inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10.5px] border border-indigo-200 w-fit shadow-sm">
+                                    <span class="spinner !border-t-indigo-600 !w-3 !h-3"></span>
+                                    ${T("statusProcessing")}
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 text-slate-400 font-semibold text-[11px]">${T("typeIfc")}</td>
+                            <td class="px-4 py-3 text-slate-400 text-[11px] font-mono">${displaySize}</td>
+                        </tr>
+                    `;
+                }
+
+                let badgeClass = "text-slate-600 bg-slate-100 border-slate-200";
+                let statusText = T("statusNoChangesApplied");
+
+                if (!it.isProcessed) {
+                    badgeClass = "text-sky-700 bg-sky-50 border-sky-200";
+                    statusText = T("statusPending");
+                } else if (it.parsingError) {
+                    badgeClass = "text-rose-700 bg-rose-50 border-rose-200";
+                    statusText = T("statusErrorParsing");
+                } else if (!it.coordsUpdated && !it.elevUpdated && !it.mapConvUpdated && !it.timestampUpdated) {
+                    badgeClass = "text-slate-600 bg-slate-100 border-slate-200";
+                    statusText = it.siteFound === false ? T("statusSiteNotFound") : T("statusNoChangesApplied");
+                } else {
+                    badgeClass = "text-emerald-700 bg-emerald-50 border-emerald-200";
+                    let updates = [];
+                    if (it.coordsUpdated) updates.push(T("lblLatLon"));
+                    if (it.elevUpdated) updates.push(T("lblElevation"));
+                    if (it.mapConvUpdated) updates.push(T("lblMap"));
+                    if (it.timestampUpdated) updates.push(T("lblTimestamp"));
+                    statusText = T("statusUpdatedPrefix") + updates.join(", ");
+                    if (it.mapConvRequested && it.mapConvFound === false) statusText += T("statusNoMapConv");
+                }
+
+                return `
+                    <tr class="hover:bg-slate-50/50 transition align-top group">
+                        <td class="px-4 py-3 overflow-hidden">
+                            <div class="flex items-start gap-2">
+                                <button onclick="removeItem(${index})" class="text-slate-400 hover:text-rose-500 transition shrink-0 mt-0.5 focus:outline-none" title="${T('removeFile')}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                </button>
+                                <div class="font-sans text-slate-800 truncate font-medium text-[12px] leading-tight flex-1 min-w-0" title="${esc(it.name)}">${esc(it.name)}</div>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3">
+                            <div class="font-bold inline-block px-2 py-0.5 rounded text-[10.5px] border shadow-sm ${badgeClass}">
+                                ${statusText}
+                            </div>
+                            ${it.isProcessed ? renderDetails(it) : ''}
+                        </td>
+                        <td class="px-4 py-3 text-slate-500 font-semibold text-[11px]">${T("typeIfc")}</td>
+                        <td class="px-4 py-3 text-slate-500 text-[11px] font-mono">${displaySize}</td>
+                    </tr>
+                `;
+            }).join("");
+        }
+
+        async function addFiles(fileList) {
+            const files = Array.from(fileList).filter(f => f && f.name && f.name.toLowerCase().endsWith('.ifc'));
+            if (!files.length) return;
+
+            for (const file of files) {
+                const placeholder = { name: file.name, size: file.size, isProcessing: true };
+                items.push(placeholder);
+                refreshTable();
+
+                await new Promise(r => setTimeout(r, 50));
+
+                let metaText = "";
+                try {
+                    const slice = file.slice(0, 5 * 1024 * 1024);
+                    const buf = await slice.arrayBuffer();
+                    metaText = new TextDecoder('utf-8', { fatal: false }).decode(buf);
+
+                    const looksBroken = /Ã.| /.test(metaText.slice(0, 2000));
+                    if (looksBroken) {
+                        try { metaText = new TextDecoder('windows-1252', { fatal: false }).decode(buf); } catch (_) { }
+                    }
+                } catch (err) {
+                    console.error("Memory limit hit reading slice:", err);
+                }
+
+                const meta = extractMetadata(metaText, file);
+
+                const index = items.indexOf(placeholder);
+                if (index !== -1) {
+                    items[index] = {
+                        name: file.name,
+                        size: file.size,
+                        lastModified: file.lastModified,
+                        fileRef: file,
+                        meta: meta,
+                        isProcessed: false,
+                        coordsUpdated: false,
+                        elevUpdated: false,
+                        parsingError: false
+                    };
+                }
+                recalculateMeta();
+                refreshTable();
+            }
+        }
+
+        document.getElementById("applyBtn").addEventListener("click", async () => {
+            if (!items.length) return;
+
+            const shouldUpdateCoords = document.getElementById('updateCoordsCb').checked;
+            const targetLat = document.getElementById('latInput').value.trim();
+            const targetLon = document.getElementById('lonInput').value.trim();
+
+            const shouldUpdateElev = document.getElementById('updateElevCb').checked;
+            const targetElev = document.getElementById('elevInput').value.trim();
+
+            const shouldUpdateTimestamp = document.getElementById('updateTimestampCb').checked;
+
+            const updateMapConvXY = document.getElementById('updateMapConvCb').checked;
+            const updateMapConvZ = document.getElementById('updateMapConvZCb').checked;
+
+            const targetEasting = updateMapConvXY ? document.getElementById('eastingInput').value.trim() : '';
+            const targetNorthing = updateMapConvXY ? document.getElementById('northingInput').value.trim() : '';
+            const targetOrthoHeight = updateMapConvZ ? document.getElementById('orthoHeightInput').value.trim() : '';
+
+            const shouldUpdateMapConv = updateMapConvXY || updateMapConvZ;
+
+            if (shouldUpdateCoords) {
+                const la = parseFloat(targetLat), lo = parseFloat(targetLon);
+                if (targetLat === '' || targetLon === '' || isNaN(la) || isNaN(lo)) { showToast(T("errValLatLon")); return; }
+                if (la < -90 || la > 90) { showToast(T("errValLatRange")); return; }
+                if (lo < -180 || lo > 180) { showToast(T("errValLonRange")); return; }
+            }
+            if (shouldUpdateElev && (targetElev === '' || isNaN(parseFloat(targetElev)))) { showToast(T("errValElev")); return; }
+            if (updateMapConvXY && (targetEasting === '' || targetNorthing === '' || isNaN(parseFloat(targetEasting)) || isNaN(parseFloat(targetNorthing)))) { showToast(T("errValMapXY")); return; }
+            if (updateMapConvZ && (targetOrthoHeight === '' || isNaN(parseFloat(targetOrthoHeight)))) { showToast(T("errValMapZ")); return; }
+            if (!shouldUpdateCoords && !shouldUpdateElev && !shouldUpdateMapConv && !shouldUpdateTimestamp) { showToast(T("errValNothing")); return; }
+
+            const applyBtn = document.getElementById('applyBtn');
+            const originalBtnText = applyBtn.innerHTML;
+            applyBtn.innerHTML = `<span class="spinner !w-4 !h-4 !border-t-white mr-2"></span>Processing...`;
+            applyBtn.disabled = true;
+
+            await new Promise(r => setTimeout(r, 50));
+
+            for (let i = 0; i < items.length; i++) {
+                let it = items[i];
+                it.isProcessing = true;
+                refreshTable();
+                await new Promise(r => setTimeout(r, 10));
+
+                const CHUNK_SIZE = 5 * 1024 * 1024;
+                let headText = "", tailBlob;
+                try {
+                    const headU8 = new Uint8Array(await it.fileRef.slice(0, CHUNK_SIZE).arrayBuffer());
+                    let cut = headU8.length;
+                    if (it.fileRef.size > headU8.length) {
+                        cut = headU8.lastIndexOf(0x0A) + 1;
+                        if (cut <= 0) cut = headU8.length;
+                    }
+                    headText = bytesToLatin1(headU8.subarray(0, cut));
+                    tailBlob = it.fileRef.slice(cut);
+                } catch (e) {
+                    it.parsingError = true;
+                    it.isProcessing = false;
+                    refreshTable();
+                    continue;
+                }
+
+                const t = transformIFC(
+                    headText,
+                    shouldUpdateCoords, targetLat, targetLon,
+                    shouldUpdateElev, targetElev,
+                    shouldUpdateTimestamp,
+                    shouldUpdateMapConv, targetEasting, targetNorthing, targetOrthoHeight
+                );
+
+                let finalBlob;
+                if (t.coordsUpdated || t.elevUpdated || t.mapConvUpdated || t.timestampUpdated) {
+                    const modifiedHeadBuf = latin1ToBytes(t.content);
+                    finalBlob = new Blob([modifiedHeadBuf, tailBlob], { type: "application/octet-stream" });
+                } else {
+                    finalBlob = it.fileRef;
+                }
+
+                let updatedMeta = { ...it.meta };
+                if (t.timestampUpdated && t.newDate) updatedMeta.date = t.newDate.replace('T', ' ');
+
+                items[i] = {
+                    ...it,
+                    size: finalBlob.size,
+                    arrayBuf: finalBlob,
+                    meta: updatedMeta,
+                    isProcessed: true,
+                    isProcessing: false,
+                    coordsUpdated: t.coordsUpdated,
+                    elevUpdated: t.elevUpdated,
+                    mapConvUpdated: t.mapConvUpdated,
+                    timestampUpdated: t.timestampUpdated,
+                    mapConvRequested: shouldUpdateMapConv,
+                    mapConvFound: t.mapConvFound,
+                    siteFound: t.siteFound,
+                    parsingError: t.parsingError,
+                    oldEasting: t.oldEasting,
+                    oldNorthing: t.oldNorthing,
+                    oldOrthoHeight: t.oldOrthoHeight,
+                    newEastingStr: t.newEastingStr,
+                    newNorthingStr: t.newNorthingStr,
+                    newOrthoHeightStr: t.newOrthoHeightStr,
+                    newDate: t.newDate,
+                    oldLatTuple: t.oldLatTuple,
+                    oldLonTuple: t.oldLonTuple,
+                    oldElev: t.oldElev,
+                    newLatTuple: t.newLatTuple,
+                    newLonTuple: t.newLonTuple,
+                    newElevStr: t.newElevStr,
+                };
+            }
+
+            recalculateMeta();
+            refreshTable();
+            applyBtn.innerHTML = originalBtnText;
+            showToast(T("toastApplySuccess"));
+        });
+
+        document.getElementById("zipBtn").onclick = async () => {
+            if (!items.length) return;
+
+            const itemsToProcess = items.filter(it => it.coordsUpdated || it.elevUpdated || it.mapConvUpdated || it.timestampUpdated);
+            if (itemsToProcess.length === 0) {
+                showToast(T("toastNoChangesToDownload"));
+                return;
+            }
+
+            const targetZipName = getZipFileName();
+            let fileHandle = null;
+
+            if ("showSaveFilePicker" in window) {
+                try {
+                    fileHandle = await window.showSaveFilePicker({ suggestedName: targetZipName, types: [{ description: 'ZIP Archive', accept: { 'application/zip': ['.zip'] } }] });
+                } catch (err) { if (err.name === 'AbortError') return; }
+            }
+
+            const $btn = document.getElementById("zipBtn");
+            const originalHtml = $btn.innerHTML;
+            $btn.innerHTML = `<span class="spinner mr-2 border-t-white"></span>ZIPPING...`;
+            $btn.disabled = true;
+
+            const progressWrapper = document.getElementById('zipProgressWrapper');
+            const progressBar = document.getElementById('zipProgressBar');
+            const progressPercent = document.getElementById('zipProgressPercent');
+            progressWrapper.classList.remove('hidden');
+            progressBar.style.width = '0%';
+            progressPercent.innerText = '0%';
+
+            setTimeout(async () => {
+                try {
+                    const zip = new JSZip();
+                    for (const it of items) {
+                        const safePath = it.name.replace(/\\/g, '/').split('/').filter(p => p && p !== '.' && p !== '..').map(p => p.replace(/[<>:"|?*]/g, '_').replace(/[\s.]+$/, '')).join('/');
+                        let validDate = new Date(it.lastModified);
+                        if (isNaN(validDate.getTime())) validDate = new Date();
+                        zip.file(safePath, it.arrayBuf, { date: validDate, dosPermissions: 0x0020 });
+                    }
+
+                    const zipBlob = await zip.generateAsync({ type: "blob", compression: "DEFLATE", compressionOptions: { level: 1 } }, (metadata) => {
+                        progressBar.style.width = metadata.percent + '%';
+                        progressPercent.innerText = metadata.percent.toFixed(0) + '%';
+                    });
+
+                    if (fileHandle) {
+                        const writable = await fileHandle.createWritable();
+                        await writable.write(zipBlob);
+                        await writable.close();
+                    } else {
+                        const a = document.createElement("a");
+                        const url = URL.createObjectURL(zipBlob);
+                        a.href = url; a.download = targetZipName; a.click();
+                        setTimeout(() => URL.revokeObjectURL(url), 1500);
+                    }
+                } finally {
+                    $btn.innerHTML = originalHtml;
+                    $btn.disabled = false;
+                    setTimeout(() => progressWrapper.classList.add('hidden'), 1000);
+                }
+            }, 50);
+        };
+
+        document.getElementById("saveBtn").onclick = async () => {
+            if (!items.length) return;
+
+            const itemsToProcess = items.filter(it => it.coordsUpdated || it.elevUpdated || it.mapConvUpdated || it.timestampUpdated);
+            if (itemsToProcess.length === 0) {
+                showToast(T("toastNoChangesToSave"));
+                return;
+            }
+
+            if (!("showDirectoryPicker" in window)) { alert(T("errBrowserSupport")); return; }
+            try {
+                const rootDirHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
+                for (const it of itemsToProcess) {
+                    const suggested = it.name.replace(/\.ifc$/i, "_repositioned.ifc");
+                    const fh = await rootDirHandle.getFileHandle(suggested, { create: true });
+                    const w = await fh.createWritable();
+                    await w.write(it.arrayBuf);
+                    await w.close();
+                }
+                showToast(T("saveSuccess", itemsToProcess.length));
+            } catch (err) {
+                if (err && err.name !== 'AbortError') { console.error(err); showToast(T("saveFailed") + (err.message || err.name)); }
+            }
+        };
+
+        document.getElementById("downloadBtn").onclick = () => {
+            if (!items.length) return;
+
+            const itemsToProcess = items.filter(it => it.coordsUpdated || it.elevUpdated || it.mapConvUpdated || it.timestampUpdated);
+            if (itemsToProcess.length === 0) {
+                showToast(T("toastNoChangesToDownload"));
+                return;
+            }
+
+            for (const it of itemsToProcess) {
+                const suggested = it.name.replace(/\.ifc$/i, "_repositioned.ifc");
+                const blob = new Blob([it.arrayBuf], { type: "application/octet-stream" });
+                const a = document.createElement("a");
+                const url = URL.createObjectURL(blob);
+                a.href = url; a.download = suggested; a.click();
+                setTimeout(() => URL.revokeObjectURL(url), 1500);
+            }
+            showToast(T("downloadSuccess", itemsToProcess.length));
+        };
+
+        document.getElementById("clearBtn").onclick = () => {
+            items = [];
+            document.getElementById("fileInput").value = "";
+            recalculateMeta();
+            refreshTable();
+        };
+
+        const dropzone = document.getElementById("dropzone");
+        const fileInput = document.getElementById("fileInput");
+
+        window.addEventListener("dragenter", e => e.preventDefault(), false);
+        window.addEventListener("dragover", e => e.preventDefault(), false);
+        window.addEventListener("dragleave", e => e.preventDefault(), false);
+        window.addEventListener("drop", e => e.preventDefault(), false);
+
+        dropzone.addEventListener("dragenter", e => { e.preventDefault(); dropzone.classList.add("dragover"); });
+        dropzone.addEventListener("dragover", e => { e.preventDefault(); dropzone.classList.add("dragover"); });
+        dropzone.addEventListener("dragleave", e => { e.preventDefault(); dropzone.classList.remove("dragover"); });
+        dropzone.addEventListener("drop", e => {
+            e.preventDefault();
+            dropzone.classList.remove("dragover");
+            if (e.dataTransfer && e.dataTransfer.files) addFiles(e.dataTransfer.files);
+        });
+
+        fileInput.onchange = e => addFiles(e.target.files);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const updateCoordsCb = document.getElementById('updateCoordsCb');
+            const coordsInputContainer = document.getElementById('coordsInputContainer');
+
+            const updateElevCb = document.getElementById('updateElevCb');
+            const elevInputContainer = document.getElementById('elevInputContainer');
+
+            const updateMapConvCb = document.getElementById('updateMapConvCb');
+            const mapConvInputContainer = document.getElementById('mapConvInputContainer');
+
+            const updateMapConvZCb = document.getElementById('updateMapConvZCb');
+            const mapConvZInputContainer = document.getElementById('mapConvZInputContainer');
+
+            function toggleInputs() {
+                if (updateCoordsCb) {
+                    coordsInputContainer.style.opacity = updateCoordsCb.checked ? '1' : '0.4';
+                    coordsInputContainer.style.pointerEvents = updateCoordsCb.checked ? 'auto' : 'none';
+                }
+
+                if (updateElevCb) {
+                    elevInputContainer.style.opacity = updateElevCb.checked ? '1' : '0.4';
+                    elevInputContainer.style.pointerEvents = updateElevCb.checked ? 'auto' : 'none';
+                }
+
+                if (updateMapConvCb) {
+                    mapConvInputContainer.style.opacity = updateMapConvCb.checked ? '1' : '0.4';
+                    mapConvInputContainer.style.pointerEvents = updateMapConvCb.checked ? 'auto' : 'none';
+                }
+
+                if (updateMapConvZCb) {
+                    mapConvZInputContainer.style.opacity = updateMapConvZCb.checked ? '1' : '0.4';
+                    mapConvZInputContainer.style.pointerEvents = updateMapConvZCb.checked ? 'auto' : 'none';
+                }
+            }
+
+            if (updateCoordsCb) updateCoordsCb.addEventListener('change', toggleInputs);
+            if (updateElevCb) updateElevCb.addEventListener('change', toggleInputs);
+            if (updateMapConvCb) updateMapConvCb.addEventListener('change', toggleInputs);
+            if (updateMapConvZCb) updateMapConvZCb.addEventListener('change', toggleInputs);
+
+            toggleInputs();
+        });
+    </script>
+</body>
+
+</html>

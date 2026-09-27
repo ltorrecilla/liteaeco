@@ -1,0 +1,6 @@
+{
+  "name": "@file-viewer/web-full",
+  "version": "3.1.1",
+  "kind": "viewer-assets",
+  "assets": "flyfish-viewer-assets.json"
+}

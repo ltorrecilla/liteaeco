@@ -1,8 +1,11 @@
 window.PAGE_I18N = {
+    // Specific Content Elements
     title: "Organizational Chart",
     subtitle: "Manage contact information and Structure",
     ruleTitle: "What this tool does",
     ruleDesc1: "Create an organisational chart to illustrate the structure of your team. Visualize how each role relates to the organization or to the project as a whole. Build and manage your teams and structures. Add people, define their roles, and export your team directory, so you can edit it in the future. <br/><br/>This tool uses an Universal <span class='bg-white px-1.5 py-0.5 rounded border border-slate-200'>Excel</span> files so you can load your contacts back and in other webapps from this website.",
+
+// --- Top Bar Controls & Inputs ---
     lblNo: "No.",
     btnTemplate: "Excel Template",
     btnSave: "Save",
@@ -12,6 +15,8 @@ window.PAGE_I18N = {
     titleOptions: "Options",
     btnOpen: "Open",
     btnPdf: "PDF",
+    
+    // --- Chart Type Dropdown ---
     chartTypeStandard: "Standard Hierarchy",
     chartTypeMatrix: "Matrix Organization",
     chartTypeTeam: "Team-based",
@@ -19,23 +24,31 @@ window.PAGE_I18N = {
     chartTypeTree: "Stakeholder Tree",
     chartTypeMap: "Stakeholder Map",
     toggleCommsTitle: "Toggle Communication Lines",
+
+    // --- Main Toolbar Inputs & Placeholders ---
     phOrganizationTitle: "Enter Organization Title...",
     phAddTeam: "Add Team...",
     phAddPerson: "Add Team Member...",
-    phSearch: "Search minutes...", 
+    phSearch: "Search minutes...", // Note: Exists in your JS hooks
     phName: "Name...",
     titleManageTeams: "Manage All Teams",
     titleManageContacts: "Manage All Contacts",
     emptyStateChart: "Add team members to generate the chart...",
+
+    // --- Modals General ---
     btnCancel: "Cancel",
     btnSaveModal: "Save",
     statusActive: "Active",
     statusArchived: "Archived",
+    
+    // --- Contact Modal: Tabs ---
     modalTitleEdit: "Edit Contact",
     tabGeneral: "General",
     tabOrg: "Org & Teams",
     tabContact: "Contact & Location",
     tabHR: "HR & Profile",
+
+    // --- Contact Modal: Fields & Labels ---
     lblContactName: "Name",
     lblStaffRole: "Staff Role",
     lblCompany: "Company",
@@ -57,7 +70,7 @@ window.PAGE_I18N = {
     lblContactPhone: "Contact Phone",
     lblManagerMail: "Manager Mail",
     lblAutoFilledManager: "(auto-filled from Reporting To)",
-    lblLocationHeader: "Location", 
+    lblLocationHeader: "Location", // Group header
     lblLocation: "Location",
     lblCampus: "Campus",
     lblBuilding: "Building",
@@ -73,6 +86,8 @@ window.PAGE_I18N = {
     lblEngagement: "Engagement",
     lblEngagementSub: "(1–5, blank = auto)",
     lblComments: "Comments",
+
+    // --- Contact Modal: Placeholders ---
     phCompanySearch: "Type to search...",
     phStartTyping: "Start typing...",
     phEmpCode: "e.g. EC-2024-001",
@@ -95,6 +110,8 @@ window.PAGE_I18N = {
     phSkills: "e.g. BIM, Revit, Project Management",
     phAuto: "Auto",
     phInternalNotes: "Internal notes...",
+
+    // --- All Contacts Modal ---
     modalTitleAllContacts: "All Contacts",
     phSearchContacts: "Search contacts...",
     colName: "Name",
@@ -119,6 +136,8 @@ window.PAGE_I18N = {
     btnPrev: "Prev",
     txtPage: "Page",
     btnNext: "Next",
+
+    // --- All Teams Modal ---
     modalTitleTeamsManager: "Teams Manager",
     colTeamName: "Team Name",
     colParentTeam: "Parent Team",
@@ -132,10 +151,14 @@ window.PAGE_I18N = {
     titleRestoreTeam: "Restore Team",
     txtArchivedTeams: "Archived Teams",
     emptyTeams: "No teams added yet.",
+
+    // --- Custom Dialog ---
     dialogTitleNotice: "Notice",
     dialogTitleConfirm: "Please Confirm",
     btnOk: "OK",
     btnConfirm: "Confirm",
+
+    // --- JavaScript Generated Alerts & Strings ---
     badgeUnassigned: "Unassigned",
     alertParseError: "Error parsing Excel file.",
     alertImportDataError: "Data Logic Error during import. Please check the console (F12) for details.",
@@ -149,6 +172,8 @@ window.PAGE_I18N = {
     confirmForeignImport2: "This file doesn't match the Org Chart template but has a legacy CONTACTS section. Import anyway?",
     confirmMinorIssues: "Minor issues detected:\n\n",
     txtImportAnyway: "\n\nImport anyway?",
+    
+    // --- Chart/Matrix Specific Generated Labels ---
     lblTreeCompany: "Company",
     lblTreeDepartment: "Department",
     lblTreeTeams: "Teams",
@@ -158,11 +183,15 @@ window.PAGE_I18N = {
     lblTreeRole: "Role",
     lblTreeBuilding: "Building",
     lblNone: "(None)",
-    lblNoValue: "(No {0})", 
+    lblNoValue: "(No {0})", // Can be used to replace `(No ${lvl1Cfg.label})` in JS
+    
+    // --- Chart Box Texts ---
     chartNoManager: "No Manager",
     chartProjectOrg: "Project / Organization",
     chartCrossFunc: "Cross-Functional Team",
     chartMgrPrefix: "Mgr: ",
+
+    // --- Project Information (shared block, identical keys in all liteAECO apps) ---
     lblProject: "Project",
     lblProjectDetails: "Details",
     lblClient: "Client",
@@ -170,6 +199,8 @@ window.PAGE_I18N = {
     lblProjectType: "Project Type",
     phProjectNo: "No.",
     phProjectTitle: "Project Title...",
+
+    // ================= NEW: Shared autosave (identical keys in all liteAECO apps) =================
     autosaveMenu: "Autosave…",
     historyMenu: "History",
     autosaveOffMenu: "Autosave off",

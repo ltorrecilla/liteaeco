@@ -1,10 +1,15 @@
 window.PAGE_I18N = {
+    // Browser / metadata
     title: "Project Timeline",
+
+    // Header
     projectTimeline: "Project Timeline",
     currentTask: "Current Task",
     noActiveTasks: "No Active Tasks",
     totalProjectWorkCompleted: "Total Project Work Completed",
     helpDocumentation: "Help & Documentation",
+
+    // Main sidebar
     phasesAndTasks: "Phases & Tasks",
     duration: "Duration",
     durationWeeks: "Duration (Wks)",
@@ -12,10 +17,14 @@ window.PAGE_I18N = {
     searchTasks: "SEARCH TASKS...",
     addNewPhase: "Add New Phase",
     dropHereToUnnest: "Drop here to un-nest",
+
+    // Sidebar dashboard settings
     globalSettings: "Global Settings",
     hierarchyDepth: "Hierarchy Depth",
     level1MainPhases: "Level 1 (Main Phases)",
     level2SubPhases: "Level 2 (Sub-Phases)",
+
+    // Sidebar budget / view menu
     plannedBudget: "Planned Budget",
     deviation: "Deviation",
     actualBudget: "Actual Budget",
@@ -28,6 +37,8 @@ window.PAGE_I18N = {
     displayContactInitials: "Display Contact Initials",
     displayTaskTags: "Display Task Tags",
     displayTaskBudgets: "Display Task Budgets",
+
+    // Sidebar / bottom controls
     save: "Save",
     open: "Open",
     view: "View",
@@ -37,6 +48,8 @@ window.PAGE_I18N = {
     xlsx: "XLSX",
     ods: "ODS",
     xml: "XML",
+
+    // Floating timeline controls / tooltips
     zoomIn: "Zoom In",
     zoomOut: "Zoom Out",
     goToToday: "Go to Today",
@@ -46,6 +59,8 @@ window.PAGE_I18N = {
     toggleDashboard: "Toggle Dashboard",
     toggleViewMenu: "Toggle View Menu",
     advancedOptionsTooltip: "Advanced Options",
+
+    // Dashboard
     projectDashboard: "Project Dashboard",
     projectOverview: "Project Overview",
     projectStatus: "Project Status",
@@ -69,12 +84,18 @@ window.PAGE_I18N = {
     currentProgressToday: "Current Progress (Today)",
     overallProject: "Overall Project",
     today: "Today",
+
+    // Active task modal
     inProgressTasks: "In-Progress Tasks",
+
+    // Phase modal
     editPhase: "Edit Phase",
     addPhase: "Add Phase",
     addNewPhaseTitle: "Add New Phase",
     phaseName: "Phase Name",
     phaseNamePlaceholder: "e.g. Planning Phase",
+
+    // Task modal - general
     editTask: "Edit Task",
     addTask: "Add Task",
     taskName: "Task Name",
@@ -85,6 +106,8 @@ window.PAGE_I18N = {
     lockUnlockTask: "Lock/Unlock Task",
     locked: "Locked",
     unlocked: "Unlocked",
+
+    // Task modal - phase/dependencies
     phaseAndDependencies: "Phase & Dependencies",
     phase: "Phase",
     dependencies: "Dependencies",
@@ -96,6 +119,8 @@ window.PAGE_I18N = {
     startToStart: "Start-to-Start",
     finishToFinish: "Finish-to-Finish",
     startToFinish: "Start-to-Finish",
+
+    // Task modal - planned details
     plannedDetails: "Planned Details",
     startDate: "Start Date",
     days: "Days",
@@ -103,6 +128,8 @@ window.PAGE_I18N = {
     budget: "Budget",
     daysPlaceholder: "0",
     budgetPlaceholder: "0",
+
+    // Task modal - actuals
     trackActualsDeviation: "Track Actuals (Deviation)",
     actualsInfo: "Record exact actuals. Deactivating clears them.",
     copyPlanned: "Copy Planned",
@@ -110,6 +137,8 @@ window.PAGE_I18N = {
     actualDays: "Act. Days",
     actualEnd: "Actual End",
     actualBudgetShort: "Act. Budget",
+
+    // Task modal - resources and comments
     resourcesAndComments: "Resources & Comments",
     contact: "Contact",
     contactPerson: "Contact Person",
@@ -120,6 +149,8 @@ window.PAGE_I18N = {
     assignmentsPlaceholder: "Specific team or vendors...",
     commentsNotes: "Comments / Notes",
     commentsPlaceholder: "Task comments, notes, or descriptions...",
+
+    // Task modal - label, color, tags
     labelColorAndTags: "Label, Color & Tags",
     taskLabel: "Task Label",
     labelPlaceholder: "Label",
@@ -139,6 +170,8 @@ window.PAGE_I18N = {
     typeH: "Type H",
     typeI: "Type I",
     typeJ: "Type J",
+
+    // Advanced options modal
     advancedOptions: "Advanced Options",
     sidebarColumns: "Sidebar Columns",
     globalColorPalette: "Global Color Palette",
@@ -156,21 +189,29 @@ window.PAGE_I18N = {
     rename: "Rename",
     remove: "Remove",
     delete: "Delete",
+
+    // Preset palette names
     liteAEC: "Lite AEC",
     novaSet: "Nova Set",
     signalSet: "Signal Set",
+
+    // Project settings modal
     projectSettings: "Project Settings",
     projectTitle: "Project Title",
     projectTitlePlaceholder: "Layout & Relocation",
     projectStartDate: "Project Start Date",
     projectStartWarning: "Changing this date will proportionately shift all tasks and actuals.",
     clearProject: "Clear Project",
+
+    // Confirm / unsaved changes modal
     confirmAction: "Confirm Action",
     processing: "Processing...",
     unsavedChanges: "Unsaved Changes",
     unsavedChangesMessage: "You have made changes to the timeline. If you leave this page without saving or exporting, your progress will be lost.",
     stay: "Stay",
     leavePage: "Leave Page",
+
+    // Generic buttons / actions
     cancel: "Cancel",
     close: "Close",
     apply: "Apply",
@@ -181,12 +222,16 @@ window.PAGE_I18N = {
     duplicate: "Duplicate",
     copy: "Copy",
     removeItem: "Remove",
+
+    // Generated sidebar / Gantt tooltips
     editTaskTooltip: "Edit Task",
     deleteTaskTooltip: "Delete Task",
     doubleClickToEditCtrlClickToSelect: "Double-click to edit. Ctrl+Click to select.",
     taskBudget: "Task Budget",
     contactInitials: "Contact Initials",
     taskTags: "Task Tags",
+
+    // Alerts / prompts / confirmations
     enterNewValue: "Enter new value:",
     enterNewField: "Enter new {field}:",
     todayOutsideTimeline: "Today's date is currently outside the project timeline.",
@@ -201,6 +246,8 @@ window.PAGE_I18N = {
     confirmDeleteTaskWithDependents: "Are you sure you want to delete this task? Any dependent tasks will lose this connection.",
     confirmDeletePhase: "Are you sure you want to delete this phase and all its tasks?",
     confirmClearProject: "Are you sure you want to clear the project? This cannot be undone.",
+
+    // Import / export
     exportXlsx: "Export XLSX",
     exportOds: "Export ODS",
     exportXml: "Export XML",
@@ -208,6 +255,8 @@ window.PAGE_I18N = {
     unsupportedFileType: "Unsupported file type.",
     importError: "The file could not be imported.",
     exportError: "The file could not be exported.",
+
+    // Export headers
     exportHeaderPhase: "Phase",
     exportHeaderTaskName: "Task Name",
     exportHeaderStartDate: "Start Date",
@@ -224,6 +273,8 @@ window.PAGE_I18N = {
     exportHeaderTags: "Tags",
     exportHeaderLabel: "Label",
     exportHeaderComments: "Comments",
+
+    // Labels in script area
     projectAbbr: "PROJ",
     new: "New...",
     active: "Active",
@@ -264,6 +315,8 @@ window.PAGE_I18N = {
     noTasksFoundInXml: "No tasks found in XML.",
     noValidStructuralDataXml: "No valid structural data found in the XML file.",
     errorParsingXmlData: "Error parsing MS Project XML data.",
+
+    // ================= NEW: Working calendar =================
     workingCalendar: "Working Calendar",
     durationsInWorkingDays: "Durations in working days (skip weekends &amp; holidays)",
     holidays: "Holidays",
@@ -279,12 +332,16 @@ window.PAGE_I18N = {
     daysUnit: "days",
     countryNotRecognized: "Country not recognized – pick one from the suggestion list.",
     holidayFetchFailed: "Could not fetch holidays – check the country and your connection.",
+
+    // ================= NEW: Project info (shared) =================
     projectInfoShared: "Project Info (shared)",
     projectNumberPh: "Project Number",
     projectTypePh: "Project Type",
     clientPh: "Client",
     addressPh: "Address",
     knownProjects: "Known projects…",
+
+    // ================= NEW: Autosave / files =================
     json: "JSON",
     autosaveMenu: "Autosave…",
     historyMenu: "History",
@@ -308,6 +365,8 @@ window.PAGE_I18N = {
     thisBrowser: "this browser",
     browserSnapshot: "browser snapshot",
     newerSchema: "This file was saved by a newer version of the tool. Please refresh/update the app.",
+
+    // ================= NEW: Printing =================
     print: "Print",
     printTitle: "Print Timeline",
     printFit: "Fit entire project",
@@ -319,6 +378,8 @@ window.PAGE_I18N = {
     printedOn: "Printed",
     completionWord: "Completion",
     criticalPathShown: "Critical path highlighted",
+
+    // ================= NEW: Paste tasks + AI assist =================
     pasteTasksTitle: "Paste Tasks",
     pasteTasksDesc: "Import from a table or an AI answer, with preview.",
     aiAssistHint: "AI assist – copy a prompt, paste it into any AI, paste the answer below",
@@ -337,8 +398,12 @@ window.PAGE_I18N = {
     pasteRowsSkipped: "rows with problems (skipped):",
     pasteImported: "Imported tasks:",
     pasteDepsUnresolved: "unresolved dependency references:",
+
+    // ================= NEW: Add menu =================
     addToPlan: "Add to plan",
     addPhaseDesc: "Create a new group to structure the plan.",
+
+    // ================= NEW: Bulk edit + context menu =================
     selectedWord: "selected",
     moveToPhase: "Move to phase…",
     moveDays: "Move day(s)",
@@ -360,8 +425,12 @@ window.PAGE_I18N = {
     removedDeps: "Removed dependencies:",
     noDepsToRemove: "Selected tasks had no dependencies.",
     confirmBulkDelete: "Delete the selected tasks? The whole action can be undone in one step.",
+
+    // ================= NEW: CPM / dependencies =================
     cycleDetected: "Circular dependency detected – scheduling and critical path are paused until it is resolved.",
     cycleBlocked: "Dependency not set – it would create a circular loop.",
+
+    // ================= NEW: MPP import =================
     mppDetectedTitle: "MS Project File Detected",
     mppIsA: "This is a",
     mppFileWord: "file",
@@ -376,10 +445,14 @@ window.PAGE_I18N = {
     mppNoTasks: "No readable tasks found in this MPP file.",
     phasesWord: "phases",
     tasksWord: "tasks",
+
+    // ================= NEW: Misc =================
     generalPhase: "General",
     tag: "Tag",
     dragPhaseHint: "Drag to move the whole Phase",
     dependencyViolation: "Starts before its dependency allows",
+
+    // ================= NEW: Share via link =================
     shareLink: "Share link",
     shareLinkTitle: "Share via Link",
     shareIncActuals: "Actuals",
@@ -396,8 +469,12 @@ window.PAGE_I18N = {
     sharedPlanFound: "Open shared plan?",
     sharedPlanWarning: "Loading it replaces your current plan. Save or export first if needed.",
     openShared: "Open",
+
+    // ================= NEW: Leaving the page =================
     autosaveLeaveMessage: "Autosave is on and the changes to this project have been saved. Your session will be restored when you return.",
     unsavedLeaveMessage: "You have unsaved changes. Are you sure you want to leave?",
+
+    // ================= NEW: Templates =================
     openFileMenu: "File…",
     openTemplateMenu: "Template…",
     exportTemplateMenu: "Template",

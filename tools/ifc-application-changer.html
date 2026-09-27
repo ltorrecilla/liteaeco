@@ -1,0 +1,1014 @@
+<!--
+  Copyright 2026 Luis Torrecilla (liteAECO)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  liteAECO - (ifc-application-changer.html)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Luis Torrecilla">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFC Application Changer - Fix IFC Compatibility for ACC and Forma | liteAECO</title>
+
+    <meta name="description" content="Free client-side tool to change IFC application name and timestamp, making third-party IFC files compatible with Autodesk (ACC) Model Coordination. No uploads, private, fast, built for AEC teams.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://liteaeco.com/tools/ifc-application-changer.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://liteaeco.com/tools/ifc-application-changer.html">
+    <meta property="og:site_name" content="liteAECO">
+    <meta property="og:title" content="IFC Application Changer - Fix IFC Compatibility for Autodesk | liteAECO">
+    <meta property="og:description" content="Free client-side tool to change IFC application name and timestamp, making third-party IFC files compatible with Autodesk (ACC) Model Coordination. No uploads, private, fast, built for AEC teams.">
+    <meta property="og:image" content="https://liteaeco.com/img/og-ifc-application-changer.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="liteAECO IFC Application Changer tool interface">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-application-changer.html">
+    <meta name="twitter:title" content="IFC Application Changer - Fix IFC Compatibility for Autodesk | liteAECO">
+    <meta name="twitter:description" content="Free client-side tool to change IFC application name and timestamp, making third-party IFC files compatible with Autodesk (ACC) Model Coordination. No uploads, private, fast, built for AEC teams.">
+    <meta name="twitter:image" content="https://liteaeco.com/img/og-ifc-application-changer.png">
+
+    <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/vendor/lucide-1.41.0.min.js"></script>
+
+    <script>window.SITE_ROOT = '../';</script>
+    <script src="../lang/en/global.js"></script>
+    <script src="../js/common.js"></script>
+
+    <script src="../js/vendor/jszip-3.10.1.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="../css/global.css">
+</head>
+
+<body
+    class="bg-slate-50 text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
+
+    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full transition-all flex-grow">
+
+        <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded p-6 md:p-8 mb-6">
+            <div
+                class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 border-b border-slate-200/60 pb-4">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-lg bg-white border border-slate-100 shadow-sm flex items-center justify-center text-indigo-600 shrink-0">
+                        <i data-lucide="app-window-mac" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-900 tracking-tight leading-tight" id="ui-title">IFC Application Changer</h1>
+                        <p class="text-sm font-medium text-indigo-500 uppercase tracking-widest mt-0.5"
+                            id="ui-subtitle">Header Editor</p>
+                    </div>
+                </div>
+            </div>
+
+            <details class="text-sm text-slate-600 leading-relaxed group">
+				<summary class="cursor-pointer list-none flex items-center gap-2 font-semibold text-slate-900 select-none">
+					<i data-lucide="chevron-right" class="w-4 h-4 text-indigo-500 transition-transform group-open:rotate-90"></i>
+					<span id="ui-rule-title">What this tool does</span>
+				</summary>
+
+				<div class="mt-3 space-y-3">
+					<p>
+						<span id="ui-rule-desc-1">Some Autodesk Apps such as Forma (Previous ACC) won't handle IFC files generated with from 3rd party tools properly. This issue happens specially on Model Coordination, where an IFC file is not recognized and throws an error as "Can't clash model". Upload IFC files and replace IFCAPPLICATION(...) with a target Revit version and set the FILE_NAME header timestamp to the current local time.</span>
+					</p>
+
+					<div class="bg-white/50 border border-slate-200 rounded p-3 text-[11.5px] font-mono text-slate-700 space-y-2 shadow-sm">
+						<div class="flex flex-col sm:flex-row sm:items-center">
+							<span class="text-slate-500 w-40 shrink-0 font-sans font-medium">IFCAPPLICATION &rarr;</span>
+							<span class="bg-white px-2 py-0.5 rounded border border-slate-200">(#1,'2026','Autodesk Revit
+								2026 (ENU)','Revit')</span>
+						</div>
+						<div class="flex flex-col sm:flex-row sm:items-center">
+							<span class="text-slate-500 w-40 shrink-0 font-sans font-medium">FILE_NAME timestamp
+								&rarr;</span>
+							<span
+								class="bg-white px-2 py-0.5 rounded border border-slate-200">YYYY-MM-DDTHH:MM:SS&plusmn;HH:MM</span>
+						</div>
+					</div>
+
+					<p class="hidden text-[11px] text-slate-400 italic" id="ui-rule-desc-2"></p>
+				</div>
+			</details>
+        </div>
+
+        <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-6 md:p-8">
+
+            <div class="mb-8">
+                <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
+                    <span
+                        class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                            data-lucide="file-input" class="w-3.5 h-3.5"></i></span>
+                    <span id="ui-step-1">Step 1: Load Files & Information</span>
+                </h2>
+
+                <div
+                    class="bg-white/50 p-6 rounded border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex flex-col h-full">
+                        <label id="dropzone" for="fileInput"
+                            class="drop-zone flex flex-col items-center justify-center w-full h-full min-h-[160px] px-4 py-4 border-2 border-slate-300 border-dashed rounded-lg hover:border-indigo-500 hover:bg-indigo-50/30 bg-slate-50/50 cursor-pointer transition-all">
+                            <div
+                                class="flex flex-col items-center justify-center space-y-2 text-center pointer-events-none">
+                                <i data-lucide="file-input"
+                                    class="w-8 h-8 text-slate-400 mb-1 group-hover:text-indigo-500 transition-colors"></i>
+                                <div class="flex text-sm text-slate-600 justify-center font-medium">
+                                    <span
+                                        class="text-indigo-600 hover:text-indigo-700 pointer-events-auto cursor-pointer"
+                                        id="browseBtn" data-i18n="browseBtn">Load file</span>
+                                    <p class="pl-1" id="ui-drop-text">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-slate-500 font-medium mt-1">.ifc files</p>
+                            </div>
+                            <input id="fileInput" type="file" multiple accept=".ifc" class="hidden" />
+                        </label>
+                    </div>
+
+                    <div class="flex flex-col h-full bg-white p-4 rounded border border-slate-200/60 shadow-sm">
+                        <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200/60 pb-1"
+                            id="ui-model-info">Model Information</p>
+                        <div class="grid grid-cols-4 gap-x-4 gap-y-2 text-[12px] flex-grow content-start">
+                            <div class="text-slate-500 font-medium" id="ui-info-date-lbl">Date:</div>
+                            <div id="info-date" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div class="text-slate-500 font-medium" id="ui-info-size-lbl">File Size:</div>
+                            <div id="info-size" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div class="text-slate-500 font-medium" id="ui-info-schema-lbl">Schema:</div>
+                            <div id="info-schema" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div class="text-slate-500 font-medium" id="ui-info-app-lbl">Application:</div>
+                            <div id="info-app" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div class="text-slate-500 font-medium" id="ui-info-person-lbl">Person:</div>
+                            <div id="info-person" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
+                    <span
+                        class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                            data-lucide="settings-2" class="w-3.5 h-3.5"></i></span>
+                    <span id="ui-step-2">Step 2: Configuration</span>
+                </h2>
+
+                <div
+                    class="bg-white/50 p-6 rounded border border-slate-200 shadow-sm flex flex-col justify-start gap-6 relative group">
+                    <div>
+                        <div class="flex flex-col space-y-4 text-[13px] md:w-1/3">
+
+                            <div class="flex items-center justify-between">
+                                <label class="flex items-center space-x-3 cursor-pointer group/opt">
+                                    <input type="checkbox" id="updateAppCb"
+                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer" checked>
+                                    <span id="ui-opt-app"
+                                        class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors">Update
+                                        Application</span>
+                                </label>
+
+                                <div id="versionInputContainer"
+                                    class="flex items-center gap-2 transition-all duration-200">
+                                    <span class="text-[12px] text-slate-500" id="ui-opt-version">Target Version</span>
+                                    <input type="number" id="targetVersionInput" min="2011"
+                                        class="border border-slate-300 rounded px-2 py-1 w-20 text-[12px] focus:outline-none focus:ring-2 focus:ring-indigo-500/50 font-mono transition-all bg-white" />
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between border-t border-slate-100 pt-3">
+                                <label class="flex items-center space-x-3 cursor-pointer group/opt">
+                                    <input type="checkbox" id="updateTimestampCb"
+                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer">
+                                    <span id="ui-opt-timestamp"
+                                        class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors">Update
+                                        Timestamp</span>
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-slate-200 flex justify-end">
+                        <button id="applyBtn" disabled
+                            class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded shadow-sm disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center min-w-[160px]">
+                            <span id="ui-btn-apply">Apply Updates</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col">
+                <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
+                    <span
+                        class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                            data-lucide="download" class="w-3.5 h-3.5"></i></span>
+                    <span id="ui-step-3">Process & Download</span>
+                </h2>
+
+                <div class="bg-white/50 rounded border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+
+                    <div class="flex flex-wrap items-center gap-3 p-4 bg-slate-50/50 border-b border-slate-200">
+                        <button id="zipBtn" data-i18n="zipBtn"
+                            class="flex items-center px-4 py-2 border border-transparent text-xs font-bold text-white bg-slate-900 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-300 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:-translate-y-0 disabled:hover:shadow-sm">
+                        </button>
+                        <button id="saveBtn" data-i18n="saveBtn"
+                            class="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded-lg shadow-sm font-semibold text-xs hover:bg-slate-50 focus:ring-2 focus:ring-offset-1 focus:ring-slate-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"></button>
+                        <button id="downloadBtn" data-i18n="downloadBtn"
+                            class="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded-lg shadow-sm font-semibold text-xs hover:bg-slate-50 focus:ring-2 focus:ring-offset-1 focus:ring-slate-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"></button>
+                        <div class="flex-grow"></div>
+                        <button id="clearBtn" data-i18n="clearBtn"
+                            class="px-4 py-2 bg-white text-rose-600 border border-slate-300 rounded-lg shadow-sm font-semibold text-xs hover:bg-rose-50 hover:border-rose-200 hover:text-rose-700 focus:ring-2 focus:ring-offset-1 focus:ring-rose-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"></button>
+                    </div>
+
+                    <div id="zipProgressWrapper" class="hidden p-4 bg-white border-b border-slate-100">
+                        <div class="flex justify-between text-xs mb-1.5 font-semibold text-slate-700">
+                            <span id="ui-zip-progress-text" data-i18n="zippingProgress"></span>
+                            <span id="zipProgressPercent">0%</span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div id="zipProgressBar" class="bg-indigo-500 h-2 transition-all duration-150"
+                                style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto max-h-[300px] overflow-y-auto custom-scroll">
+                        <table class="w-full text-sm text-left table-fixed">
+                            <thead
+                                class="bg-white/80 backdrop-blur-sm border-b border-slate-200 text-slate-500 uppercase tracking-wider text-[11px] font-bold sticky top-0 z-10 shadow-sm">
+                                <tr>
+                                    <th class="px-4 py-3 w-[25%]" id="ui-th-orig"></th>
+                                    <th class="px-4 py-3 w-[55%]" id="ui-th-status"></th>
+                                    <th class="px-4 py-3 w-[10%]" id="ui-th-type"></th>
+                                    <th class="px-4 py-3 w-[10%]" id="ui-th-size"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultTable" class="divide-y divide-slate-100 bg-transparent"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast"
+        class="fixed bottom-6 right-6 bg-slate-900 text-white font-medium text-sm px-5 py-3 rounded-lg shadow-xl transition-all duration-300 opacity-0 pointer-events-none translate-y-4 z-50 flex items-center gap-2">
+        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
+
+        window.updateToolDynamicUI = function (d) {
+            if (typeof refreshTable === 'function') refreshTable();
+        };
+
+        function bootApp() {
+            if(typeof autoDetectLanguage === 'function') autoDetectLanguage();
+
+            if(typeof window.injectUI === 'function') {
+                window.injectUI({ showNav: true, transparentNav: false, showSignIn: false, showCategories: true, showNews: false, showHelp: true, showFooter: true, showFooterLinks: true });
+                window.injectCookieBanner();
+            }
+
+            const currentYear = new Date().getFullYear();
+            const targetVersionInput = document.getElementById('targetVersionInput');
+            if (targetVersionInput) {
+                targetVersionInput.max = currentYear + 1;
+                if (!targetVersionInput.value) targetVersionInput.value = currentYear;
+            }
+
+            const updateAppCb = document.getElementById('updateAppCb');
+            const versionInputContainer = document.getElementById('versionInputContainer');
+
+            function toggleVersionInput() {
+                if (updateAppCb && versionInputContainer) {
+                    if (updateAppCb.checked) {
+                        versionInputContainer.style.opacity = '1';
+                        versionInputContainer.style.pointerEvents = 'auto';
+                    } else {
+                        versionInputContainer.style.opacity = '0.4';
+                        versionInputContainer.style.pointerEvents = 'none';
+                    }
+                }
+            }
+
+            if (updateAppCb) {
+                updateAppCb.addEventListener('change', toggleVersionInput);
+                toggleVersionInput();
+            }
+
+            if(typeof window.loadLanguage === 'function' && typeof currentLang !== 'undefined') window.loadLanguage(currentLang, window.pageScriptPrefix);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', bootApp);
+        } else {
+            bootApp();
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = message;
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+            }, 3000);
+        }
+
+        function getZipFileName() {
+            const now = new Date();
+            const yy = String(now.getFullYear()).slice(-2);
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+            const hr = String(now.getHours()).padStart(2, '0');
+            const min = String(now.getMinutes()).padStart(2, '0');
+            return `${yy}${mm}${dd}_${hr}${min}_Modified IFC.zip`;
+        }
+
+        function esc(str) {
+            return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+
+        function bytesToLatin1(u8) {
+            let out = '';
+            const CH = 0x8000;
+            for (let i = 0; i < u8.length; i += CH) out += String.fromCharCode.apply(null, u8.subarray(i, i + CH));
+            return out;
+        }
+        function latin1ToBytes(str) {
+            const out = new Uint8Array(str.length);
+            for (let i = 0; i < str.length; i++) out[i] = str.charCodeAt(i) & 0xFF;
+            return out;
+        }
+
+        window.removeItem = function (index) {
+            items.splice(index, 1);
+            recalculateMeta();
+            refreshTable();
+        };
+
+        const RE_IFCAPP_CAPTURE = /(#\d+\s*=\s*IFCAPPLICATION\s*\()([^;]+?)(\)\s*;)/gi;
+        const RE_FILENAME_CAPTURE = /(FILE_NAME\s*\(\s*'[^']*'\s*,\s*')([^;]*?)('\s*,)/gi;
+        const RE_COMMENT_TIMESTAMP = /(\/\*\s*time_stamp\s*\*\/\s*')([^']*)(')/gi;
+
+        function makeTimestamp() {
+            const now = new Date();
+            const pad = (n) => n.toString().padStart(2, '0');
+            const y = now.getFullYear();
+            const m = pad(now.getMonth() + 1);
+            const d = pad(now.getDate());
+            const hh = pad(now.getHours());
+            const mm = pad(now.getMinutes());
+            const ss = pad(now.getSeconds());
+
+            const tzMin = -now.getTimezoneOffset();
+            const sign = tzMin >= 0 ? '+' : '-';
+            const offH = pad(Math.floor(Math.abs(tzMin) / 60));
+            const offM = pad(Math.abs(tzMin) % 60);
+
+            return `${y}-${m}-${d}T${hh}:${mm}:${ss}${sign}${offH}:${offM}`;
+        }
+
+        function transformIFC(content, shouldUpdateTimestamp, shouldUpdateApp, targetVersion) {
+            const samples = [];
+            const originalAppFullNames = [];
+            const originalAppLines = [];
+            let appCount = 0;
+            let replacementUsedStr = "";
+
+            const oldCommentTs = [];
+            content.replace(RE_COMMENT_TIMESTAMP, (match, a, ts, b) => {
+                if (oldCommentTs.length < 2) oldCommentTs.push(ts);
+                return match;
+            });
+
+            const tsMatch = content.match(RE_FILENAME_CAPTURE);
+            const oldTs = tsMatch ? tsMatch[0].replace(/^[\s\S]*?\(\s*'[^']*'\s*,\s*'/, '').replace(/'\s*,[\s\S]*$/, '') : null;
+
+            let currentContent = content;
+            let headerCommentAdded = false;
+
+            if (shouldUpdateApp) {
+                currentContent = currentContent.replace(RE_IFCAPP_CAPTURE, (match, p1, inside, p3) => {
+                    let langStr = '';
+                    const validLangs = ['ENU', 'DEU', 'ESP', 'JPN', 'CHS', 'CHT', 'KOR', 'ITA', 'FRA', 'PLK', 'PTB', 'CSY', 'RUS'];
+                    const revitLangMatch = inside.match(/Revit[^()]*\(\s*([A-Z]{3})\s*\)/i);
+                    if (revitLangMatch) {
+                        const detectedLang = revitLangMatch[1].toUpperCase();
+                        if (validLangs.includes(detectedLang)) {
+                            langStr = ` (${detectedLang})`;
+                        }
+                    }
+
+                    const orgMatch = inside.match(/^\s*(#[0-9]+|\$)/);
+                    const orgId = orgMatch ? orgMatch[1] : '#1';
+
+                    const innerReplacement = `${orgId},'${targetVersion}','Autodesk Revit ${targetVersion}${langStr}','Revit'`;
+
+                    const cleanOld = (inside || '').replace(/\s+/g, '');
+                    const cleanNew = innerReplacement.replace(/\s+/g, '');
+
+                    if (cleanOld !== cleanNew) {
+                        appCount++;
+                        if (samples.length < 2) samples.push(`IFCAPPLICATION(${(inside || '').trim()})`);
+                        const fullNameMatch = inside.match(/^\s*(?:#[0-9]+|\$)\s*,\s*'[^']*'\s*,\s*'([^']*)'/);
+                        const originalFullName = (fullNameMatch && fullNameMatch[1].trim()) ? fullNameMatch[1].trim() : (inside || '').trim();
+                        if (originalFullName && !originalAppFullNames.includes(originalFullName)) originalAppFullNames.push(originalFullName);
+                        const originalLine = (match || '').trim();
+                        if (originalLine && !originalAppLines.includes(originalLine)) originalAppLines.push(originalLine);
+                        replacementUsedStr = `(${innerReplacement})`;
+                        return p1 + innerReplacement + p3;
+                    } else {
+                        return match;
+                    }
+                });
+            }
+
+            let newTs = null;
+            let fileNameTimestampUpdated = false;
+            let commentTimestampUpdated = false;
+
+            if (shouldUpdateTimestamp) {
+                newTs = makeTimestamp();
+
+                if (currentContent.match(RE_FILENAME_CAPTURE)) {
+                    currentContent = currentContent.replace(RE_FILENAME_CAPTURE, `$1${newTs}$3`);
+                    fileNameTimestampUpdated = true;
+                }
+
+                if (currentContent.match(RE_COMMENT_TIMESTAMP)) {
+                    currentContent = currentContent.replace(RE_COMMENT_TIMESTAMP, `$1${newTs}$3`);
+                    commentTimestampUpdated = true;
+                }
+            }
+
+            const hasChanges = (shouldUpdateApp && appCount > 0) || fileNameTimestampUpdated || commentTimestampUpdated;
+
+            if (hasChanges) {
+
+                const isoIndex = currentContent.indexOf('ISO-10303-21;');
+                if (isoIndex !== -1) {
+                    currentContent = currentContent.substring(isoIndex);
+                }
+
+                let actionLogs = [];
+                if (shouldUpdateApp && appCount > 0) {
+                    actionLogs.push(`* Application: Updated to ${targetVersion} (${appCount} instance(s))`);
+                    if (originalAppFullNames.length > 0) actionLogs.push(`* Original Application: ${originalAppFullNames.join('; ')}`);
+                }
+                if (fileNameTimestampUpdated || commentTimestampUpdated) actionLogs.push(`* Timestamp: ${oldTs || '-'} -> ${newTs}`);
+                if (originalAppLines.length > 0) {
+                    actionLogs.push(`* --- Original line(s) for recovery (copy & paste to restore) ---`);
+                    for (const ln of originalAppLines) actionLogs.push(ln);
+                }
+
+                const commentBody = actionLogs.join('\n').replace(/\*\//g, '* /');
+                const commentBlock = `/******************************************************
+* IFC Operations with liteAECO.com
+* Action: Application & Timestamp Update
+${commentBody}
+******************************************************/
+`;
+
+                const dataIndex = currentContent.indexOf('DATA;');
+
+                if (dataIndex !== -1) {
+                    currentContent = currentContent.slice(0, dataIndex) + commentBlock + currentContent.slice(dataIndex);
+                } else {
+                    currentContent = commentBlock + currentContent;
+                }
+
+                headerCommentAdded = true;
+            }
+
+            return {
+                content: currentContent,
+                appReplaced: appCount,
+                oldAppSamples: samples,
+                newAppStr: replacementUsedStr,
+                oldTs,
+                newTs,
+                fileNameTimestampUpdated,
+                commentTimestampUpdated,
+                headerCommentAdded,
+                oldCommentTs: oldCommentTs.slice(0, 2),
+                targetVersion
+            };
+        }
+
+        function extractMetadata(content, file) {
+            let meta = {
+                size: (file.size / 1024 / 1024).toFixed(2) + " MB",
+                date: "-",
+                schema: "-",
+                app: "-",
+                person: "-"
+            };
+
+            const headerMatch = content.slice(0, 2048);
+
+            const schemaMatch = headerMatch.match(/FILE_SCHEMA\(\(\s*'([^']+)'\s*\)\)/i);
+            if (schemaMatch) meta.schema = schemaMatch[1];
+
+            const dateMatch = headerMatch.match(/FILE_NAME\([^,]*,[^\d]*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})/i);
+            if (dateMatch) meta.date = dateMatch[1].replace('T', ' ');
+
+            const appMatch = content.match(/IFCAPPLICATION\s*\(\s*(?:#[0-9]+|\$)\s*,\s*'[^']*'\s*,\s*'([^']+)'/i);
+            if (appMatch) meta.app = appMatch[1];
+
+            const personMatch = content.match(/IFCPERSON\s*\([^,]*,\s*(?:'([^']+)'|\$)\s*,\s*(?:'([^']+)'|\$)/i);
+            if (personMatch) {
+                let family = personMatch[1] && personMatch[1] !== '$' ? personMatch[1] : '';
+                let given = personMatch[2] && personMatch[2] !== '$' ? personMatch[2] : '';
+                meta.person = [given, family].filter(Boolean).join(' ') || '-';
+            }
+
+            return meta;
+        }
+
+        function recalculateMeta() {
+            if (items.length === 0) {
+                document.getElementById('info-date').innerText = "-";
+                document.getElementById('info-size').innerText = "-";
+                document.getElementById('info-schema').innerText = "-";
+                document.getElementById('info-app').innerText = "-";
+                document.getElementById('info-person').innerText = "-";
+                return;
+            }
+
+            let combinedMeta = { ...items[0].meta };
+            for (let i = 1; i < items.length; i++) {
+                let m = items[i].meta;
+                for (let key in combinedMeta) {
+                    if (combinedMeta[key] !== m[key] && combinedMeta[key] !== "Varies") {
+                        combinedMeta[key] = "Varies";
+                    }
+                }
+            }
+
+            document.getElementById('info-date').innerText = combinedMeta.date;
+            document.getElementById('info-size').innerText = combinedMeta.size;
+            document.getElementById('info-schema').innerText = combinedMeta.schema;
+            document.getElementById('info-app').innerText = combinedMeta.app;
+            document.getElementById('info-person').innerText = combinedMeta.person;
+        }
+
+        let items = [];
+
+        function renderDetails(it) {
+            const d = typeof getTranslations === 'function' && typeof currentLang !== 'undefined' ? getTranslations(currentLang) : { detailsApp: 'Application', detailsOld: 'Old', detailsNew: 'New', detailsTs: 'Timestamp', detailsTsComment: 'Comment Timestamp', details: 'Details' };
+            const blocks = [];
+
+            if (it.appReplaced > 0) {
+                const oldAppList = it.oldAppSamples.length ? it.oldAppSamples.map(s => `<code class="text-slate-500 text-[10px] font-mono">${esc(s)}</code>`).join('<br>') : `<span class="text-slate-400">—</span>`;
+                const newApp = `<code class="bg-white border border-slate-200 px-1.5 py-0.5 rounded text-[10px] break-all font-mono text-slate-700">IFCAPPLICATION${esc(it.newAppStr)}</code>`;
+                blocks.push(`
+                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-md shadow-sm">
+                        <div class="font-semibold mb-1.5 text-slate-800 text-[10px] uppercase tracking-wide">${d.detailsApp}</div>
+                        <div class="text-slate-500 mb-0.5 text-[10px]">${d.detailsOld}:</div>
+                        <div class="mb-2.5 overflow-hidden">${oldAppList}</div>
+                        <div class="text-slate-500 mb-0.5 text-[10px]">${d.detailsNew}:</div>
+                        <div class="overflow-hidden">${newApp}</div>
+                    </div>
+                `);
+            }
+
+            if (it.fileNameTimestampUpdated) {
+                const tsOld = it.oldTs ? `<code class="text-slate-500 text-[10px] font-mono">${esc(it.oldTs)}</code>` : `<span class="text-slate-400">—</span>`;
+                const tsNew = it.newTs ? `<code class="bg-white border border-slate-200 px-1.5 py-0.5 rounded text-[10px] break-all font-mono text-slate-700">${esc(it.newTs)}</code>` : `<span class="text-slate-400">—</span>`;
+                blocks.push(`
+                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-md shadow-sm">
+                        <div class="font-semibold mb-1.5 text-slate-800 text-[10px] uppercase tracking-wide">${d.detailsTs}</div>
+                        <div class="text-slate-500 mb-0.5 text-[10px]">${d.detailsOld}:</div>
+                        <div class="mb-2.5 text-[11px]">${tsOld}</div>
+                        <div class="text-slate-500 mb-0.5 text-[10px]">${d.detailsNew}:</div>
+                        <div class="text-[11px]">${tsNew}</div>
+                    </div>
+                `);
+            }
+
+            if (it.commentTimestampUpdated) {
+                const oldCommentList = it.oldCommentTs && it.oldCommentTs.length ? it.oldCommentTs.map(s => `<code class="text-slate-500 text-[10px] font-mono">${esc(s)}</code>`).join('<br>') : `<span class="text-slate-400">—</span>`;
+                const tsNew = it.newTs ? `<code class="bg-white border border-slate-200 px-1.5 py-0.5 rounded text-[10px] break-all font-mono text-slate-700">${esc(it.newTs)}</code>` : `<span class="text-slate-400">—</span>`;
+                blocks.push(`
+                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-md shadow-sm">
+                        <div class="font-semibold mb-1.5 text-slate-800 text-[10px] uppercase tracking-wide">${d.detailsTsComment}</div>
+                        <div class="text-slate-500 mb-0.5 text-[10px]">${d.detailsOld}:</div>
+                        <div class="mb-2.5 text-[11px]">${oldCommentList}</div>
+                        <div class="text-slate-500 mb-0.5 text-[10px]">${d.detailsNew}:</div>
+                        <div class="text-[11px]">${tsNew}</div>
+                    </div>
+                `);
+            }
+
+            if (blocks.length === 0) return '';
+
+            return `
+                <details class="mt-2.5 group">
+                    <summary class="cursor-pointer text-indigo-500 hover:text-indigo-700 font-semibold text-[11px] inline-flex items-center gap-1 transition-colors">
+                        <svg class="w-3.5 h-3.5 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        ${d.details}
+                    </summary>
+                    <div class="mt-3 grid grid-cols-1 md:grid-cols-1 gap-2.5 text-xs">
+                        ${blocks.join('')}
+                    </div>
+                </details>
+            `;
+        }
+
+        function refreshTable() {
+            const $tbody = document.getElementById("resultTable");
+            const hasItems = items.length > 0;
+            const allProcessed = hasItems && items.every(it => it.isProcessed);
+
+            let d = { statusEmpty: 'No files loaded', statusPending: 'Pending configuration', removeFile: 'Remove', statusOK: () => 'Updated' };
+            if (typeof getTranslations === 'function' && typeof currentLang !== 'undefined') {
+                d = getTranslations(currentLang);
+            }
+
+            ['zipBtn', 'saveBtn', 'downloadBtn'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) btn.disabled = !allProcessed;
+            });
+
+            const clearBtn = document.getElementById('clearBtn');
+            if (clearBtn) clearBtn.disabled = !hasItems;
+
+            const applyBtn = document.getElementById('applyBtn');
+            if (applyBtn) applyBtn.disabled = !hasItems;
+
+            if (!hasItems) {
+                $tbody.innerHTML = `<tr><td colspan="4" class="px-5 py-8 text-center text-slate-400 italic text-sm border-b border-slate-100">${d.statusEmpty}</td></tr>`;
+                return;
+            }
+
+            $tbody.innerHTML = items.map((it, index) => {
+                const displaySize = it.size > 1024 * 1024 ? (it.size / (1024 * 1024)).toFixed(2) + ' MB' : (it.size / 1024).toFixed(1) + ' KB';
+
+                if (it.isProcessing) {
+                    return `
+                        <tr class="bg-slate-50/50 transition align-top">
+                            <td class="px-4 py-3 overflow-hidden">
+                                <div class="font-mono text-slate-700 truncate font-medium text-[11.5px]" title="${esc(it.name)}">${esc(it.name)}</div>
+                            </td>
+                            <td class="px-4 py-3">
+                                <div class="text-indigo-700 font-semibold bg-indigo-50 inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10.5px] border border-indigo-200 w-fit shadow-sm">
+                                    <span class="spinner !border-t-indigo-600 !w-3 !h-3"></span>
+                                    ${(typeof currentLang !== 'undefined' && currentLang === 'de') ? 'Wird verarbeitet...' : 'Processing...'}
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 text-slate-400 font-semibold text-[11px]">IFC</td>
+                            <td class="px-4 py-3 text-slate-400 text-[11px] font-mono">${displaySize}</td>
+                        </tr>
+                    `;
+                }
+
+                let badgeClass = "text-slate-600 bg-slate-100 border-slate-200";
+                let statusText = "No changes";
+
+                if (!it.isProcessed) {
+                    badgeClass = "text-sky-700 bg-sky-50 border-sky-200";
+                    statusText = d.statusPending || "Pending configuration";
+                } else {
+                    if(typeof d.statusOK === 'function'){
+                        statusText = d.statusOK(it.appReplaced, it.fileNameTimestampUpdated, it.commentTimestampUpdated, it.headerCommentAdded);
+                    } else {
+                        statusText = "Completed";
+                    }
+                    const changed = it.appReplaced > 0 || it.fileNameTimestampUpdated || it.commentTimestampUpdated;
+                    if (changed) badgeClass = "text-emerald-700 bg-emerald-50 border-emerald-200";
+                }
+
+                return `
+                    <tr class="hover:bg-slate-50/50 transition align-top group">
+                        <td class="px-4 py-3 overflow-hidden">
+                            <div class="flex items-start gap-2">
+                                <button onclick="removeItem(${index})" class="text-slate-400 hover:text-rose-500 transition shrink-0 mt-0.5 focus:outline-none" title="${d.removeFile}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                </button>
+                                <div class="font-sans text-slate-800 truncate font-medium text-[12px] leading-tight flex-1 min-w-0" title="${esc(it.name)}">${esc(it.name)}</div>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3">
+                            <div class="font-bold inline-block px-2 py-0.5 rounded text-[10.5px] border shadow-sm ${badgeClass}">
+                                ${statusText}
+                            </div>
+                            ${it.isProcessed ? renderDetails(it) : ''}
+                        </td>
+                        <td class="px-4 py-3 text-slate-500 font-semibold text-[11px]">IFC</td>
+                        <td class="px-4 py-3 text-slate-500 text-[11px] font-mono">${displaySize}</td>
+                    </tr>
+                `;
+            }).join("");
+        }
+
+        async function addFiles(fileList) {
+            const files = Array.from(fileList).filter(f => f && f.name && f.name.toLowerCase().endsWith('.ifc'));
+            if (!files.length) return;
+
+            for (const file of files) {
+                const placeholder = { name: file.name, size: file.size, isProcessing: true };
+                items.push(placeholder);
+                refreshTable();
+
+                await new Promise(r => setTimeout(r, 50));
+
+                let metaText = "";
+                try {
+                    const slice = file.slice(0, 100 * 1024 * 1024);
+                    const buf = await slice.arrayBuffer();
+                    metaText = new TextDecoder('utf-8', { fatal: false }).decode(buf);
+
+                    const looksBroken = /Ã.| /.test(metaText.slice(0, 2000));
+                    if (looksBroken) {
+                        try { metaText = new TextDecoder('windows-1252', { fatal: false }).decode(buf); } catch (_) { }
+                    }
+                } catch (err) {
+                    console.error("Memory limit hit reading slice:", err);
+                }
+
+                const meta = extractMetadata(metaText, file);
+
+                const index = items.indexOf(placeholder);
+                if (index !== -1) {
+                    items[index] = {
+                        name: file.name,
+                        size: file.size,
+                        lastModified: file.lastModified,
+                        fileRef: file,
+                        meta: meta,
+                        isProcessed: false
+                    };
+                }
+                recalculateMeta();
+                refreshTable();
+            }
+        }
+
+        document.getElementById("applyBtn").addEventListener("click", async () => {
+            if (!items.length) return;
+
+            const shouldUpdateTimestamp = document.getElementById('updateTimestampCb').checked;
+            const shouldUpdateApp = document.getElementById('updateAppCb').checked;
+            const currentYear = new Date().getFullYear();
+            let targetVersion = document.getElementById('targetVersionInput').value.trim();
+
+            if (!targetVersion) targetVersion = currentYear.toString();
+            else {
+                let v = parseInt(targetVersion, 10);
+                if (isNaN(v) || v < 2011) targetVersion = "2011";
+                else if (v > currentYear + 1) targetVersion = (currentYear + 1).toString();
+                else targetVersion = v.toString();
+            }
+
+            const applyBtn = document.getElementById('applyBtn');
+            const originalBtnText = applyBtn.innerHTML;
+            applyBtn.innerHTML = `<span class="spinner !w-4 !h-4 !border-t-white mr-2"></span>Processing...`;
+            applyBtn.disabled = true;
+
+            await new Promise(r => setTimeout(r, 50));
+
+            for (let i = 0; i < items.length; i++) {
+                let it = items[i];
+
+                it.isProcessing = true;
+                refreshTable();
+
+                await new Promise(r => setTimeout(r, 10));
+
+                let headText = "";
+                try {
+                    const buf = await it.fileRef.arrayBuffer();
+                    headText = bytesToLatin1(new Uint8Array(buf));
+                } catch (e) {
+                    console.error("Failed to read file.", e);
+                    it.isProcessing = false;
+                    refreshTable();
+                    continue;
+                }
+
+                const t = transformIFC(headText, shouldUpdateTimestamp, shouldUpdateApp, targetVersion);
+
+                let finalBlob;
+                const hasActualChanges = t.appReplaced > 0 || t.fileNameTimestampUpdated || t.commentTimestampUpdated || t.headerCommentAdded;
+
+                if (hasActualChanges) {
+                    const modifiedHeadBuf = latin1ToBytes(t.content);
+                    finalBlob = new Blob([modifiedHeadBuf], { type: "application/octet-stream" });
+                } else {
+                    finalBlob = it.fileRef;
+                }
+
+                items[i] = {
+                    ...it,
+                    size: finalBlob.size,
+                    arrayBuf: finalBlob,
+                    isProcessed: true,
+                    isProcessing: false,
+                    appReplaced: t.appReplaced,
+                    oldAppSamples: t.oldAppSamples,
+                    newAppStr: t.newAppStr,
+                    oldTs: t.oldTs,
+                    newTs: t.newTs,
+                    fileNameTimestampUpdated: t.fileNameTimestampUpdated,
+                    commentTimestampUpdated: t.commentTimestampUpdated,
+                    headerCommentAdded: t.headerCommentAdded,
+                    oldCommentTs: t.oldCommentTs,
+                    targetVersion: t.targetVersion
+                };
+            }
+
+            refreshTable();
+            applyBtn.innerHTML = originalBtnText;
+            showToast("Updates applied successfully.");
+        });
+
+        document.getElementById("zipBtn").onclick = async () => {
+            if (!items.length) return;
+
+            const itemsToProcess = items.filter(it => it.appReplaced > 0 || it.fileNameTimestampUpdated || it.commentTimestampUpdated);
+            if (itemsToProcess.length === 0) {
+                showToast("No files have changes to download.");
+                return;
+            }
+
+            const targetZipName = getZipFileName();
+            let fileHandle = null;
+
+            if ("showSaveFilePicker" in window) {
+                try {
+                    fileHandle = await window.showSaveFilePicker({ suggestedName: targetZipName, types: [{ description: 'ZIP Archive', accept: { 'application/zip': ['.zip'] } }] });
+                } catch (err) { if (err.name === 'AbortError') return; }
+            }
+
+            const $btn = document.getElementById("zipBtn");
+            const originalHtml = $btn.innerHTML;
+            $btn.innerHTML = `<span class="spinner mr-2 border-t-white"></span>` + ((typeof currentLang !== 'undefined' && currentLang === 'de') ? "ZIPPING..." : "ZIPPING...");
+            $btn.disabled = true;
+
+            const progressWrapper = document.getElementById('zipProgressWrapper');
+            const progressBar = document.getElementById('zipProgressBar');
+            const progressPercent = document.getElementById('zipProgressPercent');
+            progressWrapper.classList.remove('hidden');
+            progressBar.style.width = '0%';
+            progressPercent.innerText = '0%';
+
+            setTimeout(async () => {
+                try {
+                    const zip = new JSZip();
+                    for (const it of itemsToProcess) {
+                        const safePath = it.name.replace(/\\/g, '/').split('/').filter(p => p && p !== '.' && p !== '..').map(p => p.replace(/[<>:"|?*]/g, '_').replace(/[\s.]+$/, '')).join('/');
+                        let validDate = new Date(it.lastModified);
+                        if (isNaN(validDate.getTime())) validDate = new Date();
+                        zip.file(safePath, it.arrayBuf, { date: validDate, dosPermissions: 0x0020 });
+                    }
+
+                    const zipBlob = await zip.generateAsync({ type: "blob", compression: "DEFLATE", compressionOptions: { level: 1 } }, (metadata) => {
+                        progressBar.style.width = metadata.percent + '%';
+                        progressPercent.innerText = metadata.percent.toFixed(0) + '%';
+                    });
+
+                    if (fileHandle) {
+                        const writable = await fileHandle.createWritable();
+                        await writable.write(zipBlob);
+                        await writable.close();
+                    } else {
+                        const a = document.createElement("a");
+                        const url = URL.createObjectURL(zipBlob);
+                        a.href = url; a.download = targetZipName; a.click();
+                        setTimeout(() => URL.revokeObjectURL(url), 1500);
+                    }
+                } finally {
+                    $btn.innerHTML = originalHtml;
+                    $btn.disabled = false;
+                    setTimeout(() => progressWrapper.classList.add('hidden'), 1000);
+                }
+            }, 50);
+        };
+
+        document.getElementById("saveBtn").onclick = async () => {
+            if (!items.length) return;
+
+            const itemsToProcess = items.filter(it => it.appReplaced > 0 || it.fileNameTimestampUpdated || it.commentTimestampUpdated);
+            if (itemsToProcess.length === 0) {
+                showToast("No files have changes to save.");
+                return;
+            }
+
+            if (!("showDirectoryPicker" in window)) { alert((typeof currentLang !== 'undefined' && currentLang === 'de') ? "Browser wird nicht unterstützt." : "Browser not supported."); return; }
+            try {
+                const rootDirHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
+                for (const it of itemsToProcess) {
+                    const suggested = it.name.replace(/\.ifc$/i, "_modified.ifc");
+                    const fh = await rootDirHandle.getFileHandle(suggested, { create: true });
+                    const w = await fh.createWritable();
+                    await w.write(it.arrayBuf);
+                    await w.close();
+                }
+                showToast((typeof currentLang !== 'undefined' && currentLang === 'de') ? "Erfolgreich gespeichert!" : "Saved successfully!");
+            } catch (err) {
+                if (err && err.name !== 'AbortError') { console.error(err); showToast("Save failed: " + (err.message || err.name)); }
+            }
+        };
+
+        document.getElementById("downloadBtn").onclick = () => {
+            if (!items.length) return;
+
+            const itemsToProcess = items.filter(it => it.appReplaced > 0 || it.fileNameTimestampUpdated || it.commentTimestampUpdated);
+            if (itemsToProcess.length === 0) {
+                showToast("No files have changes to download.");
+                return;
+            }
+
+            for (const it of itemsToProcess) {
+                const suggested = it.name.replace(/\.ifc$/i, "_modified.ifc");
+                const blob = new Blob([it.arrayBuf], { type: "application/octet-stream" });
+                const a = document.createElement("a");
+                const url = URL.createObjectURL(blob);
+                a.href = url; a.download = suggested; a.click();
+                setTimeout(() => URL.revokeObjectURL(url), 1500);
+            }
+            if(typeof getTranslations === 'function' && typeof currentLang !== 'undefined') {
+                showToast(getTranslations(currentLang).downloadSuccess(itemsToProcess.length));
+            } else {
+                showToast("Downloaded successfully!");
+            }
+        };
+
+        document.getElementById("clearBtn").onclick = () => {
+            items = [];
+            document.getElementById("fileInput").value = "";
+            recalculateMeta();
+            refreshTable();
+        };
+
+        const dropzone = document.getElementById("dropzone");
+        const fileInput = document.getElementById("fileInput");
+
+        window.addEventListener("dragenter", e => e.preventDefault(), false);
+        window.addEventListener("dragover", e => e.preventDefault(), false);
+        window.addEventListener("dragleave", e => e.preventDefault(), false);
+        window.addEventListener("drop", e => e.preventDefault(), false);
+
+        dropzone.addEventListener("dragenter", e => { e.preventDefault(); dropzone.classList.add("dragover"); });
+        dropzone.addEventListener("dragover", e => { e.preventDefault(); dropzone.classList.add("dragover"); });
+        dropzone.addEventListener("dragleave", e => { e.preventDefault(); dropzone.classList.remove("dragover"); });
+        dropzone.addEventListener("drop", e => {
+            e.preventDefault();
+            dropzone.classList.remove("dragover");
+            if (e.dataTransfer && e.dataTransfer.files) addFiles(e.dataTransfer.files);
+        });
+
+        fileInput.onchange = e => addFiles(e.target.files);
+    </script>
+</body>
+
+</html>

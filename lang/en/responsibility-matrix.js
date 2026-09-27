@@ -1,8 +1,11 @@
 window.PAGE_I18N = {
+    // Specific Content Elements
     title: "Responsibility Matrix",
     subtitle: "Define roles and responsibilities for tasks",
     ruleTitle: "What this tool does",
     ruleDesc1: "Make sure your team is working well together and that your projects are on schedule. Easily identify who is responsible, accountable, supportive, consulted or informed for each task or project deliverables, ensuring clear ownership. <br/><br/>This tool uses an Universal <span class='bg-white px-1.5 py-0.5 rounded border border-slate-200'>Excel</span> files so you can load your contact back and in other webapps from this website. <br /> <br />- Keep it simple, avoid having too many 'Consulted' roles to prevent delays. <br />- Only one Accountability <span class='px-1.5 py-0.5 rounded bg-amber-50 border border-amber-300'>A</span> per task to ensure clarity. <br />- Review regularly, update the matrix if team members or roles change during the project.</span>",
+    
+    // --- HTML Data Attributes (data-i18n) ---
     btnTemplate: "Excel Template",
     btnSave: "Save",
     btnExport: "Export",
@@ -29,6 +32,8 @@ window.PAGE_I18N = {
     toggleGroups: "Groups",
     toggleCompanies : "Companies",
     btnNewTask: "+ New Task",
+
+    // --- JavaScript Fallbacks (window.BASE_PAGE.xxx) ---
     phRasciTitle: "Enter Title...",
     phSearch: "Search...",
     phName: "Name...",
@@ -39,21 +44,30 @@ window.PAGE_I18N = {
     optRequired: "Required",
     optOptional: "Optional",
     badgeUnassigned: "Unassigned",
+    
+    // --- JavaScript Alerts & Confirmations ---
     confirmRemovePerson: "Remove this person from the active contacts list? (They will be preserved in past matrix records)",
     confirmDeleteTask: "Delete this entire task and its subtasks?",
     confirmArchiveTask: "Archive this task from the matrix? (You can restore it later from the All Tasks menu)",
     alertMissingTitle: "Please enter a Title before saving.",
     alertParseError: "Error parsing Excel file. Make sure xlsx.bundle.js is loaded correctly.",
+
+    // --- (Optional) Extra UI Placeholders & Labels you might want to wire up later ---
     phNewTask: "Add New Task...",
     phNewParticipant: "Add Participant...",
     phSearchContacts: "Search contacts...",
     phSearchTasks: "Search tasks or groups...",
+    
+    // --- Task Modal ---
     modalLblGroup: "Group",
     modalLblTaskName: "Task Name",
     modalLblDesc: "Description",
+
+    // --- All Contacts & All Tasks Modals ---
     modalTitleAllContacts: "All Contacts",
     modalTitleAllTasks: "All Tasks",
     btnClose: "Close",
+    // --- Import Conflict Modal ---
     modalTitleConflict: "Multiple Data Sources Detected",
     conflictDesc1: "We found task data in both the structured 'TASKS' tab and the visual 'RASCI MATRIX' tab of your Excel file.",
     conflictDesc2: "Which tab should we use as the main source of truth?",
@@ -61,12 +75,16 @@ window.PAGE_I18N = {
     conflictSubStruct: "Preserves your precise Task Groups and detailed Descriptions.",
     conflictBtnVis: "Use 'RASCI MATRIX' Tab",
     conflictSubVis: "Use this only if you ignored the other tabs and edited the visual grid directly. (Task Groups and Descriptions will be reset).",
+
+    // --- Table & Matrix (JS Rendered) ---
     uiTranspose: "Transpose",
     uiEmptyMatrix: "Add tasks and participants.",
     uiNoTasks: "No tasks found, please add one or import an existing excel file.",
     uiUnnamedGroup: "Unnamed Group",
     uiUnnamedTask: "Unnamed Task",
     uiNoCompany: "No Company",
+    
+    // --- Analysis Widget (JS Rendered) ---
     uiAnalysisTitle: "Matrix Analysis",
     uiAnalysisIssues: "Issues",
     uiAnalysisAllGood: "All Good",
@@ -79,6 +97,8 @@ window.PAGE_I18N = {
     errHas: "Has",
     errResponsible: "Needs at least 1 Responsible",
     errLead: "lead",
+
+    // --- Roles & Customization ---
     roleResponsible: "Responsible",
     roleAccountable: "Accountable",
     roleSupportive: "Supportive",
@@ -90,11 +110,15 @@ window.PAGE_I18N = {
     roleCDesc: "Experts or stakeholders whose opinions are sought before action",
     roleIDesc: "People updated on progress after decisions are made",
     alertDuplicateRole: "This character is already in use by another role.",
+
+    // --- Roles & Customization ---
     roleCharR: "R",
     roleCharA: "A",
     roleCharS: "S",
     roleCharC: "C",
     roleCharI: "I",
+
+    // --- Project Information (shared block, identical keys in all liteAECO apps) ---
     lblProject: "Project",
     lblProjectDetails: "Details",
     lblClient: "Client",
@@ -102,6 +126,8 @@ window.PAGE_I18N = {
     lblProjectType: "Project Type",
     phProjectNo: "No.",
     phProjectTitle: "Project Title...",
+
+    // ================= NEW: Shared autosave (identical keys in all liteAECO apps) =================
     autosaveMenu: "Autosave…",
     historyMenu: "History",
     autosaveOffMenu: "Autosave off",

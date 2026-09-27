@@ -1,0 +1,2343 @@
+<!--
+  Copyright 2026 Luis Torrecilla (liteAECO)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  liteAECO - (ifc-viewer-audit.html)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Luis Torrecilla">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>liteAECO - IFC Viewer & Audit</title>
+
+  <meta name="description" content="A brief, professional description of your web app's purpose.">
+  <meta property="og:title" content="liteAECO - IFC Viewer">
+  <meta property="og:description" content="Free tools for AEC project teams. Built with a focus on speed and utility.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://liteAECO.com/">
+
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="../img/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../js/vendor/lucide-1.45.0.min.js"></script>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.2.1/css/tabulator.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.2.1/js/tabulator.min.js"></script>
+
+  <script src="../js/vendor/xlsx-1.2.0.bundle.js" defer></script>
+
+  <script>window.SITE_ROOT = '../';</script>
+  <script src="../lang/en/global.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/project-registry.js"></script>
+  <script src="../js/liteaeco-cde.js"></script>
+  <script src="../js/liteaeco-contacts.js"></script>
+  <script src="../js/liteaeco-cde-app.js"></script>
+  <script src="../js/vendor/index-0.8.3.js"></script>
+  <script src="../js/liteaeco-bcf.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" type="text/css" href="../css/global.css" />
+
+  <link rel="stylesheet" type="text/css" href="../src/style.css" />
+
+  <link rel="stylesheet" type="text/css" href="../js/webifc/qcp_audit.css" />
+  <link rel="stylesheet" type="text/css" href="../js/webifc/ext_panel.css" />
+
+</head>
+
+<body class="bg-slate-50 h-screen flex overflow-hidden pt-12">
+
+  <aside id="app-sidebar"
+    class="z-[80] w-[72px] bg-white border-r border-white shadow-lg flex-shrink-0 transition-all duration-300 ease-in-out overflow-hidden flex flex-col h-full relative">
+
+    <div class="h-16 flex items-center px-6 border-b border-slate-200 shrink-0 w-64">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide text-indigo-600 w-6 h-6 shrink-0" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="m20 6.27-3.5-2-3.5-2a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l3.5 2"/><g><path d="m14.51 14.197 8.99-8.99v18.016m-18-18 18.01 18.018m-18-18.07v4.437l-.01 4.624 8.982 8.991 9.027.018" style="stroke-width:3.125" transform="matrix(.64 0 0 .64 6.338 6.554)"/></g></svg>
+      <h1
+        class="text-lg font-bold text-slate-900 ml-4 whitespace-nowrap opacity-0 transition-opacity duration-300 sidebar-text">
+        IFC Viewer / Audit
+      </h1>
+    </div>
+
+    <nav class="p-3 space-y-2 flex-1 w-64 shrink-0 overflow-y-auto overflow-x-hidden">
+      <button id="nav-setup" class="tab-btn active group">
+        <i data-lucide="file-input" class="tab-icon w-5 h-5 shrink-0 group-hover:text-slate-800 transition-colors"></i>
+        <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 sidebar-text">Load Model</span>
+      </button>
+
+      <button id="nav-quality" type="button" class="tab-btn group" disabled title="Load an IFC file first">
+        <i data-lucide="clipboard-list"
+          class="tab-icon w-5 h-5 shrink-0 group-hover:text-slate-800 transition-colors"></i>
+        <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 sidebar-text">Quality Report</span>
+      </button>
+
+      <button id="nav-explorer" type="button" class="tab-btn group" disabled title="Load an IFC file first">
+        <i data-lucide="table-properties"
+          class="tab-icon w-5 h-5 shrink-0 group-hover:text-slate-800 transition-colors"></i>
+        <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 sidebar-text">Attributes
+          Explorer</span>
+      </button>
+
+      <button id="nav-external" type="button" class="tab-btn group" disabled title="Load an IFC file first">
+        <i data-lucide="database" class="tab-icon w-5 h-5 shrink-0 group-hover:text-slate-800 transition-colors"></i>
+        <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 sidebar-text">External
+          Data</span>
+      </button>
+
+      <button id="nav-tree" class="tab-btn group" disabled title="Load an IFC file first">
+        <i data-lucide="folder-tree" class="tab-icon w-5 h-5 shrink-0 group-hover:text-slate-800 transition-colors"></i>
+        <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 sidebar-text">Structure
+          Inspector</span>
+      </button>
+
+      <button id="nav-viewer" type="button" class="tab-btn group" disabled title="Load an IFC file first">
+        <i data-lucide="box" class="tab-icon w-5 h-5 shrink-0 group-hover:text-slate-800 transition-colors"></i>
+        <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 sidebar-text">3D Viewer</span>
+      </button>
+
+      <button id="nav-clash" type="button" class="tab-btn group" disabled title="Load an IFC file first">
+        <i data-lucide="squares-exclude"
+          class="tab-icon w-5 h-5 shrink-0 group-hover:text-slate-800 transition-colors"></i>
+        <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 sidebar-text">Model
+          Coordination</span>
+      </button>
+
+      <button id="nav-rel" type="button" class="tab-btn group" disabled title="Load an IFC file first">
+        <i data-lucide="waypoints" class="tab-icon w-5 h-5 shrink-0 group-hover:text-slate-800 transition-colors"></i>
+        <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 sidebar-text">Model
+          Relationships</span>
+      </button>
+
+      <button id="nav-issues" type="button" class="tab-btn group" disabled title="Load an IFC file first">
+        <i data-lucide="message-square-warning"
+          class="tab-icon w-5 h-5 shrink-0 group-hover:text-slate-800 transition-colors"></i>
+        <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 sidebar-text">Issue
+          Management</span>
+      </button>
+
+    </nav>
+
+    <div class="mt-auto border-t border-slate-200 h-12 flex flex-col justify-end shrink-0 w-full">
+      <button id="sidebar-toggle"
+        class="w-full h-12 bg-gray-50 hover:bg-gray-100 transition-colors focus:outline-none flex items-center justify-center">
+        <span id="sidebar-toggle-icon-wrapper" class="shrink-0 transition-transform duration-300">
+          <i data-lucide="chevron-right" class="w-5 h-5"></i>
+        </span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="flex-1 flex flex-col min-w-0 overflow-y-auto h-full relative">
+
+    <main id="main-content-wrapper"
+      class="flex-1 flex flex-col items-center justify-start pt-12 p-4 md:p-6 w-full min-h-0">
+
+      <div id="app-container" class="w-full max-w-7xl flex flex-col gap-0 flex-1 min-h-0">
+
+        <div id="compact-toolbar"
+          class="hidden flex-col gap-2 bg-white border-b border-slate-200 shadow-sm sticky top-0 z-[70] p-2 m-0 w-full xl:px-4 shrink-0">
+          <div class="flex flex-nowrap items-center gap-2 w-full">
+            <div class="flex items-center gap-2 text-slate-800 mx-1 w-[220px] shrink-0">
+              <i data-lucide="box" class="w-4 h-4 text-slate-500 shrink-0"></i>
+              <button id="qcp-models-btn" title="Model scope: choose which loaded models feed this table"
+                class="flex-1 min-w-0 flex items-center justify-between gap-1 bg-white border border-slate-300 text-slate-800 text-xs rounded focus:border-accent focus:ring-1 focus:ring-accent p-1 outline-none shadow-sm">
+                <span id="qcp-models-label" class="truncate">No model</span>
+                <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
+              </button>
+            </div>
+            <div class="h-4 w-px bg-slate-300 mx-1 shrink-0"></div>
+            <label class="block text-xs font-semibold text-slate-500 shrink-0">IFC Class</label>
+            <select id="tbClassSelect"
+              class="flex-1 min-w-[80px] bg-white border border-slate-300 text-slate-800 text-xs rounded focus:border-accent focus:ring-1 focus:ring-accent block p-1 outline-none shadow-sm truncate"></select>
+            <label class="block text-xs font-semibold text-slate-500 shrink-0 ml-1">IFC Pset</label>
+            <div class="relative flex-1 min-w-[120px]" id="tbPsetWrapper">
+              <button id="tbPsetBtn"
+                class="w-full flex items-center justify-between bg-white border border-slate-300 text-slate-800 text-xs rounded focus:border-accent focus:ring-1 focus:ring-accent p-1 outline-none shadow-sm transition-colors text-left">
+                <span id="tbPsetBtnText" class="truncate font-medium">All Psets</span>
+                <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-500 shrink-0 ml-1"></i>
+              </button>
+              <div id="tbPsetMenu"
+                class="st_tbPsetMenu hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 shadow-lg max-h-56 overflow-y-auto flex flex-col p-1 text-[11px] rounded scrollbar-thin z-[80]">
+              </div>
+            </div>
+            <div class="h-4 w-px bg-slate-300 mx-1 shrink-0"></div>
+            <button id="btnClearFilters" disabled
+              class="flex items-center justify-center p-1 px-2 bg-white border border-slate-300 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed text-slate-700 text-xs rounded transition-colors shadow-sm ml-1"
+              title="Clear filters and search">
+              <i data-lucide="filter-x" class="w-4 h-4 text-slate-500"></i>
+            </button>
+            <div class="relative flex-1 min-w-[150px]" id="toolbar-search-container">
+              <div id="element-search-container" class="relative w-full">
+                <i data-lucide="search" class="w-3.5 h-3.5 absolute left-2.5 top-1.5 text-slate-400"></i>
+                <input type="text" id="global-search"
+                  class="w-full h-[26px] pl-7 pr-2 py-1.5 text-xs bg-white text-slate-800 border border-slate-300 rounded focus:border-accent focus:ring-1 focus:ring-accent outline-none placeholder-slate-400 shadow-sm"
+                  placeholder="Search data...">
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 pt-1 pb-1 w-full">
+            <button id="btnUndo" disabled
+              class="flex items-center justify-center px-2 py-1.5 bg-white border border-slate-300 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed text-slate-700 text-xs rounded transition-colors"
+              title="Undo (Ctrl+Z)"><i data-lucide="undo-2" class="w-4 h-4"></i></button>
+            <button id="btnRedo" disabled
+              class="flex items-center justify-center px-2 py-1.5 bg-white border border-slate-300 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed text-slate-700 text-xs rounded transition-colors"
+              title="Redo (Ctrl+Y)"><i data-lucide="redo-2" class="w-4 h-4"></i></button>
+            <div class="h-4 w-px bg-slate-300 mx-1"></div>
+            <div class="relative">
+              <button id="btnExportMenu" disabled
+                class="flex items-center justify-center p-1.5 px-3 py-1.5 bg-white border border-slate-300 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed text-slate-700 text-xs rounded transition-colors font-medium"
+                title="Export Current Table">
+                <i data-lucide="file-output" class="w-4 h-4 mr-1.5"></i> Export <i data-lucide="chevron-down"
+                  class="w-3.5 h-3.5 ml-1.5 mt-0.5 text-slate-500"></i>
+              </button>
+              <div id="exportMenuOptions"
+                class="hidden absolute left-0 top-full mt-1 w-44 bg-white border border-slate-200 shadow-lg z-50 flex flex-col">
+                <button
+                  class="export-format-btn text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-accent font-medium transition-colors border-b border-slate-100"
+                  data-format="xlsx">Export as .XLSX</button>
+                <button
+                  class="export-format-btn text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-accent font-medium transition-colors"
+                  data-format="csv">Reduced .CSV</button>
+                <button
+                  class="export-format-btn text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-accent font-medium transition-colors border-b border-slate-100"
+                  data-format="ods">Export as .ODS</button>
+              </div>
+            </div>
+            <div class="h-4 w-px bg-slate-300 mx-1"></div>
+            <button onclick="document.getElementById('rulesInput').click()"
+              class="flex items-center justify-center p-1.5 px-3 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs rounded transition-colors font-medium">
+              <i data-lucide="bookmark" class="w-4 h-4 mr-1.5 transition-colors" id="tbRulesIcon"></i>
+              <span id="tbRulesText">Load Rules</span>
+            </button>
+            <button id="btnToggleRules" disabled
+              class="flex items-center justify-center p-1.5 px-3 bg-white border border-slate-300 hover:bg-slate-100 disabled:hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed text-slate-700 text-xs rounded transition-colors font-medium"
+              title="Toggle IDS Rules">
+              <span id="iconToggleRulesWrapper"><i data-lucide="bookmark"
+                  class="w-4 h-4 mr-1.5 fill-transparent"></i></span>
+              <span id="textToggleRules">IDS</span>
+            </button>
+            <button id="btnToggleQCheck" disabled
+              class="flex items-center justify-center p-1.5 px-3 bg-white border border-slate-300 hover:bg-slate-100 disabled:hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed text-slate-700 text-xs rounded transition-colors font-medium"
+              title="Toggle QCheck Rules">
+              <span id="iconToggleQCheckWrapper"><i data-lucide="check-circle"
+                  class="w-4 h-4 mr-1.5 fill-transparent"></i></span>
+              <span id="textToggleQCheck">QCheck</span>
+            </button>
+            <button id="btnFilterIssues"
+              class="flex items-center justify-center p-1.5 px-3 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs rounded transition-colors font-medium ml-1"
+              title="Show only elements with validation issues">
+              <span id="iconFilterIssuesWrapper"><i data-lucide="filter"
+                  class="w-4 h-4 fill-transparent text-slate-400"></i></span>
+            </button>
+            <div class="h-4 w-px bg-slate-300 mx-1"></div>
+            <div class="ml-auto flex items-center gap-2 xl:pr-0">
+              <button id="btnSaveTableIfc" disabled
+                class="flex items-center justify-center p-2 px-3 bg-slate-900 hover:bg-accent text-white text-xs rounded transition-all shadow-sm font-medium disabled:opacity-50 disabled:hover:bg-slate-900 disabled:cursor-not-allowed">
+                <i data-lucide="save" class="w-4 h-4 mr-1.5"></i> Save IFC
+              </button>
+              <button id="btnToggleEdit" disabled
+                class="flex items-center justify-center p-2 px-3 bg-white border border-slate-300 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed text-slate-700 text-xs rounded transition-all shadow-sm font-medium">
+                <span id="iconToggleEditWrapper"><i data-lucide="lock" class="w-4 h-4 mr-1.5 text-slate-400"></i></span>
+                <span id="textToggleEdit">Edit</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <input type="file" id="rulesInput" class="hidden" accept=".ids,.xml,.json,.xlsx,.xls,.csv,.ods" />
+
+        <section id="top-intro-section" class="flex flex-col gap-6 md:px-14 pt-6 ">
+
+          <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded p-6 md:p-8 shrink-0">
+            <div
+              class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 border-b border-slate-200/60 pb-4">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-10 h-10 rounded-lg bg-white border border-slate-100 shadow-sm flex items-center justify-center text-indigo-600 shrink-0">
+                  <i data-lucide="box" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h1 class="text-2xl font-bold text-slate-900 tracking-tight leading-tight" id="ui-title">IFC Viewer /
+                    Audit
+                  </h1>
+                  <p class="text-sm font-medium text-indigo-500 uppercase tracking-widest mt-0.5" id="ui-tag">3D Model
+                    viewer, Validator and Quality Control</p>
+                </div>
+              </div>
+            </div>
+            <div class="text-sm text-slate-600 leading-relaxed">
+              <p><strong class="text-slate-900 font-semibold" id="ui-desc-title">What this tool
+                  does</strong>: <span id="ui-desc-text">Locally load an IFC file and explore its 3D geometry, structure
+                  and properties. Load IDS files or Qcheck rules to verify model compliance.</span></p>
+            </div>
+          </div>
+
+          <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-6 md:p-8 mb-2">
+            <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
+              <span
+                class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold">
+                <i data-lucide="file-code-2" class="w-3.5 h-3.5"></i>
+              </span>
+              <span id="ui-step-1">Step 1: Setup &amp; Target</span>
+            </h2>
+
+            <div class="flex items-center justify-between mb-4">
+              <div id="drop-mode-toggle"
+                class="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-0.5 text-xs font-semibold">
+                <button type="button" data-mode="viewer"
+                  class="px-4 py-1.5 rounded-md bg-white text-indigo-600 shadow-sm">IFC Viewer</button>
+                <button type="button" data-mode="coordination"
+                  class="px-4 py-1.5 rounded-md text-slate-500 hover:text-slate-700">IFC Coordination</button>
+              </div>
+              <span id="drop-mode-desc" class="text-[11px] text-slate-400">Single model. Explore, audit and
+                enrich</span>
+            </div>
+
+            <div class="bg-white p-6 rounded border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6">
+
+              <div class="flex flex-col h-full">
+                <div id="drop-zone-ifc"
+                  class="relative flex-grow drop-zone flex flex-col items-center justify-center w-full h-full min-h-[140px] px-4 py-4 border-2 border-slate-300 border-dashed rounded-lg hover:border-indigo-500 hover:bg-indigo-50/30 bg-slate-50/50 cursor-pointer transition-all">
+                  <div class="flex flex-col items-center justify-center space-y-2 text-center pointer-events-none">
+                    <i data-lucide="file-input"
+                      class="w-8 h-8 text-slate-400 mb-1 group-hover:text-indigo-500 transition-colors"></i>
+                    <div class="flex text-sm text-slate-600 justify-center font-medium">
+                      <button type="button"
+                        class="text-indigo-600 hover:text-indigo-700 pointer-events-auto cursor-pointer font-semibold"
+                        id="file-picker-btn">Load .ifc file</button>
+                      <p class="pl-1" id="ui-drop-ifc-or">or drag and drop</p>
+                    </div>
+                    <p class="text-xs text-slate-500 font-medium mt-1 truncate max-w-[300px]" id="ifc-file-name">No file
+                      selected</p>
+                    <p id="ifc-loader-status" class="text-[10px] text-emerald-600 mt-1">Engine ready, drag a file or
+                      click to browse</p>
+                  </div>
+                  <input id="fileInput" name="fileInput" type="file" accept=".ifc"
+                    onchange="window.previewIfcFileSelection && window.previewIfcFileSelection(this)"
+                    class="mt-4 block w-full max-w-[320px] cursor-pointer text-xs text-slate-600 file:mr-3 file:rounded file:border-0 file:bg-indigo-600 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-white hover:file:bg-indigo-700" />
+                </div>
+              </div>
+
+              <div id="coord-file-list"
+                class="hidden flex-col h-full bg-white p-4 rounded border border-slate-200/60 shadow-sm">
+                <div class="flex items-center gap-2 mb-3 border-b border-slate-200/60 pb-2">
+                  <span class="font-semibold text-sm text-slate-800">Models</span>
+                </div>
+                <div id="coord-file-rows"
+                  class="flex-grow min-h-[90px] max-h-52 overflow-y-auto rounded border border-slate-200 bg-slate-50/40 divide-y divide-slate-100">
+                </div>
+                <div class="flex items-center justify-between mt-3">
+                  <span id="coord-file-hint" class="text-[10px] text-slate-400">Drop or pick several .ifc files</span>
+                </div>
+              </div>
+
+              <div id="model-info-panel"
+                class="flex flex-col h-full bg-white p-4 rounded border border-slate-200/60 shadow-sm">
+                <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200/60 pb-1">Model Information
+                </p>
+                <div class="grid grid-cols-4 gap-x-4 gap-y-2 text-[12px] flex-grow content-start">
+                  <div class="text-slate-500 font-medium">Date:</div>
+                  <div id="info-date" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                  <div class="text-slate-500 font-medium">File Size:</div>
+                  <div id="info-size" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                  <div class="text-slate-500 font-medium">Schema:</div>
+                  <div id="info-schema" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                  <div class="text-slate-500 font-medium">Application:</div>
+                  <div id="info-app" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                  <div class="text-slate-500 font-medium">Person:</div>
+                  <div id="info-person" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                  <div class="text-slate-500 font-medium">Units:</div>
+                  <div id="info-units" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                  <div class="text-slate-500 font-medium">lat. / lon. / elev.:</div>
+                  <div id="info-coords" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+                </div>
+
+              </div>
+            </div>
+
+            <div id="project-info-block" class="bg-white p-4 rounded border border-slate-200 shadow-sm mt-6">
+              <div class="flex items-end gap-2">
+                <label class="text-[11px] text-slate-500 font-semibold shrink-0">Project number
+                  <input id="proj-number"
+                    class="mt-1 block w-24 text-xs px-2 py-1.5 border border-slate-300 rounded font-bold text-slate-800 focus:outline-none focus:border-indigo-400"
+                    placeholder="0000" />
+                </label>
+                <label class="text-[11px] text-slate-500 font-semibold flex-1 min-w-0">Project title
+                  <input id="proj-title"
+                    class="mt-1 block w-full text-xs px-2 py-1.5 border border-slate-300 rounded font-bold text-slate-800 focus:outline-none focus:border-indigo-400"
+                    placeholder="Auto from first model — click to rename" />
+                </label>
+                <button id="proj-info-toggle" type="button"
+                  class="shrink-0 flex items-center gap-1 px-2 py-1.5 text-[11px] font-semibold text-slate-500 hover:text-slate-700">
+                  Details <span id="proj-contact-count" class="text-[10px] font-bold text-slate-400"></span>
+                  <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 transition-transform"
+                    id="proj-info-chev"></i>
+                </button>
+              </div>
+              <div id="proj-info-body" class="hidden mt-3 space-y-3">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <label class="text-[11px] text-slate-500 font-semibold">Client
+                    <input id="proj-client"
+                      class="mt-1 w-full text-xs px-2 py-1.5 border border-slate-300 rounded font-normal focus:outline-none focus:border-indigo-400"
+                      placeholder="Client name" />
+                  </label>
+                  <label class="text-[11px] text-slate-500 font-semibold">Address
+                    <input id="proj-address"
+                      class="mt-1 w-full text-xs px-2 py-1.5 border border-slate-300 rounded font-normal focus:outline-none focus:border-indigo-400"
+                      placeholder="Street, City" />
+                  </label>
+                  <label class="text-[11px] text-slate-500 font-semibold">Project type
+                    <input id="proj-type" list="proj-type-options"
+                      class="mt-1 w-full text-xs px-2 py-1.5 border border-slate-300 rounded font-normal focus:outline-none focus:border-indigo-400"
+                      placeholder="Select or type" />
+                    <datalist id="proj-type-options">
+                      <option value="Residential"></option>
+                      <option value="Commercial"></option>
+                      <option value="Industrial"></option>
+                      <option value="Infrastructure"></option>
+                      <option value="Healthcare"></option>
+                      <option value="Education"></option>
+                      <option value="Mixed-Use"></option>
+                    </datalist>
+                  </label>
+                </div>
+                <div class="flex items-center justify-end gap-2">
+                  <button id="proj-export" type="button"
+                    class="px-2 py-1 text-[11px] rounded border border-slate-300 text-slate-600 hover:bg-slate-50 font-semibold">Export
+                    project (.xlsx)</button>
+                  <button id="proj-import" type="button"
+                    class="px-2 py-1 text-[11px] rounded border border-slate-300 text-slate-600 hover:bg-slate-50 font-semibold">Import
+                    project (.xlsx)</button>
+                  <input id="proj-import-file" type="file" accept=".xlsx" class="hidden" />
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-[11px] font-semibold text-slate-500 uppercase">Contacts</span>
+                  <div class="flex items-center gap-2">
+                    <button id="proj-contact-add" type="button"
+                      class="px-2 py-1 text-[11px] rounded border border-slate-300 text-slate-600 hover:bg-slate-50 font-semibold">Add</button>
+                    <button id="proj-contact-import" type="button"
+                      class="px-2 py-1 text-[11px] rounded bg-indigo-600 text-white hover:bg-indigo-700 font-semibold">Import
+                      contacts (.xlsx)</button>
+                    <input id="proj-contact-file" type="file" accept=".xlsx" class="hidden" />
+                  </div>
+                </div>
+                <div class="overflow-x-auto">
+                  <table class="w-full text-[11px]">
+                    <thead>
+                      <tr class="text-left text-slate-400 uppercase text-[9px] border-b border-slate-200">
+                        <th class="py-1 pr-2">Name</th>
+                        <th class="py-1 pr-2">Contact</th>
+                        <th class="py-1 pr-2">Company</th>
+                        <th class="py-1 pr-2">Role</th>
+                        <th class="py-1 pr-2">Teams</th>
+                        <th class="py-1 w-6"></th>
+                      </tr>
+                    </thead>
+                    <tbody id="proj-contact-rows"></tbody>
+                  </table>
+                  <p id="proj-contact-empty" class="text-[11px] text-slate-400 italic py-2">No contacts yet. Import the
+                    Responsibility Matrix export or add people manually. Dropping the matrix .xlsx onto the dropzone
+                    also works.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 mt-6 w-full">
+              <button id="clear-cache-btn" type="button"
+                class="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 bg-white border border-slate-300 hover:bg-red-50 hover:text-red-700 text-slate-700 text-[13px] font-bold rounded transition-colors shadow-sm">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                <span>Clear cached data</span>
+              </button>
+              <button id="open-explorer-btn" type="button" disabled
+                class="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 bg-white border border-slate-300 hover:bg-indigo-50 hover:text-indigo-700 disabled:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed text-slate-700 disabled:text-slate-400 text-[13px] font-bold rounded transition-colors shadow-sm">
+                <i data-lucide="table-properties" class="w-4 h-4"></i>
+                <span>Attributes Explorer</span>
+              </button>
+              <button id="open-viewer-btn" type="button" disabled
+                class="flex-1 flex justify-center items-center gap-2 py-2.5 px-4 border border-transparent text-[13px] font-bold text-white bg-slate-900 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed transition-all duration-300 rounded">
+                <i data-lucide="box" class="w-4 h-4"></i>
+                <span>Open 3D Viewer</span>
+              </button>
+              <button id="coord-load-all" type="button" disabled
+                class="hidden flex-1 justify-center items-center gap-2 py-2.5 px-4 border border-transparent text-[13px] font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed transition-all duration-300 rounded">
+                <i data-lucide="boxes" class="w-4 h-4"></i>
+                <span>Load all models</span>
+              </button>
+            </div>
+
+          </div>
+
+        </section>
+
+        <div id="ext-dock-top" class="hidden w-full shrink-0"></div>
+        <section id="viewer-3d-section"
+          class="hidden flex-col flex-1 w-full bg-slate-100 relative min-h-0 border-t border-slate-200">
+
+          <div id="three-container" class="w-full h-full relative overflow-hidden">
+
+            <div id="viewer-topbar"
+              class="hidden absolute top-0 left-0 right-0 z-[30] items-center justify-between px-4 py-2 bg-white/95 backdrop-blur-sm border-b border-slate-200 shadow-sm">
+              <div class="flex items-center gap-2 text-slate-800 min-w-0">
+                <i data-lucide="box" class="w-4 h-4 text-indigo-600 shrink-0"></i>
+                <span id="viewer-filename" class="text-xs font-semibold text-slate-600 truncate" title="No file">No
+                  file</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span id="viewer-status" class="text-[11px] text-slate-500"></span>
+              </div>
+            </div>
+
+            <div id="viewer-progress-container" class="hidden">
+              <div id="viewer-progress-bar" style="width: 0%"></div>
+            </div>
+
+            <div id="viewer-loading" class="hidden">
+              <div class="v3d-spinner"></div>
+              <span id="viewer-loading-text">Loading geometry…</span>
+            </div>
+
+            <div id="dimension-labels"></div>
+
+            <div id="prop-popup" class="properties-popup closed">
+              <div id="prop-popup-resize-handle"></div>
+              <div class="properties-popup-header">
+                <span class="text-sm font-semibold">Selected Properties</span>
+                <button id="prop-popup-close" class="prop-popup-close" title="Close properties">
+                  <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+              </div>
+              <div id="prop-popup-tabs" class="prop-popup-tabs">
+                <button type="button" class="prop-tab active" data-prop-tab="properties">Properties</button>
+                <button type="button" class="prop-tab" data-prop-tab="quantities">Quantities</button>
+              </div>
+              <div id="prop-popup-content" class="overflow-y-auto p-4 text-xs flex-1 bg-white">
+                <p class="text-slate-400 italic text-center py-8">No selection</p>
+              </div>
+            </div>
+
+            <div id="classifier-popup" class="properties-popup classifier-popup closed">
+              <div class="properties-popup-header">
+                <span class="text-sm font-semibold">Filter &amp; Classifier</span>
+                <button id="classifier-popup-close" class="prop-popup-close" title="Close">
+                  <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+              </div>
+              <div id="fc-tabs" class="prop-popup-tabs">
+                <button type="button" class="prop-tab active" data-fc-tab="classifier">Classifier</button>
+                <button type="button" class="prop-tab" data-fc-tab="filter">Filter</button>
+                <button type="button" class="prop-tab" data-fc-tab="ext-filter">Rel. / External</button>
+              </div>
+              <div id="classifier-popup-content" class="classifier-content flex-1 bg-white">
+                <p class="text-slate-400 italic text-center py-8">No model loaded</p>
+              </div>
+              <div id="filter-popup-content" class="classifier-content flex-1 bg-white" style="display:none">
+                <p class="text-slate-400 italic text-center py-8">No model loaded</p>
+              </div>
+              <div id="ext-filter-popup-content" class="classifier-content flex-1 bg-white" style="display:none">
+                <p class="text-slate-400 italic text-center py-8">No external data</p>
+              </div>
+            </div>
+
+            <div id="settings-popup" class="settings-popup closed">
+              <div class="properties-popup-header">
+                <span class="text-sm font-semibold">Settings</span>
+                <button id="settings-popup-close" class="prop-popup-close" title="Close settings">
+                  <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+              </div>
+              <div id="settings-popup-content" class="settings-content flex-1 bg-white">
+                <p class="text-slate-400 italic text-center py-8">Loading…</p>
+              </div>
+            </div>
+
+            <div class="viewer-controls">
+              <button id="v3d-btn-fit" class="viewer-btn" title="Fit to view" aria-label="Fit to view">
+                <i data-lucide="focus"></i>
+              </button>
+              <button id="v3d-btn-nav" class="viewer-btn" title="Enhanced navigation (orbit around clicked point)"
+                aria-label="Enhanced navigation">
+                <i data-lucide="rotate-3d"></i>
+              </button>
+              <button id="v3d-btn-walk" class="viewer-btn" title="First-person walk (WASD, Esc to exit)"
+                aria-label="First-person walk">
+                <i data-lucide="person-standing"></i>
+              </button>
+              <div id="v3d-dimension-group" class="viewer-menu-group">
+                <button id="v3d-btn-dimension" class="viewer-btn viewer-menu-toggle viewer-menu-toggle-icon"
+                  title="Dimension tools" aria-label="Dimension tools" aria-haspopup="true" aria-expanded="false">
+                  <i data-lucide="ruler"></i>
+                </button>
+                <div id="v3d-dimension-menu" class="viewer-menu-panel" role="menu" aria-label="Dimension tools">
+                  <button id="v3d-btn-measure" class="viewer-btn viewer-menu-item" title="Measure distance"
+                    aria-label="Measure distance" role="menuitem">
+                    <i data-lucide="ruler"></i>
+                    <span>Measure distance</span>
+                  </button>
+                  <button id="v3d-btn-autodim" class="viewer-btn viewer-menu-item" title="Auto Dimension (Holes)"
+                    aria-label="Auto Dimension (Holes)" role="menuitem">
+                    <i data-lucide="hammer"></i>
+                    <span>Auto dimension</span>
+                  </button>
+                </div>
+              </div>
+              <div id="v3d-section-group" class="viewer-menu-group">
+                <button id="v3d-btn-section" class="viewer-btn viewer-menu-toggle viewer-menu-toggle-icon"
+                  title="Section tools" aria-label="Section tools" aria-haspopup="true" aria-expanded="false">
+                  <i data-lucide="scissors"></i>
+                </button>
+                <div id="v3d-section-menu" class="viewer-menu-panel" role="menu" aria-label="Section tools">
+                  <button id="v3d-btn-clip" class="viewer-btn viewer-menu-item" title="Section plane"
+                    aria-label="Section plane" role="menuitem">
+                    <i data-lucide="square-mouse-pointer"></i>
+                    <span>Section plane</span>
+                  </button>
+                  <button id="v3d-btn-section-down" class="viewer-btn viewer-menu-item" title="Horizontal section down"
+                    aria-label="Horizontal section down" role="menuitem">
+                    <i data-lucide="square-centerline-dashed-vertical"></i>
+                    <span>Horizontal section</span>
+                  </button>
+                  <button id="v3d-btn-clipbox" class="viewer-btn viewer-menu-item" title="Clipping box"
+                    aria-label="Clipping box" role="menuitem">
+                    <i data-lucide="box"></i>
+                    <span>Section box</span>
+                  </button>
+                </div>
+              </div>
+              <button id="v3d-btn-properties" class="viewer-btn" title="Properties panel" aria-label="Properties panel">
+                <i data-lucide="info"></i>
+              </button>
+              <button id="v3d-btn-classifier" class="viewer-btn" title="Filter &amp; Classifier"
+                aria-label="Filter and Classifier">
+                <i data-lucide="layers-2"></i>
+              </button>
+              <button id="v3d-btn-grids" class="viewer-btn" title="Project grids / axes"
+                aria-label="Project grids / axes">
+                <i data-lucide="frame"></i>
+              </button>
+              <button id="v3d-btn-isolate" class=" viewer-btn" title="Isolate selection" aria-label="Isolate selection">
+                <i data-lucide="eye-off"></i>
+              </button>
+              <button id="v3d-btn-reset-filters" class="viewer-btn" title="Reset all filters"
+                aria-label="Reset all filters">
+                <i data-lucide="refresh-cw-off"></i>
+              </button>
+              <button id="v3d-btn-settings" class="viewer-btn" title="Settings" aria-label="Settings">
+                <i data-lucide="settings"></i>
+              </button>
+              <button id="v3d-btn-models" class="hidden viewer-btn" title="Loaded models" aria-label="Loaded models">
+                <i data-lucide="boxes"></i>
+              </button>
+              <div id="v3d-tools-group" class="viewer-menu-group">
+                <button id="v3d-btn-tools" class="viewer-btn viewer-menu-toggle viewer-menu-toggle-icon"
+                  title="Additional tools" aria-label="Additional tools" aria-haspopup="true" aria-expanded="false">
+                  <i data-lucide="command"></i>
+                </button>
+                <div id="v3d-tools-menu" class="viewer-menu-panel" role="menu" aria-label="Additional tools">
+                  <button id="qcp-btn-explorer-dock" class="viewer-btn viewer-menu-item"
+                    title="Toggle Attributes Explorer panel" aria-label="Attributes Explorer" role="menuitem">
+                    <i data-lucide="table-properties"></i>
+                    <span>Attribute explorer</span>
+                  </button>
+                  <button id="qcp-btn-outliner" class="viewer-btn viewer-menu-item"
+                    title="Toggle non-compliant highlight" aria-label="IDS Validation" role="menuitem">
+                    <i data-lucide="circle-check-big"></i>
+                    <span>IDS Validation</span>
+                  </button>
+                  <button id="ext-btn-dock" class="viewer-btn viewer-menu-item" title="Toggle External Data panel"
+                    aria-label="External Data" role="menuitem">
+                    <i data-lucide="database"></i>
+                    <span>External Data</span>
+                  </button>
+                  <button id="v3d-btn-dxf" class="viewer-btn viewer-menu-item" title="Export DXF"
+                    aria-label="Export DXF" role="menuitem">
+                    <i data-lucide="file-input"></i>
+                    <span>DXF Export</span>
+                  </button>
+                  <button id="v3d-btn-export3d" class="viewer-btn viewer-menu-item" title="Export 3D (GLB / OBJ / STL)"
+                    aria-label="Export 3D" role="menuitem">
+                    <i data-lucide="box"></i>
+                    <span>3D Export</span>
+                  </button>
+                  <button id="coo-btn-diff" class="viewer-btn viewer-menu-item" title="Compare models (A vs B)"
+                    aria-label="Compare models" role="menuitem">
+                    <i data-lucide="git-compare"></i>
+                    <span>Compare models</span>
+                  </button>
+                  <button id="cls-btn-review" class="viewer-btn viewer-menu-item" title="Toggle Clash Review panel"
+                    aria-label="Clash Review" role="menuitem">
+                    <i data-lucide="squares-exclude"></i>
+                    <span>Clash Review</span>
+                  </button>
+                </div>
+              </div>
+              <button id="coo-btn-bcf" class="viewer-btn" title="Issue Management (BCF)" aria-label="Issue Management">
+                <i data-lucide="message-square-warning"></i>
+              </button>
+            </div>
+
+            <div class="viewer-gizmo-cluster">
+              <button id="v3d-btn-rot-left" class="viewer-gizmo-btn" title="Rotate left 90 deg"
+                aria-label="Rotate left 90 deg">
+                <i data-lucide="rotate-ccw"></i>
+              </button>
+              <button id="v3d-btn-reset" class="viewer-gizmo-btn" title="Reset view" aria-label="Reset view">
+                <i data-lucide="house"></i>
+              </button>
+              <button id="v3d-btn-rot-right" class="viewer-gizmo-btn" title="Rotate right 90 deg"
+                aria-label="Rotate right 90 deg">
+                <i data-lucide="rotate-cw"></i>
+              </button>
+            </div>
+
+          </div>
+        </section>
+
+        <section id="tree-inspector-section"
+          class="hidden flex-row flex-1 w-full bg-white relative min-h-0 border-t border-slate-200">
+
+          <div class="w-1/2 flex flex-col h-full overflow-hidden border-r border-slate-200">
+            <div
+              class="py-2 px-4 border-b border-slate-200 bg-slate-50 flex items-center justify-center flex-col shrink-0">
+              <div class="font-semibold text-slate-700 text-sm flex items-center gap-2">
+                <i data-lucide="folder-tree" class="w-4 h-4 text-slate-400"></i>
+                <span>Structure Tree</span>
+              </div>
+              <select id="tree-model-select" title="Model to inspect"
+                class="text-xs text-slate-600 font-normal mt-1 max-w-[90%] truncate px-2 py-1 border border-slate-200 rounded bg-white focus:outline-none focus:border-slate-400">
+                <option value="">No file loaded</option>
+              </select>
+            </div>
+
+            <div id="tree-mode-bar" class="tree-mode-bar shrink-0">
+              <button type="button" class="tree-mode-btn active" data-tree-mode="structure">Structure Tree</button>
+              <button type="button" class="tree-mode-btn" data-tree-mode="type">Type</button>
+              <button type="button" class="tree-mode-btn" data-tree-mode="class">IFC Class</button>
+              <button type="button" class="tree-mode-btn" data-tree-mode="materials">Materials</button>
+            </div>
+
+            <div id="tree-search-bar"
+              class="px-3 py-2 border-b border-slate-200 bg-white shrink-0 flex items-center gap-2">
+              <input id="tree-search-input" type="text" placeholder="Search name, class or GUID…"
+                class="flex-1 min-w-0 text-xs px-2 py-1.5 border border-slate-300 rounded focus:outline-none focus:border-slate-500"
+                autocomplete="off" spellcheck="false" />
+              <span id="tree-search-count" class="text-[10px] text-slate-400 whitespace-nowrap hidden"></span>
+              <button id="tree-search-clear" type="button"
+                class="hidden w-5 h-5 flex items-center justify-center rounded text-slate-400 hover:text-slate-700"
+                title="Clear search">×</button>
+            </div>
+
+            <div id="tree-root" class="tree-pane flex-1 min-h-0 overflow-y-auto p-4"></div>
+
+            <div class="bg-slate-100 p-2 border-t border-slate-200 flex justify-between items-center shrink-0">
+              <div class="flex gap-2">
+                <button id="tree-btn-expand"
+                  class="w-6 h-6 flex items-center justify-center rounded bg-white border border-slate-300 text-slate-600 hover:text-slate-900 hover:border-slate-500 transition shadow-sm"
+                  title="Expand all">
+                  <i data-lucide="plus" class="w-3 h-3"></i>
+                </button>
+                <button id="tree-btn-collapse"
+                  class="w-6 h-6 flex items-center justify-center rounded bg-white border border-slate-300 text-slate-600 hover:text-slate-900 hover:border-slate-500 transition shadow-sm"
+                  title="Collapse all">
+                  <i data-lucide="minus" class="w-3 h-3"></i>
+                </button>
+              </div>
+              <span class="text-xs text-slate-500">Click node for properties</span>
+            </div>
+          </div>
+
+          <div class="w-1/2 flex flex-col h-full overflow-hidden">
+            <div
+              class="py-2 px-4 border-b border-slate-200 bg-slate-50 flex items-center justify-center flex-col shrink-0">
+              <div class="font-semibold text-slate-700 text-sm flex items-center gap-2">
+                <i data-lucide="info" class="w-4 h-4 text-slate-400"></i>
+                <span>Element Properties</span>
+              </div>
+              <div class="text-xs text-slate-500 font-normal mt-1">Selected element details</div>
+            </div>
+
+            <div id="tree-prop-tabs" class="prop-popup-tabs shrink-0">
+              <button type="button" class="prop-tab active" data-prop-tab="properties">Properties</button>
+              <button type="button" class="prop-tab" data-prop-tab="quantities">Quantities</button>
+            </div>
+
+            <div id="tree-prop-content" class="flex-1 min-h-0 overflow-y-auto p-6 text-xs bg-white">
+              <div id="tree-prop-empty" class="h-full flex flex-col items-center justify-center text-slate-400">
+                <i data-lucide="mouse-pointer-click" class="w-10 h-10 mb-3 text-slate-300"></i>
+                <p class="text-sm">Select an element in the Structure Tree.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="quality-report-section"
+          class="hidden flex-col flex-1 w-full bg-slate-50 relative min-h-0 border-t border-slate-200"
+          style="display:none;">
+          <div class="flex-1 min-h-0 overflow-y-auto w-full">
+            <div class="max-w-5xl mx-auto p-6 space-y-4">
+              <div class="flex items-center justify-between">
+                <h2 class="text-base font-bold text-slate-800">Quality Control Dashboard</h2>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
+                <div
+                  class="bg-white p-5 border border-white flex flex-col gap-5 h-[435px] w-full rounded-lg shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+                  <h2 class="text-[16px] font-bold text-slate-800 border-b border-slate-100 pb-2 flex items-center">
+                    <i data-lucide="folder-open" class="text-slate-800 w-4 h-4 mr-2"></i> Project Information
+                  </h2>
+                  <div class="flex flex-col gap-2 text-[13px]">
+                    <div class="flex justify-between items-center"><span class="text-slate-500">Project Name:</span>
+                      <span class="text-slate-900 font-bold truncate max-w-[200px]" id="qr-project-name"
+                        title="-">-</span>
+                    </div>
+                    <div class="flex justify-between items-center"><span class="text-slate-500">File Name:</span>
+                      <span class="text-slate-900 font-semibold truncate max-w-[200px]" id="qr-file-name">-</span>
+                    </div>
+                    <div class="flex justify-between items-center"><span class="text-slate-500">Schema:</span>
+                      <span class="text-slate-900 font-semibold truncate max-w-[80px]" id="qr-schema">-</span>
+                    </div>
+                    <div class="flex justify-between items-center"><span class="text-slate-500">Author:</span>
+                      <span class="text-slate-900 font-semibold truncate max-w-[160px]" id="qr-person">-</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-col gap-2 text-[13px] border-t border-slate-100 pt-4">
+                    <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-700">Rules
+                        Dictionary</span></div>
+                    <div class="flex justify-between items-center"><span class="text-slate-500">Rules File:</span>
+                      <span class="text-slate-900 font-semibold truncate max-w-[200px]" id="qr-rules-file-name"
+                        title="No file loaded">-</span>
+                    </div>
+                    <div class="flex justify-between items-center"><span class="text-slate-500">Format:</span>
+                      <span
+                        class="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider rounded shrink-0"
+                        id="qr-rule-type">None</span>
+                    </div>
+                    <div class="flex justify-between items-center"><span class="text-slate-500">QCheck Custom
+                        Rules:</span>
+                      <span class="text-indigo-600 font-bold" id="qr-qcheck-rules">0</span>
+                    </div>
+                    <span class="hidden" id="qr-unique-specs">0</span><span class="hidden" id="qr-unique-reqs">0</span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-3 mt-auto pt-0">
+                    <button onclick="document.getElementById('rulesInput').click()"
+                      class="w-full flex justify-center items-center py-2 px-2 border border-slate-300 text-[12px] font-bold text-slate-700 bg-slate-50 hover:border-accent hover:text-accent transition-all duration-300 rounded">
+                      <i data-lucide="file-input" class="w-4 h-4 mr-1.5"></i> Load Rules
+                    </button>
+                    <button id="btnRunGlobalInspection" disabled
+                      class="w-full flex items-center justify-center py-2 px-2 border border-transparent text-[12px] font-bold text-white bg-slate-900 hover:bg-accent disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed transition-all duration-300 shadow-sm rounded">
+                      <i data-lucide="play" class="w-4 h-4 mr-1.5"></i> Run Inspection
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  class="bg-white p-5 border border-white flex flex-col gap-4 h-[435px] w-full rounded-lg shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+                  <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                    <h2 class="text-[16px] font-bold text-slate-800 flex items-center"><i data-lucide="shield-check"
+                        class="text-slate-500 w-5 h-5 mr-2"></i> IDS Compliance</h2>
+                    <span class="text-xl font-bold text-slate-800" id="qr-ids-percent-text">0%</span>
+                  </div>
+                  <div class="w-full bg-slate-200 rounded-full h-2.5">
+                    <div id="qr-ids-bar" class="bg-emerald-500 h-2.5 rounded-full transition-all duration-1000 ease-out"
+                      style="width:0%"></div>
+                  </div>
+                  <div id="qr-ids-errors-text" class="flex flex-wrap items-center gap-2 text-[12px] font-medium mt-2">
+                    <span class="bg-red-50 text-red-700 px-2 py-0.5 rounded border border-red-200"
+                      id="qr-ids-mismatches">0
+                      Mismatches</span>
+                    <span class="bg-amber-50 text-amber-700 px-2 py-0.5 rounded border border-amber-200"
+                      id="qr-ids-missing-vals">0 Missing Values</span>
+                  </div>
+                  <div class="mt-2 overflow-y-auto scrollbar-thin pr-1" id="qr-ids-lists">
+                    <p class="text-[12px] text-slate-500 italic">Run inspection to view details.</p>
+                  </div>
+                </div>
+
+                <div
+                  class="bg-white p-5 border border-white flex flex-col gap-4 h-[435px] w-full rounded-lg shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+                  <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                    <h2 class="text-[16px] font-bold text-slate-800 flex items-center"><i data-lucide="check-circle"
+                        class="text-slate-500 w-5 h-5 mr-2"></i> QCheck Validation</h2>
+                    <span class="text-xl font-bold text-indigo-900" id="qr-qcheck-percent-text">0%</span>
+                  </div>
+                  <div class="w-full bg-indigo-100 rounded-full h-2.5">
+                    <div id="qr-qcheck-bar"
+                      class="bg-indigo-500 h-2.5 rounded-full transition-all duration-1000 ease-out" style="width:0%">
+                    </div>
+                  </div>
+                  <div id="qr-qc-errors-text" class="flex flex-wrap items-center gap-2 text-[12px] font-medium mt-2">
+                    <span class="bg-red-50 text-red-700 px-2 py-0.5 rounded border border-red-200" id="qr-qc-errors">0
+                      Errors</span>
+                    <span class="bg-amber-50 text-amber-700 px-2 py-0.5 rounded border border-amber-200"
+                      id="qr-qc-warns">0
+                      Warnings</span>
+                    <span class="bg-sky-50 text-sky-700 px-2 py-0.5 rounded border border-sky-200" id="qr-qc-infos">0
+                      Info</span>
+                  </div>
+                  <div class="mt-2 overflow-y-auto scrollbar-thin pr-1" id="qr-qcheck-lists">
+                    <p class="text-[12px] text-indigo-400 italic">Run inspection to view details.</p>
+                  </div>
+                </div>
+
+                <div
+                  class="bg-white p-5 border border-white flex flex-col gap-4 h-[435px] w-full rounded-lg shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+                  <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                    <h2 class="text-[16px] font-bold text-slate-800 flex items-center"><i data-lucide="layers"
+                        class="text-slate-500 w-5 h-5 mr-2"></i> Spatial Integrity</h2>
+                    <button id="btnRunIntegrity" disabled
+                      class="flex items-center gap-1.5 py-1.5 px-3 text-[12px] font-bold text-white bg-slate-900 hover:bg-accent disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed transition-all duration-300 shadow-sm rounded-lg">
+                      <i data-lucide="play" class="w-3.5 h-3.5"></i> Run analysis
+                    </button>
+                  </div>
+                  <div class="mt-2 flex-grow min-h-0 overflow-y-auto scrollbar-thin pr-2 flex flex-col gap-3">
+                    <div id="qc-integrity">
+                      <p class="text-[12px] text-slate-500 italic">Click “Run analysis” to check model integrity (no
+                        rules
+                        required).</p>
+                    </div>
+                    <div id="qc-spatial-lists" class="flex flex-col gap-2"></div>
+                  </div>
+                </div>
+
+                <div
+                  class="bg-white p-5 border border-white flex flex-col gap-4 h-[435px] w-full rounded-lg shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+                  <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                    <h2 class="text-[16px] font-bold text-slate-800 flex items-center"><i
+                        data-lucide="bar-chart-horizontal" class="text-slate-500 w-5 h-5 mr-2"></i> [IDS] IFC Class
+                      Issues</h2>
+                  </div>
+                  <div id="qr-class-bars"
+                    class="flex flex-col gap-2 overflow-y-auto pr-2 scrollbar-thin max-h-[330px] flex-grow">
+                    <p class="text-[12px] text-slate-500 italic">Run inspection to calculate scores by class.</p>
+                  </div>
+                </div>
+
+                <div
+                  class="bg-white p-5 border border-white flex flex-col gap-4 h-[435px] w-full rounded-lg shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+                  <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                    <h2 class="text-[16px] font-bold text-slate-800 flex items-center"><i
+                        data-lucide="bar-chart-horizontal" class="text-slate-500 w-5 h-5 mr-2"></i> [QCheck] IFC Class
+                      Issues</h2>
+                  </div>
+                  <div id="qr-qcheck-class-bars"
+                    class="flex flex-col gap-2 overflow-y-auto pr-2 scrollbar-thin max-h-[330px] flex-grow">
+                    <p class="text-[12px] text-slate-500 italic">Run inspection to calculate scores by class.</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div id="editorSection"
+          class="hidden flex-col flex-1 w-full bg-slate-100 relative min-h-0 border-t border-slate-200">
+          <div id="qcp-dock-resizer" title="Drag to resize"></div>
+          <div id="table-container" class="relative shadow-sm w-full flex-1 min-h-0 bg-slate-50"
+            style="display:none; overflow:hidden;">
+            <div id="tabulator-grid" style="height:100%;width:100%;min-height:400px;"></div>
+          </div>
+
+          <div id="editor-placeholder"
+            class="flex-1 flex flex-col items-center justify-center text-slate-400 bg-slate-50 z-10">
+            <i data-lucide="table-properties" class="w-10 h-10 mb-3 text-slate-300"></i>
+            <p class="text-sm font-medium text-slate-500">Select an IFC Class and Property Set to view data</p>
+          </div>
+
+          <div id="editor-status-bar"
+            class="mt-auto h-6 bg-slate-100 border-t border-slate-300 flex items-center justify-between px-4 shrink-0 z-50 text-[10.5px] font-medium text-slate-600">
+            <div class="flex items-center gap-4">
+              <div id="editor-rules-status" class="hidden text-emerald-600 flex items-center gap-1.5">
+                <i data-lucide="bookmark" class="w-3 h-3"></i> <span id="editor-rules-text">Rules loaded</span>
+              </div>
+              <div id="editor-qcheck-status" class="hidden text-indigo-600 flex items-center gap-1.5">
+                <i data-lucide="circle-check" class="w-3 h-3"></i> <span id="editor-qcheck-text">QCheck
+                  loaded</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div id="editor-selection-status" class="hidden flex items-center gap-1">
+                Selected: <span id="editor-sel-x" class="text-accent font-bold">0</span> / <span
+                  id="editor-sel-y">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="externalSection"
+          class="hidden flex-col flex-1 w-full bg-slate-100 relative min-h-0 border-t border-slate-200">
+          <div id="ext-dock-resizer"></div>
+          <div id="ext-panel-mount" class="flex-1 min-h-0 w-full flex flex-col"></div>
+        </div>
+
+        <div id="issuesSection"
+          class="hidden flex-col flex-1 w-full bg-slate-50 relative min-h-0 border-t border-slate-200"></div>
+
+        <div id="clashSection"
+          class="hidden flex-col flex-1 w-full bg-slate-50 relative min-h-0 border-t border-slate-200"></div>
+
+        <div id="relSection"
+          class="hidden flex-col flex-1 w-full bg-slate-50 relative min-h-0 border-t border-slate-200"></div>
+
+        <div id="dashboard-loader"
+          class="fixed bottom-6 left-6 z-[100] bg-slate-900 text-white text-[13px] font-semibold px-4 py-3 rounded shadow-lg hidden items-center gap-3 transition-opacity border border-slate-700">
+          <i data-lucide="loader-2" class="w-4 h-4 animate-spin text-indigo-300"></i>
+          <span id="dashboard-loader-text">Running Global Inspection...</span>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
+    window.updateToolDynamicUI = function () {
+      window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
+    };
+
+    function bootApp() {
+      if (typeof autoDetectLanguage === 'function') autoDetectLanguage();
+
+      if (typeof window.injectUI === 'function') {
+        window.injectUI({
+          showNav: true,
+          transparentNav: false,
+          showSignIn: false,
+          showCategories: true,
+          showNews: false,
+          showHelp: true,
+          showFooter: false,
+          showFooterLinks: false,
+        });
+      }
+
+      if (typeof window.injectCookieBanner === 'function') {
+        window.injectCookieBanner();
+      }
+
+      if (typeof window.loadLanguage === 'function') {
+        const lang = (typeof currentLang !== 'undefined') ? currentLang : 'en';
+        window.loadLanguage(lang, window.pageScriptPrefix);
+      }
+
+      if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootApp);
+    } else {
+      bootApp();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const appSidebar = document.getElementById('app-sidebar');
+      const sidebarToggle = document.getElementById('sidebar-toggle');
+      const toggleWrapper = document.getElementById('sidebar-toggle-icon-wrapper');
+      const sidebarTexts = document.querySelectorAll('.sidebar-text');
+      let isSidebarExpanded = false;
+      document.documentElement.style.setProperty('--app-sidebar-w', '72px');
+
+      if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', () => {
+          isSidebarExpanded = !isSidebarExpanded;
+          if (isSidebarExpanded) {
+            appSidebar.classList.replace('w-[72px]', 'w-64');
+            toggleWrapper.innerHTML = '<i data-lucide="chevron-left" class="w-5 h-5"></i>';
+            sidebarTexts.forEach(t => t.classList.replace('opacity-0', 'opacity-100'));
+            document.documentElement.style.setProperty('--app-sidebar-w', '256px');
+          } else {
+            appSidebar.classList.replace('w-64', 'w-[72px]');
+            toggleWrapper.innerHTML = '<i data-lucide="chevron-right" class="w-5 h-5"></i>';
+            sidebarTexts.forEach(t => t.classList.replace('opacity-100', 'opacity-0'));
+            document.documentElement.style.setProperty('--app-sidebar-w', '72px');
+          }
+          if (window.lucide) window.lucide.createIcons();
+        });
+      }
+    });
+
+    (function () {
+      const sidebar = document.getElementById('app-sidebar');
+      if (!sidebar) return;
+      sidebar.addEventListener('click', (e) => {
+        const btn = e.target.closest('.tab-btn');
+        if (!btn || btn.disabled || btn.id === 'sidebar-toggle' || !sidebar.contains(btn)) return;
+        sidebar.querySelectorAll('.tab-btn').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    })();
+  </script>
+
+  <script>
+    window.__unlockNavForIfc = function (file) {
+      if (!file) return;
+      window.__pendingIfcFile = file;
+
+      const name = document.getElementById('ifc-file-name');
+      const status = document.getElementById('ifc-loader-status');
+      const openViewer = document.getElementById('open-viewer-btn');
+      const openExplorer = document.getElementById('open-explorer-btn');
+      const navViewer = document.getElementById('nav-viewer');
+      const navQuality = document.getElementById('nav-quality');
+      const navExplorer = document.getElementById('nav-explorer');
+      const navExternal = document.getElementById('nav-external');
+      const navIssues = document.getElementById('nav-issues');
+      const navClash = document.getElementById('nav-clash');
+      const navRel = document.getElementById('nav-rel');
+
+      if (name) {
+        name.textContent = file.name;
+        name.classList.remove('text-slate-500');
+        name.classList.add('text-indigo-600', 'font-bold');
+      }
+      if (status) status.textContent = 'IFC selected - loading viewer';
+      [openViewer, openExplorer, navViewer, navQuality, navExplorer, navExternal, navIssues, navClash, navRel].forEach((button) => {
+        if (!button) return;
+        button.disabled = false;
+        button.removeAttribute('disabled');
+        button.removeAttribute('title');
+      });
+      const btnIntegrity = document.getElementById('btnRunIntegrity');
+      if (btnIntegrity) { btnIntegrity.disabled = false; btnIntegrity.removeAttribute('disabled'); }
+
+      if (window.log) window.log('IFC selected: ' + file.name);
+    };
+
+    window.previewIfcFileSelection = function (input) {
+      const file = input && input.files && input.files[0];
+      if (!file) return;
+      window.__unlockNavForIfc(file);
+
+      if (window.handleIfcFileInput) window.handleIfcFileInput(input);
+      else window.dispatchEvent(new CustomEvent('ifc-file-selected', { detail: file }));
+    };
+  </script>
+
+  <script type="module">
+    import { QcpAudit } from '../js/webifc/qcp_audit.js';
+    import { parseArgs, decodeIfcString, getPropertiesFromPset } from '../js/webifc/qcp_ifcText.js';
+
+    const $ = (id) => document.getElementById(id);
+    const cls = (el, add, rem) => { if (!el) return; if (rem) el.classList.remove(...rem); if (add) el.classList.add(...add); };
+
+    const __logSeen = {};
+    function log(message, type = 'info') {
+      const out = $('logOutput'), cont = $('logContainer');
+      if (!out || !cont) return;
+      cont.classList.remove('hidden'); cont.classList.add('flex');
+      const colors = { info: 'text-slate-300', success: 'text-emerald-400', warn: 'text-amber-400', error: 'text-red-400' };
+      const t = new Date().toLocaleTimeString();
+      const line = document.createElement('div');
+      line.className = colors[type] || colors.info;
+      line.textContent = `[${t}] ${message}`;
+      out.appendChild(line); out.scrollTop = out.scrollHeight;
+    }
+    window.log = log;
+
+    function observeStatus(id, type) {
+      const el = $(id); if (!el) return;
+      const emit = () => {
+        const txt = (el.textContent || '').trim();
+        if (txt && txt !== __logSeen[id]) { __logSeen[id] = txt; log(txt, type); }
+      };
+      emit();
+      new MutationObserver(emit).observe(el, { childList: true, characterData: true, subtree: true });
+    }
+    observeStatus('ifc-loader-status', 'info');
+    observeStatus('viewer-status', 'info');
+
+    const audit = new QcpAudit({
+      tableMount: $('tabulator-grid'),
+      dashboardMount: null,
+      Tabulator: window.Tabulator,
+      onStatus: (m) => { const s = $('dashboard-loader-text'); if (s) s.textContent = m; },
+      onClassesLoaded: (classes) => {
+        const sel = $('tbClassSelect');
+        if (!sel) return;
+        sel.innerHTML = '<option value="" disabled selected>Select an IFC Class...</option>' +
+          classes.map((c) => `<option value="${c.name}">${c.name} (${c.count} instances)</option>`).join('');
+      },
+      onDirtyChange: (dirty) => { if ($('btnSaveTableIfc')) $('btnSaveTableIfc').disabled = !dirty; },
+      onHistoryChange: ({ canUndo, canRedo }) => {
+        if ($('btnUndo')) $('btnUndo').disabled = !canUndo;
+        if ($('btnRedo')) $('btnRedo').disabled = !canRedo;
+      },
+    });
+    window.qcpAudit = audit;
+
+    window.addEventListener('qcp-engine-ready', (e) => { window.__extEngineDetail = e.detail || {}; });
+    window.addEventListener('qcp-engine-ready', async (e) => {
+      try {
+        audit.attachViewer(e.detail || {});
+        if (e.detail && e.detail.model) { audit.setFragmentsModel(e.detail.model); await audit.buildViewerBridge(); }
+        renderQcpModelsLabel();
+      } catch (err) { console.warn('[qcp] viewer attach failed', err); }
+    });
+
+    window.addEventListener('qcp-selection', (e) => {
+      const ids = e.detail && (e.detail.localIds || e.detail.ids);
+      if (ids) audit.onExternalSelect(Array.isArray(ids) ? ids : [ids]);
+    });
+
+    let qcpScopeIds = null;
+    let qcpScopeUser = false;
+    let qcpModelsMenu = null;
+
+    function qcpEntries() {
+      return (window.__cooModels?.list?.() || []).map((m) => ({
+        id: m.id,
+        label: m.fileName + (m.tag ? ' [' + String(m.tag).toUpperCase() + ']' : ''),
+        fileName: m.fileName,
+        tag: String(m.tag || '').toUpperCase(),
+        active: !!m.active,
+      }));
+    }
+    function qcpDefaultScope(entries) {
+      if (entries.length < 2) return entries.map((e) => e.id);
+      const act = entries.find((e) => e.active) || entries[0];
+      const same = entries.filter((e) => e.tag === act.tag).map((e) => e.id);
+      return same.length ? same : entries.map((e) => e.id);
+    }
+    function qcpCurrentScope(entries) {
+      if (qcpScopeUser && Array.isArray(qcpScopeIds)) {
+        const valid = qcpScopeIds.filter((id) => entries.some((e) => e.id === id));
+        if (valid.length) return valid;
+      }
+      return qcpDefaultScope(entries);
+    }
+    function renderQcpModelsLabel() {
+      const lbl = $('qcp-models-label');
+      if (!lbl) return;
+      const entries = qcpEntries();
+      if (!entries.length) {
+        const f = window.__pendingIfcFile;
+        lbl.textContent = (f && f.name) || audit.fileName || 'No model';
+        return;
+      }
+      const scope = qcpCurrentScope(entries);
+      if (entries.length === 1) { lbl.textContent = entries[0].label; return; }
+      lbl.textContent = scope.length === entries.length
+        ? 'All models (' + entries.length + ')'
+        : scope.length + '/' + entries.length + ' models';
+    }
+    function closeQcpModelsMenu() {
+      if (qcpModelsMenu) { qcpModelsMenu.remove(); qcpModelsMenu = null; }
+      if (closeQcpModelsMenu._outside) {
+        document.removeEventListener('mousedown', closeQcpModelsMenu._outside);
+        closeQcpModelsMenu._outside = null;
+      }
+    }
+    function openQcpModelsMenu() {
+      if (qcpModelsMenu) { closeQcpModelsMenu(); return; }
+      const entries = qcpEntries();
+      const btn = $('qcp-models-btn');
+      if (!btn || !entries.length) return;
+      const scope = qcpCurrentScope(entries);
+      const menu = document.createElement('div');
+      menu.className = 'fixed z-[300] w-64 max-h-72 overflow-y-auto scrollbar-thin bg-white border border-slate-300 rounded-md shadow-xl p-1.5 text-xs flex flex-col gap-0.5';
+      const mkRow = (label, checked, onChange, bold) => {
+        const row = document.createElement('label');
+        row.className = 'flex items-center gap-2 px-1.5 py-1 hover:bg-slate-50 rounded cursor-pointer' + (bold ? ' font-semibold border-b border-slate-100' : '');
+        const box = document.createElement('input');
+        box.type = 'checkbox'; box.checked = checked;
+        const span = document.createElement('span');
+        span.className = 'truncate'; span.textContent = label;
+        row.appendChild(box); row.appendChild(span);
+        box.addEventListener('change', () => onChange(box.checked));
+        return row;
+      };
+      const commit = (ids) => {
+        qcpScopeUser = true;
+        qcpScopeIds = ids.length ? ids : entries.map((e) => e.id);
+        closeQcpModelsMenu();
+        renderQcpModelsLabel();
+        applyQcpScope().catch((err) => console.warn('[qcp] scope apply failed', err));
+      };
+      menu.appendChild(mkRow('All models', scope.length === entries.length, (on) => {
+        commit(on ? entries.map((e) => e.id) : []);
+      }, true));
+      for (const e of entries) {
+        menu.appendChild(mkRow(e.label, scope.includes(e.id), (on) => {
+          const cur = new Set(scope);
+          if (on) cur.add(e.id); else cur.delete(e.id);
+          commit([...cur]);
+        }, false));
+      }
+      document.body.appendChild(menu);
+      const r = btn.getBoundingClientRect();
+      menu.style.top = (r.bottom + 4) + 'px';
+      menu.style.left = Math.min(r.left, window.innerWidth - 270) + 'px';
+      qcpModelsMenu = menu;
+      setTimeout(() => {
+        closeQcpModelsMenu._outside = (ev) => {
+          if (qcpModelsMenu && !qcpModelsMenu.contains(ev.target) && !btn.contains(ev.target)) closeQcpModelsMenu();
+        };
+        document.addEventListener('mousedown', closeQcpModelsMenu._outside);
+      }, 0);
+    }
+    $('qcp-models-btn') && $('qcp-models-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      openQcpModelsMenu();
+    });
+
+    async function applyQcpScope() {
+      const entries = qcpEntries();
+      const scope = qcpCurrentScope(entries);
+      renderQcpModelsLabel();
+      if (!entries.length) return;
+      const scoped = entries.filter((e) => scope.includes(e.id));
+      if (scoped.length <= 1) {
+        const one = scoped[0] || entries.find((e) => e.active) || entries[0];
+        audit.setFederationScope(null);
+        if (one && window.__cooModels) window.__cooModels.setActive(one.id);
+        await ensureParsed();
+        if (audit.currentClass) { audit.showClass(audit.currentClass, currentPsets()); showTable(); }
+        return;
+      }
+      const fedEntries = scoped.map((e) => {
+        const raw = window.__cooModels?.raw?.(e.id);
+        return { id: e.id, label: e.fileName, file: raw?.file || null };
+      }).filter((e) => e.file);
+      if (fedEntries.length < 2) {
+        log('Federated view needs the original files of at least 2 models.', 'warn');
+        return;
+      }
+      audit.setFederationScope(fedEntries);
+      $('dashboard-loader') && $('dashboard-loader').classList.replace('hidden', 'flex');
+      try {
+        await audit.ensureFederationScan((m) => {
+          const s = $('dashboard-loader-text'); if (s) s.textContent = m;
+          log(m);
+        });
+      } finally {
+        $('dashboard-loader') && $('dashboard-loader').classList.replace('flex', 'hidden');
+      }
+      const classes = audit.getClasses();
+      const sel = $('tbClassSelect');
+      if (sel) {
+        const keep = audit.currentClass && classes.some((c) => c.name === audit.currentClass) ? audit.currentClass : '';
+        sel.innerHTML = '<option value="" disabled ' + (keep ? '' : 'selected') + '>Select an IFC Class...</option>' +
+          classes.map((c) => `<option value="${c.name}" ${c.name === keep ? 'selected' : ''}>${c.name} (${c.count} instances)</option>`).join('');
+      }
+      if (editActive) { $('btnToggleEdit') && $('btnToggleEdit').click(); }
+      if (audit.currentClass && classes.some((c) => c.name === audit.currentClass)) {
+        buildPsetMenu(audit.currentClass);
+        await audit.showClass(audit.currentClass, currentPsets());
+        showTable();
+        log('Federated explorer: ' + fedEntries.length + ' models, read-only.', 'info');
+      } else {
+        log('Federated explorer active (' + fedEntries.length + ' models). Pick an IFC Class.', 'info');
+      }
+    }
+
+    window.addEventListener('coo-active-model', (e) => {
+      const f = e.detail?.file;
+      if (audit.model && f && audit.fileName !== f.name) {
+        audit.model = null;
+      }
+      renderQcpModelsLabel();
+    });
+
+    async function ensureParsed() {
+      const f = window.__pendingIfcFile;
+      if (audit.model && (!f || audit.fileName === f.name)) return true;
+      if (!f) return !!audit.model;
+      log('Parsing IFC structure: ' + f.name + '…');
+      await audit.loadIfcText(await f.text(), f.name);
+      log('Parse complete.', 'success');
+      renderQcpModelsLabel();
+      ['btnToggleEdit', 'btnExportMenu', 'btnClearFilters', 'btnFilterIssues', 'btnRunIntegrity'].forEach((id) => { if ($(id)) $(id).disabled = false; });
+      return true;
+    }
+
+    const auditNavs = ['nav-quality', 'nav-explorer'];
+    const appNavs = ['nav-setup', 'nav-tree', 'nav-viewer'];
+
+    function scrollEl() { const w = $('main-content-wrapper'); return w ? w.parentElement : null; }
+    function setScrollLock(lock) {
+      const s = scrollEl(); if (!s) return;
+      if (lock) { s.classList.remove('overflow-y-auto'); s.classList.add('overflow-hidden'); }
+      else { s.classList.add('overflow-y-auto'); s.classList.remove('overflow-hidden'); }
+    }
+    function enterAuditLayout() {
+      const w = $('main-content-wrapper'), a = $('app-container');
+      cls(w, ['p-0', 'items-start', 'min-h-0'], ['p-4', 'md:p-6', 'flex-col', 'items-center', 'justify-start', 'pt-12']);
+      cls(a, ['flex-1', 'min-w-0', 'min-h-0', 'max-w-full', 'h-full'], ['max-w-7xl', 'shrink-0']);
+    }
+    function hideAppSections() {
+      const intro = $('top-intro-section'); if (intro) intro.style.display = 'none';
+      const viewer = $('viewer-3d-section'); if (viewer) { viewer.classList.add('hidden'); viewer.classList.remove('flex'); }
+      const tree = $('tree-inspector-section'); if (tree) { tree.classList.add('hidden'); tree.classList.remove('flex'); }
+      if (window.__extHideSection) window.__extHideSection();
+    }
+    function hideAuditViews() {
+      ['quality-report-section', 'editorSection', 'compact-toolbar'].forEach((id) => {
+        const el = $(id); if (!el) return;
+        el.style.display = 'none'; el.classList.add('hidden'); el.classList.remove('flex');
+      });
+      auditNavs.forEach((id) => $(id) && $(id).classList.remove('active'));
+      if (window.__extHideSection) window.__extHideSection();
+    }
+
+    async function showQuality() {
+      if ($('nav-quality') && $('nav-quality').disabled) return;
+      if (!(await ensureParsed())) return;
+      hideAppSections();
+      enterAuditLayout();
+      setScrollLock(false);
+      const tb = $('compact-toolbar'); tb.style.display = 'none'; tb.classList.add('hidden'); tb.classList.remove('flex');
+      const ed = $('editorSection'); ed.style.display = 'none'; ed.classList.add('hidden'); ed.classList.remove('flex');
+      const qs = $('quality-report-section'); qs.classList.remove('hidden'); qs.classList.add('flex'); qs.style.display = 'flex';
+      appNavs.forEach((id) => $(id) && $(id).classList.remove('active'));
+      $('nav-explorer') && $('nav-explorer').classList.remove('active');
+      $('nav-quality') && $('nav-quality').classList.add('active');
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    async function showExplorer() {
+      if ($('nav-explorer') && $('nav-explorer').disabled) return;
+      if (!(await ensureParsed())) return;
+      hideAppSections();
+      enterAuditLayout();
+      setScrollLock(true);
+      const qs = $('quality-report-section'); qs.style.display = 'none'; qs.classList.add('hidden'); qs.classList.remove('flex');
+      const tb = $('compact-toolbar'); tb.classList.remove('hidden'); tb.classList.add('flex'); tb.style.display = 'flex';
+      const ed = $('editorSection'); ed.classList.remove('hidden', 'qcp-dock'); ed.classList.add('flex'); ed.style.display = 'flex';
+      appNavs.forEach((id) => $(id) && $(id).classList.remove('active'));
+      $('nav-quality') && $('nav-quality').classList.remove('active');
+      $('nav-explorer') && $('nav-explorer').classList.add('active');
+      requestAnimationFrame(() => audit.table.resize());
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    $('nav-quality') && $('nav-quality').addEventListener('click', showQuality);
+    $('nav-explorer') && $('nav-explorer').addEventListener('click', showExplorer);
+    $('open-explorer-btn') && $('open-explorer-btn').addEventListener('click', () => { log('Opening Attributes Explorer…'); showExplorer(); });
+    appNavs.forEach((id) => $(id) && $(id).addEventListener('click', () => setScrollLock(false)));
+
+    window.jumpToClass = (cName) => {
+      showExplorer().then(() => {
+        const sel = $('tbClassSelect');
+        if (sel) { sel.value = cName; }
+        audit.showClass(cName, currentPsets());
+        showTable();
+      });
+    };
+
+    function showTable() {
+      const tc = $('table-container'); const ph = $('editor-placeholder');
+      if (tc) { tc.style.display = 'flex'; }
+      if (ph) ph.style.display = 'none';
+      requestAnimationFrame(() => audit.table.resize());
+    }
+
+    let selectedPsets = ['ALL'];
+    function currentPsets() { return selectedPsets.includes('ALL') ? ['ALL'] : selectedPsets.slice(); }
+    function buildPsetMenu(cName) {
+      const menu = $('tbPsetMenu'); if (!menu) return;
+      const psets = audit.getPsetsForClass(cName);
+      selectedPsets = ['ALL'];
+      const row = (val, label, checked) =>
+        `<label class="flex items-center gap-2 px-2 py-1 hover:bg-slate-50 rounded cursor-pointer">
+           <input type="checkbox" class="qcp-pset-cb accent-indigo-600" value="${val}" ${checked ? 'checked' : ''}> <span class="truncate">${label}</span>
+         </label>`;
+      menu.innerHTML = row('ALL', 'All Psets', true) + psets.map((p) => row(p, p, false)).join('');
+      $('tbPsetBtnText').textContent = 'All Psets';
+      menu.querySelectorAll('.qcp-pset-cb').forEach((cb) => cb.addEventListener('change', onPsetChange));
+    }
+    function onPsetChange(e) {
+      const menu = $('tbPsetMenu');
+      const all = menu.querySelector('.qcp-pset-cb[value="ALL"]');
+      if (e.target.value === 'ALL' && e.target.checked) {
+        menu.querySelectorAll('.qcp-pset-cb').forEach((cb) => { if (cb.value !== 'ALL') cb.checked = false; });
+        selectedPsets = ['ALL'];
+      } else {
+        if (all) all.checked = false;
+        selectedPsets = Array.from(menu.querySelectorAll('.qcp-pset-cb:checked')).map((cb) => cb.value).filter((v) => v !== 'ALL');
+        if (selectedPsets.length === 0) { if (all) all.checked = true; selectedPsets = ['ALL']; }
+      }
+      $('tbPsetBtnText').textContent = selectedPsets.includes('ALL') ? 'All Psets' : `${selectedPsets.length} Pset(s)`;
+      const c = $('tbClassSelect').value;
+      if (c) { audit.showClass(c, currentPsets()); showTable(); }
+    }
+    $('tbPsetBtn') && $('tbPsetBtn').addEventListener('click', () => $('tbPsetMenu').classList.toggle('hidden'));
+    document.addEventListener('click', (e) => {
+      const w = $('tbPsetWrapper'); if (w && !w.contains(e.target)) $('tbPsetMenu').classList.add('hidden');
+      const em = $('exportMenuOptions'); const eb = $('btnExportMenu');
+      if (em && eb && !eb.parentElement.contains(e.target)) em.classList.add('hidden');
+    });
+
+    $('tbClassSelect') && $('tbClassSelect').addEventListener('change', (e) => {
+      const c = e.target.value; if (!c) return;
+      buildPsetMenu(c);
+      audit.showClass(c, currentPsets());
+      showTable();
+    });
+
+    $('rulesInput') && $('rulesInput').addEventListener('change', async (e) => {
+      const f = e.target.files && e.target.files[0]; if (!f) return;
+      if (!(await ensureParsed())) return;
+      $('dashboard-loader') && $('dashboard-loader').classList.replace('hidden', 'flex');
+      await audit.loadRulesFile(f);
+      $('dashboard-loader') && $('dashboard-loader').classList.replace('flex', 'hidden');
+      const enable = (id) => { if ($(id)) $(id).disabled = false; };
+      ['btnRunGlobalInspection', 'btnToggleRules', 'btnToggleQCheck', 'btnExportMenu', 'btnClearFilters', 'btnToggleEdit'].forEach(enable);
+      if ($('tbRulesText')) $('tbRulesText').textContent = audit.ruleSet ? audit.ruleSet.format : 'Rules';
+      if ($('editor-rules-status')) $('editor-rules-status').classList.remove('hidden');
+      if (audit.ruleSet && audit.ruleSet.qcheckRules.length && $('editor-qcheck-status')) $('editor-qcheck-status').classList.remove('hidden');
+      const c = $('tbClassSelect').value; if (c) { audit.showClass(c, currentPsets()); showTable(); }
+    });
+
+    $('btnRunGlobalInspection') && $('btnRunGlobalInspection').addEventListener('click', () => {
+      $('dashboard-loader') && $('dashboard-loader').classList.replace('hidden', 'flex');
+      requestAnimationFrame(() => {
+        audit.rerunInspection();
+        $('dashboard-loader') && $('dashboard-loader').classList.replace('flex', 'hidden');
+      });
+    });
+
+    $('btnRunIntegrity') && $('btnRunIntegrity').addEventListener('click', async () => {
+      const btn = $('btnRunIntegrity');
+      btn.disabled = true;
+      $('dashboard-loader') && $('dashboard-loader').classList.replace('hidden', 'flex');
+      try {
+        if (await ensureParsed()) audit.runIntegrityOnly();
+      } catch (err) {
+        console.warn('[qcp] integrity analysis failed', err);
+      }
+      $('dashboard-loader') && $('dashboard-loader').classList.replace('flex', 'hidden');
+      btn.disabled = false;
+    });
+
+    $('global-search') && $('global-search').addEventListener('input', (e) => audit.table.setSearch(e.target.value));
+    $('btnClearFilters') && $('btnClearFilters').addEventListener('click', () => {
+      audit.table.clearFilters();
+      if ($('global-search')) $('global-search').value = '';
+      if (issuesOnly) { issuesOnly = false; audit.table.setFilterIssuesOnly(false); paintToggle($('btnFilterIssues'), false); }
+    });
+    $('btnUndo') && $('btnUndo').addEventListener('click', () => audit.undo());
+    $('btnRedo') && $('btnRedo').addEventListener('click', () => audit.redo());
+
+    document.addEventListener('keydown', (e) => {
+      if (!(e.ctrlKey || e.metaKey)) return;
+      if (!audit || !audit.table || !audit.table.editable) return;
+      const t = e.target, tag = t && t.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
+      const k = (e.key || '').toLowerCase();
+      if (k === 'z' && !e.shiftKey) {
+        if ($('btnUndo') && !$('btnUndo').disabled) { e.preventDefault(); audit.undo(); }
+      } else if (k === 'y' || (k === 'z' && e.shiftKey)) {
+        if ($('btnRedo') && !$('btnRedo').disabled) { e.preventDefault(); audit.redo(); }
+      }
+    });
+
+    let editWarnShown = false;
+    function qcpAcknowledge(msg, title = 'Notice', btnLabel = 'I understand') {
+      let ov = $('qcp-modal');
+      if (!ov) {
+        ov = document.createElement('div');
+        ov.id = 'qcp-modal';
+        ov.className = 'fixed inset-0 z-[9999] hidden items-center justify-center bg-black/40 backdrop-blur-sm';
+        ov.innerHTML =
+          '<div role="dialog" aria-modal="true" aria-labelledby="qcp-modal-title" class="w-[min(92vw,420px)] bg-white rounded-xl shadow-2xl border border-slate-200 p-5">' +
+          '<div class="flex items-start gap-3">' +
+          '<div class="shrink-0 mt-0.5 w-9 h-9 rounded-full bg-amber-50 flex items-center justify-center"><i data-lucide="alert-triangle" class="w-5 h-5 text-amber-500"></i></div>' +
+          '<div class="flex-1 min-w-0"><h3 id="qcp-modal-title" class="text-sm font-semibold text-slate-800"></h3><p id="qcp-modal-msg" class="mt-1 text-[13px] leading-relaxed text-slate-600"></p></div>' +
+          '</div>' +
+          '<div class="mt-5 flex justify-end"><button id="qcp-modal-ok" class="px-4 py-2 rounded-lg bg-accent text-white text-sm font-medium hover:opacity-90 transition">' + btnLabel + '</button></div>' +
+          '</div>';
+        document.body.appendChild(ov);
+      }
+      $('qcp-modal-title').textContent = title;
+      $('qcp-modal-msg').textContent = msg;
+      $('qcp-modal-ok').textContent = btnLabel;
+      if (window.lucide) window.lucide.createIcons();
+      const onKey = (e) => {
+        if (e.key === 'Enter' || e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(); }
+      };
+      const close = () => {
+        ov.classList.add('hidden'); ov.classList.remove('flex');
+        document.removeEventListener('keydown', onKey, true);
+      };
+      $('qcp-modal-ok').onclick = close;
+      ov.classList.remove('hidden'); ov.classList.add('flex');
+      document.addEventListener('keydown', onKey, true);
+      setTimeout(() => { const b = $('qcp-modal-ok'); if (b) b.focus(); }, 0);
+    }
+
+    let rulesActive = true, qcheckActive = true, editActive = false, issuesOnly = false;
+    function paintToggle(btn, on) { if (!btn) return; btn.classList.toggle('bg-accent', on); btn.classList.toggle('text-white', on); btn.classList.toggle('border-accent', on); }
+    $('btnToggleRules') && $('btnToggleRules').addEventListener('click', () => { rulesActive = !rulesActive; audit.setRulesActive(rulesActive); paintToggle($('btnToggleRules'), rulesActive); });
+    $('btnToggleQCheck') && $('btnToggleQCheck').addEventListener('click', () => { qcheckActive = !qcheckActive; audit.setQcheckActive(qcheckActive); paintToggle($('btnToggleQCheck'), qcheckActive); });
+    paintToggle($('btnToggleRules'), true); paintToggle($('btnToggleQCheck'), true);
+
+    $('btnToggleEdit') && $('btnToggleEdit').addEventListener('click', () => {
+      editActive = !editActive; audit.setEditable(editActive);
+      const ic = $('iconToggleEditWrapper'), tx = $('textToggleEdit');
+      if (ic) ic.innerHTML = `<i data-lucide="${editActive ? 'lock-open' : 'lock'}" class="w-4 h-4 mr-1.5 ${editActive ? 'text-accent' : 'text-slate-400'}"></i>`;
+      if (tx) tx.textContent = editActive ? 'Editing' : 'Edit';
+      if (window.lucide) window.lucide.createIcons();
+      if (editActive && !editWarnShown) {
+        editWarnShown = true;
+        qcpAcknowledge('Table edits are not reflected in the 3D viewer. Save the audited IFC and load it again to see the changes in 3D.', 'Edit mode enabled');
+      }
+    });
+
+    $('btnFilterIssues') && $('btnFilterIssues').addEventListener('click', () => {
+      issuesOnly = !issuesOnly; audit.table.setFilterIssuesOnly(issuesOnly); paintToggle($('btnFilterIssues'), issuesOnly);
+    });
+
+    $('btnExportMenu') && $('btnExportMenu').addEventListener('click', (e) => { e.stopPropagation(); $('exportMenuOptions').classList.toggle('hidden'); });
+    document.querySelectorAll('.export-format-btn').forEach((b) => b.addEventListener('click', () => {
+      const fmt = b.dataset.format; $('exportMenuOptions').classList.add('hidden');
+      const base = (audit.fileName || 'audit').replace(/\.ifc$/i, '');
+      if (fmt === 'csv') audit.downloadCsv(`${base}.csv`);
+      else audit.downloadXlsx(`${base}.${fmt}`);
+    }));
+
+    $('btnSaveTableIfc') && $('btnSaveTableIfc').addEventListener('click', () => {
+      try {
+        const base = (audit.fileName || 'model').replace(/\.ifc$/i, '');
+        const text = audit.getModifiedIfc();
+        if (!text) {
+          const t = audit.table;
+          const diag =
+            'audit.model: ' + (audit.model ? 'set' : 'NULL') +
+            ' | table.model: ' + (t && t.model ? 'set' : 'NULL') +
+            ' | statements: ' + (t && t.model && t.model.statements ? t.model.statements.length : 'MISSING') +
+            ' | entities: ' + (t && t.model && t.model.entities ? t.model.entities.size : 'n/a') +
+            ' | edits: ' + (t && t.modifications ? t.modifications.size : 'n/a');
+          console.warn('[qcp save] no IFC ->', diag);
+          alert('No IFC available to export.\n\nState: ' + diag);
+          return;
+        }
+        const blob = new Blob([text], { type: 'application/x-step' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = `${base}_audited.ifc`;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+      } catch (err) {
+        console.error('[qcp] save failed', err);
+        alert('Save failed: ' + (err && err.message ? err.message : err));
+      }
+    });
+
+    let explorerDocked = false;
+    let outlinerOn = true;
+
+    const isVisible = (el) => !!el && !el.classList.contains('hidden') && el.style.display !== 'none';
+    const viewerActive = () => isVisible($('viewer-3d-section'));
+
+    async function ensureExplorerClass() {
+      if (!(await ensureParsed())) return;
+      if (!audit.currentClass) {
+        const sel = $('tbClassSelect');
+        const opt = sel && Array.from(sel.options).find((o) => o.value);
+        if (opt) { sel.value = opt.value; buildPsetMenu(opt.value); audit.showClass(opt.value, currentPsets()); }
+      }
+      showTable();
+    }
+    async function applyDock() {
+      const tb = $('compact-toolbar'), ed = $('editorSection');
+      if (tb) { tb.classList.remove('hidden'); tb.classList.add('flex'); tb.style.display = 'flex'; }
+      if (ed) { ed.classList.remove('hidden'); ed.classList.add('flex'); ed.style.display = 'flex'; ed.classList.add('qcp-dock'); }
+      renderQcpModelsLabel();
+      await ensureExplorerClass();
+      requestAnimationFrame(() => { audit.table.resize(); window.dispatchEvent(new Event('resize')); });
+    }
+    function clearDock() {
+      const tb = $('compact-toolbar'), ed = $('editorSection');
+      if (ed) { ed.classList.remove('qcp-dock'); ed.style.display = 'none'; ed.classList.add('hidden'); ed.classList.remove('flex'); }
+      if (tb) { tb.style.display = 'none'; tb.classList.add('hidden'); tb.classList.remove('flex'); }
+      requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+    }
+
+    const observed = ['top-intro-section', 'viewer-3d-section', 'tree-inspector-section'].map((id) => $(id)).filter(Boolean);
+    if (observed.length && 'MutationObserver' in window) {
+      const obs = new MutationObserver(() => {
+        if (!(isVisible($('top-intro-section')) || isVisible($('viewer-3d-section')) || isVisible($('tree-inspector-section')))) return;
+        const qs = $('quality-report-section');
+        if (qs) { qs.style.display = 'none'; qs.classList.add('hidden'); qs.classList.remove('flex'); }
+        $('nav-quality') && $('nav-quality').classList.remove('active');
+        $('nav-explorer') && $('nav-explorer').classList.remove('active');
+        if (viewerActive() && explorerDocked) applyDock();
+        else clearDock();
+      });
+      observed.forEach((el) => obs.observe(el, { attributes: true, attributeFilter: ['class', 'style'] }));
+    }
+
+    $('qcp-btn-explorer-dock') && $('qcp-btn-explorer-dock').addEventListener('click', () => {
+      explorerDocked = !explorerDocked;
+      $('qcp-btn-explorer-dock').classList.toggle('active', explorerDocked);
+      if (viewerActive()) { explorerDocked ? applyDock() : clearDock(); }
+    });
+
+    $('qcp-btn-outliner') && $('qcp-btn-outliner').addEventListener('click', () => {
+      outlinerOn = !outlinerOn;
+      $('qcp-btn-outliner').classList.toggle('active', outlinerOn);
+      audit.setHighlight3D(outlinerOn);
+    });
+    $('qcp-btn-outliner') && $('qcp-btn-outliner').classList.add('active');
+
+    (function () {
+      const handle = $('qcp-dock-resizer'), ed = $('editorSection');
+      if (!handle || !ed) return;
+      let startY = 0, startH = 0, dragging = false;
+      handle.addEventListener('pointerdown', (e) => {
+        if (!ed.classList.contains('qcp-dock')) return;
+        dragging = true; startY = e.clientY; startH = ed.getBoundingClientRect().height;
+        try { handle.setPointerCapture(e.pointerId); } catch (_) { }
+        e.preventDefault();
+      });
+      window.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const h = Math.max(160, Math.min(window.innerHeight * 0.85, startH + (startY - e.clientY)));
+        ed.style.setProperty('--qcp-dock-h', h + 'px');
+      });
+      window.addEventListener('pointerup', (e) => {
+        if (!dragging) return;
+        dragging = false;
+        try { handle.releasePointerCapture(e.pointerId); } catch (_) { }
+        requestAnimationFrame(() => { audit.table.resize(); window.dispatchEvent(new Event('resize')); });
+      });
+    })();
+
+    if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+
+    (async function initExternalOverlay() {
+      const mount = $('ext-panel-mount');
+      const navExt = $('nav-external');
+      if (!mount || !navExt) return;
+
+      const cooProjectReady = import('../js/webifc/coo_project.js')
+        .then((m) => m.initCooProjects())
+        .catch((err) => { console.warn('[coo] project layer init failed', err); return null; });
+
+      import('../js/webifc/coo_bcf.js')
+        .then((m) => {
+          const tryInit = (n) => {
+            if (m.initBcfCore()) return;
+            if (n < 20) setTimeout(() => tryInit(n + 1), 500);
+            else console.warn('[coo] bcf core: engine context never became ready');
+          };
+          tryInit(0);
+        })
+        .catch((err) => console.warn('[coo] bcf module init failed', err));
+
+      import('../js/webifc/coo_bcf_panel.js')
+        .then((m) => m.initBcfDock({ buttonId: 'coo-btn-bcf' }))
+        .catch((err) => console.warn('[coo] bcf dock init failed', err));
+
+      import('../js/webifc/coo_diff.js')
+        .then(() => {
+          const b = document.getElementById('coo-btn-diff');
+          b && b.addEventListener('click', () => window.__cooDiff?.openDiffDialog?.());
+        })
+        .catch((err) => console.warn('[coo] diff module init failed', err));
+
+      import('../js/webifc/coo_position.js')
+        .catch((err) => console.warn('[coo] position module init failed', err));
+
+      {
+        const mb = document.getElementById('v3d-btn-models');
+        mb && mb.addEventListener('click', () => window.__openModelsSettings?.());
+      }
+
+      const mods = await Promise.all([
+        import('../js/webifc/ext_store.js'),
+        import('../js/webifc/ext_panel.js'),
+        import('../js/webifc/ext_infopanel.js'),
+        import('../js/webifc/ext_filter.js'),
+        import('../js/webifc/ext_match.js'),
+        import('../js/webifc/ext_textsource.js'),
+        import('../js/webifc/ext_excel.js'),
+        import('../js/webifc/ext_manage.js'),
+      ]);
+      const [{ ExtStore }, { ExtPanel }, { ExtInfoPanel }, { ExtFilter }] = mods;
+      const builds = mods.map((m) => m.EXT_BUILD ?? 0);
+      console.info('[ext] build set', builds.join('/'),
+        '(store/panel/info/filter/match/text/excel/manage) - all must match');
+      if (new Set(builds).size > 1 || builds.some((b) => !b)) {
+        console.error('[ext] MODULE VERSION MISMATCH', builds,
+          '- replace ALL ext_*.js files together, then hard-reload (Ctrl+Shift+R).');
+        alert('External Data: mixed ext_*.js file versions detected (' + builds.join('/') +
+          '). Replace all ext_ files together and hard-reload.');
+      }
+
+      const extStore = new ExtStore({ modelKey: '' });
+      const extPanel = new ExtPanel({ mountEl: mount, Tabulator: window.Tabulator, store: extStore });
+      const extInfo = new ExtInfoPanel({ store: extStore, panel: extPanel });
+      const extFilter = new ExtFilter({ store: extStore, panel: extPanel });
+      extPanel.setInfoPanel(extInfo);
+      window.__extOverlay = { store: extStore, panel: extPanel, info: extInfo, filter: extFilter };
+
+      window.addEventListener('coo-active-model', (e) => {
+        const name = e.detail?.file?.name;
+        if (name && extStore.getModel(name)) extStore.setActiveModel(name);
+      });
+
+      function modelKeyOf(detail, model) {
+        return (window.__pendingIfcFile && window.__pendingIfcFile.name) ||
+          (window.qcpAudit && window.qcpAudit.fileName) ||
+          (detail && (detail.modelKey || detail.fileName)) ||
+          (model && (model.modelId || model.id)) || 'model';
+      }
+      function modelSessionKey(detail, model) {
+        const fileKey = modelKeyOf(detail, model);
+        if (window.__cooProject && !window.__cooProject.currentName)
+          window.__cooProject.ensureFromFile(fileKey);
+        const projKey = window.__cooProject && window.__cooProject.sessionKey();
+        if (!projKey) return fileKey;
+        try {
+          const P = 'ext_overlay:';
+          if (!localStorage.getItem(P + projKey) && localStorage.getItem(P + fileKey)) {
+            localStorage.setItem(P + projKey, localStorage.getItem(P + fileKey));
+            console.info('[Project] adopted overlay slot "' + fileKey + '" into "' + projKey + '"');
+          }
+        } catch (e) {  }
+        return projKey;
+      }
+      function useModel(detail) {
+        const model = detail && detail.model;
+        if (!model) return;
+        extPanel.attachModel(model, modelKeyOf(detail, model), { sessionKey: modelSessionKey(detail, model) });
+        navExt.disabled = false;
+        navExt.removeAttribute('disabled');
+        navExt.removeAttribute('title');
+      }
+      if (window.__extEngineDetail) useModel(window.__extEngineDetail);
+      window.addEventListener('qcp-engine-ready', (e) => useModel(e.detail || {}));
+
+      function hideAuditPeers() {
+        ['quality-report-section', 'editorSection', 'compact-toolbar'].forEach((id) => {
+          const el = $(id); if (!el) return;
+          el.style.display = 'none'; el.classList.add('hidden'); el.classList.remove('flex');
+        });
+      }
+      async function showExternal() {
+        if (navExt.disabled) return;
+        if (!extPanel.hasSource) {
+          if (!(await ensureParsed())) return;
+          extPanel.attachTextModel(audit.model, modelKeyOf(null, null), { sessionKey: modelSessionKey(null, null) });
+        }
+        hideAppSections();
+        enterAuditLayout();
+        setScrollLock(true);
+        hideAuditPeers();
+        if (window.__issuesHideSection) window.__issuesHideSection();
+        if (window.__clsHideSection) window.__clsHideSection();
+        if (window.__relHideSection) window.__relHideSection();
+        const es = $('externalSection');
+        es.classList.remove('hidden', 'ext-dock'); es.classList.add('flex'); es.style.display = 'flex';
+        if (extDocked) {
+          extDocked = false;
+          const b = $('ext-btn-dock'); if (b) b.classList.remove('active');
+        }
+        $('ext-dock-top').classList.add('hidden');
+        extPanel.dockLayout(false);
+        ['nav-setup', 'nav-tree', 'nav-viewer', 'nav-quality', 'nav-explorer']
+          .forEach((id) => $(id) && $(id).classList.remove('active'));
+        navExt.classList.add('active');
+        requestAnimationFrame(() => extPanel.redraw());
+        if (window.lucide) window.lucide.createIcons();
+      }
+      navExt.addEventListener('click', showExternal);
+
+      const navIssuesBtn = $('nav-issues');
+      const issuesSection = $('issuesSection');
+      let issuesBoardInit = false;
+      function hideIssuesSection() {
+        if (!issuesSection) return;
+        issuesSection.classList.add('hidden');
+        issuesSection.classList.remove('flex');
+        issuesSection.style.display = '';
+        navIssuesBtn && navIssuesBtn.classList.remove('active');
+      }
+      window.__issuesHideSection = hideIssuesSection;
+      async function showIssues() {
+        if (!navIssuesBtn || navIssuesBtn.disabled || !issuesSection) return;
+        hideAppSections();
+        enterAuditLayout();
+        setScrollLock(true);
+        hideAuditPeers();
+        if (window.__extHideSection) window.__extHideSection();
+        if (window.__clsHideSection) window.__clsHideSection();
+        if (window.__relHideSection) window.__relHideSection();
+        if (!issuesBoardInit) {
+          issuesBoardInit = true;
+          try {
+            const m = await import('../js/webifc/coo_bcf_board.js');
+            m.initBcfBoard(issuesSection);
+          } catch (err) { console.warn('[coo] issue board init failed', err); }
+        }
+        if (issuesSection.__bcfBoardRender) issuesSection.__bcfBoardRender();
+        issuesSection.classList.remove('hidden');
+        issuesSection.classList.add('flex');
+        issuesSection.style.display = 'flex';
+        ['nav-setup', 'nav-tree', 'nav-viewer', 'nav-quality', 'nav-explorer', 'nav-external']
+          .forEach((id) => $(id) && $(id).classList.remove('active'));
+        navIssuesBtn.classList.add('active');
+        if (window.lucide) window.lucide.createIcons();
+      }
+      navIssuesBtn && navIssuesBtn.addEventListener('click', showIssues);
+
+      {
+        const $id = (x) => document.getElementById(x);
+        const body = $id('proj-info-body');
+        const chev = $id('proj-info-chev');
+        $id('proj-info-toggle')?.addEventListener('click', () => {
+          body.classList.toggle('hidden');
+          chev.style.transform = body.classList.contains('hidden') ? '' : 'rotate(180deg)';
+        });
+        const esc = (s) => String(s == null ? '' : s)
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        function renderContacts() {
+          const proj = window.__cooProject;
+          const list = proj?.listContacts?.() || [];
+          const info = proj?.getInfo?.() || {};
+          const rows = $id('proj-contact-rows');
+          const empty = $id('proj-contact-empty');
+          const count = $id('proj-contact-count');
+          if (count) count.textContent = list.length ? `(${list.length} contact${list.length > 1 ? 's' : ''})` : '';
+          const fields = [
+            ['proj-title', proj?.currentName || info.title || ''],
+            ['proj-number', info.number || info.projectNumber || ''],
+            ['proj-client', info.client || ''],
+            ['proj-address', info.address || ''],
+            ['proj-type', info.type || ''],
+          ];
+          for (const [id, v] of fields) {
+            const el = $id(id);
+            if (el && document.activeElement !== el) el.value = v;
+          }
+          if ((info.client || info.address || info.type) && body?.classList.contains('hidden')) {
+            body.classList.remove('hidden');
+            if (chev) chev.style.transform = 'rotate(180deg)';
+          }
+          if (!rows) return;
+          empty?.classList.toggle('hidden', !!list.length);
+          rows.innerHTML = list.map((c) => `
+            <tr class="border-b border-slate-100 hover:bg-slate-50" data-cid="${esc(c.id)}">
+              <td class="py-1 pr-2"><input data-cf="name" value="${esc(c.name)}" class="w-full bg-transparent focus:bg-white focus:outline-none focus:border-b focus:border-indigo-400"/></td>
+              <td class="py-1 pr-2"><input data-cf="mail" value="${esc(c.mail)}" class="w-full bg-transparent focus:bg-white focus:outline-none focus:border-b focus:border-indigo-400"/></td>
+              <td class="py-1 pr-2"><input data-cf="company" value="${esc(c.company)}" class="w-full bg-transparent focus:bg-white focus:outline-none focus:border-b focus:border-indigo-400"/></td>
+              <td class="py-1 pr-2"><input data-cf="role" value="${esc(c.role)}" class="w-full bg-transparent focus:bg-white focus:outline-none focus:border-b focus:border-indigo-400"/></td>
+              <td class="py-1 pr-2"><input data-cf="teams" value="${esc((c.teams || []).join(', '))}" class="w-full bg-transparent focus:bg-white focus:outline-none focus:border-b focus:border-indigo-400"/></td>
+              <td class="py-1 text-right"><button data-cdel class="text-slate-300 hover:text-red-500 font-bold">×</button></td>
+            </tr>`).join('');
+        }
+        const setInfoField = (key) => (e) => {
+          if (!window.__cooProject) return;
+          if (!window.__cooProject.currentName) window.__cooProject.open('Project');
+          window.__cooProject.setInfo({ [key]: e.target.value.trim() });
+        };
+        $id('proj-client')?.addEventListener('change', setInfoField('client'));
+        $id('proj-number')?.addEventListener('change', setInfoField('number'));
+        $id('proj-address')?.addEventListener('change', setInfoField('address'));
+        $id('proj-type')?.addEventListener('change', setInfoField('type'));
+        $id('proj-title')?.addEventListener('change', (e) => {
+          const cp = window.__cooProject;
+          const v = e.target.value.trim();
+          if (!cp) return;
+          if (!cp.currentName) { if (v) cp.open(v); return; }
+          if (!v || v === cp.currentName) { e.target.value = cp.currentName || ''; return; }
+          if (!cp.rename(v)) {
+            alert('Cannot rename: a project named "' + v + '" already exists.');
+            e.target.value = cp.currentName;
+          }
+        });
+        $id('proj-export')?.addEventListener('click', () => {
+          const cp = window.__cooProject;
+          if (!window.XLSX || !cp?.currentName) { alert('No project open yet.'); return; }
+          try { cp.exportProjectWorkbook(window.XLSX); }
+          catch (err) { alert('Project export failed: ' + (err?.message || err)); }
+        });
+        $id('proj-import')?.addEventListener('click', () => $id('proj-import-file')?.click());
+        $id('proj-import-file')?.addEventListener('change', async (e) => {
+          const f = e.target.files?.[0];
+          e.target.value = '';
+          if (!f) return;
+          try {
+            if (!window.XLSX) { alert('Excel library not loaded yet.'); return; }
+            const cp = window.__cooProject;
+            if (!cp.currentName) cp.open(f.name.replace(/\.[^.]+$/, ''));
+            const buf = await f.arrayBuffer();
+            const wb = window.XLSX.read(buf, { type: 'array' });
+            const res = cp.importProjectWorkbook(wb, window.XLSX);
+            if (res?.error) { alert(res.error); return; }
+            const t = cp.getInfo().title;
+            if (t && t !== cp.currentName) cp.rename(t);
+          } catch (err) { alert('Project import failed: ' + (err?.message || err)); }
+        });
+        $id('proj-contact-add')?.addEventListener('click', () => {
+          if (!window.__cooProject?.currentName) window.__cooProject?.open?.('Project');
+          window.__cooProject?.upsertContact?.({ name: 'New contact' });
+        });
+        $id('proj-contact-rows')?.addEventListener('change', (e) => {
+          const tr = e.target.closest('[data-cid]');
+          const f = e.target.closest('[data-cf]');
+          if (!tr || !f) return;
+          const c = (window.__cooProject?.listContacts?.() || []).find((x) => x.id === tr.dataset.cid);
+          if (!c) return;
+          const key = f.dataset.cf;
+          const v = f.value.trim();
+          window.__cooProject.upsertContact({
+            ...c,
+            [key]: key === 'teams' ? v.split(',').map((t) => t.trim()).filter(Boolean) : v,
+          });
+        });
+        $id('proj-contact-rows')?.addEventListener('click', (e) => {
+          const tr = e.target.closest('[data-cid]');
+          if (tr && e.target.closest('[data-cdel]')) window.__cooProject?.removeContact?.(tr.dataset.cid);
+        });
+        async function importContactsFile(file) {
+          try {
+            if (!window.XLSX) { alert('Excel library not loaded yet.'); return; }
+            if (!window.__cooProject?.currentName) window.__cooProject?.open?.(file.name.replace(/\.[^.]+$/, ''));
+            const buf = await file.arrayBuffer();
+            const wb = window.XLSX.read(buf, { type: 'array' });
+            const res = window.__cooProject.importContactsFromWorkbook(wb, window.XLSX);
+            if (res.error) alert(res.error);
+            else {
+              body?.classList.remove('hidden');
+              if (chev) chev.style.transform = 'rotate(180deg)';
+            }
+          } catch (err) {
+            console.warn('[contacts] import failed', err);
+            alert('Contacts import failed: ' + (err?.message || err));
+          }
+        }
+        window.__importContactsFile = importContactsFile;
+        $id('proj-contact-import')?.addEventListener('click', () => $id('proj-contact-file')?.click());
+        $id('proj-contact-file')?.addEventListener('change', (e) => {
+          const f = e.target.files?.[0];
+          if (f) importContactsFile(f);
+          e.target.value = '';
+        });
+        window.addEventListener('coo-contacts-changed', renderContacts);
+        window.addEventListener('coo-project-changed', renderContacts);
+        renderContacts();
+      }
+
+      const navClashBtn = $('nav-clash');
+      const clashSection = $('clashSection');
+      let clashInit = false;
+      async function ensureClashPanel() {
+        if (clashInit) return;
+        clashInit = true;
+        try {
+          const m = await import('../js/webifc/cls_panel.js');
+          m.initClsPanel(clashSection);
+        } catch (err) { console.warn('[cls] panel init failed', err); }
+      }
+      function hideClashSection() {
+        if (!clashSection) return;
+        clashSection.classList.add('hidden');
+        clashSection.classList.remove('flex');
+        clashSection.style.display = '';
+        navClashBtn && navClashBtn.classList.remove('active');
+      }
+      window.__clsHideSection = hideClashSection;
+      async function showClash() {
+        if (!navClashBtn || navClashBtn.disabled || !clashSection) return;
+        hideAppSections();
+        enterAuditLayout();
+        setScrollLock(true);
+        hideAuditPeers();
+        if (window.__extHideSection) window.__extHideSection();
+        if (window.__issuesHideSection) window.__issuesHideSection();
+        if (window.__relHideSection) window.__relHideSection();
+        await ensureClashPanel();
+        if (clashSection.__clsPanelRender) clashSection.__clsPanelRender();
+        clashSection.classList.remove('hidden');
+        clashSection.classList.add('flex');
+        clashSection.style.display = 'flex';
+        ['nav-setup', 'nav-tree', 'nav-viewer', 'nav-quality', 'nav-explorer', 'nav-external', 'nav-issues', 'nav-rel']
+          .forEach((id) => $(id) && $(id).classList.remove('active'));
+        navClashBtn.classList.add('active');
+        if (window.lucide) window.lucide.createIcons();
+      }
+      navClashBtn && navClashBtn.addEventListener('click', showClash);
+
+      const navRelBtn = $('nav-rel');
+      const relSection = $('relSection');
+      let relInit = false;
+      async function ensureRelPanel() {
+        if (relInit) return;
+        relInit = true;
+        try {
+          const m = await import('../js/webifc/rel_panel.js');
+          m.initRelPanel(relSection);
+        } catch (err) { console.warn('[rel] panel init failed', err); }
+      }
+      function hideRelSection() {
+        if (!relSection) return;
+        relSection.classList.add('hidden');
+        relSection.classList.remove('flex');
+        relSection.style.display = '';
+        navRelBtn && navRelBtn.classList.remove('active');
+      }
+      window.__relHideSection = hideRelSection;
+      async function showRel() {
+        if (!navRelBtn || navRelBtn.disabled || !relSection) return;
+        hideAppSections();
+        enterAuditLayout();
+        setScrollLock(true);
+        hideAuditPeers();
+        if (window.__extHideSection) window.__extHideSection();
+        if (window.__issuesHideSection) window.__issuesHideSection();
+        if (window.__clsHideSection) window.__clsHideSection();
+        await ensureRelPanel();
+        if (relSection.__relPanelRender) relSection.__relPanelRender();
+        relSection.classList.remove('hidden');
+        relSection.classList.add('flex');
+        relSection.style.display = 'flex';
+        ['nav-setup', 'nav-tree', 'nav-viewer', 'nav-quality', 'nav-explorer', 'nav-external', 'nav-issues', 'nav-clash']
+          .forEach((id) => $(id) && $(id).classList.remove('active'));
+        navRelBtn.classList.add('active');
+        if (window.lucide) window.lucide.createIcons();
+      }
+      navRelBtn && navRelBtn.addEventListener('click', showRel);
+
+      const clsReviewBtn = $('cls-btn-review');
+      if (clsReviewBtn) {
+        clsReviewBtn.addEventListener('click', async () => {
+          document.getElementById('v3d-tools-menu')?.classList.add('closed');
+          await ensureClashPanel();
+          const on = await (window.__clsToggleReview ? window.__clsToggleReview() : Promise.resolve(false));
+          clsReviewBtn.toggleAttribute('active', !!on);
+        });
+      }
+      {
+        const builtins = ['top-intro-section', 'viewer-3d-section', 'tree-inspector-section']
+          .map((id) => $(id)).filter(Boolean);
+        if (builtins.length && 'MutationObserver' in window) {
+          const obs = new MutationObserver(() => {
+            if (builtins.some((el) => isVisible(el))) { hideClashSection(); hideRelSection(); }
+          });
+          builtins.forEach((el) => obs.observe(el, { attributes: true, attributeFilter: ['class', 'style'] }));
+        }
+        ['nav-quality', 'nav-explorer'].forEach((id) => $(id) &&
+          $(id).addEventListener('click', () => { hideClashSection(); hideRelSection(); }));
+        navExt.addEventListener('click', () => { hideClashSection(); hideRelSection(); });
+        navIssuesBtn && navIssuesBtn.addEventListener('click', () => { hideClashSection(); hideRelSection(); });
+      }
+      {
+        const builtins = ['top-intro-section', 'viewer-3d-section', 'tree-inspector-section']
+          .map((id) => $(id)).filter(Boolean);
+        if (builtins.length && 'MutationObserver' in window) {
+          const obs = new MutationObserver(() => {
+            if (builtins.some((el) => isVisible(el))) hideIssuesSection();
+          });
+          builtins.forEach((el) => obs.observe(el, { attributes: true, attributeFilter: ['class', 'style'] }));
+        }
+        ['nav-quality', 'nav-explorer'].forEach((id) => $(id) &&
+          $(id).addEventListener('click', () => hideIssuesSection()));
+        navExt.addEventListener('click', () => hideIssuesSection());
+      }
+
+      const builtins = ['top-intro-section', 'viewer-3d-section', 'tree-inspector-section']
+        .map((id) => $(id)).filter(Boolean);
+      if (builtins.length && 'MutationObserver' in window) {
+        const obs = new MutationObserver(() => {
+          const anyVisible = builtins.some((el) => isVisible(el));
+          if (!anyVisible) return;
+          if (extDocked && isVisible($('viewer-3d-section'))) { applyExtDock(); return; }
+          hideExternalSection();
+        });
+        builtins.forEach((el) => obs.observe(el, { attributes: true, attributeFilter: ['class', 'style'] }));
+      }
+      ['nav-quality', 'nav-explorer'].forEach((id) => $(id) &&
+        $(id).addEventListener('click', () => hideExternalSection()));
+
+      function hideExternalSection() {
+        const es = $('externalSection'), top = $('ext-dock-top');
+        extPanel.dockLayout(false);
+        if (top) top.classList.add('hidden');
+        if (es) { es.classList.remove('ext-dock'); es.style.display = 'none'; es.classList.add('hidden'); es.classList.remove('flex'); }
+        navExt.classList.remove('active');
+        extDocked = false;
+        if (extDockBtn) extDockBtn.classList.remove('active');
+      }
+      window.__extHideSection = () => {
+        try { hideExternalSection(); } catch (err) { console.warn('[ext] hide failed', err); }
+      };
+      window.__extIsDocked = () => extDocked;
+
+      window.__extExportInfo = async () => {
+        try {
+          if (!audit.model) await ensureParsed();
+        } catch (err) { console.warn('[ext] export-info parse failed', err); }
+        const f = window.__pendingIfcFile;
+        let fileSize = audit.fileSize || '';
+        if (!fileSize && f && typeof audit._formatBytes === 'function') {
+          try { fileSize = audit._formatBytes(f.size); } catch (e) {  }
+        }
+        return {
+          fileName: audit.fileName || (f && f.name) || '',
+          fileSize,
+          meta: (audit.model && audit.model.meta) || {},
+        };
+      };
+
+      let extDocked = false;
+      const extDockBtn = $('ext-btn-dock');
+
+      async function applyExtDock() {
+        if (!extPanel.hasSource) {
+          if (!(await ensureParsed())) { extDocked = false; extDockBtn && extDockBtn.classList.remove('active'); return; }
+          extPanel.attachTextModel(audit.model, modelKeyOf(null, null), { sessionKey: modelSessionKey(null, null) });
+        }
+        const es = $('externalSection'), top = $('ext-dock-top');
+        if (!es || !top) return;
+        top.classList.remove('hidden');
+        es.classList.remove('hidden'); es.classList.add('flex', 'ext-dock'); es.style.display = 'flex';
+        extPanel.dockLayout(true, top, es);
+      }
+      function clearExtDock() {
+        const es = $('externalSection'), top = $('ext-dock-top');
+        extPanel.dockLayout(false);
+        if (top) top.classList.add('hidden');
+        if (es) { es.classList.remove('ext-dock'); es.style.display = 'none'; es.classList.add('hidden'); es.classList.remove('flex'); }
+        requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+      }
+
+      if (extDockBtn) extDockBtn.addEventListener('click', () => {
+        if (navExt.disabled) return;
+        extDocked = !extDocked;
+        extDockBtn.classList.toggle('active', extDocked);
+        if (extDocked) {
+          const qcpBtn = $('qcp-btn-explorer-dock');
+          if (qcpBtn && qcpBtn.classList.contains('active')) qcpBtn.click();
+          if (isVisible($('viewer-3d-section'))) applyExtDock();
+        } else {
+          clearExtDock();
+        }
+      });
+      $('qcp-btn-explorer-dock') && $('qcp-btn-explorer-dock').addEventListener('click', () => {
+        if ($('qcp-btn-explorer-dock').classList.contains('active') && extDocked) {
+          extDocked = false;
+          extDockBtn && extDockBtn.classList.remove('active');
+          clearExtDock();
+        }
+      });
+
+      (function () {
+        const handle = $('ext-dock-resizer'), es = $('externalSection');
+        if (!handle || !es) return;
+        let startY = 0, startH = 0, dragging = false;
+        handle.addEventListener('pointerdown', (e) => {
+          if (!es.classList.contains('ext-dock')) return;
+          dragging = true; startY = e.clientY; startH = es.getBoundingClientRect().height;
+          try { handle.setPointerCapture(e.pointerId); } catch (_) { }
+          e.preventDefault();
+        });
+        window.addEventListener('pointermove', (e) => {
+          if (!dragging) return;
+          const h = Math.max(160, Math.min(window.innerHeight * 0.85, startH + (startY - e.clientY)));
+          es.style.setProperty('--ext-dock-h', h + 'px');
+        });
+        window.addEventListener('pointerup', (e) => {
+          if (!dragging) return;
+          dragging = false;
+          try { handle.releasePointerCapture(e.pointerId); } catch (_) { }
+          requestAnimationFrame(() => extPanel.redraw());
+        });
+      })();
+
+      (function initLeaveGuard() {
+        const reasons = new Set();
+        window.__appDirty = {
+          set(reason) { if (reason) reasons.add(String(reason)); },
+          clear(reason) { reasons.delete(String(reason)); },
+          any() { return reasons.size > 0; },
+          list() { return [...reasons]; },
+        };
+        window.addEventListener('beforeunload', (e) => {
+          if (window.__appDirty.any()) { e.preventDefault(); e.returnValue = ''; }
+        });
+        window.addEventListener('coo-active-model', () => window.__appDirty.set('model'));
+        (function tapExtDirty() {
+          const cb = extStore._cb || (extStore._cb = {});
+          const prev = cb.onDirtyChange;
+          cb.onDirtyChange = (d) => {
+            window.__appDirty[d ? 'set' : 'clear']('ext');
+            if (prev) prev(d);
+          };
+          if (extStore.dirty) window.__appDirty.set('ext');
+        })();
+        function retargetNavLinks() {
+          if (!window.__appDirty.any()) return;
+          document.querySelectorAll('nav a[href]').forEach((a) => {
+            const href = a.getAttribute('href') || '';
+            if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
+            if (a.target !== '_blank') {
+              a.target = '_blank';
+              a.rel = a.rel ? a.rel + ' noopener' : 'noopener';
+            }
+          });
+        }
+        window.addEventListener('coo-active-model', retargetNavLinks);
+        document.addEventListener('click', (e) => {
+          if (!window.__appDirty.any()) return;
+          const a = e.target && e.target.closest && e.target.closest('nav a[href]');
+          if (!a) return;
+          const href = a.getAttribute('href') || '';
+          if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
+          if (a.target !== '_blank') {
+            a.target = '_blank';
+            a.rel = a.rel ? a.rel + ' noopener' : 'noopener';
+          }
+        }, true);
+      })();
+    })();
+  </script>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

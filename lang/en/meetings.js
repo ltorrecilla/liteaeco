@@ -1,29 +1,11 @@
-/*
- * Copyright 2026 Luis Torrecilla (liteAECO)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-// ========
-// liteAECO - (meetings.js)
-// ========
-
 window.PAGE_I18N = {
+    // Specific Content Elements
     title: "Meetings",
     subtitle: "Meeting Minutes & Tasks tracking",
     ruleTitle: "What this tool does",
     ruleDesc1: "This allows you to create and manage meeting minutes and threads. Keep track of every open issue, while assigning them to your team easily. You can export it as an Excel file and bring it back to continue editing opened issues in following meetings. <br/><br/>This tool uses an Universal <span class='bg-white px-1.5 py-0.5 rounded border border-slate-200'>Excel</span> files so you can load your contacts back in from other webapps within this website.",
 
+    // Top Bar Controls
     lblNo: "No.",
     phMeetingTitle: "Enter Meeting Title...",
     btnTemplate: "Excel Template",
@@ -41,11 +23,13 @@ window.PAGE_I18N = {
     btnPdf: "PDF",
     historyCurrent: "(Current)",
 
+    // Main Columns
     titleTopics: "Topics & Minutes",
     phSearch: "Search minutes...",
     titleParticipants: "Participants",
     phName: "Name...",
 
+    // Dropdowns & Statuses
     optRequired: "Required",
     optOptional: "Optional",
     optOrganizer: "Organizer",
@@ -56,6 +40,7 @@ window.PAGE_I18N = {
     priorityMed: "Med",
     priorityHigh: "High",
 
+    // Modal
     modalTitleEdit: "Edit Contact",
     modalLblName: "Name",
     modalLblCompany: "Company",
@@ -66,6 +51,7 @@ window.PAGE_I18N = {
     btnCancel: "Cancel",
     btnSaveModal: "Save",
 
+    // Dynamic UI (Rendered by JS)
     emptyAttendees: "No attendees added yet.",
     archivedTag: "(Archived)",
     badgeUnassigned: "Unassigned",
@@ -75,11 +61,13 @@ window.PAGE_I18N = {
     btnAddNewTask: "Add New Task",
     emptyTasks: "No tasks found",
 
+    // Alerts & Confirmations
     alertMissingTitle: "Please enter a Meeting Title before saving.",
     alertParseError: "Error parsing Excel file. Make sure xlsx.bundle.js is loaded correctly.",
     confirmRemovePerson: "Remove this person from the active contacts list? (They will be preserved in past meeting records)",
     confirmDeleteTask: "Delete this entire task and its subtasks?",
 
+    // --- Project Information (shared block, identical keys in all liteAECO apps) ---
     lblProject: "Project",
     lblProjectDetails: "Details",
     lblClient: "Client",
@@ -88,6 +76,7 @@ window.PAGE_I18N = {
     phProjectNo: "No.",
     phProjectTitle: "Project Title...",
 
+    // --- Attachments (.ltm) ---
     btnAttach: "Attach image or PDF",
     titleRemoveAttachment: "Remove attachment",
     phAddComment: "Add comment...",
@@ -104,6 +93,7 @@ window.PAGE_I18N = {
     confirmRemoveAttachment: "Remove attachment \"{0}\"?",
     alertReferenceOnly: "This attachment is a reference \u2014 the file itself is not embedded.",
 
+    // --- .ltm container import ---
     errBadLtm: "This .ltm file could not be read (corrupt or not a ZIP container).",
     errLtmNoXlsx: "No spreadsheet found inside the .ltm container.",
     errParseLtmXlsx: "Error parsing the spreadsheet inside the .ltm container.",
@@ -111,6 +101,7 @@ window.PAGE_I18N = {
     warnNewerLtm: "This .ltm uses a newer format version ({0}). Try to open anyway?",
     warnNoManifest: "No valid manifest.json in this container \u2014 spreadsheet loaded, attachments skipped.",
 
+    // --- Attachment metadata inspector (keys mirror Incident_RCA for shared DE/ES) ---
     btnMetadata: "View metadata",
     titleMetadata: "Attachment Metadata",
     mdFile: "File name",
@@ -138,6 +129,7 @@ window.PAGE_I18N = {
     ttOpenMap: "Open in OpenStreetMap",
     mdNote: "Images are recompressed on attach (max 1920 px long edge, JPEG q0.8). EXIF capture time, GPS and device are read from the original file and stored separately in the .ltm container.",
 
+    // --- Import dialogs & misc UI ---
     confirmImportReplace: "Are you sure you want to import this Meeting? Existing unsaved data will be replaced.",
     alertNoContactsTab: "No CONTACTS tab found in this file. Nothing to import.",
     confirmForeignImport1: "This file's INFO tab A2 does not read \"Meetings\".\n\nContacts will be imported from the CONTACTS tab. Meeting settings may not load correctly.",
@@ -146,6 +138,7 @@ window.PAGE_I18N = {
     phSearchAssignees: "Search assignees...",
     phThreadTopic: "Thread Topic...",
 
+    // ================= NEW: Shared autosave (identical keys in all liteAECO apps) =================
     autosaveMenu: "Autosave…",
     historyMenu: "History",
     autosaveOffMenu: "Autosave off",

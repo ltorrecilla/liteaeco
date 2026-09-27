@@ -1,0 +1,874 @@
+<!--
+  Copyright 2026 Luis Torrecilla (liteAECO)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  liteAECO - (ifc-inject-properties.html)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Luis Torrecilla">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFC Inject Properties - Add Custom Properties to IFC Models | liteAECO</title>
+
+    <meta name="description" content="Free client-side tool to import and create new properties in existing IFC models. No uploads, private, fast, and built for AEC teams.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://liteaeco.com/tools/ifc-inject-properties.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://liteaeco.com/tools/ifc-inject-properties.html">
+    <meta property="og:site_name" content="liteAECO">
+    <meta property="og:title" content="IFC Inject Properties - Add Custom Properties to IFC Models | liteAECO">
+    <meta property="og:description" content="Free client-side tool to import and create new properties in existing IFC models. No uploads, private, fast, and built for AEC teams.">
+    <meta property="og:image" content="https://liteaeco.com/img/og-ifc-inject-properties.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="liteAECO IFC Inject Properties tool interface">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-inject-properties.html">
+    <meta name="twitter:title" content="IFC Inject Properties - Add Custom Properties to IFC Models | liteAECO">
+    <meta name="twitter:description" content="Free client-side tool to import and create new properties in existing IFC models. No uploads, private, fast, and built for AEC teams.">
+    <meta name="twitter:image" content="https://liteaeco.com/img/og-ifc-inject-properties.png">
+
+    <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/vendor/lucide-1.41.0.min.js"></script>
+
+    <script>window.SITE_ROOT = '../';</script>
+    <script src="../lang/en/global.js"></script>
+    <script src="../js/common.js"></script>
+
+    <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="../css/global.css">
+</head>
+
+<body
+    class="bg-slate-50 text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
+
+    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full transition-all flex-grow">
+
+        <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded p-6 md:p-8 mb-6">
+            <div
+                class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 border-b border-slate-200/60 pb-4">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-lg bg-white border border-slate-100 shadow-sm flex items-center justify-center text-indigo-600 shrink-0 rotate-180">
+                        <i data-lucide="square-arrow-right-enter" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-900 tracking-tight leading-tight" id="ui-title">IFC
+                            Inject Properties</h1>
+                        <p class="text-sm font-medium text-indigo-500 uppercase tracking-widest mt-0.5"
+                            id="ui-subtitle">Streaming Pset Operations</p>
+                    </div>
+                </div>
+            </div>
+
+            <details class="text-sm text-slate-600 leading-relaxed group">
+				<summary class="cursor-pointer list-none flex items-center gap-2 font-semibold text-slate-900 select-none">
+					<i data-lucide="chevron-right" class="w-4 h-4 text-indigo-500 transition-transform group-open:rotate-90"></i>
+					<span id="ui-rule-title">What this tool does</span>
+				</summary>
+
+				<div class="mt-3 space-y-3">
+					<p>
+						<span id="ui-rule-desc-1">This tool parses an IFC file entirely in your browser using <code
+                            class="bg-slate-100 px-1 py-0.5 rounded border border-slate-200 text-slate-700">web-ifc</code>.
+                        You can add entirely new properties to one or multiple IFC classes simultaneously, load a
+                        spreadsheet to overwrite existing values, and download the updated topological graph as a new
+                        IFC file.</span>
+					</p>
+				</div>
+			</details>
+        </div>
+
+        <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-6 md:p-8">
+
+            <div class="mb-8">
+                <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
+                    <span
+                        class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                            data-lucide="file-code-2" class="w-3.5 h-3.5"></i></span>
+                    <span id="ui-step1">Step 1: Load Model</span>
+                </h2>
+
+                <div
+                    class="bg-white/50 p-6 rounded border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex flex-col h-full">
+                        <label id="drop-zone" for="fileInput"
+                            class="drop-zone flex flex-col items-center justify-center w-full h-full min-h-[140px] px-4 py-4 border-2 border-slate-300 border-dashed rounded-lg hover:border-indigo-500 hover:bg-indigo-50/30 bg-slate-50/50 cursor-pointer transition-all">
+                            <div
+                                class="flex flex-col items-center justify-center space-y-2 text-center pointer-events-none">
+                                <i data-lucide="file-input"
+                                    class="w-8 h-8 text-slate-400 mb-1 group-hover:text-indigo-500 transition-colors"></i>
+                                <div class="flex text-sm text-slate-600 justify-center font-medium">
+                                    <span
+                                        class="text-indigo-600 hover:text-indigo-700 pointer-events-auto cursor-pointer"
+                                        id="ui-dropUpload">Load IFC file</span>
+                                    <p class="pl-1" id="ui-dropOr">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-slate-500 font-medium mt-1 truncate max-w-[300px]"
+                                    id="fileNameDisplay">No file selected</p>
+                            </div>
+                            <input id="fileInput" name="fileInput" type="file" accept=".ifc" class="hidden" />
+                        </label>
+                    </div>
+
+                    <div class="flex flex-col h-full bg-white/60 p-4 rounded border border-slate-200/60 shadow-sm">
+                        <p id="ui-modelInfoTitle"
+                            class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200/60 pb-1">Model
+                            Information</p>
+                        <div class="grid grid-cols-4 gap-x-4 gap-y-2 text-[12px] flex-grow content-start">
+                            <div id="ui-infoDate" class="text-slate-500 font-medium">Date:</div>
+                            <div id="info-date" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div id="ui-infoSize" class="text-slate-500 font-medium">File Size:</div>
+                            <div id="info-size" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div id="ui-infoSchema" class="text-slate-500 font-medium">Schema:</div>
+                            <div id="info-schema" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div id="ui-infoApp" class="text-slate-500 font-medium">Application:</div>
+                            <div id="info-app" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div id="ui-infoPerson" class="text-slate-500 font-medium">Person:</div>
+                            <div id="info-person" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div id="ui-infoUnits" class="text-slate-500 font-medium">Units:</div>
+                            <div id="info-units" class="col-span-3 text-slate-800 font-semibold truncate">-</div>
+
+                            <div id="ui-infoXyz" class="text-slate-500 font-medium">lat. / lon. / elev.:</div>
+                            <div id="info-xyz" class="col-span-3 text-slate-800 font-semibold truncate">- / - / -</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="stepAddProps" class="hidden mb-8">
+                <details
+                    class="group bg-white/50 border border-slate-200 shadow-sm rounded overflow-hidden transition-all">
+                    <summary
+                        class="flex justify-between items-center font-medium cursor-pointer list-none p-4 hover:bg-white/80 transition-colors [&::-webkit-details-marker]:hidden border-b border-transparent group-open:border-slate-200/60">
+                        <h2 class="text-base font-bold text-slate-800 flex items-center m-0">
+                            <span
+                                class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                                    data-lucide="plus-circle" class="w-3.5 h-3.5"></i></span>
+                            <span id="ui-stepAddPropsTitle">Optional: Add New Properties</span>
+                        </h2>
+                        <span
+                            class="transition-transform duration-200 group-open:rotate-180 bg-slate-100 p-1 rounded text-slate-500 group-hover:bg-slate-200">
+                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </span>
+                    </summary>
+                    <div class="p-4 pt-2">
+                        <p class="text-xs text-slate-500 mb-4 leading-relaxed" id="ui-stepAddPropsDesc">Create new
+                            attributes and apply them to specific IFC Classes. Select one or multiple classes from the
+                            list.</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-6 gap-6 items-start mb-4">
+                            <div class="col-span-1 md:col-span-2">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1 flex justify-between">
+                                    <span id="ui-lblClass">IFC Class(es)</span>
+                                    <span class="text-[10px] text-slate-500 font-normal" id="ui-lblMultiSelect">Ctrl/Cmd
+                                        to multi-select</span>
+                                </label>
+                                <select id="newPropClass" multiple
+                                    class="block w-full flex-grow min-h-[225px] bg-slate-50/50 border border-slate-300 rounded p-2 text-sm text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed outline-none log-scroll">
+                                </select>
+                            </div>
+
+                            <div class="col-span-1 md:col-span-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="col-span-1">
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1"
+                                        id="ui-lblPsetName">Pset Name</label>
+                                    <input type="text" id="newPropPset" placeholder="e.g. Pset_Custom"
+                                        data-i18n-placeholder="phPset"
+                                        class="w-full text-sm border-slate-300 rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500 py-1.5 px-2 bg-white">
+                                </div>
+                                <div class="col-span-1">
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1"
+                                        id="ui-lblPropName">Property Name</label>
+                                    <input type="text" id="newPropName" placeholder="Attribute Name"
+                                        data-i18n-placeholder="phProp"
+                                        class="w-full text-sm border-slate-300 rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500 py-1.5 px-2 bg-white">
+                                </div>
+                                <div class="col-span-1">
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1"
+                                        id="ui-lblDataType">Data Type</label>
+                                    <select id="newPropType"
+                                        class="w-full text-sm border-slate-300 rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500 py-1.5 px-2 bg-white">
+                                        <option value="IFCLABEL" id="ui-typeLabel">IfcLabel (Text)</option>
+                                        <option value="IFCTEXT" id="ui-typeText">IfcText (Long Text)</option>
+                                        <option value="IFCBOOLEAN" id="ui-typeBoolean">IfcBoolean (True/False)</option>
+                                        <option value="IFCINTEGER" id="ui-typeInteger">IfcInteger (Whole Number)
+                                        </option>
+                                        <option value="IFCREAL" id="ui-typeReal">IfcReal (Decimal)</option>
+                                    </select>
+                                </div>
+                                <div class="col-span-1">
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1"
+                                        id="ui-lblDefaultValue">Default Value</label>
+                                    <div class="flex gap-2">
+                                        <input type="text" id="newPropValue" placeholder="Value"
+                                            data-i18n-placeholder="phValue"
+                                            class="w-full text-sm border-slate-300 rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500 py-1.5 px-2 bg-white">
+                                        <button id="btnAddProp"
+                                            class="bg-indigo-600 text-white hover:bg-indigo-700 px-4 rounded shadow-sm transition-colors font-bold text-xs"
+                                            title="Queue Property">
+                                            <span id="ui-btnAddProp">ADD</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="queuedPropsContainer" class="hidden mt-6">
+                            <p class="text-xs font-bold text-slate-700 mb-2 border-b border-slate-200 pb-1"
+                                id="ui-queuedPropsTitle">Queued New Properties</p>
+                            <div class="overflow-x-auto border border-slate-200 rounded">
+                                <table class="min-w-full divide-y divide-slate-200 text-xs text-left">
+                                    <thead class="bg-slate-50">
+                                        <tr>
+                                            <th class="px-3 py-2 font-semibold text-slate-600" id="ui-thClass">IFC
+                                                Class(es)</th>
+                                            <th class="px-3 py-2 font-semibold text-slate-600" id="ui-thPset">Pset Name
+                                            </th>
+                                            <th class="px-3 py-2 font-semibold text-slate-600" id="ui-thProperty">
+                                                Property</th>
+                                            <th class="px-3 py-2 font-semibold text-slate-600" id="ui-thType">Type</th>
+                                            <th class="px-3 py-2 font-semibold text-slate-600" id="ui-thValue">Value
+                                            </th>
+                                            <th class="px-3 py-2 font-semibold text-slate-600 text-right"
+                                                id="ui-thAction">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="queuedPropsTableBody" class="bg-white divide-y divide-slate-100">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+            </div>
+
+            <div id="stepExportArea" class="hidden mb-8">
+                <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
+                    <span
+                        class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                            data-lucide="upload" class="w-3.5 h-3.5"></i></span>
+                    <span id="ui-step3">Step 2: Update Values & Export</span>
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="flex flex-col h-full bg-white/50 p-4 rounded border border-slate-200 shadow-sm">
+                        <div class="mb-2 border-b border-slate-200/60 pb-1">
+                            <p id="ui-uploadDataTitle" class="font-semibold text-sm text-slate-800">1. Modify Existing
+                                Properties (Optional)</p>
+                        </div>
+                        <p id="ui-uploadDataDesc" class="text-xs text-slate-500 mb-4 leading-relaxed">Load an
+                            Excel/CSV file containing property corrections to overwrite existing values. Leave empty if
+                            only adding new properties.</p>
+
+                        <input type="file" id="dataFileInput" accept=".xlsx, .xlsb, .csv, .ods"
+                            class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition-colors cursor-pointer" />
+
+                        <div id="dataFileStatus"
+                            class="hidden items-center gap-2 mt-4 px-3 py-2 bg-slate-100 text-slate-700 text-xs font-semibold rounded border border-slate-200">
+                            <i data-lucide="info" class="w-4 h-4"></i>
+                            <span id="dataFileStatusText">Waiting for file...</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col h-full bg-white/50 p-4 rounded border border-slate-200 shadow-sm">
+                        <div class="mb-2 border-b border-slate-200/60 pb-1">
+                            <p id="ui-applyChangesTitle" class="font-semibold text-sm text-slate-800">2. Apply Changes &
+                                Download</p>
+                        </div>
+                        <p id="ui-applyChangesDesc" class="text-xs text-slate-500 mb-4 leading-relaxed">This will inject
+                            the queued new properties and apply any loaded property overwrites, generating your
+                            updated IFC file.</p>
+
+                        <div class="flex flex-col gap-3 mt-auto relative">
+                            <button id="processImportBtn" disabled
+                                class="w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-bold text-white bg-slate-900 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 disabled:bg-slate-300 disabled:text-slate-500 disabled:shadow-none disabled:cursor-not-allowed transition-all duration-300 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5">
+                                <i data-lucide="save" class="w-4 h-4 mr-2"></i>
+                                <span id="ui-btnUpdateDownload">Update & Download IFC</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div id="logAreaWrapper" class="hidden flex-col gap-4 mt-6 pt-6 border-t border-slate-200">
+                    <details
+                        class="group bg-white/60 backdrop-blur-md border border-slate-200 rounded shadow-sm overflow-hidden mb-2 transition-all">
+                        <summary
+                            class="flex justify-between items-center font-medium cursor-pointer list-none p-4 hover:bg-white/80 transition-colors [&::-webkit-details-marker]:hidden">
+                            <span
+                                class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                                <i data-lucide="terminal" class="w-4 h-4 text-indigo-500"></i>
+                                <span id="ui-logTitle">System Log Output</span>
+                                <div id="inline-loader"
+                                    class="hidden ml-3 w-20 h-1.5 bg-slate-200 rounded-full overflow-hidden relative">
+                                    <div
+                                        class="absolute top-0 left-0 h-full w-1/2 bg-indigo-500 animate-load-slide rounded-full">
+                                    </div>
+                                </div>
+                            </span>
+                            <span
+                                class="transition-transform duration-200 group-open:rotate-180 bg-slate-100 p-1 rounded text-slate-500 group-hover:bg-slate-200">
+                                <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                            </span>
+                        </summary>
+                        <div class="p-4 border-t border-slate-100 bg-slate-50/50 flex flex-col gap-3">
+                            <div id="logArea"
+                                class="bg-slate-900 text-slate-300 font-mono text-[12px] p-4 rounded-lg h-40 overflow-y-auto whitespace-pre-wrap leading-relaxed shadow-inner border border-slate-800 log-scroll">
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
+
+        window.updateToolDynamicUI = function (d) {
+            if (typeof refreshTable === 'function') refreshTable();
+        };
+
+        function bootApp() {
+            autoDetectLanguage();
+
+            window.injectUI({
+                showNav: true,
+                transparentNav: false,
+                showSignIn: false,
+                showCategories: true,
+                showNews: false,
+                showHelp: true,
+                showFooter: true,
+                showFooterLinks: true,
+            });
+
+            window.injectCookieBanner();
+
+            const currentYear = new Date().getFullYear();
+            const targetVersionInput = document.getElementById('targetVersionInput');
+            if (targetVersionInput) {
+                targetVersionInput.max = currentYear;
+                if (!targetVersionInput.value) targetVersionInput.value = currentYear;
+            }
+
+            const updateAppCb = document.getElementById('updateAppCb');
+            const versionInputContainer = document.getElementById('versionInputContainer');
+
+            function toggleVersionInput() {
+                if (updateAppCb && versionInputContainer) {
+                    if (updateAppCb.checked) {
+                        versionInputContainer.style.opacity = '1';
+                        versionInputContainer.style.pointerEvents = 'auto';
+                    } else {
+                        versionInputContainer.style.opacity = '0.4';
+                        versionInputContainer.style.pointerEvents = 'none';
+                    }
+                }
+            }
+
+            if (updateAppCb) {
+                updateAppCb.addEventListener('change', toggleVersionInput);
+                toggleVersionInput();
+            }
+
+            window.loadLanguage(currentLang, window.pageScriptPrefix);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', bootApp);
+        } else {
+            bootApp();
+        }
+    </script>
+    <script type="module">
+
+        let classCounts = {};
+        let fileLoaded = false;
+
+        let parsedData = [];
+        let queuedProperties = [];
+        let availableIfcClasses = new Set();
+        let classData = {};
+
+        const SECURITY_BLACKLIST = {
+            systemCols: ["_hash", "_globalId", "_elementName"],
+            exactPsets: ["IfcRelDefinesByType", "BaseQuantities"],
+            psetPatterns: [
+                /^Qto_/i,
+                /Common$/i,
+                /Dimensions$/i,
+                /Constraints$/i,
+                /Quantity$/i,
+                /Requirements$/i
+            ],
+            exactProperties: [
+                "Length", "Width", "Height", "Thickness",
+                "GrossVolume", "NetVolume", "GrossArea", "NetArea", "CrossSectionArea",
+                "IsExternal"
+            ],
+            propertyPatterns: [
+                /storey/i,
+                /level/i,
+                /opening\s*id/i,
+                /layer/i,
+                /omniclass/i
+            ]
+        };
+
+        function isPsetLocked(psetName) {
+            if (!psetName) return false;
+            if (SECURITY_BLACKLIST.exactPsets.includes(psetName)) return true;
+            if (SECURITY_BLACKLIST.psetPatterns.some(pattern => pattern.test(psetName))) return true;
+            return false;
+        }
+
+        function isPropertyLocked(propName) {
+            if (!propName) return false;
+            if (SECURITY_BLACKLIST.systemCols.includes(propName)) return true;
+            if (SECURITY_BLACKLIST.exactProperties.includes(propName)) return true;
+            if (SECURITY_BLACKLIST.propertyPatterns.some(pattern => pattern.test(propName))) return true;
+            return false;
+        }
+
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const dropZone = document.getElementById('drop-zone');
+        const stepExportArea = document.getElementById('stepExportArea');
+        const stepAddProps = document.getElementById('stepAddProps');
+        const logAreaWrapper = document.getElementById('logAreaWrapper');
+        const logArea = document.getElementById('logArea');
+
+        const newPropClass = document.getElementById('newPropClass');
+        const newPropPset = document.getElementById('newPropPset');
+        const newPropName = document.getElementById('newPropName');
+        const newPropType = document.getElementById('newPropType');
+        const newPropValue = document.getElementById('newPropValue');
+        const btnAddProp = document.getElementById('btnAddProp');
+        const queuedPropsContainer = document.getElementById('queuedPropsContainer');
+        const queuedPropsTableBody = document.getElementById('queuedPropsTableBody');
+
+        const dataFileInput = document.getElementById('dataFileInput');
+        const processImportBtn = document.getElementById('processImportBtn');
+        const dataFileStatus = document.getElementById('dataFileStatus');
+        const dataFileStatusText = document.getElementById('dataFileStatusText');
+
+        function log(msg, isWarning = false) {
+            logAreaWrapper.classList.remove('hidden');
+            logAreaWrapper.classList.add('flex');
+            const color = isWarning ? 'text-amber-400 font-bold' : 'text-slate-300';
+            logArea.innerHTML += `<span class="${color}">[System] ${msg}</span>\n`;
+            logArea.scrollTop = logArea.scrollHeight;
+            console.log(msg);
+        }
+
+        function showLoader() {
+            const loader = document.getElementById('inline-loader');
+            if (loader) loader.classList.remove('hidden');
+            if (logAreaWrapper) {
+                logAreaWrapper.classList.remove('hidden');
+                logAreaWrapper.classList.add('flex');
+            }
+        }
+
+        function hideLoader() {
+            const loader = document.getElementById('inline-loader');
+            if (loader) loader.classList.add('hidden');
+        }
+
+        function updateProcessButtonState() {
+            if (parsedData.length > 0 || queuedProperties.length > 0) {
+                processImportBtn.disabled = false;
+            } else {
+                processImportBtn.disabled = true;
+            }
+        }
+
+        const WORKER_VERSION = 8;
+        const WORKER_URL = window.SITE_ROOT + 'js/ifc-worker.js?v=' + WORKER_VERSION;
+        const STALE_WORKER_MSG = 'js/ifc-worker.js is missing or out of date (browser cache?). Hard-refresh the page (Ctrl+F5 / Cmd+Shift+R) and make sure the new ifc-worker.js is deployed.';
+
+        function createCoordinator() {
+            const w = new Worker(WORKER_URL);
+            let readyResolve, readyReject;
+            const ready = new Promise((res, rej) => { readyResolve = res; readyReject = rej; });
+            const readyTimer = setTimeout(() => readyReject(new Error(STALE_WORKER_MSG)), 8000);
+            const pending = new Map();
+            let seq = 0;
+            const failAll = (msg) => {
+                const err = new Error(msg);
+                for (const p of pending.values()) p.reject(err);
+                pending.clear();
+                readyReject(err);
+            };
+            w.onmessage = (e) => {
+                const d = e.data || {};
+                if (d.type === 'ready') {
+                    clearTimeout(readyTimer);
+                    if (d.proto !== WORKER_VERSION) failAll(`Worker protocol ${d.proto} != page ${WORKER_VERSION}. ${STALE_WORKER_MSG}`);
+                    else readyResolve();
+                    return;
+                }
+                if (d.type === 'log') { log('  ' + d.msg, !!d.warn); return; }
+                const p = pending.get(d.reqId);
+                if (!p) { failAll(`Unexpected worker reply (${d.type || d.error || 'unknown'}). ${STALE_WORKER_MSG}`); return; }
+                pending.delete(d.reqId);
+                if (d.type === 'error') p.reject(new Error(d.msg)); else p.resolve(d);
+            };
+            w.onerror = (err) => {
+                clearTimeout(readyTimer);
+                failAll((err && err.message) ? `Worker error: ${err.message}` : STALE_WORKER_MSG);
+            };
+            return {
+                async call(action, payload, transfer) {
+                    await ready;
+                    return new Promise((resolve, reject) => {
+                        const reqId = ++seq;
+                        pending.set(reqId, { resolve, reject });
+                        w.postMessage(Object.assign({ action, reqId }, payload), transfer || []);
+                    });
+                },
+                terminate() { clearTimeout(readyTimer); w.terminate(); }
+            };
+        }
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
+        });
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.add('dragover'), false);
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.remove('dragover'), false);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileSelect(fileInput.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) handleFileSelect(e.target.files[0]);
+        });
+
+        async function handleFileSelect(file) {
+            fileNameDisplay.textContent = file.name;
+            fileNameDisplay.classList.replace('text-slate-500', 'text-indigo-600');
+            fileNameDisplay.classList.add('font-bold');
+            fileLoaded = true;
+
+            stepExportArea.classList.add('hidden');
+            stepAddProps.classList.add('hidden');
+            newPropClass.innerHTML = '';
+            queuedProperties = [];
+            renderQueuedProperties();
+
+            showLoader();
+
+            setTimeout(async () => {
+                await processIfcFile(file);
+                hideLoader();
+            }, 150);
+        }
+
+        let sessionCoord = null;
+
+        async function processIfcFile(file) {
+            try {
+                if (sessionCoord) { sessionCoord.terminate(); sessionCoord = null; }
+                sessionCoord = createCoordinator();
+                fileLoaded = false;
+
+                log(`Loading model: ${file.name} (${(file.size / 1048576).toFixed(2)} MB) in background worker...`);
+                const res = await sessionCoord.call('psetLoad', { file, fileName: file.name });
+                const meta = res.meta;
+                fileLoaded = true;
+
+                document.getElementById('info-size').innerText = (meta.sizeBytes / 1048576).toFixed(2) + " MB";
+                document.getElementById('info-schema').innerText = meta.schema || (window.BASE_PAGE.valUnknown || "Unknown");
+                document.getElementById('info-date').innerText = meta.date || (window.BASE_PAGE.valUnknown || "Unknown");
+                document.getElementById('info-app').innerText = meta.app || "-";
+                document.getElementById('info-person').innerText = meta.person || "-";
+                if (meta.site) {
+                    const elev = (meta.site.elev && meta.site.elev !== '$') ? Number(meta.site.elev).toFixed(3) : '-';
+                    document.getElementById('info-xyz').innerText = `${meta.site.lat || '-'} / ${meta.site.lon || '-'} / ${elev}`;
+                }
+                const unitNames = {
+                    MILLIMETER: window.BASE_PAGE.unitMm || 'Millimeters',
+                    CENTIMETER: window.BASE_PAGE.unitCm || 'Centimeters',
+                    METER: window.BASE_PAGE.unitM || 'Meters',
+                    FOOT: window.BASE_PAGE.unitFt || 'Feet',
+                    INCH: window.BASE_PAGE.unitIn || 'Inches'
+                };
+                document.getElementById('info-units').innerText = unitNames[meta.unit] || (window.BASE_PAGE.valUnknown || 'Unknown');
+
+                classData = res.classData || {};
+                classCounts = res.classCounts || {};
+
+                newPropClass.innerHTML = '';
+                Object.keys(classData).sort().forEach(cls => {
+                    if (!cls.includes('CARTESIAN') && !cls.includes('DIRECTION') && !cls.includes('REPRESENTATION')) {
+                        const optNew = document.createElement('option');
+                        optNew.value = cls;
+                        optNew.innerText = `${cls} (${classCounts[cls] || 0})`;
+                        newPropClass.appendChild(optNew);
+                    }
+                });
+
+                stepAddProps.classList.remove('hidden');
+                stepExportArea.classList.remove('hidden');
+
+            } catch (err) {
+                log(`ERROR parsing file: ${err.message}`, true);
+            }
+        }
+
+        btnAddProp.addEventListener('click', () => {
+            const selectedClasses = Array.from(newPropClass.selectedOptions).map(opt => opt.value);
+            const pset = newPropPset.value.trim();
+            const name = newPropName.value.trim();
+            const type = newPropType.value;
+            const value = newPropValue.value.trim();
+
+            if (selectedClasses.length === 0 || !pset || !name || !value) {
+                alert(window.BASE_PAGE.alertEmptyFields || "Please select at least one class and fill in all fields.");
+                return;
+            }
+
+            if (isPsetLocked(pset)) {
+                const msg = (window.BASE_PAGE.alertPsetProtected || "Security Error: The Property Set '{pset}' is protected.").replace('{pset}', pset);
+                alert(msg);
+                return;
+            }
+
+            if (isPropertyLocked(name)) {
+                const msg = (window.BASE_PAGE.alertPropProtected || "Security Error: The Property '{name}' is protected.").replace('{name}', name);
+                alert(msg);
+                return;
+            }
+
+            queuedProperties.push({
+                id: Date.now(),
+                ifcClasses: selectedClasses,
+                psetName: pset,
+                name,
+                type,
+                value
+            });
+
+            newPropName.value = '';
+            newPropValue.value = '';
+            renderQueuedProperties();
+            updateProcessButtonState();
+            log(`Queued new property: [${selectedClasses.length} class(es)] ${pset} -> ${name} = ${value}`);
+        });
+
+        function renderQueuedProperties() {
+            if (queuedProperties.length === 0) {
+                queuedPropsContainer.classList.add('hidden');
+            } else {
+                queuedPropsContainer.classList.remove('hidden');
+                queuedPropsTableBody.innerHTML = '';
+                const esc = (v) => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+                queuedProperties.forEach(prop => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="px-3 py-2 text-slate-800 max-w-[200px] truncate" title="${esc(prop.ifcClasses.join(', '))}">${esc(prop.ifcClasses.join(', '))}</td>
+                        <td class="px-3 py-2 whitespace-nowrap text-slate-600">${esc(prop.psetName)}</td>
+                        <td class="px-3 py-2 whitespace-nowrap text-slate-800 font-medium">${esc(prop.name)}</td>
+                        <td class="px-3 py-2 whitespace-nowrap text-slate-500">${esc(prop.type)}</td>
+                        <td class="px-3 py-2 whitespace-nowrap text-indigo-600">${esc(prop.value)}</td>
+                        <td class="px-3 py-2 whitespace-nowrap text-right">
+                            <button class="text-red-500 hover:text-red-700" onclick="removeQueuedProperty(${prop.id})">
+                                <i data-lucide="trash-2" class="w-4 h-4 inline"></i>
+                            </button>
+                        </td>
+                    `;
+                    queuedPropsTableBody.appendChild(tr);
+                });
+                lucide.createIcons();
+            }
+        }
+
+        window.removeQueuedProperty = function (id) {
+            queuedProperties = queuedProperties.filter(p => p.id !== id);
+            renderQueuedProperties();
+            updateProcessButtonState();
+        };
+
+        dataFileInput.addEventListener('change', async (e) => {
+            if (!e.target.files.length) {
+                parsedData = [];
+                dataFileStatus.classList.add('hidden');
+                updateProcessButtonState();
+                return;
+            }
+            const file = e.target.files[0];
+
+            dataFileStatus.classList.remove('hidden');
+            dataFileStatus.classList.add('flex');
+            dataFileStatusText.innerText = (window.BASE_PAGE.statusParsing || "Parsing ") + file.name + "...";
+            processImportBtn.disabled = true;
+            showLoader();
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    parsedData = [];
+                    let totalUpdatesFound = 0;
+
+                    workbook.SheetNames.forEach(sheetName => {
+                        if (sheetName === "INFO") return;
+                        const sheet = workbook.Sheets[sheetName];
+                        const json = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
+
+                        if (json.length < 3) return;
+
+                        const psetRow = json[0];
+                        const headerRow = json[1];
+
+                        for (let i = 2; i < json.length; i++) {
+                            const row = json[i];
+                            if (!row || row.length === 0) continue;
+
+                            const elIDIndex = headerRow.indexOf("Element ID");
+                            if (elIDIndex === -1 || !row[elIDIndex]) continue;
+
+                            const elementID = parseInt(row[elIDIndex]);
+                            const propsToUpdate = [];
+
+                            for (let col = 4; col < headerRow.length; col++) {
+                                const psetName = psetRow[col];
+                                const propName = headerRow[col];
+                                const propValue = row[col];
+
+                                if (psetName && propName && propValue !== undefined && propValue !== "") {
+                                    if (isPsetLocked(psetName) || isPropertyLocked(propName)) {
+                                        continue;
+                                    }
+
+                                    propsToUpdate.push({ pset: psetName, name: propName, value: propValue });
+                                    totalUpdatesFound++;
+                                }
+                            }
+
+                            if (propsToUpdate.length > 0) {
+                                parsedData.push({ elementID, props: propsToUpdate });
+                            }
+                        }
+                    });
+
+                    if (totalUpdatesFound > 0) {
+                        dataFileStatusText.innerText = (window.BASE_PAGE.statusReady || "Ready to apply {count} property updates.").replace('{count}', totalUpdatesFound);
+                        log(`Successfully parsed ${file.name}. Found ${totalUpdatesFound} potential property updates.`);
+                    } else {
+                        dataFileStatusText.innerText = window.BASE_PAGE.statusNoValid || "No valid property updates found in file.";
+                        log("Warning: No valid property updates found in uploaded spreadsheet.", true);
+                    }
+                } catch (err) {
+                    dataFileStatusText.innerText = window.BASE_PAGE.statusError || "Error parsing file.";
+                    log(`ERROR parsing spreadsheet: ${err.message}`, true);
+                } finally {
+                    updateProcessButtonState();
+                    hideLoader();
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        });
+
+        processImportBtn.addEventListener('click', async () => {
+            if (!fileLoaded || !sessionCoord) return;
+            processImportBtn.disabled = true;
+            log(`Starting Data Injection & Export Process (background worker)...`);
+            showLoader();
+            const tStart = performance.now();
+
+            try {
+                const res = await sessionCoord.call('psetInject', {
+                    ops: {
+                        excelRows: parsedData,
+                        queued: queuedProperties,
+                        actionLabel: 'PSet Injection'
+                    }
+                });
+
+                log(`Generating new physical file...`);
+                const blob = new Blob(res.parts, { type: 'application/octet-stream' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                const originalName = fileInput.files[0].name.replace(/\.ifc$/i, '');
+                a.download = `${originalName}_Updated.ifc`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                log(`Generation complete (${(res.bytes / 1048576).toFixed(2)} MB, ${((performance.now() - tStart) / 1000).toFixed(1)} s). Updated IFC file downloaded successfully.`);
+
+            } catch (err) {
+                log(`FATAL ERROR during update: ${err.message}`, true);
+            } finally {
+                updateProcessButtonState();
+                hideLoader();
+            }
+        });
+
+    </script>
+</body>
+
+</html>
