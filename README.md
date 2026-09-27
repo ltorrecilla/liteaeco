@@ -18,13 +18,13 @@
 [**liteAECO**](https://liteAECO.com) · [live](https://liteAECO.com/)
 > The entry gate to a collection of free open source webapps for the AECO inductry, from Project Management to BIM and VDC
 - Project Portfolio
-  - Keep track of multiple running projects and visulize progress over time
+  - Keep track of multiple running projects and visualize progress over time
   - Display them all as a gantt chart or in dashboard with valuable information
 - Project Timeline
   - A tool for scheduling projects that helps you to keep track of progress and resources
   - Compatible with XML or MS project files directly
 - Organizational Chart
-  - Organise your contacts and visualise the hierarchy
+  - Organize your contacts and visualize the hierarchy
   - Multiple views, Matrix, Tree and Holacracy
 - Meetings
   - A protocol tool is the ideal way to keep track of your project meetings
@@ -33,20 +33,29 @@
 - Responsibility Matrix
   - Use a RASCI matrix to assign tasks to specific contacts
 - Contract Obligations
-  - Review your contracts and extact information regarding dates, value and permissions
+  - Review your contracts and exact information regarding dates, value and permissions
 - Incident RCA
-  - Record any incident and use the root cause analysis to prevent future issues.
- 
-- IFC Coordination and Audit [Under development]
+  - Record any incident and use the root cause analysis to prevent future issues
+- IFC Viewer and Audit
+  - Inspect IFC Models and attributes, export as excel
+  - Link external excel files to IFC Elements within a Model
+  - Audit and check models against IDS Files and rules
+  - BIM Coordination, move and rotate IFC models
+  - IFC Clash detection
+  - Create issues as BCF files
+- IFC Merger / Optimizer
+  - Merge several IFC models into one up 500 MB
+- IFC Pset Operations (Export, Inject, Delete and Rename)
+  - Export import and rename Psets or attributes without loading the geometry
+- IFC Application Changer and Reposition
+  - Make IFC models from Tricad, Istram and LuxArtX compatible with Autodesk ACC Model coordination
+
 - IDS Generator [Under development]
 - PDF Viewer [Under development]
-- IFC Merger / Optimizer [Under development]
-- IFC Pset Operations (Export, Inject, Delete and Rename) [Under development]
-- IFC Application Changer and Reposition [Under development]
 - DXF Editor / Compare [Under development]
 
 ## Support the development
-Making BIM avaliable for free & open-source, you can support the project via:
+Making BIM available for free & open-source, you can support the project via:
 
 [![Ko-fi](https://img.shields.io/badge/%E2%98%95-ko-fi)](https://ko-fi.com/ltorrecilla)
 
