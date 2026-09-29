@@ -25,10 +25,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IFC Merger - Merge Multiple IFC Models in Your Browser | liteAECO</title>
 
+    
     <meta name="description" content="Free client-side tool to merge multiple IFC models into one file. Unifies IFCPROJECT, sites, buildings, storeys; auto-scales unit mismatches and deduplicates resources. No upload, private, fast, built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/ifc-merger.html">
 
+    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/ifc-merger.html">
     <meta property="og:site_name" content="liteAECO">
@@ -40,12 +42,14 @@
     <meta property="og:image:alt" content="liteAECO IFC Merger tool interface">
     <meta property="og:locale" content="en_US">
 
+    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-merger.html">
     <meta name="twitter:title" content="IFC Merger - Merge Multiple IFC Models in Your Browser | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to merge multiple IFC models into one file. Unifies IFCPROJECT, sites, buildings, storeys; auto-scales unit mismatches and deduplicates resources. No upload, private, fast, built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-ifc-merger.png">
 
+    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -54,9 +58,11 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../js/vendor/lucide-1.41.0.min.js"></script>
+    <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
+    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
@@ -69,6 +75,7 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
+                        
                         accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
                     }
                 }
@@ -76,32 +83,37 @@
         }
     </script>
 
+    
     <link rel="stylesheet" type="text/css" href="../css/global.css">
 </head>
 
 <body
-    class="bg-slate-50 text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
+    class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
 
-    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full transition-all flex-grow">
+    
 
-        <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded p-6 md:p-8 mb-6">
+    
+
+    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
+
+        <div class="bg-white">
             <div
-                class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 border-b border-slate-200/60 pb-4">
+                class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4">
                 <div class="flex items-center gap-3">
                     <div
-                        class="w-10 h-10 rounded-lg bg-white border border-slate-100 shadow-sm flex items-center justify-center text-indigo-600 shrink-0">
+                        class="w-10 h-10 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-900 shrink-0">
                         <i data-lucide="merge" class="rotate-90 w-5 h-5"></i>
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold text-slate-900 tracking-tight leading-tight" id="ui-title">IFC
                             Merger</h1>
                         <p class="text-sm font-medium text-indigo-500 uppercase tracking-widest mt-0.5"
-                            id="ui-subtitle">Topological Graph Linker</p>
+                            id="ui-subtitle">Join several ifc models into one</p>
                     </div>
                 </div>
             </div>
 
-            <details class="text-sm text-slate-600 leading-relaxed group">
+            <details class="text-sm text-slate-600 leading-relaxed group border-b border-slate-300 pb-4">
 				<summary class="cursor-pointer list-none flex items-center gap-2 font-semibold text-slate-900 select-none">
 					<i data-lucide="chevron-right" class="w-4 h-4 text-indigo-500 transition-transform group-open:rotate-90"></i>
 					<span id="ui-rule-title">What this tool does</span>
@@ -119,14 +131,14 @@
 			</details>
         </div>
 
-        <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-6 md:p-8">
+        <div class="bg-white pt-6 md:pt-8">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
 
                 <div class="flex flex-col">
                     <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
                         <span
-                            class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                            class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
                                 data-lucide="file-code-2" class="w-3.5 h-3.5"></i></span>
                         <span id="ui-step-1">Load Models</span>
                     </h2>
@@ -156,7 +168,7 @@
                         </div>
 
                         <div>
-                            <p class="font-semibold text-sm text-slate-800 mb-3 border-t border-slate-200/60 pt-4"
+                            <p class="font-semibold text-sm text-slate-800 mb-3 border-t border-slate-200 pt-4"
                                 id="ui-file2-label">Child Model/s to Append (You can select more than 1 IFC File)</p>
                             <label id="drop-zone-2" for="file2"
                                 class="drop-zone flex flex-col items-center justify-center w-full min-h-[170px] px-4 py-4 border-2 border-slate-300 border-dashed rounded-lg hover:border-indigo-500 hover:bg-indigo-50/30 bg-slate-50/50 cursor-pointer transition-all">
@@ -182,7 +194,7 @@
                 <div class="flex flex-col">
                     <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
                         <span
-                            class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                            class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
                                 data-lucide="settings-2" class="w-3.5 h-3.5"></i></span>
                         <span id="ui-step-2">Spatial Hierarchy Settings</span>
                     </h2>
@@ -191,12 +203,12 @@
                         class="bg-white/50 p-6 rounded border border-slate-200 shadow-sm flex-grow flex flex-col justify-start gap-6 relative group">
 
                         <div>
-                            <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200/60 pb-2"
+                            <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200 pb-2"
                                 id="ui-site-handling">IfcSite Handling</p>
                             <div class="flex flex-col space-y-3 text-[13px]">
                                 <label class="flex items-center space-x-3 cursor-pointer group/opt">
                                     <input type="radio" name="opt_site" value="merge"
-                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer"
+                                        class="accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer"
                                         checked>
                                     <span
                                         class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors"
@@ -204,7 +216,7 @@
                                 </label>
                                 <label class="flex items-center space-x-3 cursor-pointer group/opt">
                                     <input type="radio" name="opt_site" value="keep"
-                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer">
+                                        class="accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer">
                                     <span
                                         class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors"
                                         id="ui-site-keep">Keep separated</span>
@@ -213,12 +225,12 @@
                         </div>
 
                         <div>
-                            <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200/60 pb-2"
+                            <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200 pb-2"
                                 id="ui-building-handling">IfcBuilding Handling</p>
                             <div class="flex flex-col space-y-3 text-[13px]">
                                 <label class="flex items-center space-x-3 cursor-pointer group/opt">
                                     <input type="radio" name="opt_building" value="merge"
-                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer"
+                                        class="accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer"
                                         checked>
                                     <span
                                         class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors"
@@ -226,7 +238,7 @@
                                 </label>
                                 <label class="flex items-center space-x-3 cursor-pointer group/opt">
                                     <input type="radio" name="opt_building" value="keep"
-                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer">
+                                        class="accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer">
                                     <span
                                         class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors"
                                         id="ui-building-keep">Keep separated</span>
@@ -235,7 +247,7 @@
                         </div>
 
                         <div>
-                            <div class="flex justify-between items-center mb-3 border-b border-slate-200/60 pb-2">
+                            <div class="flex justify-between items-center mb-3 border-b border-slate-200 pb-2">
                                 <p class="font-semibold text-sm text-slate-800" id="ui-storey-handling">
                                     IfcBuildingStorey Handling</p>
                                 <span
@@ -246,7 +258,7 @@
                             <div class="flex flex-col space-y-3 text-[13px]">
                                 <label class="flex items-center space-x-3 cursor-pointer group/opt">
                                     <input type="radio" name="opt_storey" value="name"
-                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer"
+                                        class="accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer"
                                         checked>
                                     <span
                                         class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors"
@@ -254,14 +266,14 @@
                                 </label>
                                 <label class="flex items-center space-x-3 cursor-pointer group/opt">
                                     <input type="radio" name="opt_storey" value="elevation"
-                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer">
+                                        class="accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer">
                                     <span
                                         class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors"
                                         id="ui-storey-elev">Merge by elevation</span>
                                 </label>
                                 <label class="flex items-center space-x-3 cursor-pointer group/opt">
                                     <input type="radio" name="opt_storey" value="keep"
-                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer">
+                                        class="accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer">
                                     <span
                                         class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors"
                                         id="ui-storey-keep">Keep separated storeys</span>
@@ -270,7 +282,7 @@
                         </div>
 
                         <div>
-                            <div class="flex justify-between items-center mb-3 border-b border-slate-200/60 pb-2">
+                            <div class="flex justify-between items-center mb-3 border-b border-slate-200 pb-2">
                                 <p class="font-semibold text-sm text-slate-800" id="ui-opt-level">Global Optimization Level</p>
                                 <span id="ui-opt-level-badge"
                                     class="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 uppercase tracking-wide">Higher = Slower</span>
@@ -283,6 +295,7 @@
                                     <option value="low" id="ui-opt-lvl-low">Low (Balanced)</option>
                                     <option value="high" id="ui-opt-lvl-high">High (Smallest File Size)</option>
                                 </select>
+                                
                                 <div
                                     class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-500">
                                     <i data-lucide="chevron-down" class="w-4 h-4"></i>
@@ -301,7 +314,7 @@
                     <summary
                         class="flex justify-between items-center font-medium cursor-pointer list-none p-4 hover:bg-slate-50 transition-colors [&::-webkit-details-marker]:hidden">
                         <span class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                            <span class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs"><i data-lucide="cpu" class="w-3.5 h-3.5"></i></span>
+                            <span class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs"><i data-lucide="cpu" class="w-3.5 h-3.5"></i></span>
                             <span id="ui-adv-opt-title">Advanced Optimization</span>
                         </span>
                         <span
@@ -309,16 +322,16 @@
                             <i data-lucide="chevron-down" class="w-4 h-4"></i>
                         </span>
                     </summary>
-                    <div class="p-6 border-t border-slate-200/60 bg-white/50 flex flex-col md:flex-row gap-8">
+                    <div class="p-6 border-t border-slate-200 bg-white flex flex-col md:flex-row gap-8">
 
                         <div class="flex-1 flex flex-col gap-8">
 
                             <div>
-                                <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200/60 pb-2" id="ui-webifc-opt-title">Web-IFC Optimization</p>
+                                <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200 pb-2" id="ui-webifc-opt-title">Web-IFC Optimization</p>
                                 <div class="flex flex-col space-y-4 text-[13px]">
                                     <label class="flex items-start space-x-3 cursor-pointer group/opt">
                                         <input type="checkbox" id="opt_deep_compress"
-                                            class="accent-indigo-500 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
+                                            class="accent-neutral-900 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
                                         <span class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors leading-snug">
                                             <span id="ui-deep-comp">Deep Graph Compression</span>
                                             <span class="block text-[11px] font-normal text-slate-400 mt-0.5" id="ui-deep-comp-desc">Loads the model into memory to destructively prune heavy graph elements.<br />
@@ -330,7 +343,7 @@
                                     <div id="deep_compress_controls" class="flex flex-col gap-3 pl-7">
                                         <label class="flex items-start space-x-3 cursor-pointer group/opt">
                                             <input type="checkbox" id="opt_strip_psets"
-                                                class="accent-indigo-500 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
+                                                class="accent-neutral-900 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
                                             <span class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors leading-snug">
                                                 <span id="ui-strip-psets">Delete BIM Data (Property Sets &amp; Quantities)</span>
                                                 <span class="block text-[11px] font-normal text-slate-400 mt-0.5" id="ui-strip-psets-desc">Removes <code class="bg-slate-100 px-1 py-0.5 rounded border border-slate-200 text-slate-600">IfcPropertySet</code> and related data. Massive size reduction, but objects will lose their psets and attributes.</span>
@@ -341,12 +354,12 @@
                             </div>
 
                             <div>
-                                <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200/60 pb-2"
+                                <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200 pb-2"
                                     id="ui-meta-handling">Metadata Handling (IfcOwnerHistory)</p>
                                 <div class="flex flex-col space-y-3 text-[13px]">
                                     <label class="flex items-center space-x-3 cursor-pointer group/opt">
                                         <input type="radio" name="opt_meta" value="keep"
-                                            class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer"
+                                            class="accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer"
                                             checked>
                                         <span
                                             class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors"
@@ -354,7 +367,7 @@
                                     </label>
                                     <label class="flex items-center space-x-3 cursor-pointer group/opt">
                                         <input type="radio" name="opt_meta" value="merge"
-                                            class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer">
+                                            class="accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 transition-all cursor-pointer">
                                         <span
                                             class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors"
                                             id="ui-meta-merge">Overwrite with Master file metadata (Optimizes
@@ -366,11 +379,11 @@
                         </div>
 
                         <div class="flex-1">
-                            <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200/60 pb-2" id="ui-out-opt-title">Output Optimization</p>
+                            <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200 pb-2" id="ui-out-opt-title">Output Optimization</p>
                             <div class="flex flex-col space-y-4 text-[13px]">
 
                                 <label class="flex items-start space-x-3 cursor-pointer group/opt">
-                                    <input type="checkbox" id="opt_float_precision" class="accent-indigo-500 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
+                                    <input type="checkbox" id="opt_float_precision" class="accent-neutral-900 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
                                     <span class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors leading-snug">
                                         <span id="ui-float-prec">Normalize float precision</span>
                                         <span class="block text-[11px] font-normal text-slate-400 mt-0.5" id="ui-float-prec-desc">Trims excess decimal places from all numeric values</span>
@@ -382,7 +395,7 @@
                                 </div>
 
                                 <label class="flex items-start space-x-3 cursor-pointer group/opt">
-                                    <input type="checkbox" id="opt_dedup_colors" class="accent-indigo-500 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
+                                    <input type="checkbox" id="opt_dedup_colors" class="accent-neutral-900 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
                                     <span class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors leading-snug">
                                         <span id="ui-dedup-col">Deduplicate colour definitions</span>
                                         <span class="block text-[11px] font-normal text-slate-400 mt-0.5" id="ui-dedup-col-desc">Consolidates duplicate <code class="bg-slate-100 px-1 py-0.5 rounded border border-slate-200 text-slate-600">IFCCOLOURRGB</code> entities</span>
@@ -390,7 +403,7 @@
                                 </label>
 
                                 <label class="flex items-start space-x-3 cursor-pointer group/opt">
-                                    <input type="checkbox" id="opt_strip_presentation" class="accent-indigo-500 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
+                                    <input type="checkbox" id="opt_strip_presentation" class="accent-neutral-900 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
                                     <span class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors leading-snug">
                                         <span id="ui-strip-pres">Strip presentation &amp; appearance data</span>
                                         <span class="block text-[11px] font-normal text-slate-400 mt-0.5" id="ui-strip-pres-desc">Removes all visual styling entities such as colours, surface styles, layer assignments.<br />
@@ -408,7 +421,7 @@
 
             <div>
                 <button id="mergeBtn"
-                    class="w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-bold text-white bg-slate-900 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 disabled:bg-slate-300 disabled:text-slate-500 disabled:shadow-none disabled:cursor-not-allowed transition-all duration-300 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                    class="w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-bold text-white bg-slate-900 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 disabled:bg-slate-300 disabled:text-slate-500 disabled:shadow-none disabled:cursor-not-allowed transition-all duration-300 rounded shadow-md hover:shadow-lg"
                     disabled>
                     <span id="btnText">Merge Files</span>
                 </button>
@@ -425,7 +438,7 @@
                         <summary
                             class="flex justify-between items-center font-medium cursor-pointer list-none p-4 hover:bg-white/80 transition-colors [&::-webkit-details-marker]:hidden">
                             <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
-                                <i data-lucide="terminal" class="w-4 h-4 text-indigo-500"></i>
+                                <i data-lucide="terminal" class="w-4 h-4 text-indigo-500"></i> 
                                 <span id="ui-sys-log">System Log Output</span>
                             </span>
                             <span
@@ -443,7 +456,7 @@
 
                 <div id="downloadArea" class="hidden mt-6">
                     <a id="downloadLink" href="#"
-                        class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm transition-all hover:shadow hover:-translate-y-0.5">
+                        class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded shadow-sm transition-all hover:shadow">
                         <i data-lucide="download" class="w-4 h-4 mr-2"></i>
                         <span id="ui-download-text">Download Merged Model</span>
                     </a>
@@ -453,19 +466,30 @@
         </div>
     </div>
 
+    
+    
     <script>
+        
+        
+        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
+        
+        
         window.updateToolDynamicUI = function (d) {
+            
         };
 
+        
         function bootApp() {
+            
             autoDetectLanguage();
 
+            
             window.injectUI({
                 showNav: true,
-                linkTarget: '_blank',
+                linkTarget: '', 
                 transparentNav: false,
                 showSignIn: false,
                 showCategories: true,
@@ -475,8 +499,10 @@
                 showFooterLinks: true,
             });
 
+            
             window.injectCookieBanner();
 
+            
             const currentYear = new Date().getFullYear();
             const targetVersionInput = document.getElementById('targetVersionInput');
             if (targetVersionInput) {
@@ -504,17 +530,23 @@
                 toggleVersionInput();
             }
 
+            
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
 
+        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
+        
+        
+        
     </script>
 
     <script>
+        
         const file1Input = document.getElementById('file1');
         const file2Input = document.getElementById('file2');
         const file1Name = document.getElementById('file1-name');
@@ -529,6 +561,7 @@
         let file1Selected = false;
         let file2Selected = false;
 
+        
         function t(key, fallback) {
             try {
                 const d = (typeof getTranslations === 'function') ? getTranslations() : (window.PAGE_I18N || {});
@@ -536,6 +569,7 @@
             } catch (e) { return fallback; }
         }
 
+        
         function setupDropZone(dropZoneId, inputElement, nameElement, isFile1) {
             const dropZone = document.getElementById(dropZoneId);
 
@@ -570,6 +604,7 @@
 
         function handleFiles(files, textElement, isFile1) {
             if (files.length > 0) {
+                
                 if (!isFile1 && files.length > 1) {
                     textElement.textContent = `${files.length} files selected`;
                 } else {
@@ -591,9 +626,14 @@
             checkReady();
         }
 
+        
+        
+        
+        
+        
         const MEM_GB = Math.min(8, Math.max(1, navigator.deviceMemory || 8));
-        const WARN_BYTES = Math.round(MEM_GB * 20) * 1048576;
-        const DEEP_CAP_BYTES = Math.round(MEM_GB * 32) * 1048576;
+        const WARN_BYTES = Math.round(MEM_GB * 20) * 1048576;      
+        const DEEP_CAP_BYTES = Math.round(MEM_GB * 32) * 1048576;  
 
         function totalInputBytes() {
             let b = 0;
@@ -638,14 +678,17 @@
             }
         }
 
+        
         setupDropZone('drop-zone-1', file1Input, file1Name, true);
         setupDropZone('drop-zone-2', file2Input, file2Name, false);
 
+        
         const optLevelSelect = document.getElementById('opt_level_select');
 
         optLevelSelect.addEventListener('change', (e) => {
             const level = e.target.value;
 
+            
             const metaKeep = document.querySelector('input[name="opt_meta"][value="keep"]');
             const metaMerge = document.querySelector('input[name="opt_meta"][value="merge"]');
             const deepCompress = document.getElementById('opt_deep_compress');
@@ -653,17 +696,22 @@
             const floatPrec = document.getElementById('opt_float_precision');
             const stripPres = document.getElementById('opt_strip_presentation');
 
+            
             metaKeep.checked = true;
             deepCompress.checked = false;
             dedupColors.checked = false;
             floatPrec.checked = false;
             stripPres.checked = false;
 
+            
+            
+            
             if (level === 'low') {
                 metaMerge.checked = true;
                 deepCompress.checked = false;
                 dedupColors.checked = true;
             }
+            
             else if (level === 'high') {
                 metaMerge.checked = true;
                 deepCompress.checked = false;
@@ -672,10 +720,12 @@
                 stripPres.checked = true;
             }
 
+            
             deepCompress.dispatchEvent(new Event('change'));
             floatPrec.dispatchEvent(new Event('change'));
         });
 
+        
         const optFloatCb = document.getElementById('opt_float_precision');
         const floatPrecisionControl = document.getElementById('float_precision_control');
         function syncFloatControl() {
@@ -685,6 +735,7 @@
         optFloatCb.addEventListener('change', syncFloatControl);
         syncFloatControl();
 
+        
         const optDeepCompressCb = document.getElementById('opt_deep_compress');
         const deepCompressControls = document.getElementById('deep_compress_controls');
         function syncDeepCompressControl() {
@@ -695,6 +746,10 @@
         syncDeepCompressControl();
         optDeepCompressCb.addEventListener('change', () => { if (optDeepCompressCb.checked) checkSizeGuardrails(); });
 
+        
+        
+        
+        
         const siteRadios = document.querySelectorAll('input[name="opt_site"]');
         const buildingMergeRadio = document.querySelector('input[name="opt_building"][value="merge"]');
         const buildingKeepRadio = document.querySelector('input[name="opt_building"][value="keep"]');
@@ -711,7 +766,7 @@
                 if (buildingMergeLabel) {
                     buildingMergeLabel.style.opacity = '0.4';
                     buildingMergeLabel.style.cursor = 'not-allowed';
-                    buildingMergeLabel.title = 'Unavailable while sites are kept separated — a building cannot merge across two separate sites.';
+                    buildingMergeLabel.title = 'Unavailable while sites are kept separated, a building cannot merge across two separate sites.';
                 }
             } else {
                 buildingMergeRadio.disabled = false;
@@ -725,6 +780,9 @@
         siteRadios.forEach(r => r.addEventListener('change', syncBuildingFromSite));
         syncBuildingFromSite();
 
+        
+        
+        
         const buildingRadios = document.querySelectorAll('input[name="opt_building"]');
         const storeyKeepRadio = document.querySelector('input[name="opt_storey"][value="keep"]');
         const storeyMergeRadios = Array.from(document.querySelectorAll('input[name="opt_storey"]')).filter(r => r.value !== 'keep');
@@ -738,7 +796,7 @@
                 if (buildingKeep) {
                     if (r.checked) storeyKeepRadio.checked = true;
                     r.disabled = true;
-                    if (lbl) { lbl.style.opacity = '0.4'; lbl.style.cursor = 'not-allowed'; lbl.title = 'Unavailable while buildings are kept separated — a storey cannot belong to two buildings.'; }
+                    if (lbl) { lbl.style.opacity = '0.4'; lbl.style.cursor = 'not-allowed'; lbl.title = 'Unavailable while buildings are kept separated, a storey cannot belong to two buildings.'; }
                 } else {
                     r.disabled = false;
                     if (lbl) { lbl.style.opacity = ''; lbl.style.cursor = ''; lbl.title = ''; }
@@ -746,8 +804,9 @@
             });
         }
         buildingRadios.forEach(r => r.addEventListener('change', syncStoreyFromBuilding));
-        siteRadios.forEach(r => r.addEventListener('change', syncStoreyFromBuilding));
+        siteRadios.forEach(r => r.addEventListener('change', syncStoreyFromBuilding)); 
         syncStoreyFromBuilding();
+
 
         function formatDuration(ms) {
             if (ms < 1000) return `${Math.round(ms)} ms`;
@@ -761,6 +820,7 @@
             return b >= 1048576 ? `${(b / 1048576).toFixed(0)} MB` : `${(b / 1024).toFixed(0)} KB`;
         }
 
+        
         function log(msg, isWarning = false) {
             logAreaWrapper.classList.remove('hidden');
             logAreaWrapper.classList.add('flex');
@@ -770,10 +830,15 @@
             console.log(msg);
         }
 
+        
+
+        
+        
         const WORKER_VERSION = 8;
         const WORKER_URL = window.SITE_ROOT + 'js/ifc-worker.js?v=' + WORKER_VERSION;
         const STALE_WORKER_MSG = 'js/ifc-worker.js is missing or out of date (browser cache?). Hard-refresh the page (Ctrl+F5 / Cmd+Shift+R) and make sure the new ifc-worker.js is deployed.';
 
+        
         function createCoordinator() {
             const w = new Worker(WORKER_URL);
             let readyResolve, readyReject;
@@ -818,6 +883,11 @@
             };
         }
 
+        
+        
+        
+        
+        
         function setInputsLocked(locked) {
             [file1Input, file2Input].forEach(inp => { inp.disabled = locked; });
             ['drop-zone-1', 'drop-zone-2'].forEach(id => {
@@ -828,6 +898,7 @@
             });
         }
 
+        
         let lastDownloadUrl = null;
 
         mergeBtn.addEventListener('click', async () => {
@@ -845,13 +916,16 @@
                 const optSite = document.querySelector('input[name="opt_site"]:checked').value;
                 const optBuilding = document.querySelector('input[name="opt_building"]:checked').value;
                 const optStorey = document.querySelector('input[name="opt_storey"]:checked').value;
-                const optMeta = document.querySelector('input[name="opt_meta"]:checked').value;
+                const optMeta = document.querySelector('input[name="opt_meta"]:checked').value; 
                 const optFloatPrecision = document.getElementById('opt_float_precision').checked;
                 const floatPrecisionVal = Math.max(4, Math.min(10, parseInt(document.getElementById('float_precision_val').value) || 6));
                 const optDedupColors = document.getElementById('opt_dedup_colors').checked;
                 const optStripPresentation = document.getElementById('opt_strip_presentation').checked;
                 const optLevel = optLevelSelect.value;
 
+                
+                
+                
                 const optResourceDedup = optLevel !== 'none';
 
                 const childFiles = file2Input.files;
@@ -859,9 +933,11 @@
                 const optDeepCompress = document.getElementById('opt_deep_compress').checked;
                 const optStripPsets = document.getElementById('opt_strip_psets') ? document.getElementById('opt_strip_psets').checked : false;
                 const deepOpts = { optDeepCompress, optStripPsets, optStripPresentation };
+                
                 const useScratchDisk = totalInputBytes() >= WARN_BYTES;
                 if (useScratchDisk) log(`Large job (${formatBytes(totalInputBytes())}): using disk-backed scratch storage.`);
 
+                
                 log("Streaming Parent Model (Master) in background worker...");
                 const master = await coord.call('master', {
                     file: file1Input.files[0],
@@ -885,10 +961,12 @@
                 log(`\n=========================================`);
                 log(`Processing ${childFiles.length} child model(s)...`);
 
+                
                 const cores = navigator.hardwareConcurrency || 2;
                 const maxWorkers = Math.max(1, Math.min(cores - 1, MEM_GB <= 4 ? 1 : 3));
                 log(`Worker pool: up to ${maxWorkers} parallel child worker(s) (${cores} logical cores, ~${MEM_GB} GB RAM).`);
 
+                
                 const childCall = (worker, action, payload, transfer) => new Promise((resolve, reject) => {
                     worker.onmessage = (e) => {
                         const r = e.data || {};
@@ -901,6 +979,7 @@
                     worker.postMessage(Object.assign({ action }, payload), transfer || []);
                 });
 
+                
                 let graftQueue = Promise.resolve();
                 const processChild = async (file) => {
                     const worker = new Worker(WORKER_URL);
@@ -908,7 +987,7 @@
                         const loaded = await childCall(worker, 'childLoad', { file, fileName: file.name, options: workerOptions });
                         log(`Loaded ${file.name}: max #${loaded.maxId}, ${loaded.schema}.`);
                         if (loaded.schema !== "UNKNOWN" && schema1 !== "UNKNOWN" && loaded.schema !== schema1) {
-                            log(`⚠ Schema mismatch: "${file.name}" is ${loaded.schema} but master is ${schema1}. Merging proceeds, but review the result — cross-schema entities may not be fully compatible.`, true);
+                            log(`⚠ Schema mismatch: "${file.name}" is ${loaded.schema} but master is ${schema1}. Merging proceeds, but review the result, cross-schema entities may not be fully compatible.`, true);
                         }
                         const offset = currentMaxId + 10000;
                         currentMaxId = offset + loaded.maxId;
@@ -920,6 +999,7 @@
                         }
                         if (r.scaledMeasures) log(`  Scaled ${r.scaledMeasures} quantity/property measure(s) to master units.`);
 
+                        
                         graftQueue = graftQueue.then(() =>
                             coord.call('graft', { buffer: r.buffer, fileName: r.fileName, fileSize: file.size, contextIds: r.contextIds || [] }, [r.buffer])
                                 .then(g => log(`  Parked ${r.fileName} (${formatBytes(g.bytes)}).`))
@@ -942,6 +1022,7 @@
                 await Promise.all(Array.from({ length: Math.min(maxWorkers, childFiles.length) }, runner));
                 await graftQueue;
 
+                
                 log(`\n=========================================`);
                 const fin = await coord.call('finalize', {
                     options: { optLevel, optDedupColors, optFloatPrecision, floatPrecisionVal, optStripPresentation }
@@ -953,6 +1034,7 @@
                 lastDownloadUrl = url;
                 downloadLink.href = url;
 
+                
                 const parentFileName = file1Input.files[0].name.replace(/\.ifc$/i, '');
                 downloadLink.download = `${parentFileName}_Merged.ifc`;
 
@@ -963,8 +1045,10 @@
                 try { await Promise.race([coord.call('abort', {}), new Promise(r => setTimeout(r, 2000))]); } catch (e) { }
             } finally {
                 coord.terminate();
+                
                 mergeBtn.disabled = !(file1Input.files.length > 0 && file2Input.files.length > 0);
 
+                
                 btnText.innerHTML = t('btnMerge', 'Merge Files');
                 delete mergeBtn.dataset.busy;
                 setInputsLocked(false);

@@ -18,16 +18,27 @@
 // liteAECO - (pdf-diff.js)
 // ========
 
+
+
+
+
+
+
+
+
+
+
 (function () {
     'use strict';
 
+    
     function diffCore(msg) {
         const a = new Uint8ClampedArray(msg.A), b = new Uint8ClampedArray(msg.B);
         const w = msg.w, h = msg.h;
         const inkTol = msg.inkTol, colorTol = msg.colorTol;
         const cell = msg.cell, radius = msg.radius, minPx = msg.minPx;
         const cw = Math.ceil(w / cell), ch = Math.ceil(h / cell);
-        const cnt = new Uint32Array(cw * ch * 3);
+        const cnt = new Uint32Array(cw * ch * 3);   
         const totals = [0, 0, 0];
 
         for (let y = 0; y < h; y++) {
@@ -37,6 +48,7 @@
                 const ia = 255 - ((a[i] * 77 + a[i + 1] * 150 + a[i + 2] * 29) >> 8);
                 const ib = 255 - ((b[i] * 77 + b[i + 1] * 150 + b[i + 2] * 29) >> 8);
                 const d = ib - ia;
+                
                 let cls = -1;
                 if (ia > inkTol && ib > inkTol) {
                     if (Math.max(Math.abs(a[i] - b[i]), Math.abs(a[i + 1] - b[i + 1]), Math.abs(a[i + 2] - b[i + 2])) > colorTol) cls = 2;
@@ -49,6 +61,7 @@
             }
         }
 
+        
         const seen = new Uint8Array(cw * ch);
         const active = (k) => cnt[k * 3] + cnt[k * 3 + 1] + cnt[k * 3 + 2] > 0;
         const boxes = [];
@@ -77,7 +90,7 @@
                 }
             }
             const px = n[0] + n[1] + n[2];
-            if (px < minPx) continue;
+            if (px < minPx) continue;             
             const mix = Math.min(n[0], n[1]) / Math.max(1, Math.max(n[0], n[1]));
             let kind;
             if (n[2] >= Math.max(n[0], n[1]) || mix > 0.2) kind = 'modified';
@@ -89,11 +102,13 @@
                 h: Math.min(h, (y1 + 1) * cell) - y0 * cell,
             });
         }
+        
         const band = cell * 8;
         boxes.sort((p, q) => (Math.floor(p.y / band) - Math.floor(q.y / band)) || (p.x - q.x));
         return { id: msg.id, boxes, totals };
     }
 
+    
     let worker = null, workerBroken = false, seq = 0;
     const pending = new Map();
     function getWorker() {
@@ -124,6 +139,9 @@
 
     const pixels = (c) => c.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, c.width, c.height).data;
 
+    
+    
+    
     function analyze(canvasA, canvasB, opts) {
         opts = opts || {};
         const w = canvasB.width, h = canvasB.height;
@@ -134,6 +152,7 @@
             inkTol: opts.inkTol || 48, colorTol: opts.colorTol || 96,
             cell: opts.cell || 8, radius: opts.radius || 2, minPx: opts.minPx || 6,
         };
+        
         const inThread = () => Promise.resolve(diffCore(Object.assign({ id: 0, A: A.buffer, B: B.buffer }, base)));
         const wk = getWorker();
         if (!wk) return inThread();
@@ -144,5 +163,5 @@
         });
     }
 
-    window.PDF-DIFF = { analyze, diffCore };
+    window.PDF_DIFF = { analyze, diffCore };
 })();

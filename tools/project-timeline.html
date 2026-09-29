@@ -25,10 +25,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Timeline - Lightweight MS Project Alternative with Gantt Charts | liteAECO</title>
 
+    
     <meta name="description" content="Free client-side project timeline tool that's light, fast, and MS Project compatible. Create Gantt charts, manage tasks, and view dashboards. No uploads, private, and built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/project-timeline.html">
 
+    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/project-timeline.html">
     <meta property="og:site_name" content="liteAECO">
@@ -40,12 +42,14 @@
     <meta property="og:image:alt" content="liteAECO Project Timeline tool interface">
     <meta property="og:locale" content="en_US">
 
+    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/project-timeline.html">
     <meta name="twitter:title" content="Project Timeline - Lightweight MS Project Alternative with Gantt Charts | liteAECO">
     <meta name="twitter:description" content="Free client-side project timeline tool that's light, fast, and MS Project compatible. Create Gantt charts, manage tasks, and view dashboards. No uploads, private, and built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-project-timeline.png">
 
+    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -54,20 +58,23 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
+    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/liteaeco-autosave.js"></script>
     <script src="../js/liteaeco-cde.js"></script>
     <script src="../js/project-registry.js"></script>
-    <script src="../templates/project-timeline/templates.js"></script>
+    <script src="../templates/project-timeline/templates.js"></script> 
 
+    
     <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
     <script src="../js/vendor/chart-4.5.1.js"></script>
-    <script src="../js/vendor/lz-string-1.5.0.min.js"></script>
+    <script src="../js/vendor/lz-string-1.5.0.min.js"></script>  
 
     <script>
         tailwind.config = {
@@ -77,6 +84,7 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
+                        
                         accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
                     }
                 }
@@ -84,6 +92,7 @@
         }
     </script>
 
+    
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -91,6 +100,7 @@
             overflow: hidden;
         }
 
+        
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -139,7 +149,9 @@
             justify-content: space-between;
             padding: 0 1rem;
             border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+            
             background: rgba(248, 250, 252, 0.5);
+            
         }
 
         .gantt-header {
@@ -166,6 +178,7 @@
         .gantt-row {
             height: 40px;
             border-bottom: 1px solid rgba(241, 245, 249, 0.5);
+            
             display: flex;
             align-items: center;
             box-sizing: border-box;
@@ -230,6 +243,7 @@
             display: flex;
             pointer-events: none;
             z-index: 1;
+            
             background-color: rgb(255, 255, 255);
         }
 
@@ -246,6 +260,7 @@
             justify-content: center;
             font-size: 10px;
             color: #64748b;
+            
             border-right: 1px solid rgba(226, 232, 240, 0.6);
             overflow: hidden;
         }
@@ -441,12 +456,15 @@
             -webkit-filter: drop-shadow(0px 5px 5px rgba(99, 102, 241, 0.3));
             filter: drop-shadow(0px 5px 5px rgba(99, 102, 241, 0.3));
             transition: all 0.3s ease;
+            
         }
 
         .shadow-logo:hover {
             -webkit-filter: drop-shadow(0px 5px 5px rgba(99, 102, 241, 0.1));
             filter: drop-shadow(0px 5px 5px rgba(99, 102, 241, 0.1));
+            
         }
+        
         #print-sheet { display: none; }
 
         @media print {
@@ -473,6 +491,7 @@
         #print-sheet .print-side { flex-shrink: 0; overflow: hidden; border-right: 1px solid #e2e8f0; }
         #print-sheet .print-main { overflow: hidden; }
         #print-sheet .print-crop { overflow: hidden; }
+        
         #print-sheet button, #print-sheet [data-lucide] { pointer-events: none; }
         #print-sheet .custom-scrollbar { overflow: visible !important; }
     </style>
@@ -563,6 +582,9 @@
                     <option value="fr">FR</option>
                     <option value="pt">PT</option>
                     <option value="it">IT</option>
+                    
+
+
                 </select>
             </div>
         </div>
@@ -742,6 +764,8 @@
                 </div>
 
                 <div class="flex gap-2 stack-on-min">
+                    
+
                     <div class="relative flex-1 min-w-[60px] hidden" id="wrapper-cde-save">
                         <button onclick="cdeSaveNow()" id="btn-cde-save"
                             class="w-full px-1 py-1.5 bg-indigo-600 border border-indigo-600 hover:bg-indigo-700 text-white rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1 disabled:opacity-60 disabled:pointer-events-none">
@@ -792,7 +816,7 @@
                                 class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:text-green-600 hover:bg-green-50 uppercase tracking-widest text-left transition-colors" data-i18n="exportTemplateMenu">Template</button>
                         </div>
                     </div>
-
+                    
                     <button onclick="toggleViewMenu()"
                         class="px-2 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-none text-[10px] font-bold uppercase transition flex items-center justify-center gap-1 hide-on-min"
                         title="Toggle View Menu"><i data-lucide="eye-off" id="view-menu-icon" class="w-3.5 h-3.5 shrink-0"></i>
@@ -802,8 +826,13 @@
                             class="px-2 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold uppercase transition flex items-center justify-center"
                             title="Advanced Options" data-i18n-title="advancedOptions"><i data-lucide="settings"
                                 class="w-3.5 h-3.5 shrink-0"></i></button>
+                        
+
                         <div
                             class="absolute bottom-full right-0 w-44 mb-1 bg-white/95 backdrop-blur-xl border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col">
+                            
+
+
                             <button onclick="autosaveToggle()" id="tl-autosave-row"
                                 class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 uppercase tracking-widest border-b border-slate-100 text-left transition-colors flex items-center justify-between gap-3">
                                 <span data-i18n="autosaveToggle">Autosave</span>
@@ -892,6 +921,13 @@
                                     <i data-lucide="bar-chart" class="w-4 h-4 text-indigo-400"></i> <span
                                         data-i18n="phaseCompletion">Phase Completion</span>
                                 </h3>
+                                
+
+
+
+
+
+
                             </div>
                             <div class="flex-1 relative max-h-[320px] w-full"><canvas id="dashBarChart"></canvas></div>
                         </div>
@@ -937,6 +973,13 @@
                                     <i data-lucide="align-end-horizontal" class="w-4 h-4 text-indigo-400"></i> Budget
                                     Variance
                                 </h3>
+                                
+
+
+
+
+
+
                             </div>
                             <div class="flex-1 relative w-full"><canvas id="dashWaterfallChart"></canvas></div>
                         </div>
@@ -948,6 +991,13 @@
                                     <i data-lucide="circle-fading-arrow-up" class="w-4 h-4 text-indigo-400"></i>
                                     Hierarchy Breakdown
                                 </h3>
+                                
+
+
+
+
+
+
                             </div>
                             <div class="flex-1 relative w-full"><canvas id="dashSunburstChart"></canvas></div>
                             <div id="sunburst-legend"
@@ -1353,11 +1403,11 @@
                         <div class="grid grid-cols-3 gap-2" id="preset-themes-container">
                             <button onclick="applyPresetPalette(['#4f46e5', '#0ea5e9', '#8b5cf6', '#f43f5e'], 0)"
                                 class="preset-btn flex h-6 rounded overflow-hidden border-2 border-transparent transition cursor-pointer outline-none focus:outline-none"
-                                title="Lite AEC">
-                                <div class="flex-1 bg-[#4f46e5]"></div>
-                                <div class="flex-1 bg-[#0ea5e9]"></div>
-                                <div class="flex-1 bg-[#8b5cf6]"></div>
-                                <div class="flex-1 bg-[#f43f5e]"></div>
+                                title="Lite AEC"> 
+                                <div class="flex-1 bg-[#4f46e5]"></div> 
+                                <div class="flex-1 bg-[#0ea5e9]"></div> 
+                                <div class="flex-1 bg-[#8b5cf6]"></div> 
+                                <div class="flex-1 bg-[#f43f5e]"></div> 
                             </button>
                             <button onclick="applyPresetPalette(['#0460A9', '#A13323', '#EC7F22', '#FFD430'], 1)"
                                 class="preset-btn flex h-6 rounded overflow-hidden border-2 border-transparent transition cursor-pointer outline-none focus:outline-none"
@@ -1799,6 +1849,7 @@
         </div>
     </div>
 
+    
     <div id="template-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[70] hidden items-center justify-center p-4" onclick="if(event.target===this)closeTemplateModal()">
         <div class="bg-white border border-slate-200 shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col">
             <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100">
@@ -1866,9 +1917,14 @@
     </div>
 
     <script>
+        
+        
+        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
+        
+        
         window.updateToolDynamicUI = function () {
             if (typeof updateAndRenderAll === "function") {
                 updateAndRenderAll();
@@ -1895,7 +1951,7 @@
             if (typeof window.injectUI === "function") {
                 window.injectUI({
                     showNav: false,
-                    linkTarget: '',
+                    linkTarget: '', 
                     transparentNav: false,
                     showSignIn: false,
                     showCategories: false,
@@ -1927,33 +1983,113 @@
             bootTranslationLayer();
         }
 
+        
+        
+        
     </script>
     <script>
 
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+        
         const MAX_HISTORY = 100;
 
+        
         const __defStart = new Date();
         __defStart.setDate(__defStart.getDate() - 14);
 
+        
+
+
+
         const config = {
-            cellWidth: 30,
-            rowHeight: 40,
-            totalDays: 65,
+            cellWidth: 30,   
+            rowHeight: 40,   
+            totalDays: 65,   
             startDate: __defStart,
         };
 
+        
         const colorPalette = [
-            { color: "#4f46e5", lightColor: "#e0e7ff" },
-            { color: "#0ea5e9", lightColor: "#e0f2fe" },
-            { color: "#8b5cf6", lightColor: "#ede9fe" },
-            { color: "#f43f5e", lightColor: "#ffe4e6" },
+            { color: "#4f46e5", lightColor: "#e0e7ff" }, 
+            { color: "#0ea5e9", lightColor: "#e0f2fe" }, 
+            { color: "#8b5cf6", lightColor: "#ede9fe" }, 
+            { color: "#f43f5e", lightColor: "#ffe4e6" }, 
         ];
 
+        
         let taskLabelMap = {
             A: "#EA027E", B: "#13EB3B", C: "#C0FC04", D: "#5CDEFF", E: "#9002BD",
             F: "#B40542", G: "#FFEE00", H: "#FF5500", I: "#FD0D25", J: "#3601FB",
         };
 
+
+        
+
+
+
+
+
+
+        
         let phases = [
             { id: "p1", parentId: null, name: "Planning Phase", color: colorPalette[0].color, lightColor: colorPalette[0].lightColor, collapsed: false },
             { id: "p2", parentId: null, name: "Approval", color: colorPalette[1].color, lightColor: colorPalette[1].lightColor, collapsed: false },
@@ -1978,12 +2114,15 @@
             { id: "m4", phaseId: "p4", name: "Project Closure", type: "milestone", start: 54, duration: 0, dependsOn: ["t10"], contact: "", budget: 0, resources: "", assignments: "", actualStart: null, actualDuration: null, actualBudget: null, locked: false, tags: [] },
         ];
 
-        let renderList = [];
-        let taskPositions = {};
+        
+        let renderList = [];        
+        let taskPositions = {};     
 
+        
         let globalContacts = [];
         let globalTags = [];
 
+        
         let isPresentationMode = false;
         let isTodayViewActive = false;
         let isCriticalPathActive = false;
@@ -2000,11 +2139,14 @@
         let showColDepends = false;
         let showColBudget = false;
 
+        
         let overallBudget = 0;
         let currentCurrency = "CHF";
 
+        
         let searchQuery = "";
 
+        
         let isDragging = false;
         let isResizing = false;
         let resizeEdge = null;
@@ -2023,33 +2165,49 @@
         let dragIntendedActualDuration = null;
         let dragIntendedPhaseId = null;
         let hasMovedDuringDrag = false;
+        
         let isPhaseDragging = false;
         let phaseDragEl = null;
         let phaseDragInitialLeft = 0;
         let selectedTaskIds = new Set();
         let dragInitialStates = {};
 
+        
         let draggedSidebarTaskId = null;
         let draggedSidebarPhaseId = null;
 
+        
         let isResizingSidebar = false;
         let sidebarBaseWidth = 320;
 
+        
         let currentModalTags = [];
         let currentModalLocked = false;
         let confirmActionCallback = null;
 
+        
         let ringChartInst = null;
         let lineChartInst = null;
         let barChartInst = null;
 
+        
         let stateHistory = [];
         let historyIndex = -1;
-        let lastSavedHistoryIndex = 0;
+        let lastSavedHistoryIndex = 0;   
 
+
+        
+
+
+
+        
         Chart.defaults.font.family = "'Inter', sans-serif";
         Chart.defaults.color = "#6b7280";
         lucide.createIcons();
+
+        
+
+
 
         function escapeHTML(str) {
             if (typeof str !== "string") return str;
@@ -2070,14 +2228,22 @@
             return escapeHTML(i18n(key, vars));
         }
 
+        
         const parseBoolOpt = (val) =>
             ["Y", "TRUE", "YES"].includes(String(val).trim().toUpperCase());
 
+        
+
+        
         function addDays(date, days) {
             const result = new Date(date);
             result.setDate(result.getDate() + days);
             return result;
         }
+
+        
+
+
 
         function diffDays(start, end) {
             const utc1 = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
@@ -2085,12 +2251,14 @@
             return Math.floor((utc2 - utc1) / (1000 * 60 * 60 * 24));
         }
 
+        
         function parseLocal(dateStr) {
             if (!dateStr) return new Date();
             const [y, m, d] = dateStr.split("-");
             return new Date(y, m - 1, d);
         }
 
+        
         function formatDateInput(date) {
             if (!date || isNaN(date)) return "";
             const y = date.getFullYear();
@@ -2099,6 +2267,7 @@
             return `${y}-${m}-${d}`;
         }
 
+        
         function getWeekNumber(d) {
             const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
             date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
@@ -2106,24 +2275,33 @@
             return Math.ceil(((date - yearStart) / 86400000 + 1) / 7);
         }
 
+        
         function getTodayOffset() {
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             return diffDays(config.startDate, today);
         }
 
+        
+
+        
         function formatCurrency(value) {
             return (value || 0).toLocaleString("en-US", {
                 minimumFractionDigits: 0, maximumFractionDigits: 0,
             }) + " " + currentCurrency;
         }
 
+        
         function extractInitials(name) {
             if (!name || name.trim() === "") return "";
             const words = name.trim().split(/\s+/);
             if (words.length === 1) return words[0].substring(0, 2).toUpperCase();
             return (words[0][0] + words[words.length - 1][0]).toUpperCase();
         }
+
+        
+
+
 
         function hexToLight(hex, opacity) {
             hex = hex.replace("#", "");
@@ -2135,6 +2313,7 @@
             return `#${mix(r).toString(16).padStart(2, "0")}${mix(g).toString(16).padStart(2, "0")}${mix(b).toString(16).padStart(2, "0")}`;
         }
 
+        
         function hexToDark(hex, opacity) {
             hex = hex.replace("#", "");
             const expand = (s) => s.length === 3 ? s.repeat(2) : s;
@@ -2145,8 +2324,15 @@
             return `#${mix(r).toString(16).padStart(2, "0")}${mix(g).toString(16).padStart(2, "0")}${mix(b).toString(16).padStart(2, "0")}`;
         }
 
+        
+
+        
+
+
+
+
         function getTimelineScrollHeight() {
-            const extraRow = isPresentationMode ? 0 : 1;
+            const extraRow = isPresentationMode ? 0 : 1;            
             const baseHeight = (renderList.length + extraRow) * config.rowHeight;
 
             const sidebar = document.getElementById("sidebar-scroll");
@@ -2157,6 +2343,16 @@
             }
             return baseHeight + padding;
         }
+
+
+        
+
+
+
+        
+
+
+
 
         function normalizeContact(value) {
             return String(value || "").trim();
@@ -2189,6 +2385,10 @@
             globalContacts = uniqueSorted(contacts);
             globalTags = uniqueSorted(tags);
         }
+
+        
+
+
 
         function updateDatalists() {
             syncGlobalsFromTasks();
@@ -2235,6 +2435,11 @@
             `;
         }
 
+        
+
+
+
+
         function updateTaskInline(taskId, field, inputElement) {
             const task = tasks.find(t => t.id === taskId);
             if (!task) return;
@@ -2246,7 +2451,7 @@
                     if (newVal !== null && newVal.trim() !== "") {
                         task[field] = newVal.trim();
                     } else {
-                        updateAndRenderAll();
+                        updateAndRenderAll();   
                         return;
                     }
                 } else {
@@ -2256,12 +2461,14 @@
                 val = val.replace(/[^0-9.-]+/g, "");
                 task.budget = parseFloat(val) || 0;
             } else if (field === 'dependsOn') {
+                
+                
                 const rest = (task.dependsOn || []).slice(1);
                 if (val && wouldCreateCycle(val, task.id)) {
                     showWarningToast(i18n("cycleBlocked") !== "cycleBlocked"
                         ? i18n("cycleBlocked")
                         : "Dependency not set – it would create a circular loop.");
-                    updateAndRenderAll();
+                    updateAndRenderAll();   
                     return;
                 }
                 const prevFirst = (task.dependsOn || [])[0];
@@ -2272,10 +2479,39 @@
             updateAndRenderAll();
         }
 
-        let durationMode = "calendar";
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+        let durationMode = "calendar";         
+                                               
         let calendar = {
-            workweek: [false, true, true, true, true, true, false],
-            holidays: []
+            workweek: [false, true, true, true, true, true, false],   
+            holidays: []                                              
         };
 
         let _calCache = { holidaySet: null, key: "" };
@@ -2300,11 +2536,15 @@
             return _holidaySet().has(formatDateInput(addDays(config.startDate, offset)));
         }
 
+        
         function snapToWorkingDay(offset, forward = true) {
             let o = offset, guard = 0;
             while (!isWorkingDay(o) && guard++ < 366) o += forward ? 1 : -1;
             return guard >= 366 ? offset : o;
         }
+
+        
+
 
         function calSpan(start, n) {
             if (n <= 0) return 0;
@@ -2316,12 +2556,14 @@
             return o - start;
         }
 
+        
         function workingDaysBetween(a, b) {
             let count = 0;
             for (let o = a; o < b; o++) if (isWorkingDay(o)) count++;
             return count;
         }
 
+        
         function taskSpan(t) {
             const dur = t.type === "milestone" ? 0 : t.duration;
             if (durationMode === "calendar" || dur === 0) return dur;
@@ -2335,18 +2577,22 @@
             return calSpan(t.actualStart ?? t.start, dur);
         }
 
+        
         function spanToDuration(start, span) {
             if (span <= 0) return 0;
             if (durationMode === "calendar") return span;
             return Math.max(1, workingDaysBetween(start, start + span));
         }
 
+        
         function setDurationMode(newMode) {
             if (newMode === durationMode) return;
+            
             const spans = tasks.map(t => ({
                 span: t.type === "milestone" ? 0 : taskSpan(t),
                 aSpan: (t.type !== "milestone" && t.actualDuration != null) ? actualSpan(t) : null
             }));
+            
             durationMode = newMode;
             calInvalidate();
             tasks.forEach((t, i) => {
@@ -2356,6 +2602,7 @@
             });
         }
 
+        
         function rebasePlan(n) {
             if (n === 0) return;
             const dir = n > 0;
@@ -2371,6 +2618,7 @@
             updateAndRenderAll();
         }
 
+        
         const COUNTRY_TABLE = "Albania:AL;Andorra:AD;Argentina:AR;Armenia:AM;Australia:AU;Austria:AT;Belarus:BY;Belgium:BE;Bolivia:BO;Bosnia and Herzegovina:BA;Botswana:BW;Brazil:BR;Bulgaria:BG;Canada:CA;Chile:CL;China:CN;Colombia:CO;Costa Rica:CR;Croatia:HR;Cuba:CU;Cyprus:CY;Czechia:CZ;Denmark:DK;Dominican Republic:DO;Ecuador:EC;Egypt:EG;Estonia:EE;Faroe Islands:FO;Finland:FI;France:FR;Georgia:GE;Germany:DE;Gibraltar:GI;Greece:GR;Greenland:GL;Grenada:GD;Guatemala:GT;Guernsey:GG;Guyana:GY;Haiti:HT;Honduras:HN;Hong Kong:HK;Hungary:HU;Iceland:IS;India:IN;Indonesia:ID;Ireland:IE;Isle of Man:IM;Israel:IL;Italy:IT;Jamaica:JM;Japan:JP;Jersey:JE;Kazakhstan:KZ;Kenya:KE;Latvia:LV;Lesotho:LS;Liechtenstein:LI;Lithuania:LT;Luxembourg:LU;Madagascar:MG;Malawi:MW;Malaysia:MY;Malta:MT;Mexico:MX;Moldova:MD;Monaco:MC;Mongolia:MN;Montenegro:ME;Morocco:MA;Mozambique:MZ;Namibia:NA;Netherlands:NL;New Zealand:NZ;Nicaragua:NI;Niger:NE;Nigeria:NG;North Macedonia:MK;Norway:NO;Panama:PA;Papua New Guinea:PG;Paraguay:PY;Peru:PE;Philippines:PH;Poland:PL;Portugal:PT;Puerto Rico:PR;Romania:RO;Russia:RU;San Marino:SM;Serbia:RS;Singapore:SG;Slovakia:SK;Slovenia:SI;South Africa:ZA;South Korea:KR;Spain:ES;Suriname:SR;Sweden:SE;Switzerland:CH;Tunisia:TN;Turkey:TR;Ukraine:UA;United Kingdom:GB;United States:US;Uruguay:UY;Vatican City:VA;Venezuela:VE;Vietnam:VN;Zimbabwe:ZW"
             .split(";").map(e => { const ix = e.lastIndexOf(":"); return { name: e.slice(0, ix), code: e.slice(ix + 1) }; });
 
@@ -2380,6 +2628,7 @@
             dl.innerHTML = COUNTRY_TABLE.map(c => `<option value="${c.name} (${c.code})"></option>`).join("");
         }
 
+        
         function resolveCountryCode(text) {
             const t = String(text || "").trim();
             const paren = t.match(/\(([A-Za-z]{2})\)\s*$/);
@@ -2399,6 +2648,8 @@
             chev.style.transform = open ? "" : "rotate(180deg)";
         }
 
+        
+
         async function fetchCountryHolidays(countryCode, year) {
             const key = `liteaeco_holidays_${countryCode}_${year}`;
             try {
@@ -2414,6 +2665,10 @@
             return list;
         }
 
+        
+
+
+        
         let cpmToastTimer = null;
         function showWarningToast(msg) {
             let el = document.getElementById("cpm-toast");
@@ -2433,6 +2688,11 @@
             }, 4000);
         }
 
+        
+
+
+
+
         function wouldCreateCycle(candidatePredId, taskId) {
             if (candidatePredId === taskId) return true;
             const taskMap = {};
@@ -2450,7 +2710,8 @@
             return false;
         }
 
-        let _workDays = [];
+        
+        let _workDays = [];   
         function _ensureWorkDays(uptoOffset) {
             let o = _workDays.length ? _workDays[_workDays.length - 1] + 1 : 0;
             let guard = 0;
@@ -2479,6 +2740,7 @@
             if (W) { _workDays = []; _ensureWorkDays(730); }
             const toAxis = (off) => W ? offsetToWorkIndex(off) : Math.max(0, off);
             const fromAxis = (v) => W ? workIndexToOffset(v) : v;
+            
             tasks.forEach((t) => {
                 t.isCritical = false;
                 t.ES = 0; t.EF = 0;
@@ -2490,11 +2752,13 @@
             const taskMap = {};
             tasks.forEach(t => taskMap[t.id] = t);
 
+            
             const successors = {};
             const inDegree = {};
             tasks.forEach(t => { successors[t.id] = []; inDegree[t.id] = 0; });
 
             tasks.forEach((t) => {
+                
                 if (t.dependsOn && t.dependsOn.length > 0 && typeof t.dependsOn[0] === 'string') {
                     t.dependsOn = t.dependsOn.map(id => ({ id, type: 'FS', lag: 0 }));
                 }
@@ -2508,6 +2772,7 @@
                 }
             });
 
+            
             const queue = tasks.filter(t => inDegree[t.id] === 0).map(t => t.id);
             const topoOrder = [];
             while (queue.length > 0) {
@@ -2526,12 +2791,17 @@
                 return;
             }
 
+            
             topoOrder.forEach((id) => {
                 const t = taskMap[id];
                 const dur = t.type === "milestone" ? 0 : t.duration;
+                
+                
+                
                 const preds = (t.dependsOn || []).filter(dep => taskMap[dep.id]);
 
                 if (preds.length === 0 || t.locked) {
+                    
                     t.ES = toAxis(t.start);
                 } else {
                     let maxES = 0;
@@ -2546,11 +2816,13 @@
                         if (constraintES > maxES) maxES = constraintES;
                     });
                     t.ES = maxES;
-                    t.start = fromAxis(t.ES);
+                    t.start = fromAxis(t.ES);  
                 }
                 t.EF = t.ES + dur;
             });
 
+            
+            
             const networkedTasks = tasks.filter(t =>
                 (t.dependsOn && t.dependsOn.some(dep => taskMap[dep.id])) ||
                 (successors[t.id] && successors[t.id].length > 0)
@@ -2559,6 +2831,7 @@
                 ? networkedTasks.reduce((max, t) => Math.max(max, t.EF), 0)
                 : tasks.reduce((max, t) => Math.max(max, t.EF), 0);
 
+            
             [...topoOrder].reverse().forEach((id) => {
                 const t = taskMap[id];
                 const dur = t.type === "milestone" ? 0 : t.duration;
@@ -2587,6 +2860,10 @@
                         else if (succObj.type === 'SF') constraintLF = s.LF - lag + dur;
                         if (constraintLF < minLF) minLF = constraintLF;
                     });
+                    
+                    
+                    
+                    
                     t.LF = Math.min(minLF, projectEnd);
                 }
                 t.LS = t.LF - dur;
@@ -2595,6 +2872,19 @@
             });
         }
 
+
+        
+
+
+
+
+
+
+
+
+
+
+        
         function calculatePhaseBounds() {
             const bounds = {};
             phases.forEach(p => bounds[p.id] = { start: Infinity, end: -Infinity });
@@ -2606,6 +2896,7 @@
                 if (endDay > bounds[t.phaseId].end) bounds[t.phaseId].end = endDay;
             });
 
+            
             function rollupBounds(phaseId) {
                 phases.filter(p => p.parentId === phaseId).forEach(child => {
                     rollupBounds(child.id);
@@ -2615,11 +2906,17 @@
             }
             phases.filter(p => !p.parentId).forEach(p => rollupBounds(p.id));
 
+            
             phases.forEach((p) => {
                 if (bounds[p.id].start === Infinity) { bounds[p.id].start = 0; bounds[p.id].end = 0; }
             });
             return bounds;
         }
+
+        
+
+
+
 
         function generateRenderList(ignoreCollapsed = false) {
             renderList = [];
@@ -2635,9 +2932,10 @@
                     .sort((a, b) => a.start - b.start);
                 const subPhases = phases.filter(p => p.parentId === phase.id);
 
+                
                 if ((isPresentationMode || searchQuery !== "") && phaseTasks.length === 0 && subPhases.length === 0) return;
 
-                phase.wbs = wbsPrefix;
+                phase.wbs = wbsPrefix; 
 
                 if (isVisible || ignoreCollapsed) {
                     renderList.push({
@@ -2661,7 +2959,7 @@
 
                 phaseTasks.forEach((task) => {
                     const taskWBS = `${wbsPrefix}.${childIndex}`;
-                    task.wbs = taskWBS;
+                    task.wbs = taskWBS;     
 
                     if (childrenVisible) {
                         renderList.push({
@@ -2691,6 +2989,14 @@
             });
         }
 
+
+        
+
+
+
+
+
+
         function adjustTimelinePadding() {
             if (tasks.length === 0) return;
 
@@ -2705,6 +3011,7 @@
             const projectStartDate = addDays(config.startDate, minStart);
             const projectEndDate = addDays(config.startDate, maxEnd);
 
+            
             const desiredStartDate = new Date(projectStartDate);
             desiredStartDate.setDate(desiredStartDate.getDate() - desiredStartDate.getDay());
 
@@ -2719,6 +3026,7 @@
                 });
             }
 
+            
             const desiredEndDate = new Date(projectEndDate);
             desiredEndDate.setMonth(desiredEndDate.getMonth() + 1);
             desiredEndDate.setDate(desiredEndDate.getDate() + (6 - desiredEndDate.getDay()));
@@ -2726,24 +3034,42 @@
             config.totalDays = Math.max(14, diffDays(config.startDate, desiredEndDate));
         }
 
+
+        
+
+
+
+
+
+
         function updateAndRenderAll() {
-            calculateCriticalPath();
-            adjustTimelinePadding();
-            generateRenderList();
-            renderSidebar();
-            renderTimelineGrid();
-            renderBars();
-            renderDependencies();
+            calculateCriticalPath();      
+            adjustTimelinePadding();      
+            generateRenderList();         
+            renderSidebar();              
+            renderTimelineGrid();         
+            renderBars();                 
+            renderDependencies();         
             updateCompletionDisplay();
             updateEndDateDisplay();
             updateCurrentTaskHeader();
             updateBudgetDisplay();
             updateToggleButtonStyles();
-            setupDragListeners();
+            setupDragListeners();         
             updateSelectionVisuals();
-            updateDatalists();
+            updateDatalists();            
         }
 
+
+
+        
+
+
+
+
+
+
+        
         function getProjectCompletionPct() {
             if (tasks.length === 0) return 0;
             let totalWork = 0, completedWork = 0;
@@ -2751,6 +3077,7 @@
 
             tasks.forEach((t) => {
                 if (t.type === "milestone") return;
+                
                 const s = (t.actualStart !== null && t.actualStart !== undefined) ? t.actualStart : t.start;
                 const d = (t.actualDuration !== null && t.actualDuration !== undefined) ? t.actualDuration : t.duration;
                 totalWork += d;
@@ -2762,6 +3089,7 @@
             return Math.max(0, Math.min(100, Math.round((completedWork / totalWork) * 100)));
         }
 
+        
         function updateCurrentTaskHeader() {
             const headerEl = document.getElementById("active-task-header");
             const labelEl = document.getElementById("active-task-label");
@@ -2797,6 +3125,7 @@
             headerEl.classList.add("flex");
         }
 
+        
         function updateBudgetDisplay() {
             const headerDisplay = document.getElementById("header-budget-display");
             const headerValue = document.getElementById("header-budget-value");
@@ -2832,6 +3161,7 @@
                 headerDisplay.classList.add("hidden"); headerDisplay.classList.remove("flex");
             }
 
+            
             const budgetInput = document.getElementById("sidebar-budget-input");
             if (overallBudget > 0 && overallBudget < totalActual) {
                 budgetInput.classList.add("border-red-500", "text-red-700", "focus:border-red-500", "bg-red-50");
@@ -2842,6 +3172,7 @@
             }
         }
 
+        
         function updateCompletionDisplay() {
             const headerDisplay = document.getElementById("header-completion-display");
             const headerValue = document.getElementById("header-completion-value");
@@ -2853,6 +3184,7 @@
             }
         }
 
+        
         function updateEndDateDisplay() {
             const headerDisplay = document.getElementById("header-enddate-display");
             const headerValue = document.getElementById("header-enddate-value");
@@ -2882,6 +3214,7 @@
             headerDisplay.classList.remove("hidden"); headerDisplay.classList.add("flex");
         }
 
+        
         function updateToggleButtonStyles() {
             const presBtn = document.getElementById("presentation-btn");
             if (isPresentationMode) {
@@ -2900,7 +3233,17 @@
             set("sidebar-taskbudget-toggle", showTaskBudget);
         }
 
+
+        
+
+
+
+
+
+
+        
         function saveState() {
+            
             if (historyIndex < stateHistory.length - 1) {
                 stateHistory = stateHistory.slice(0, historyIndex + 1);
             }
@@ -2915,6 +3258,7 @@
             });
             if (stateHistory.length > MAX_HISTORY) {
                 stateHistory.shift();
+                
             } else {
                 historyIndex++;
             }
@@ -2928,6 +3272,7 @@
             if (historyIndex < stateHistory.length - 1) { historyIndex++; restoreState(stateHistory[historyIndex]); }
         }
 
+        
         function restoreState(snapshot) {
             tasks = JSON.parse(JSON.stringify(snapshot.tasks));
             phases = JSON.parse(JSON.stringify(snapshot.phases));
@@ -2938,23 +3283,36 @@
             globalContacts = snapshot.globalContacts ? JSON.parse(JSON.stringify(snapshot.globalContacts)) : [];
             globalTags = snapshot.globalTags ? JSON.parse(JSON.stringify(snapshot.globalTags)) : [];
             syncGlobalsFromTasks();
-            selectedTaskIds.clear();
+            selectedTaskIds.clear();        
             updateAndRenderAll();
             if (isDashboardMode) renderDashboard();
         }
 
-        const TOOL_ID = "project_timeline";
-        const JSON_SCHEMA_VERSION = 2;
 
+        
+
+
+
+
+
+
+
+
+        const TOOL_ID = "project_timeline";
+        const JSON_SCHEMA_VERSION = 2;   
+
+        
         function tt(key, fallback) {
             const v = i18n(key);
             return v !== key ? v : fallback;
         }
 
+        
         let projectMeta = { schemaVersion: 1, guid: "", number: "", title: "", client: "", address: "", type: "" };
 
         function ensureProjectGuid() {
             if (!projectMeta.guid && (projectMeta.number || projectMeta.title || projectMeta.client || projectMeta.address || projectMeta.type)) {
+                
                 projectMeta.guid = (window.liteAECO && liteAECO.cde && liteAECO.cde.uuid)
                     ? liteAECO.cde.uuid()
                     : (function () {
@@ -2967,6 +3325,7 @@
             }
         }
 
+        
         function buildProjectInfoRows() {
             ensureProjectGuid();
             return [
@@ -2981,10 +3340,19 @@
             ];
         }
 
+        
+        
+        
+        
+        
+        
+        
         function buildInfoSheet() {
             const darkColors = ["FFB8CDE2", "FFCADAE9"];
             const title = document.getElementById("project-title-text").innerText;
 
+            
+            
             let maxPlannedEnd = -Infinity, maxActualEnd = -Infinity;
             tasks.forEach((t) => {
                 const pe = taskEnd(t);
@@ -2999,7 +3367,7 @@
 
             const infoData = [
                 ["www.liteAECO.com"],
-                ["Project Timeline"],
+                ["Project Timeline"],                    
                 ["info@liteAECO.com (Switzerland)"],
                 [],
                 ...buildProjectInfoRows(),
@@ -3009,6 +3377,8 @@
                 ["End Date:", hasTasks ? formatDateInput(addDays(config.startDate, maxPlannedEnd)) : ""],
                 ["Deviation in days:", deviation > 0 ? "+" + deviation : String(deviation)],
                 ["Completion:", getProjectCompletionPct() + "%"],
+                
+                
                 ["Session state:", (window.__cdeCtx ? "open" : "closed")],
                 [],
                 ["--- PHASES ---", "", "", ""],
@@ -3050,11 +3420,13 @@
                 ]);
             });
 
-            lastInfoAoa = infoData;
+            lastInfoAoa = infoData;   
             const wsInfo = XLSX.utils.aoa_to_sheet(infoData);
             wsInfo["!cols"] = [{ wch: 30 }, { wch: 36 }, { wch: 14 }, { wch: 14 }];
+            
             const a2c = XLSX.utils.encode_cell({ c: 0, r: 1 });
             if (wsInfo[a2c]) wsInfo[a2c].s = { fill: { fgColor: { rgb: "FF4F46E5" } }, font: { bold: true, color: { rgb: "FFFFFFFF" } } };
+            
             for (let R = 0; R < infoData.length; R++) {
                 if (typeof infoData[R][0] === "string" && String(infoData[R][0]).startsWith("---")) {
                     for (let C = 0; C < 4; C++) {
@@ -3072,6 +3444,7 @@
             return wsInfo;
         }
 
+        
         function parseProjectInfoAoA(infoAoA) {
             const getValue = (aoa, key) => {
                 if (!aoa) return null;
@@ -3092,6 +3465,10 @@
         }
 
         function registryUpsert() {
+            
+            
+            
+            
             if (window.__cdeCtx || window.__cdeOpening) return;
             if (window.liteAECO && window.liteAECO.projects &&
                 (projectMeta.guid || projectMeta.number || projectMeta.title || projectMeta.client)) {
@@ -3102,7 +3479,11 @@
         }
 
         function populateRegistryPicker() {
+            
+            
+            
             return;
+            
             const sel = document.getElementById("settings-project-picker");
             if (!sel || !window.liteAECO || !window.liteAECO.projects) return;
             window.liteAECO.projects.list().then(all => {
@@ -3133,6 +3514,7 @@
             });
         }
 
+        
         function serializeProject() {
             ensureProjectGuid();
             syncGlobalsFromTasks();
@@ -3168,10 +3550,15 @@
                 return false;
             }
             const tl = data.timeline || {};
+            
+            
+            
+            
+            
             if (!window.__cdeCtx && data.meta) {
                 projectMeta = { schemaVersion: 1, guid: "", number: "", title: "", client: "", address: "", type: "", ...data.meta };
             }
-            durationMode = data.durationMode === "working" ? "working" : "calendar";
+            durationMode = data.durationMode === "working" ? "working" : "calendar";   
             if (data.calendar && Array.isArray(data.calendar.workweek) && data.calendar.workweek.length === 7) {
                 calendar = { workweek: data.calendar.workweek.map(Boolean), holidays: Array.isArray(data.calendar.holidays) ? data.calendar.holidays : [] };
             }
@@ -3199,6 +3586,7 @@
             showColContact = !!tl.showColContact; showColResources = !!tl.showColResources;
             showColDepends = !!tl.showColDepends; showColBudget = !!tl.showColBudget;
 
+            
             const setEl = (id, fn) => { const el = document.getElementById(id); if (el) fn(el); };
             setEl("project-title-text", el => el.innerText = tl.displayTitle || data.meta?.title || "New Project");
             setEl("sidebar-budget-input", el => el.value = overallBudget);
@@ -3232,6 +3620,7 @@
             setTimeout(() => URL.revokeObjectURL(a.href), 5000);
         }
 
+        
         const TEMPLATE_RUNTIME_KEYS = ["ES", "EF", "LS", "LF", "TF", "isCritical"];
         function getTemplates() {
             const t = (window.LITEAECO_TEMPLATES || {})["Project_Timeline"];
@@ -3246,6 +3635,9 @@
             }
             const d = JSON.parse(JSON.stringify(tpl));
             delete d.kind;
+            
+            
+            
             delete d.meta;
             d.timeline = d.timeline || {};
             d.timeline.startDate = Date.now();
@@ -3325,6 +3717,7 @@
                     license: "CC-BY-4.0", source: "", minAppSchema: 2
                 },
                 durationMode: s.durationMode, calendar: s.calendar,
+                
                 timeline: { ...s.timeline }
             };
             delete tpl.timeline.startDate;
@@ -3340,6 +3733,7 @@
             setTimeout(() => URL.revokeObjectURL(a.href), 5000);
         }
 
+        
         function toolDB() {
             return new Promise((resolve) => {
                 if (!("indexedDB" in window)) return resolve(null);
@@ -3353,6 +3747,7 @@
                 req.onerror = () => resolve(null);
             });
         }
+        
         const Autosave = liteAECO.createAutosave({
             toolId: "timeline",
             fileSuffix: ".timeline.json",
@@ -3376,12 +3771,16 @@
             else if (action === "disconnect") await Autosave.disconnect();
         }
 
+        
+
         async function autosaveToggle() {
             const pill = document.getElementById('save-menu-disconnect');
             const on = pill && !pill.classList.contains('hidden');
             if (on) await Autosave.disconnect();
             else await Autosave.connectFile();
         }
+
+        
 
         async function cdeSaveNow() {
             if (!window.__cdeCtx) return;
@@ -3405,6 +3804,15 @@
             }
         });
 
+        
+
+
+
+
+
+
+
+
         function _cdeParams() {
             const q = new URLSearchParams(window.location.search);
             const guid = q.get("project");
@@ -3424,6 +3832,8 @@
         }
 
         async function _cdeLoad(info, params) {
+            
+            
             window.__cdeReadOnly = false;
             try {
                 const A = liteAECO.cde.access;
@@ -3462,6 +3872,7 @@
                 console.error("CDE IMPORT LOGIC ERROR:", err);
                 return true;
             }
+            
             if (projectMeta.guid && projectMeta.guid !== params.guid) {
                 const adopt = window.confirm(tt("cdeForeignFile",
                     "This file belongs to a different project. Import its content into this project? The file will be rebranded to this project on the next save."));
@@ -3470,10 +3881,12 @@
                     return true;
                 }
             }
-            lastSavedHistoryIndex = historyIndex;
+            lastSavedHistoryIndex = historyIndex;   
             window.__cdeCtx = { guid: params.guid, path: params.open, handle: info.handle };
             const _cs = document.getElementById('wrapper-cde-save');
             if (_cs) _cs.classList.remove('hidden');
+            
+            
             ["settings-meta-number", "settings-meta-type", "settings-meta-client", "settings-meta-address"].forEach(function (elId) {
                 const el = document.getElementById(elId);
                 if (el) {
@@ -3484,7 +3897,7 @@
             });
             try {
                 await _cdeBridgeInit(info, params);
-                await _cdeFillProjectInfo(info, params);
+                await _cdeFillProjectInfo(info, params);   
             } catch (e) {
                 console.error("CDE bridge init failed:", e);
                 if (typeof Autosave !== "undefined" && Autosave.renderStatus) Autosave.renderStatus("error");
@@ -3492,6 +3905,8 @@
                     "Project sync could not start - changes will NOT be saved to the project folder. Update js/liteaeco-cde.js to the latest build and reload.") +
                     "\n\n(" + (e && e.message ? e.message : e) + ")");
             }
+            
+
             window.addEventListener("beforeunload", function (e) {
                 let cdePending = false;
                 try {
@@ -3512,7 +3927,7 @@
             const params = _cdeParams();
             if (!params) return false;
             if (!(window.liteAECO && liteAECO.cde)) return false;
-            window.__cdeOpening = true;
+            window.__cdeOpening = true;   
             try {
                 let info = await liteAECO.cde.openProject(params.guid);
                 if (!info) {
@@ -3542,6 +3957,7 @@
             }
         }
 
+        
         const cdeBridge = {
             session: null, baseline: null, timer: null, author: null, appId: "timelines",
             flushing: false, pending: false,
@@ -3566,6 +3982,7 @@
             diff: function (prev, cur) {
                 const events = [];
                 const J = JSON.stringify;
+                
                 const prevT = {}; prev.tasks.forEach(function (t) { prevT[t.id] = t; });
                 const curT = {}; cur.tasks.forEach(function (t) { curT[t.id] = t; });
                 cur.tasks.forEach(function (t) {
@@ -3574,6 +3991,7 @@
                     if (J(b) !== J(t)) events.push({ type: "task.update", target: String(t.id), payload: t });
                 });
                 prev.tasks.forEach(function (t) { if (!curT[t.id]) events.push({ type: "task.remove", target: String(t.id) }); });
+                
                 const prevP = {}; prev.phases.forEach(function (p) { prevP[p.id] = p; });
                 const curP = {}; cur.phases.forEach(function (p) { curP[p.id] = p; });
                 cur.phases.forEach(function (p) {
@@ -3582,11 +4000,15 @@
                     if (J(b) !== J(p)) events.push({ type: "phase.update", target: String(p.id), payload: p });
                 });
                 prev.phases.forEach(function (p) { if (!curP[p.id]) events.push({ type: "phase.remove", target: String(p.id) }); });
+                
                 const mm = {}; let mn = 0;
                 Object.keys(cur.meta).forEach(function (k) {
                     if (J(cur.meta[k]) !== J(prev.meta[k])) { mm[k] = cur.meta[k]; mn++; }
                 });
                 if (mn) events.push({ type: "timeline.info", target: window.__cdeCtx ? window.__cdeCtx.path : null, payload: mm });
+                
+                
+                
                 return events;
             },
             append: function (events) {
@@ -3594,7 +4016,7 @@
                 return this.session.append(this.author, this.appId, events);
             },
             flush: async function () {
-                if (window.__cdeReadOnly) return;
+                if (window.__cdeReadOnly) return;   
                 if (!this.session || !this.baseline) return;
                 if (this.flushing) { this.pending = true; return; }
                 this.flushing = true;
@@ -3607,7 +4029,7 @@
                         if (!events.length) continue;
                         try {
                             await this.append(events);
-                            this.baseline = cur;
+                            this.baseline = cur;   
                             appended = true;
                         } catch (e) {
                             console.warn("CDE append failed (kept for retry):", e);
@@ -3628,6 +4050,12 @@
                 }
             },
 
+            
+
+
+
+
+
             _slugTitle: function () {
                 let t = String(document.getElementById("project-title-text").innerText || "").trim();
                 if (!t) return null;
@@ -3643,7 +4071,7 @@
                 const fname = parts.pop();
                 const desired = slug + ".xlsx";
                 if (fname === desired) return;
-                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;
+                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;   
                 try {
                     let dir = ctx.handle;
                     for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: false });
@@ -3671,17 +4099,19 @@
                         type: "file.rename", target: ctx.path,
                         payload: { from: from, to: ctx.path, app: this.appId }
                     }]).catch(function () { });
-                    this.lastAssignHash = null;
+                    this.lastAssignHash = null;   
                     await this.markLoadedFileSeen();
                 } catch (e) { console.warn("CDE rename skipped (will retry):", e); }
             },
 
+            
             writeBack: { timer: null, busy: false, pending: false, lastMtime: 0, lastSize: 0 },
             lastAssignHash: null,
             scheduleWriteBack: function () {
-                if (window.__cdeReadOnly) return;
+                if (window.__cdeReadOnly) return;   
                 if (!window.__cdeCtx) return;
-                window.__cdeUnsaved = true;
+                window.__cdeUnsaved = true;   
+                
                 if (typeof Autosave !== "undefined" && Autosave.toastNotify) Autosave.toastNotify("dirty");
                 const wbk = this.writeBack;
                 clearTimeout(wbk.timer);
@@ -3689,13 +4119,13 @@
                 wbk.timer = setTimeout(function () { self.flushWriteBack(); }, window.__cdeWriteBackMs || 2000);
             },
             flushWriteBack: async function () {
-                if (window.__cdeReadOnly) return;
+                if (window.__cdeReadOnly) return;   
                 const ctx = window.__cdeCtx;
                 if (!ctx || !ctx.handle || !ctx.path) return;
                 const wbk = this.writeBack;
                 if (wbk.busy) { wbk.pending = true; return; }
                 wbk.busy = true;
-                let wroteOk = false;
+                let wroteOk = false;   
                 try {
                     await this.maybeRename();
                     do {
@@ -3713,15 +4143,16 @@
                             let dir = ctx.handle;
                             for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: true });
                             const fh = await dir.getFileHandle(fname, { create: true });
-                            const w = await fh.createWritable();
+                            const w = await fh.createWritable();   
                             await w.write(buf);
                             await w.close();
                             const f = await fh.getFile();
-                            wbk.lastMtime = f.lastModified;
+                            wbk.lastMtime = f.lastModified;   
                             wbk.lastSize = f.size;
                             wroteOk = true;
+                            
                             _tlcWrite(ctx, f.size, f.lastModified).catch(function () { });
-                            lastSavedHistoryIndex = historyIndex;
+                            lastSavedHistoryIndex = historyIndex;   
                             try {
                                 if (window.crypto && window.crypto.subtle) {
                                     const d = await window.crypto.subtle.digest("SHA-256",
@@ -3750,6 +4181,7 @@
                 }
             },
 
+            
             extSeen: { mtime: 0, size: 0 },
             checking: false,
             _statFile: async function () {
@@ -3778,11 +4210,11 @@
                         fh = await this._statFile();
                         f = await fh.getFile();
                     } catch (e) {
-                        return;
+                        return;   
                     }
                     const wbk = this.writeBack;
-                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;
-                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;
+                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;   
+                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;   
                     let workbook;
                     try {
                         const buf = await f.arrayBuffer();
@@ -3791,8 +4223,10 @@
                         console.warn("CDE external read/parse failed (transient, will retry):", e);
                         return;
                     }
-                    await this.flush();
+                    await this.flush();   
                     try {
+                        
+                        
                         const wsInfo = workbook.Sheets && workbook.Sheets["INFO"];
                         const aoa = wsInfo ? XLSX.utils.sheet_to_json(wsInfo, { header: 1 }) : [];
                         const a2 = aoa[1] ? String(aoa[1][0] || "").trim() : "";
@@ -3807,8 +4241,8 @@
                         return;
                     }
                     this.extSeen = { mtime: f.lastModified, size: f.size };
-                    lastSavedHistoryIndex = historyIndex;
-                    await this.flush();
+                    lastSavedHistoryIndex = historyIndex;   
+                    await this.flush();   
                 } finally {
                     this.checking = false;
                 }
@@ -3836,17 +4270,23 @@
                 const addr = [hs.address1, hs.city].filter(Boolean).join(', ') || hs.address || '';
                 const fill = { number: hs.number || '', title: hs.title || '', client: hs.client || '', address: addr, type: hs.type || '' };
                 let changed = false;
+                
+                
+                
                 Object.keys(fill).forEach(function (k) {
                     if (projectMeta[k] !== fill[k]) { projectMeta[k] = fill[k]; changed = true; }
                 });
                 if (projectMeta.guid !== params.guid) { projectMeta.guid = params.guid; changed = true; }
                 if (changed) {
-                    if (typeof Autosave !== "undefined") Autosave.markDirty();
+                    if (typeof Autosave !== "undefined") Autosave.markDirty();   
                 }
             } catch (e) { console.warn("CDE project-info fill skipped:", e); }
         }
 
         async function _cdeBridgeInit(info, params) {
+            
+            
+            
             const logoLink = document.getElementById('app-logo-link');
             const logoSvg = document.getElementById('app-logo-svg');
             if (logoLink && logoSvg && !document.getElementById('cde-home-btn')) {
@@ -3865,6 +4305,7 @@
             const dev = await cde.identity.device();
             const memberId = await cde.identity.getMember(params.guid);
             cdeBridge.author = memberId || ("device:" + dev);
+            
             function _assign() {
                 var hp = cde.hashFile ? cde.hashFile(info.handle, params.open).catch(function () { return null; })
                     : Promise.resolve(null);
@@ -3887,6 +4328,7 @@
                 return _assign();
             }).catch(function (e) { console.warn("CDE assign append failed:", e); });
 
+            
             if (typeof Autosave !== "undefined" && Autosave && typeof Autosave.markDirty === "function") {
                 if (!Autosave.__cdeWrapped) {
                     Autosave.__cdeWrapped = true;
@@ -3899,8 +4341,8 @@
                         Autosave.renderStatus('saved');
                     };
                     cdeBridge.onError = function () { Autosave.renderStatus('error'); };
-                    Autosave.lastSavedAt = new Date();
-                    Autosave.renderStatus('saved');
+                    Autosave.lastSavedAt = new Date();   
+                    Autosave.renderStatus('saved');      
                 }
             }
             document.addEventListener("visibilitychange", function () {
@@ -3912,7 +4354,15 @@
                 window.__cdeExtPollMs || 60000);
         }
 
-        const PRINT_PAGE_PX = 1512;
+        
+
+
+
+
+
+
+
+        const PRINT_PAGE_PX = 1512;   
 
         function openPrintModal() {
             if (isDashboardMode) {
@@ -3927,6 +4377,8 @@
             const m = document.getElementById("print-modal");
             m.classList.add("hidden"); m.classList.remove("flex");
         }
+
+        
 
         function syncCloneFormState(srcRoot, cloneRoot) {
             const srcEls = srcRoot.querySelectorAll("input, select, textarea");
@@ -3948,6 +4400,7 @@
             const sheet = document.createElement("div");
             sheet.id = "print-sheet";
 
+            
             let range = "";
             if (tasks.length > 0) {
                 let minS = Infinity, maxE = -Infinity;
@@ -3974,6 +4427,7 @@
                     </div>
                 </div>`;
 
+            
             const cols = document.createElement("div");
             cols.className = "print-cols";
 
@@ -3999,6 +4453,8 @@
             main.style.width = cropW + "px";
 
             const mkCrop = (srcEl, height) => {
+                
+                
                 const contentH = height || srcEl.scrollHeight;
                 const crop = document.createElement("div");
                 crop.className = "print-crop";
@@ -4026,6 +4482,7 @@
             cols.appendChild(main);
             sheet.appendChild(cols);
 
+            
             const totalW = sideW + cropW;
             const z = Math.min(1, PRINT_PAGE_PX / totalW);
             sheet.style.zoom = z;
@@ -4043,18 +4500,29 @@
             closePrintModal();
             printViaDialog = true;
             buildPrintSheet(mode);
+            
             requestAnimationFrame(() => requestAnimationFrame(() => {
                 window.print();
                 printViaDialog = false;
             }));
         }
 
+        
         window.addEventListener("beforeprint", () => {
             if (!printViaDialog && !document.getElementById("print-sheet") && !isDashboardMode) {
                 buildPrintSheet("fit");
             }
         });
         window.addEventListener("afterprint", removePrintSheet);
+
+        
+
+
+
+
+
+
+
 
         const PASTE_FIELDS = ["ignore", "name", "phase", "start", "end", "duration", "depends", "milestone"];
         const PASTE_ALIASES = {
@@ -4066,7 +4534,7 @@
             depends: ["depends", "depends on", "dependency", "dependencies", "predecessor", "predecessors", "pred"],
             milestone: ["milestone", "ms", "is milestone"]
         };
-        let _pasteParsed = null;
+        let _pasteParsed = null;     
         let _pasteTimer = null;
 
         function schedulePastePreview() {
@@ -4074,16 +4542,18 @@
             _pasteTimer = setTimeout(renderPastePreview, 250);
         }
 
+        
         function splitPastedTable(text) {
             const lines = text.split(/\r?\n/).map(l => l.replace(/\s+$/, "")).filter(l => l.trim() !== "");
             if (lines.length === 0) return [];
             const isMd = lines.filter(l => l.includes("|")).length >= Math.max(2, lines.length * 0.6);
             if (isMd) {
                 return lines
-                    .filter(l => l.includes("|") && !/^\s*\|?[\s:|-]+\|?\s*$/.test(l))
+                    .filter(l => l.includes("|") && !/^\s*\|?[\s:|-]+\|?\s*$/.test(l))   
                     .map(l => l.replace(/^\s*\|/, "").replace(/\|\s*$/, "").split("|").map(c => c.trim()));
             }
             if (lines[0].includes("\t")) return lines.map(l => l.split("\t").map(c => c.trim()));
+            
             return lines.map(l => {
                 const cells = []; let cur = "", q = false;
                 for (const ch of l) {
@@ -4127,6 +4597,7 @@
 
         const PASTE_TRUTHY = new Set(["yes", "y", "true", "1", "x", "\u2713", "ms", "milestone"]);
 
+        
         function parsePasteDeps(str) {
             return String(str || "").split(/[;,]/).map(tok => tok.trim()).filter(Boolean).map(tok => {
                 const m = tok.match(/^(.*?)\s*(FS|SS|FF|SF)?\s*([+-]\s*\d+)?$/i);
@@ -4170,6 +4641,7 @@
                 return;
             }
             const headers = table[0];
+            
             let colMap;
             if (_pasteParsed && _pasteParsed.headers.join("\u0001") === headers.join("\u0001")) {
                 colMap = _pasteParsed.colMap;
@@ -4215,6 +4687,7 @@
             applyBtn.disabled = okCount === 0;
         }
 
+        
         function buildPasteTasks() {
             const { rows, colMap } = _pasteParsed;
             const idx = {};
@@ -4250,6 +4723,7 @@
             const replace = document.querySelector('input[name="paste-mode"]:checked').value === "replace";
             if (replace) { tasks = []; phases = []; }
 
+            
             const phaseByName = {};
             phases.forEach(p => phaseByName[p.name.toLowerCase()] = p.id);
             const ensurePhase = (nm) => {
@@ -4263,7 +4737,8 @@
                 return id;
             };
 
-            const rowTaskIds = [];
+            
+            const rowTaskIds = [];   
             const newTasks = valid.map((r) => {
                 const id = "t_" + Math.random().toString(36).substr(2, 9);
                 rowTaskIds[built.rows.indexOf(r) + 1] = id;
@@ -4297,17 +4772,19 @@
 
             syncGlobalsFromTasks();
             selectedTaskIds.clear();
-            saveState();
+            saveState();                       
             updateAndRenderAll();
             closePasteModal();
             showWarningToast(`${tt("pasteImported", "Imported tasks:")} ${newTasks.length}` +
                 (skippedDeps ? ` \u2013 ${tt("pasteDepsUnresolved", "unresolved dependency references:")} ${skippedDeps}` : ""));
         }
 
+        
         const PASTE_CONTRACT = `Output ONLY a markdown table with exactly these columns and no other text:
 | Name | Phase | Start | Duration | Depends | Milestone |
 Rules: Start = YYYY-MM-DD. Duration = whole working days (0 for milestones). Depends = row numbers of predecessor rows (1 = first data row), optionally with a link type and lag like "3FS+2"; leave empty if none. Milestone = Yes or empty. Do not merge cells, do not add a numbering column, do not wrap the table in code fences.`;
 
+        
         function planToMarkdown() {
             const phaseName = {};
             phases.forEach(p => phaseName[p.id] = p.name);
@@ -4338,6 +4815,7 @@ ${planToMarkdown()}
 Add one level more detail for ${horizon}: break the listed tasks into concrete subtasks where useful, keep everything else consistent (same phases, dates that respect the existing sequence). Return the COMPLETE updated plan, existing rows included.
 ${PASTE_CONTRACT}`;
             }
+            
             return `Here is my current project plan:
 
 ${planToMarkdown()}
@@ -4366,8 +4844,18 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             copyTextToClipboard(planToMarkdown(), "Plan copied as a markdown table.");
         }
 
+        
+
+
+
+
+
+
+
+
         let lastSelectedTaskId = null;
 
+        
         function visibleTaskIdOrder() {
             return [...document.querySelectorAll(".sidebar-task-row")].map(r => r.getAttribute("data-id"));
         }
@@ -4462,6 +4950,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     id: "t_" + Math.random().toString(36).substr(2, 9),
                     name: t.name + " (copy)"
                 }));
+                
                 const idMap = {};
                 sel.forEach((t, i) => idMap[t.id] = clones[i].id);
                 clones.forEach(c => { if (c.dependsOn) c.dependsOn = c.dependsOn.map(d => ({ ...d, id: idMap[d.id] || d.id })); });
@@ -4484,10 +4973,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             }
             else return;
 
-            saveState();
+            saveState();                 
             updateAndRenderAll();
         }
 
+        
         function hideTaskContextMenu() {
             const m = document.getElementById("task-context-menu");
             if (m) { m.classList.add("hidden"); m.innerHTML = ""; }
@@ -4498,6 +4988,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             if (isPresentationMode) return;
             const task = tasks.find(t => t.id === taskId);
             if (!task) return;
+            
             if (!selectedTaskIds.has(taskId)) {
                 selectedTaskIds.clear();
                 selectedTaskIds.add(taskId);
@@ -4529,6 +5020,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             }
             m.innerHTML = html;
             m.classList.remove("hidden");
+            
             const pad = 6;
             const rect = { w: 208, h: m.offsetHeight || 200 };
             m.style.left = Math.min(e.clientX, window.innerWidth - rect.w - pad) + "px";
@@ -4542,6 +5034,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             else { t.type = "milestone"; t.duration = 0; }
             saveState(); updateAndRenderAll();
         }
+        
         function openAddMenu(event) {
             if (event) event.stopPropagation();
             const m = document.getElementById("add-menu-modal");
@@ -4553,6 +5046,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             m.classList.add("hidden"); m.classList.remove("flex");
         }
 
+        
         function quickAddTask(phaseId) {
             const phaseTasks = tasks.filter(t => t.phaseId === phaseId);
             let start = 0;
@@ -4578,6 +5072,12 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             t.locked = !t.locked;
             saveState(); updateAndRenderAll();
         }
+
+        
+
+
+
+
 
         const SHARE_PREFIX = "p2=";
         const DEP_TYPES = ["FS", "SS", "FF", "SF"];
@@ -4655,6 +5155,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
         }
 
         function applySharedPlan(up) {
+            
             if (!window.__cdeCtx) projectMeta = { schemaVersion: 1, ...up.meta };
             durationMode = up.durationMode;
             calendar = up.calendar;
@@ -4672,6 +5173,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             updateAndRenderAll();
         }
 
+        
         function openShareModal() {
             const m = document.getElementById("share-modal");
             m.classList.remove("hidden"); m.classList.add("flex");
@@ -4706,6 +5208,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             copyTextToClipboard(document.getElementById("share-link-input").value, tt("linkCopied", "Link copied."));
         }
 
+        
         function checkSharedPlanInURL() {
             const h = location.hash || "";
             if (!h.startsWith("#" + SHARE_PREFIX)) return;
@@ -4739,15 +5242,31 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             history.replaceState(null, "", location.pathname + location.search);
         }
 
+        
+
+
+
+
+        
         function handleSearch(event) {
             searchQuery = event.target.value.toLowerCase();
             updateAndRenderAll();
         }
 
+        
         function getVisibleTasks() {
             if (!searchQuery) return tasks;
             return tasks.filter(t => t.name.toLowerCase().includes(searchQuery));
         }
+
+
+        
+
+
+
+
+
+
 
         function handleHomeNavigation(event) {
             if (historyIndex !== lastSavedHistoryIndex) {
@@ -4764,6 +5283,13 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             document.getElementById("unsaved-modal").classList.remove("flex");
         }
         function confirmLeave() { window.location.href = "../index.html"; }
+
+        
+
+
+
+        
+
 
         function openConfirmModal(title, message, callback) {
             document.getElementById("confirm-modal-title").innerText = title;
@@ -4783,6 +5309,10 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             closeConfirmModal();
         }
 
+
+        
+
+
         function showLoader(text = "Processing...", percentage = 0) {
             document.getElementById("loader-text").innerText = text;
             document.getElementById("loader-progress").style.width = `${percentage}%`;
@@ -4797,6 +5327,10 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             document.getElementById("app-loader").classList.add("hidden");
             document.getElementById("app-loader").classList.remove("flex");
         }
+
+
+        
+
 
         function updateSelectionVisuals() {
             renderBulkBar();
@@ -4815,6 +5349,13 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 el.classList.toggle("bg-blue-50", selectedTaskIds.has(id));
             });
         }
+
+
+        
+
+
+
+
 
         function toggleSidebar() {
             isSidebarMinimized = !isSidebarMinimized;
@@ -4835,6 +5376,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             lucide.createIcons();
         }
 
+        
         function installSidebarResizer() {
             const sidebar = document.getElementById("main-sidebar");
             const resizer = document.createElement("div");
@@ -4847,7 +5389,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 isResizingSidebar = true;
                 resizer.classList.add("bg-indigo-500");
                 document.body.style.cursor = "col-resize";
-                sidebar.style.transition = "none";
+                sidebar.style.transition = "none";   
                 e.preventDefault();
             });
             document.addEventListener("mousemove", (e) => {
@@ -4865,6 +5407,12 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             });
         }
 
+
+        
+
+
+
+        
         function zoomTimeline(delta) {
             config.cellWidth = Math.max(3, Math.min(80, config.cellWidth + delta));
             generateRenderList();
@@ -4874,6 +5422,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             setupDragListeners();
         }
 
+        
         function scrollToToday() {
             const timelineScroll = document.getElementById("timeline-scroll");
             const todayOffset = getTodayOffset();
@@ -4881,6 +5430,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 alert(i18n("todayOutsideTimeline"));
                 return;
             }
+            
             const requiredVisibleDays = 16;
             const maxAllowedCellWidth = Math.floor(timelineScroll.clientWidth / requiredVisibleDays);
             if (config.cellWidth > maxAllowedCellWidth) {
@@ -4904,6 +5454,10 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             timelineScroll.scrollTo({ left: targetScrollLeft, top: targetScrollTop, behavior: 'smooth' });
         }
 
+        
+
+
+
         function syncScroll(source, targetId1, targetId2) {
             const target1 = document.getElementById(targetId1);
             if (target1) {
@@ -4915,6 +5469,12 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 if (target2 && targetId2 === "timeline-header-scroll" && target2.scrollLeft !== source.scrollLeft) target2.scrollLeft = source.scrollLeft;
             }
         }
+
+
+        
+
+
+
 
         function handleTagsToggle(e) { showTaskTags = e.target.checked; updateAndRenderAll(); }
         function handleContactToggle(e) { showTaskContact = e.target.checked; updateAndRenderAll(); }
@@ -4953,10 +5513,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             setupDragListeners();
         }
 
+        
         function toggleAllPhases() {
             if (phases.length === 0) return;
             const anyExpanded = phases.some(p => !p.collapsed);
-            const targetState = anyExpanded;
+            const targetState = anyExpanded;     
             phases.forEach(p => p.collapsed = targetState);
 
             const icon = document.getElementById("toggle-all-icon");
@@ -4969,6 +5530,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             setupDragListeners();
         }
 
+        
         function toggleViewMenu() {
             const menu = document.getElementById("sidebar-view-menu");
             const icon = document.getElementById("view-menu-icon");
@@ -4978,6 +5540,13 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             icon.setAttribute("data-lucide", isHidden ? "eye" : "eye-off");
             lucide.createIcons();
         }
+
+
+        
+
+
+
+
 
         function handleModalLabelChange() {
             const labelSelect = document.getElementById("modal-label");
@@ -4996,6 +5565,14 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 taskLabelMap[labelSelect.value] = colorInput.value;
             }
         }
+
+
+        
+
+
+
+
+
 
         function renderTimelineGrid() {
             const headerEl = document.getElementById("timeline-header-scroll");
@@ -5017,15 +5594,18 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 const isWeekBoundary = d.getDay() === 0;
                 const isToday = d.getDate() === today.getDate() && d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear();
 
+                
                 const tomorrow = new Date(d); tomorrow.setDate(tomorrow.getDate() + 1);
                 const isMonthBoundary = tomorrow.getMonth() !== d.getMonth();
 
+                
                 const dayText = config.cellWidth >= 12 ? d.getDate() : "";
                 let dayClass = "timeline-col-header";
                 if (isToday) dayClass += " bg-red-100 text-red-700 font-bold";
                 else if (isWeekend || isHol) dayClass += " weekend";
                 daysHtml += `<div class="${dayClass}" style="width: ${config.cellWidth}px">${dayText}</div>`;
 
+                
                 let showBorder = false;
                 if (config.cellWidth < 12) showBorder = isMonthBoundary;
                 else if (config.cellWidth <= 20) showBorder = isWeekBoundary || isMonthBoundary;
@@ -5033,6 +5613,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
                 bgHtml += `<div class="timeline-col ${(isWeekend || isHol) && !isPresentationMode ? "weekend" : ""} ${showBorder ? "border-r border-gray-200" : "border-r border-transparent"}" style="width: ${config.cellWidth}px"${isHol ? ` title="${escapeHTML((calendar.holidays.find(h => h.date === formatDateInput(d)) || {}).label || "")}"` : ""}></div>`;
 
+                
                 if (d.getMonth() !== currentMonth) {
                     if (currentMonth !== -1) {
                         const monthName = addDays(config.startDate, i - 1).toLocaleString("default", { month: "short", year: "numeric" });
@@ -5044,6 +5625,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     monthDaysCount++;
                 }
 
+                
                 const wk = getWeekNumber(d);
                 if (wk !== currentWeek) {
                     if (currentWeek !== -1) {
@@ -5060,6 +5642,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 }
             }
 
+            
             const lastMonthName = addDays(config.startDate, config.totalDays).toLocaleString("default", { month: "short", year: "numeric" });
             monthsHtml += `<div class="timeline-header-block flex items-center justify-center font-semibold text-xs border-r border-gray-200 text-gray-700 bg-gray-50" style="width: ${monthDaysCount * config.cellWidth}px">${escapeHTML(lastMonthName)}</div>`;
             const lastWeekBg = isCurrentWeekBlock ? "bg-red-50 text-red-700 font-bold" : "bg-white text-gray-600";
@@ -5083,6 +5666,20 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             bgEl.style.height = `${getTimelineScrollHeight()}px`;
         }
 
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
         function renderBars() {
             const container = document.getElementById("gantt-bars");
             const todayOffset = isTodayViewActive ? getTodayOffset() : null;
@@ -5091,6 +5688,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             renderList.forEach((item) => {
                 const top = item.rowIdx * config.rowHeight;
 
+                
                 if (item.isPhase) {
                     const left = item.start * config.cellWidth;
                     const width = (item.end - item.start) * config.cellWidth;
@@ -5108,6 +5706,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     return;
                 }
 
+                
                 const t = item.task;
                 const left = t.start * config.cellWidth;
                 let isCompleted = false, isCurrent = false;
@@ -5124,6 +5723,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     }
                 }
 
+                
                 let badgeLeftOffset = "100%", deviationHtml = "";
                 if (t.actualStart !== null && t.actualDuration !== null) {
                     const plannedEnd = taskEnd(t);
@@ -5154,6 +5754,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     }
                 }
 
+                
                 let extraInfoHtml = "";
                 if ((showTaskContact && t.contact) ||
                     (showTaskBudget && (t.budget > 0 || t.actualBudget > 0)) ||
@@ -5190,6 +5791,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     : "";
                 const selClass = selectedTaskIds.has(t.id) ? "ring-2 ring-blue-500 ring-offset-1" : "";
 
+                
                 if (t.type === "milestone") {
                     let baseColor = item.phase.color;
                     if (t.label && taskLabelMap[t.label]) baseColor = taskLabelMap[t.label];
@@ -5216,6 +5818,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     return;
                 }
 
+                
                 const width = Math.max(config.cellWidth * 0.2, taskSpan(t) * config.cellWidth);
                 let baseColor = item.phase.color, lightColor = item.phase.lightColor;
                 if (t.label && taskLabelMap[t.label]) {
@@ -5254,6 +5857,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     </div>`;
             });
 
+            
             if (isTodayViewActive && todayOffset >= 0 && todayOffset <= config.totalDays) {
                 const leftPos = todayOffset * config.cellWidth;
                 html += `
@@ -5266,6 +5870,16 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             container.style.height = `${getTimelineScrollHeight()}px`;
         }
 
+
+        
+
+
+
+
+
+
+
+        
         function createPath(fromPos, toPos, isCompleted, isCriticalLink, type = 'FS') {
             const colorClass = isCriticalLink ? "stroke-red-500" : (isCompleted ? "stroke-gray-300" : "stroke-blue-400");
             const marker = isCriticalLink ? "url(#arrow-critical)" : (isCompleted ? "url(#arrow-completed)" : "url(#arrow)");
@@ -5296,10 +5910,12 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             return `<path d="${path}" class="fill-none stroke-2 transition-colors ${colorClass}" marker-end="${marker}" />`;
         }
 
+        
         function renderDependencies() {
             const svg = document.getElementById("dependency-layer");
             const todayOffset = isTodayViewActive ? getTodayOffset() : null;
 
+            
             let html = `
                 <defs>
                     <marker id="arrow"           viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="dep-arrow" /></marker>
@@ -5320,7 +5936,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 task.dependsOn.forEach((dep) => {
                     const fromPos = taskPositions[dep.id];
                     const parentTask = tasks.find(t => t.id === dep.id);
-                    if (!fromPos || !toPos || !parentTask) return;
+                    if (!fromPos || !toPos || !parentTask) return;     
                     const isCriticalLink = isCriticalPathActive && task.isCritical && parentTask.isCritical;
                     html += createPath(fromPos, toPos, isCompleted, isCriticalLink, dep.type);
                 });
@@ -5330,6 +5946,16 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             svg.style.height = `${getTimelineScrollHeight()}px`;
             svg.style.width = `${(config.totalDays + 1) * config.cellWidth}px`;
         }
+
+
+        
+
+
+
+
+
+
+
 
         function renderSidebar() {
             try {
@@ -5344,6 +5970,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
                 const colC = !!showColContact, colR = !!showColResources, colD = !!showColDepends, colB = !!showColBudget;
 
+                
                 let headerColsHtml = "";
                 if (colC) headerColsHtml += `<div class="w-12 ml-2 shrink-0 flex items-center justify-center" title="${i18nEsc("contact")}"><i data-lucide="user" class="w-4 h-4 text-slate-400"></i></div>`;
                 if (colR) headerColsHtml += `<div class="w-12 ml-2 shrink-0 flex items-center justify-center" title="${i18nEsc("resources")}"><i data-lucide="blocks" class="w-4 h-4 text-slate-400"></i></div>`;
@@ -5358,6 +5985,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 renderList.forEach((item) => {
                     const indentPx = 16 + (item.depth * 24);
 
+                    
                     if (item.isPhase) {
                         const duration = item.end > item.start ? item.end - item.start : 0;
                         const durationDisplay = isPresentationMode ? Math.ceil(duration / 7) + " wks" : duration + " d";
@@ -5395,6 +6023,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         return;
                     }
 
+                    
                     const durationDisplay = isPresentationMode
                         ? (item.task.type === "milestone" ? "-" : Math.ceil(item.task.duration / 7) + " wks")
                         : (item.task.type === "milestone" ? "-" : item.task.duration + " d");
@@ -5428,9 +6057,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     const lockIcon = item.task.locked ? `<i data-lucide="lock" class="w-3 h-3 text-gray-400 mr-1 flex-shrink-0"></i>` : "";
                     const selectedBg = selectedTaskIds.has(item.task.id) ? "bg-blue-50" : "";
 
+                    
                     const inputClass = "w-full bg-transparent border border-transparent hover:border-gray-300 focus:border-indigo-500 focus:bg-white focus:shadow-sm text-xs text-slate-600 px-1 py-0.5 rounded outline-none transition-all truncate placeholder:text-gray-300 text-left";
                     const selectClass = inputClass + " cursor-pointer appearance-none";
 
+                    
                     const buildSelect = (currentVal, uniqueList) => {
                         let opts = `<option value="">-</option>`;
                         let found = false;
@@ -5443,6 +6074,8 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         opts += `<option value="__NEW__" class="font-bold text-indigo-600">+ ${i18nEsc("new")}</option>`;
                         return opts;
                     };
+
+                    
 
                     const buildTaskSelect = (dependsOn, currentTaskId) => {
                         const currentDep = (dependsOn && dependsOn.length > 0) ? dependsOn[0] : null;
@@ -5518,6 +6151,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     `;
                 });
 
+                
                 if (!isPresentationMode) {
                     html += `
                         <div class="gantt-row px-4 bg-white border-b border-gray-200 cursor-pointer text-gray-500 hover:text-brand-primary hover:bg-gray-50 transition-colors hide-on-min"
@@ -5542,13 +6176,36 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             }
         }
 
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         function setupDragListeners() {
+            
             document.getElementById("gantt-bars").querySelectorAll(".task-draggable").forEach((bar) => {
                 bar.addEventListener("mousedown", (e) => {
                     const taskId = bar.getAttribute("data-id");
                     currentTask = tasks.find(t => t.id === taskId);
                     if (!currentTask || currentTask.locked) { e.preventDefault(); return; }
 
+                    
                     if (e.shiftKey && lastSelectedTaskId) {
                         selectRangeTo(taskId);
                     } else if (e.ctrlKey || e.metaKey) {
@@ -5566,13 +6223,14 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     lastSelectedTaskId = taskId;
                     updateSelectionVisuals();
 
+                    
                     dragStartX = e.clientX;
                     initialStartDay = currentTask.start;
-                    initialDuration = taskSpan(currentTask) || 0;
+                    initialDuration = taskSpan(currentTask) || 0;          
                     initialActualStart = currentTask.actualStart;
                     initialActualDuration = currentTask.actualDuration !== null ? actualSpan(currentTask) : null;
                     dragStartPhaseId = currentTask.phaseId;
-                    currentTaskMinStart = 0;
+                    currentTaskMinStart = 0;       
 
                     dragIntendedStart = currentTask.start;
                     dragIntendedDuration = taskSpan(currentTask) || 0;
@@ -5583,6 +6241,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     draggedElement = e.currentTarget;
                     dragInitialStates = {};
 
+                    
                     selectedTaskIds.forEach((id) => {
                         const t = tasks.find(tsk => tsk.id === id);
                         if (t && !t.locked) {
@@ -5598,10 +6257,12 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         }
                     });
 
+                    
                     if (e.target.classList.contains("resize-handle")) {
                         isResizing = true;
                         resizeEdge = e.target.getAttribute("data-resize");
                         document.body.style.cursor = "col-resize";
+                        
                         selectedTaskIds.clear();
                         selectedTaskIds.add(taskId);
                         updateSelectionVisuals();
@@ -5613,10 +6274,12 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 });
             });
 
+            
             document.getElementById("gantt-bars").querySelectorAll(".phase-bar.phase-draggable").forEach((pb) => {
                 pb.addEventListener("mousedown", (e) => {
                     if (e.button !== 0) return;
                     const phaseId = pb.getAttribute("data-phase-id");
+                    
                     const subtreeIds = [phaseId];
                     for (let i = 0; i < subtreeIds.length; i++) {
                         phases.filter(p => p.parentId === subtreeIds[i]).forEach(c => subtreeIds.push(c.id));
@@ -5661,13 +6324,14 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 });
             });
 
+            
             document.querySelectorAll(".sidebar-task-row").forEach((row) => {
                 row.addEventListener("mousedown", (e) => {
-                    if (e.target.closest("input, select, textarea, button")) return;
+                    if (e.target.closest("input, select, textarea, button")) return;   
                     const taskId = row.getAttribute("data-id");
                     if (e.shiftKey && lastSelectedTaskId) {
                         selectRangeTo(taskId);
-                        e.preventDefault();
+                        e.preventDefault();          
                     } else if (e.ctrlKey || e.metaKey) {
                         if (selectedTaskIds.has(taskId)) selectedTaskIds.delete(taskId);
                         else selectedTaskIds.add(taskId);
@@ -5681,10 +6345,16 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 row.addEventListener("contextmenu", (e) => showTaskContextMenu(e, row.getAttribute("data-id")));
             });
 
+            
             document.getElementById("gantt-bars").querySelectorAll(".task-draggable").forEach((bar) => {
                 bar.addEventListener("contextmenu", (e) => showTaskContextMenu(e, bar.getAttribute("data-id")));
             });
         }
+
+        
+
+
+
 
         function updateLiveDeviation(taskEl, task, plannedDur, actualDur, phaseColor, isCrit) {
             const devBar = taskEl.querySelector(".deviation-bar");
@@ -5728,6 +6398,10 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             }
         }
 
+        
+
+
+
         function hasDependencyViolation(t) {
             if (!t || !t.dependsOn || t.dependsOn.length === 0) return false;
             return t.dependsOn.some(dep =>
@@ -5737,11 +6411,17 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             );
         }
 
+        
         function startOnCpmAxis(t) {
             const W = durationMode === "working";
             if (!W) return Math.max(0, t.start);
             return offsetToWorkIndex(t.type === "milestone" ? snapToWorkingDay(t.start, true) : t.start);
         }
+
+        
+
+
+
 
         function recomputeLagsFromCurrentPositions(task) {
             if (!task.dependsOn || task.dependsOn.length === 0) return;
@@ -5762,12 +6442,14 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             });
         }
 
+        
         window.addEventListener("mousemove", (e) => {
             if (!isPhaseDragging || !currentTask) return;
 
             const deltaX = e.clientX - dragStartX;
             let daysMoved = Math.round(deltaX / config.cellWidth);
 
+            
             let minStart = Infinity;
             Object.values(dragInitialStates).forEach(s => { if (s.start < minStart) minStart = s.start; });
             if (minStart !== Infinity && daysMoved < -minStart) daysMoved = -minStart;
@@ -5801,6 +6483,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             renderDependencies();
         });
 
+        
         window.addEventListener("mouseup", () => {
             if (!isPhaseDragging) return;
 
@@ -5824,6 +6507,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     movedTasks.push(task);
                 });
 
+                
                 movedTasks.forEach(t => recomputeLagsFromCurrentPositions(t));
 
                 saveState();
@@ -5838,6 +6522,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             dragInitialStates = {};
         });
 
+        
         window.addEventListener("mousemove", (e) => {
             if ((!isDragging && !isResizing) || !currentTask || !draggedElement) return;
 
@@ -5845,10 +6530,12 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             let daysMoved = Math.round(deltaX / config.cellWidth);
 
             if (isResizing) {
+                
                 const phaseObj = renderList.find(r => !r.isPhase && r.task.id === currentTask.id)?.phase;
                 const phaseColor = phaseObj ? phaseObj.color : "#000";
                 const isCrit = isCriticalPathActive && currentTask.isCritical;
 
+                
                 if (resizeEdge === "left") {
                     let newStart = initialStartDay + daysMoved;
                     if (newStart < currentTaskMinStart) { newStart = currentTaskMinStart; daysMoved = newStart - initialStartDay; }
@@ -5882,6 +6569,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         renderDependencies();
                     }
 
+                    
                 } else if (resizeEdge === "right-planned" || resizeEdge === "right") {
                     const newDuration = Math.max(1, initialDuration + daysMoved);
                     if (newDuration !== dragIntendedDuration) {
@@ -5900,6 +6588,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         renderDependencies();
                     }
 
+                    
                 } else if (resizeEdge === "right-actual") {
                     const newActDur = Math.max(1, initialActualDuration + daysMoved);
                     if (newActDur !== dragIntendedActualDuration) {
@@ -5911,6 +6600,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 return;
             }
 
+            
             const primaryNewStart = Math.max(currentTaskMinStart, initialStartDay + daysMoved);
             const effectiveDaysMoved = primaryNewStart - initialStartDay;
 
@@ -5945,6 +6635,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     visualTop -= state.element.classList.contains("milestone-diamond") ? 12 : 8;
                 }
 
+                
                 if (state.element.classList.contains("milestone-diamond") || state.element.style.width === "16px") {
                     state.element.style.left = `${visualLeft - 8}px`;
                     if (id === currentTask.id) state.element.style.top = `${visualTop + 12}px`;
@@ -5953,6 +6644,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     if (id === currentTask.id) state.element.style.top = `${visualTop + 8}px`;
                 }
 
+                
                 if (id === currentTask.id) {
                     taskPositions[id] = {
                         rowIndex: hoveredRowIdx,
@@ -5968,6 +6660,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             renderDependencies();
         });
 
+        
         window.addEventListener("mouseup", () => {
             if (!isDragging && !isResizing) return;
 
@@ -5995,11 +6688,17 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         let ns = Math.max(0, state.start + actualDaysMoved);
                         if (durationMode === "working" && task.type !== "milestone") ns = snapToWorkingDay(ns, true);
                         task.start = ns;
+                        
                         if (task.actualStart !== null) {
                             task.actualStart = Math.max(0, state.actualStart + actualDaysMoved);
                         }
                         task.phaseId = dragIntendedPhaseId;
                     }
+
+                    
+
+
+
 
                     if (task.start !== state.start && task.dependsOn && task.dependsOn.length > 0) {
                         const startOnAxis = (durationMode === "working" && task.type !== "milestone")
@@ -6030,6 +6729,15 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             draggedElement = null;
         });
 
+
+        
+
+
+
+
+
+
+
         function handleSidebarDragStart(e, taskId) {
             const task = tasks.find(t => t.id === taskId);
             if (task && task.locked) { e.preventDefault(); return; }
@@ -6042,6 +6750,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             draggedSidebarTaskId = taskId;
             e.dataTransfer.effectAllowed = "move";
 
+            
             document.querySelectorAll(".sidebar-task-row").forEach((row) => {
                 if (selectedTaskIds.has(row.getAttribute("data-id"))) row.style.opacity = "0.4";
             });
@@ -6078,6 +6787,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             e.stopPropagation();
             e.currentTarget.classList.remove("drag-over-target");
 
+            
             if (draggedSidebarTaskId && targetPhaseId !== null) {
                 let movedAny = false;
                 selectedTaskIds.forEach((id) => {
@@ -6094,9 +6804,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 return;
             }
 
+            
             if (draggedSidebarPhaseId) {
-                if (draggedSidebarPhaseId === targetPhaseId) return;
+                if (draggedSidebarPhaseId === targetPhaseId) return;     
 
+                
                 let cur = targetPhaseId ? phases.find(p => p.id === targetPhaseId) : null;
                 while (cur) {
                     if (cur.id === draggedSidebarPhaseId) {
@@ -6115,9 +6827,18 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             }
         }
 
+        
+
+
+
+
+
+
+
         function closePhaseModal() {
             document.getElementById("phase-modal").classList.add("hidden");
         }
+
 
         function addAdvContact() {
             const input = document.getElementById("adv-contact-input");
@@ -6340,11 +7061,13 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             input.focus();
         }
 
+
         function removeModalTag(tagToRemove) {
             if (currentModalLocked) return;
             currentModalTags = currentModalTags.filter((t) => t !== tagToRemove);
             renderModalTags();
         }
+
 
         function renderModalTags() {
             const container = document.getElementById("modal-tags-container");
@@ -6368,6 +7091,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             lucide.createIcons();
         }
 
+
         function toggleDashboard() {
             isDashboardMode = !isDashboardMode;
             const ganttView = document.getElementById("gantt-view");
@@ -6381,10 +7105,12 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 dashboardView.classList.remove("hidden");
                 dashboardView.classList.add("flex");
 
+                
                 toggleBtn.classList.replace("bg-slate-900", "bg-indigo-600");
                 toggleBtn.classList.replace("border-slate-900", "border-indigo-600");
                 toggleBtn.classList.replace("hover:bg-slate-800", "hover:bg-indigo-700");
 
+                
                 toggleBtn.innerHTML = '<i data-lucide="chart-gantt" class="w-3.5 h-3.5"></i> <span class="hide-on-min">Schedule</span>';
 
                 hideOnDash.forEach((el) => (el.style.display = "none"));
@@ -6396,10 +7122,12 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 dashboardView.classList.remove("flex");
                 ganttView.style.display = "flex";
 
+                
                 toggleBtn.classList.replace("bg-indigo-600", "bg-slate-900");
                 toggleBtn.classList.replace("border-indigo-600", "border-slate-900");
                 toggleBtn.classList.replace("hover:bg-indigo-700", "hover:bg-slate-800");
 
+                
                 toggleBtn.innerHTML = '<i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i> <span class="hide-on-min">Dashboard</span>';
 
                 hideOnDash.forEach((el) => (el.style.display = ""));
@@ -6407,8 +7135,10 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 dashFiller.classList.remove("block");
             }
 
+            
             lucide.createIcons();
         }
+
 
         function renderDashboard() {
             const today = new Date();
@@ -6493,9 +7223,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 ? phases.findIndex((p) => p.id === currentPhase.id) + 1 + ". "
                 : "";
 
+            
             let phaseMilestonesHtml = '';
             if (maxPlannedEndOffset !== -Infinity && maxPlannedEndOffset > 0) {
 
+                
                 tasks.filter(t => t.type === "milestone").forEach(m => {
                     let leftPct = Math.min(100, (m.start / maxPlannedEndOffset) * 100);
                     let milestoneDate = addDays(config.startDate, m.start);
@@ -6512,12 +7244,13 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         arrowAlignClass = "left-1.5";
                     }
 
+                    
                     phaseMilestonesHtml += `
-                        <div class="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 z-10 group"
+                        <div class="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 z-10 group" 
                              style="left: calc(${leftPct}% - 5px);">
-
+                            
                             <div class="w-full h-full rounded-full border border-white shadow-sm bg-slate-400 transition-transform duration-200 group-hover:scale-150"></div>
-
+                            
                             <div class="absolute bottom-full ${tooltipAlignClass} mb-2 px-1 py-1 bg-slate-800 rounded shadow-none opacity-0 group-hover:opacity-100 transition-all duration-0 pointer-events-none whitespace-nowrap flex flex-col items-center z-[60]">
                                 <span class="font-bold text-[9px] tracking-wider uppercase mb-0.5 text-white">${escapeHTML(m.name)}</span>
                                 <span class="text-slate-300 text-[8px] font-medium flex items-center gap-1">
@@ -6528,6 +7261,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         </div>`;
                 });
 
+                
                 phases.forEach((p) => {
                     let pMaxEnd = -Infinity;
                     let hasTasks = false;
@@ -6553,15 +7287,19 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                             arrowAlignClass = "left-1.5";
                         }
 
+                        
+                        
                         let isCurrentPhase = currentPhase && p.id === currentPhase.id;
+                        
                         let milestoneColor = isCurrentPhase ? p.color : "#ef4444";
 
+                        
                         phaseMilestonesHtml += `
-                            <div class="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 z-20 group"
+                            <div class="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 z-20 group" 
                                  style="left: calc(${leftPct}% - 7px);">
-
+                                
                                 <div class="w-full h-full rounded-full border-2 border-white shadow-sm transition-transform duration-200 group-hover:scale-125" style="background-color: ${milestoneColor};"></div>
-
+                                
                                 <div class="absolute bottom-full ${tooltipAlignClass} mb-2 px-1 py-1 bg-slate-800 rounded shadow-none opacity-0 group-hover:opacity-100 transition-all duration-0 pointer-events-none whitespace-nowrap flex flex-col items-center z-[60]">
                                     <span class="font-bold text-[9px] tracking-wider uppercase mb-0.5 text-white">${escapeHTML(p.name)}</span>
                                     <span class="text-slate-300 text-[8px] font-medium flex items-center gap-1">
@@ -6574,6 +7312,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
                 });
             }
+            
 
             gridEl.innerHTML = `
                 <div class="grid grid-cols-2 gap-4">
@@ -6638,6 +7377,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 </div>
             `;
 
+            
             if (ringChartInst) ringChartInst.destroy();
 
             let ringLabels = [];
@@ -6740,6 +7480,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 },
             });
 
+            
             if (lineChartInst) lineChartInst.destroy();
 
             let lineLabels = [];
@@ -6791,6 +7532,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 }
             }
 
+            
             let plannedPhaseEndsMap = {};
             let actualPhaseEndsMap = {};
 
@@ -6801,9 +7543,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
                 tasks.filter(t => t.phaseId === p.id).forEach(t => {
                     hasTasks = true;
+                    
                     const pEnd = taskEnd(t);
                     if (pEnd > maxP) maxP = pEnd;
 
+                    
                     const aEnd = (t.actualStart !== null && t.actualStart !== undefined && t.actualDuration !== null && t.actualDuration !== undefined)
                         ? t.actualStart + actualSpan(t)
                         : pEnd;
@@ -6913,6 +7657,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                                         currentCurrency
                                     );
                                 },
+                                
                                 afterLabel: function (context) {
                                     let isPlanned = context.datasetIndex === 0;
                                     let mapToUse = isPlanned ? plannedPhaseEndsMap : actualPhaseEndsMap;
@@ -6948,12 +7693,14 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 },
             });
 
+            
             if (barChartInst) barChartInst.destroy();
 
             let barLabels = [];
             let barData = [];
             let barBg = [];
 
+            
             function getTasksForPhaseTree(phaseId) {
                 let collectedTasks = tasks.filter(t => t.phaseId === phaseId);
                 let subPhases = phases.filter(p => p.parentId === phaseId);
@@ -6963,9 +7710,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 return collectedTasks;
             }
 
+            
             const globalLevelSelect = document.getElementById("global-dash-level");
             const targetDepth = globalLevelSelect ? parseInt(globalLevelSelect.value) : 0;
 
+            
             const displayPhases = phases.filter(p => {
                 let depth = 0;
                 let current = p;
@@ -6980,6 +7729,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             displayPhases.forEach((p, pIndex) => {
                 barLabels.push(`${pIndex + 1}. ${p.name}`);
 
+                
                 let pTasks = getTasksForPhaseTree(p.id);
 
                 if (pTasks.length === 0) {
@@ -6994,6 +7744,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 pTasks.forEach((t) => {
                     if (t.type === "milestone") return;
 
+                    
                     let s = t.actualStart !== null && t.actualStart !== undefined ? t.actualStart : t.start;
                     let d = t.actualDuration !== null && t.actualDuration !== undefined ? t.actualDuration : t.duration;
 
@@ -7014,6 +7765,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 } else if (pct === 0) {
                     barBg.push("#d1d5db");
                 } else {
+                    
                     let barColor = p.color;
                     if (!barColor && p.parentId) {
                         const parentPhase = phases.find(parent => parent.id === p.parentId);
@@ -7082,11 +7834,13 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             return collectedTasks;
         }
 
+
         function renderWaterfallChart() {
             const canvas = document.getElementById('dashWaterfallChart');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
 
+            
             function getTasksForPhaseTree(phaseId) {
                 let collectedTasks = tasks.filter(t => t.phaseId === phaseId);
                 let subPhases = phases.filter(p => p.parentId === phaseId);
@@ -7096,9 +7850,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 return collectedTasks;
             }
 
+            
             const globalLevelSelect = document.getElementById("global-dash-level");
             const targetDepth = globalLevelSelect ? parseInt(globalLevelSelect.value) : 0;
 
+            
             const displayPhases = phases.filter(p => {
                 let depth = 0;
                 let current = p;
@@ -7115,6 +7871,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             const data = [{ x: i18n("originalBudget"), y: [0, totalPlanned] }];
 
             displayPhases.forEach(p => {
+                
                 const pTasks = getTasksForPhaseTree(p.id);
 
                 const pPlanned = pTasks.reduce((sum, t) => sum + (t.budget || 0), 0);
@@ -7137,9 +7894,9 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         label: i18n("phaseVariance"),
                         data: data,
                         backgroundColor: (ctx) => {
-                            if (ctx.index === 0 || ctx.index === data.length - 1) return '#cbd5e1';
+                            if (ctx.index === 0 || ctx.index === data.length - 1) return '#cbd5e1'; 
                             const val = ctx.raw?.y;
-                            return val[1] > val[0] ? '#f43f5e' : '#22c55e';
+                            return val[1] > val[0] ? '#f43f5e' : '#22c55e'; 
                         },
                         borderRadius: 4
                     }]
@@ -7163,11 +7920,13 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             });
         }
 
+
         function renderSunburstChart() {
             const canvas = document.getElementById('dashSunburstChart');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
 
+            
             function getTasksForPhaseTree(phaseId) {
                 let collectedTasks = tasks.filter(t => t.phaseId === phaseId);
                 let subPhases = phases.filter(p => p.parentId === phaseId);
@@ -7177,9 +7936,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 return collectedTasks;
             }
 
+            
             const globalLevelSelect = document.getElementById("global-dash-level");
             const targetDepth = globalLevelSelect ? parseInt(globalLevelSelect.value) : 0;
 
+            
             const displayPhases = phases.filter(p => {
                 let depth = 0;
                 let current = p;
@@ -7207,6 +7968,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     phaseLabels.push(p.name);
                     phaseData.push(pTotal);
 
+                    
                     let pColor = p.color;
                     if (!pColor && p.parentId) {
                         const parentPhase = phases.find(parent => parent.id === p.parentId);
@@ -7222,6 +7984,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 }
             });
 
+            
             const legendEl = document.getElementById('sunburst-legend');
             if (legendEl) {
                 legendEl.innerHTML = displayPhases.map(p => {
@@ -7305,6 +8068,18 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             });
         }
 
+
+        
+
+
+
+
+
+
+
+
+
+
         const MPP_VERSIONS = {
             "14": { label: "MPP14", product: "Microsoft Project 2010 or later", dir: "   114" },
             "12": { label: "MPP12", product: "Microsoft Project 2007", dir: "   112" },
@@ -7312,8 +8087,26 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             "8": { label: "MPP8", product: "Microsoft Project 98", dir: "   1" }
         };
 
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         const MPP_MAGIC = 0xFADFADBA;
-        const MPP_EPOCH = Date.UTC(1983, 11, 31);
+        const MPP_EPOCH = Date.UTC(1983, 11, 31); 
 
         const mppU16 = (b, o) => b[o] | (b[o + 1] << 8);
         const mppI32 = (b, o) => (b[o] | (b[o + 1] << 8) | (b[o + 2] << 16) | (b[o + 3] << 24)) | 0;
@@ -7331,6 +8124,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
         const DUR_DIVISOR = { 3: 10, 4: 10, 5: 600, 6: 600, 7: 4800, 8: 14400, 9: 24000, 10: 100800, 11: 96000, 12: 432000 };
         function mppDurationDays(tenthMinutes, units) {
+            
             if (tenthMinutes === null) return null;
             return tenthMinutes / 4800;
         }
@@ -7348,7 +8142,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
         function parseVarMeta9(b) {
             if (mppU32(b, 0) !== MPP_MAGIC) throw new Error("VarMeta9: bad magic");
             const itemCount = mppU32(b, 8);
-            const table = new Map();
+            const table = new Map(); 
             let p = 24;
             for (let i = 0; i < itemCount; i++) {
                 const uid = b[p] | (b[p + 1] << 8) | (b[p + 2] << 16);
@@ -7362,7 +8156,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
         }
 
         function parseVar2Data(b, varMeta) {
-            const data = new Map();
+            const data = new Map(); 
             for (const m of varMeta.values()) {
                 for (const off of m.values()) {
                     if (off >= b.length || data.has(off)) continue;
@@ -7399,7 +8193,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
         function parseFixedData(fixedMeta, b, maxExpectedSize) {
             const n = fixedMeta.items.length;
-            const out = [];
+            const out = []; 
             for (let i = 0; i < n; i++) {
                 const off = mppI32(fixedMeta.items[i], 4);
                 if (off < 0 || off > b.length) { out.push(null); continue; }
@@ -7426,6 +8220,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 return c instanceof Uint8Array ? c : new Uint8Array(c);
             };
 
+            
             const varMeta = parseVarMeta9(need("   19/TBkndTask/VarMeta"));
             const varData = parseVar2Data(need("   19/TBkndTask/Var2Data"), varMeta);
             const fixedMeta = parseFixedMeta(need("   19/TBkndTask/FixedMeta"), 47);
@@ -7436,8 +8231,8 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 const item = fixedData[i];
                 if (!item) continue;
                 const d = item.data;
-                if (d.length === 8) continue;
-                if (d.length < 126) continue;
+                if (d.length === 8) continue;              
+                if (d.length < 126) continue;              
                 const uid = mppI32(d, 0);
                 if (uid < 0) continue;
                 const meta = fixedMeta.items[i];
@@ -7460,10 +8255,12 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             }
             tasks.sort((a, b) => a.id - b.id);
 
+            
             for (let i = 0; i < tasks.length; i++) {
                 tasks[i].summary = i + 1 < tasks.length && tasks[i + 1].outlineLevel > tasks[i].outlineLevel;
             }
 
+            
             const links = [];
             const consMetaB = find("   19/TBkndCons/FixedMeta");
             const consDataB = find("   19/TBkndCons/FixedData");
@@ -7474,7 +8271,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 consData.forEach((it, idx) => { if (it) byOffset.set(it.offset, idx); });
                 for (let i = 0; i < consMeta.itemCount && i < consMeta.items.length; i++) {
                     const meta = consMeta.items[i];
-                    if (mppU16(meta, 0) !== 0) continue;
+                    if (mppU16(meta, 0) !== 0) continue;                 
                     const idx = byOffset.get(mppI32(meta, 4));
                     if (idx === undefined) continue;
                     const d = consData[idx].data;
@@ -7493,6 +8290,8 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             return { tasks, links };
         }
 
+
+        
         function parseVarMeta12(b) {
             const magic = mppU32(b, 0);
             if (magic !== 0 && magic !== MPP_MAGIC) throw new Error("VarMeta12: bad magic (encrypted file?)");
@@ -7540,22 +8339,22 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             const fixed2Meta = parseFixedMetaHeuristic(need("   114/TBkndTask/Fixed2Meta"), fixedMeta.items.length, [92, 93, 94, 95, 96]);
             const fixed2Data = parseFixedData(fixed2Meta, need("   114/TBkndTask/Fixed2Data"), 0);
 
-            const byUid = new Map();
+            const byUid = new Map();   
             for (let i = 3; i < fixedData.length; i++) {
                 const item = fixedData[i], item2 = fixed2Data[i];
                 if (!item || !item2) continue;
                 const meta = fixedMeta.items[i];
-                if ((mppI32(meta, 0) & 0x02) !== 0) continue;
+                if ((mppI32(meta, 0) & 0x02) !== 0) continue;      
                 const d = item.data, d2 = item2.data;
-                if (d.length === 16 || d.length < 92) continue;
+                if (d.length === 16 || d.length < 92) continue;    
                 const uid = mppI32(d, 0);
                 if (uid < 0 || (uid !== 0 && !varMeta.has(uid))) continue;
                 const name = varData.str(uid, 14);
                 const durTenthMin = mppI32(d, 42);
                 let start = d2.length >= 58 ? mppTimestamp(d2, 50) : null;
                 let finish = d2.length >= 58 ? mppTimestamp(d2, 54) : null;
-                if (!start) start = mppTimestamp(d, 64);
-                if (!finish) finish = mppTimestamp(d, 68);
+                if (!start) start = mppTimestamp(d, 64);       
+                if (!finish) finish = mppTimestamp(d, 68);     
                 byUid.set(uid, {
                     uniqueID: uid,
                     id: mppI32(d, 4),
@@ -7593,6 +8392,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     if (d.length < 14) continue;
                     const pred = mppI32(d, 4), succ = mppI32(d, 8);
                     if (pred === 0 || succ === 0 || pred === succ) continue;
+                    
                     let lagDays = 0;
                     if (d.length >= 20) {
                         if (MPP_PLAUSIBLE_UNITS.has(mppU16(d, 14))) lagDays = mppI32(d, 16) / 4800;
@@ -7604,11 +8404,13 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             return { tasks, links };
         }
 
+        
         function applyMpp9Project(parsed, fileName) {
             const { tasks: mppTasks, links } = parsed;
             const real = mppTasks.filter(t => t.name && t.start);
             if (real.length === 0) { showWarningToast(tt("mppNoTasks", "No readable tasks found in this MPP file.")); return false; }
 
+            
             let minStart = Infinity;
             real.forEach(t => { const ms = t.start.getTime(); if (ms < minStart) minStart = ms; });
             const projStart = new Date(minStart);
@@ -7617,11 +8419,12 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
             const newPhases = [];
             const newTasks = [];
-            const phaseByUid = {};
-            const taskByUid = {};
+            const phaseByUid = {};      
+            const taskByUid = {};       
             const palette = colorPalette;
             let colorIdx = 0;
 
+            
             const projectSummary = real.find(t => t.outlineLevel === 0);
 
             real.forEach(t => {
@@ -7666,7 +8469,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             tasks = newTasks;
             phases = newPhases;
             config.startDate = projStart;
-            durationMode = "working";
+            durationMode = "working";           
             calInvalidate();
             if (projectSummary && projectSummary.name) {
                 document.getElementById("project-title-text").innerText = projectSummary.name;
@@ -7680,6 +8483,8 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             showWarningToast(tt("mppImported", "Imported") + " " + newTasks.length + " " + tt("tasksWord", "tasks") + ", " + newPhases.length + " " + tt("phasesWord", "phases") + " (" + fileName + ")");
             return true;
         }
+
+        
 
         function findAncestorPhase(t, ordered, phaseByUid) {
             const idx = ordered.indexOf(t);
@@ -7695,17 +8500,20 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
         function analyzeMppFile(uint8) {
             const result = { isCfb: false, version: null, isTemplate: false, cfb: null, projectDirFound: false };
 
+            
             const magic = [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1];
             result.isCfb = uint8.length > 8 && magic.every((b, i) => uint8[i] === b);
             if (!result.isCfb) return result;
 
             const scanAscii = (bytes) => {
+                
                 const txt = Array.from(bytes, b => (b >= 32 && b < 127) ? String.fromCharCode(b) : "\u0000").join("");
                 const m = txt.match(/MSProject\.(MPP|MPT|GLOBAL)(\d+)/);
                 return m ? { kind: m[1], version: m[2] } : null;
             };
 
             let hit = null;
+            
             try {
                 if (typeof XLSX !== "undefined" && XLSX.CFB && XLSX.CFB.read) {
                     const cfb = XLSX.CFB.read(uint8, { type: "array" });
@@ -7722,6 +8530,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 }
             } catch (e) {  }
 
+            
             if (!hit) hit = scanAscii(uint8.subarray(0, Math.min(uint8.length, 512 * 1024)));
 
             if (hit) {
@@ -7743,6 +8552,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 title = tt("invalidFileFormat", "Invalid file format.");
                 msg = tt("mppNotCfb", `"${fileName}" is not a valid Microsoft Project MPP file (wrong container format). If it was exported by another tool, try requesting MS Project XML instead.`);
             } else if ((info.version === "9" || info.version === "14") && info.cfb && info.projectDirFound && !info.isTemplate) {
+                
                 try {
                     const parsed = info.version === "9" ? readMpp9(info.cfb, XLSX.CFB) : readMpp14(info.cfb);
                     if (applyMpp9Project(parsed, fileName)) return;
@@ -7755,6 +8565,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 const v = MPP_VERSIONS[info.version];
                 const kind = info.isTemplate ? tt("mppTemplateWord", "template") : tt("mppFileWord", "file");
                 if (info.version === "14" || info.version === "9") {
+                    
                     msg = `${tt("mppIsA", "This is a")} ${v.product} ${kind} (${v.label}). ` + xmlHint;
                 } else {
                     msg = `${tt("mppIsA", "This is a")} ${v.product} ${kind} (${v.label}). ` +
@@ -7834,9 +8645,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             }
         }
 
+
+        
         const WEEKDAY_SHORT = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-        const WEEKDAY_ORDER = [1, 2, 3, 4, 5, 6, 0];
-        let _pendingCalendar = null;
+        const WEEKDAY_ORDER = [1, 2, 3, 4, 5, 6, 0];   
+        let _pendingCalendar = null;   
 
         function renderCalendarSettings() {
             if (!_pendingCalendar) _pendingCalendar = JSON.parse(JSON.stringify(calendar));
@@ -7858,7 +8671,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             populateCountryDatalist();
         }
         function uiToggleWeekday(i) {
-            if (_pendingCalendar.workweek.filter(Boolean).length === 1 && _pendingCalendar.workweek[i]) return;
+            if (_pendingCalendar.workweek.filter(Boolean).length === 1 && _pendingCalendar.workweek[i]) return; 
             _pendingCalendar.workweek[i] = !_pendingCalendar.workweek[i];
             renderCalendarSettings();
         }
@@ -7899,6 +8712,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             rebasePlan(n);
             document.getElementById("settings-rebase-days").value = 0;
         }
+        
         function commitCalendarSettings() {
             if (_pendingCalendar) {
                 calendar = JSON.parse(JSON.stringify(_pendingCalendar));
@@ -7906,13 +8720,14 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             }
             const wantWorking = document.getElementById("settings-working-mode").checked;
             const wantMode = wantWorking ? "working" : "calendar";
-            if (wantMode !== durationMode) setDurationMode(wantMode);
+            if (wantMode !== durationMode) setDurationMode(wantMode);   
         }
 
         function openProjectSettingsModal() {
             const titleSpan = document.getElementById("project-title-text");
             document.getElementById("settings-project-title").value = titleSpan.innerText;
 
+            
             let minStart = Infinity;
             tasks.forEach((t) => {
                 if (t.start < minStart) minStart = t.start;
@@ -7942,11 +8757,13 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             lucide.createIcons();
         }
 
+
         function closeProjectSettingsModal() {
             const modal = document.getElementById("project-settings-modal");
             modal.classList.add("hidden");
             modal.classList.remove("flex");
         }
+
 
         function clearProject() {
             closeProjectSettingsModal();
@@ -7955,13 +8772,16 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 "Clear Project",
                 "Are you sure you want to clear the entire project? This will delete all phases and tasks. This action cannot be undone.",
                 () => {
+                    
                     tasks = [];
                     phases = [];
 
+                    
                     document.getElementById("project-title-text").innerText = "New Project";
                     overallBudget = 0;
                     document.getElementById("sidebar-budget-input").value = 0;
 
+                    
                     saveState();
                     updateAndRenderAll();
 
@@ -7971,6 +8791,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 }
             );
         }
+
 
         function saveProjectSettings() {
             const newTitle = document.getElementById("settings-project-title").value.trim();
@@ -7982,6 +8803,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             if (newDateStr) {
                 const newDate = parseLocal(newDateStr);
                 if (!isNaN(newDate)) {
+                    
                     let minStart = Infinity;
                     tasks.forEach((t) => {
                         if (t.start < minStart) minStart = t.start;
@@ -7992,6 +8814,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     const deltaDays = diffDays(currentProjectStart, newDate);
 
                     if (deltaDays !== 0) {
+                        
                         config.startDate = addDays(config.startDate, deltaDays);
                     }
                 }
@@ -8013,6 +8836,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             closeProjectSettingsModal();
             updateAndRenderAll();
         }
+
 
         function openActiveTaskModal() {
             const todayOffset = getTodayOffset();
@@ -8040,6 +8864,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         ? escapeHTML(t.assignments)
                         : '<span class="text-gray-400 italic">None specified</span>';
 
+                    
                     const sComments = t.comments
                         ? escapeHTML(t.comments)
                         : '<span class="text-gray-400 italic">None specified</span>';
@@ -8084,14 +8909,17 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             document.getElementById("active-task-modal").classList.remove("hidden");
         }
 
+
         function closeActiveTaskModal() {
             document.getElementById("active-task-modal").classList.add("hidden");
         }
+
 
         function toggleTaskLock() {
             currentModalLocked = !currentModalLocked;
             applyLockStateToModal();
         }
+
 
         function applyLockStateToModal() {
             const btn = document.getElementById("modal-lock-btn");
@@ -8126,6 +8954,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     el.classList.toggle("hidden", currentModalLocked)
                 );
 
+            
             const addDepBtn = document.querySelector("button[onclick='addDependencyRow()']");
             if (addDepBtn) {
                 addDepBtn.disabled = currentModalLocked;
@@ -8136,6 +8965,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
             handleModalLabelChange();
         }
+
 
         function toggleDeviationArea() {
             if (currentModalLocked) {
@@ -8169,6 +8999,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 updateModalActualDuration();
             }
         }
+
 
         function openNewTaskModal(preselectPhaseId = null, event = null) {
             if (event) event.stopPropagation();
@@ -8229,6 +9060,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             document.getElementById("task-modal").classList.remove("hidden");
         }
 
+
         function copyPlannedToActual() {
             document.getElementById("modal-actual-start").value =
                 document.getElementById("modal-start").value;
@@ -8239,6 +9071,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             updateModalActualDuration();
             checkWeekendColors();
         }
+
 
         function updateModalDuration() {
             const type = document.getElementById("modal-type").value;
@@ -8262,6 +9095,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 display.value = 1;
             }
         }
+
 
         function updateModalActualDuration() {
             const type = document.getElementById("modal-type").value;
@@ -8292,6 +9126,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             }
         }
 
+
         function checkWeekendColors() {
             const processInput = (id) => {
                 const input = document.getElementById(id);
@@ -8321,6 +9156,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             processInput("modal-actual-end");
         }
 
+
         function adjustModalDuration(delta) {
             const type = document.getElementById("modal-type").value;
             if (type === "milestone") return;
@@ -8344,6 +9180,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             checkWeekendColors();
         }
 
+
         function adjustModalActualDuration(delta) {
             const type = document.getElementById("modal-type").value;
             if (type === "milestone") return;
@@ -8365,6 +9202,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             updateModalActualDuration();
             checkWeekendColors();
         }
+
 
         function toggleDurationField() {
             const type = document.getElementById("modal-type").value;
@@ -8404,9 +9242,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             }
         }
 
+
         function closeModal() {
             document.getElementById("task-modal").classList.add("hidden");
         }
+
 
         function updatePresetSelectionFromCurrent() {
             const c0 = document.getElementById("adv-color-0").value.toLowerCase();
@@ -8416,6 +9256,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
             const presets = [
                 ["#4f46e5", "#0ea5e9", "#8b5cf6", "#f43f5e"],
+                
                 ["#0460a9", "#a13323", "#ec7f22", "#ffd430"],
                 ["#0b41cd", "#1482fa", "#ed4a0d", "#f68a08"],
                 ["#2f32f3", "#f5006a", "#fb590e", "#feaf0c"],
@@ -8454,12 +9295,14 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             });
         }
 
+
         function openAdvancedOptions() {
             document.getElementById("adv-color-0").value = colorPalette[0].color;
             document.getElementById("adv-color-1").value = colorPalette[1].color;
             document.getElementById("adv-color-2").value = colorPalette[2].color;
             document.getElementById("adv-color-3").value = colorPalette[3].color;
 
+            
             if (document.getElementById("adv-col-contact")) document.getElementById("adv-col-contact").checked = showColContact;
             if (document.getElementById("adv-col-resources")) document.getElementById("adv-col-resources").checked = showColResources;
             if (document.getElementById("adv-col-depends")) document.getElementById("adv-col-depends").checked = showColDepends;
@@ -8473,11 +9316,13 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             document.getElementById("advanced-options-modal").classList.remove("hidden");
         }
 
+
         function closeAdvancedOptions() {
             document
                 .getElementById("advanced-options-modal")
                 .classList.add("hidden");
         }
+
 
         function applyPresetPalette(colors, index) {
             document.getElementById("adv-color-0").value = colors[0];
@@ -8487,12 +9332,14 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             updatePresetSelectionFromCurrent();
         }
 
+
         function clearPresetSelection() {
             document.querySelectorAll(".preset-btn").forEach((btn) => {
                 btn.classList.remove("ring-2", "ring-brand-primary", "ring-offset-1");
                 btn.classList.add("border-transparent");
             });
         }
+
 
         function saveAdvancedOptions() {
             const colorWeight = 0.12;
@@ -8505,6 +9352,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             colorPalette[3].color = document.getElementById("adv-color-3").value;
             colorPalette[3].lightColor = hexToLight(colorPalette[3].color, colorWeight);
 
+            
             if (document.getElementById("adv-col-contact")) showColContact = document.getElementById("adv-col-contact").checked;
             if (document.getElementById("adv-col-resources")) showColResources = document.getElementById("adv-col-resources").checked;
             if (document.getElementById("adv-col-depends")) showColDepends = document.getElementById("adv-col-depends").checked;
@@ -8520,6 +9368,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             updateAndRenderAll();
             if (isDashboardMode) renderDashboard();
         }
+
 
         function openPhaseModal(phaseId = null, parentId = null, event = null) {
             if (event) event.stopPropagation();
@@ -8550,6 +9399,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             setTimeout(() => nameInput.focus(), 100);
         }
 
+
         function savePhaseModal() {
             const id = document.getElementById("phase-modal-id").value;
             const parentId = document.getElementById("phase-modal-parent-id").value || null;
@@ -8577,6 +9427,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             updateAndRenderAll();
         }
 
+
         function populateSelects(currentTaskId = null) {
             const phaseSelect = document.getElementById("modal-phase");
             phaseSelect.innerHTML = phases.map((p) => `<option value="${p.id}">${p.parentId ? '&nbsp;&nbsp;↳ ' : ''}${escapeHTML(p.name)}</option>`).join("");
@@ -8587,10 +9438,12 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     if (t.id === currentTaskId) {
                         optionsHtml += `<option value="${t.id}" disabled>>> ${pIndex + 1}.${tIndex + 1} ${escapeHTML(t.name)} (${i18nEsc("currentTask")})</option>`;
                     } else {
+                        
                         optionsHtml += `<option value="${t.id}">${t.wbs ? t.wbs + ' ' : ''}${escapeHTML(t.name)}</option>`;
                     }
                 });
             });
+            
             window.currentTaskOptionsHtml = optionsHtml;
         }
 
@@ -8599,6 +9452,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             const row = document.createElement("div");
             row.className = "flex items-center gap-2 dep-row";
 
+            
             const dis = currentModalLocked ? "disabled" : "";
             const hid = currentModalLocked ? "hidden" : "";
 
@@ -8640,10 +9494,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             });
         }
 
+
         function deleteTaskFast(id, event) {
             if (event) event.stopPropagation();
             openConfirmModal(i18n("deleteTask"), i18n("confirmDeleteTask"), () => {
-                selectedTaskIds.delete(id);
+                selectedTaskIds.delete(id); 
                 tasks = tasks.filter((t) => t.id !== id);
                 tasks.forEach((t) => {
                     t.dependsOn = t.dependsOn.filter((dep) => dep.id !== id);
@@ -8653,11 +9508,12 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             });
         }
 
+
         function deleteTask() {
             const id = document.getElementById("modal-id").value;
             if (!id) return;
             openConfirmModal(i18n("deleteTask"), i18n("confirmDeleteTask"), () => {
-                selectedTaskIds.delete(id);
+                selectedTaskIds.delete(id); 
                 tasks = tasks.filter((t) => t.id !== id);
                 tasks.forEach((t) => {
                     t.dependsOn = t.dependsOn.filter((dep) => dep.id !== id);
@@ -8726,13 +9582,14 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
             document.getElementById("modal-actual-budget").value = task.actualBudget !== null && task.actualBudget !== undefined ? task.actualBudget : "";
 
+            
             const depListContainer = document.getElementById("modal-dependencies-list");
-            depListContainer.innerHTML = "";
+            depListContainer.innerHTML = ""; 
 
             if (task.dependsOn && task.dependsOn.length > 0) {
                 task.dependsOn.forEach(dep => addDependencyRow(dep));
             } else {
-                addDependencyRow();
+                addDependencyRow(); 
             }
 
             toggleDurationField();
@@ -8740,8 +9597,10 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             updateModalActualDuration();
             checkWeekendColors();
 
+            
             document.getElementById("task-modal").classList.remove("hidden");
         }
+
 
         function saveTask() {
             const id = document.getElementById("modal-id").value;
@@ -8782,6 +9641,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 }
             }
 
+            
             const depArray = [];
             const depRows = document.querySelectorAll('.dep-row');
 
@@ -8795,7 +9655,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         alert(i18n("selfDependencyRemoved"));
                         return;
                     }
+                    
                     if (!depArray.find(d => d.id === targetId)) {
+                        
+                        
+                        
                         if (id && wouldCreateCycle(targetId, id)) {
                             showWarningToast(i18n("cycleBlocked") !== "cycleBlocked"
                                 ? i18n("cycleBlocked")
@@ -8811,7 +9675,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 const task = tasks.find((t) => t.id === id);
                 task.name = name; task.label = labelVal; task.type = type; task.phaseId = phaseId; task.start = startOffset; task.duration = duration;
                 task.dependsOn = depArray;
-                task.contact = contact; task.budget = budget; task.resources = resources; task.assignments = assignments; task.comments = comments;
+                task.contact = contact; task.budget = budget; task.resources = resources; task.assignments = assignments; task.comments = comments; 
                 task.actualStart = actStartOff; task.actualDuration = actDur; task.actualBudget = actBudget;
                 task.locked = currentModalLocked; task.tags = [...currentModalTags];
             } else {
@@ -8819,7 +9683,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     id: "t_" + Math.random().toString(36).substr(2, 9),
                     name: name, label: labelVal, type: type, phaseId: phaseId, start: startOffset, duration: duration,
                     dependsOn: depArray,
-                    contact: contact, budget: budget, resources: resources, assignments: assignments, comments: comments,
+                    contact: contact, budget: budget, resources: resources, assignments: assignments, comments: comments, 
                     actualStart: actStartOff, actualDuration: actDur, actualBudget: actBudget,
                     locked: currentModalLocked, tags: [...currentModalTags],
                 });
@@ -8830,6 +9694,18 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             updateAndRenderAll();
             if (isDashboardMode) renderDashboard();
         }
+
+        
+        
+        
+        
+        
+
+
+
+
+
+
 
         let lastInfoAoa = null;
         const TLC_DIR = ['.liteaeco', 'cache'];
@@ -8855,7 +9731,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             const readBlock = (marker, fn, max) => {
                 let i = aoa.findIndex(r => r && String(r[0] || '').trim().toUpperCase() === marker);
                 if (i === -1) return;
-                for (let k = i + 2; k < aoa.length; k++) {
+                for (let k = i + 2; k < aoa.length; k++) {   
                     const r = aoa[k];
                     if (!r || !String(r[0] || '').trim()) break;
                     if (/^---/.test(String(r[0]).trim())) break;
@@ -8877,6 +9753,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 try { pin = cde.trust && cde.trust.getPin ? await cde.trust.getPin(ctx.guid) : null; } catch (e) { }
                 const st = await cde.loadState(ctx.handle, { pinnedRoot: pin });
                 let main = (st.project && st.project.mainTimeline) || '';
+                
                 if (!main && !(st.trust && st.trust.enabled)) {
                     const m = await cde.readManifest(ctx.handle);
                     main = (m && m.mainTimeline) || '';
@@ -8922,6 +9799,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     const aoaTimeline = [
                         ["Project Title", title], ["Planned end date", plannedDateStr], ["Deviation in days", projectDeviation > 0 ? "+" + projectDeviation : projectDeviation],
                         ["Planned Budget", totalPlanned], ["Actual Budget", totalActual], [],
+                        
                         ["Phase", "Task Name", "Start Date", "End Date", "Predecessor", "Contact Person", "Task Budget", "Resources", "Assignments", "Actual Start", "Actual End", "Actual Budget", "Locked", "Tags", "Label", "Comments"],
                     ];
 
@@ -8934,6 +9812,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                             const startD = addDays(config.startDate, t.start);
                             const endD = addDays(config.startDate, taskEnd(t));
 
+                            
                             const predNames = t.dependsOn.map(dep => {
                                 const pt = tasks.find(p => p.id === dep.id);
                                 if (!pt) return "";
@@ -8955,7 +9834,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                             aoaTimeline.push([
                                 "", `${indentSpace}${item.wbs} ${t.name}`, formatDateInput(startD), formatDateInput(endD),
                                 predNames, t.contact || "", t.budget || 0, t.resources || "", t.assignments || "",
-                                aStartStr, aEndStr, aBudget, t.locked ? "Y" : "N", tagStr, t.label || "", t.comments || ""
+                                aStartStr, aEndStr, aBudget, t.locked ? "Y" : "N", tagStr, t.label || "", t.comments || "" 
                             ]);
                         }
                     });
@@ -9008,6 +9887,8 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
                         XLSX.utils.book_append_sheet(wb, wsTimeline, "Timeline");
                         XLSX.utils.book_append_sheet(wb, wsSetup, "Setup");
+                        
+                        
                         XLSX.utils.book_append_sheet(wb, buildInfoSheet(), "INFO");
             return { wb, title, dateStr };
         }
@@ -9027,12 +9908,13 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         setTimeout(hideLoader, 500);
                     }, 50);
                 } catch (e) {
-                    generateRenderList(false);
+                    generateRenderList(false); 
                     alert(i18n("errorExportingExcelFile"));
                     hideLoader();
                 }
             }, 50);
         }
+
 
         function exportXML() {
             showLoader("Preparing XML export...", 10);
@@ -9043,6 +9925,9 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     generateRenderList(false);
 
                     const title = escapeHTML(document.getElementById("project-title-text").innerText);
+                    
+                    
+                    
                     const dateStr = `${String(config.startDate.getFullYear()).slice(-2)}${String(config.startDate.getMonth() + 1).padStart(2, "0")}${String(config.startDate.getDate()).padStart(2, "0")}`;
                     let xml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Project xmlns="http://schemas.microsoft.com/project">\n<Name>${title}</Name>\n`;
                     const projectStartStr = `${config.startDate.toISOString().split("T")[0]}T08:00:00`;
@@ -9080,8 +9965,10 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                             }
                             if (t.actualBudget !== null && t.actualBudget !== undefined) actualStr += `\n    <ActualCost>${t.actualBudget}</ActualCost>`;
 
+                            
                             const notesStr = t.comments ? `\n    <Notes>${escapeHTML(t.comments)}</Notes>` : "";
 
+                            
                             xml += `  <Task>\n    <UID>${uid}</UID>\n    <ID>${idCounter++}</ID>\n    <Name>${escapeHTML(t.name)}</Name>\n    <WBS>${item.wbs}</WBS>\n    <OutlineLevel>${outlineLevel}</OutlineLevel>\n    <Start>${startD.toISOString().split("T")[0]}T08:00:00</Start>\n    <Finish>${endD.toISOString().split("T")[0]}T17:00:00</Finish>\n    <Duration>${durationISO}</Duration>\n    <Milestone>${isMilestone}</Milestone>\n    <Cost>${t.budget || 0}</Cost>\n    <Contact>${escapeHTML(t.contact || "")}</Contact>${notesStr}${actualStr}\n`;
 
                             if (t.dependsOn && t.dependsOn.length > 0) {
@@ -9091,7 +9978,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                                         if (dep.type === 'FF') typeVal = 0;
                                         if (dep.type === 'SF') typeVal = 2;
                                         if (dep.type === 'SS') typeVal = 3;
-                                        let lagVal = (dep.lag || 0) * 4800;
+                                        let lagVal = (dep.lag || 0) * 4800; 
                                         xml += `    <PredecessorLink>\n      <PredecessorUID>${idMap[dep.id]}</PredecessorUID>\n      <Type>${typeVal}</Type>\n      <LinkLag>${lagVal}</LinkLag>\n    </PredecessorLink>\n`;
                                     }
                                 });
@@ -9119,7 +10006,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         setTimeout(hideLoader, 500);
                     }, 500);
                 } catch (e) {
-                    generateRenderList(false);
+                    generateRenderList(false); 
                     alert(i18n("errorFormattingXmlFile"));
                     hideLoader();
                 }
@@ -9128,14 +10015,19 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
         function parseAndLoadExcel(workbook) {
             let sawDurationMode = false;
-            durationMode = "calendar";
+            durationMode = "calendar";   
             calInvalidate();
             if (!workbook || !workbook.SheetNames || workbook.SheetNames.length === 0) return alert(i18n("invalidFileFormat"));
 
             window.__nativeTimelineImport = false;
             if (workbook.SheetNames.includes("INFO")) {
                 const infoAoA = XLSX.utils.sheet_to_json(workbook.Sheets["INFO"], { header: 1, raw: false, defval: "" });
+                
                 window.__nativeTimelineImport = !!(infoAoA[1] && String(infoAoA[1][0] || "").trim() === "Project Timeline");
+                
+                
+                
+                
                 if (!window.__cdeCtx) parseProjectInfoAoA(infoAoA);
             }
 
@@ -9168,6 +10060,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 else if (key === "Show Task Budget") { showTaskBudget = parseBoolOpt(val); document.getElementById("sidebar-taskbudget-toggle").checked = showTaskBudget; }
                 else if (key === "Show Task Tags") { showTaskTags = parseBoolOpt(val); document.getElementById("sidebar-tags-toggle").checked = showTaskTags; }
 
+                
                 else if (key === "Show Col Contact") {
                     showColContact = parseBoolOpt(val);
                     const cb = document.getElementById("adv-col-contact");
@@ -9188,6 +10081,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                     const cb = document.getElementById("adv-col-budget");
                     if (cb) cb.checked = showColBudget;
                 }
+                
 
                 else if (key === "Color 1" && val) colorPalette[0].color = val;
                 else if (key === "Color 2" && val) colorPalette[1].color = val;
@@ -9212,17 +10106,23 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
             let newPhases = []; let newTasks = [];
             const headerRow = timelineRows[0] || [];
+            
             let colName = -1, colStart = -1, colEnd = -1, colPred = -1, colContact = -1;
 
             for (let i = 0; i < headerRow.length; i++) {
                 let h = String(headerRow[i]).trim().toLowerCase();
+                
                 if (colName === -1 && (h.includes("name") || h.includes("vorgang") || h.includes("tâche") || h.includes("tarea"))) colName = i;
+                
                 else if (colStart === -1 && (h.includes("start") || h.includes("anfang") || h.includes("début") || h.includes("comienzo") || h.includes("inicio"))) colStart = i;
                 else if (colEnd === -1 && (h.includes("finish") || h.includes("ende") || h.includes("fin"))) colEnd = i;
+                
                 else if (colPred === -1 && (h.includes("pred") || h.includes("vorgänger") || h.includes("vorganger") || h.includes("préd") || h.includes("predec"))) colPred = i;
+                
                 else if (colContact === -1 && (h.includes("res") || h.includes("ressource") || h.includes("recurso"))) colContact = i;
             }
 
+            
             if (colPred === -1) {
                 for (let i = 1; i < Math.min(timelineRows.length, 15); i++) {
                     let r = timelineRows[i];
@@ -9237,6 +10137,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 }
             }
 
+            
             const isMSPExcel = colName !== -1 && colStart !== -1;
 
             if (isMSPExcel) {
@@ -9245,8 +10146,11 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 for (let i = 1; i < timelineRows.length; i++) {
                     const r = timelineRows[i];
 
+                    
                     if (!r || r.length === 0 || r[colName] === undefined || r[colName] === "") continue;
 
+                    
+                    
                     const mspId = String(i);
 
                     let dStr = String(r[colStart] || "").replace(/^[a-zA-Zäöüß]+\s+/, '').trim();
@@ -9331,6 +10235,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         const taskId = "t_" + Math.random().toString(36).substr(2, 9);
                         mspIdMap[data.mspId] = taskId;
 
+                        
                         const predStr = colPred !== -1 ? String(r[colPred] || "") : "";
 
                         let parsedPreds = predStr.split(/[,;]/).map(p => {
@@ -9341,7 +10246,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                                 let finalType = typeMap[rawType] || rawType;
 
                                 return {
-                                    id: match[1],
+                                    id: match[1], 
                                     type: finalType,
                                     lag: match[3] ? parseFloat(match[3].replace(/\s+/g, '')) : 0
                                 };
@@ -9363,6 +10268,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 newTasks.forEach(t => {
                     if (t._mspPredIds) {
                         t._mspPredIds.forEach(pObj => {
+                            
                             if (mspIdMap[pObj.id] && mspIdMap[pObj.id].startsWith("t_")) {
                                 t.dependsOn.push({ id: mspIdMap[pObj.id], type: pObj.type, lag: pObj.lag });
                             }
@@ -9479,14 +10385,14 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 newTasks.forEach((t) => {
                     if (t._predNameTemp) {
                         const predNames = t._predNameTemp.split(',').map(s => {
-                            let clean = s.trim().replace(/^[\d\.]+\s+/, "").trim();
-                            clean = clean.replace(/\s+(FS|SS|FF|SF)([+-]\d+.*?)*$/i, "").trim();
+                            let clean = s.trim().replace(/^[\d\.]+\s+/, "").trim(); 
+                            clean = clean.replace(/\s+(FS|SS|FF|SF)([+-]\d+.*?)*$/i, "").trim(); 
                             return clean;
                         });
 
                         predNames.forEach(cleanName => {
                             if (cleanName && taskNameMap[cleanName]) {
-                                t.dependsOn.push({ id: taskNameMap[cleanName], type: "FS", lag: 0 });
+                                t.dependsOn.push({ id: taskNameMap[cleanName], type: "FS", lag: 0 }); 
                             }
                         });
                     }
@@ -9498,6 +10404,9 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                 phases = newPhases; tasks = newTasks;
                 updateAndRenderAll();
             } else if (window.__nativeTimelineImport) {
+                
+                
+                
                 phases = []; tasks = [];
                 updateAndRenderAll();
             } else {
@@ -9621,7 +10530,7 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
                         newTasks.push({
                             id: taskId, name: name, type: type, phaseId: targetPhaseId, start: startOffset, duration: duration,
                             dependsOn: [], contact: contactNode ? contactNode.textContent : "", budget: parsedBudget, resources: "", assignments: "",
-                            comments: notesNode ? notesNode.textContent : "",
+                            comments: notesNode ? notesNode.textContent : "", 
                             actualStart: actStartOff, actualDuration: actDur, actualBudget: actBudget, locked: false, tags: [], _mspPreds: preds,
                         });
                     }
@@ -9653,7 +10562,17 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             }
         }
 
+
+        
+
+
+
+
+
+
+
         function initializeProjectTimelineApp() {
+            
             let converted = false;
             tasks.forEach((t) => {
                 if (t.dependsOn && t.dependsOn.length > 0 && typeof t.dependsOn[0] === "string") {
@@ -9694,7 +10613,13 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
 
         document.addEventListener("DOMContentLoaded", () => {
             initializeProjectTimelineApp();
+            
+            
+            
             setDurationMode("working");
+            
+            
+            
             cdeAutoOpen().then((viaCde) => {
                 if (viaCde) return;
                 checkSharedPlanInURL();
@@ -9785,6 +10710,8 @@ Review it critically for ${horizon}: what is missing, which durations look unrea
             if (svg) svg.style.height = totalHeight;
         });
 
+        
+        
         Object.assign(window, {
             handleHomeNavigation, closeUnsavedModal, confirmLeave,
             openConfirmModal, closeConfirmModal, executeConfirm,

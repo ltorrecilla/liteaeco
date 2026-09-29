@@ -18,13 +18,18 @@
 // liteAECO - (ifc-parser.js)
 // ========
 
+
+
+
+
+
 class IfcParser {
     constructor() {
-        this.entities = new Map();
-        this.objects = new Map();
+        this.entities = new Map(); 
+        this.objects = new Map();  
         this.relDefines = [];
-        this.relAggregates = [];
-        this.relContained = [];
+        this.relAggregates = []; 
+        this.relContained = [];  
         this.projectRoot = null;
     }
 
@@ -223,6 +228,8 @@ class IfcParser {
     }
 }
 
+
+
 const dom = {
     fileA: document.getElementById('file-a'),
     fileB: document.getElementById('file-b'),
@@ -249,10 +256,12 @@ const dom = {
     viewViewer3d: document.getElementById('view-viewer-3d'),
     treeRootA: document.getElementById('tree-root-a'),
     treeRootB: document.getElementById('tree-root-b'),
+    
     treeFilenameA: document.getElementById('tree-filename-a'),
     treeFilenameB: document.getElementById('tree-filename-b'),
     propFilenameA: document.getElementById('prop-filename-a'),
     propFilenameB: document.getElementById('prop-filename-b'),
+    
     propEmpty: document.getElementById('prop-empty'),
     propContent: document.getElementById('prop-content'),
     propTitle: document.getElementById('prop-title'),
@@ -262,6 +271,7 @@ const dom = {
     propListB: document.getElementById('prop-list-b'),
     propCompareBody: document.getElementById('prop-compare-body'),
     propPopupContent: document.getElementById('prop-popup-content'),
+    
     btnTreeExpand: document.getElementById('btn-tree-expand'),
     btnTreeCollapse: document.getElementById('btn-tree-collapse'),
 };
@@ -269,13 +279,15 @@ const dom = {
 let parserA = null;
 let parserB = null;
 let diffResults = [];
-let globalDiffMap = new Map();
+let globalDiffMap = new Map(); 
 let selectedGuid = null;
-let isCompared = false;
+let isCompared = false; 
+
 
 window.globalParserA = null;
 window.globalParserB = null;
 window.globalDiffMap = null;
+
 
 function setupDropZone(dropZone, input, label, fileVarSetter, modelLetter) {
     dropZone.addEventListener('click', () => input.click());
@@ -294,6 +306,7 @@ async function handleFile(file, labelEl, setter, modelLetter, dropZone) {
     if (!file.name.toLowerCase().endsWith('.ifc')) return alert('Please upload a valid .ifc file');
     setter(file);
 
+    
     dropZone.classList.remove('flex-grow', 'h-full', 'min-h-[140px]', 'flex-col', 'justify-center', 'py-4');
     dropZone.classList.add('h-12', 'min-h-[48px]', 'flex-row', 'justify-start', 'py-2');
     labelEl.classList.remove('flex-col', 'space-y-2', 'items-center', 'justify-center', 'text-center');
@@ -305,18 +318,21 @@ async function handleFile(file, labelEl, setter, modelLetter, dropZone) {
     `;
     if (window.lucide) window.lucide.createIcons();
 
+    
     const infoContainer = document.getElementById(`info-${modelLetter.toLowerCase()}`);
     if (infoContainer) {
         infoContainer.innerHTML = `<div class="text-slate-500 italic flex items-center gap-2 px-2 py-4"><i data-lucide="loader-circle" class="animate-spin w-4 h-4"></i> Reading metadata...</div>`;
         infoContainer.classList.remove('hidden');
 
         try {
+            
             const slice = file.slice(0, 5 * 1024 * 1024);
             const text = await slice.text();
             const info = extractIfcInfo(text);
 
             info.size = file.size < 1024 * 1024 ? (file.size / 1024).toFixed(2) + ' KB' : (file.size / (1024 * 1024)).toFixed(2) + ' MB';
 
+            
             if (modelLetter === 'A') window.metadataA = info;
             else window.metadataB = info;
 
@@ -348,7 +364,7 @@ function renderMetadata() {
             const valY = info['coordY'] || '-';
             const valZ = info['coordZ'] || '-';
             const val = `${valX} / ${valY} / ${valZ}`;
-
+            
             if (otherInfo && (info['coordX'] !== otherInfo['coordX'] || info['coordY'] !== otherInfo['coordY'] || info['coordZ'] !== otherInfo['coordZ'])) {
                 return `<div class="col-span-3 text-red-500 font-semibold truncate" title="${val}">${val}</div>`;
             }
@@ -360,22 +376,22 @@ function renderMetadata() {
             <div class="grid grid-cols-4 gap-x-4 gap-y-2 text-[12px] flex-grow content-start">
                 <div class="text-slate-500 font-medium">Date:</div>
                 ${compare('date')}
-
+                
                 <div class="text-slate-500 font-medium">File Size:</div>
                 ${compare('size')}
-
+                
                 <div class="text-slate-500 font-medium">Schema:</div>
                 ${compare('schema')}
-
+                
                 <div class="text-slate-500 font-medium">Application:</div>
                 ${compare('application')}
-
+                
                 <div class="text-slate-500 font-medium">Person:</div>
                 ${compare('person')}
-
+                
                 <div class="text-slate-500 font-medium">Units:</div>
                 ${compare('units')}
-
+                
                 <div class="text-slate-500 font-medium">lat. / lon. / elev.:</div>
                 ${compareXYZ()}
             </div>
@@ -418,6 +434,7 @@ function extractIfcInfo(text) {
         else if (args.length > 3) info.application = cleanString(args[3]);
     }
 
+    
     const personMatch = text.match(/IFCPERSON\s*\(([^;]+)\)\s*;/i);
     if (personMatch) {
         const pArgs = parseArgsSimpler(personMatch[1]);
@@ -431,6 +448,7 @@ function extractIfcInfo(text) {
         }
     }
 
+    
     const siteMatch = text.match(/IFCSITE\s*\(([^;]+)\)\s*;/i);
     if (siteMatch) {
         const siteArgs = parseArgsSimpler(siteMatch[1]);
@@ -441,6 +459,7 @@ function extractIfcInfo(text) {
             if (placeMatch) {
                 axisIdMatch = placeMatch[1];
             } else {
+                
                 const placeMatch2 = text.match(new RegExp(`#${placeId}\\s*=\\s*IFCLOCALPLACEMENT\\s*\\([\\$#0-9A-Z]*\\s*,\\s*#(\\d+)\\s*\\)\\s*;`, "i"));
                 if (placeMatch2) axisIdMatch = placeMatch2[1];
             }
@@ -467,6 +486,7 @@ function extractIfcInfo(text) {
         info.coordinates = `X: ${info.coordX || '0'} Y: ${info.coordY || '0'} Z: ${info.coordZ || '0'}`;
     }
 
+    
     const lengthUnitMatch = text.match(/IFCSIUNIT\s*\([^;]*\.LENGTHUNIT\.[^;]*\)\s*;/i);
     if (lengthUnitMatch) {
         const uArgs = parseArgsSimpler(lengthUnitMatch[0].match(/\((.*)\)/)[1]);
@@ -546,6 +566,7 @@ function extractList(str) {
 
 function checkReady() { dom.btnCompare.disabled = !(fileA && fileB); }
 
+
 const sidebarToggleBtn = document.getElementById('sidebar-toggle');
 const sidebar = document.getElementById('main-sidebar');
 
@@ -573,7 +594,7 @@ function setSidebarState(collapsed, animate = true) {
     if (window.lucide) window.lucide.createIcons();
 
     if (!animate) {
-        void sidebar.offsetWidth;
+        void sidebar.offsetWidth; 
         setTimeout(() => {
             sidebar.style.transition = '';
             if (toggleWrapper) toggleWrapper.style.transition = '';
@@ -585,19 +606,23 @@ function setSidebarState(collapsed, animate = true) {
 }
 
 if (sidebarToggleBtn && sidebar) {
+    
     const savedState = localStorage.getItem('ifc_sidebar_collapsed');
     if (savedState !== null) {
         setSidebarState(savedState === 'true', false);
     } else {
+        
         setSidebarState(true, false);
     }
 
     sidebarToggleBtn.addEventListener('click', () => {
+        
         const newState = sidebar.classList.contains('w-64');
         setSidebarState(newState, true);
         localStorage.setItem('ifc_sidebar_collapsed', newState);
     });
 }
+
 
 dom.btnCompare.addEventListener('click', async () => {
     if (isCompared) {
@@ -609,6 +634,7 @@ dom.btnCompare.addEventListener('click', async () => {
     dom.btnCompare.innerHTML = `<i data-lucide="loader-circle" class="animate-spin mr-3 w-4 h-4"></i> Comparing...`;
     dom.overlay.classList.remove('hidden');
 
+    
     dom.fileA.disabled = true;
     dom.fileB.disabled = true;
     [dom.dropA, dom.dropB].forEach(el => {
@@ -618,37 +644,45 @@ dom.btnCompare.addEventListener('click', async () => {
     });
 
     try {
+        
         dom.progressText.textContent = `Parsing ${fileA.name}...`;
         const textA = await fileA.text();
         parserA = new IfcParser();
         await parserA.parse(textA, (p) => dom.progressText.textContent = `Parsing A: ${p}%`);
 
+        
         dom.progressText.textContent = `Parsing ${fileB.name}...`;
         const textB = await fileB.text();
         parserB = new IfcParser();
         await parserB.parse(textB, (p) => dom.progressText.textContent = `Parsing B: ${p}%`);
 
+        
         window.globalParserA = parserA;
         window.globalParserB = parserB;
 
+        
         dom.progressText.textContent = "Comparing Data...";
         await new Promise(r => setTimeout(r, 100));
         compareData(parserA.objects, parserB.objects);
 
+        
         dom.progressText.textContent = "Building Trees...";
         renderTree(parserA, dom.treeRootA);
         renderTree(parserB, dom.treeRootB);
 
+        
         document.getElementById('tab-diff').disabled = false;
         document.getElementById('tab-tree').disabled = false;
         document.getElementById('tab-props').disabled = false;
         document.getElementById('tab-quantities').disabled = false;
         document.getElementById('tab-viewer').disabled = false;
 
+        
         isCompared = true;
-        dom.btnCompare.disabled = false;
+        dom.btnCompare.disabled = false; 
         dom.btnCompare.innerHTML = `<i data-lucide="rotate-cw" class="mr-3 w-4 h-4"></i> Load new models`;
 
+        
         dom.treeFilenameA.textContent = fileA.name;
         dom.treeFilenameA.title = fileA.name;
         dom.treeFilenameB.textContent = fileB.name;
@@ -659,13 +693,16 @@ dom.btnCompare.addEventListener('click', async () => {
         dom.propFilenameB.textContent = fileB.name;
         dom.propFilenameB.title = fileB.name;
 
+        
         const optA = document.getElementById('q-model-select').querySelector('option[value="A"]');
         if (optA) optA.textContent = fileA.name;
         const optB = document.getElementById('q-model-select').querySelector('option[value="B"]');
         if (optB) optB.textContent = fileB.name;
 
+        
         dom.summaryPanel.classList.remove('hidden');
 
+        
         document.getElementById('tab-diff').click();
 
     } catch (e) {
@@ -674,6 +711,7 @@ dom.btnCompare.addEventListener('click', async () => {
         dom.btnCompare.disabled = false;
         dom.btnCompare.innerHTML = `<i data-lucide="play" class="mr-3 w-4 h-4"></i> Compare Models`;
 
+        
         dom.fileA.disabled = false;
         dom.fileB.disabled = false;
         [dom.dropA, dom.dropB].forEach(el => {
@@ -689,7 +727,7 @@ dom.btnCompare.addEventListener('click', async () => {
 function compareData(mapA, mapB) {
     const allGuids = new Set([...mapA.keys(), ...mapB.keys()]);
     diffResults = [];
-    globalDiffMap = new Map();
+    globalDiffMap = new Map(); 
 
     let added = 0, removed = 0, modified = 0;
 
@@ -715,8 +753,10 @@ function compareData(mapA, mapB) {
         }
     });
 
+    
     window.globalDiffMap = globalDiffMap;
 
+    
     actualCounts = { added, removed, modified };
 
     dom.countAdded.innerText = added;
@@ -748,6 +788,8 @@ function getPropertyDiff(objA, objB) {
     return changes;
 }
 
+
+
 function renderList(items) {
     dom.diffList.innerHTML = '';
     if (items.length === 0) {
@@ -765,6 +807,7 @@ function renderList(items) {
         const groupItems = items.filter(i => i.type === group.type);
         if (groupItems.length === 0) return;
 
+        
         const header = document.createElement('div');
         header.className = `flex items-center justify-between px-4 py-2 rounded-t mb-0 mt-4 first:mt-0 ${group.headerBg} select-none cursor-pointer`;
         header.innerHTML = `
@@ -777,6 +820,7 @@ function renderList(items) {
                         <i data-lucide="chevron-down" class="${group.headerText} opacity-60 transition-transform duration-300 group-toggle-icon w-4 h-4"></i>
                     </div>
                 `;
+        
         const groupContainer = document.createElement('div');
         groupContainer.className = 'space-y-0 mb-0 mt-0 group-items-container';
         header.addEventListener('click', () => {
@@ -881,6 +925,7 @@ function generateComparisonTableHTML(objA, objB, limit = Infinity) {
 
     let rowStrings = [];
 
+    
     if (objA && objB && objA.name !== objB.name) {
         rowStrings.push(`<tr class="bg-yellow-50">
                     <td class="px-4 py-2 border-b border-slate-100 font-medium text-slate-600">Attribute</td>
@@ -901,14 +946,16 @@ function generateComparisonTableHTML(objA, objB, limit = Infinity) {
             const valB = propsB[prop];
 
             if (valA !== valB) {
-                let rowClass = 'bg-yellow-50';
+                let rowClass = 'bg-yellow-50'; 
                 let valACell = valA === undefined ? '<span class="italic text-slate-400">null</span>' : `<span class="text-red-600 line-through text-xs mr-1">${valA}</span>`;
                 let valBCell = valB === undefined ? '<span class="italic text-slate-400">null</span>' : `<span class="text-green-600 font-semibold">${valB}</span>`;
 
                 if (valA === undefined) {
+                    
                     rowClass = 'bg-green-50';
                     valBCell = `<span class="text-green-700 font-bold">${valB}</span>`;
                 } else if (valB === undefined) {
+                    
                     rowClass = 'bg-red-50';
                     valACell = `<span class="text-red-700 font-bold line-through">${valA}</span>`;
                 }
@@ -965,9 +1012,13 @@ function generateComparisonTableHTML(objA, objB, limit = Infinity) {
             `;
 }
 
+
+
+
 function renderTree(parser, container) {
     container.innerHTML = '';
 
+    
     let root = parser.projectRoot;
     if (!root) {
         const orphans = Array.from(parser.objects.values()).filter(o => !o.hasParent && (o.type === 'IFCPROJECT' || o.type === 'IFCSITE' || o.type === 'IFCBUILDING'));
@@ -989,12 +1040,14 @@ function buildTreeNode(node) {
     const hasChildren = node.children && node.children.length > 0;
     const iconClass = getNodeIcon(node.type, hasChildren);
 
+    
     const status = globalDiffMap.get(node.guid);
     let statusClass = '';
     if (status === 'added') statusClass = 'node-added';
     else if (status === 'removed') statusClass = 'node-removed';
     else if (status === 'modified') statusClass = 'node-modified';
 
+    
     const clickAttr = `onclick="selectNode('${node.guid}', event.ctrlKey)"`;
     const nodeId = `node-${node.guid}`;
 
@@ -1022,6 +1075,7 @@ function buildTreeNode(node) {
 
         const summary = document.createElement('summary');
         summary.className = `flex items-center text-slate-700 p-1 rounded select-none ${statusClass}`;
+        
         summary.innerHTML = `
                     <span class="w-4 text-slate-400 text-xs mr-1"><i data-lucide="chevron-right" class="transition-transform group-open:rotate-90 w-4 h-4"></i></span>
                     <span class="tree-icon text-slate-800"><i data-lucide="${iconClass}" class="${iconClass === 'circle' ? 'w-2.5 h-2.5' : 'w-4 h-4'}"></i></span>
@@ -1061,6 +1115,7 @@ function buildTreeNode(node) {
 }
 
 function getNodeIcon(type, hasChildren) {
+    
     if (type === 'IFCPROJECT') return 'folder-open';
     if (type === 'IFCSITE') return 'map-pin';
     if (type === 'IFCBUILDING') return 'building-2';
@@ -1074,12 +1129,16 @@ function getNodeIcon(type, hasChildren) {
     if (type === 'IFCSTAIR') return hasChildren ? 'folder' : 'circle';
     if (type === 'IFCROOF') return hasChildren ? 'folder' : 'circle';
     if (type === 'IFCFURNISHINGELEMENT') return hasChildren ? 'folder' : 'circle';
+    
     return hasChildren ? 'folder' : 'circle';
 }
+
+
 
 window.selectNode = function (guid, multiSelect = false) {
     if (window.event) window.event.stopPropagation();
 
+    
     if (window.viewerManager && window.viewerManager.dimensionMode) {
         return;
     }
@@ -1099,6 +1158,7 @@ window.selectNode = function (guid, multiSelect = false) {
 
     selectedGuid = window.selectedGuids.length > 0 ? window.selectedGuids[window.selectedGuids.length - 1] : null;
 
+    
     document.querySelectorAll('.node-selected').forEach(el => el.classList.remove('node-selected'));
     window.selectedGuids.forEach(g => {
         const nodeEls = document.querySelectorAll(`[id="node-${g}"]`);
@@ -1108,6 +1168,7 @@ window.selectNode = function (guid, multiSelect = false) {
         });
     });
 
+    
     document.querySelectorAll('.q-row-selected').forEach(el => el.classList.remove('q-row-selected'));
     window.selectedGuids.forEach(g => {
         const qRows = document.querySelectorAll(`tr[data-guid="${g}"]`);
@@ -1126,6 +1187,7 @@ window.selectNode = function (guid, multiSelect = false) {
         dom.propContent.classList.add('hidden');
     }
 
+    
     if (window.viewerManager && !dom.viewViewer3d.classList.contains('hidden')) {
         window.viewerManager.highlight(window.selectedGuids);
     }
@@ -1153,9 +1215,11 @@ function renderProperties(guid) {
         dom.propBadges.innerHTML = `<span class="px-2 py-1 rounded text-xs font-bold uppercase bg-slate-100 text-slate-600">Unchanged</span>`;
     }
 
+    
     const headerA = dom.propFilenameA.parentElement;
     const headerB = dom.propFilenameB.parentElement;
 
+    
     headerA.classList.remove('bg-accent', 'border-accent');
     headerA.classList.add('bg-slate-200', 'border-slate-300');
     headerA.firstElementChild.classList.remove('text-white');
@@ -1163,6 +1227,7 @@ function renderProperties(guid) {
     dom.propFilenameA.classList.remove('text-white', 'opacity-90');
     dom.propFilenameA.classList.add('text-slate-600');
 
+    
     headerB.classList.remove('bg-accent', 'border-accent');
     headerB.classList.add('bg-slate-200', 'border-slate-300');
     headerB.firstElementChild.classList.remove('text-white');
@@ -1192,11 +1257,13 @@ function renderProperties(guid) {
     renderSimplePropList(objB, dom.propListB, objA);
     renderComparisonTable(objA, objB);
 
+    
     if (dom.propPopupContent) {
         let sourceFile = "";
         if (objB && fileB) sourceFile = fileB.name;
         else if (objA && fileA) sourceFile = fileA.name;
 
+        
         const propertiesHtml = generateAllPropertiesHTML(primary);
         dom.propPopupContent.innerHTML = `
                     <div class="mb-1 text-xs font-semibold text-accent border-b border-blue-100 pb-1 truncate" title="${sourceFile}">${sourceFile}</div>
@@ -1217,17 +1284,21 @@ function renderSimplePropList(obj, container, otherObj) {
     const table = document.createElement('table');
     table.className = 'w-full text-left text-sm table-fixed';
 
+    
     const otherPsets = otherObj ? otherObj.psets : null;
 
+    
     const nameDiffers = otherObj && obj.name !== otherObj.name;
 
     let html = `<tbody class="divide-y divide-slate-100">`;
     html += `<tr class="bg-slate-50/50"><td class="px-4 py-2 font-medium text-slate-500">GUID</td><td class="px-4 py-2 font-mono text-xs">${obj.guid}</td></tr>`;
 
+    
     const nameRowClass = nameDiffers ? 'bg-yellow-50' : '';
     const nameValClass = nameDiffers ? 'text-yellow-800' : '';
     html += `<tr class="${nameRowClass}"><td class="px-4 py-2 font-medium text-slate-500">Name</td><td class="px-4 py-2 ${nameValClass}">${obj.name || '-'}</td></tr>`;
 
+    
     const allPsetNames = new Set([
         ...Object.keys(obj.psets),
         ...(otherPsets ? Object.keys(otherPsets) : [])
@@ -1237,10 +1308,12 @@ function renderSimplePropList(obj, container, otherObj) {
         const ownProps = obj.psets[pset] || null;
         const otherProps = otherPsets ? (otherPsets[pset] || null) : null;
 
+        
         const psetAdded = ownProps && !otherProps && otherObj;
         const psetRemoved = !ownProps && otherProps && otherObj;
 
         if (!ownProps) {
+            
             html += `<tr class="bg-red-50/40"><td colspan="2" class="px-4 py-1 text-xs font-bold text-red-700 uppercase tracking-wide">${pset} <span class="font-normal normal-case italic ml-1 opacity-70">(not in this file)</span></td></tr>`;
             continue;
         }
@@ -1249,11 +1322,13 @@ function renderSimplePropList(obj, container, otherObj) {
         const psetLabel = `${pset}${psetAdded ? ' <span class="font-normal normal-case italic ml-1 opacity-70">(new)</span>' : ''}`;
         const psetId = `pset-${obj.guid}-${pset.replace(/\s+/g, '_')}`;
 
+        
         html += `<tr class="prop-pset-header ${psetHeaderClass} transition-colors" data-pset-id="${psetId}">`;
         html += `<td colspan="2" class="px-4 py-1.5 text-xs font-bold uppercase tracking-wide">`;
         html += `${psetLabel}`;
         html += `</td></tr>`;
 
+        
         const allProps = new Set([
             ...Object.keys(ownProps),
             ...(otherProps ? Object.keys(otherProps) : [])
@@ -1264,17 +1339,22 @@ function renderSimplePropList(obj, container, otherObj) {
             const otherVal = otherProps ? otherProps[key] : undefined;
 
             if (val === undefined) {
+                
                 continue;
             }
 
+            
             let rowClass = '';
             let valClass = 'text-slate-800';
 
             if (!otherObj) {
+                
             } else if (otherVal === undefined) {
+                
                 rowClass = 'bg-green-50';
                 valClass = 'text-green-700';
             } else if (val !== otherVal) {
+                
                 rowClass = 'bg-yellow-50';
                 valClass = 'text-yellow-800';
             }
@@ -1287,6 +1367,7 @@ function renderSimplePropList(obj, container, otherObj) {
     table.innerHTML = html;
     container.appendChild(table);
 
+    
     const headers = table.querySelectorAll('.prop-pset-header');
     headers.forEach(header => {
         header.addEventListener('click', (e) => {
@@ -1295,6 +1376,7 @@ function renderSimplePropList(obj, container, otherObj) {
             const psetId = header.dataset.psetId;
             const isCollapsed = header.classList.contains('collapsed');
 
+            
             const allHeaders = document.querySelectorAll(`.prop-pset-header[data-pset-id="${psetId}"]`);
             const allRows = document.querySelectorAll(`.prop-pset-row[data-pset-id="${psetId}"]`);
 
@@ -1319,6 +1401,8 @@ function renderComparisonTable(objA, objB) {
     }
 }
 
+
+
 dom.tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         if (btn.disabled) return;
@@ -1337,6 +1421,7 @@ dom.tabBtns.forEach(btn => {
         const qBrowser = document.getElementById('quantity-browser');
         if (qBrowser) qBrowser.classList.add('hidden');
 
+        
         const qTableContainer = document.getElementById('q-table-container');
         if (qTableContainer && target !== 'viewer-3d') {
             document.getElementById('view-quantities').appendChild(qTableContainer);
@@ -1365,10 +1450,11 @@ dom.tabBtns.forEach(btn => {
             dom.viewQuantities.classList.remove('hidden');
             if (qBrowser) {
                 qBrowser.classList.remove('hidden');
-                qBrowser.classList.remove('browser-minimized');
+                qBrowser.classList.remove('browser-minimized'); 
             }
             if (qDom.classSelect.options.length <= 1) populateQuantityClasses();
 
+            
             const qTableContainer = document.getElementById('q-table-container');
             if (qTableContainer) {
                 document.getElementById('view-quantities').appendChild(qTableContainer);
@@ -1378,6 +1464,7 @@ dom.tabBtns.forEach(btn => {
             dom.viewViewer3d.classList.remove('hidden');
             document.getElementById('model-browser').classList.remove('hidden');
 
+            
             const bottomPanel = document.getElementById('viewer-bottom-panel');
             if (bottomPanel && !bottomPanel.classList.contains('hidden')) {
                 if (qBrowser) qBrowser.classList.remove('hidden');
@@ -1396,12 +1483,14 @@ dom.tabBtns.forEach(btn => {
 
             if (window.updateInvalidElements3D) window.updateInvalidElements3D();
 
+            
             setTimeout(() => {
                 window.dispatchEvent(new Event('resize'));
             }, 100);
         }
     });
 });
+
 
 window.toggleQuantities3D = function (btn) {
     const bottomPanel = document.getElementById('viewer-bottom-panel');
@@ -1412,33 +1501,40 @@ window.toggleQuantities3D = function (btn) {
     if (!bottomPanel || !qBrowser || !qTableContainer || !bottomContent) return;
 
     if (bottomPanel.classList.contains('hidden')) {
+        
         bottomPanel.classList.remove('hidden');
         qBrowser.classList.remove('hidden');
-        qBrowser.classList.remove('browser-minimized');
+        qBrowser.classList.remove('browser-minimized'); 
         bottomContent.appendChild(qTableContainer);
         if (btn) btn.classList.add('active');
 
+        
         const modelBrowser = document.getElementById('model-browser');
         if (modelBrowser && !modelBrowser.classList.contains('hidden')) {
             modelBrowser.classList.add('browser-minimized');
         }
 
+        
         if (qDom.classSelect.options.length <= 1) populateQuantityClasses();
     } else {
+        
         bottomPanel.classList.add('hidden');
         qBrowser.classList.add('hidden');
         if (btn) btn.classList.remove('active');
 
+        
         const modelBrowser = document.getElementById('model-browser');
         if (modelBrowser) modelBrowser.classList.remove('browser-minimized');
     }
 
     if (window.updateInvalidElements3D) window.updateInvalidElements3D();
 
+    
     setTimeout(() => {
         window.dispatchEvent(new Event('resize'));
     }, 100);
 };
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const allBrowsers = () => document.querySelectorAll('.model-browser');
@@ -1451,6 +1547,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const isMinimized = clicked.classList.contains('browser-minimized');
 
             if (isMinimized) {
+                
                 clicked.classList.remove('browser-minimized');
                 allBrowsers().forEach(b => {
                     if (b !== clicked && !b.classList.contains('hidden')) {
@@ -1458,11 +1555,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             } else {
+                
                 clicked.classList.add('browser-minimized');
             }
         });
     });
 });
+
 
 let isResizingBottom = false;
 document.addEventListener('DOMContentLoaded', () => {
@@ -1479,7 +1578,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.addEventListener('mousemove', (e) => {
             if (!isResizingBottom) return;
+            
             const viewerAreaRect = document.getElementById('view-viewer-3d').getBoundingClientRect();
+            
             const maxHeight = viewerAreaRect.height * 0.8;
             const minHeight = 100;
 
@@ -1489,6 +1590,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             bottomPanel.style.height = `${newHeight}px`;
 
+            
             window.dispatchEvent(new Event('resize'));
         });
 
@@ -1496,15 +1598,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isResizingBottom) {
                 isResizingBottom = false;
                 document.body.style.cursor = '';
+                
                 window.dispatchEvent(new Event('resize'));
             }
         });
     }
 });
 
-let activeFilters = new Set(['added', 'removed', 'modified']);
-window.activeFilters = activeFilters;
-let actualCounts = { added: 0, removed: 0, modified: 0 };
+
+
+let activeFilters = new Set(['added', 'removed', 'modified']); 
+window.activeFilters = activeFilters; 
+let actualCounts = { added: 0, removed: 0, modified: 0 }; 
 
 function applyFilter() {
     let filtered = [];
@@ -1513,6 +1618,7 @@ function applyFilter() {
     }
     renderList(filtered);
 
+    
     if (window.viewerManager && window.viewerManager.currentMode === 'overlay') {
         window.viewerManager.setMode('overlay');
     }
@@ -1523,11 +1629,13 @@ function updateFilterButtonStyles() {
         const filterType = btn.dataset.filter;
         const isActive = activeFilters.has(filterType);
 
+        
         btn.classList.remove('bg-green-100', 'border-green-200', 'text-green-800', 'font-medium');
         btn.classList.remove('bg-red-100', 'border-red-200', 'text-red-800', 'font-medium');
         btn.classList.remove('bg-yellow-100', 'border-yellow-200', 'text-yellow-800', 'font-medium');
 
         if (isActive) {
+            
             if (filterType === 'added') {
                 btn.classList.add('bg-green-100', 'border-green-200', 'text-green-800', 'font-medium');
             } else if (filterType === 'removed') {
@@ -1537,6 +1645,7 @@ function updateFilterButtonStyles() {
             }
             btn.classList.remove('bg-white', 'border-slate-200', 'text-slate-600');
         } else {
+            
             btn.classList.add('bg-white', 'border-slate-200', 'text-slate-600');
         }
     });
@@ -1546,6 +1655,7 @@ dom.filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         const filterType = btn.dataset.filter;
 
+        
         if (activeFilters.has(filterType)) {
             activeFilters.delete(filterType);
         } else {
@@ -1556,6 +1666,7 @@ dom.filterBtns.forEach(btn => {
         applyFilter();
     });
 });
+
 
 const qDom = {
     modelSelect: document.getElementById('q-model-select'),
@@ -1581,14 +1692,16 @@ if (qDom.glossaryInput) {
             const rules = {};
 
             if (fileNameLower.endsWith('.xlsx') || fileNameLower.endsWith('.xls')) {
+                
                 const data = await file.arrayBuffer();
                 const workbook = XLSX.read(data);
 
+                
                 workbook.SheetNames.forEach(sheetName => {
                     const sheet = workbook.Sheets[sheetName];
                     const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
 
-                    if (rows.length < 3) return;
+                    if (rows.length < 3) return; 
 
                     const psetsRow = rows[0];
                     const ifcAttrRow = rows[2];
@@ -1621,20 +1734,24 @@ if (qDom.glossaryInput) {
                 });
 
             } else if (fileNameLower.endsWith('.ids')) {
+                
                 const text = await file.text();
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(text, "text/xml");
 
                 const specs = Array.from(xmlDoc.getElementsByTagName("*")).filter(el => el.localName === "specification");
+                
                 for (let i = 0; i < specs.length; i++) {
                     const spec = specs[i];
 
+                    
                     const applicabilityNodes = Array.from(spec.children).filter(el => el.localName === "applicability");
                     if (applicabilityNodes.length === 0) continue;
 
                     const entityNodes = Array.from(applicabilityNodes[0].getElementsByTagName("*")).filter(el => el.localName === "entity");
                     if (entityNodes.length === 0) continue;
 
+                    
                     const nameNode = Array.from(entityNodes[0].getElementsByTagName("*")).find(el => el.localName === "name");
                     const simpleValueNode = nameNode ? Array.from(nameNode.getElementsByTagName("*")).find(el => el.localName === "simpleValue") : null;
                     const className = simpleValueNode?.textContent;
@@ -1642,6 +1759,7 @@ if (qDom.glossaryInput) {
 
                     const classUpper = className.trim().toUpperCase();
 
+                    
                     const requirementsNodes = Array.from(spec.children).filter(el => el.localName === "requirements");
                     if (requirementsNodes.length === 0) continue;
 
@@ -1665,11 +1783,13 @@ if (qDom.glossaryInput) {
                         if (!rules[classUpper]) rules[classUpper] = {};
                         if (!rules[classUpper][psetUpper]) rules[classUpper][psetUpper] = {};
 
+                        
                         const valueNode = Array.from(propNode.getElementsByTagName("*")).find(el => el.localName === "value");
 
                         let allowedValues = [];
 
                         if (valueNode) {
+                            
                             const simpleValues = Array.from(valueNode.getElementsByTagName("*")).filter(el => el.localName === "simpleValue");
                             simpleValues.forEach(node => {
                                 if (node.textContent) {
@@ -1680,6 +1800,7 @@ if (qDom.glossaryInput) {
                                 }
                             });
 
+                            
                             const enumValues = Array.from(valueNode.getElementsByTagName("*")).filter(el => el.localName === "enumeration");
                             enumValues.forEach(node => {
                                 let valAttr = node.getAttribute("value");
@@ -1692,6 +1813,7 @@ if (qDom.glossaryInput) {
                             });
                         }
 
+                        
                         if (allowedValues.length === 0) {
                             allowedValues.push("NOT_EMPTY");
                         }
@@ -1738,12 +1860,15 @@ if (qDom.glossaryInput) {
 
         progressContainer.innerHTML = '<div class="text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wider">Validation Conformance</div>';
 
+        
         Object.keys(window.validationRules).forEach(className => {
             const rules = window.validationRules[className];
             const elements = Array.from(model.objects.values()).filter(obj => obj.type.toUpperCase() === className);
 
-            if (elements.length === 0) return;
+            if (elements.length === 0) return; 
 
+            
+            
             const existingProps = new Set();
             elements.forEach(obj => {
                 for (const [pset, props] of Object.entries(obj.psets)) {
@@ -1758,13 +1883,15 @@ if (qDom.glossaryInput) {
             elements.forEach(obj => {
                 let isElementValid = true;
 
+                
                 for (const [psetUpper, attributes] of Object.entries(rules)) {
                     const actualPsetKey = Object.keys(obj.psets).find(key => key.toUpperCase() === psetUpper);
                     const psetProps = actualPsetKey ? obj.psets[actualPsetKey] : null;
 
                     for (const [attrUpper, allowedValues] of Object.entries(attributes)) {
-                        if (allowedValues.length === 0) continue;
+                        if (allowedValues.length === 0) continue; 
 
+                        
                         if (!existingProps.has(`${psetUpper}.${attrUpper}`)) continue;
 
                         let val = undefined;
@@ -1773,6 +1900,7 @@ if (qDom.glossaryInput) {
                             if (actualAttrKey) val = psetProps[actualAttrKey];
                         }
 
+                        
                         const strVal = String(val ?? '').trim().toUpperCase();
 
                         let isValueValid = false;
@@ -1784,11 +1912,14 @@ if (qDom.glossaryInput) {
                                     break;
                                 }
                             } else if (expectedVal === "*" || expectedVal === "ANY") {
+                                
                                 if (strVal && strVal !== 'UNDEFINED' && strVal !== 'NULL') {
                                     isValueValid = true;
                                     break;
                                 }
                             } else if (expectedVal === "N/A") {
+                                
+                                
                                 isValueValid = true;
                                 break;
                             } else if (expectedVal === "YES" && strVal === ".T.") {
@@ -1815,6 +1946,7 @@ if (qDom.glossaryInput) {
                                     }
                                 }
                             } else if (expectedVal.includes("-")) {
+                                
                                 const parts = expectedVal.split("-");
                                 if (parts.length === 2) {
                                     const min = parseFloat(parts[0]);
@@ -1847,6 +1979,7 @@ if (qDom.glossaryInput) {
             const total = elements.length;
             const percentage = Math.round((validCount / total) * 100);
 
+            
             const barHTML = `
                 <div class="mb-2 last:mb-0">
                     <div class="flex justify-between text-xs mb-1">
@@ -1865,6 +1998,7 @@ if (qDom.glossaryInput) {
     };
 }
 
+
 const quantityState = {
     objects: [],
     columns: [],
@@ -1877,6 +2011,7 @@ qDom.modelSelect.addEventListener('change', () => {
     populateQuantityClasses();
     qDom.tableContainer.innerHTML = '<div class="p-10 text-center text-slate-400 italic flex flex-col items-center justify-center h-full"><i data-lucide="table-2" class="text-4xl mb-4 text-slate-200 w-10 h-10"></i><p>Select a Class.</p></div>';
 
+    
     const btn = document.getElementById('q-pset-btn');
     const list = document.getElementById('q-pset-list');
     btn.disabled = true;
@@ -1891,6 +2026,7 @@ qDom.classSelect.addEventListener('change', () => {
     populateQuantityPsets();
     renderQuantityTable();
 });
+
 
 document.addEventListener('click', (e) => {
     const psetMenu = document.getElementById('q-pset-menu');
@@ -1956,6 +2092,7 @@ function populateQuantityPsets() {
     btn.querySelector('span').textContent = 'All Property Sets';
     quantityState.activePsets = null;
 
+    
     const search = document.getElementById('q-pset-search');
     if (search) {
         search.value = '';
@@ -1989,7 +2126,7 @@ window.applyPsetFilter = function () {
 
     if (allChecked || selected.size === 0) {
         btn.querySelector('span').textContent = 'All Property Sets';
-        quantityState.activePsets = null;
+        quantityState.activePsets = null; 
     } else {
         btn.querySelector('span').textContent = `${selected.size} Selected`;
         quantityState.activePsets = selected;
@@ -2007,6 +2144,7 @@ function renderQuantityTable(rebuildData = true) {
 
         if (!model || !className) return;
 
+        
         const objects = [];
         model.objects.forEach(obj => {
             if (obj.type === className) {
@@ -2020,6 +2158,7 @@ function renderQuantityTable(rebuildData = true) {
             return;
         }
 
+        
         const columns = [
             { id: 'No', label: 'No.', accessor: (o, i) => i + 1, width: '50px', cellClass: 'text-slate-400' },
             { id: 'GlobalId', label: 'GlobalId', accessor: (o) => o.guid },
@@ -2045,12 +2184,14 @@ function renderQuantityTable(rebuildData = true) {
             }
         });
 
+        
         const fixedCols = columns.slice(0, 3);
         const dynamicCols = columns.slice(3).sort((a, b) => {
             if (a.subLabel !== b.subLabel) return a.subLabel.localeCompare(b.subLabel);
             return a.label.localeCompare(b.label);
         });
 
+        
         let lastPset = null;
         let isAlt = false;
         dynamicCols.forEach(col => {
@@ -2073,6 +2214,7 @@ function renderQuantityTable(rebuildData = true) {
         quantityState.sort = { colId: 'Name', dir: 'asc' };
     }
 
+    
     let headerHtml = `
                 <table class="w-full text-left border-collapse text-sm table-fixed">
                     <thead class="sticky top-0 z-1 shadow-sm">
@@ -2083,6 +2225,7 @@ function renderQuantityTable(rebuildData = true) {
         const isNoCol = col.id === 'No';
         const isFilterActive = quantityState.filters[col.id] !== undefined;
 
+        
         let widthStyle = '';
         if (col.currentWidth) {
             widthStyle = `width: ${col.currentWidth}px; min-width: ${col.currentWidth}px; max-width: ${col.currentWidth}px;`;
@@ -2156,6 +2299,7 @@ window.handleQuantitySort = function (colId) {
         quantityState.sort.dir = 'asc';
     }
 
+    
     document.querySelectorAll('[id^="sort-icon-"]').forEach(icon => {
         const newI = document.createElement('i');
         newI.id = icon.id;
@@ -2173,6 +2317,7 @@ window.handleQuantitySort = function (colId) {
 
     updateQuantityTableBody();
 };
+
 
 window.toggleFilterMenu = function (colId, btn, event) {
     event.stopPropagation();

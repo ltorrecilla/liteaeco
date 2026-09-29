@@ -18,7 +18,45 @@
 // liteAECO - (cls_worker.js)
 // ========
 
-export const CLS_WORKER_SCHEMA = 4;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export const CLS_WORKER_SCHEMA = 4; 
+
+
+
+
+
+
+
+
+
+
 
 export function transformTris(tris, count, m) {
   const out = new Float32Array(count * 9);
@@ -51,6 +89,11 @@ export function meshBoxOf(mesh) {
 const VIEW_TAG = "|T";
 export function isViewKey(k) { return typeof k === "string" && k.includes(VIEW_TAG); }
 
+
+
+
+
+
 export function triIntersectsBox(tris, o, box, eps) {
   const cx = (box.min.x + box.max.x) / 2,
     cy = (box.min.y + box.max.y) / 2,
@@ -62,10 +105,12 @@ export function triIntersectsBox(tris, o, box, eps) {
   const v1x = tris[o + 3] - cx, v1y = tris[o + 4] - cy, v1z = tris[o + 5] - cz;
   const v2x = tris[o + 6] - cx, v2y = tris[o + 7] - cy, v2z = tris[o + 8] - cz;
 
+  
   if (Math.min(v0x, v1x, v2x) > hx || Math.max(v0x, v1x, v2x) < -hx) return false;
   if (Math.min(v0y, v1y, v2y) > hy || Math.max(v0y, v1y, v2y) < -hy) return false;
   if (Math.min(v0z, v1z, v2z) > hz || Math.max(v0z, v1z, v2z) < -hz) return false;
 
+  
   const e0x = v1x - v0x, e0y = v1y - v0y, e0z = v1z - v0z;
   const e1x = v2x - v1x, e1y = v2y - v1y, e1z = v2z - v1z;
   const nx = e0y * e1z - e0z * e1y,
@@ -75,6 +120,7 @@ export function triIntersectsBox(tris, o, box, eps) {
   const r = hx * Math.abs(nx) + hy * Math.abs(ny) + hz * Math.abs(nz);
   if (Math.abs(d) > r) return false;
 
+  
   const e2x = v0x - v2x, e2y = v0y - v2y, e2z = v0z - v2z;
   const edges = [
     [e0x, e0y, e0z],
@@ -112,6 +158,7 @@ export function triIntersectsBox(tris, o, box, eps) {
   return true;
 }
 
+
 export function triTriIntersect(A, ao, B, bo) {
   const p1 = [A[ao], A[ao + 1], A[ao + 2]];
   const q1 = [A[ao + 3], A[ao + 4], A[ao + 5]];
@@ -142,6 +189,7 @@ export function triTriIntersect(A, ao, B, bo) {
   if (dp2 > 0 && dq2 > 0 && dr2 > 0) return false;
   if (dp2 < 0 && dq2 < 0 && dr2 < 0) return false;
 
+  
   const EPS = 1e-12;
   if (
     Math.abs(dp2) < EPS && Math.abs(dq2) < EPS && Math.abs(dr2) < EPS
@@ -155,6 +203,7 @@ export function triTriIntersect(A, ao, B, bo) {
     return tri2dOverlap(t1, t2);
   }
 
+  
   const D = cross(n1, n2);
   const proj = (v) => dot(D, v);
   const int1 = planeIntervals(proj, p1, q1, r1, dp1, dq1, dr1);
@@ -164,6 +213,7 @@ export function triTriIntersect(A, ao, B, bo) {
 }
 
 function planeIntervals(proj, a, b, c, da, db, dc) {
+  
   const verts = [a, b, c];
   const dist = [da, db, dc];
   let solo = -1;
@@ -190,6 +240,7 @@ function planeIntervals(proj, a, b, c, da, db, dc) {
 }
 
 function tri2dOverlap(t1, t2) {
+  
   const tris = [t1, t2];
   for (const t of tris) {
     for (let i = 0; i < 3; i++) {
@@ -213,6 +264,7 @@ function tri2dOverlap(t1, t2) {
   }
   return true;
 }
+
 
 function segTri(px, py, pz, qx, qy, qz, T, o) {
   const ax = T[o], ay = T[o + 1], az = T[o + 2];
@@ -247,11 +299,13 @@ function triNormal(T, o, out) {
   const l = Math.hypot(nx, ny, nz);
   if (l < 1e-12) return;
   const v = [nx / l, ny / l, nz / l];
+  
   for (const u of out) {
     if (Math.abs(u[0] * v[0] + u[1] * v[1] + u[2] * v[2]) > 0.999) return;
   }
   if (out.length < 8) out.push(v);
 }
+
 
 function triTriPoints(A, ao, B, bo, out) {
   for (let e = 0; e < 3; e++) {
@@ -262,6 +316,13 @@ function triTriPoints(A, ao, B, bo, out) {
     if (pt) out.push(pt);
   }
 }
+
+
+
+
+
+
+
 
 function rayXHitsTri(px, py, pz, tris, o) {
   const ax = tris[o] - px, ay = tris[o + 1] - py, az = tris[o + 2] - pz;
@@ -286,6 +347,8 @@ function rayXHitsTri(px, py, pz, tris, o) {
   return tHit > 1e-12 ? 1 : 0;
 }
 
+
+
 export function pointInMeshLinear(px, py, pz, tris, count, boxes) {
   let crossings = 0;
   for (let t = 0; t < count; t++) {
@@ -299,6 +362,7 @@ export function pointInMeshLinear(px, py, pz, tris, count, boxes) {
   }
   return crossings % 2 === 1;
 }
+
 
 function pointInMeshBVH(px, py, pz, mesh) {
   const bvh = bvhOf(mesh);
@@ -322,6 +386,11 @@ function pointInMeshBVH(px, py, pz, mesh) {
   return crossings % 2 === 1;
 }
 
+
+
+
+
+
 export function boxesOf(mesh) {
   if (mesh.boxes) return mesh.boxes;
   const n = mesh.count;
@@ -343,6 +412,14 @@ export function boxesOf(mesh) {
   return out;
 }
 
+
+
+
+
+
+
+
+
 const BVH_LEAF = 8;
 export function bvhOf(mesh) {
   if (mesh.bvh) return mesh.bvh;
@@ -362,12 +439,15 @@ export function bvhOf(mesh) {
   const left = new Int32Array(cap), right = new Int32Array(cap);
   const start = new Int32Array(cap), count = new Int32Array(cap);
   let nodes = 0;
+  
   const work = new Int32Array(3 * (2 * Math.ceil(Math.log2(Math.max(2, n))) + 64));
   let wp = 0;
   const root = nodes++;
   work[wp++] = root; work[wp++] = 0; work[wp++] = n;
   while (wp > 0) {
     const hi = work[--wp], lo = work[--wp], node = work[--wp];
+    
+    
     let x0 = Infinity, y0 = Infinity, z0 = Infinity, x1 = -Infinity, y1 = -Infinity, z1 = -Infinity;
     let cx0 = Infinity, cy0 = Infinity, cz0 = Infinity, cx1 = -Infinity, cy1 = -Infinity, cz1 = -Infinity;
     for (let k = lo; k < hi; k++) {
@@ -388,6 +468,7 @@ export function bvhOf(mesh) {
     const ex = cx1 - cx0, ey = cy1 - cy0, ez = cz1 - cz0;
     const axisArr = ex >= ey && ex >= ez ? cx : ey >= ez ? cy : cz;
     const mid = (lo + hi) >> 1;
+    
     let l = lo, r = hi - 1;
     while (l < r) {
       const pivot = axisArr[index[(l + r) >> 1]];
@@ -408,6 +489,9 @@ export function bvhOf(mesh) {
   mesh.bvh = { bounds, left, right, start, count, index, nodes };
   return mesh.bvh;
 }
+
+
+
 
 function bvhQueryBox(mesh, x0, y0, z0, x1, y1, z1, out) {
   const bvh = bvhOf(mesh);
@@ -431,10 +515,28 @@ function bvhQueryBox(mesh, x0, y0, z0, x1, y1, z1, out) {
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
 export const KPROF = { regionMs: 0, probeMs: 0, sampleMs: 0, depthMs: 0, cands: 0, contacts: 0, sampled: 0, rays1: 0, triTests: 0, listA: 0, listB: 0 };
-export const KMESH = new Map();
+
+
+export const KMESH = new Map(); 
 export function resetKernelProfile() { for (const k of Object.keys(KPROF)) KPROF[k] = 0; KMESH.clear(); }
 const _now = typeof performance !== "undefined" ? () => performance.now() : () => Date.now();
+
+
+
+
+
 const JX = 7e-7, JY = 3.1e-7, JZ = 1.3e-7;
 
 export function verifyCandidate(c, A, B, tolerance) {
@@ -443,6 +545,9 @@ export function verifyCandidate(c, A, B, tolerance) {
   KPROF.cands++;
   let _t = _now();
 
+  
+  
+  
   const listA = [], listB = [];
   if (region) {
     const rx0 = region.min.x - EPS, ry0 = region.min.y - EPS, rz0 = region.min.z - EPS;
@@ -463,6 +568,12 @@ export function verifyCandidate(c, A, B, tolerance) {
     e.ms += dt; e.cands++; e.bTris += B.count;
   }
 
+  
+  
+  
+  
+  
+  
   let contact = false;
   const surfacePts = [];
   const dirs = [];
@@ -470,9 +581,14 @@ export function verifyCandidate(c, A, B, tolerance) {
     const bA = boxesOf(A), bB = boxesOf(B);
     let pairsHit = 0;
     const hits = [];
+    
     const probeIsB = listB.length <= listA.length;
     const probe = probeIsB ? listB : listA;
     const other = probeIsB ? A : B;
+    
+    
+    
+    
     const pb = probeIsB ? bB : bA;
     outer: for (let ip = 0; ip < probe.length; ip++) {
       const tp = probe[ip], op = tp * 6;
@@ -500,14 +616,34 @@ export function verifyCandidate(c, A, B, tolerance) {
   }
   if (contact) KPROF.contacts++;
 
+  
+  
+  
+  
+  
+  
+  
+  
   let cloud = null;
   let sampleForContainment = false;
   if (!contact && (!listA.length || !listB.length)) {
     if (c.boxA && c.boxB && !(boxInside(c.boxB, c.boxA, EPS) || boxInside(c.boxA, c.boxB, EPS))) {
-      sampleForContainment = false;
+      sampleForContainment = false; 
     } else if (!listA.length && !listB.length) {
+      
+      
+      
       sampleForContainment = false;
     } else {
+      
+      
+      
+      
+      
+      
+      
+      
+      
       const src = listA.length ? A : B, tgt = listA.length ? B : A, lst = listA.length ? listA : listB;
       const o1 = lst[0] * 9, o2 = lst[lst.length - 1] * 9 + 3;
       const r1 = pointInMeshBVH(src.tris[o1] + JX, src.tris[o1 + 1] + JY, src.tris[o1 + 2] + JZ, tgt);
@@ -547,7 +683,7 @@ export function verifyCandidate(c, A, B, tolerance) {
     const allB = listB.length ? listB : [...Array(Math.min(B.count, 400)).keys()];
     sample(A, allA, B, 200);
     sample(B, allB, A, 200);
-    if (!contact && cloud.n > 0) contact = true;
+    if (!contact && cloud.n > 0) contact = true; 
     KPROF.sampled++;
   }
   {
@@ -573,7 +709,7 @@ export function verifyCandidate(c, A, B, tolerance) {
       if (mx - mn < depth) depth = mx - mn;
     }
     KPROF.depthMs += _now() - _t;
-    if (depth < tolerance) return { keep: false };
+    if (depth < tolerance) return { keep: false }; 
     return {
       keep: true,
       method: "tri",
@@ -586,10 +722,22 @@ export function verifyCandidate(c, A, B, tolerance) {
   return { keep: false };
 }
 
+
 function boxInside(a, b, eps) {
   return a.min.x >= b.min.x - eps && a.min.y >= b.min.y - eps && a.min.z >= b.min.z - eps &&
     a.max.x <= b.max.x + eps && a.max.y <= b.max.y + eps && a.max.z <= b.max.z + eps;
 }
+
+
+
+
+
+
+
+
+
+
+
 
 const WORKER_TRI_BUDGET = 40_000_000;
 export function makeMeshCache() {
@@ -603,6 +751,7 @@ export function runVerifyJob(msg, cache = null) {
   const now = () => (typeof performance !== "undefined" ? performance.now() : Date.now());
   const __t0 = now();
   resetKernelProfile();
+  
   const shipped = msg.meshes || {};
   for (const k of Object.keys(shipped)) {
     const m = shipped[k];
@@ -611,8 +760,10 @@ export function runVerifyJob(msg, cache = null) {
     local.tris += m.count;
   }
   const verdicts = [];
+  
   const T = Array.isArray(msg.transform) && msg.transform.length === 16 ? msg.transform : null;
   const viewKey = (bKey) => bKey + VIEW_TAG + (msg.transformSig || "x");
+  
   for (const c of msg.candidates) {
     const keys = T ? [c.aKey, c.bKey, viewKey(c.bKey)] : [c.aKey, c.bKey];
     for (const k of keys) {
@@ -633,10 +784,14 @@ export function runVerifyJob(msg, cache = null) {
         local.map.set(vk, B);
         local.tris += B.count;
       }
+      
       c = { ...c, boxB: meshBoxOf(B) };
     }
     verdicts.push({ idx: c.idx, ...verifyCandidate(c, A, B, msg.tolerance) });
   }
+  
+  
+  
   const budget = Number(msg.triBudget) > 0 ? Number(msg.triBudget) : WORKER_TRI_BUDGET;
   const evicted = [];
   let cacheReset = false;
@@ -651,13 +806,16 @@ export function runVerifyJob(msg, cache = null) {
       if (used.has(k)) continue;
       local.map.delete(k);
       local.tris -= m.count;
-      if (!isViewKey(k)) evicted.push(k);
+      if (!isViewKey(k)) evicted.push(k); 
     }
     if (local.tris > budget) { local.map.clear(); local.tris = 0; cacheReset = true; }
   }
   const top = [...KMESH.entries()].sort((a, b) => b[1].ms - a[1].ms).slice(0, 12).map(([k, e]) => ({ key: k, ...e }));
   return { type: "result", schema: CLS_WORKER_SCHEMA, jobId: msg.jobId, verdicts, computeMs: now() - __t0, cacheReset, evicted, cachedTris: local.tris, profile: { ...KPROF }, topMeshes: top };
 }
+
+
+
 
 const IN_WORKER =
   typeof self !== "undefined" &&
@@ -673,10 +831,15 @@ if (IN_WORKER) {
     }
   };
 } else if (typeof process !== "undefined" && process.versions?.node && typeof window === "undefined") {
+  
+  
+  
+  
+  
   const wt = "node:worker_threads";
   import( wt)
     .then(({ parentPort }) => {
-      if (!parentPort) return;
+      if (!parentPort) return; 
       parentPort.on("message", (msg) => {
         try {
           parentPort.postMessage(runVerifyJob(msg || {}, _workerCache));

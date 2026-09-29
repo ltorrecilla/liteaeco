@@ -25,10 +25,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Organizational Chart - Org Chart Builder & Contacts Manager | liteAECO</title>
 
+    
     <meta name="description" content="Free client-side tool to manage contacts and build organizational charts locally. Create, edit, and visualize team structures. No uploads, private, fast, and built for AEC project teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/organizational-chart.html">
 
+    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/organizational-chart.html">
     <meta property="og:site_name" content="liteAECO">
@@ -40,12 +42,14 @@
     <meta property="og:image:alt" content="liteAECO Organizational Chart tool interface">
     <meta property="og:locale" content="en_US">
 
+    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/organizational-chart.html">
     <meta name="twitter:title" content="Organizational Chart - Org Chart Builder & Contacts Manager | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to manage contacts and build organizational charts locally. Create, edit, and visualize team structures. No uploads, private, fast, and built for AEC project teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-organizational-chart.png">
 
+    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -54,16 +58,23 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
+    
     <style>
         .hidden{display:none}
+        
+
         .as-switch:has(#org-save-menu-disconnect:not(.hidden)){background:#22c55e}
         .as-switch:has(#org-save-menu-disconnect:not(.hidden)) .as-knob{transform:translateX(16px)}
+        
+
         #org-cde-save-icon-on.text-slate-600{color:#fff}
     </style>
 
+    
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
+    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
@@ -73,6 +84,7 @@
     <script src="../js/liteaeco-cde-app.js"></script>
     <script src="../js/liteaeco-contacts.js"></script>
 
+    
     <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
     <script src="../js/vendor/d3-7.9.0.min.js"></script>
     <script src="../js/vendor/d3-flextree-2.1.2.min.js"></script>
@@ -93,10 +105,14 @@
         }
     </script>
 
+    
     <link rel="stylesheet" type="text/css" href="../css/global.css">
     <link rel="stylesheet" type="text/css" href="../css/pdf-org-chart.css">
 
     <style>
+        
+
+
         #contact-modal .modal-panel-stack { display: grid; }
         #contact-modal .modal-panel { grid-area: 1 / 1; }
         #contact-modal .modal-panel.inactive { visibility: hidden; pointer-events: none; }
@@ -106,6 +122,9 @@
 <body
     class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
 
+    
+
+    
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
 
         <div id="info-app" class="info-app">
@@ -154,6 +173,9 @@
 
         <div
             class="p-4 mb-4 flex flex-wrap gap-4 justify-between items-center shrink-0 border-b border-slate-300">
+
+            
+
 
             <div id="project-bar" class="hidden w-full flex flex-wrap items-center gap-3 border-b border-slate-100 pb-3">
                 <input type="text" id="app-project-number" placeholder="No."
@@ -230,6 +252,8 @@
 
             <div class="flex items-center">
                 <div class="flex items-center rounded overflow-visible relative gap-2">
+                    
+
                     <div class="relative flex-1 min-w-[80px] hidden" id="wrapper-cde-save">
                         <button onclick="cdeSaveNow()" id="btn-cde-save"
                             class="w-full px-3 py-1.5 bg-indigo-600 border border-indigo-600 hover:bg-indigo-700 text-white rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1 disabled:opacity-60 disabled:pointer-events-none">
@@ -291,6 +315,9 @@
                         </button>
                         <div
                             class="absolute top-full right-0 min-w-32 w-max mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden">
+                            
+
+
                             <button onclick="autosaveToggle()" id="org-autosave-row"
                                 class="px-3 py-2.5 text-[10px] font-bold text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 uppercase tracking-widest border-b border-slate-100 text-left transition-colors flex items-center justify-between gap-3">
                                 <span data-i18n="autosaveToggle">Autosave</span>
@@ -412,6 +439,7 @@
 
             <div class="overflow-y-auto flex-grow modal-panel-stack">
 
+                
                 <div id="modal-panel-general" class="modal-panel p-5 flex flex-col gap-3.5">
                     <div class="flex gap-3 items-end">
                         <div class="flex-[3]">
@@ -553,6 +581,7 @@
                     </div>
                 </div>
 
+                
                 <div id="modal-panel-contact" class="modal-panel inactive p-5 flex flex-col gap-3.5">
                     <div class="flex gap-3">
                         <div class="flex-[2]">
@@ -639,6 +668,7 @@
                     </div>
                 </div>
 
+                
                 <div id="modal-panel-hr" class="modal-panel inactive p-5 flex flex-col gap-3.5">
                     <div class="flex gap-3">
                         <div class="flex-1">
@@ -804,13 +834,22 @@
         </div>
     </div>
 
+    
+    
     <script>
+        
+        
+        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
+
+        
+        
         window.updateToolDynamicUI = function (d) {
             window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
+            
             const titleInput = document.getElementById('app-organization-title');
             if (titleInput) titleInput.placeholder = window.BASE_PAGE.phOrganizationTitle || "Enter Organization Title...";
 
@@ -829,15 +868,19 @@
             const projTitleInput = document.getElementById('app-project-title');
             if (projTitleInput) projTitleInput.placeholder = window.BASE_PAGE.phProjectTitle || "Project Title...";
 
+
             renderApp();
         };
 
+        
         function bootApp() {
+            
             autoDetectLanguage();
 
+            
             window.injectUI({
                 showNav: true,
-                linkTarget: '',
+                linkTarget: '', 
                 transparentNav: false,
                 showSignIn: false,
                 showCategories: true,
@@ -847,17 +890,31 @@
                 showFooterLinks: true,
             });
 
+            
             window.injectCookieBanner();
 
+            
+            
+
+            
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
 
+        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
 
+        
+        
+        
+
+
+        
+        
+        
         const state = {
             No: 1,
             title: '',
@@ -873,10 +930,15 @@
             treeLevel1: 'company',
             treeLevel2: 'department',
 
+            
             viewingHistory: false,
             historyOrganizationNo: null,
             historyDate: null,
 
+            
+            
+
+            
             tasks: [
                 {
                     id: 't1',
@@ -889,7 +951,13 @@
             ]
         };
 
+        
         let isDirty = false;
+
+        
+
+
+
 
         let typingDirty = false;
         let typingIdleTimer = null;
@@ -909,12 +977,16 @@
             if (typeof Autosave !== "undefined") Autosave.markDirty();
         }
 
+        
         let excelUploadMode = 'open';
         function triggerExcelUpload(mode) {
             excelUploadMode = mode || 'open';
             document.getElementById('excel-upload').click();
         }
 
+        
+        
+        
         state.project = { guid: '', number: '', title: '', client: '', address: '', type: '' };
 
         const PROJECT_FIELD_MAP = {
@@ -931,13 +1003,17 @@
             return !!(p.guid || p.number || p.title || p.client || p.address || p.type);
         }
 
+        
+
+
+
         function updateProjectBarVisibility() {
             const bar = document.getElementById('project-bar');
             if (!bar) return;
             const show = !!(window.__cdeCtx || projectBarHasData() || window.__projectBarManual);
             bar.classList.toggle('hidden', !show);
             const mi = document.getElementById('menu-project-info');
-            if (mi) mi.classList.toggle('hidden', show);
+            if (mi) mi.classList.toggle('hidden', show);   
         }
         window.showProjectBar = function () {
             window.__projectBarManual = true;
@@ -949,6 +1025,7 @@
                 const el = document.getElementById(elId);
                 if (el) el.value = state.project[key] || '';
             }
+            
             updateProjectBarVisibility();
         }
 
@@ -957,7 +1034,7 @@
                 const el = document.getElementById(elId);
                 if (el) el.addEventListener('input', e => {
                     state.project[key] = e.target.value.trim();
-                    noteTyping();
+                    noteTyping(); 
                 });
             }
             const btn = document.getElementById('btn-project-details');
@@ -970,9 +1047,10 @@
         }
         initProjectBar();
 
+        
         function buildProjectInfoRows() {
             if (!state.project.guid && (state.project.number || state.project.title || state.project.client || state.project.address || state.project.type)) {
-                state.project.guid = generatePersonId();
+                state.project.guid = generatePersonId();   
             }
             return [
                 ["--- PROJECT ---", ""],
@@ -986,6 +1064,7 @@
             ];
         }
 
+        
         function parseProjectInfo(infoAoA, getValue) {
             const pv = (k) => { const v = getValue(infoAoA, k); return (v && v !== '-') ? v : ''; };
             state.project = {
@@ -998,13 +1077,20 @@
             };
         }
 
+        
+        
+
+        
         const generateId = (prefix) => prefix + Math.random().toString(36).substr(2, 9);
 
+        
         const sanitizeStr = (str) => {
             if (!str) return '';
+            
             return String(str).replace(/["'<>\&]/g, '').trim();
         };
 
+        
         const escapeHtml = (unsafe) => {
             if (!unsafe) return '';
             return String(unsafe)
@@ -1022,10 +1108,22 @@
             return (words[0][0] + words[words.length - 1][0]).toUpperCase();
         };
 
+        
         function numToLetterCode(n) {
             const i = Math.max(0, n - 1);
             return String.fromCharCode(65 + Math.floor(i / 26) % 26) + String.fromCharCode(65 + (i % 26));
         }
+
+        
+
+
+
+
+
+
+
+
+
 
         const CONTACTS_CONTRACT = 1;
         function _contactsLib() { return (window.liteAECO && window.liteAECO.contacts) || null; }
@@ -1044,12 +1142,14 @@
             const h = Array.from(b, x => x.toString(16).padStart(2, '0')).join('');
             return h.slice(0, 8) + '-' + h.slice(8, 12) + '-' + h.slice(12, 16) + '-' + h.slice(16, 20) + '-' + h.slice(20);
         }
+        
         function newGuid() { return generatePersonId(); }
 
         function _normPersonName(v) {
             const C = _contactsLib();
             return C ? C.normName(v) : String(v == null ? '' : v).trim().toLowerCase().replace(/\s+/g, ' ');
         }
+        
         function _findPersonByName(list, name, company) {
             const n = _normPersonName(name);
             if (!n) return null;
@@ -1060,6 +1160,7 @@
             }
             return hits[0] || null;
         }
+        
         function _remapRefValue(v, map) {
             const C = _contactsLib();
             if (Array.isArray(v)) return C ? C.remapArray(v, map) : v.map(x => (typeof x === 'string' && map[x]) || x);
@@ -1082,6 +1183,9 @@
             counter.n += moved.length;
         }
 
+        
+
+
         function applyPersonRemap(map, opts) {
             opts = opts || {};
             const people = state.people || [];
@@ -1100,6 +1204,7 @@
             const counter = { n: 0 };
             _remapPersonRefs(ok, counter, res.conflicts);
             res.refs = counter.n;
+            
             if (typeof cdeBridge !== 'undefined' && cdeBridge.baseline && Array.isArray(cdeBridge.baseline.people)) {
                 cdeBridge.baseline.people.forEach(p => { if (ok[p.id]) p.id = ok[p.id]; });
             }
@@ -1111,6 +1216,9 @@
             if (res.conflicts.length) console.warn('person remap: kept target values on conflict', res.conflicts);
             return res;
         }
+
+        
+
 
         function _cdeResolveStaleRefs(st) {
             const C = _contactsLib();
@@ -1128,11 +1236,13 @@
             if (conflicts.length) console.warn('stale refs: kept target values on conflict', conflicts);
             return counter.n;
         }
+        
         function _looksLikePersonId(v) {
             const s = String(v == null ? '' : v).trim();
             return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s) || /^m-[a-z0-9-]+$/.test(s);
         }
 
+        
         function _remapPersonRefs(map, counter, conflicts) {
             (state.people || []).forEach(p => {
                 _remapRefField(p, 'reportingTo', map, counter);
@@ -1142,8 +1252,9 @@
             (state.teams || []).forEach(t => _remapRefField(t, 'manager', map, counter));
             (state.tasks || []).forEach(t => (t.subtasks || []).forEach(st => _remapRefField(st, 'assignees', map, counter)));
         }
-        function _rosterPersonDefaults() { return {}; }
+        function _rosterPersonDefaults() { return {}; }   
         function _markPeopleDirty() { isDirty = true; if (typeof Autosave !== 'undefined' && Autosave.markDirty) Autosave.markDirty(); }
+        
 
         function extractId(str) {
             if (!str) return null;
@@ -1174,6 +1285,9 @@
             return strDate.replace(/\./g, '-');
         }
 
+        
+        
+        
         function renderApp() {
             const titleInput = document.getElementById('app-organization-title');
             const dateInput = document.getElementById('app-organization-date');
@@ -1182,6 +1296,7 @@
             if (titleInput) titleInput.value = state.title;
             if (dateInput) dateInput.value = state.date;
 
+            
             if (chartTypeInput) chartTypeInput.value = state.chartType || 'Standard';
 
             renderPeople();
@@ -1190,6 +1305,8 @@
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
+        
+        
         let renderDebounce;
         function updateVisuals() {
             clearTimeout(renderDebounce);
@@ -1198,28 +1315,34 @@
             }, 50);
         }
 
+        
         function renderPeople() { updateVisuals(); }
         function renderTasks() { updateVisuals(); }
 
+        
+        
+        
         let currentContactSort = { field: 'status', direction: 'asc' };
         let currentContactSearch = '';
         let currentContactPage = 1;
-        const CONTACTS_PER_PAGE = 12;
+        const CONTACTS_PER_PAGE = 12; 
 
         function updateContactSearch(query) {
             currentContactSearch = query.toLowerCase();
-            currentContactPage = 1;
+            currentContactPage = 1; 
             renderAllContactsList();
         }
 
         function changeContactSort(field) {
             if (currentContactSort.field === field) {
+                
                 currentContactSort.direction = currentContactSort.direction === 'asc' ? 'desc' : 'asc';
             } else {
+                
                 currentContactSort.field = field;
                 currentContactSort.direction = 'asc';
             }
-            currentContactPage = 1;
+            currentContactPage = 1; 
             renderAllContactsList();
         }
 
@@ -1227,11 +1350,13 @@
             currentContactPage = newPage;
             renderAllContactsList();
 
+            
             const scrollContainer = document.getElementById('all-contacts-list').parentElement;
             if (scrollContainer) scrollContainer.scrollTop = 0;
         }
 
         function openAllContactsModal() {
+            
             currentContactSearch = '';
             currentContactPage = 1;
             const searchInput = document.getElementById('modal-search-input');
@@ -1247,6 +1372,7 @@
             renderTasks();
         }
 
+        
         function getSortIcon(field) {
             if (currentContactSort.field !== field) return '<i data-lucide="chevrons-up-down" class="w-3 h-3 opacity-30 group-hover:opacity-100 transition-opacity"></i>';
             return currentContactSort.direction === 'asc'
@@ -1260,12 +1386,14 @@
 
             if (state.people.length === 0) return;
 
+            
             let filteredPeople = state.people.filter(p => {
                 if (!currentContactSearch) return true;
                 const searchStr = `${p.name} ${p.company} ${p.location} ${p.campus || ''} ${p.role} ${p.department} ${p.teams} ${p.reportingTo} ${p.inContactWith} ${p.contactMail || p.contactInfo || ''} ${p.employeeCode || ''} ${p.employeeNumber || ''} ${p.skills || ''} ${p.comments || ''}`.toLowerCase();
                 return searchStr.includes(currentContactSearch);
             });
 
+            
             let sortedPeople = filteredPeople.sort((a, b) => {
                 let valA, valB;
 
@@ -1291,9 +1419,11 @@
                 return currentContactSort.direction === 'asc' ? (valA - valB) : (valB - valA);
             });
 
+            
             const totalItems = sortedPeople.length;
             const totalPages = Math.max(1, Math.ceil(totalItems / CONTACTS_PER_PAGE));
 
+            
             if (currentContactPage > totalPages) currentContactPage = totalPages;
             if (currentContactPage < 1) currentContactPage = 1;
 
@@ -1302,6 +1432,7 @@
 
             const paginatedPeople = sortedPeople.slice(startIndex, endIndex);
 
+            
             let html = `
             <div class="grid grid-cols-[1.5fr_1fr_1fr_1.5fr_1fr_1.5fr_1fr_60px_1.5fr_1.5fr_1fr_1fr_70px] gap-2 p-4 border-b border-slate-200 bg-slate-50 text-[10px] font-bold text-slate-500 uppercase tracking-wider sticky top-0 z-[70] shadow-sm">
                 <button onclick="changeContactSort('name')" class="flex items-center gap-1 hover:text-indigo-600 transition-colors group outline-none text-left">${window.BASE_PAGE.colName || 'Name'} ${getSortIcon('name')}</button>
@@ -1319,6 +1450,7 @@
                 <button onclick="changeContactSort('status')" class="flex items-center justify-center gap-1 hover:text-indigo-600 transition-colors group outline-none">${window.BASE_PAGE.colStatus || 'Status'} ${getSortIcon('status')}</button>
             </div>`;
 
+            
             const createInlineInput = (id, field, val, ph = '...', useAutocomplete = true) => {
                 const inputHtml = `<input type="text" class="input-allcontacts-edit w-full border border-slate-200 bg-white rounded px-2 py-1 text-xs focus:outline-none focus:border-indigo-500 transition-colors" data-field="${field}" data-id="${id}" value="${escapeHtml(val || '')}" placeholder="${ph}">`;
                 if (useAutocomplete) {
@@ -1327,6 +1459,7 @@
                 return `<div>${inputHtml}</div>`;
             };
 
+            
             if (paginatedPeople.length === 0) {
                 html += `<div class="p-8 text-center text-sm text-slate-400 italic">${window.BASE_PAGE.emptySearchContacts || 'No contacts match your search.'}</div>`;
             } else {
@@ -1365,10 +1498,12 @@
                 });
             }
 
+            
             const paginationEl = document.getElementById('all-contacts-pagination');
             let paginationHtml = '';
 
             if (totalItems > CONTACTS_PER_PAGE) {
+                
                 paginationHtml = `
                 <div class="flex items-center justify-between px-6 py-3">
                     <div class="text-xs text-slate-500">
@@ -1386,15 +1521,18 @@
                 </div>`;
             }
 
+            
             listEl.innerHTML = html;
             if (paginationEl) paginationEl.innerHTML = paginationHtml;
 
+            
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons({ root: listEl });
                 if (paginationEl) lucide.createIcons({ root: paginationEl });
             }
         }
 
+        
         function openAllTeamsModal() {
             document.getElementById('all-teams-modal').classList.remove('hidden');
             setTimeout(() => document.getElementById('all-teams-modal').classList.remove('opacity-0'), 10);
@@ -1473,15 +1611,20 @@
             return assignees.map(id => {
                 if (id.startsWith('c_')) {
                     const compName = id.substring(2);
+                    
                     return `<span class="bg-amber-100 text-amber-700 border border-amber-200 text-[10px] font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 shadow-sm cursor-help print:bg-slate-200 print:text-black print:border-slate-400 print:shadow-none" title="${escapeHtml(compName)}">${getInitials(compName)}</span>`;
                 } else {
                     const p = state.people.find(x => x.id === id);
+                    
                     if (p) return `<span class="bg-slate-100 text-slate-700 border border-indigo-200 text-[10px] font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 shadow-sm cursor-help print:bg-white print:text-black print:border-slate-400 print:shadow-none" title="${escapeHtml(p.name)}">${getInitials(p.name)}</span>`;
                     return '';
                 }
             }).join('');
         }
 
+        
+        
+        
         function switchModalTab(tab) {
             document.querySelectorAll('.modal-tab').forEach(t => {
                 t.classList.remove('border-indigo-500', 'text-indigo-600');
@@ -1507,6 +1650,7 @@
 
             document.getElementById('contact-modal-id').value = person.id;
 
+            
             document.getElementById('contact-modal-name').value = person.name || '';
             document.getElementById('contact-modal-isassistant').checked = !!person.isAssistant;
             document.getElementById('contact-modal-company').value = person.company || '';
@@ -1517,11 +1661,13 @@
             document.getElementById('contact-modal-employeecode').value = person.employeeCode || '';
             document.getElementById('contact-modal-employeenumber').value = person.employeeNumber || '';
 
+            
             document.getElementById('contact-modal-reportingto').value = person.reportingTo || '';
             document.getElementById('contact-modal-secondarymanager').value = person.secondaryManager || '';
             document.getElementById('contact-modal-teams').value = person.teams || '';
             document.getElementById('contact-modal-incontactwith').value = person.inContactWith || '';
 
+            
             document.getElementById('contact-modal-contactmail').value = person.contactMail || person.contactInfo || '';
             document.getElementById('contact-modal-contactphone').value = person.contactPhone || '';
             document.getElementById('contact-modal-location').value = person.location || '';
@@ -1531,6 +1677,7 @@
             document.getElementById('contact-modal-hood').value = person.hood || '';
             autoFillManagerMail();
 
+            
             document.getElementById('contact-modal-startingdate').value = person.startingDate || '';
             document.getElementById('contact-modal-percentage').value = person.percentage || '';
             document.getElementById('contact-modal-costcenter').value = person.costCenter || '';
@@ -1540,6 +1687,7 @@
             document.getElementById('contact-modal-engagement').value = person.engagement || '';
             document.getElementById('contact-modal-comments').value = person.comments || '';
 
+            
             switchModalTab('general');
 
             const compDropdown = document.getElementById('company-autocomplete-dropdown');
@@ -1557,6 +1705,7 @@
             const person = state.people.find(p => p.id === id);
 
             if (person) {
+                
                 person.name = sanitizeStr(document.getElementById('contact-modal-name').value);
                 person.isAssistant = document.getElementById('contact-modal-isassistant').checked;
                 person.company = sanitizeStr(document.getElementById('contact-modal-company').value);
@@ -1565,10 +1714,12 @@
                 person.department = sanitizeStr(document.getElementById('contact-modal-department').value);
                 person.employeeCode = document.getElementById('contact-modal-employeecode').value.trim();
                 person.employeeNumber = document.getElementById('contact-modal-employeenumber').value.trim();
+                
                 person.reportingTo = sanitizeStr(document.getElementById('contact-modal-reportingto').value);
                 person.secondaryManager = sanitizeStr(document.getElementById('contact-modal-secondarymanager').value);
                 person.teams = sanitizeStr(document.getElementById('contact-modal-teams').value);
                 person.inContactWith = sanitizeStr(document.getElementById('contact-modal-incontactwith').value);
+                
                 person.contactMail = document.getElementById('contact-modal-contactmail').value.trim();
                 person.contactPhone = document.getElementById('contact-modal-contactphone').value.trim();
                 person.location = sanitizeStr(document.getElementById('contact-modal-location').value);
@@ -1576,6 +1727,7 @@
                 person.building = sanitizeStr(document.getElementById('contact-modal-building').value);
                 person.floor = sanitizeStr(document.getElementById('contact-modal-floor').value);
                 person.hood = sanitizeStr(document.getElementById('contact-modal-hood').value);
+                
                 person.startingDate = document.getElementById('contact-modal-startingdate').value;
                 person.percentage = document.getElementById('contact-modal-percentage').value.trim();
                 person.costCenter = document.getElementById('contact-modal-costcenter').value.trim();
@@ -1590,6 +1742,9 @@
             }
         }
 
+        
+        
+        
         function showDialog(type, message, onConfirm = null, onCancel = null) {
             const overlay = document.getElementById('custom-dialog');
             const box = document.getElementById('custom-dialog-box');
@@ -1636,6 +1791,7 @@
             overlay.classList.remove('hidden');
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: overlay });
 
+            
             setTimeout(() => {
                 overlay.classList.remove('opacity-0');
                 box.classList.remove('scale-95');
@@ -1654,7 +1810,11 @@
             setTimeout(() => { overlay.classList.add('hidden'); }, 200);
         }
 
+        
+        
+        
         function prepareAndPrint() {
+            
             document.querySelectorAll('.task-content-wrapper.hidden, .st-controls-wrapper.hidden').forEach(el => {
                 el.classList.remove('hidden');
             });
@@ -1671,26 +1831,37 @@
                 ta.style.height = ta.scrollHeight + 'px';
             });
 
+            
+            
+            
+            
             const container = document.getElementById('org-chart-container');
             const svg = (container && state.chartType !== 'Contact List')
                 ? container.querySelector('svg:not(.lucide)')
                 : null;
 
             if (svg) {
+                
                 const screenWidth = svg.clientWidth || container.clientWidth;
                 const screenHeight = svg.clientHeight || container.clientHeight;
 
+                
+                
+                
                 svg.setAttribute('viewBox', `0 0 ${screenWidth} ${screenHeight}`);
 
+                
                 svg.removeAttribute('width');
                 svg.removeAttribute('height');
                 svg.style.width = '100%';
                 svg.style.height = 'auto';
             }
 
+            
             setTimeout(() => {
                 window.print();
 
+                
                 setTimeout(() => {
                     if (typeof renderOrgChart === 'function') renderOrgChart();
                 }, 1000);
@@ -1698,6 +1869,9 @@
             }, 300);
         }
 
+        
+        
+        
         document.addEventListener('DOMContentLoaded', () => {
 
             document.addEventListener('keydown', (e) => {
@@ -1713,6 +1887,7 @@
                 const inputName = document.getElementById('input-new-person');
                 const inputPart = document.getElementById('input-new-participation');
 
+                
                 const rawName = inputName.value.trim();
                 const name = sanitizeStr(rawName);
 
@@ -1794,10 +1969,13 @@
                     renderApp();
                 }
 
+                
                 const activeDropdown = e.target.closest('.dropdown-container');
                 if (!activeDropdown) {
+                    
                     document.querySelectorAll('.dropdown-container > .absolute').forEach(el => el.classList.add('hidden'));
                 } else {
+                    
                     document.querySelectorAll('.dropdown-container').forEach(container => {
                         if (container !== activeDropdown) {
                             const menu = container.querySelector('.absolute');
@@ -1812,6 +1990,7 @@
                     const id = e.target.closest('.btn-del-person').dataset.id;
                     const confirmStr = window.BASE_PAGE.confirmRemovePerson || 'Remove this person from the active contacts list? (They will be preserved in past organization records)';
 
+                    
                     showDialog('confirm', confirmStr, () => {
                         const person = state.people.find(p => p.id === id);
                         if (person) person.archived = true;
@@ -1830,6 +2009,7 @@
                     const id = e.target.closest('.btn-del-task').dataset.id;
                     const confirmStr = window.BASE_PAGE.confirmDeleteTask || 'Delete this entire task and its subtasks?';
 
+                    
                     showDialog('confirm', confirmStr, () => {
                         state.tasks = state.tasks.filter(t => t.id !== id);
                         isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
@@ -1846,7 +2026,7 @@
                             id: generateId('s'), number: maxStNum + 1, text: '', assignees: [], dueDate: '', priority: 'low', status: 'open',
                             initialDate: state.date, closeDate: ''
                         });
-                        isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
+                        isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); 
                         renderTasks();
                     }
                 }
@@ -1865,7 +2045,7 @@
                     const searchEl = document.getElementById('app-search');
                     if (searchEl) searchEl.value = '';
 
-                    isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
+                    isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); 
                     renderTasks();
 
                     const container = document.getElementById('tasks-container');
@@ -1878,7 +2058,7 @@
                         const idx = task.subtasks.findIndex(st => st.id === stId);
                         if (idx > -1) task.subtasks.splice(idx, 1);
                     });
-                    isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
+                    isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); 
                     renderTasks();
                 }
 
@@ -1928,18 +2108,21 @@
                     }
                 }
 
+                
                 if (e.target.closest('.btn-archive-team')) {
                     const id = e.target.closest('.btn-archive-team').dataset.id;
                     const team = state.teams.find(t => t.id === id);
                     if (team) { team.archived = true; isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); renderAllTeamsList(); updateVisuals(); }
                 }
 
+                
                 if (e.target.closest('.btn-restore-team')) {
                     const id = e.target.closest('.btn-restore-team').dataset.id;
                     const team = state.teams.find(t => t.id === id);
                     if (team) { team.archived = false; isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); renderAllTeamsList(); updateVisuals(); }
                 }
 
+                
                 if (e.target.closest('.btn-del-team')) {
                     const id = e.target.closest('.btn-del-team').dataset.id;
                     const msg = window.BASE_PAGE.confirmDeleteTeam || "Permanently delete this team? (People inside it will not be deleted)";
@@ -1950,12 +2133,14 @@
                     }
                 }
 
+                
                 if (e.target.classList.contains('input-allteams-edit')) {
                     handleInlineAutocomplete(e.target);
                 }
             });
 
             document.addEventListener('change', (e) => {
+                
                 if (e.target.classList.contains('input-allcontacts-cb')) {
                     const id = e.target.dataset.id;
                     const field = e.target.dataset.field;
@@ -1966,6 +2151,7 @@
                     }
                 }
 
+                
                 if (e.target.classList.contains('input-allcontacts-select')) {
                     const id = e.target.dataset.id;
                     const field = e.target.dataset.field;
@@ -1976,6 +2162,7 @@
                     }
                 }
 
+                
                 if (e.target.id !== 'excel-upload') {
                     isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
                 }
@@ -1987,10 +2174,12 @@
                 }
 
                 if (e.target.classList.contains('input-st-assignee-cb')) {
+                    
                     const stId = e.target.getAttribute('data-stid');
                     const pId = e.target.getAttribute('data-pid');
                     const cId = e.target.getAttribute('data-cid');
 
+                    
                     let assignId = null;
                     if (pId && pId !== "null" && pId !== "") {
                         assignId = pId;
@@ -2045,12 +2234,14 @@
                         }
                         if (e.target.classList.contains('input-st-date')) {
                             st.dueDate = e.target.value;
+                            
                             e.target.setAttribute('value', e.target.value);
                         }
                     }
                 }
             });
 
+            
             const elChartType = document.getElementById('app-chart-type');
             const btnComms = document.getElementById('btn-toggle-comms');
 
@@ -2059,6 +2250,7 @@
                     state.chartType = e.target.value;
                     isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
 
+                    
                     if (btnComms) {
                         if (e.target.value === 'Standard' || e.target.value === 'Team-based') {
                             btnComms.classList.remove('hidden');
@@ -2071,6 +2263,7 @@
                 });
             }
 
+            
             if (btnComms) {
                 btnComms.addEventListener('click', () => {
                     state.showCommLines = !state.showCommLines;
@@ -2088,6 +2281,8 @@
             }
 
             document.addEventListener('input', (e) => {
+                
+                
                 if (e.target.id !== 'app-search' && e.target.id !== 'modal-search-input' && e.target.id !== 'cl-search') {
                     noteTyping();
                 }
@@ -2104,6 +2299,7 @@
                     }
                 }
 
+                
                 if (e.target.classList.contains('input-allcontacts-edit')) {
                     const id = e.target.dataset.id;
                     const field = e.target.dataset.field;
@@ -2118,14 +2314,17 @@
                         }
                     }
 
+                    
                     handleInlineAutocomplete(e.target);
                 }
 
+                
                 if (e.target.classList.contains('input-cl-edit') &&
                     ['company', 'role'].includes(e.target.dataset.field)) {
                     handleInlineAutocomplete(e.target);
                 }
 
+                
                 if (e.target.classList.contains('input-allteams-edit')) {
                     const id = e.target.dataset.id;
                     const field = e.target.dataset.field;
@@ -2138,6 +2337,7 @@
                             e.target.value = newName;
                             team.name = newName;
 
+                            
                             state.people.forEach(p => {
                                 if (p.teams) {
                                     const tArr = p.teams.split(',').map(s => s.trim());
@@ -2148,6 +2348,7 @@
                                     }
                                 }
                             });
+                            
                             state.teams.forEach(t => {
                                 if (t.parentTeam === oldName) t.parentTeam = newName;
                             });
@@ -2155,10 +2356,13 @@
                             team[field] = e.target.value;
                         }
                     }
+                    
                     handleInlineAutocomplete(e.target);
                 }
             });
 
+            
+            
             document.addEventListener('focusout', (e) => {
                 if (!typingDirty) return;
                 const t = e.target;
@@ -2166,12 +2370,18 @@
                     commitTypingDirty();
                 }
             });
+            
             document.addEventListener('visibilitychange', () => {
                 if (document.visibilityState === 'hidden' && typingDirty) {
                     commitTypingDirty();
                     if (typeof Autosave !== "undefined" && Autosave.flush) Autosave.flush();
                 }
             });
+            
+            
+            
+            
+            
             window.addEventListener('beforeunload', (e) => {
                 if (!window.__cdeCtx) return;
                 let cdePending = false;
@@ -2181,13 +2391,14 @@
                             (cdeBridge.baseline && cdeBridge.diff(cdeBridge.baseline, cdeBridge.snap()).length > 0));
                 } catch (err) { }
                 if (typingDirty || cdePending) {
-                    commitTypingDirty();
+                    commitTypingDirty(); 
                     try { if (typeof cdeBridge !== 'undefined' && cdeBridge.flush) cdeBridge.flush(); } catch (err) { }
                     e.preventDefault();
                     e.returnValue = (window.BASE_PAGE && window.BASE_PAGE.unsavedLeaveMessage) || "You have unsaved changes. Are you sure you want to leave?";
                     return e.returnValue;
                 }
             });
+
 
             const fileUploadEl = document.getElementById('excel-upload');
             if (fileUploadEl) {
@@ -2196,8 +2407,10 @@
                     if (!file) return;
 
                     const mode = excelUploadMode;
-                    excelUploadMode = 'open';
+                    excelUploadMode = 'open';   
 
+                    
+                    
                     if (mode === 'open' && isDirty && state.people.length > 0) {
                         const msg = window.BASE_PAGE.confirmImportReplace || "Are you sure you want to import this file? Existing unsaved data will be replaced.";
                         if (!confirm(msg)) {
@@ -2211,6 +2424,7 @@
                         const data = new Uint8Array(event.target.result);
                         let workbook;
 
+                        
                         try {
                             workbook = XLSX.read(data, { type: 'array' });
                         } catch (err) {
@@ -2221,6 +2435,7 @@
                             return;
                         }
 
+                        
                         try {
                             if (mode === 'contacts') {
                                 importContactsOnly(workbook);
@@ -2238,6 +2453,7 @@
                 });
             }
 
+            
             const nameInput = document.getElementById('input-new-person');
             const nameDropdown = document.getElementById('name-autocomplete-dropdown');
 
@@ -2275,6 +2491,7 @@
             }
 
             document.addEventListener('click', (e) => {
+                
                 if (e.target.closest('.name-suggestion')) {
                     const suggestion = e.target.closest('.name-suggestion');
                     const pId = suggestion.dataset.id;
@@ -2295,16 +2512,18 @@
                     nameDropdown.classList.add('hidden');
                 }
 
+                
                 if (e.target.closest('.btn-toggle-archive')) {
                     const id = e.target.closest('.btn-toggle-archive').dataset.id;
                     const person = state.people.find(p => p.id === id);
                     if (person) {
                         person.archived = !person.archived;
-                        if (!person.archived) person.present = true;
-                        renderAllContactsList();
+                        if (!person.archived) person.present = true; 
+                        renderAllContactsList(); 
                     }
                 }
 
+                
                 if (e.target.classList.contains('input-allcontacts-edit')) {
                     handleInlineAutocomplete(e.target);
                 }
@@ -2332,6 +2551,10 @@
                     }
 
                     input.dispatchEvent(new Event('input', { bubbles: true }));
+                    
+                    
+                    
+                    
                     input.dispatchEvent(new Event('change', { bubbles: true }));
                     dropdown.classList.add('hidden');
                 } else if (!e.target.classList.contains('input-allcontacts-edit') &&
@@ -2340,6 +2563,7 @@
                 }
             });
 
+            
             function handleInlineAutocomplete(input) {
                 const field = input.dataset.field;
                 const dropdown = input.nextElementSibling;
@@ -2365,9 +2589,11 @@
 
                 let allValues = [];
 
+                
                 if (field === 'parentTeam' && state.teams) {
                     state.teams.forEach(t => allValues.push(t.name.trim()));
                 } else {
+                    
                     state.people.forEach(p => {
                         let fieldVal = p[field];
                         if (fieldVal) {
@@ -2396,6 +2622,7 @@
                 }
             }
 
+            
             function setupGenericAutocomplete(inputId, dropdownId, stateField, isCommaSeparated = false, includeNames = false) {
                 const input = document.getElementById(inputId);
                 const dropdown = document.getElementById(dropdownId);
@@ -2427,6 +2654,7 @@
                                 allValues.push(fieldVal.trim());
                             }
                         }
+                        
                         if (includeNames && p.name) {
                             allValues.push(formatPersonRef(p));
                         }
@@ -2455,8 +2683,8 @@
 
                         if (isCommaSeparated) {
                             const parts = input.value.split(',');
-                            parts.pop();
-                            parts.push(' ' + selectedVal);
+                            parts.pop(); 
+                            parts.push(' ' + selectedVal); 
                             input.value = parts.join(',').trim() + ', ';
                         } else {
                             input.value = selectedVal;
@@ -2471,6 +2699,7 @@
                 });
             }
 
+            
             setupGenericAutocomplete('contact-modal-company', 'company-autocomplete-dropdown', 'company', false, false);
             setupGenericAutocomplete('contact-modal-location', 'location-autocomplete-dropdown', 'location', false, false);
             setupGenericAutocomplete('contact-modal-campus', 'campus-autocomplete-dropdown', 'campus', false, false);
@@ -2483,12 +2712,14 @@
             setupGenericAutocomplete('contact-modal-teams', 'teams-autocomplete-dropdown', 'teams', true, false);
             setupGenericAutocomplete('contact-modal-incontactwith', 'incontactwith-autocomplete-dropdown', 'inContactWith', true, true);
 
+            
             const reportingToInput = document.getElementById('contact-modal-reportingto');
             if (reportingToInput) {
                 reportingToInput.addEventListener('input', autoFillManagerMail);
                 reportingToInput.addEventListener('change', autoFillManagerMail);
             }
 
+            
             renderApp();
         });
 
@@ -2500,6 +2731,10 @@
             return null;
         }
 
+        
+        
+        
+        
         const Autosave = liteAECO.createAutosave({
             toolId: "org_chart",
             fileSuffix: ".orgchart.json",
@@ -2522,7 +2757,12 @@
             hasPendingInput: () => typingDirty,
             commitPendingInput: () => commitTypingDirty()
         });
+        
+
+
+
         function _cdeParams() {
+            
             if (window.liteAECO && liteAECO.app) {
                 const p = liteAECO.app.params();
                 return p ? { guid: p.guid, open: p.open } : null;
@@ -2545,6 +2785,11 @@
         }
 
         async function _cdeLoad(info, params) {
+            
+            
+            
+            
+            
             window.__cdeReadOnly = !!(window.__cdeApp && window.__cdeApp.readOnly);
             let data;
             try { data = await _cdeReadFile(info.handle, params.open); }
@@ -2560,6 +2805,9 @@
                 console.error("CDE OPEN PARSE ERROR:", err);
                 return true;
             }
+            
+            
+            
             let _blankIdRows = 0;
             try {
                 const _C = _contactsLib();
@@ -2571,6 +2819,8 @@
                 console.error("CDE IMPORT LOGIC ERROR:", err);
                 return true;
             }
+            
+            
             if (state.project.guid && state.project.guid !== params.guid) {
                 const adopt = await new Promise(function (resolve) {
                     showDialog('confirm',
@@ -2586,7 +2836,9 @@
             window.__cdeCtx = { guid: params.guid, path: params.open, handle: info.handle };
             const cs = document.getElementById('wrapper-cde-save');
             if (cs) cs.classList.remove('hidden');
-            updateProjectBarVisibility();
+            updateProjectBarVisibility();   
+            
+            
             for (const elId of Object.keys(PROJECT_FIELD_MAP)) {
                 const el = document.getElementById(elId);
                 if (el) {
@@ -2595,11 +2847,14 @@
                     el.title = window.BASE_PAGE.cdeFieldLocked || 'Managed in the Project Hub settings';
                 }
             }
+            
+            
             const infoCard = document.getElementById('info-app');
             if (infoCard) infoCard.classList.remove('hidden');
             try {
                 await _cdeBridgeInit(info, params);
-                await _cdeFillProjectInfo(info, params);
+                await _cdeFillProjectInfo(info, params);   
+                
                 try {
                     const _st = await liteAECO.cde.loadState(info.handle);
                     if (_cdeResolveStaleRefs(_st)) { _markPeopleDirty(); if (typeof renderApp === 'function') renderApp(); }
@@ -2609,12 +2864,17 @@
                     cdeBridge.scheduleWriteBack();
                 }
             } catch (e) {
+                
+                
+                
                 console.error("CDE bridge init failed:", e);
                 if (typeof Autosave !== "undefined" && Autosave.renderStatus) Autosave.renderStatus("error");
                 showDialog('alert', (window.BASE_PAGE.cdeBridgeFailed ||
                     "Project sync could not start - changes will NOT be saved to the project folder. Update js/liteaeco-cde.js to the latest build and reload.") +
                     "\n\n(" + (e && e.message ? e.message : e) + ")");
             }
+            
+
             window.addEventListener("beforeunload", function (e) {
                 if (window.__cdeUnsaved) {
                     try { cdeBridge.flushWriteBack(); } catch (err) { }
@@ -2629,6 +2889,9 @@
             if (!params) return false;
             if (!(window.liteAECO && liteAECO.cde)) return false;
             const B = window.BASE_PAGE || {};
+            
+            
+            
             if (!liteAECO.app) {
                 showDialog('alert', "js/liteaeco-cde-app.js is missing - update the js folder and reload.");
                 return true;
@@ -2642,7 +2905,7 @@
                     alert: (m) => showDialog('alert', m),
                     text: { noHandle: B.cdeNoHandle, noAccess: B.cdeNoAccess, readOnly: B.cdeReadOnly }
                 });
-                if (!ctx || ctx.error) return true;
+                if (!ctx || ctx.error) return true;   
                 window.__cdeApp = ctx;
                 return await _cdeLoad({ handle: ctx.handle, name: ctx.name, permission: "granted" }, { guid: ctx.guid, open: ctx.path });
             } catch (err) {
@@ -2652,12 +2915,22 @@
             }
         }
 
+        
+
+
+
+
+
+        
+
         async function autosaveToggle() {
             const pill = document.getElementById('org-save-menu-disconnect');
             const on = pill && !pill.classList.contains('hidden');
             if (on) await Autosave.disconnect();
             else await Autosave.connectFile();
         }
+
+        
 
         async function cdeSaveNow() {
             if (!window.__cdeCtx) return;
@@ -2733,8 +3006,10 @@
                 return this.session.append(this.author, this.appId, events);
             },
             flush: async function () {
-                if (window.__cdeReadOnly) return;
+                if (window.__cdeReadOnly) return;   
                 if (!this.session || !this.baseline) return;
+                
+                
                 if (this.flushing) { this.pending = true; return; }
                 this.flushing = true;
                 let appended = false;
@@ -2746,33 +3021,41 @@
                         if (!events.length) continue;
                         try {
                             await this.append(events);
-                            this.baseline = cur;
+                            this.baseline = cur;   
                             appended = true;
                         } catch (e) {
                             console.warn("CDE append failed (kept for retry):", e);
                             if (this.onError) this.onError();
-                            break;
+                            break;   
                         }
                     } while (this.pending);
                 } finally {
                     this.flushing = false;
                 }
+                
+                
                 if (appended) {
                     if (this.onSaved) this.onSaved();
                     if (typeof document !== "undefined" && document.visibilityState === "hidden") {
-                        await this.flushWriteBack();
+                        await this.flushWriteBack();   
                     } else {
                         this.scheduleWriteBack();
                     }
                 }
             },
 
+            
+
+
+
+
             writeBack: { timer: null, busy: false, pending: false, lastMtime: 0, lastSize: 0 },
             lastAssignHash: null,
             scheduleWriteBack: function () {
-                if (window.__cdeReadOnly) return;
+                if (window.__cdeReadOnly) return;   
                 if (!window.__cdeCtx) return;
-                window.__cdeUnsaved = true;
+                window.__cdeUnsaved = true;   
+                
                 if (typeof Autosave !== "undefined" && Autosave.toastNotify) Autosave.toastNotify("dirty");
                 const wbk = this.writeBack;
                 clearTimeout(wbk.timer);
@@ -2780,13 +3063,13 @@
                 wbk.timer = setTimeout(function () { self.flushWriteBack(); }, window.__cdeWriteBackMs || 2000);
             },
             flushWriteBack: async function () {
-                if (window.__cdeReadOnly) return;
+                if (window.__cdeReadOnly) return;   
                 const ctx = window.__cdeCtx;
                 if (!ctx || !ctx.handle || !ctx.path) return;
                 const wbk = this.writeBack;
                 if (wbk.busy) { wbk.pending = true; return; }
                 wbk.busy = true;
-                let wroteOk = false;
+                let wroteOk = false;   
                 try {
                     do {
                         wbk.pending = false;
@@ -2803,13 +3086,16 @@
                             let dir = ctx.handle;
                             for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: true });
                             const fh = await dir.getFileHandle(fname, { create: true });
-                            const w = await fh.createWritable();
+                            const w = await fh.createWritable();   
                             await w.write(buf);
                             await w.close();
                             const f = await fh.getFile();
-                            wbk.lastMtime = f.lastModified;
+                            wbk.lastMtime = f.lastModified;   
                             wbk.lastSize = f.size;
                             wroteOk = true;
+                            
+                            
+                            
                             try {
                                 const manA = await liteAECO.cde.readManifest(ctx.handle).catch(() => null);
                                 const adminA = String(liteAECO.cde.paths.folder(manA && !manA.__readError ? manA : null, "admin")).toLowerCase();
@@ -2821,6 +3107,9 @@
                                     }), ctx.path).catch(function () { });
                                 }
                             } catch (e) { }
+                            
+                            
+                            
                             try {
                                 if (window.crypto && window.crypto.subtle) {
                                     const d = await window.crypto.subtle.digest("SHA-256",
@@ -2837,6 +3126,8 @@
                                 }
                             } catch (e) {  }
                         } catch (e) {
+                            
+                            
                             console.warn("CDE write-back failed (will retry on next change):", e);
                             return;
                         }
@@ -2848,6 +3139,14 @@
                         Autosave.toastNotify(wroteOk ? "saved" : "error");
                 }
             },
+
+            
+
+
+
+
+
+
 
             extSeen: { mtime: 0, size: 0 },
             checking: false,
@@ -2869,6 +3168,7 @@
             checkExternal: async function () {
                 const ctx = window.__cdeCtx;
                 if (!ctx || !ctx.handle || !ctx.path) return;
+                
                 if (this.checking || this.flushing || this.writeBack.busy) return;
                 this.checking = true;
                 try {
@@ -2877,21 +3177,27 @@
                         fh = await this._statFile();
                         f = await fh.getFile();
                     } catch (e) {
-                        return;
+                        return;   
                     }
                     const wbk = this.writeBack;
-                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;
-                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;
+                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;   
+                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;   
                     let workbook;
                     try {
                         const buf = await f.arrayBuffer();
                         workbook = XLSX.read(new Uint8Array(buf), { type: "array" });
                     } catch (e) {
                         console.warn("CDE external read/parse failed (transient, will retry):", e);
-                        return;
+                        return;   
                     }
+                    
+                    
                     await this.flush();
                     try {
+                        
+                        
+                        
+                        
                         const wsInfo = workbook.Sheets && workbook.Sheets["INFO"];
                         const aoa = wsInfo ? XLSX.utils.sheet_to_json(wsInfo, { header: 1 }) : [];
                         const a2 = aoa[1] ? String(aoa[1][0] || "").trim() : "";
@@ -2903,17 +3209,21 @@
                         processImportData(workbook, true);
                     } catch (e) {
                         console.warn("CDE external import failed:", e);
-                        return;
+                        return;   
                     }
                     this.extSeen = { mtime: f.lastModified, size: f.size };
-                    isDirty = false;
-                    await this.flush();
+                    isDirty = false;   
+                    await this.flush();   
                 } finally {
                     this.checking = false;
                 }
             }
         };
 
+        
+        
+        
+        
         async function _cdeFillProjectInfo(info, params) {
             try {
                 let hs = {};
@@ -2933,6 +3243,12 @@
                 } catch (e) { }
                 if (!hs.title) hs.title = info.name || '';
                 const addr = [hs.address1, hs.city].filter(Boolean).join(', ') || hs.address || '';
+                
+                
+                
+                
+                
+                
                 const fill = { number: hs.number || '', title: hs.title || '', client: hs.client || '', address: addr, type: hs.type || '' };
                 let changed = false;
                 if (!state.project.guid || state.project.guid === params.guid) {
@@ -2950,6 +3266,8 @@
         }
 
         async function _cdeBridgeInit(info, params) {
+            
+            
             if (!document.getElementById('cde-home-btn')) {
                 const anchor = document.getElementById('app-project-number');
                 if (anchor && anchor.parentElement) {
@@ -2966,9 +3284,18 @@
             cdeBridge.session = cde.session(info.handle);
             cdeBridge.baseline = cdeBridge.snap();
             const dev = await cde.identity.device();
+            
+            
             const memberId = await cde.identity.getMember(params.guid);
+            
             cdeBridge.author = (window.__cdeApp && window.__cdeApp.me && window.__cdeApp.me.author) || memberId || ("device:" + dev);
+            
+            
+            
+            
             function _assign() {
+                
+                
                 var hp = cde.hashFile ? cde.hashFile(info.handle, params.open).catch(function () { return null; })
                     : Promise.resolve(null);
                 return hp.then(function (h) {
@@ -2990,9 +3317,15 @@
                 return _assign();
             }).catch(function (e) { console.warn("CDE assign append failed:", e); });
 
+            
+            
             if (typeof Autosave !== "undefined" && Autosave && typeof Autosave.markDirty === "function") {
+                
                 if (!Autosave.__cdeWrapped) {
                     Autosave.__cdeWrapped = true;
+                    
+                    
+                    
                     Autosave.markDirty = function () {
                         Autosave.renderStatus('dirty');
                         cdeBridge.schedule();
@@ -3002,13 +3335,16 @@
                         Autosave.renderStatus('saved');
                     };
                     cdeBridge.onError = function () { Autosave.renderStatus('error'); };
-                    Autosave.lastSavedAt = new Date();
-                    Autosave.renderStatus('saved');
+                    Autosave.lastSavedAt = new Date();   
+                    Autosave.renderStatus('saved');      
                 }
             }
             document.addEventListener("visibilitychange", function () {
                 if (document.visibilityState === "hidden") cdeBridge.flush();
             });
+
+            
+
 
             await cdeBridge.markLoadedFileSeen();
             window.addEventListener("focus", function () { cdeBridge.checkExternal(); });
@@ -3019,25 +3355,32 @@
         document.addEventListener("DOMContentLoaded", () => {
             cdeAutoOpen().then(function (viaCde) { if (!viaCde) Autosave.boot(); })
                 .catch(function (err) {
+                    
+                    
                     console.error("CDE open failed:", err);
                     showDialog('alert', (window.BASE_PAGE.cdeOpenFailed || "Could not open the project file.") +
                         "\n\n(" + (err && err.message ? err.message : err) + ")");
                 });
         });
 
+        
         function _registryUpsert() {
             if (window.liteAECO && liteAECO.projects && state.project && state.project.guid) {
                 liteAECO.projects.save({ guid: state.project.guid, number: state.project.number || "", title: state.project.title || "", client: state.project.client || "", address: state.project.address || "", type: state.project.type || "" }, "org_chart").catch(() => { });
             }
         }
 
+        
+
+
         function buildWorkbook() {
             const wb = XLSX.utils.book_new();
             const darkColors = ["FFB8CDE2", "FFCADAE9"];
 
+            
             const infoData = [
                 ["www.liteAECO.com"],
-                ["Org Chart Data"],
+                ["Org Chart Data"],                     
                 ["Application: Org Chart Builder"],
                 [],
                 ...buildProjectInfoRows(),
@@ -3048,8 +3391,10 @@
             ];
             const wsInfo = XLSX.utils.aoa_to_sheet(infoData);
             wsInfo['!cols'] = [{ wch: 24 }, { wch: 36 }];
+            
             const a2cell = XLSX.utils.encode_cell({ c: 0, r: 1 });
             if (wsInfo[a2cell]) wsInfo[a2cell].s = { fill: { fgColor: { rgb: 'FF4F46E5' } }, font: { bold: true, color: { rgb: 'FFFFFFFF' } } };
+            
             for (let R = 0; R < infoData.length; R++) {
                 if (typeof infoData[R][0] === 'string' && String(infoData[R][0]).startsWith("---")) {
                     for (let C = 0; C < 2; C++) {
@@ -3060,6 +3405,7 @@
             }
             XLSX.utils.book_append_sheet(wb, wsInfo, "INFO");
 
+            
             const contactHeaders = [
                 "ID", "Employee Code", "Employee Number", "Name", "Company", "Employee Type",
                 "Role", "Teams", "Contact Mail", "Contact Phone",
@@ -3104,10 +3450,10 @@
                     p.inContactWith || "-",
                     p.influence || "-",
                     p.engagement || "-",
-                    p.participation || "-",
-                    p.rasciMatrix || "-",
-                    p.comments || "-",
-                    p.archived ? "Archived" : "Active"
+                    p.participation || "-",        
+                    p.rasciMatrix || "-",         
+                    p.comments || "-",             
+                    p.archived ? "Archived" : "Active" 
                 ]);
             });
 
@@ -3127,6 +3473,7 @@
             }
             XLSX.utils.book_append_sheet(wb, wsContacts, "CONTACTS");
 
+            
             const teamsData = [["Team Name", "Parent Team", "Team Manager (Contact ID)", "Status"]];
 
             if (state.teams) {
@@ -3147,6 +3494,8 @@
         }
 
         function exportToExcel(ext) {
+            
+            
             if (window.__cdeCtx) _registryUpsert();
             if (!state.title || state.title.trim() === '') {
                 showDialog('alert', window.BASE_PAGE.alertMissingTitle || "Please enter a Title before saving.");
@@ -3164,19 +3513,32 @@
             isDirty = false;
         }
 
+        
+        
         function parsePeopleFromWorkbook(workbook) {
             const people = [];
             const wsContactsSrc = workbook.Sheets["CONTACTS"];
 
             if (wsContactsSrc) {
+                
+                
+                
+                
+                
+                
+                
                 const contactsAoA = XLSX.utils.sheet_to_json(wsContactsSrc, { header: 1 });
                 for (let i = 1; i < contactsAoA.length; i++) {
                     const row = contactsAoA[i];
                     if (!row) continue;
                     const clean = (v) => (v && v !== '-') ? String(v).trim() : '';
+                    
                     const h1 = String(contactsAoA[0]?.[1] || '').trim();
                     const h2 = String(contactsAoA[0]?.[2] || '').trim();
                     const h28 = String(contactsAoA[0]?.[28] || '').trim();
+                    
+                    
+                    
                     const isLatest = h1 === 'Employee Code' && h2 === 'Employee Number' && h28 === 'RASCI Matrix';
                     const isV2 = h1 === 'Employee Code' && h2 === 'Employee Number' && h28 !== 'RASCI Matrix';
                     const isOldV2 = h1 === 'Employee Code' && h2 !== 'Employee Number';
@@ -3223,13 +3585,14 @@
                             inContactWith: clean(row[24]),
                             influence: clean(row[25]),
                             engagement: clean(row[26]),
-                            participation: clean(row[27]),
-                            rasciMatrix: clean(row[28]),
+                            participation: clean(row[27]),   
+                            rasciMatrix: clean(row[28]),   
                             comments: clean(row[29]),
                             archived: String(row[30] || '').trim().toLowerCase() === 'archived',
                             contactInfo: clean(row[8]), secondaryManager: '', present: false
                         });
                     } else if (isV2) {
+                        
                         people.push({
                             id, name,
                             employeeCode: clean(row[1]),
@@ -3264,6 +3627,7 @@
                             contactInfo: clean(row[8]), secondaryManager: '', present: false
                         });
                     } else if (isOldV2) {
+                        
                         people.push({
                             id, name, employeeCode: '', employeeNumber: '',
                             company: clean(row[2]),
@@ -3289,6 +3653,7 @@
                     }
                 }
             } else if (workbook.Sheets["INFO"]) {
+                
                 const infoAoA = XLSX.utils.sheet_to_json(workbook.Sheets["INFO"], { header: 1 });
                 const attIndex = infoAoA.findIndex(row => row && row[0] === "--- CONTACTS ---");
                 if (attIndex > -1) {
@@ -3334,6 +3699,8 @@
             return people;
         }
 
+        
+        
         function importContactsOnly(workbook) {
             const T = window.BASE_PAGE || {};
             const incoming = parsePeopleFromWorkbook(workbook);
@@ -3354,6 +3721,7 @@
                     added++;
                 }
             });
+            
             if (!state.teams) state.teams = [];
             const existingTeamNames = new Set(state.teams.map(t => (t.name || '').toLowerCase()));
             state.people.forEach(p => {
@@ -3389,10 +3757,13 @@
                 state.date = new Date().toISOString().split('T')[0];
                 state.initialDate = fromExcelDate(getValue(infoAoA, "Initial Date:")) || state.date;
                 parseProjectInfo(infoAoA, getValue);
+                
             }
 
+            
             state.people = parsePeopleFromWorkbook(workbook);
 
+            
             state.teams = [];
             if (loadTeams) {
                 const wsTeams = workbook.Sheets["TEAMS"];
@@ -3419,6 +3790,7 @@
                 }
             }
 
+            
             const existingTeamNames = new Set(state.teams.map(t => (t.name || '').toLowerCase()));
             state.people.forEach(p => {
                 if (p.teams && p.teams !== '-') {
@@ -3438,6 +3810,7 @@
                 }
             });
 
+            
             state.people.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
 
             state.attendanceHistory = [];
@@ -3449,11 +3822,13 @@
         function importExcelData(workbook) {
             const sheetNames = workbook.SheetNames || [];
 
+            
             const wsInfoCheck = workbook.Sheets["INFO"];
             const infoCheckAoA = wsInfoCheck ? XLSX.utils.sheet_to_json(wsInfoCheck, { header: 1 }) : [];
             const infoA2 = infoCheckAoA[1] ? String(infoCheckAoA[1][0] || '').trim() : '';
             const isOrgChartFile = infoA2 === "Org Chart Data";
 
+            
             const hasContacts = sheetNames.includes("CONTACTS");
             const hasLegacy = wsInfoCheck && infoCheckAoA.some(r => r && r[0] === "--- CONTACTS ---");
 
@@ -3470,6 +3845,7 @@
                 return;
             }
 
+            
             let warnings = [];
             const hasTitleRow = infoCheckAoA.some(r => r && (String(r[0] || '').trim() === 'Title:' || String(r[0] || '').trim() === 'Organization Title:'));
             if (!hasTitleRow) warnings.push("- INFO tab title row missing (org title may not load).");
@@ -3483,8 +3859,12 @@
             }
         }
 
-        let orgChart;
+        let orgChart; 
 
+        
+        
+        
+        
         const contactListUI = { sortCol: 'name', sortDir: 1, search: '', company: '', editingId: null, editBackup: null };
 
         function contactListField(p, col) {
@@ -3496,6 +3876,7 @@
         function renderContactList(container) {
             const T = window.BASE_PAGE || {};
             const dash = '<span class="text-slate-400">-</span>';
+            
             const getActive = () => state.people.filter(p => !p.archived);
 
             container.innerHTML = `
@@ -3580,6 +3961,7 @@
 
                     if (editing) {
                         const inp = (field, val) => `<input type="text" class="input-cl-edit w-full border border-slate-200 bg-white rounded px-2 py-1 text-xs focus:outline-none focus:border-indigo-500 transition-colors" data-field="${field}" data-id="${p.id}" value="${escapeHtml(val)}">`;
+                        
                         const inpLookup = (field, val) => `<div class="relative focus-within:z-50">${inp(field, val)}<div class="inline-autocomplete-dropdown absolute top-full left-0 w-full mt-1 bg-white border border-slate-200 shadow-xl rounded z-[100] hidden flex-col max-h-40 overflow-y-auto"></div></div>`;
                         cells = `
                             <td class="${tdCls}">${inp('name', p.name || '')}</td>
@@ -3629,6 +4011,7 @@
                 rebuildBody();
             }
 
+            
             wrap.addEventListener('input', e => {
                 if (e.target.id === 'cl-search') {
                     contactListUI.search = e.target.value;
@@ -3662,9 +4045,10 @@
             wrap.addEventListener('keydown', e => {
                 if (!e.target.classList.contains('input-cl-edit')) return;
                 if (e.key === 'Enter') {
-                    e.target.blur();
+                    e.target.blur();   
                     exitEdit();
                 } else if (e.key === 'Escape') {
+                    
                     const p = state.people.find(x => x.id === contactListUI.editingId);
                     if (p && contactListUI.editBackup) {
                         p.name = contactListUI.editBackup.name;
@@ -3756,11 +4140,14 @@
             const container = document.getElementById('org-chart-container');
             if (!container) return;
 
+            
+            
+            
             const THEME = {
                 network: {
                     links: "#94a3b8",
-                    teamBgLight: "rgba(79, 70, 229, 0.03)",
-                    teamBgDark: "rgba(79, 70, 229, 0.08)",
+                    teamBgLight: "rgba(79, 70, 229, 0.03)", 
+                    teamBgDark: "rgba(79, 70, 229, 0.08)",  
                     teamBorder: "rgba(79, 70, 229, 0)",
                     managerBg: "#c7d2fe",
                     personBg: "#f8fafc",
@@ -3777,6 +4164,7 @@
             };
 
             const activePeople = state.people.filter(p => !p.archived);
+            
             const activeTeams = (state.teams || []).filter(t => !t.archived);
 
             if (activePeople.length === 0) {
@@ -3788,12 +4176,18 @@
                 return;
             }
 
+            
+            
+            
             if (state.chartType === 'Contact List') {
                 orgChart = null;
                 renderContactList(container);
                 return;
             }
 
+            
+            
+            
             if (state.chartType === 'Stakeholder Map') {
                 orgChart = null;
                 container.innerHTML = '';
@@ -3804,6 +4198,9 @@
                 const innerW = width - pad.left - pad.right;
                 const innerH = height - pad.top - pad.bottom;
 
+                
+                
+                
                 const powerScores = {};
                 const interestScores = {};
                 activePeople.forEach(p => { powerScores[p.id] = 0; interestScores[p.id] = 0; });
@@ -3828,6 +4225,7 @@
 
                 const placed = {};
                 activePeople.forEach(p => {
+                    
                     let nx = p.engagement && !isNaN(Number(p.engagement)) ? (Number(p.engagement) - 1) / 4 : interestScores[p.id] / maxInterest;
                     let ny = p.influence && !isNaN(Number(p.influence)) ? (Number(p.influence) - 1) / 4 : powerScores[p.id] / maxPower;
                     const seed = p.id.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
@@ -3836,6 +4234,7 @@
                     placed[p.id] = { x: Math.min(0.97, Math.max(0.03, nx + jx)), y: Math.min(0.97, Math.max(0.03, ny + jy)) };
                 });
 
+                
                 const quadrants = [
                     { x: 0, y: 0, w: 0.5, h: 0.5, color: '#fef3c7', border: '#fcd34d', label: 'Monitor', sub: 'Low Power · Low Interest', anchor: 'start', lx: 8, ly: innerH - 8 },
                     { x: 0.5, y: 0, w: 0.5, h: 0.5, color: '#dbeafe', border: '#93c5fd', label: 'Keep Informed', sub: 'Low Power · High Interest', anchor: 'end', lx: innerW - 8, ly: innerH - 8 },
@@ -3849,9 +4248,11 @@
 
                 const g = svg.append('g').attr('transform', `translate(${pad.left},${pad.top})`);
 
+                
                 const zoom = d3.zoom().scaleExtent([0.5, 4]).on('zoom', (event) => g.attr('transform', `translate(${pad.left + event.transform.x},${pad.top + event.transform.y}) scale(${event.transform.k})`));
                 svg.call(zoom);
 
+                
                 quadrants.forEach(q => {
                     g.append('rect')
                         .attr('x', q.x * innerW).attr('y', (1 - q.y - q.h) * innerH)
@@ -3868,14 +4269,18 @@
                         .text(q.sub);
                 });
 
+                
                 g.append('line').attr('x1', innerW / 2).attr('y1', 0).attr('x2', innerW / 2).attr('y2', innerH).attr('stroke', '#94a3b8').attr('stroke-width', 1.5).attr('stroke-dasharray', '6,4');
                 g.append('line').attr('x1', 0).attr('y1', innerH / 2).attr('x2', innerW).attr('y2', innerH / 2).attr('stroke', '#94a3b8').attr('stroke-width', 1.5).attr('stroke-dasharray', '6,4');
 
+                
                 svg.append('text').attr('x', pad.left + innerW / 2).attr('y', pad.top + innerH + 44).attr('text-anchor', 'middle').attr('font-size', 11).attr('font-weight', '700').attr('fill', '#64748b').attr('letter-spacing', '0.08em').text('INTEREST / ENGAGEMENT →');
                 svg.append('text').attr('transform', `translate(16, ${pad.top + innerH / 2}) rotate(-90)`).attr('text-anchor', 'middle').attr('font-size', 11).attr('font-weight', '700').attr('fill', '#64748b').attr('letter-spacing', '0.08em').text('← POWER / INFLUENCE');
 
+                
                 svg.append('text').attr('x', pad.left + innerW / 2).attr('y', 28).attr('text-anchor', 'middle').attr('font-size', 14).attr('font-weight', '800').attr('fill', '#1e293b').text(state.title || 'Stakeholder Map');
 
+                
                 const tooltip = d3.select(container).append('div')
                     .style('position', 'absolute').style('background', 'rgba(255,255,255,0.97)')
                     .style('border', '1px solid #e2e8f0').style('border-radius', '10px')
@@ -3883,6 +4288,7 @@
                     .style('font-size', '11px').style('color', '#1e293b').style('pointer-events', 'none')
                     .style('opacity', 0).style('max-width', '220px').style('line-height', '1.6').style('z-index', 999);
 
+                
                 const nodeGroup = g.append('g');
                 const DEPT_COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#06b6d4', '#8b5cf6', '#ec4899', '#84cc16'];
                 const deptList = [...new Set(activePeople.map(p => p.department || ''))];
@@ -3925,6 +4331,7 @@
                     }).on('click', () => openContactModal(p.id));
                 });
 
+                
                 if (deptList.filter(d => d).length > 0) {
                     const legG = svg.append('g').attr('transform', `translate(${pad.left}, ${pad.top + innerH + 28})`);
                     deptList.filter(d => d).forEach((dept, i) => {
@@ -3937,6 +4344,9 @@
                 return;
             }
 
+            
+            
+            
             if (state.chartType === 'Network') {
                 orgChart = null;
                 container.innerHTML = '';
@@ -3947,12 +4357,14 @@
                 const rootData = { name: state.title || "Organization", children: [], isRoot: true };
                 const teamMap = {};
 
+                
                 if (activeTeams) {
                     activeTeams.forEach(t => teamMap[t.name] = {
                         name: t.name, children: [], isTeam: true, managerId: extractId(t.manager)
                     });
                 }
 
+                
                 activePeople.forEach(p => {
                     const personTeams = p.teams ? p.teams.split(',').map(t => t.trim()).filter(Boolean) : [];
 
@@ -3967,6 +4379,7 @@
                     }
                 });
 
+                
                 if (activeTeams) {
                     function isCircular(teamName) {
                         let ancestors = new Set();
@@ -3994,16 +4407,19 @@
                     if (!isExplicit) rootData.children.push(teamMap[teamName]);
                 });
 
+                
                 Object.values(teamMap).forEach(t => {
                     if (t.children.length === 0) {
                         t.children.push({ name: 'empty', isDummy: true, value: 0.5 });
                     }
                 });
 
+                
                 const pack = d3.pack().size([width, height]).padding(12);
                 const hierarchy = d3.hierarchy(rootData).sum(d => d.value).sort((a, b) => b.value - a.value);
                 const root = pack(hierarchy);
 
+                
                 const svg = d3.select(container).append("svg")
                     .attr("viewBox", [0, 0, width, height])
                     .attr("width", "100%")
@@ -4015,19 +4431,22 @@
                 const zoom = d3.zoom().scaleExtent([0.1, 15]).on("zoom", (event) => {
                     svgGroup.attr("transform", event.transform);
 
+                    
                     svgGroup.selectAll(".team-label")
                         .style("opacity", d => (d.r * event.transform.k) > 50 ? 1 : 0);
 
+                    
                     svgGroup.selectAll(".person-label")
                         .style("opacity", d => {
                             let scale = d.depth >= 4 ? 0.45 : (d.depth === 3 ? 0.60 : 0.75);
                             const apparentRadius = (d.r * scale) * event.transform.k;
-                            return apparentRadius > 10 ? 1 : 0;
+                            return apparentRadius > 10 ? 1 : 0; 
                         });
                 });
 
                 svg.call(zoom);
 
+                
                 const links = [];
                 const personNodes = root.descendants().filter(d => d.data.isPerson);
                 const nodeMap = new Map();
@@ -4050,7 +4469,8 @@
                     }
                 });
 
-                svgGroup.append("g").attr("fill", "none").attr("stroke", THEME.network.links).attr("stroke-opacity", 0.0).attr("stroke-dasharray", "4,4")
+                
+                svgGroup.append("g").attr("fill", "none").attr("stroke", THEME.network.links).attr("stroke-opacity", 0.0).attr("stroke-dasharray", "4,4") 
                     .selectAll("path").data(links).join("path")
                     .attr("vector-effect", "non-scaling-stroke")
                     .attr("stroke-width", 2)
@@ -4060,6 +4480,7 @@
                         return `M${d.source.x},${d.source.y}A${dr},${dr} 0 0,1 ${d.target.x},${d.target.y}`;
                     });
 
+                
                 const color = d3.scaleLinear().domain([0, 3]).range([THEME.network.teamBgLight, THEME.network.teamBgDark]).interpolate(d3.interpolateHcl);
 
                 const node = svgGroup.selectAll("g.node").data(root.descendants()).join("g")
@@ -4069,9 +4490,10 @@
                 node.append("circle")
                     .attr("r", d => {
                         if (!d.data.isPerson) return d.r;
-                        if (d.depth >= 4) return d.r * 0.45;
-                        if (d.depth === 3) return d.r * 0.60;
-                        return d.r * 0.75;
+                        
+                        if (d.depth >= 4) return d.r * 0.45; 
+                        if (d.depth === 3) return d.r * 0.60; 
+                        return d.r * 0.75; 
                     })
                     .attr("fill", d => {
                         if (d.data.isDummy) return "transparent";
@@ -4095,11 +4517,13 @@
                         }
                     });
 
+                
                 const leaves = node.filter(d => d.data.isPerson);
                 const textGroup = leaves.append("text")
                     .attr("text-anchor", "middle")
-                    .attr("class", "person-label font-bold fill-slate-800 pointer-events-none")
+                    .attr("class", "person-label font-bold fill-slate-800 pointer-events-none") 
                     .style("font-size", d => {
+                        
                         let scale = d.depth >= 4 ? 0.45 : (d.depth === 3 ? 0.60 : 0.75);
                         return Math.max(6, Math.min((d.r * scale) * 0.3, 12)) + "px";
                     })
@@ -4120,6 +4544,7 @@
                     }
                 });
 
+                
                 const teamLabels = node.filter(d => d.data.isTeam).append("text")
                     .attr("class", "team-label text-[11px] font-bold uppercase tracking-widest pointer-events-none")
                     .style("fill", THEME.network.teamText)
@@ -4130,6 +4555,7 @@
                     .style("stroke-width", "3px")
                     .text(d => d.data.name.toUpperCase());
 
+                
                 let focus = root;
 
                 function zoomToNode(d, event) {
@@ -4138,6 +4564,7 @@
                     const scale = Math.min(width / (d.r * 2 + padding), height / (d.r * 2 + padding));
                     const translate = [width / 2 - scale * d.x, height / 2 - scale * d.y];
 
+                    
                     svg.transition()
                         .duration(event && event.altKey ? 7500 : 750)
                         .call(zoom.transform, d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale));
@@ -4147,16 +4574,21 @@
                 return;
             }
 
+            
+            
+            
             if (state.chartType === 'Stakeholder Tree') {
                 orgChart = null;
                 container.innerHTML = '';
 
+                
                 if (!(state._treeCollapsed instanceof Set)) {
                     state._treeCollapsed = new Set(
                         Array.isArray(state._treeCollapsed) ? state._treeCollapsed : []
                     );
                 }
 
+                
                 const AXIS_OPTIONS = [
                     { value: 'company', label: 'Company' },
                     { value: 'department', label: 'Department' },
@@ -4168,6 +4600,7 @@
                     { value: 'building', label: 'Building' }
                 ];
 
+                
                 if (!state.treeLevel1) state.treeLevel1 = 'company';
                 if (!state.treeLevel2) state.treeLevel2 = 'department';
                 if (!state.treeLevel3) state.treeLevel3 = 'teams';
@@ -4176,6 +4609,7 @@
                 const lvl2Cfg = AXIS_OPTIONS.find(o => o.value === state.treeLevel2) || AXIS_OPTIONS[1];
                 const lvl3Cfg = AXIS_OPTIONS.find(o => o.value === state.treeLevel3) || AXIS_OPTIONS[2];
 
+                
                 const optHtml = AXIS_OPTIONS.map(o => `<option value="${o.value}">${o.label}</option>`).join('');
                 const ctrlDiv = document.createElement('div');
                 ctrlDiv.id = 'tree-axis-bar';
@@ -4200,36 +4634,44 @@
                 document.getElementById('tr-lvl2').addEventListener('change', e => { state.treeLevel2 = e.target.value; renderOrgChart(); });
                 document.getElementById('tr-lvl3').addEventListener('change', e => { state.treeLevel3 = e.target.value; renderOrgChart(); });
 
+                
                 const rootNode = { id: '__root__', name: state.title || 'Organization', isRoot: true, level: 0, children: [] };
                 const mapLvl1 = {};
 
                 activePeople.forEach(p => {
+                    
                     let val1 = (p[state.treeLevel1] || '').trim() || `(No ${lvl1Cfg.label})`;
                     let val2 = (p[state.treeLevel2] || '').trim() || `(No ${lvl2Cfg.label})`;
                     let val3 = (p[state.treeLevel3] || '').trim() || `(No ${lvl3Cfg.label})`;
 
+                    
                     if (state.treeLevel1 === 'teams' && val1.includes(',')) val1 = val1.split(',')[0].trim();
                     if (state.treeLevel2 === 'teams' && val2.includes(',')) val2 = val2.split(',')[0].trim();
                     if (state.treeLevel3 === 'teams' && val3.includes(',')) val3 = val3.split(',')[0].trim();
 
+                    
                     if (!mapLvl1[val1]) {
                         mapLvl1[val1] = { id: 'l1__' + val1, name: val1, level: 1, isCategory: true, _mapLvl2: {}, children: [], personCount: 0 };
                     }
                     const l1Node = mapLvl1[val1];
 
+                    
                     if (!l1Node._mapLvl2[val2]) {
                         l1Node._mapLvl2[val2] = { id: 'l1__' + val1 + '__l2__' + val2, name: val2, level: 2, isCategory: true, _mapLvl3: {}, children: [], personCount: 0 };
                     }
                     const l2Node = l1Node._mapLvl2[val2];
 
+                    
                     if (!l2Node._mapLvl3[val3]) {
                         l2Node._mapLvl3[val3] = { id: 'l1__' + val1 + '__l2__' + val2 + '__l3__' + val3, name: val3, level: 3, isCategory: true, children: [], personCount: 0 };
                     }
                     const l3Node = l2Node._mapLvl3[val3];
 
+                    
                     l3Node.children.push({ id: p.id, name: p.name, level: 4, isPerson: true, data: p });
                 });
 
+                
                 rootNode.children = Object.values(mapLvl1).map(c1 => {
                     let c1Count = 0;
                     c1.children = Object.values(c1._mapLvl2).map(c2 => {
@@ -4249,6 +4691,7 @@
                     return c1;
                 });
 
+                
                 function drawStakeholderTree() {
                     d3.select(container).select('svg.stk-tree').remove();
 
@@ -4272,6 +4715,7 @@
                     const leaves = hier.leaves().length;
                     const NODE_VSEP = 20;
                     const tH = Math.max(cH - 20, leaves * NODE_VSEP + 60);
+                    
                     const tW = Math.max(cW * 0.45, 360);
 
                     const tree = d3.tree()
@@ -4290,25 +4734,31 @@
                         .on('zoom', ev => svgG.attr('transform', ev.transform));
                     svg.call(zm);
 
+                    
                     const sc = Math.min((cW - 40) / (tW + 300), (cH - 10) / (tH + 10), 1) * 0.92;
                     svg.call(zm.transform, d3.zoomIdentity.translate(20, (cH - tH * sc) / 2 + 8).scale(sc));
 
+                    
                     const LC = [
-                        '#4f46e5',
-                        '#0891b2',
-                        '#059669',
-                        '#d97706'
+                        '#4f46e5', 
+                        '#0891b2', 
+                        '#059669', 
+                        '#d97706'  
                     ];
 
+                    
                     svgG.append('g').selectAll('path').data(root.links()).join('path')
                         .attr('fill', 'none').attr('stroke', '#cbd5e1').attr('stroke-width', 1.5).attr('stroke-opacity', .7)
                         .attr('d', d3.linkHorizontal().x(d => d.y + 30).y(d => d.x));
 
+                    
                     const nodeG = svgG.append('g').selectAll('g').data(root.descendants()).join('g')
                         .attr('transform', d => `translate(${d.y + 30},${d.x})`)
                         .style('cursor', d => (d.data.isPerson || d.data.isCategory || d.data.isRoot) ? 'pointer' : 'default');
 
+                    
                     const catG = nodeG.filter(d => !d.data.isPerson);
+                    
                     const catW = d => d.data.level === 0 ? 150 : d.data.level === 1 ? 126 : d.data.level === 2 ? 108 : 96;
                     const catH = 20;
 
@@ -4328,17 +4778,20 @@
                             return s.length > ml ? s.substring(0, ml - 1) + '…' : s;
                         });
 
+                    
                     catG.filter(d => d.data.level > 0).append('text')
                         .attr('x', 2).attr('y', 4.5).attr('font-size', 10).attr('font-weight', '900')
                         .attr('fill', d => LC[d.data.level])
                         .text(d => state._treeCollapsed.has(d.data.id) ? '+' : (d.data._hasKids ? '+' : '−'));
 
+                    
                     catG.filter(d => d.data.level > 0).append('text')
                         .attr('x', d => catW(d) - 4).attr('y', 4.5)
                         .attr('text-anchor', 'end').attr('font-size', 7.5).attr('font-weight', '700')
                         .attr('fill', d => LC[d.data.level] + 'aa')
                         .text(d => d.data.personCount > 0 ? d.data.personCount : '');
 
+                    
                     const perG = nodeG.filter(d => d.data.isPerson);
 
                     perG.append('circle').attr('r', 5.5)
@@ -4353,6 +4806,7 @@
                         .attr('font-size', 7.5).attr('fill', '#6366f1')
                         .text(d => { const r = d.data.data?.role || ''; return r.length > 28 ? r.substring(0, 26) + '…' : r; });
 
+                    
                     nodeG.on('click', (event, d) => {
                         event.stopPropagation();
                         if (d.data.isPerson) {
@@ -4367,6 +4821,7 @@
                         }
                     });
 
+                    
                     perG.on('mouseover', function () {
                         d3.select(this).select('circle').transition().duration(100).attr('r', 7.5).attr('fill', THEME.network.managerBg);
                     }).on('mouseout', function () {
@@ -4378,10 +4833,14 @@
                 return;
             }
 
+            
+            
+            
             if (state.chartType === 'Matrix') {
                 orgChart = null;
                 container.innerHTML = '';
 
+                
                 const AXIS_OPTIONS = [
                     { value: 'company', label: 'Company', multi: false },
                     { value: 'department', label: 'Department', multi: false },
@@ -4399,6 +4858,7 @@
                 const rowCfg = AXIS_OPTIONS.find(o => o.value === state.matrixRowField) || AXIS_OPTIONS[0];
                 const colCfg = AXIS_OPTIONS.find(o => o.value === state.matrixColField) || AXIS_OPTIONS[2];
 
+                
                 function axisValues(field, multi) {
                     const set = new Set();
                     activePeople.forEach(p => {
@@ -4416,12 +4876,14 @@
                 }
                 function noLabel(field) { const o = AXIS_OPTIONS.find(x => x.value === field); return o ? `(No ${o.label})` : '(None)'; }
 
+                
                 const rowSet = axisValues(rowCfg.value, rowCfg.multi);
                 const colSet = axisValues(colCfg.value, colCfg.multi);
 
                 const uniqueRows = [...rowSet].filter(x => x).sort().concat(rowSet.has('') ? [noLabel(rowCfg.value)] : []);
                 const uniqueCols = [...colSet].filter(x => x).sort().concat(colSet.has('') ? [noLabel(colCfg.value)] : []);
 
+                
                 const cellMap = {};
                 uniqueRows.forEach(r => { cellMap[r] = {}; uniqueCols.forEach(c => { cellMap[r][c] = []; }); });
 
@@ -4431,8 +4893,10 @@
                     rKeys.forEach(r => cKeys.forEach(c => { if (cellMap[r]?.[c] !== undefined) cellMap[r][c].push(p); }));
                 });
 
+                
                 const visCols = uniqueCols.filter(c => uniqueRows.some(r => (cellMap[r][c] || []).length > 0));
 
+                
                 const LABEL_W = 148, COL_W = 208, HEADER_H = 72;
                 const CARD_H = 58, CARD_W = COL_W - 20;
                 const CP_X = 10, CP_Y = 8;
@@ -4447,6 +4911,7 @@
                 const cW = container.clientWidth || 900;
                 const cH = container.clientHeight || 600;
 
+                
                 const optHtml = AXIS_OPTIONS.map(o => `<option value="${o.value}">${o.label}</option>`).join('');
                 const ctrlDiv = document.createElement('div');
                 ctrlDiv.id = 'matrix-axis-bar';
@@ -4466,6 +4931,7 @@
                 document.getElementById('mx-row').addEventListener('change', e => { state.matrixRowField = e.target.value; renderOrgChart(); });
                 document.getElementById('mx-col').addEventListener('change', e => { state.matrixColField = e.target.value; renderOrgChart(); });
 
+                
                 const svg = d3.select(container).append('svg')
                     .attr('width', cW).attr('height', cH).style('background', '#ffffff');
                 const g = svg.append('g');
@@ -4474,17 +4940,20 @@
                 const sc0 = Math.min(cW / totalW, (cH - 10) / totalH, 1) * 0.91;
                 svg.call(zoom.transform, d3.zoomIdentity.translate((cW - totalW * sc0) / 2, (cH - totalH * sc0) / 2 + 18).scale(sc0));
 
+                
                 const TC = { int: '#6366f1', ext: '#f59e0b', exp: '#8b5cf6', '': '#94a3b8' };
                 const TB = { int: '#eef2ff', ext: '#fffbeb', exp: '#f5f3ff', '': '#f8fafc' };
                 const TL = { int: 'INT', ext: 'EXT', exp: 'EXP', '': '·' };
                 const DP = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#06b6d4', '#8b5cf6', '#ec4899', '#84cc16', '#0ea5e9', '#f97316'];
 
+                
                 g.append('rect').attr('x', 0).attr('y', 0).attr('width', LABEL_W).attr('height', HEADER_H).attr('fill', '#1e293b');
                 g.append('text').attr('x', LABEL_W / 2).attr('y', HEADER_H / 2 - 8).attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
                     .attr('font-size', 8.5).attr('font-weight', '800').attr('fill', '#475569').attr('letter-spacing', '0.06em').text(rowCfg.label.toUpperCase());
                 g.append('text').attr('x', LABEL_W / 2).attr('y', HEADER_H / 2 + 8).attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
                     .attr('font-size', 8.5).attr('font-weight', '800').attr('fill', '#475569').attr('letter-spacing', '0.06em').text('↕  ×  ' + colCfg.label.toUpperCase() + ' →');
 
+                
                 visCols.forEach((col, ci) => {
                     const cx = LABEL_W + ci * COL_W;
                     const isNone = col.startsWith('(No ');
@@ -4496,6 +4965,7 @@
                     g.append('rect').attr('x', cx).attr('y', 0).attr('width', COL_W).attr('height', 4)
                         .attr('fill', isNone ? '#94a3b8' : '#10b981');
 
+                    
                     g.append('circle').attr('cx', cx + COL_W - 16).attr('cy', 16).attr('r', 11).attr('fill', isNone ? '#94a3b8' : '#10b981').attr('opacity', .18);
                     g.append('text').attr('x', cx + COL_W - 16).attr('y', 16).attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
                         .attr('font-size', 9).attr('font-weight', '800').attr('fill', isNone ? '#94a3b8' : '#065f46').text(colTotal);
@@ -4515,6 +4985,7 @@
                         .attr('stroke', '#e2e8f0').attr('stroke-width', 1).attr('stroke-dasharray', '4,4');
                 });
 
+                
                 const tooltip = d3.select(container).append('div')
                     .style('position', 'absolute').style('background', 'rgba(255,255,255,0.97)')
                     .style('border', '1px solid #e2e8f0').style('border-radius', '10px')
@@ -4543,6 +5014,7 @@
                         .attr('font-size', isNone || rowKey.length > 12 ? 9 : 10.5).attr('font-weight', '700')
                         .attr('fill', isNone ? '#94a3b8' : dc).text(lbl);
 
+                    
                     visCols.forEach((col, ci) => {
                         const people = cellMap[rowKey][col] || [];
                         if (!people.length) return;
@@ -4600,6 +5072,7 @@
                     rowY += rh;
                 });
 
+                
                 const legY = rowY + 18;
                 [{ label: 'Internal', color: TC.int }, { label: 'External', color: TC.ext }, { label: 'Expert', color: TC.exp }, { label: 'Unspecified', color: TC[''] }]
                     .forEach((x, i) => {
@@ -4612,11 +5085,15 @@
                 return;
             }
 
+            
+            
+            
             const chartData = [{ id: 'VIRTUAL_ROOT', parentId: null, data: { name: state.title || 'Organization HQ', role: '', isRoot: true } }];
             let connections = [];
 
             if (state.chartType === 'Team-based') {
 
+                
                 const teamMgrMap = {};
                 if (activeTeams) {
                     activeTeams.forEach(t => {
@@ -4624,6 +5101,7 @@
                     });
                 }
 
+                
                 if (activeTeams) {
                     activeTeams.forEach(t => {
                         let parentId = t.parentTeam ? 'TEAM_' + t.parentTeam : 'VIRTUAL_ROOT';
@@ -4635,9 +5113,11 @@
                     });
                 }
 
+                
                 activePeople.forEach(p => {
                     let parentId = 'VIRTUAL_ROOT';
 
+                    
                     const managedTeamName = Object.keys(teamMgrMap).find(tName => teamMgrMap[tName] === p.id);
 
                     if (managedTeamName) {
@@ -4658,6 +5138,7 @@
                 });
 
             } else {
+                
                 activePeople.forEach(p => {
                     let parentId = extractId(p.reportingTo);
                     if (!parentId || !activePeople.some(ap => ap.id === parentId)) parentId = 'VIRTUAL_ROOT';
@@ -4665,6 +5146,7 @@
                 });
             }
 
+            
             if (state.showCommLines) {
                 const nameToId = {};
                 activePeople.forEach(p => nameToId[p.name.toLowerCase()] = p.id);
@@ -4673,12 +5155,15 @@
                     if (p.inContactWith) {
                         const targets = p.inContactWith.split(',').map(s => s.trim()).filter(Boolean);
                         targets.forEach(target => {
+                            
                             let targetId = extractId(target);
                             if (targetId === target && nameToId[target.toLowerCase()]) {
                                 targetId = nameToId[target.toLowerCase()];
                             }
 
+                            
                             if (targetId && targetId !== p.id && chartData.some(d => d.id === targetId)) {
+                                
                                 const exists = connections.some(c => (c.from === p.id && c.to === targetId) || (c.from === targetId && c.to === p.id));
                                 if (!exists) {
                                     connections.push({ from: p.id, to: targetId, label: '' });
@@ -4689,6 +5174,7 @@
                 });
             }
 
+            
             container.innerHTML = '';
             orgChart = null;
             orgChart = new d3.OrgChart()
@@ -4696,8 +5182,9 @@
                 .linkUpdate(function (d, i, arr) { d3.select(this).attr('stroke', THEME.tree.links).attr('stroke-width', 2); })
                 .connectionsUpdate(function (d, i, arr) {
 
+                    
                     d3.select(this)
-                        .attr('stroke', '#3b82f6')
+                        .attr('stroke', '#3b82f6') 
                         .attr('stroke-width', 2)
                         .attr('stroke-dasharray', '6, 6')
                         .attr('stroke-linecap', 'round')
@@ -4708,25 +5195,31 @@
                         const tx = d._target.x;
                         const sourceTop = d._source.y;
                         const targetTop = d._target.y;
-                        const h = 120;
+                        const h = 120; 
 
                         let path = '';
 
+                        
                         if (Math.abs(sourceTop - targetTop) < 10) {
+                            
                             path = `M ${sx} ${sourceTop + h / 2} L ${tx} ${targetTop + h / 2}`;
                         } else {
+                            
                             let startY, endY;
 
+                            
                             if (sourceTop < targetTop) {
-                                startY = sourceTop + h;
-                                endY = targetTop;
+                                startY = sourceTop + h; 
+                                endY = targetTop;       
                             } else {
-                                startY = sourceTop;
-                                endY = targetTop + h;
+                                startY = sourceTop;     
+                                endY = targetTop + h;   
                             }
 
+                            
                             const midY = startY + (endY - startY) / 2;
 
+                            
                             path = `M ${sx} ${startY} L ${sx} ${midY} L ${tx} ${midY} L ${tx} ${endY}`;
                         }
 
@@ -4745,6 +5238,7 @@
                         let mgrName = window.BASE_PAGE.chartNoManager || 'No Manager';
                         if (person.manager) {
                             const parsedId = extractId(person.manager);
+                            
                             const mgrObj = state.people.find(p => p.id === parsedId);
                             mgrName = mgrObj ? escapeHtml(mgrObj.name) : escapeHtml(person.manager.split('[')[0].trim());
                         }

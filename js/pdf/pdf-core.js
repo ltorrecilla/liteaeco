@@ -18,6 +18,15 @@
 // liteAECO - (pdf-core.js)
 // ========
 
+
+
+
+
+
+
+
+
+
 (function () {
     'use strict';
 
@@ -26,6 +35,7 @@
     const WORKER_URL = PDF_BASE + 'pdf-worker-6.1.200.min.js';
     const WASM_URL = PDF_BASE + 'wasm/';
 
+    
     if (!window.pdfjsReady) {
         let resolveReady;
         window.pdfjsReady = new Promise(res => { resolveReady = res; });
@@ -58,15 +68,23 @@
         return name.endsWith('.pdf') || file.type === 'application/pdf';
     }
 
+    
+    
+    
+    
+    
+    const HIDE_PREFIX = 'pdfjs_internal_editor_liteHide_';
+
+    
     function createLoader() {
         const MAX_FILE_MB = 200;
 
         const state = {
-            doc: null,
+            doc: null,          
             fileName: null,
             fileDate: null,
             numPages: 0,
-            bytes: null,
+            bytes: null,        
         };
 
         async function destroyCurrent() {
@@ -80,15 +98,23 @@
             state.bytes = null;
         }
 
+        
+        
         async function openBuffer(buf, name, dateMs) {
             const pdfjsLib = await engineReady();
+            
+            
             const originalBytes = buf.slice(0);
 
             await destroyCurrent();
 
             const task = pdfjsLib.getDocument({
                 data: buf,
+                
                 isEvalSupported: false,
+                
+                
+                
                 wasmUrl: WASM_URL,
             });
 
@@ -131,6 +157,19 @@
             } catch (e) { return null; }
         }
 
+        
+        function hideAnnotations(list) {
+            if (!state.doc || !list) return;
+            const st = state.doc.annotationStorage;
+            for (const h of list) {
+                if (!h || !h.id) continue;
+                st.setValue(HIDE_PREFIX + h.id, {
+                    id: h.id, popupRef: h.popupRef || null, pageIndex: h.pageIndex,
+                    deleted: true, annotationType: 0,
+                });
+            }
+        }
+
         return {
             state,
             engineReady,
@@ -139,18 +178,31 @@
             openBuffer,
             getPage,
             getMetadata,
+            hideAnnotations,
             destroyCurrent,
         };
     }
 
+    
+    
+    
     const MEM = (navigator.deviceMemory || 4);
     const MAX_CANVAS_DIM = MEM >= 8 ? 8192 : MEM >= 4 ? 6144 : 4096;
     const MAX_CANVAS_AREA = MAX_CANVAS_DIM * MAX_CANVAS_DIM;
 
-    function createRenderer() {
-        const activeTasks = new Map();
+    
+    function createRenderer(opts) {
+        const activeTasks = new Map(); 
+        const useStorage = !!(opts && opts.hideStoredAnnotations);
+        const renderArgs = (base) => {
+            if (useStorage && window.pdfjsLib && window.pdfjsLib.AnnotationMode) {
+                base.annotationMode = window.pdfjsLib.AnnotationMode.ENABLE_STORAGE;
+            }
+            return base;
+        };
 
-        let docRotation = 0;
+        
+        let docRotation = 0; 
 
         function getUserRotation() {
             return docRotation;
@@ -165,11 +217,13 @@
             docRotation = 0;
         }
 
+        
         function baseViewport(page, pageNum) {
             const rot = (page.rotate + getUserRotation(pageNum)) % 360;
             return page.getViewport({ scale: 1, rotation: rot });
         }
 
+        
         function clampScale(page, pageNum, desiredScale) {
             const vp = baseViewport(page, pageNum);
             let s = desiredScale;
@@ -179,6 +233,8 @@
             return Math.max(s, 0.05);
         }
 
+        
+        
         async function renderPage(page, pageNum, canvas, renderScale) {
             const prev = activeTasks.get(pageNum);
             if (prev) {
@@ -197,7 +253,7 @@
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            const task = page.render({ canvasContext: ctx, viewport: vp });
+            const task = page.render(renderArgs({ canvasContext: ctx, viewport: vp }));
             activeTasks.set(pageNum, task);
 
             try {
@@ -212,9 +268,13 @@
             return { scale, width: canvas.width, height: canvas.height };
         }
 
+        
+        
+        
         const focusTasks = new Map();
 
         async function renderRegion(page, pageNum, canvas, deviceScale, region) {
+            
             const prev = focusTasks.get(pageNum);
             if (prev) {
                 try { prev.cancel(); } catch (e) {  }
@@ -226,7 +286,7 @@
 
             const w = Math.max(1, Math.floor(region.w * dpr));
             const h = Math.max(1, Math.floor(region.h * dpr));
-            if (w * h > MAX_CANVAS_AREA) return null;
+            if (w * h > MAX_CANVAS_AREA) return null; 
             canvas.width = w;
             canvas.height = h;
 
@@ -234,11 +294,11 @@
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, w, h);
 
-            const task = page.render({
+            const task = page.render(renderArgs({
                 canvasContext: ctx,
                 viewport: vp,
                 transform: [1, 0, 0, 1, -region.x * dpr, -region.y * dpr],
-            });
+            }));
             focusTasks.set(pageNum, task);
             try {
                 await task.promise;
@@ -259,6 +319,7 @@
             }
         }
 
+        
         async function renderThumb(page, pageNum, canvas, targetWidth) {
             const vp1 = baseViewport(page, pageNum);
             const scale = targetWidth / vp1.width;
@@ -272,7 +333,7 @@
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            await page.render({ canvasContext: ctx, viewport: vp }).promise;
+            await page.render(renderArgs({ canvasContext: ctx, viewport: vp })).promise;
         }
 
         return {
@@ -289,7 +350,7 @@
     }
 
     window.PDFV_CORE = {
-        version: '1.0.0',
+        version: '1.1.0',
         engineReady,
         isPdfFile,
         createLoader,

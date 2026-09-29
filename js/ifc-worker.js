@@ -18,23 +18,40 @@
 // liteAECO - (ifc-worker.js)
 // ========
 
+
+
+
+
+
+
+
+
+
+
 const WORKER_PROTO = 8;
+
 
 let globalIfcApi = null;
 let globalWebIFC = null;
 
+
+
+
+
 function tokenizeEntities(bodyText) {
+    
+    
     const entities = [];
     const n = bodyText.length;
     let i = 0, start = 0, inString = false;
-    let pieces = null;
+    let pieces = null; 
 
     while (i < n) {
         const ch = bodyText[i];
 
         if (inString) {
             if (ch === "'") {
-                if (bodyText[i + 1] === "'") { i += 2; continue; }
+                if (bodyText[i + 1] === "'") { i += 2; continue; } 
                 inString = false;
             }
             i++; continue;
@@ -67,10 +84,11 @@ function tokenizeEntities(bodyText) {
     return entities;
 }
 
+
 function parseEntity(raw) {
     const m = raw.match(/^#(\d+)\s*=\s*([A-Za-z_][A-Za-z0-9_]*)\s*\(/);
     if (!m) return null;
-    const open = m.index + m[0].length - 1;
+    const open = m.index + m[0].length - 1; 
     const close = raw.lastIndexOf(')');
     if (close <= open) return null;
     return {
@@ -81,7 +99,12 @@ function parseEntity(raw) {
     };
 }
 
+
+
 const UNIT_TO_METER = { METER: 1, MILLIMETER: 0.001, CENTIMETER: 0.01, FOOT: 0.3048, INCH: 0.0254 };
+
+
+
 
 function getLengthUnit(ifcData) {
     const ua = ifcData.match(/IFCUNITASSIGNMENT\s*\(\s*\(([^)]*)\)/i);
@@ -106,11 +129,13 @@ function getLengthUnit(ifcData) {
             return 'UNKNOWN';
         }
     }
+    
     if (/IFCCONVERSIONBASEDUNIT\s*\(\s*[^,]+,\s*\.LENGTHUNIT\.\s*,\s*'(?:FOOT|Foot|foot)'/i.test(ifcData)) return "FOOT";
     if (/IFCSIUNIT\s*\(\s*[^,]+,\s*\.LENGTHUNIT\.\s*,\s*\.MILLI\.\s*,\s*\.METRE\.\s*\)/i.test(ifcData)) return "MILLIMETER";
     if (/IFCSIUNIT\s*\(\s*[^,]+,\s*\.LENGTHUNIT\.\s*,\s*\$\s*,\s*\.METRE\.\s*\)/i.test(ifcData)) return "METER";
     return "UNKNOWN";
 }
+
 
 function splitStepAttributes(attrString) {
     const result = [];
@@ -122,6 +147,7 @@ function splitStepAttributes(attrString) {
         const char = attrString[i];
 
         if (char === "'") {
+            
             if (inQuotes && attrString[i + 1] === "'") { current += "''"; i++; continue; }
             inQuotes = !inQuotes;
             current += char;
@@ -143,6 +169,9 @@ function splitStepAttributes(attrString) {
     return result;
 }
 
+
+
+
 function roundFloatSafe(match, decimals) {
     const dotIdx = match.indexOf('.');
     if (match.length - dotIdx - 1 <= decimals) return match;
@@ -159,6 +188,8 @@ function generateNormalizedHash(type, content, applyFloatNorm, decimals) {
     return `${type}(${clean})`;
 }
 
+
+
 function mapRefsOutsideStrings(str, fn) {
     if (!str.includes("'")) return str.replace(/#(\d+)\b/g, fn);
     const seg = str.split(/('(?:[^']|'')*')/);
@@ -166,12 +197,19 @@ function mapRefsOutsideStrings(str, fn) {
     return seg.join('');
 }
 
+
+
+
 function makeSwapProbe(swapMap) {
     if (swapMap.size === 0 || swapMap.size > 300) return null;
     const ids = Array.from(swapMap.keys()).map(k => String(k).replace(/\D/g, '')).filter(Boolean);
     if (!ids.length) return null;
     return new RegExp('#(?:' + ids.join('|') + ')(?!\\d)');
 }
+
+
+
+
 
 function resolveReferences(s, swapMap, probe) {
     if (swapMap.size === 0) return s;
@@ -201,6 +239,7 @@ function resolveReferences(s, swapMap, probe) {
     return out === null ? s : out + s.substring(last);
 }
 
+
 function offsetReferences(s, offset) {
     const n = s.length;
     let out = '', last = 0, i = 0, inStr = false;
@@ -219,7 +258,14 @@ function offsetReferences(s, offset) {
     return out + s.substring(last);
 }
 
+
+
+
+
+
 const STEP_REAL_RE = /-?(?:\d+\.\d*|\.\d+|\d+)(?:[eE][+-]?\d+)?/g;
+
+
 
 function formatStepReal(v) {
     if (!isFinite(v)) return '0.0';
@@ -251,6 +297,7 @@ function scaleAllNumbers(str, factor) {
     });
 }
 
+
 const TYPED_MEASURE_RE = /\b(IFC(?:POSITIVE)?LENGTHMEASURE|IFCAREAMEASURE|IFCVOLUMEMEASURE)\s*\(\s*([^)]*?)\s*\)/gi;
 function scaleTypedMeasures(content, factor) {
     if (!/MEASURE/i.test(content)) return content;
@@ -261,10 +308,13 @@ function scaleTypedMeasures(content, factor) {
     });
 }
 
+
 function normStoreyName(a) {
     const s = a.replace(/^'|'$/g, '').trim();
     return s ? s.toUpperCase() : null;
 }
+
+
 
 const LENGTH_WATCH = new Set([
     'IFCELLIPSEPROFILEDEF', 'IFCTRAPEZIUMPROFILEDEF', 'IFCISHAPEPROFILEDEF',
@@ -274,6 +324,10 @@ const LENGTH_WATCH = new Set([
     'IFCREVOLVEDAREASOLID', 'IFCFIXEDREFERENCESWEPTAREASOLID',
     'IFCBSPLINECURVEWITHKNOTS', 'IFCRATIONALBSPLINESURFACEWITHKNOTS'
 ]);
+
+
+
+
 
 function applyScale(type, content, factor, watchSet) {
     let a;
@@ -345,12 +399,12 @@ function applyScale(type, content, factor, watchSet) {
             if (a.length > 9 && a[9] !== '$') { a[9] = scaleNum(a[9], factor); return a.join(','); }
             return content;
 
-        case 'IFCSITE':
+        case 'IFCSITE': 
             a = splitStepAttributes(content);
             if (a.length > 11 && a[11] !== '$') { a[11] = scaleNum(a[11], factor); return a.join(','); }
             return content;
 
-        case 'IFCVECTOR':
+        case 'IFCVECTOR': 
         case 'IFCCYLINDRICALSURFACE':
             a = splitStepAttributes(content);
             if (a.length > 1) { a[1] = scaleNum(a[1], factor); return a.join(','); }
@@ -366,11 +420,12 @@ function applyScale(type, content, factor, watchSet) {
             if (a.length > 3) { a[3] = scaleNum(a[3], factor); return a.join(','); }
             return content;
 
-        case 'IFCGEOMETRICREPRESENTATIONCONTEXT':
+        case 'IFCGEOMETRICREPRESENTATIONCONTEXT': 
             a = splitStepAttributes(content);
             if (a.length > 3 && a[3] !== '$') { a[3] = scaleNum(a[3], factor); return a.join(','); }
             return content;
 
+        
         case 'IFCQUANTITYLENGTH':
             a = splitStepAttributes(content);
             if (a.length > 3) { a[3] = scaleNum(a[3], factor); return a.join(','); }
@@ -384,6 +439,7 @@ function applyScale(type, content, factor, watchSet) {
             if (a.length > 3) { a[3] = scaleNum(a[3], factor * factor * factor); return a.join(','); }
             return content;
 
+        
         case 'IFCPROPERTYSINGLEVALUE':
             return scaleTypedMeasures(content, factor);
 
@@ -392,6 +448,7 @@ function applyScale(type, content, factor, watchSet) {
             return content;
     }
 }
+
 
 function isDedupType(type, includeColors) {
     if (type === 'IFCMATERIAL' || /^IFC[A-Z0-9]*PROFILEDEF$/.test(type) ||
@@ -404,14 +461,20 @@ function isDedupType(type, includeColors) {
     return false;
 }
 
+
+
+
+
 class StepTokenizer {
     constructor() {
         this.inString = false;
         this.inComment = false;
-        this.pendingQuote = false;
-        this.carryChar = '';
-        this.parts = [];
+        this.pendingQuote = false; 
+        this.carryChar = '';       
+        this.parts = [];           
     }
+    
+    
     feed(text, onEntity) {
         if (this.carryChar) { text = this.carryChar + text; this.carryChar = ''; }
         const n = text.length;
@@ -454,11 +517,12 @@ class StepTokenizer {
             }
             i++;
         }
+        
         let end = n;
         if (n > 0) {
             const last = text[n - 1];
             if (this.inComment && last === '*') {
-                this.carryChar = '*';
+                this.carryChar = '*'; 
             } else if (!this.inComment && !this.inString && last === '/' && commentClosedAt !== n) {
                 this.carryChar = '/'; end = n - 1;
             }
@@ -477,6 +541,7 @@ async function streamStepFile(file, opts = {}) {
     const collect = !!opts.collectEntities;
     const onProgress = opts.onProgress || null;
     const progressEvery = opts.progressEvery || 32 * 1048576;
+    
     const SLICE = 8 * 1048576;
     let sliceOff = 0;
     const reader = { read: async () => {
@@ -486,6 +551,8 @@ async function streamStepFile(file, opts = {}) {
         return { done: sliceOff >= file.size, value: new Uint8Array(buf) };
     } };
     const fileName = opts.name || file.name || 'file';
+    
+    
     const head = new Uint8Array(await file.slice(0, 4).arrayBuffer());
     let encoding = 'utf-8';
     if (head.length >= 2 && head[0] === 0xFF && head[1] === 0xFE) encoding = 'utf-16le';
@@ -494,7 +561,7 @@ async function streamStepFile(file, opts = {}) {
     const decoder = new TextDecoder(encoding);
     const UNIT_TYPES = new Set(['IFCUNITASSIGNMENT', 'IFCSIUNIT', 'IFCCONVERSIONBASEDUNIT']);
 
-    let phase = 0;
+    let phase = 0; 
     let header = '', footer = '';
     const entities = collect ? [] : null;
     const ids = opts.collectIds ? [] : null;
@@ -505,7 +572,8 @@ async function streamStepFile(file, opts = {}) {
     const tok = new StepTokenizer();
 
     const consumeEntity = (raw) => {
-        if (raw === 'ENDSEC;') return true;
+        if (raw === 'ENDSEC;') return true; 
+        
         if (raw.charCodeAt(0) === 35) {
             const n = raw.length;
             let i = 1, id = 0, c;
@@ -539,7 +607,7 @@ async function streamStepFile(file, opts = {}) {
             header += text;
             const di = header.indexOf('DATA;');
             if (di === -1) {
-                if (done || header.length > 8 * 1048576) break;
+                if (done || header.length > 8 * 1048576) break; 
                 continue;
             }
             text = header.substring(di + 5);
@@ -555,6 +623,7 @@ async function streamStepFile(file, opts = {}) {
         if (done) break;
     }
     if (phase === 1) {
+        
         const tail = tok.flush();
         if (tail) consumeEntity(tail);
         footer = 'ENDSEC;\nEND-ISO-10303-21;\n';
@@ -566,13 +635,21 @@ async function streamStepFile(file, opts = {}) {
     return { header, footer, entities, ids, maxId, firstOfType, unitText: unitParts.join('\n') };
 }
 
+
+
 function normalizeFloatPrecision(str, decimals) {
+    
     const segments = str.split(/('(?:[^']|'')*')/);
     for (let i = 0; i < segments.length; i += 2) {
+        
         segments[i] = segments[i].replace(/(-?\d+\.\d+)/g, (match) => roundFloatSafe(match, decimals));
     }
     return segments.join('');
 }
+
+
+
+
 
 function newIfcGuid() {
     const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$";
@@ -582,7 +659,7 @@ function newIfcGuid() {
     } else {
         for (let i = 0; i < 16; i++) bytes[i] = Math.floor(Math.random() * 256);
     }
-    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[6] = (bytes[6] & 0x0f) | 0x40; 
     bytes[8] = (bytes[8] & 0x3f) | 0x80;
     let big = 0n;
     for (let i = 0; i < 16; i++) big = (big << 8n) | BigInt(bytes[i]);
@@ -591,6 +668,17 @@ function newIfcGuid() {
     out[0] = chars[Number(big & 3n)];
     return out.join('');
 }
+
+
+
+
+
+
+
+
+
+
+
 
 function repairDuplicateGuids(entities, applyFix) {
     const guidAttrRe = /^'([0-9A-Za-z_$]{22})'$/;
@@ -604,9 +692,9 @@ function repairDuplicateGuids(entities, applyFix) {
         if (attrs.length < 4) continue;
         const m = attrs[0].trim().match(guidAttrRe);
         if (!m) continue;
-        if (!/^(#\d+|\$)$/.test(attrs[1].trim())) continue;
-        if (!strOrNull(attrs[2].trim())) continue;
-        if (!strOrNull(attrs[3].trim())) continue;
+        if (!/^(#\d+|\$)$/.test(attrs[1].trim())) continue; 
+        if (!strOrNull(attrs[2].trim())) continue;        
+        if (!strOrNull(attrs[3].trim())) continue;        
         const g = m[1];
         if (!seen.has(g)) { seen.add(g); continue; }
         if (!applyFix) {
@@ -622,6 +710,7 @@ function repairDuplicateGuids(entities, applyFix) {
     }
     return repairs;
 }
+
 
 function globalResourceDedup(entities, includeColors, floatNorm, dec) {
     const dict = new Map();
@@ -642,11 +731,12 @@ function globalResourceDedup(entities, includeColors, floatNorm, dec) {
     const out = [];
     for (const raw of entities) {
         const p = parseEntity(raw);
-        if (p && swap.has(p.id)) continue;
+        if (p && swap.has(p.id)) continue; 
         out.push(raw.includes('#') ? resolveReferences(raw, swap) : raw);
     }
     return out;
 }
+
 
 const PRESENTATION_STRIP_TYPES = new Set([
     'IFCSTYLEDITEM', 'IFCSTYLEDREPRESENTATION', 'IFCPRESENTATIONSTYLEASSIGNMENT',
@@ -663,6 +753,9 @@ const PRESENTATION_STRIP_TYPES = new Set([
     'IFCTEXTURECOORDINATE', 'IFCTEXTURECOORDINATEGENERATOR', 'IFCTEXTUREVERTEX',
     'IFCTEXTUREVERTEXLIST', 'IFCMATERIALDEFINITIONREPRESENTATION'
 ]);
+
+
+
 
 function scrubRefs(raw, removed) {
     const p = parseEntity(raw);
@@ -709,6 +802,7 @@ function stripPresentationEntities(entities) {
     return { entities: kept, removed: removed.size, scrubbed };
 }
 
+
 function getSchema(ifcData) {
     const m = ifcData.match(/FILE_SCHEMA\s*\(\s*\(\s*'([^']+)'/i);
     return m ? m[1].toUpperCase() : "UNKNOWN";
@@ -717,7 +811,9 @@ function getSchema(ifcData) {
 let ACTION_LABEL = 'IFC Merged';
 
 function fmtMB(bytes) { return (bytes / 1048576).toFixed(2) + ' MB'; }
+
 function safeComment(s) { return String(s).replace(/\*\//g, '* /').replace(/[\r\n]+/g, ' '); }
+
 
 function buildBanner(moduleName, source, extraLines) {
     const lines = [
@@ -729,6 +825,7 @@ function buildBanner(moduleName, source, extraLines) {
     if (extraLines && extraLines.length) { lines.push('*'); for (const l of extraLines) lines.push('* ' + safeComment(l)); }
     return '/******************************************************\n' + lines.join('\n') + '\n*******************************************************/';
 }
+
 
 function attachContextsToProject(entities, projectId, contextIds) {
     for (let i = 0; i < entities.length; i++) {
@@ -748,6 +845,7 @@ function attachContextsToProject(entities, projectId, contextIds) {
     return 0;
 }
 
+
 function extractStoreys(entities) {
     const storeys = [];
     for (const raw of entities) {
@@ -762,12 +860,20 @@ function extractStoreys(entities) {
     return storeys;
 }
 
+
+
+
+
+
+
 function wlog(msg, warn) { self.postMessage({ type: 'log', msg, warn: !!warn }); }
 
-let coord = null;
-let childState = null;
+let coord = null;      
+let childState = null; 
+
 
 class ScratchStore {
+    
     static async create(useDisk) {
         const s = new ScratchStore();
         try {
@@ -775,6 +881,7 @@ class ScratchStore {
                 const root = await navigator.storage.getDirectory();
                 s.dir = await root.getDirectoryHandle('liteaeco-merge', { create: true });
                 s.prefix = 'm' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6) + '_';
+                
                 const fh = await s.dir.getFileHandle(s.prefix + 'probe', { create: true });
                 const h = await fh.createSyncAccessHandle(); h.close();
                 await s.dir.removeEntry(s.prefix + 'probe');
@@ -784,6 +891,8 @@ class ScratchStore {
         if (!s.dir) { s.kind = 'memory'; s.mem = new Map(); }
         return s;
     }
+    
+    
     async put(key, value) {
         if (this.kind === 'memory') { this.mem.set(key, value); return; }
         const bytes = (value instanceof Uint8Array) ? value : new TextEncoder().encode(value.join('\0'));
@@ -791,6 +900,7 @@ class ScratchStore {
         const h = await fh.createSyncAccessHandle();
         try { h.truncate(0); h.write(bytes, { at: 0 }); h.flush(); } finally { h.close(); }
     }
+    
     async get(key) {
         let v;
         if (this.kind === 'memory') { v = this.mem.get(key); this.mem.delete(key); }
@@ -811,6 +921,7 @@ class ScratchStore {
     }
 }
 
+
 async function coordMaster(d) {
     const o = d.options;
     let source = d.file;
@@ -818,6 +929,7 @@ async function coordMaster(d) {
     const store = await ScratchStore.create(!!o.useScratchDisk);
     wlog(`Scratch storage: ${store.kind === 'opfs' ? 'OPFS (disk-backed)' : 'memory'}.`);
 
+    
     if (o.optDeepCompress) {
         wlog(`Master: Deep Graph Compression (per-file, ${(d.file.size / 1048576).toFixed(1)} MB)...`);
         try {
@@ -856,6 +968,7 @@ async function coordMaster(d) {
     };
     wlog(`Master: parsed ${entities.length} entities (max #${m.maxId}).`);
 
+    
     const resourceDict = new Map();
     const swap = new Map();
     if (o.optResourceDedup) {
@@ -880,7 +993,8 @@ async function coordMaster(d) {
         }
     }
 
-    await store.put('src0', entities);
+    
+    await store.put('src0', entities); 
     entities = null;
 
     coord = { store, header: m.header, footer: m.footer, maxId: m.maxId, unit, pTrees, contextIds: [], sources: [{ key: 'src0', name: d.fileName || d.file.name || 'master', size: d.file.size }], deepUsed };
@@ -906,6 +1020,10 @@ function encodeRecs(recs) {
     return parts;
 }
 
+
+
+
+
 function newFinalizeState(o) {
     return {
         o,
@@ -918,12 +1036,13 @@ function newFinalizeState(o) {
 function processSource(entities, st, hooks) {
     const o = st.o;
     const dedup = !!o.dedupResources;
-    const guidMode = o.guidRepair || 'off';
+    const guidMode = o.guidRepair || 'off'; 
     const guidAttrRe = /^'([0-9A-Za-z_$]{22})'$/;
     const strOrNull = (a) => a === '$' || (a.length >= 2 && a[0] === "'" && a[a.length - 1] === "'");
 
     if (hooks && hooks.before) hooks.before(entities);
 
+    
     if (dedup) {
         for (let i = 0; i < entities.length; i++) {
             const p = parseEntity(entities[i]);
@@ -936,6 +1055,7 @@ function processSource(entities, st, hooks) {
     }
     const probe = dedup ? makeSwapProbe(st.swap) : null;
 
+    
     const removed = new Set();
     if (o.optStripPresentation) {
         for (const raw of entities) {
@@ -956,6 +1076,7 @@ function processSource(entities, st, hooks) {
         if (dedup && st.swap.size && raw.includes('#')) raw = resolveReferences(raw, st.swap, probe);
         if (removed.size && raw.includes('#')) { const b = raw; raw = scrubRefs(raw, removed); if (raw !== b) st.stripScrubbed++; }
 
+        
         if (guidMode !== 'off' && p && p.content.charCodeAt(0) === 39 && p.content.charCodeAt(23) === 39 && p.content.charCodeAt(24) === 44) {
             const attrs = splitStepAttributes(p.content);
             if (attrs.length >= 4) {
@@ -975,12 +1096,14 @@ function processSource(entities, st, hooks) {
             }
         }
 
+        
         if (o.optFloatPrecision && raw.indexOf('.') !== -1) { const b = raw; raw = normalizeFloatPrecision(raw, o.floatPrecisionVal); st.charsReduced += b.length - raw.length; }
 
         if (p) recs.push({ id: parseInt(p.id, 10), text: raw });
         else { const mm = raw.match(/^#(\d+)\s*=/); if (mm) recs.push({ id: parseInt(mm[1], 10), text: raw }); }
     }
 
+    
     recs.sort((a, b) => a.id - b.id);
     st.total += recs.length;
     return encodeRecs(recs);
@@ -1004,6 +1127,7 @@ function logFinalizeSummary(st, label) {
 function headerBytes(header, moduleName, extraLines) {
     return new TextEncoder().encode(header.replace(/\/\*[\s\S]*?\*\//g, '').trim() + '\n\n' + buildBanner(moduleName, null, extraLines) + '\nDATA;\n').buffer;
 }
+
 
 async function coordFinalize(d) {
     if (!coord) throw new Error("Coordinator not initialised (call 'master' first).");
@@ -1038,6 +1162,7 @@ async function coordFinalize(d) {
     coord = null;
     return { parts, bytes };
 }
+
 
 async function optimizeFile(d) {
     const o = d.options;
@@ -1094,7 +1219,14 @@ async function coordAbort() {
     return { ok: true };
 }
 
+
+
+
+
+
+
 let psetSession = null;
+
 
 function decodeIfcString(s) {
     if (!s || s.indexOf("\\") === -1 && s.indexOf("''") === -1) return s;
@@ -1107,6 +1239,7 @@ function decodeIfcString(s) {
     out = out.replace(/\\X\\([0-9A-Fa-f]{2})/g, (m, hex) => String.fromCharCode(parseInt(hex, 16)));
     return out;
 }
+
 
 function encodeIfcString(s) {
     let out = '', x2 = false;
@@ -1145,10 +1278,10 @@ async function psetLoad(d) {
     const entities = m.entities;
     wlog(`Parsed ${entities.length} entities (max #${m.maxId}).`);
 
-    const psets = new Map();
-    const relDefs = [];
-    const rootedByType = new Map();
-    const typeLevel = [];
+    const psets = new Map();        
+    const relDefs = [];             
+    const rootedByType = new Map(); 
+    const typeLevel = [];           
     let app = null, person = null, site = null, headerDate = null;
 
     for (let i = 0; i < entities.length; i++) {
@@ -1179,6 +1312,7 @@ async function psetLoad(d) {
         if (T === 'IFCSITE' && !site) {
             const a = splitStepAttributes(p.content);
             site = { lat: a[9] || '$', lon: a[10] || '$', elev: a[11] || '$' };
+            
         }
         if (!T.startsWith('IFCREL') && !T.startsWith('IFCPROPERTY') && isRootedEntity(p)) {
             let set = rootedByType.get(T);
@@ -1187,6 +1321,8 @@ async function psetLoad(d) {
         }
     }
 
+    
+    
     for (let i = 0; i < entities.length; i++) {
         const p = parseEntity(entities[i]);
         if (!p || !isRootedEntity(p) || p.type.startsWith('IFCREL') || p.type.startsWith('IFCPROPERTY')) continue;
@@ -1198,10 +1334,11 @@ async function psetLoad(d) {
         typeLevel.push({ objId: parseInt(p.id, 10), type: p.type, psetIds: refs });
     }
 
+    
     const idClass = new Map();
     for (const [type, set] of rootedByType) for (const id of set) idClass.set(id, type);
     const classData = {};
-    const classObjects = {};
+    const classObjects = {}; 
     const ensure = (cls, psetName) => {
         (classData[cls] || (classData[cls] = {}));
         return classData[cls][psetName] || (classData[cls][psetName] = { psetIds: new Set(), objectIds: new Set() });
@@ -1231,6 +1368,7 @@ async function psetLoad(d) {
     }
     if (typeLevelLinks > 0) wlog(`Added ${typeLevelLinks} type-level Property Set link(s) from IfcTypeObject.HasPropertySets.`);
 
+    
     const classDataOut = {};
     const classCounts = {};
     for (const cls in classData) {
@@ -1249,6 +1387,8 @@ async function psetLoad(d) {
     const dm = m.header.match(/FILE_NAME\([^,]*,[^\d]*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})/);
     headerDate = dm ? dm[1].replace('T', ' ') : null;
 
+    
+    
     const CHILD_ATTR = { IFCPROPERTYSET: 4, IFCELEMENTQUANTITY: 5, IFCCOMPLEXPROPERTY: 3, IFCPHYSICALCOMPLEXQUANTITY: 2 };
     const entityById = new Map();
     for (let i = 0; i < entities.length; i++) {
@@ -1257,8 +1397,8 @@ async function psetLoad(d) {
             entityById.set(p.id, p);
         }
     }
-    const psetChildren = new Map();
-    const childParents = new Map();
+    const psetChildren = new Map();      
+    const childParents = new Map();      
     const collectChildren = (p, rootPsetId, depth) => {
         if (depth > 8) return;
         const idx = CHILD_ATTR[p.type];
@@ -1294,6 +1434,9 @@ async function psetLoad(d) {
     };
 }
 
+
+
+
 function pruneRefList(attrValue, deletedIds) {
     if (!attrValue || attrValue === '$' || attrValue === '*') return attrValue;
     const t = attrValue.trim();
@@ -1310,6 +1453,8 @@ async function psetApply(d) {
     const deleteSet = new Set((ops.deletePsetIds || []).map(String));
     ACTION_LABEL = ops.actionLabel || 'PSet Modified';
 
+    
+    
     const childDeleteSet = new Set();
     if (deleteSet.size && psetSession.childParents) {
         for (const [cid, parents] of psetSession.childParents) {
@@ -1336,6 +1481,8 @@ async function psetApply(d) {
             if (deleteSet.has(p.id) && (p.type === 'IFCPROPERTYSET' || p.type === 'IFCELEMENTQUANTITY')) { deleted++; continue; }
             if (childDeleteSet.has(p.id) && (p.type.startsWith('IFCPROPERTY') || p.type.startsWith('IFCQUANTITY') || p.type.startsWith('IFCCOMPLEX') || p.type.startsWith('IFCPHYSICAL'))) { childDeleted++; continue; }
             if (p.type === 'IFCRELDEFINESBYPROPERTIES') {
+                
+                
                 const a = splitStepAttributes(p.content);
                 const relDef = a[a.length - 1] || '';
                 const refIDs = Array.from(relDef.matchAll(/#(\d+)/g)).map(x => x[1]);
@@ -1346,6 +1493,7 @@ async function psetApply(d) {
                     raw = `#${p.id}= ${p.typeRaw}(${a.join(',')});`;
                 }
             } else if (isRootedEntity(p) && !p.type.startsWith('IFCREL') && !p.type.startsWith('IFCPROPERTY') && raw.includes('#')) {
+                
                 const a = splitStepAttributes(p.content);
                 if (a.length > 5 && a[5] && a[5].trim().startsWith('(')) {
                     const before = a[5];
@@ -1386,10 +1534,14 @@ async function psetApply(d) {
     return { parts, bytes, renamed, deleted, relPruned, childDeleted, typeCleaned, deletedNames: Array.from(deletedNames) };
 }
 
+
+
+
 function stepValueToPlain(v) {
     if (v === undefined || v === null) return '';
     let t = String(v).trim();
     if (t === '' || t === '$' || t === '*') return '';
+    
     const w = t.match(/^IFC[A-Z0-9_]*\s*\(([\s\S]*)\)$/i);
     if (w) t = w[1].trim();
     if (t === '.T.') return 'TRUE';
@@ -1437,11 +1589,12 @@ async function psetTable(d) {
     const wantPsets = new Set(d.psetNames || []);
     const entities = psetSession.entities;
 
-    const selPsets = new Map();
-    const propMap = new Map();
-    const relDefs = [];
-    const objInfo = new Map();
-    const typeLevel = [];
+    
+    const selPsets = new Map();   
+    const propMap = new Map();    
+    const relDefs = [];           
+    const objInfo = new Map();    
+    const typeLevel = [];         
     for (let i = 0; i < entities.length; i++) {
         const p = parseEntity(entities[i]);
         if (!p) continue;
@@ -1472,7 +1625,8 @@ async function psetTable(d) {
         }
     }
 
-    const psetPropsCache = new Map();
+    
+    const psetPropsCache = new Map(); 
     const CHILD_ATTR = { IFCPROPERTYSET: 4, IFCELEMENTQUANTITY: 5, IFCCOMPLEXPROPERTY: 3, IFCPHYSICALCOMPLEXQUANTITY: 2 };
     const psetEntityById = new Map();
     for (let i = 0; i < entities.length; i++) {
@@ -1505,8 +1659,9 @@ async function psetTable(d) {
         return out;
     };
 
+    
     const classes = {};
-    const rowsByObj = new Map();
+    const rowsByObj = new Map(); 
     let totalElements = 0;
     const addRow = (objId, psetId) => {
         const info = objInfo.get(objId);
@@ -1527,6 +1682,13 @@ async function psetTable(d) {
     return { classes, totalElements };
 }
 
+
+
+
+
+
+
+
 async function psetInject(d) {
     if (!psetSession) throw new Error("psetInject: no model loaded (call 'psetLoad' first).");
     const ops = d.ops || {};
@@ -1540,7 +1702,7 @@ async function psetInject(d) {
         if (typeof val === 'number') return Number.isFinite(val);
         if (typeof val !== 'string') return false;
         const t = val.trim();
-        if (t === '' || /^[-+]?0\d/.test(t)) return false;
+        if (t === '' || /^[-+]?0\d/.test(t)) return false; 
         return !isNaN(t) && !isNaN(parseFloat(t));
     };
     const inferTypeAndValue = (val) => {
@@ -1570,10 +1732,11 @@ async function psetInject(d) {
         return /^\.[A-Z_]+\.$/.test(String(val)) ? String(val) : null;
     };
 
-    const entIndex = new Map();
-    const classElements = {};
-    const psetsById = new Map();
-    const relList = [];
+    
+    const entIndex = new Map();     
+    const classElements = {};       
+    const psetsById = new Map();    
+    const relList = [];             
     let ownerHistoryId = null;
     for (let i = 0; i < entities.length; i++) {
         const p = parseEntity(entities[i]);
@@ -1590,6 +1753,7 @@ async function psetInject(d) {
             if (pd) relList.push({ psetId: pd[1], objIds: ((a[4] || '').match(/#\d+/g) || []).map(x => x.slice(1)) });
         }
     }
+    
     const propNameOf = (id) => {
         const idx = entIndex.get(id);
         if (idx === undefined) return null;
@@ -1608,11 +1772,12 @@ async function psetInject(d) {
         }
     }
 
-    const OH = ownerHistoryId ? `#${ownerHistoryId}` : '$';
+    
+    const OH = ownerHistoryId ? `#${ownerHistoryId}` : '$'; 
     let localMaxId = psetSession.maxId;
     const generatedLines = [];
-    const modificationsMap = new Map();
-    const psetUpdates = {};
+    const modificationsMap = new Map(); 
+    const psetUpdates = {};             
     let successfullyUpdated = 0, newlyInjectedExcelProps = 0, skippedTypeMismatch = 0;
 
     const rawOf = (id) => {
@@ -1667,6 +1832,7 @@ async function psetInject(d) {
         return propIds.length;
     };
 
+    
     const excelRows = ops.excelRows || [];
     if (excelRows.length > 0) {
         wlog(`Processing ${excelRows.length} spreadsheet row(s) (overwrites & auto-injections)...`);
@@ -1699,6 +1865,7 @@ async function psetInject(d) {
         wlog(`Spreadsheet processing complete. Overwrote ${successfullyUpdated} existing properties. Auto-injected ${newlyInjectedExcelProps} new properties.`);
     }
 
+    
     const queued = ops.queued || [];
     let totalManualNewEntities = 0, mergedIntoExisting = 0, overwrittenManual = 0;
     if (queued.length > 0) {
@@ -1740,6 +1907,7 @@ async function psetInject(d) {
         wlog(`Manual queue: ${totalManualNewEntities} new attributes in new Psets, ${mergedIntoExisting} appended to existing Psets, ${overwrittenManual} overwritten.`);
     }
 
+    
     for (const psetId in psetUpdates) {
         const raw = rawOf(psetId);
         if (!raw) continue;
@@ -1752,6 +1920,7 @@ async function psetInject(d) {
     }
     if (skippedTypeMismatch > 0) wlog(`${skippedTypeMismatch} value(s) did not match the existing property type and were written as IFCLABEL.`, true);
 
+    
     const recs = [];
     for (let i = 0; i < entities.length; i++) {
         const p = parseEntity(entities[i]);
@@ -1775,11 +1944,14 @@ async function psetInject(d) {
 
 async function psetClose() { psetSession = null; return { ok: true }; }
 
+
 const COORD_ACTIONS = { master: coordMaster, graft: coordGraft, finalize: coordFinalize, abort: coordAbort, optimizeFile: optimizeFile, psetLoad: psetLoad, psetApply: psetApply, psetTable: psetTable, psetInject: psetInject, psetClose: psetClose };
+
 
 self.postMessage({ type: 'ready', proto: WORKER_PROTO });
 
 const generalIdRegex = /#(\d+)\b/g;
+
 
 self.onmessage = async function (e) {
     const d = e.data || {};
@@ -1800,6 +1972,10 @@ self.onmessage = async function (e) {
         }
         if (d.action === 'ping') { self.postMessage({ type: 'pong', proto: WORKER_PROTO }); return; }
 
+        
+        
+        
+        
         if (d.action === 'childLoad') {
             const { file, fileName, options } = d;
             if (!file) throw new Error("childLoad: file missing");
@@ -1821,12 +1997,14 @@ self.onmessage = async function (e) {
                     wlog(`${fileName}: deep compression failed (${err.message}); using the original file.`, true);
                 }
             }
+            
             const ents = await streamStepFile(source, { collectEntities: true, name: fileName });
             childState = { fileName, entities: ents.entities, unit2: getLengthUnit(ents.unitText), schema: getSchema(ents.header) };
             self.postMessage({ type: 'loaded', reqId: d.reqId, fileName, maxId: ents.maxId, schema: childState.schema });
             return;
         }
 
+        
         if (d.action !== 'childGraft') throw new Error(`Unknown worker request (action: ${d.action || 'none'})`);
         if (!childState) throw new Error("childGraft: 'childLoad' must run first");
         const { offset, unit1, pTrees, options, masterDictArray } = d;
@@ -1837,6 +2015,7 @@ self.onmessage = async function (e) {
         childState = null;
         let scaleFactor = 1.0;
         if (unit1 !== unit2 && UNIT_TO_METER[unit1] && UNIT_TO_METER[unit2]) {
+            
             scaleFactor = UNIT_TO_METER[unit2] / UNIT_TO_METER[unit1];
         }
 
@@ -1845,6 +2024,7 @@ self.onmessage = async function (e) {
         const unscaledWatch = new Set();
         let scaledMeasures = 0;
 
+        
         for (let i = 0; i < childEntities.length; i++) {
             let raw = childEntities[i];
             if (!raw) continue;
@@ -1859,6 +2039,7 @@ self.onmessage = async function (e) {
                 }
             }
 
+            
             raw = offsetReferences(raw, offset);
             childEntities[i] = raw;
 
@@ -1875,6 +2056,7 @@ self.onmessage = async function (e) {
         const swapMap = new Map();
         let deduplicatedCount = 0;
 
+        
         if (options.optResourceDedup) {
             for (let i = 0; i < childEntities.length; i++) {
                 const raw = childEntities[i];
@@ -1895,10 +2077,14 @@ self.onmessage = async function (e) {
             }
         }
 
+        
+        
         if (cProject) swapMap.set(cProject, pTrees.pProject);
         if (options.optMeta === 'merge' && pTrees.pOwnerHistory) cOwnerHistories.forEach(id => swapMap.set(id, pTrees.pOwnerHistory));
         if (options.optSite === 'merge' && pTrees.pSite) cSites.forEach(id => swapMap.set(id, pTrees.pSite));
         if (options.optBuilding === 'merge' && pTrees.pBuilding && options.optSite === 'merge') {
+            
+            
             cBuildings.forEach(id => swapMap.set(id, pTrees.pBuilding));
         }
 
@@ -1925,6 +2111,7 @@ self.onmessage = async function (e) {
             }
         }
 
+        
         if (swapMap.size > 0) {
             const probe = makeSwapProbe(swapMap);
             for (let i = 0; i < childEntities.length; i++) {
@@ -1933,8 +2120,10 @@ self.onmessage = async function (e) {
 
                 const p = parseEntity(raw);
 
+                
                 if (p && swapMap.has(p.id)) { childEntities[i] = ''; continue; }
 
+                
                 if (p && p.type === 'IFCRELAGGREGATES') {
                     const attrs = splitStepAttributes(p.content);
                     if (attrs.length > 5) {
@@ -1951,6 +2140,7 @@ self.onmessage = async function (e) {
                     }
                 }
 
+                
                 if (raw.includes('#')) raw = resolveReferences(raw, swapMap, probe);
                 childEntities[i] = raw;
             }
@@ -1966,7 +2156,8 @@ self.onmessage = async function (e) {
             contextIds: contextIds
         };
         const survivors = childEntities.filter(line => line && line.trim() !== '');
-        const buf = new TextEncoder().encode(survivors.join('\0')).buffer;
+        
+        const buf = new TextEncoder().encode(survivors.join('\0')).buffer; 
         result.buffer = buf;
         result.reqId = d.reqId;
         self.postMessage(result, [buf]);
@@ -1980,6 +2171,9 @@ self.onmessage = async function (e) {
         }
     }
 };
+
+
+
 
 async function runOptimization(data) {
     const buffer = await runOptimizationCore(data);
@@ -2010,6 +2204,7 @@ async function runOptimizationCore(data) {
     const dataArray = new Uint8Array(buffer);
     const modelID = ifcApi.OpenModel(dataArray);
 
+    
     self.postMessage({ type: 'log', msg: 'Applying explicit data stripping...' });
     const typesToForceStrip = [];
     if (optStripPresentation) {
@@ -2037,8 +2232,11 @@ async function runOptimizationCore(data) {
     }
     self.postMessage({ type: 'log', msg: `Force-stripped ${explicitDeleted} user-selected entities.` });
 
+    
     self.postMessage({ type: 'log', msg: 'Executing Graph Garbage Collection (Tree-Shaking)...' });
     const orphanableTypes = [
+        
+        
         WebIFC.IFCEXTRUDEDAREASOLID, WebIFC.IFCPOLYLINE, WebIFC.IFCFACETEDBREP, WebIFC.IFCSHAPEREPRESENTATION,
         WebIFC.IFCPRODUCTDEFINITIONSHAPE, WebIFC.IFCFACE, WebIFC.IFCFACEOUTERBOUND, WebIFC.IFCPOLYLOOP,
         WebIFC.IFCBOUNDINGBOX, WebIFC.IFCBLOCK, WebIFC.IFCRECTANGLEPROFILEDEF, WebIFC.IFCCIRCLEPROFILEDEF,
@@ -2059,16 +2257,19 @@ async function runOptimizationCore(data) {
     }
     self.postMessage({ type: 'log', msg: `Identified ${bloatCandidateIDs.size} resource entities for orphan-checking.` });
 
+    
     const keepSet = new Set();
     const stack = [];
     function seed(id) { if (!keepSet.has(id)) { keepSet.add(id); stack.push(id); } }
 
     if (validModelIDs && validModelIDs.length > 0) {
+        
         for (let i = 0; i < validModelIDs.length; i++) {
             const id = validModelIDs[i];
             if (!bloatCandidateIDs.has(id)) seed(id);
         }
     } else {
+        
         for (let i = 1; i <= initialMaxId + 1000; i++) {
             if (!bloatCandidateIDs.has(i)) seed(i);
         }

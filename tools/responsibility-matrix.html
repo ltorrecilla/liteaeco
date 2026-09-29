@@ -25,10 +25,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responsibility Matrix - RACI & RASCI Assignment Tool | liteAECO</title>
 
+    
     <meta name="description" content="Free client-side tool to create RACI and RASCI responsibility matrices. Assign roles, track accountability, and clarify project responsibilities. No uploads, private, fast, and built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/responsibility-matrix.html">
 
+    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/responsibility-matrix.html">
     <meta property="og:site_name" content="liteAECO">
@@ -40,12 +42,14 @@
     <meta property="og:image:alt" content="liteAECO Responsibility Matrix tool interface">
     <meta property="og:locale" content="en_US">
 
+    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/responsibility-matrix.html">
     <meta name="twitter:title" content="Responsibility Matrix - RACI & RASCI Assignment Tool | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to create RACI and RASCI responsibility matrices. Assign roles, track accountability, and clarify project responsibilities. No uploads, private, fast, and built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-responsibility-matrix.png">
 
+    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -54,16 +58,23 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
+    
     <style>
         .hidden{display:none}
+        
+
         .rasci-switch:has(#rasci-save-menu-disconnect:not(.hidden)){background:#22c55e}
         .rasci-switch:has(#rasci-save-menu-disconnect:not(.hidden)) .rasci-knob{transform:translateX(16px)}
+        
+
         #rasci-save-icon-on.text-slate-600{color:#fff}
     </style>
 
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
+    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
@@ -73,6 +84,7 @@
     <script src="../js/liteaeco-cde-app.js"></script>
     <script src="../js/liteaeco-contacts.js"></script>
 
+    
     <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
 
     <script>
@@ -90,6 +102,7 @@
         }
     </script>
 
+    
     <link rel="stylesheet" type="text/css" href="../css/global.css">
     <link rel="stylesheet" type="text/css" href="../css/pdf_report.css">
 </head>
@@ -97,6 +110,9 @@
 <body
     class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
 
+    
+
+    
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
 
         <div id="info-app" class="info-app">
@@ -144,11 +160,13 @@
 				</div>
 			</details>
 
+
         </div>
 
         <div
             class="p-4 mb-4 flex flex-wrap gap-4 justify-between items-center shrink-0 border-b border-slate-300">
 
+            
             <div id="project-bar" class="hidden w-full flex flex-wrap items-center gap-3 border-b border-slate-100 pb-3">
                 <input type="text" id="app-project-number" placeholder="No."
                     class="border-0 bg-slate-50 rounded p-1.5 w-24 text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-accent outline-none transition-all" />
@@ -205,6 +223,10 @@
 
             <div class="flex items-center">
                 <div class="flex items-center rounded overflow-visible relative gap-2">
+                    
+
+
+
                     <div class="relative flex-1 min-w-[80px] hidden" id="wrapper-cde-save">
                         <button onclick="cdeSaveNow()" id="btn-cde-save"
                             class="w-full px-3 py-1.5 bg-indigo-600 border border-indigo-600 hover:bg-indigo-700 text-white rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1 disabled:opacity-60 disabled:pointer-events-none">
@@ -213,6 +235,8 @@
                                 data-i18n="btnSave">Save</span>
                         </button>
                     </div>
+
+                    
 
                     <div class="relative group flex-1 min-w-[80px]">
                         <button
@@ -231,6 +255,7 @@
                         <input type="file" id="contacts-upload" class="hidden" accept=".xlsx, .xls, .ods" />
                     </div>
 
+                    
                     <div class="relative group flex-1 min-w-[80px]" id="wrapper-save-excel">
                         <button
                             class="w-full px-3 py-1.5 bg-white border border-slate-200 hover:border-green-200 hover:bg-green-50 hover:text-green-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1">
@@ -257,6 +282,8 @@
                         </button>
                     </div>
 
+                    
+
                     <div class="relative group">
                         <button
                             class="px-3 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center"
@@ -264,9 +291,17 @@
                                 class="w-3.5 h-3.5"></i></button>
                         <div
                             class="absolute top-full right-0 w-44 mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden">
+                            
+
+
+
                             <button onclick="autosaveToggle()" id="rasci-autosave-row"
                                 class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 uppercase tracking-widest border-b border-slate-100 text-left transition-colors flex items-center justify-between gap-3">
                                 <span data-i18n="autosaveToggle">Autosave</span>
+                                
+
+
+
                                 <span class="rasci-switch relative inline-block w-8 h-4 rounded-full bg-slate-300 shrink-0 transition-colors">
                                     <span id="rasci-save-menu-disconnect" class="hidden"></span>
                                     <span class="rasci-knob absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white shadow transition-transform duration-200"></span>
@@ -307,6 +342,8 @@
                     </div>
                 </div>
             </div>
+
+            
 
             <div id="roles-legend-container"
                 class="bg-white/50 border border-slate-200 rounded p-3 m-4 text-[11.5px] font-mono text-slate-700 mb-3 shadow-sm flex flex-col md:flex-row gap-4 justify-between items-center shrink-0">
@@ -638,13 +675,22 @@
         </div>
     </div>
 
+    
+    
     <script>
+        
+        
+        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
+
+        
+        
         window.updateToolDynamicUI = function (d) {
             window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
+            
             const titleInput = document.getElementById('app-rasci-title');
             if (titleInput) titleInput.placeholder = window.BASE_PAGE.phRasciTitle || "Enter Title...";
 
@@ -663,13 +709,17 @@
             const projTitleInput = document.getElementById('app-project-title');
             if (projTitleInput) projTitleInput.placeholder = window.BASE_PAGE.phProjectTitle || "Project Title...";
 
+
+            
             if (typeof state !== 'undefined' && state.roles) {
                 state.roles.forEach(role => {
                     const dictChar = window.BASE_PAGE[role.charKey];
+                    
                     if (dictChar && dictChar !== role.char) {
                         const oldChar = role.char;
                         role.char = dictChar;
 
+                        
                         state.tasks.forEach(task => {
                             task.subtasks.forEach(st => {
                                 if (st.rasci) {
@@ -684,18 +734,22 @@
                     }
                 });
 
+                
                 if (typeof renderRolesLegend === 'function') renderRolesLegend();
             }
 
             if (typeof renderApp === 'function') renderApp();
         };
 
+        
         function bootApp() {
+            
             autoDetectLanguage();
 
+            
             window.injectUI({
                 showNav: true,
-                linkTarget: '',
+                linkTarget: '', 
                 transparentNav: false,
                 showSignIn: false,
                 showCategories: true,
@@ -705,26 +759,41 @@
                 showFooterLinks: true,
             });
 
+            
             window.injectCookieBanner();
 
+            
+            
+
+            
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
 
+        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
 
+        
+        
+        
+
+
+        
+        
+        
         const state = {
             title: '',
             date: new Date().toISOString().split('T')[0],
-            initialDate: new Date().toISOString().split('T')[0],
+            initialDate: new Date().toISOString().split('T')[0], 
             searchQuery: '',
             people: [],
             tasks: [],
             hideGroups: true,
             hideCompanies: true,
+            
             roles: [
                 { id: 'r', defaultDesc: 'The person(s) executing the task; they do the work', charKey: 'roleCharR', char: 'R', nameKey: 'roleResponsible', defaultName: 'Responsible', tooltipKey: 'roleRDesc', bg: 'bg-red-50', text: 'text-red-600', border: 'border-red-300', bgDark: 'bg-red-100', hexBg: 'FFFEE2E2', hexText: 'FF7F1D1D' },
                 { id: 'a', defaultDesc: 'The one ultimate authority who signs off and owns the outcome; only one per task', charKey: 'roleCharA', char: 'A', nameKey: 'roleAccountable', defaultName: 'Accountable', tooltipKey: 'roleADesc', bg: 'bg-amber-50', text: 'text-orange-600', border: 'border-amber-300', bgDark: 'bg-orange-100', hexBg: 'FFFFEDD5', hexText: 'FF7C2D12' },
@@ -733,9 +802,15 @@
                 { id: 'i', defaultDesc: 'People updated on progress after decisions are made', charKey: 'roleCharI', char: 'I', nameKey: 'roleInformed', defaultName: 'Informed', tooltipKey: 'roleIDesc', bg: 'bg-slate-50', text: 'text-slate-600', border: 'border-slate-300', bgDark: 'bg-slate-100', hexBg: 'FFE2E8F0', hexText: 'FF0F172A' }
             ]
         };
+        
         let hasUnsavedChanges = false;
         function markUnsaved() { hasUnsavedChanges = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); }
         function clearUnsaved() { hasUnsavedChanges = false; }
+
+        
+
+
+
 
         let typingDirty = false;
         let typingIdleTimer = null;
@@ -755,6 +830,9 @@
             if (typeof Autosave !== "undefined") Autosave.markDirty();
         }
 
+        
+        
+        
         state.project = { guid: '', number: '', title: '', client: '', address: '', type: '' };
 
         const PROJECT_FIELD_MAP = {
@@ -771,13 +849,17 @@
             return !!(p.guid || p.number || p.title || p.client || p.address || p.type);
         }
 
+        
+
+
+
         function updateProjectBarVisibility() {
             const bar = document.getElementById('project-bar');
             if (!bar) return;
             const show = !!(window.__cdeCtx || projectBarHasData() || window.__projectBarManual);
             bar.classList.toggle('hidden', !show);
             const mi = document.getElementById('menu-project-info');
-            if (mi) mi.classList.toggle('hidden', show);
+            if (mi) mi.classList.toggle('hidden', show);   
         }
         window.showProjectBar = function () {
             window.__projectBarManual = true;
@@ -789,6 +871,8 @@
                 const el = document.getElementById(elId);
                 if (el) el.value = state.project[key] || '';
             }
+            
+            
             updateProjectBarVisibility();
         }
 
@@ -797,7 +881,7 @@
                 const el = document.getElementById(elId);
                 if (el) el.addEventListener('input', e => {
                     state.project[key] = e.target.value.trim();
-                    noteTyping();
+                    noteTyping(); 
                 });
             }
             const btn = document.getElementById('btn-project-details');
@@ -810,6 +894,7 @@
         }
         initProjectBar();
 
+        
         function buildProjectInfoRows() {
             if (!state.project.guid && (state.project.number || state.project.title || state.project.client || state.project.address || state.project.type)) {
                 state.project.guid = newGuid();
@@ -826,6 +911,7 @@
             ];
         }
 
+        
         function parseProjectInfo(infoAoA, getValue) {
             const pv = (k) => { const v = getValue(infoAoA, k); return (v && v !== '-') ? v : ''; };
             state.project = {
@@ -838,8 +924,13 @@
             };
         }
 
+        
+        
+
+        
         const generateId = (prefix) => prefix + Math.random().toString(36).substr(2, 9);
 
+        
         function renderRolesLegend() {
             const container = document.getElementById('roles-legend-container');
             if (!container) return;
@@ -861,6 +952,7 @@
             container.innerHTML = html;
         }
 
+        
         document.addEventListener('change', (e) => {
             if (e.target.matches('#roles-legend-container input')) {
                 const roleId = e.target.dataset.roleId;
@@ -868,11 +960,13 @@
                 const roleIndex = state.roles.findIndex(r => r.id === roleId);
                 const oldChar = state.roles[roleIndex].char;
 
+                
                 if (!newVal) {
                     e.target.value = oldChar;
                     return;
                 }
 
+                
                 const isDuplicate = state.roles.some(r => r.id !== roleId && r.char === newVal);
                 if (isDuplicate) {
                     showDialog('alert', window.BASE_PAGE.alertDuplicateRole || "This character is already in use by another role.");
@@ -880,6 +974,7 @@
                     return;
                 }
 
+                
                 state.roles[roleIndex].char = newVal;
 
                 state.tasks.forEach(task => {
@@ -900,17 +995,35 @@
             }
         });
 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
         function getColorClass(char) {
             const role = state.roles.find(r => r.char === char);
             return role ? `${role.bgDark} ${role.text}` : 'bg-white text-slate-700';
         }
 
+        
         state.isTransposed = false;
 
         window.toggleTranspose = function () {
             state.isTransposed = !state.isTransposed;
             renderTasks();
         };
+
+        
+        
+
 
         const TOGGLE_BTN_BASE = 'flex items-center gap-1.5 px-2.5 py-1 border border-slate-300 rounded text-xs font-bold transition-all select-none';
 
@@ -962,6 +1075,18 @@
             return String.fromCharCode(65 + Math.floor(i / 26) % 26) + String.fromCharCode(65 + (i % 26));
         }
 
+        
+        
+
+
+
+
+
+
+
+
+
+
         const CONTACTS_CONTRACT = 1;
         function _contactsLib() { return (window.liteAECO && window.liteAECO.contacts) || null; }
 
@@ -979,12 +1104,14 @@
             const h = Array.from(b, x => x.toString(16).padStart(2, '0')).join('');
             return h.slice(0, 8) + '-' + h.slice(8, 12) + '-' + h.slice(12, 16) + '-' + h.slice(16, 20) + '-' + h.slice(20);
         }
+        
         function newGuid() { return generatePersonId(); }
 
         function _normPersonName(v) {
             const C = _contactsLib();
             return C ? C.normName(v) : String(v == null ? '' : v).trim().toLowerCase().replace(/\s+/g, ' ');
         }
+        
         function _findPersonByName(list, name, company) {
             const n = _normPersonName(name);
             if (!n) return null;
@@ -995,6 +1122,7 @@
             }
             return hits[0] || null;
         }
+        
         function _remapRefValue(v, map) {
             const C = _contactsLib();
             if (Array.isArray(v)) return C ? C.remapArray(v, map) : v.map(x => (typeof x === 'string' && map[x]) || x);
@@ -1017,6 +1145,9 @@
             counter.n += moved.length;
         }
 
+        
+
+
         function applyPersonRemap(map, opts) {
             opts = opts || {};
             const people = state.people || [];
@@ -1035,6 +1166,7 @@
             const counter = { n: 0 };
             _remapPersonRefs(ok, counter, res.conflicts);
             res.refs = counter.n;
+            
             if (typeof cdeBridge !== 'undefined' && cdeBridge.baseline && Array.isArray(cdeBridge.baseline.people)) {
                 cdeBridge.baseline.people.forEach(p => { if (ok[p.id]) p.id = ok[p.id]; });
             }
@@ -1046,6 +1178,9 @@
             if (res.conflicts.length) console.warn('person remap: kept target values on conflict', res.conflicts);
             return res;
         }
+
+        
+
 
         function _cdeResolveStaleRefs(st) {
             const C = _contactsLib();
@@ -1063,16 +1198,20 @@
             if (conflicts.length) console.warn('stale refs: kept target values on conflict', conflicts);
             return counter.n;
         }
+        
         function _looksLikePersonId(v) {
             const s = String(v == null ? '' : v).trim();
             return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s) || /^m-[a-z0-9-]+$/.test(s);
         }
 
+        
         function _remapPersonRefs(map, counter, conflicts) {
+            
             (state.tasks || []).forEach(t => (t.subtasks || []).forEach(st => _remapRefKeys(st.rasci, map, counter, conflicts)));
         }
         function _rosterPersonDefaults() { return { participation: '-', rasciMatrix: 'No', archived: true, present: false }; }
         function _markPeopleDirty() { if (typeof markUnsaved === 'function') markUnsaved(); }
+        
 
         function toExcelDate(htmlDate) {
             if (!htmlDate || htmlDate === '-') return '-';
@@ -1092,6 +1231,9 @@
             return strDate.replace(/\./g, '-');
         }
 
+        
+        
+        
         function renderApp() {
             const titleInput = document.getElementById('app-rasci-title');
             if (titleInput) titleInput.value = state.title;
@@ -1099,8 +1241,8 @@
             const dateInput = document.getElementById('app-rasci-date');
             if (dateInput) dateInput.value = state.date;
 
-            renderRolesLegend();
-            syncMatrixToggleButtons();
+            renderRolesLegend(); 
+            syncMatrixToggleButtons(); 
             renderTasks();
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
@@ -1231,12 +1373,14 @@
                 task.number = tIndex + 1;
                 task.subtasks.forEach((st, stIndex) => {
                     if (!st.number) st.number = stIndex + 1;
+                    
                     if (!st.archived) {
                         taskCols.push({ task, st });
                     }
                 });
             });
 
+            
             taskCols.sort((a, b) => {
                 const groupA = (a.task.title || '').trim().toLowerCase();
                 const groupB = (b.task.title || '').trim().toLowerCase();
@@ -1261,6 +1405,7 @@
 
             const activePeople = state.people.filter(p => !p.archived && p.rasciMatrix === 'Yes');
 
+            
             activePeople.sort((a, b) => {
                 const compA = (a.company || '').trim().toLowerCase();
                 const compB = (b.company || '').trim().toLowerCase();
@@ -1275,6 +1420,7 @@
 
             const isTransposed = state.isTransposed;
 
+            
             let displayTasks = taskCols;
             let displayPeople = activePeople;
             const q = state.searchQuery ? state.searchQuery.toLowerCase().trim() : '';
@@ -1303,16 +1449,19 @@
                 container.innerHTML = `<div class="p-8 text-center text-slate-500 font-medium">No results found for "${state.searchQuery}".</div>`;
                 return;
             }
+            
 
+            
             const matrixCols = [];
             const matrixRows = [];
 
             if (!isTransposed) {
+                
                 let currentGroup = null;
                 displayTasks.forEach((col, i) => {
                     const gName = col.task.title || window.BASE_PAGE.uiUnnamedGroup || 'Unnamed Group';
                     if (gName !== currentGroup) {
-                        if (!state.hideGroups) {
+                        if (!state.hideGroups) { 
                             matrixCols.push({ isDivider: true, title: gName, color: 'bg-slate-100' });
                         }
                         currentGroup = gName;
@@ -1320,11 +1469,12 @@
                     matrixCols.push({ isDivider: false, colData: col, color: 'bg-slate-50', colIndex: i });
                 });
 
+                
                 let currentComp = null;
                 displayPeople.forEach(p => {
                     const cName = p.company || window.BASE_PAGE.uiNoCompany || 'No Company';
                     if (cName !== currentComp) {
-                        if (!state.hideCompanies) {
+                        if (!state.hideCompanies) { 
                             matrixRows.push({ isDivider: true, title: cName, color: 'bg-slate-100' });
                         }
                         currentComp = cName;
@@ -1332,11 +1482,12 @@
                     matrixRows.push({ isDivider: false, rowData: p, color: 'bg-slate-50' });
                 });
             } else {
+                
                 let currentComp = null;
                 displayPeople.forEach((p, i) => {
                     const cName = p.company || window.BASE_PAGE.uiNoCompany || 'No Company';
                     if (cName !== currentComp) {
-                        if (!state.hideCompanies) {
+                        if (!state.hideCompanies) { 
                             matrixCols.push({ isDivider: true, title: cName, color: 'bg-slate-100' });
                         }
                         currentComp = cName;
@@ -1344,11 +1495,12 @@
                     matrixCols.push({ isDivider: false, colData: p, color: 'bg-slate-50', colIndex: i });
                 });
 
+                
                 let currentGroup = null;
                 displayTasks.forEach(col => {
                     const gName = col.task.title || window.BASE_PAGE.uiUnnamedGroup || 'Unnamed Group';
                     if (gName !== currentGroup) {
-                        if (!state.hideGroups) {
+                        if (!state.hideGroups) { 
                             matrixRows.push({ isDivider: true, title: gName, color: 'bg-slate-100' });
                         }
                         currentGroup = gName;
@@ -1357,10 +1509,13 @@
                 });
             }
 
+            
             let html = `<div class="overflow-x-auto pb-0"><table class="text-left border-collapse whitespace-nowrap" style="table-layout: fixed; width: max-content;">`;
 
+            
             html += `<thead><tr class="h-[120px]">`;
 
+            
             html += `<th onclick="toggleTranspose()" class="p-2 border border-slate-300 bg-slate-100 hover:bg-slate-200 text-indigo-800 font-bold text-xs sticky left-0 z-30 uppercase cursor-pointer select-none transition-colors group align-middle shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]" style="width: 200px; min-width: 200px; max-width: 200px;">
                 <div class="flex items-center justify-center w-full">
                     <i data-lucide="arrow-right-left" class="w-4 h-4 text-indigo-500 group-hover:text-indigo-700 transition-colors"></i>
@@ -1408,6 +1563,7 @@
             } else {
                 matrixRows.forEach(r => {
                     if (r.isDivider) {
+                        
                         html += `<tr class="h-[25px] max-h-[25px]"><td colspan="${matrixCols.length + 1}" class="px-3 py-1 border border-slate-300 ${r.color} text-slate-800 font-bold text-[11px] uppercase tracking-widest sticky left-0 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] overflow-hidden text-left">${String(r.title).toUpperCase()}</td></tr>`;
                     } else {
                         html += `<tr class="h-[30px] max-h-[30px]">`;
@@ -1456,6 +1612,7 @@
 
                         matrixCols.forEach(c => {
                             if (c.isDivider) {
+                                
                                 html += `<td class="p-0 border border-slate-300 ${c.color}" style="width: 25px;min-width: 25px; max-width: 25px;"></td>`;
                             } else {
                                 const entityId = !isTransposed ? r.rowData.id : c.colData.id;
@@ -1466,7 +1623,7 @@
                                 const emptyBgClass = role === '' ? 'bg-white text-slate-700' : getColorClass(role);
 
                                 html += `<td class="p-0 border border-slate-300 text-center relative group bg-white" style="width: 40px; min-width: 40px; max-width: 40px;">
-                                    <input type="text" maxlength="1" placeholder=""
+                                    <input type="text" maxlength="1" placeholder="" 
                                         class="input-st-rasci-cell w-full h-full min-h-[32px] max-h-[32px] text-xs text-center outline-none font-bold uppercase transition-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 relative z-10 peer ${emptyBgClass}"
                                         value="${role}" data-pid="${entityId}" data-stid="${stId}" data-row="${rowIndex}" data-col="${c.colIndex}">
                                     <div class="fill-handle absolute -bottom-[1px] -right-[1px] w-1.5 h-1.5 bg-indigo-600 border border-white cursor-crosshair hidden peer-focus:block z-30"></div>
@@ -1486,7 +1643,14 @@
             if (typeof renderAnalysis === 'function') renderAnalysis();
         }
 
+        
+        
+        
         let pendingImportData = null;
+
+        
+
+
 
         function _cdeLoadBlocked() { return !!pendingImportData; }
 
@@ -1494,6 +1658,7 @@
             if (!window.__cdeCtx || typeof cdeBridge === 'undefined') return;
             const deferred = window.__cdeDeferredSync || null;
             window.__cdeDeferredSync = null;
+            
             if (deferred && cdeBridge.session) cdeBridge.baseline = cdeBridge.snap();
             if (deferred) {
                 await _cdeSyncMembers(deferred);
@@ -1503,7 +1668,7 @@
                 } catch (e) { console.warn('stale reference resolution skipped:', e); }
             }
             cdeBridge.schedule();
-            cdeBridge.scheduleWriteBack();
+            cdeBridge.scheduleWriteBack();   
             if (typeof renderApp === 'function') renderApp();
         }
 
@@ -1524,20 +1689,27 @@
             pendingImportData = null;
             if (window.__cdeCtx) _cdeAfterConflictChoice().catch(e => console.warn('CDE after conflict choice failed:', e));
 
+            
             renderApp();
             if (typeof renderAllContacts === 'function') renderAllContacts();
             if (typeof renderAllTasks === 'function') renderAllTasks();
         }
 
         function cancelImportConflict() {
+            
+            
             if (window.__cdeCtx) {
                 window.location.href = 'project-core.html?project=' + encodeURIComponent(window.__cdeCtx.guid);
                 return;
             }
             document.getElementById('import-conflict-modal').classList.add('hidden');
             pendingImportData = null;
+            
         }
 
+        
+        
+        
         state.isAnalysisOpen = false;
 
         window.toggleAnalysis = function () {
@@ -1555,6 +1727,7 @@
 
             if (activeTasks.length === 0 || activePeople.length === 0) { container.innerHTML = ''; return; }
 
+            
             const txtIssues = window.BASE_PAGE.uiAnalysisIssues || "Issues";
             const txtAllGood = window.BASE_PAGE.uiAnalysisAllGood || "All Good";
             const txtTitle = window.BASE_PAGE.uiAnalysisTitle || "Matrix Analysis";
@@ -1564,6 +1737,7 @@
             const txtBalanced = window.BASE_PAGE.uiAnalysisBalanced || "Matrix is perfectly balanced!";
             const txtBalancedDesc = window.BASE_PAGE.uiAnalysisBalancedDesc || "Every task has exactly 1 Accountable and at least 1 Responsible.";
 
+            
             const errAcc = window.BASE_PAGE.errAccountable || "Needs exactly 1 Accountable";
             const errHas = window.BASE_PAGE.errHas || "Has";
             const errResp = window.BASE_PAGE.errResponsible || "Needs at least 1 Responsible";
@@ -1571,8 +1745,8 @@
             const txtUnnamedTask = window.BASE_PAGE.uiUnnamedTask || "Unnamed Task";
 
             const issues = [];
-            const rChar = state.roles[0].char;
-            const aChar = state.roles[1].char;
+            const rChar = state.roles[0].char; 
+            const aChar = state.roles[1].char; 
 
             const workload = activePeople.map(p => {
                 let countsObj = {};
@@ -1610,6 +1784,7 @@
                 ? `<span class="ml-3 bg-red-100 text-red-700 text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">${issues.length} ${txtIssues}</span>`
                 : `<span class="ml-3 bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">${txtAllGood}</span>`;
 
+            
             const tableHeadersHTML = state.roles.map(r => `<th class="pb-2 text-center font-bold w-8">${r.char}</th>`).join('');
 
             const tableRowsHTML = workload.map(w => `
@@ -1637,7 +1812,7 @@
                     <i data-lucide="${icon}" class="w-4 h-4 text-slate-400 shrink-0"></i>
                     </span>
                 </button>
-
+                
                 <div class="${isCollapsed ? 'hidden' : 'block'} p-0">
                     <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100">
                         <div class="p-5 bg-white overflow-x-auto">
@@ -1675,6 +1850,9 @@
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: container });
         }
 
+        
+        
+        
         function openContactModal(id) {
             const person = state.people.find(p => p.id === id);
             if (!person) return;
@@ -1709,7 +1887,7 @@
                 closeContactModal();
                 if (typeof renderPeople === 'function') renderPeople();
                 renderTasks();
-                renderAllContacts();
+                renderAllContacts(); 
             }
         }
 
@@ -1722,8 +1900,8 @@
             document.getElementById('task-modal-tid').value = task.id;
             document.getElementById('task-modal-stid').value = st.id;
             document.getElementById('task-modal-group').value = task.title || '';
-            document.getElementById('task-modal-title').value = st.title || '';
-            document.getElementById('task-modal-desc').value = st.text || '';
+            document.getElementById('task-modal-title').value = st.title || ''; 
+            document.getElementById('task-modal-desc').value = st.text || '';   
 
             document.getElementById('task-modal').classList.remove('hidden');
         }
@@ -1749,9 +1927,12 @@
 
             closeTaskModal();
             renderTasks();
-            if (typeof renderAllTasks === 'function') renderAllTasks();
+            if (typeof renderAllTasks === 'function') renderAllTasks(); 
         }
 
+        
+        
+        
         function showDialog(type, message, onConfirm = null, onCancel = null) {
             const overlay = document.getElementById('custom-dialog');
             const box = document.getElementById('custom-dialog-box');
@@ -1798,6 +1979,7 @@
             overlay.classList.remove('hidden');
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: overlay });
 
+            
             setTimeout(() => {
                 overlay.classList.remove('opacity-0');
                 box.classList.remove('scale-95');
@@ -1816,10 +1998,13 @@
             setTimeout(() => { overlay.classList.add('hidden'); }, 200);
         }
 
+        
+        
+        
         let currentContactSearch = '';
-        let currentContactSort = { field: 'name', direction: 'asc' };
+        let currentContactSort = { field: 'name', direction: 'asc' }; 
         let currentContactPage = 1;
-        const CONTACTS_PER_PAGE = 12;
+        const CONTACTS_PER_PAGE = 12; 
 
         function openAllContactsModal() {
             document.getElementById('modal-search-input').value = '';
@@ -1835,10 +2020,11 @@
 
         function updateContactSearch(query) {
             currentContactSearch = query.toLowerCase().trim();
-            currentContactPage = 1;
+            currentContactPage = 1; 
             renderAllContacts();
         }
 
+        
         function changeContactSort(field) {
             if (currentContactSort.field === field) {
                 currentContactSort.direction = currentContactSort.direction === 'asc' ? 'desc' : 'asc';
@@ -1846,7 +2032,7 @@
                 currentContactSort.field = field;
                 currentContactSort.direction = 'asc';
             }
-            currentContactPage = 1;
+            currentContactPage = 1; 
             renderAllContacts();
         }
 
@@ -1861,10 +2047,12 @@
             currentContactPage = newPage;
             renderAllContacts();
 
+            
             const scrollContainer = document.getElementById('all-contacts-list').parentElement;
             if (scrollContainer) scrollContainer.scrollTop = 0;
         }
 
+        
         function renderAllContacts() {
             const listEl = document.getElementById('all-contacts-list');
             if (!listEl) return;
@@ -1874,12 +2062,14 @@
                 return;
             }
 
+            
             let filteredPeople = state.people.filter(p => {
                 if (!currentContactSearch) return true;
                 const searchStr = `${p.name} ${p.company || ''} ${p.role || ''} ${p.contactInfo || ''}`.toLowerCase();
                 return searchStr.includes(currentContactSearch);
             });
 
+            
             let sortedPeople = filteredPeople.sort((a, b) => {
                 let valA, valB;
 
@@ -1915,9 +2105,11 @@
                 return currentContactSort.direction === 'asc' ? (valA - valB) : (valB - valA);
             });
 
+            
             const totalItems = sortedPeople.length;
             const totalPages = Math.max(1, Math.ceil(totalItems / CONTACTS_PER_PAGE));
 
+            
             if (currentContactPage > totalPages) currentContactPage = totalPages;
             if (currentContactPage < 1) currentContactPage = 1;
 
@@ -1926,6 +2118,7 @@
 
             const paginatedPeople = sortedPeople.slice(startIndex, endIndex);
 
+            
             let html = `
             <div class="grid grid-cols-[2fr_2fr_1.5fr_2fr_80px_60px] gap-3 p-4 border-b border-slate-200 bg-slate-50 text-[11px] font-bold text-slate-500 uppercase tracking-wider sticky top-0 z-10 shadow-sm">
                 <button onclick="changeContactSort('name')" class="flex items-center gap-1 hover:text-indigo-600 transition-colors group outline-none text-left">Name ${getSortIcon('name')}</button>
@@ -1936,6 +2129,7 @@
                 <button onclick="changeContactSort('status')" class="flex items-center justify-center gap-1 hover:text-indigo-600 transition-colors group outline-none">Status ${getSortIcon('status')}</button>
             </div>`;
 
+            
             if (paginatedPeople.length === 0) {
                 html += `<div class="p-8 text-center text-sm text-slate-400 italic">No contacts match your search.</div>`;
             } else {
@@ -1978,10 +2172,12 @@
                 });
             }
 
+            
             const paginationEl = document.getElementById('all-contacts-pagination');
             let paginationHtml = '';
 
             if (totalItems > CONTACTS_PER_PAGE) {
+                
                 paginationHtml = `
                 <div class="flex items-center justify-between px-6 py-3">
                     <div class="text-xs text-slate-500">
@@ -1999,9 +2195,11 @@
                 </div>`;
             }
 
+            
             listEl.innerHTML = html;
             if (paginationEl) paginationEl.innerHTML = paginationHtml;
 
+            
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons({ root: listEl });
                 if (paginationEl) lucide.createIcons({ root: paginationEl });
@@ -2023,12 +2221,15 @@
             if (person) {
                 person.archived = !person.archived;
                 markUnsaved();
-                renderAllContacts();
-                renderTasks();
+                renderAllContacts(); 
+                renderTasks(); 
                 if (typeof renderPeople === 'function') renderPeople();
             }
         }
 
+        
+        
+        
         let currentTaskSearch = '';
 
         function openAllTasksModal() {
@@ -2064,6 +2265,7 @@
                 return searchStr.includes(currentTaskSearch);
             });
 
+            
             filteredTasks.sort((a, b) => {
                 const groupA = (a.task.title || '').trim().toLowerCase();
                 const groupB = (b.task.title || '').trim().toLowerCase();
@@ -2071,6 +2273,7 @@
                 if (groupA < groupB) return -1;
                 if (groupA > groupB) return 1;
 
+                
                 const taskA = (a.st.title || '').trim().toLowerCase();
                 const taskB = (b.st.title || '').trim().toLowerCase();
 
@@ -2087,7 +2290,7 @@
 
             let html = `
             <div class="grid grid-cols-12 gap-3 p-4 border-b border-slate-200 bg-slate-50/50 text-[11px] font-bold text-slate-500 uppercase tracking-wider sticky top-0 z-10">
-
+                
                 <div class="col-span-3">Task Name</div>
                 <div class="col-span-3">Group</div>
                 <div class="col-span-3">Description</div>
@@ -2116,7 +2319,7 @@
 
                 html += `
                 <div class="grid grid-cols-12 gap-3 p-3 border-b border-slate-100 last:border-0 hover:bg-slate-50 items-center transition-all ${rowOpacity}">
-
+                    
                     <div class="col-span-3">
                         <input type="text" value="${safeTask}" onchange="updateSubtaskInline('${item.task.id}', '${item.st.id}', 'title', this.value)" class="${inputClass} text-slate-800" placeholder="Task Name">
                     </div>
@@ -2139,6 +2342,7 @@
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: listEl });
         }
 
+        
         function updateTaskGroupInline(tid, value) {
             const task = state.tasks.find(t => t.id === tid);
             if (task) {
@@ -2164,25 +2368,30 @@
                 const st = task.subtasks.find(s => s.id === stid);
                 if (st) {
                     st.archived = !st.archived;
-                    renderAllTasks();
-                    renderTasks();
+                    renderAllTasks(); 
+                    renderTasks();    
                 }
             }
         }
 
+        
         function deleteTaskFromModal(stId) {
             showDialog('confirm', "Delete this task?", () => {
                 state.tasks.forEach(task => {
                     const idx = task.subtasks.findIndex(st => st.id === stId);
                     if (idx > -1) task.subtasks.splice(idx, 1);
                 });
+                
                 state.tasks = state.tasks.filter(t => t.subtasks.length > 0);
 
-                renderAllTasks();
-                renderTasks();
+                renderAllTasks(); 
+                renderTasks();    
             });
         }
 
+        
+        
+        
         function prepareAndPrint() {
             document.querySelectorAll('.task-content-wrapper.hidden, .st-controls-wrapper.hidden').forEach(el => {
                 el.classList.remove('hidden');
@@ -2202,8 +2411,16 @@
             setTimeout(() => { window.print(); }, 300);
         }
 
+        
+        
+        
         document.addEventListener('DOMContentLoaded', () => {
 
+            
+            
+            
+
+            
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     closeContactModal();
@@ -2233,6 +2450,7 @@
                 }
             });
 
+            
             document.addEventListener('paste', (e) => {
                 if (e.target.classList.contains('input-st-rasci-cell')) {
                     e.preventDefault();
@@ -2255,6 +2473,7 @@
                                 } else {
                                     target.value = '';
                                 }
+                                
                                 target.dispatchEvent(new Event('input', { bubbles: true }));
                             }
                         });
@@ -2262,21 +2481,23 @@
                 }
             });
 
+            
             let isDragging = false;
             let dragStartInput = null;
             let dragStartValue = '';
 
             document.addEventListener('mousedown', (e) => {
                 if (e.target.classList.contains('fill-handle')) {
-                    e.preventDefault();
+                    e.preventDefault(); 
                     isDragging = true;
-                    dragStartInput = e.target.previousElementSibling;
+                    dragStartInput = e.target.previousElementSibling; 
                     dragStartValue = dragStartInput.value;
                 }
             });
 
             document.addEventListener('mouseover', (e) => {
                 if (isDragging && e.target.classList.contains('input-st-rasci-cell')) {
+                    
                     document.querySelectorAll('.input-st-rasci-cell').forEach(el => {
                         el.classList.remove('ring-2', 'ring-indigo-500', 'ring-dashed');
                     });
@@ -2286,11 +2507,13 @@
                     const endRow = parseInt(e.target.dataset.row);
                     const endCol = parseInt(e.target.dataset.col);
 
+                    
                     const minRow = Math.min(startRow, endRow);
                     const maxRow = Math.max(startRow, endRow);
                     const minCol = Math.min(startCol, endCol);
                     const maxCol = Math.max(startCol, endCol);
 
+                    
                     document.querySelectorAll('.input-st-rasci-cell').forEach(input => {
                         const r = parseInt(input.dataset.row);
                         const c = parseInt(input.dataset.col);
@@ -2306,18 +2529,23 @@
                     isDragging = false;
                     const highlighted = document.querySelectorAll('.input-st-rasci-cell.ring-dashed');
 
+                    
                     highlighted.forEach(input => {
                         input.classList.remove('ring-dashed', 'ring-2', 'ring-indigo-500');
 
                         if (input !== dragStartInput) {
                             input.value = dragStartValue;
-                            input.dispatchEvent(new Event('input', { bubbles: true }));
+                            input.dispatchEvent(new Event('input', { bubbles: true })); 
                         }
                     });
                     dragStartInput = null;
                 }
             });
+            
 
+            
+            
+            
             let isSelecting = false;
             let selectStartRow = null;
             let selectStartCol = null;
@@ -2353,11 +2581,13 @@
                     const c = parseInt(e.target.dataset.col);
 
                     if (e.shiftKey && selectStartRow !== null) {
+                        
                         selectEndRow = r;
                         selectEndCol = c;
                         highlightSelection(selectStartRow, selectStartCol, selectEndRow, selectEndCol);
-                        e.preventDefault();
+                        e.preventDefault(); 
                     } else {
+                        
                         selectStartRow = r;
                         selectStartCol = c;
                         selectEndRow = r;
@@ -2366,6 +2596,7 @@
                         e.target.classList.add('selected-cell', '!ring-2', '!ring-indigo-600', '!ring-inset', 'z-20');
                     }
                 } else if (!e.target.closest('.input-st-rasci-cell') && !e.target.classList.contains('fill-handle')) {
+                    
                     clearSelection();
                     selectStartRow = null;
                 }
@@ -2383,11 +2614,13 @@
                 isSelecting = false;
             });
 
+            
             document.addEventListener('copy', (e) => {
                 const selectedCells = document.querySelectorAll('.selected-cell');
 
+                
                 if (selectedCells.length > 0 && selectStartRow !== null) {
-                    e.preventDefault();
+                    e.preventDefault(); 
 
                     const minRow = Math.min(selectStartRow, selectEndRow);
                     const maxRow = Math.max(selectStartRow, selectEndRow);
@@ -2396,6 +2629,7 @@
 
                     let copyText = '';
 
+                    
                     for (let r = minRow; r <= maxRow; r++) {
                         let rowVals = [];
                         for (let c = minCol; c <= maxCol; c++) {
@@ -2405,6 +2639,7 @@
                         copyText += rowVals.join('\t') + '\n';
                     }
 
+                    
                     e.clipboardData.setData('text/plain', copyText.replace(/\n$/, ''));
                 }
             });
@@ -2426,12 +2661,14 @@
                 if (name) {
                     markUnsaved();
 
+                    
                     let existingPerson = state.people.find(p => p.name.toLowerCase() === name.toLowerCase() && (p.rasciMatrix !== 'Yes' || p.archived));
 
                     if (existingPerson) {
                         existingPerson.archived = false;
                         existingPerson.rasciMatrix = 'Yes';
                     } else {
+                        
                         state.people.push({
                             id: generatePersonId(),
                             name: name,
@@ -2465,9 +2702,9 @@
                     state.tasks.push({
                         id: generateId('t'),
                         number: state.tasks.length + 1,
-                        title: 'New Group',
+                        title: 'New Group', 
                         subtasks: [
-                            { id: generateId('s'), number: 1, title: title, text: '', rasci: {} }
+                            { id: generateId('s'), number: 1, title: title, text: '', rasci: {} } 
                         ]
                     });
                     inputTask.value = '';
@@ -2476,6 +2713,10 @@
             });
 
             document.addEventListener('click', (e) => {
+                
+
+
+
                 if (e.target.closest('.btn-add-st') || e.target.closest('.btn-add-task')) {
                     markUnsaved();
                 }
@@ -2572,19 +2813,24 @@
             });
 
             document.addEventListener('input', (e) => {
+                
+                
                 if (e.target.id !== 'app-search' && e.target.id !== 'modal-search-input' && e.target.id !== 'modal-task-search-input') {
                     noteTyping();
                 }
 
+                
                 if (e.target.classList.contains('input-st-rasci-cell')) {
                     let val = e.target.value.toUpperCase();
 
+                    
                     const validChars = state.roles.map(r => r.char);
                     if (val && !validChars.includes(val)) {
                         val = '';
                     }
                     e.target.value = val;
 
+                    
                     const stId = e.target.dataset.stid;
                     const pId = e.target.dataset.pid;
                     const cId = e.target.dataset.cid;
@@ -2600,10 +2846,12 @@
                         }
                     }
 
+                    
                     const colorClass = val === "" ? 'bg-white text-slate-700' : getColorClass(val);
                     const baseClasses = "input-st-rasci-cell w-full h-full min-h-[32px] text-xs text-center outline-none font-bold uppercase transition-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 relative z-10 peer";
                     e.target.className = `${baseClasses} ${colorClass}`;
 
+                    
                     if (typeof renderAnalysis === 'function') renderAnalysis();
                 }
                 if (e.target.classList.contains('input-task-title')) {
@@ -2619,6 +2867,8 @@
                 }
             });
 
+            
+            
             document.addEventListener('focusout', (e) => {
                 if (!typingDirty) return;
                 const t = e.target;
@@ -2626,12 +2876,18 @@
                     commitTypingDirty();
                 }
             });
+            
             document.addEventListener('visibilitychange', () => {
                 if (document.visibilityState === 'hidden' && typingDirty) {
                     commitTypingDirty();
                     if (typeof Autosave !== "undefined" && Autosave.flush) Autosave.flush();
                 }
             });
+            
+            
+            
+            
+            
             window.addEventListener('beforeunload', (e) => {
                 if (!window.__cdeCtx) return;
                 let cdePending = false;
@@ -2641,7 +2897,7 @@
                             (cdeBridge.baseline && cdeBridge.diff(cdeBridge.baseline, cdeBridge.snap()).length > 0));
                 } catch (err) { }
                 if (typingDirty || cdePending) {
-                    commitTypingDirty();
+                    commitTypingDirty(); 
                     try { if (typeof cdeBridge !== 'undefined' && cdeBridge.flush) cdeBridge.flush(); } catch (err) { }
                     e.preventDefault();
                     e.returnValue = (window.BASE_PAGE && window.BASE_PAGE.unsavedLeaveMessage) || "You have unsaved changes. Are you sure you want to leave?";
@@ -2708,12 +2964,12 @@
                         showDialog('confirm', msg, () => {
                             executeImport(file);
                         });
-                        e.target.value = '';
+                        e.target.value = ''; 
                         return;
                     }
 
                     executeImport(file);
-                    e.target.value = '';
+                    e.target.value = ''; 
                 });
             }
 
@@ -2736,6 +2992,7 @@
                 }
             }
 
+            
             const personInput = document.getElementById('input-new-person');
             const personDropdown = document.getElementById('person-autocomplete-dropdown');
 
@@ -2748,6 +3005,7 @@
                     return;
                 }
 
+                
                 const matches = state.people.filter(p => p.name.toLowerCase().includes(val) && (p.rasciMatrix !== 'Yes' || p.archived));
 
                 if (matches.length > 0) {
@@ -2772,25 +3030,28 @@
 
             if (personInput) {
                 personInput.addEventListener('input', updatePersonDropdown);
-                personInput.addEventListener('click', updatePersonDropdown);
+                personInput.addEventListener('click', updatePersonDropdown); 
             }
 
+            
             document.addEventListener('click', (e) => {
+                
                 if (e.target.closest('.person-suggestion')) {
                     const suggestion = e.target.closest('.person-suggestion');
                     const id = suggestion.dataset.id;
                     const person = state.people.find(p => p.id === id);
 
                     if (person) {
-                        person.archived = false;
-                        person.rasciMatrix = 'Yes';
-                        if (personInput) personInput.value = '';
+                        person.archived = false; 
+                        person.rasciMatrix = 'Yes'; 
+                        if (personInput) personInput.value = ''; 
                         if (typeof renderPeople === 'function') renderPeople();
                         renderTasks();
                         if (typeof renderAllContacts === 'function') renderAllContacts();
                     }
                     if (personDropdown) personDropdown.classList.add('hidden');
                 }
+                
                 else if (personDropdown && !e.target.closest('#input-new-person') && !e.target.closest('#person-autocomplete-dropdown')) {
                     personDropdown.classList.add('hidden');
                 }
@@ -2814,6 +3075,7 @@
                 }
             });
 
+            
             renderApp();
         });
 
@@ -2825,6 +3087,10 @@
             return null;
         }
 
+        
+        
+        
+        
         const Autosave = liteAECO.createAutosave({
             toolId: "rasci",
             fileSuffix: ".rasci.json",
@@ -2834,6 +3100,7 @@
                 if (!d || d.app !== "liteAECO-rasci" || !d.state) return false;
                 Object.keys(state).forEach(k => delete state[k]);
                 Object.assign(state, d.state);
+                
                 if (typeof state.hideGroups !== "boolean") state.hideGroups = true;
                 if (typeof state.hideCompanies !== "boolean") state.hideCompanies = true;
                 if (typeof state.isTransposed !== "boolean") state.isTransposed = false;
@@ -2858,7 +3125,13 @@
                 });
         });
 
+        
+
+
+
+
         function _cdeParams() {
+            
             if (window.liteAECO && liteAECO.app) {
                 const p = liteAECO.app.params();
                 return p ? { guid: p.guid, open: p.open } : null;
@@ -2881,6 +3154,11 @@
         }
 
         async function _cdeLoad(info, params) {
+            
+            
+            
+            
+            
             window.__cdeReadOnly = !!(window.__cdeApp && window.__cdeApp.readOnly);
             let data;
             try { data = await _cdeReadFile(info.handle, params.open); }
@@ -2902,6 +3180,7 @@
                 console.error("CDE IMPORT LOGIC ERROR:", err);
                 return true;
             }
+            
             if (state.project.guid && state.project.guid !== params.guid) {
                 const adopt = await new Promise(function (resolve) {
                     showDialog('confirm',
@@ -2914,11 +3193,15 @@
                 }
             }
             clearUnsaved();
-            if (pendingImportData) window.__cdeDeferredSync = info;
+            if (pendingImportData) window.__cdeDeferredSync = info;   
             window.__cdeCtx = { guid: params.guid, path: params.open, handle: info.handle };
+            
+            
             const cs = document.getElementById('wrapper-cde-save');
             if (cs) cs.classList.remove('hidden');
-            updateProjectBarVisibility();
+            updateProjectBarVisibility();   
+            
+            
             for (const elId of Object.keys(PROJECT_FIELD_MAP)) {
                 const el = document.getElementById(elId);
                 if (el) {
@@ -2927,12 +3210,15 @@
                     el.title = window.BASE_PAGE.cdeFieldLocked || 'Managed in the Project Hub settings';
                 }
             }
+            
+            
             const infoCard = document.getElementById('info-app');
             if (infoCard) infoCard.classList.remove('hidden');
             try {
                 await _cdeBridgeInit(info, params);
-                await _cdeFillProjectInfo(info, params);
-                await _cdeSyncMembers(info);
+                await _cdeFillProjectInfo(info, params);   
+                await _cdeSyncMembers(info);               
+                
                 if (!(typeof _cdeLoadBlocked === 'function' && _cdeLoadBlocked())) try {
                     const _st = await liteAECO.cde.loadState(info.handle);
                     if (_cdeResolveStaleRefs(_st)) { _markPeopleDirty(); if (typeof renderApp === 'function') renderApp(); }
@@ -2944,6 +3230,8 @@
                     "Project sync could not start - changes will NOT be saved to the project folder. Update js/liteaeco-cde.js to the latest build and reload.") +
                     "\n\n(" + (e && e.message ? e.message : e) + ")");
             }
+            
+
             window.addEventListener("beforeunload", function (e) {
                 if (window.__cdeUnsaved) {
                     try { cdeBridge.flushWriteBack(); } catch (err) { }
@@ -2952,6 +3240,9 @@
             });
             return true;
         }
+
+
+        
 
         function importContactsFromWorkbook(workbook) {
             const infoName = (workbook.SheetNames || []).find(n => String(n).trim().toUpperCase() === 'CONTACTS');
@@ -2972,12 +3263,16 @@
                 + ' - ' + ((window.BASE_PAGE && window.BASE_PAGE.lblUpdated) || 'Updated') + ': ' + res.updated);
         }
 
+        
+
         async function autosaveToggle() {
             const pill = document.getElementById('rasci-save-menu-disconnect');
             const on = pill && !pill.classList.contains('hidden');
             if (on) await Autosave.disconnect();
             else await Autosave.connectFile();
         }
+
+        
 
         async function cdeSaveNow() {
             if (!window.__cdeCtx) return;
@@ -2987,7 +3282,7 @@
                 clearTimeout(cdeBridge.timer);
                 await cdeBridge.flush();
                 clearTimeout(cdeBridge.writeBack.timer);
-                await cdeBridge.flushWriteBack();
+                await cdeBridge.flushWriteBack();   
             } catch (e) {
                 console.warn('save now failed:', e);
                 if (typeof Autosave !== 'undefined' && Autosave.toastNotify) Autosave.toastNotify('error');
@@ -3000,6 +3295,19 @@
                 if (window.__cdeCtx) { e.preventDefault(); cdeSaveNow(); }
             }
         });
+
+        
+
+
+
+
+
+
+
+
+
+
+
 
         function mergeRosterContacts(contacts, opts) {
             opts = opts || {};
@@ -3035,6 +3343,8 @@
             return out;
         }
 
+        
+
         function mergeContactRows(rows) {
             const C = _contactsLib();
             if (!C) return { added: 0, updated: 0 };
@@ -3047,11 +3357,13 @@
         async function _cdeSyncMembers(info) {
             try {
                 if (!info || !info.handle || !window.__cdeCtx) return;
+                
                 if (typeof _cdeLoadBlocked === 'function' && _cdeLoadBlocked()) { window.__cdeDeferredSync = info; return; }
                 const C = _contactsLib();
                 if (!C) { console.warn('roster sync skipped: js/liteaeco-contacts.js not loaded'); return; }
                 let buf;
                 try {
+                    
                     const man = await liteAECO.cde.readManifest(info.handle).catch(() => null);
                     const rParts = liteAECO.cde.paths.rosterFile(man && !man.__readError ? man : null).split('/');
                     const rName = rParts.pop();
@@ -3059,22 +3371,22 @@
                     for (const p of rParts) adir = await adir.getDirectoryHandle(p, { create: false });
                     const fh = await adir.getFileHandle(rName, { create: false });
                     buf = await (await fh.getFile()).arrayBuffer();
-                } catch (e) { return; }
+                } catch (e) { return; }                       
                 let hash;
                 try { hash = await C.hash(buf); } catch (e) { return; }
-                if (hash === state.membersHash) return;
+                if (hash === state.membersHash) return;       
                 let wb;
                 try { wb = XLSX.read(buf, { type: 'array' }); }
-                catch (e) { return; }
+                catch (e) { return; }                         
                 const parsed = C.parseWorkbook(wb, XLSX);
                 const res = parsed.ok ? mergeRosterContacts(parsed.contacts, { adopt: true }) : { adopted: 0, updated: 0, added: 0, clashes: [], ambiguous: [] };
-                state.membersHash = hash;
+                state.membersHash = hash;   
                 if (res.adopted || res.updated || res.added) {
                     _markPeopleDirty();
                     if (typeof renderApp === 'function') renderApp();
-                    cdeBridge.schedule();
+                    cdeBridge.schedule();            
                 }
-                cdeBridge.scheduleWriteBack();
+                cdeBridge.scheduleWriteBack();       
                 if (res.added) {
                     _cdeToast((window.BASE_PAGE.msgRosterNew || 'New contacts found') + ' (' + res.added + ')');
                 }
@@ -3085,6 +3397,7 @@
             } catch (e) { console.warn('roster sync skipped:', e); }
         }
 
+        
         function _cdeToast(msg) {
             let wrap = document.getElementById('cde-toasts');
             if (!wrap) {
@@ -3108,6 +3421,9 @@
             if (!params) return false;
             if (!(window.liteAECO && liteAECO.cde)) return false;
             const B = window.BASE_PAGE || {};
+            
+            
+            
             if (!liteAECO.app) {
                 showDialog('alert', "js/liteaeco-cde-app.js is missing - update the js folder and reload.");
                 return true;
@@ -3121,7 +3437,7 @@
                     alert: (m) => showDialog('alert', m),
                     text: { noHandle: B.cdeNoHandle, noAccess: B.cdeNoAccess, readOnly: B.cdeReadOnly }
                 });
-                if (!ctx || ctx.error) return true;
+                if (!ctx || ctx.error) return true;   
                 window.__cdeApp = ctx;
                 return await _cdeLoad({ handle: ctx.handle, name: ctx.name, permission: "granted" }, { guid: ctx.guid, open: ctx.path });
             } catch (err) {
@@ -3131,6 +3447,7 @@
             }
         }
 
+        
         const cdeBridge = {
             session: null, baseline: null, timer: null, author: null, appId: "resp_matrix",
             flushing: false, pending: false,
@@ -3151,6 +3468,7 @@
             diff: function (prev, cur) {
                 const events = [];
                 const J = JSON.stringify;
+                
                 const prevP = {}; prev.people.forEach(function (p) { prevP[p.id] = p; });
                 const curP = {}; cur.people.forEach(function (p) { curP[p.id] = p; });
                 cur.people.forEach(function (p) {
@@ -3166,6 +3484,7 @@
                     if (n) events.push({ type: "contact.update", target: p.id, payload: changed });
                 });
                 prev.people.forEach(function (p) { if (!curP[p.id]) events.push({ type: "contact.remove", target: p.id }); });
+                
                 const prevT = {}; prev.tasks.forEach(function (t) { prevT[t.id] = t; });
                 const curT = {}; cur.tasks.forEach(function (t) { curT[t.id] = t; });
                 cur.tasks.forEach(function (t) {
@@ -3174,11 +3493,13 @@
                     if (J(b) !== J(t)) events.push({ type: "task.update", target: t.id, payload: t });
                 });
                 prev.tasks.forEach(function (t) { if (!curT[t.id]) events.push({ type: "task.remove", target: t.id }); });
+                
                 const mm = {}; let mn = 0;
                 Object.keys(cur.meta).forEach(function (k) {
                     if (J(cur.meta[k]) !== J(prev.meta[k])) { mm[k] = cur.meta[k]; mn++; }
                 });
                 if (mn) events.push({ type: "matrix.info", target: window.__cdeCtx ? window.__cdeCtx.path : null, payload: mm });
+                
                 const pj = {}; let pn = 0;
                 Object.keys(cur.project).forEach(function (k) {
                     if (cur.project[k] !== prev.project[k]) { pj[k] = cur.project[k]; pn++; }
@@ -3191,9 +3512,9 @@
                 return this.session.append(this.author, this.appId, events);
             },
             flush: async function () {
-                if (window.__cdeReadOnly) return;
+                if (window.__cdeReadOnly) return;   
                 if (!this.session || !this.baseline) return;
-                if (_cdeLoadBlocked()) return;
+                if (_cdeLoadBlocked()) return;   
                 if (this.flushing) { this.pending = true; return; }
                 this.flushing = true;
                 let appended = false;
@@ -3205,7 +3526,7 @@
                         if (!events.length) continue;
                         try {
                             await this.append(events);
-                            this.baseline = cur;
+                            this.baseline = cur;   
                             appended = true;
                         } catch (e) {
                             console.warn("CDE append failed (kept for retry):", e);
@@ -3226,6 +3547,12 @@
                 }
             },
 
+            
+
+
+
+
+
             _slugTitle: function () {
                 let t = String(state.title || "").trim();
                 if (!t) return null;
@@ -3241,7 +3568,7 @@
                 const fname = parts.pop();
                 const desired = slug + ".xlsx";
                 if (fname === desired) return;
-                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;
+                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;   
                 try {
                     let dir = ctx.handle;
                     for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: false });
@@ -3269,18 +3596,20 @@
                         type: "file.rename", target: ctx.path,
                         payload: { from: from, to: ctx.path, app: this.appId }
                     }]).catch(function () { });
-                    this.lastAssignHash = null;
+                    this.lastAssignHash = null;   
                     await this.markLoadedFileSeen();
                 } catch (e) { console.warn("CDE rename skipped (will retry):", e); }
             },
 
+            
             writeBack: { timer: null, busy: false, pending: false, lastMtime: 0, lastSize: 0 },
             lastAssignHash: null,
             scheduleWriteBack: function () {
-                if (window.__cdeReadOnly) return;
+                if (window.__cdeReadOnly) return;   
                 if (!window.__cdeCtx) return;
-                if (_cdeLoadBlocked()) return;
-                window.__cdeUnsaved = true;
+                if (_cdeLoadBlocked()) return;   
+                window.__cdeUnsaved = true;   
+                
                 if (typeof Autosave !== "undefined" && Autosave.toastNotify) Autosave.toastNotify("dirty");
                 const wbk = this.writeBack;
                 clearTimeout(wbk.timer);
@@ -3288,14 +3617,14 @@
                 wbk.timer = setTimeout(function () { self.flushWriteBack(); }, window.__cdeWriteBackMs || 2000);
             },
             flushWriteBack: async function () {
-                if (window.__cdeReadOnly) return;
+                if (window.__cdeReadOnly) return;   
                 const ctx = window.__cdeCtx;
                 if (!ctx || !ctx.handle || !ctx.path) return;
-                if (_cdeLoadBlocked()) return;
+                if (_cdeLoadBlocked()) return;   
                 const wbk = this.writeBack;
                 if (wbk.busy) { wbk.pending = true; return; }
                 wbk.busy = true;
-                let wroteOk = false;
+                let wroteOk = false;   
                 try {
                     await this.maybeRename();
                     do {
@@ -3313,11 +3642,11 @@
                             let dir = ctx.handle;
                             for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: true });
                             const fh = await dir.getFileHandle(fname, { create: true });
-                            const w = await fh.createWritable();
+                            const w = await fh.createWritable();   
                             await w.write(buf);
                             await w.close();
                             const f = await fh.getFile();
-                            wbk.lastMtime = f.lastModified;
+                            wbk.lastMtime = f.lastModified;   
                             wbk.lastSize = f.size;
                             wroteOk = true;
                             try {
@@ -3348,6 +3677,7 @@
                 }
             },
 
+            
             extSeen: { mtime: 0, size: 0 },
             checking: false,
             _statFile: async function () {
@@ -3368,7 +3698,7 @@
             checkExternal: async function () {
                 const ctx = window.__cdeCtx;
                 if (!ctx || !ctx.handle || !ctx.path) return;
-                if (_cdeLoadBlocked()) return;
+                if (_cdeLoadBlocked()) return;   
                 if (this.checking || this.flushing || this.writeBack.busy) return;
                 this.checking = true;
                 try {
@@ -3377,11 +3707,11 @@
                         fh = await this._statFile();
                         f = await fh.getFile();
                     } catch (e) {
-                        return;
+                        return;   
                     }
                     const wbk = this.writeBack;
-                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;
-                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;
+                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;   
+                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;   
                     let workbook;
                     try {
                         const buf = await f.arrayBuffer();
@@ -3390,8 +3720,10 @@
                         console.warn("CDE external read/parse failed (transient, will retry):", e);
                         return;
                     }
-                    await this.flush();
+                    await this.flush();   
                     try {
+                        
+                        
                         const wsInfo = workbook.Sheets && workbook.Sheets["INFO"];
                         const aoa = wsInfo ? XLSX.utils.sheet_to_json(wsInfo, { header: 1 }) : [];
                         const a2 = aoa[1] ? String(aoa[1][0] || "").trim() : "";
@@ -3406,8 +3738,8 @@
                         return;
                     }
                     this.extSeen = { mtime: f.lastModified, size: f.size };
-                    clearUnsaved();
-                    await this.flush();
+                    clearUnsaved();   
+                    await this.flush();   
                     if (typeof renderApp === "function") renderApp();
                 } finally {
                     this.checking = false;
@@ -3450,6 +3782,7 @@
         }
 
         async function _cdeBridgeInit(info, params) {
+            
             if (!document.getElementById('cde-home-btn')) {
                 const anchor = document.getElementById('app-project-number');
                 if (anchor && anchor.parentElement) {
@@ -3467,7 +3800,9 @@
             cdeBridge.baseline = cdeBridge.snap();
             const dev = await cde.identity.device();
             const memberId = await cde.identity.getMember(params.guid);
+            
             cdeBridge.author = (window.__cdeApp && window.__cdeApp.me && window.__cdeApp.me.author) || memberId || ("device:" + dev);
+            
             function _assign() {
                 var hp = cde.hashFile ? cde.hashFile(info.handle, params.open).catch(function () { return null; })
                     : Promise.resolve(null);
@@ -3490,6 +3825,7 @@
                 return _assign();
             }).catch(function (e) { console.warn("CDE assign append failed:", e); });
 
+            
             if (typeof Autosave !== "undefined" && Autosave && typeof Autosave.markDirty === "function") {
                 if (!Autosave.__cdeWrapped) {
                     Autosave.__cdeWrapped = true;
@@ -3502,8 +3838,8 @@
                         Autosave.renderStatus('saved');
                     };
                     cdeBridge.onError = function () { Autosave.renderStatus('error'); };
-                    Autosave.lastSavedAt = new Date();
-                    Autosave.renderStatus('saved');
+                    Autosave.lastSavedAt = new Date();   
+                    Autosave.renderStatus('saved');      
                 }
             }
             document.addEventListener("visibilitychange", function () {
@@ -3515,26 +3851,33 @@
                 window.__cdeExtPollMs || 60000);
         }
 
+        
         function _registryUpsert() {
             if (window.liteAECO && liteAECO.projects && state.project && state.project.guid) {
                 liteAECO.projects.save({ guid: state.project.guid, number: state.project.number || "", title: state.project.title || "", client: state.project.client || "", address: state.project.address || "", type: state.project.type || "" }, "rasci").catch(() => { });
             }
         }
 
+        
+        
+        
         function buildWorkbook() {
             const wb = XLSX.utils.book_new();
             const meetStr = String(state.rasciNo || state.No).padStart(3, '0');
             const darkColors = ["FFB8CDE2", "FFCADAE9"];
 
+            
             const infoData = [
                 ["www.liteAECO.com"],
-                ["Responsibility Matrix"],
+                ["Responsibility Matrix"],               
                 ["info@liteAECO.com (Switzerland)"],
                 [],
                 ...buildProjectInfoRows(),
                 ["--- GENERAL INFORMATION ---"],
                 ["Matrix Title:", state.title],
                 ["Initial Date:", toExcelDate(state.initialDate || state.date)],
+                
+                
                 ["Members Hash:", state.membersHash || ""],
                 [],
                 ["--- SETUP ---"],
@@ -3545,8 +3888,10 @@
 
             const wsInfo = XLSX.utils.aoa_to_sheet(infoData);
             wsInfo['!cols'] = [{ wch: 30 }, { wch: 36 }];
+            
             const a2c = XLSX.utils.encode_cell({ c: 0, r: 1 });
             if (wsInfo[a2c]) wsInfo[a2c].s = { fill: { fgColor: { rgb: 'FF4F46E5' } }, font: { bold: true, color: { rgb: 'FFFFFFFF' } } };
+            
             for (let R = 0; R < infoData.length; R++) {
                 if (typeof infoData[R][0] === 'string' && infoData[R][0].startsWith("---")) {
                     for (let C = 0; C < 2; C++) {
@@ -3563,6 +3908,7 @@
             }
             XLSX.utils.book_append_sheet(wb, wsInfo, "INFO");
 
+            
             const contactHeaders = [
                 "ID", "Employee Code", "Employee Number", "Name", "Company", "Employee Type",
                 "Role", "Teams", "Contact Mail", "Contact Phone",
@@ -3578,10 +3924,13 @@
                 let rowData;
 
                 if (p.rawData && Array.isArray(p.rawData)) {
+                    
                     rowData = [...p.rawData];
 
+                    
                     while (rowData.length < contactHeaders.length) rowData.push("-");
 
+                    
                     rowData[0] = p.id || "-";
                     rowData[3] = p.name;
                     rowData[4] = p.company || "-";
@@ -3590,6 +3939,7 @@
                     rowData[28] = p.rasciMatrix === 'Yes' ? 'Yes' : 'No';
                     rowData[30] = p.archived ? "Archived" : "Active";
                 } else {
+                    
                     rowData = new Array(contactHeaders.length).fill("-");
                     rowData[0] = p.id || "-";
                     rowData[3] = p.name;
@@ -3617,6 +3967,7 @@
                 const cr = XLSX.utils.encode_cell({ c: C, r: 0 });
                 if (wsContacts[cr]) wsContacts[cr].s = { fill: { fgColor: { rgb: darkColors[1] } }, font: { bold: true } };
             }
+            
             for (let R = 1; R < contactsData.length; R++) {
                 const cr = XLSX.utils.encode_cell({ c: 28, r: R });
                 if (wsContacts[cr]) {
@@ -3627,13 +3978,16 @@
             }
             XLSX.utils.book_append_sheet(wb, wsContacts, "CONTACTS");
 
+            
             const tasksData = [
                 ["ID", "Group", "Task title", "Description", ...state.roles.map(r => r.char)]
             ];
 
             state.tasks.forEach((task, tIndex) => {
+                
                 const groupNumStr = String(tIndex + 1).padStart(2, '0');
                 task.subtasks.forEach((st, stIndex) => {
+                    
                     const taskNumStr = String(st.number || stIndex + 1).padStart(3, '0');
                     const getNamesForRole = (roleChar) => {
                         if (!st.rasci) return "-";
@@ -3641,23 +3995,26 @@
                         return ids.length > 0 ? ids.join(', ') : "-";
                     };
 
+                    
                     tasksData.push([
                         `${groupNumStr}.${taskNumStr}`,
                         task.title,
                         st.title || "",
                         st.text || "",
-                        ...state.roles.map(r => getNamesForRole(r.char))
+                        ...state.roles.map(r => getNamesForRole(r.char)) 
                     ]);
                 });
             });
 
             const wsTasks = XLSX.utils.aoa_to_sheet(tasksData);
 
+            
             wsTasks['!cols'] = [
                 { wch: 10 }, { wch: 20 }, { wch: 30 }, { wch: 50 },
                 { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 }
             ];
 
+            
             for (let C = 0; C < 9; C++) {
                 const cellRef = XLSX.utils.encode_cell({ c: C, r: 0 });
                 if (wsTasks[cellRef]) wsTasks[cellRef].s = { fill: { fgColor: { rgb: darkColors[0] } }, font: { bold: true } };
@@ -3665,10 +4022,14 @@
 
             XLSX.utils.book_append_sheet(wb, wsTasks, "TASKS");
 
+            
+            
+            
             const matrixData = [];
             const groupHeaderRow = ["Task Group"];
             const taskHeaderRow = ["Participants \\ Tasks"];
 
+            
             const flatTasks = [];
             state.tasks.forEach(task => {
                 task.subtasks.forEach(st => {
@@ -3679,15 +4040,19 @@
                     }
                 });
             });
+            
             matrixData.push(groupHeaderRow);
             matrixData.push(taskHeaderRow);
 
+            
             const activePeople = state.people.filter(p => !p.archived && p.rasciMatrix === 'Yes');
             activePeople.forEach(person => {
                 const row = [];
+                
                 const nameString = person.company ? `${person.name} - ${person.company}` : person.name;
                 row.push(nameString);
 
+                
                 flatTasks.forEach(col => {
                     const role = (col.st.rasci && col.st.rasci[person.id]) ? col.st.rasci[person.id] : "";
                     row.push(role);
@@ -3697,12 +4062,15 @@
 
             const wsMatrix = XLSX.utils.aoa_to_sheet(matrixData);
 
+            
             const matrixCols = [{ wch: 35 }];
             flatTasks.forEach(() => matrixCols.push({ wch: 5 }));
             wsMatrix['!cols'] = matrixCols;
 
+            
             wsMatrix['!rows'] = [{ hpt: 80 }, { hpt: 120 }];
 
+            
             const roleColors = {
                 'R': { bg: 'FFFEE2E2', text: 'FF7F1D1D' },
                 'A': { bg: 'FFFFEDD5', text: 'FF7C2D12' },
@@ -3711,14 +4079,17 @@
                 'I': { bg: 'FFE2E8F0', text: 'FF0F172A' }
             };
 
+            
             for (let R = 0; R < matrixData.length; R++) {
                 for (let C = 0; C < matrixData[R].length; C++) {
                     const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
                     if (!wsMatrix[cellRef]) continue;
 
                     if (R === 0 || R === 1) {
+                        
                         const rowColor = R === 0 ? darkColors[0] : darkColors[1];
 
+                        
                         if (C === 0) {
                             wsMatrix[cellRef].s = {
                                 fill: { fgColor: { rgb: rowColor } },
@@ -3733,8 +4104,10 @@
                             };
                         }
                     } else if (C === 0) {
+                        
                         wsMatrix[cellRef].s = { font: { bold: true } };
                     } else {
+                        
                         const val = matrixData[R][C];
                         if (val && roleColors[val]) {
                             wsMatrix[cellRef].s = {
@@ -3749,7 +4122,9 @@
                 }
             }
 
+            
             XLSX.utils.book_append_sheet(wb, wsMatrix, "RASCI MATRIX");
+            
 
             return wb;
         }
@@ -3777,13 +4152,14 @@
             const filename = `${yy}${mm}${dd}_RASCI Matrix_${safeTitle}.${ext}`;
 
             XLSX.writeFile(wb, filename);
-            clearUnsaved();
+            clearUnsaved(); 
         }
 
         function importExcelData(workbook) {
             const sheetNames = workbook.SheetNames || [];
-            state.membersHash = "";
+            state.membersHash = "";   
 
+            
             const wsInfoChk = workbook.Sheets["INFO"];
             const infoChkAoA = wsInfoChk ? XLSX.utils.sheet_to_json(wsInfoChk, { header: 1 }) : [];
             const infoA2 = infoChkAoA[1] ? String(infoChkAoA[1][0] || '').trim() : '';
@@ -3799,6 +4175,10 @@
             }
 
             let warnings = [];
+            
+            
+            
+            
             const freshCdeFile = isRMFile && !sheetNames.includes("TASKS") && !sheetNames.includes("RASCI MATRIX");
             if (!freshCdeFile && !sheetNames.includes("TASKS") && !sheetNames.includes("RASCI MATRIX")) {
                 warnings.push("- Missing both 'TASKS' and 'RASCI MATRIX' tabs.");
@@ -3836,6 +4216,7 @@
                 state.initialDate = fromExcelDate(getValue(infoAoA, "Initial Date:")) || state.date;
                 parseProjectInfo(infoAoA, getValue);
 
+                
                 const setupIndex = infoAoA.findIndex(row => row && row[0] === "--- SETUP ---");
                 if (setupIndex > -1) {
                     for (let i = setupIndex + 2; i < infoAoA.length; i++) {
@@ -3849,12 +4230,14 @@
                 }
             }
 
+            
             const wsContacts = workbook.Sheets["CONTACTS"];
 
             if (wsContacts) {
                 const rows = XLSX.utils.sheet_to_json(wsContacts, { header: 1 });
                 const hdr = rows[0] || [];
 
+                
                 const ci = (label) => hdr.findIndex(h => String(h || '').trim() === label);
                 const iID = ci('ID'), iName = ci('Name'), iComp = ci('Company'),
                     iRole = ci('Role'), iMail = ci('Contact Mail'),
@@ -3881,6 +4264,7 @@
                         rasciMatrix: String(row[iRasci] || '').trim() === 'Yes' ? 'Yes' : 'No',
                         archived: String(row[iStat] || '').trim().toLowerCase() === 'archived',
                         present: false,
+                        
                         rawData: row
                     };
 
@@ -3891,6 +4275,7 @@
                     }
                 }
             } else if (wsInfo) {
+                
                 const infoAoA = XLSX.utils.sheet_to_json(wsInfo, { header: 1 });
                 const attIndex = infoAoA.findIndex(row => row && row[0] === "--- CONTACTS ---");
                 if (attIndex > -1) {
@@ -3918,11 +4303,13 @@
                 }
             }
 
+            
             const basePeople = JSON.parse(JSON.stringify(state.people));
 
             const wsTasks = workbook.Sheets["TASKS"];
             const wsMatrix = workbook.Sheets["RASCI MATRIX"];
 
+            
             let structTasks = [];
             let structPeople = JSON.parse(JSON.stringify(basePeople));
 
@@ -3966,6 +4353,9 @@
                                 } else if (structPeople.some(p => p.id === item)) {
                                     entityId = item;
                                 } else if (_looksLikePersonId(item)) {
+                                    
+                                    
+                                    
                                     entityId = item;
                                 } else {
                                     let matchedPerson = _findPersonByName(structPeople, item);
@@ -3979,6 +4369,7 @@
                             });
                         };
 
+                        
                         state.roles.forEach((r, idx) => {
                             processRoleCell(4 + idx, r.char);
                         });
@@ -3990,8 +4381,12 @@
                 }
             }
 
+            
             let visualTasks = [];
             let visualPeople = JSON.parse(JSON.stringify(basePeople));
+            
+            
+            
             const visualRowIds = new Set();
 
             if (wsMatrix) {
@@ -4005,15 +4400,18 @@
                     let currentGroup = null;
                     let lastGroupTitle = null;
 
+                    
                     for (let c = 1; c < taskHeaders.length; c++) {
                         const rawGroup = groupHeaders[c] ? String(groupHeaders[c]).trim() : "";
                         const rawTask = taskHeaders[c] ? String(taskHeaders[c]).trim() : "";
 
+                        
                         if (!rawGroup && !rawTask) continue;
 
                         const groupTitle = rawGroup || "Unnamed Group";
                         const taskTitle = rawTask || `Task ${c}`;
 
+                        
                         if (groupTitle !== lastGroupTitle || !currentGroup) {
                             currentGroup = {
                                 id: generateId('t'),
@@ -4080,10 +4478,12 @@
                 }
             }
 
+            
             const hasStructData = structTasks.length > 0;
             const hasVisualData = visualTasks.length > 0;
 
             const doTabsMatch = (sTasks, vTasks) => {
+                
                 const flatS = [];
                 sTasks.forEach(g => g.subtasks.forEach(st => flatS.push({ groupTitle: g.title, st: st })));
 
@@ -4092,6 +4492,7 @@
 
                 if (flatS.length !== flatV.length) return false;
 
+                
                 const normalize = (str) => str ? String(str).toLowerCase().trim().replace(/\s+/g, ' ') : "";
 
                 const isDefaultGroup = (name) => {
@@ -4111,6 +4512,7 @@
                     const sG = normalize(sItem.groupTitle);
                     const vG = normalize(vItem.groupTitle);
 
+                    
                     if (sG !== vG) {
                         if (!isDefaultGroup(sG) || !isDefaultGroup(vG)) return false;
                     }
@@ -4118,10 +4520,14 @@
                     const sT = normalize(sItem.st.title);
                     const vT = normalize(vItem.st.title);
 
+                    
                     if (sT !== vT) {
                         if (!isDefaultTask(sT) || !isDefaultTask(vT)) return false;
                     }
 
+                    
+                    
+                    
                     const sKeys = Object.keys(sItem.st.rasci || {}).filter(k => visualRowIds.has(k));
                     const vKeys = Object.keys(vItem.st.rasci || {}).filter(k => visualRowIds.has(k));
                     if (sKeys.length !== vKeys.length) return false;
@@ -4148,7 +4554,7 @@
                     conflictModal.classList.remove('hidden');
                     if (typeof lucide !== 'undefined') lucide.createIcons({ root: conflictModal });
                 }
-                return;
+                return; 
 
             } else if (hasStructData) {
                 state.tasks = structTasks;

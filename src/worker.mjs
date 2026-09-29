@@ -67,6 +67,7 @@ class ConnectionHandlers {
     const handler = this.newHandler(reject, resolve);
     this._list.set(id, handler);
   }
+  
   run(data) {
     const handler = this._list.get(data.requestId);
     this._list.delete(data.requestId);
@@ -82,6 +83,11 @@ class ConnectionHandlers {
     };
   }
 }
+
+
+
+
+
 const REVISION = "182";
 const FrontSide = 0;
 const BackSide = 1;
@@ -146,6 +152,12 @@ function warnOnce(...params) {
   warn(...params);
 }
 class EventDispatcher {
+  
+
+
+
+
+
   addEventListener(type, listener) {
     if (this._listeners === void 0)
       this._listeners = {};
@@ -157,12 +169,25 @@ class EventDispatcher {
       listeners[type].push(listener);
     }
   }
+  
+
+
+
+
+
+
   hasEventListener(type, listener) {
     const listeners = this._listeners;
     if (listeners === void 0)
       return false;
     return listeners[type] !== void 0 && listeners[type].indexOf(listener) !== -1;
   }
+  
+
+
+
+
+
   removeEventListener(type, listener) {
     const listeners = this._listeners;
     if (listeners === void 0)
@@ -175,6 +200,11 @@ class EventDispatcher {
       }
     }
   }
+  
+
+
+
+
   dispatchEvent(event) {
     const listeners = this._listeners;
     if (listeners === void 0)
@@ -352,65 +382,331 @@ function normalize(value, array) {
 const MathUtils = {
   DEG2RAD,
   RAD2DEG,
+  
+
+
+
+
+
+
+
   generateUUID,
+  
+
+
+
+
+
+
+
+
+
   clamp,
+  
+
+
+
+
+
+
+
+
+
   euclideanModulo,
+  
+
+
+
+
+
+
+
+
+
+
+
+
   mapLinear,
+  
+
+
+
+
+
+
+
+
+
+
   inverseLerp,
+  
+
+
+
+
+
+
+
+
+
+
   lerp,
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
   damp,
+  
+
+
+
+
+
+
+
+
   pingpong,
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
   smoothstep,
+  
+
+
+
+
+
+
+
+
+
+
   smootherstep,
+  
+
+
+
+
+
+
+
+
   randInt,
+  
+
+
+
+
+
+
+
+
   randFloat,
+  
+
+
+
+
+
+
+
   randFloatSpread,
+  
+
+
+
+
+
+
+
   seededRandom,
+  
+
+
+
+
+
+
+
   degToRad,
+  
+
+
+
+
+
+
+
   radToDeg,
+  
+
+
+
+
+
+
+
   isPowerOfTwo,
+  
+
+
+
+
+
+
+
   ceilPowerOfTwo,
+  
+
+
+
+
+
+
+
   floorPowerOfTwo,
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   setQuaternionFromProperEuler,
+  
+
+
+
+
+
+
+
+
   normalize,
+  
+
+
+
+
+
+
+
+
   denormalize
 };
 class Vector2 {
+  
+
+
+
+
+
   constructor(x = 0, y = 0) {
     Vector2.prototype.isVector2 = true;
     this.x = x;
     this.y = y;
   }
+  
+
+
+
+
   get width() {
     return this.x;
   }
   set width(value) {
     this.x = value;
   }
+  
+
+
+
+
   get height() {
     return this.y;
   }
   set height(value) {
     this.y = value;
   }
+  
+
+
+
+
+
+
   set(x, y) {
     this.x = x;
     this.y = y;
     return this;
   }
+  
+
+
+
+
+
   setScalar(scalar) {
     this.x = scalar;
     this.y = scalar;
     return this;
   }
+  
+
+
+
+
+
   setX(x) {
     this.x = x;
     return this;
   }
+  
+
+
+
+
+
   setY(y) {
     this.y = y;
     return this;
   }
+  
+
+
+
+
+
+
   setComponent(index, value) {
     switch (index) {
       case 0:
@@ -424,6 +720,12 @@ class Vector2 {
     }
     return this;
   }
+  
+
+
+
+
+
   getComponent(index) {
     switch (index) {
       case 0:
@@ -434,67 +736,154 @@ class Vector2 {
         throw new Error("index is out of range: " + index);
     }
   }
+  
+
+
+
+
   clone() {
     return new this.constructor(this.x, this.y);
   }
+  
+
+
+
+
+
   copy(v) {
     this.x = v.x;
     this.y = v.y;
     return this;
   }
+  
+
+
+
+
+
   add(v) {
     this.x += v.x;
     this.y += v.y;
     return this;
   }
+  
+
+
+
+
+
   addScalar(s) {
     this.x += s;
     this.y += s;
     return this;
   }
+  
+
+
+
+
+
+
   addVectors(a, b) {
     this.x = a.x + b.x;
     this.y = a.y + b.y;
     return this;
   }
+  
+
+
+
+
+
+
   addScaledVector(v, s) {
     this.x += v.x * s;
     this.y += v.y * s;
     return this;
   }
+  
+
+
+
+
+
   sub(v) {
     this.x -= v.x;
     this.y -= v.y;
     return this;
   }
+  
+
+
+
+
+
   subScalar(s) {
     this.x -= s;
     this.y -= s;
     return this;
   }
+  
+
+
+
+
+
+
   subVectors(a, b) {
     this.x = a.x - b.x;
     this.y = a.y - b.y;
     return this;
   }
+  
+
+
+
+
+
   multiply(v) {
     this.x *= v.x;
     this.y *= v.y;
     return this;
   }
+  
+
+
+
+
+
   multiplyScalar(scalar) {
     this.x *= scalar;
     this.y *= scalar;
     return this;
   }
+  
+
+
+
+
+
   divide(v) {
     this.x /= v.x;
     this.y /= v.y;
     return this;
   }
+  
+
+
+
+
+
   divideScalar(scalar) {
     return this.multiplyScalar(1 / scalar);
   }
+  
+
+
+
+
+
+
   applyMatrix3(m) {
     const x = this.x, y = this.y;
     const e = m.elements;
@@ -502,77 +891,193 @@ class Vector2 {
     this.y = e[1] * x + e[4] * y + e[7];
     return this;
   }
+  
+
+
+
+
+
+
   min(v) {
     this.x = Math.min(this.x, v.x);
     this.y = Math.min(this.y, v.y);
     return this;
   }
+  
+
+
+
+
+
+
   max(v) {
     this.x = Math.max(this.x, v.x);
     this.y = Math.max(this.y, v.y);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   clamp(min, max) {
     this.x = clamp(this.x, min.x, max.x);
     this.y = clamp(this.y, min.y, max.y);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   clampScalar(minVal, maxVal) {
     this.x = clamp(this.x, minVal, maxVal);
     this.y = clamp(this.y, minVal, maxVal);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   clampLength(min, max) {
     const length = this.length();
     return this.divideScalar(length || 1).multiplyScalar(clamp(length, min, max));
   }
+  
+
+
+
+
   floor() {
     this.x = Math.floor(this.x);
     this.y = Math.floor(this.y);
     return this;
   }
+  
+
+
+
+
   ceil() {
     this.x = Math.ceil(this.x);
     this.y = Math.ceil(this.y);
     return this;
   }
+  
+
+
+
+
   round() {
     this.x = Math.round(this.x);
     this.y = Math.round(this.y);
     return this;
   }
+  
+
+
+
+
+
   roundToZero() {
     this.x = Math.trunc(this.x);
     this.y = Math.trunc(this.y);
     return this;
   }
+  
+
+
+
+
   negate() {
     this.x = -this.x;
     this.y = -this.y;
     return this;
   }
+  
+
+
+
+
+
   dot(v) {
     return this.x * v.x + this.y * v.y;
   }
+  
+
+
+
+
+
   cross(v) {
     return this.x * v.y - this.y * v.x;
   }
+  
+
+
+
+
+
+
   lengthSq() {
     return this.x * this.x + this.y * this.y;
   }
+  
+
+
+
+
   length() {
     return Math.sqrt(this.x * this.x + this.y * this.y);
   }
+  
+
+
+
+
   manhattanLength() {
     return Math.abs(this.x) + Math.abs(this.y);
   }
+  
+
+
+
+
+
   normalize() {
     return this.divideScalar(this.length() || 1);
   }
+  
+
+
+
+
   angle() {
     const angle = Math.atan2(-this.y, -this.x) + Math.PI;
     return angle;
   }
+  
+
+
+
+
+
   angleTo(v) {
     const denominator = Math.sqrt(this.lengthSq() * v.lengthSq());
     if (denominator === 0)
@@ -580,47 +1085,129 @@ class Vector2 {
     const theta = this.dot(v) / denominator;
     return Math.acos(clamp(theta, -1, 1));
   }
+  
+
+
+
+
+
   distanceTo(v) {
     return Math.sqrt(this.distanceToSquared(v));
   }
+  
+
+
+
+
+
+
+
   distanceToSquared(v) {
     const dx = this.x - v.x, dy = this.y - v.y;
     return dx * dx + dy * dy;
   }
+  
+
+
+
+
+
   manhattanDistanceTo(v) {
     return Math.abs(this.x - v.x) + Math.abs(this.y - v.y);
   }
+  
+
+
+
+
+
+
   setLength(length) {
     return this.normalize().multiplyScalar(length);
   }
+  
+
+
+
+
+
+
+
+
   lerp(v, alpha) {
     this.x += (v.x - this.x) * alpha;
     this.y += (v.y - this.y) * alpha;
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   lerpVectors(v1, v2, alpha) {
     this.x = v1.x + (v2.x - v1.x) * alpha;
     this.y = v1.y + (v2.y - v1.y) * alpha;
     return this;
   }
+  
+
+
+
+
+
   equals(v) {
     return v.x === this.x && v.y === this.y;
   }
+  
+
+
+
+
+
+
+
   fromArray(array, offset = 0) {
     this.x = array[offset];
     this.y = array[offset + 1];
     return this;
   }
+  
+
+
+
+
+
+
+
   toArray(array = [], offset = 0) {
     array[offset] = this.x;
     array[offset + 1] = this.y;
     return array;
   }
+  
+
+
+
+
+
+
   fromBufferAttribute(attribute, index) {
     this.x = attribute.getX(index);
     this.y = attribute.getY(index);
     return this;
   }
+  
+
+
+
+
+
+
   rotateAround(center, angle) {
     const c = Math.cos(angle), s = Math.sin(angle);
     const x = this.x - center.x;
@@ -629,6 +1216,12 @@ class Vector2 {
     this.y = x * s + y * c + center.y;
     return this;
   }
+  
+
+
+
+
+
   random() {
     this.x = Math.random();
     this.y = Math.random();
@@ -640,6 +1233,14 @@ class Vector2 {
   }
 }
 class Quaternion {
+  
+
+
+
+
+
+
+
   constructor(x = 0, y = 0, z = 0, w = 1) {
     this.isQuaternion = true;
     this._x = x;
@@ -647,6 +1248,19 @@ class Quaternion {
     this._z = z;
     this._w = w;
   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
   static slerpFlat(dst, dstOffset, src0, srcOffset0, src1, srcOffset1, t) {
     let x0 = src0[srcOffset0 + 0], y0 = src0[srcOffset0 + 1], z0 = src0[srcOffset0 + 2], w0 = src0[srcOffset0 + 3];
     let x1 = src1[srcOffset1 + 0], y1 = src1[srcOffset1 + 1], z1 = src1[srcOffset1 + 2], w1 = src1[srcOffset1 + 3];
@@ -700,6 +1314,19 @@ class Quaternion {
     dst[dstOffset + 2] = z0;
     dst[dstOffset + 3] = w0;
   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
   static multiplyQuaternionsFlat(dst, dstOffset, src0, srcOffset0, src1, srcOffset1) {
     const x0 = src0[srcOffset0];
     const y0 = src0[srcOffset0 + 1];
@@ -715,6 +1342,12 @@ class Quaternion {
     dst[dstOffset + 3] = w0 * w1 - x0 * x1 - y0 * y1 - z0 * z1;
     return dst;
   }
+  
+
+
+
+
+
   get x() {
     return this._x;
   }
@@ -722,6 +1355,12 @@ class Quaternion {
     this._x = value;
     this._onChangeCallback();
   }
+  
+
+
+
+
+
   get y() {
     return this._y;
   }
@@ -729,6 +1368,12 @@ class Quaternion {
     this._y = value;
     this._onChangeCallback();
   }
+  
+
+
+
+
+
   get z() {
     return this._z;
   }
@@ -736,6 +1381,12 @@ class Quaternion {
     this._z = value;
     this._onChangeCallback();
   }
+  
+
+
+
+
+
   get w() {
     return this._w;
   }
@@ -743,6 +1394,15 @@ class Quaternion {
     this._w = value;
     this._onChangeCallback();
   }
+  
+
+
+
+
+
+
+
+
   set(x, y, z, w) {
     this._x = x;
     this._y = y;
@@ -751,9 +1411,20 @@ class Quaternion {
     this._onChangeCallback();
     return this;
   }
+  
+
+
+
+
   clone() {
     return new this.constructor(this._x, this._y, this._z, this._w);
   }
+  
+
+
+
+
+
   copy(quaternion) {
     this._x = quaternion.x;
     this._y = quaternion.y;
@@ -762,6 +1433,14 @@ class Quaternion {
     this._onChangeCallback();
     return this;
   }
+  
+
+
+
+
+
+
+
   setFromEuler(euler, update = true) {
     const x = euler._x, y = euler._y, z = euler._z, order = euler._order;
     const cos = Math.cos;
@@ -816,6 +1495,13 @@ class Quaternion {
       this._onChangeCallback();
     return this;
   }
+  
+
+
+
+
+
+
   setFromAxisAngle(axis, angle) {
     const halfAngle = angle / 2, s = Math.sin(halfAngle);
     this._x = axis.x * s;
@@ -825,6 +1511,12 @@ class Quaternion {
     this._onChangeCallback();
     return this;
   }
+  
+
+
+
+
+
   setFromRotationMatrix(m) {
     const te = m.elements, m11 = te[0], m12 = te[4], m13 = te[8], m21 = te[1], m22 = te[5], m23 = te[9], m31 = te[2], m32 = te[6], m33 = te[10], trace = m11 + m22 + m33;
     if (trace > 0) {
@@ -855,6 +1547,14 @@ class Quaternion {
     this._onChangeCallback();
     return this;
   }
+  
+
+
+
+
+
+
+
   setFromUnitVectors(vFrom, vTo) {
     let r = vFrom.dot(vTo) + 1;
     if (r < 1e-8) {
@@ -878,9 +1578,23 @@ class Quaternion {
     }
     return this.normalize();
   }
+  
+
+
+
+
+
   angleTo(q) {
     return 2 * Math.acos(Math.abs(clamp(this.dot(q), -1, 1)));
   }
+  
+
+
+
+
+
+
+
   rotateTowards(q, step) {
     const angle = this.angleTo(q);
     if (angle === 0)
@@ -889,12 +1603,31 @@ class Quaternion {
     this.slerp(q, t);
     return this;
   }
+  
+
+
+
+
+
   identity() {
     return this.set(0, 0, 0, 1);
   }
+  
+
+
+
+
+
   invert() {
     return this.conjugate();
   }
+  
+
+
+
+
+
+
   conjugate() {
     this._x *= -1;
     this._y *= -1;
@@ -902,15 +1635,41 @@ class Quaternion {
     this._onChangeCallback();
     return this;
   }
+  
+
+
+
+
+
   dot(v) {
     return this._x * v._x + this._y * v._y + this._z * v._z + this._w * v._w;
   }
+  
+
+
+
+
+
+
+
   lengthSq() {
     return this._x * this._x + this._y * this._y + this._z * this._z + this._w * this._w;
   }
+  
+
+
+
+
+
   length() {
     return Math.sqrt(this._x * this._x + this._y * this._y + this._z * this._z + this._w * this._w);
   }
+  
+
+
+
+
+
   normalize() {
     let l = this.length();
     if (l === 0) {
@@ -928,12 +1687,31 @@ class Quaternion {
     this._onChangeCallback();
     return this;
   }
+  
+
+
+
+
+
   multiply(q) {
     return this.multiplyQuaternions(this, q);
   }
+  
+
+
+
+
+
   premultiply(q) {
     return this.multiplyQuaternions(q, this);
   }
+  
+
+
+
+
+
+
   multiplyQuaternions(a, b) {
     const qax = a._x, qay = a._y, qaz = a._z, qaw = a._w;
     const qbx = b._x, qby = b._y, qbz = b._z, qbw = b._w;
@@ -944,6 +1722,13 @@ class Quaternion {
     this._onChangeCallback();
     return this;
   }
+  
+
+
+
+
+
+
   slerp(qb, t) {
     if (t <= 0)
       return this;
@@ -978,9 +1763,23 @@ class Quaternion {
     }
     return this;
   }
+  
+
+
+
+
+
+
+
+
   slerpQuaternions(qa, qb, t) {
     return this.copy(qa).slerp(qb, t);
   }
+  
+
+
+
+
   random() {
     const theta1 = 2 * Math.PI * Math.random();
     const theta2 = 2 * Math.PI * Math.random();
@@ -994,9 +1793,22 @@ class Quaternion {
       r2 * Math.cos(theta2)
     );
   }
+  
+
+
+
+
+
   equals(quaternion) {
     return quaternion._x === this._x && quaternion._y === this._y && quaternion._z === this._z && quaternion._w === this._w;
   }
+  
+
+
+
+
+
+
   fromArray(array, offset = 0) {
     this._x = array[offset];
     this._y = array[offset + 1];
@@ -1005,6 +1817,14 @@ class Quaternion {
     this._onChangeCallback();
     return this;
   }
+  
+
+
+
+
+
+
+
   toArray(array = [], offset = 0) {
     array[offset] = this._x;
     array[offset + 1] = this._y;
@@ -1012,6 +1832,13 @@ class Quaternion {
     array[offset + 3] = this._w;
     return array;
   }
+  
+
+
+
+
+
+
   fromBufferAttribute(attribute, index) {
     this._x = attribute.getX(index);
     this._y = attribute.getY(index);
@@ -1020,6 +1847,12 @@ class Quaternion {
     this._onChangeCallback();
     return this;
   }
+  
+
+
+
+
+
   toJSON() {
     return this.toArray();
   }
@@ -1037,12 +1870,27 @@ class Quaternion {
   }
 }
 class Vector3 {
+  
+
+
+
+
+
+
   constructor(x = 0, y = 0, z = 0) {
     Vector3.prototype.isVector3 = true;
     this.x = x;
     this.y = y;
     this.z = z;
   }
+  
+
+
+
+
+
+
+
   set(x, y, z) {
     if (z === void 0)
       z = this.z;
@@ -1051,24 +1899,55 @@ class Vector3 {
     this.z = z;
     return this;
   }
+  
+
+
+
+
+
   setScalar(scalar) {
     this.x = scalar;
     this.y = scalar;
     this.z = scalar;
     return this;
   }
+  
+
+
+
+
+
   setX(x) {
     this.x = x;
     return this;
   }
+  
+
+
+
+
+
   setY(y) {
     this.y = y;
     return this;
   }
+  
+
+
+
+
+
   setZ(z) {
     this.z = z;
     return this;
   }
+  
+
+
+
+
+
+
   setComponent(index, value) {
     switch (index) {
       case 0:
@@ -1085,6 +1964,12 @@ class Vector3 {
     }
     return this;
   }
+  
+
+
+
+
+
   getComponent(index) {
     switch (index) {
       case 0:
@@ -1097,81 +1982,175 @@ class Vector3 {
         throw new Error("index is out of range: " + index);
     }
   }
+  
+
+
+
+
   clone() {
     return new this.constructor(this.x, this.y, this.z);
   }
+  
+
+
+
+
+
   copy(v) {
     this.x = v.x;
     this.y = v.y;
     this.z = v.z;
     return this;
   }
+  
+
+
+
+
+
   add(v) {
     this.x += v.x;
     this.y += v.y;
     this.z += v.z;
     return this;
   }
+  
+
+
+
+
+
   addScalar(s) {
     this.x += s;
     this.y += s;
     this.z += s;
     return this;
   }
+  
+
+
+
+
+
+
   addVectors(a, b) {
     this.x = a.x + b.x;
     this.y = a.y + b.y;
     this.z = a.z + b.z;
     return this;
   }
+  
+
+
+
+
+
+
   addScaledVector(v, s) {
     this.x += v.x * s;
     this.y += v.y * s;
     this.z += v.z * s;
     return this;
   }
+  
+
+
+
+
+
   sub(v) {
     this.x -= v.x;
     this.y -= v.y;
     this.z -= v.z;
     return this;
   }
+  
+
+
+
+
+
   subScalar(s) {
     this.x -= s;
     this.y -= s;
     this.z -= s;
     return this;
   }
+  
+
+
+
+
+
+
   subVectors(a, b) {
     this.x = a.x - b.x;
     this.y = a.y - b.y;
     this.z = a.z - b.z;
     return this;
   }
+  
+
+
+
+
+
   multiply(v) {
     this.x *= v.x;
     this.y *= v.y;
     this.z *= v.z;
     return this;
   }
+  
+
+
+
+
+
   multiplyScalar(scalar) {
     this.x *= scalar;
     this.y *= scalar;
     this.z *= scalar;
     return this;
   }
+  
+
+
+
+
+
+
   multiplyVectors(a, b) {
     this.x = a.x * b.x;
     this.y = a.y * b.y;
     this.z = a.z * b.z;
     return this;
   }
+  
+
+
+
+
+
   applyEuler(euler) {
     return this.applyQuaternion(_quaternion$4.setFromEuler(euler));
   }
+  
+
+
+
+
+
+
   applyAxisAngle(axis, angle) {
     return this.applyQuaternion(_quaternion$4.setFromAxisAngle(axis, angle));
   }
+  
+
+
+
+
+
   applyMatrix3(m) {
     const x = this.x, y = this.y, z = this.z;
     const e = m.elements;
@@ -1180,9 +2159,23 @@ class Vector3 {
     this.z = e[2] * x + e[5] * y + e[8] * z;
     return this;
   }
+  
+
+
+
+
+
+
   applyNormalMatrix(m) {
     return this.applyMatrix3(m).normalize();
   }
+  
+
+
+
+
+
+
   applyMatrix4(m) {
     const x = this.x, y = this.y, z = this.z;
     const e = m.elements;
@@ -1192,6 +2185,12 @@ class Vector3 {
     this.z = (e[2] * x + e[6] * y + e[10] * z + e[14]) * w;
     return this;
   }
+  
+
+
+
+
+
   applyQuaternion(q) {
     const vx = this.x, vy = this.y, vz = this.z;
     const qx = q.x, qy = q.y, qz = q.z, qw = q.w;
@@ -1203,12 +2202,33 @@ class Vector3 {
     this.z = vz + qw * tz + qx * ty - qy * tx;
     return this;
   }
+  
+
+
+
+
+
+
   project(camera) {
     return this.applyMatrix4(camera.matrixWorldInverse).applyMatrix4(camera.projectionMatrix);
   }
+  
+
+
+
+
+
+
   unproject(camera) {
     return this.applyMatrix4(camera.projectionMatrixInverse).applyMatrix4(camera.matrixWorld);
   }
+  
+
+
+
+
+
+
   transformDirection(m) {
     const x = this.x, y = this.y, z = this.z;
     const e = m.elements;
@@ -1217,106 +2237,257 @@ class Vector3 {
     this.z = e[2] * x + e[6] * y + e[10] * z;
     return this.normalize();
   }
+  
+
+
+
+
+
   divide(v) {
     this.x /= v.x;
     this.y /= v.y;
     this.z /= v.z;
     return this;
   }
+  
+
+
+
+
+
   divideScalar(scalar) {
     return this.multiplyScalar(1 / scalar);
   }
+  
+
+
+
+
+
+
   min(v) {
     this.x = Math.min(this.x, v.x);
     this.y = Math.min(this.y, v.y);
     this.z = Math.min(this.z, v.z);
     return this;
   }
+  
+
+
+
+
+
+
   max(v) {
     this.x = Math.max(this.x, v.x);
     this.y = Math.max(this.y, v.y);
     this.z = Math.max(this.z, v.z);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   clamp(min, max) {
     this.x = clamp(this.x, min.x, max.x);
     this.y = clamp(this.y, min.y, max.y);
     this.z = clamp(this.z, min.z, max.z);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   clampScalar(minVal, maxVal) {
     this.x = clamp(this.x, minVal, maxVal);
     this.y = clamp(this.y, minVal, maxVal);
     this.z = clamp(this.z, minVal, maxVal);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   clampLength(min, max) {
     const length = this.length();
     return this.divideScalar(length || 1).multiplyScalar(clamp(length, min, max));
   }
+  
+
+
+
+
   floor() {
     this.x = Math.floor(this.x);
     this.y = Math.floor(this.y);
     this.z = Math.floor(this.z);
     return this;
   }
+  
+
+
+
+
   ceil() {
     this.x = Math.ceil(this.x);
     this.y = Math.ceil(this.y);
     this.z = Math.ceil(this.z);
     return this;
   }
+  
+
+
+
+
   round() {
     this.x = Math.round(this.x);
     this.y = Math.round(this.y);
     this.z = Math.round(this.z);
     return this;
   }
+  
+
+
+
+
+
   roundToZero() {
     this.x = Math.trunc(this.x);
     this.y = Math.trunc(this.y);
     this.z = Math.trunc(this.z);
     return this;
   }
+  
+
+
+
+
   negate() {
     this.x = -this.x;
     this.y = -this.y;
     this.z = -this.z;
     return this;
   }
+  
+
+
+
+
+
   dot(v) {
     return this.x * v.x + this.y * v.y + this.z * v.z;
   }
+  
+
+
+
+
+
+
   lengthSq() {
     return this.x * this.x + this.y * this.y + this.z * this.z;
   }
+  
+
+
+
+
   length() {
     return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
   }
+  
+
+
+
+
   manhattanLength() {
     return Math.abs(this.x) + Math.abs(this.y) + Math.abs(this.z);
   }
+  
+
+
+
+
+
   normalize() {
     return this.divideScalar(this.length() || 1);
   }
+  
+
+
+
+
+
+
   setLength(length) {
     return this.normalize().multiplyScalar(length);
   }
+  
+
+
+
+
+
+
+
+
   lerp(v, alpha) {
     this.x += (v.x - this.x) * alpha;
     this.y += (v.y - this.y) * alpha;
     this.z += (v.z - this.z) * alpha;
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   lerpVectors(v1, v2, alpha) {
     this.x = v1.x + (v2.x - v1.x) * alpha;
     this.y = v1.y + (v2.y - v1.y) * alpha;
     this.z = v1.z + (v2.z - v1.z) * alpha;
     return this;
   }
+  
+
+
+
+
+
   cross(v) {
     return this.crossVectors(this, v);
   }
+  
+
+
+
+
+
+
+
   crossVectors(a, b) {
     const ax = a.x, ay = a.y, az = a.z;
     const bx = b.x, by = b.y, bz = b.z;
@@ -1325,6 +2496,12 @@ class Vector3 {
     this.z = ax * by - ay * bx;
     return this;
   }
+  
+
+
+
+
+
   projectOnVector(v) {
     const denominator = v.lengthSq();
     if (denominator === 0)
@@ -1332,13 +2509,32 @@ class Vector3 {
     const scalar = v.dot(this) / denominator;
     return this.copy(v).multiplyScalar(scalar);
   }
+  
+
+
+
+
+
+
   projectOnPlane(planeNormal) {
     _vector$c.copy(this).projectOnVector(planeNormal);
     return this.sub(_vector$c);
   }
+  
+
+
+
+
+
   reflect(normal) {
     return this.sub(_vector$c.copy(normal).multiplyScalar(2 * this.dot(normal)));
   }
+  
+
+
+
+
+
   angleTo(v) {
     const denominator = Math.sqrt(this.lengthSq() * v.lengthSq());
     if (denominator === 0)
@@ -1346,19 +2542,53 @@ class Vector3 {
     const theta = this.dot(v) / denominator;
     return Math.acos(clamp(theta, -1, 1));
   }
+  
+
+
+
+
+
   distanceTo(v) {
     return Math.sqrt(this.distanceToSquared(v));
   }
+  
+
+
+
+
+
+
+
   distanceToSquared(v) {
     const dx = this.x - v.x, dy = this.y - v.y, dz = this.z - v.z;
     return dx * dx + dy * dy + dz * dz;
   }
+  
+
+
+
+
+
   manhattanDistanceTo(v) {
     return Math.abs(this.x - v.x) + Math.abs(this.y - v.y) + Math.abs(this.z - v.z);
   }
+  
+
+
+
+
+
   setFromSpherical(s) {
     return this.setFromSphericalCoords(s.radius, s.phi, s.theta);
   }
+  
+
+
+
+
+
+
+
   setFromSphericalCoords(radius, phi, theta) {
     const sinPhiRadius = Math.sin(phi) * radius;
     this.x = sinPhiRadius * Math.sin(theta);
@@ -1366,15 +2596,36 @@ class Vector3 {
     this.z = sinPhiRadius * Math.cos(theta);
     return this;
   }
+  
+
+
+
+
+
   setFromCylindrical(c) {
     return this.setFromCylindricalCoords(c.radius, c.theta, c.y);
   }
+  
+
+
+
+
+
+
+
   setFromCylindricalCoords(radius, theta, y) {
     this.x = radius * Math.sin(theta);
     this.y = y;
     this.z = radius * Math.cos(theta);
     return this;
   }
+  
+
+
+
+
+
+
   setFromMatrixPosition(m) {
     const e = m.elements;
     this.x = e[12];
@@ -1382,6 +2633,13 @@ class Vector3 {
     this.z = e[14];
     return this;
   }
+  
+
+
+
+
+
+
   setFromMatrixScale(m) {
     const sx = this.setFromMatrixColumn(m, 0).length();
     const sy = this.setFromMatrixColumn(m, 1).length();
@@ -1391,51 +2649,118 @@ class Vector3 {
     this.z = sz;
     return this;
   }
+  
+
+
+
+
+
+
   setFromMatrixColumn(m, index) {
     return this.fromArray(m.elements, index * 4);
   }
+  
+
+
+
+
+
+
   setFromMatrix3Column(m, index) {
     return this.fromArray(m.elements, index * 3);
   }
+  
+
+
+
+
+
   setFromEuler(e) {
     this.x = e._x;
     this.y = e._y;
     this.z = e._z;
     return this;
   }
+  
+
+
+
+
+
+
   setFromColor(c) {
     this.x = c.r;
     this.y = c.g;
     this.z = c.b;
     return this;
   }
+  
+
+
+
+
+
   equals(v) {
     return v.x === this.x && v.y === this.y && v.z === this.z;
   }
+  
+
+
+
+
+
+
+
   fromArray(array, offset = 0) {
     this.x = array[offset];
     this.y = array[offset + 1];
     this.z = array[offset + 2];
     return this;
   }
+  
+
+
+
+
+
+
+
   toArray(array = [], offset = 0) {
     array[offset] = this.x;
     array[offset + 1] = this.y;
     array[offset + 2] = this.z;
     return array;
   }
+  
+
+
+
+
+
+
   fromBufferAttribute(attribute, index) {
     this.x = attribute.getX(index);
     this.y = attribute.getY(index);
     this.z = attribute.getZ(index);
     return this;
   }
+  
+
+
+
+
+
   random() {
     this.x = Math.random();
     this.y = Math.random();
     this.z = Math.random();
     return this;
   }
+  
+
+
+
+
   randomDirection() {
     const theta = Math.random() * Math.PI * 2;
     const u = Math.random() * 2 - 1;
@@ -1454,6 +2779,21 @@ class Vector3 {
 const _vector$c =  new Vector3();
 const _quaternion$4 =  new Quaternion();
 class Matrix3 {
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   constructor(n11, n12, n13, n21, n22, n23, n31, n32, n33) {
     Matrix3.prototype.isMatrix3 = true;
     this.elements = [
@@ -1471,6 +2811,21 @@ class Matrix3 {
       this.set(n11, n12, n13, n21, n22, n23, n31, n32, n33);
     }
   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   set(n11, n12, n13, n21, n22, n23, n31, n32, n33) {
     const te = this.elements;
     te[0] = n11;
@@ -1484,6 +2839,11 @@ class Matrix3 {
     te[8] = n33;
     return this;
   }
+  
+
+
+
+
   identity() {
     this.set(
       1,
@@ -1498,6 +2858,12 @@ class Matrix3 {
     );
     return this;
   }
+  
+
+
+
+
+
   copy(m) {
     const te = this.elements;
     const me = m.elements;
@@ -1512,12 +2878,26 @@ class Matrix3 {
     te[8] = me[8];
     return this;
   }
+  
+
+
+
+
+
+
+
   extractBasis(xAxis, yAxis, zAxis) {
     xAxis.setFromMatrix3Column(this, 0);
     yAxis.setFromMatrix3Column(this, 1);
     zAxis.setFromMatrix3Column(this, 2);
     return this;
   }
+  
+
+
+
+
+
   setFromMatrix4(m) {
     const me = m.elements;
     this.set(
@@ -1533,12 +2913,32 @@ class Matrix3 {
     );
     return this;
   }
+  
+
+
+
+
+
   multiply(m) {
     return this.multiplyMatrices(this, m);
   }
+  
+
+
+
+
+
   premultiply(m) {
     return this.multiplyMatrices(m, this);
   }
+  
+
+
+
+
+
+
+
   multiplyMatrices(a, b) {
     const ae = a.elements;
     const be = b.elements;
@@ -1560,6 +2960,12 @@ class Matrix3 {
     te[8] = a31 * b13 + a32 * b23 + a33 * b33;
     return this;
   }
+  
+
+
+
+
+
   multiplyScalar(s) {
     const te = this.elements;
     te[0] *= s;
@@ -1573,11 +2979,23 @@ class Matrix3 {
     te[8] *= s;
     return this;
   }
+  
+
+
+
+
   determinant() {
     const te = this.elements;
     const a = te[0], b = te[1], c = te[2], d = te[3], e = te[4], f = te[5], g = te[6], h = te[7], i = te[8];
     return a * e * i - a * f * h - b * d * i + b * f * g + c * d * h - c * e * g;
   }
+  
+
+
+
+
+
+
   invert() {
     const te = this.elements, n11 = te[0], n21 = te[1], n31 = te[2], n12 = te[3], n22 = te[4], n32 = te[5], n13 = te[6], n23 = te[7], n33 = te[8], t11 = n33 * n22 - n32 * n23, t12 = n32 * n13 - n33 * n12, t13 = n23 * n12 - n22 * n13, det = n11 * t11 + n21 * t12 + n31 * t13;
     if (det === 0)
@@ -1594,6 +3012,11 @@ class Matrix3 {
     te[8] = (n22 * n11 - n21 * n12) * detInv;
     return this;
   }
+  
+
+
+
+
   transpose() {
     let tmp;
     const m = this.elements;
@@ -1608,9 +3031,22 @@ class Matrix3 {
     m[7] = tmp;
     return this;
   }
+  
+
+
+
+
+
+
   getNormalMatrix(matrix4) {
     return this.setFromMatrix4(matrix4).invert().transpose();
   }
+  
+
+
+
+
+
   transposeIntoArray(r) {
     const m = this.elements;
     r[0] = m[0];
@@ -1624,6 +3060,18 @@ class Matrix3 {
     r[8] = m[8];
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
+
+
   setUvTransform(tx, ty, sx, sy, rotation, cx, cy) {
     const c = Math.cos(rotation);
     const s = Math.sin(rotation);
@@ -1640,18 +3088,46 @@ class Matrix3 {
     );
     return this;
   }
+  
+
+
+
+
+
+
   scale(sx, sy) {
     this.premultiply(_m3.makeScale(sx, sy));
     return this;
   }
+  
+
+
+
+
+
   rotate(theta) {
     this.premultiply(_m3.makeRotation(-theta));
     return this;
   }
+  
+
+
+
+
+
+
   translate(tx, ty) {
     this.premultiply(_m3.makeTranslation(tx, ty));
     return this;
   }
+  
+  
+
+
+
+
+
+
   makeTranslation(x, y) {
     if (x.isVector2) {
       this.set(
@@ -1680,6 +3156,12 @@ class Matrix3 {
     }
     return this;
   }
+  
+
+
+
+
+
   makeRotation(theta) {
     const c = Math.cos(theta);
     const s = Math.sin(theta);
@@ -1696,6 +3178,13 @@ class Matrix3 {
     );
     return this;
   }
+  
+
+
+
+
+
+
   makeScale(x, y) {
     this.set(
       x,
@@ -1710,6 +3199,12 @@ class Matrix3 {
     );
     return this;
   }
+  
+
+
+
+
+
   equals(matrix) {
     const te = this.elements;
     const me = matrix.elements;
@@ -1719,12 +3214,27 @@ class Matrix3 {
     }
     return true;
   }
+  
+
+
+
+
+
+
   fromArray(array, offset = 0) {
     for (let i = 0; i < 9; i++) {
       this.elements[i] = array[i + offset];
     }
     return this;
   }
+  
+
+
+
+
+
+
+
   toArray(array = [], offset = 0) {
     const te = this.elements;
     array[offset] = te[0];
@@ -1738,6 +3248,11 @@ class Matrix3 {
     array[offset + 8] = te[8];
     return array;
   }
+  
+
+
+
+
   clone() {
     return new this.constructor().fromArray(this.elements);
   }
@@ -1769,6 +3284,24 @@ function createColorManagement() {
   const ColorManagement2 = {
     enabled: true,
     workingColorSpace: LinearSRGBColorSpace,
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     spaces: {},
     convert: function(color, sourceColorSpace, targetColorSpace) {
       if (this.enabled === false || sourceColorSpace === targetColorSpace || !sourceColorSpace || !targetColorSpace) {
@@ -1813,6 +3346,7 @@ function createColorManagement() {
     define: function(colorSpaces) {
       Object.assign(this.spaces, colorSpaces);
     },
+    
     _getMatrix: function(targetMatrix, sourceColorSpace, targetColorSpace) {
       return targetMatrix.copy(this.spaces[sourceColorSpace].toXYZ).multiply(this.spaces[targetColorSpace].fromXYZ);
     },
@@ -1822,6 +3356,7 @@ function createColorManagement() {
     _getUnpackColorSpace: function(colorSpace = this.workingColorSpace) {
       return this.spaces[colorSpace].workingColorSpaceConfig.unpackColorSpace;
     },
+    
     fromWorkingColorSpace: function(color, targetColorSpace) {
       warnOnce("ColorManagement: .fromWorkingColorSpace() has been renamed to .workingToColorSpace().");
       return ColorManagement2.workingToColorSpace(color, targetColorSpace);
@@ -1866,6 +3401,13 @@ function LinearToSRGB(c) {
 }
 let _canvas;
 class ImageUtils {
+  
+
+
+
+
+
+
   static getDataURL(image, type = "image/png") {
     if (/^data:/i.test(image.src)) {
       return image.src;
@@ -1891,6 +3433,12 @@ class ImageUtils {
     }
     return canvas.toDataURL(type);
   }
+  
+
+
+
+
+
   static sRGBToLinear(image) {
     if (typeof HTMLImageElement !== "undefined" && image instanceof HTMLImageElement || typeof HTMLCanvasElement !== "undefined" && image instanceof HTMLCanvasElement || typeof ImageBitmap !== "undefined" && image instanceof ImageBitmap) {
       const canvas = createElementNS("canvas");
@@ -1927,6 +3475,11 @@ class ImageUtils {
 }
 let _sourceId = 0;
 class Source {
+  
+
+
+
+
   constructor(data = null) {
     this.isSource = true;
     Object.defineProperty(this, "id", { value: _sourceId++ });
@@ -1935,6 +3488,12 @@ class Source {
     this.dataReady = true;
     this.version = 0;
   }
+  
+
+
+
+
+
   getSize(target) {
     const data = this.data;
     if (typeof HTMLVideoElement !== "undefined" && data instanceof HTMLVideoElement) {
@@ -1948,10 +3507,26 @@ class Source {
     }
     return target;
   }
+  
+
+
+
+
+
+
+
+
   set needsUpdate(value) {
     if (value === true)
       this.version++;
   }
+  
+
+
+
+
+
+
   toJSON(meta) {
     const isRootObject = meta === void 0 || typeof meta === "string";
     if (!isRootObject && meta.images[this.uuid] !== void 0) {
@@ -2004,6 +3579,20 @@ function serializeImage(image) {
 let _textureId = 0;
 const _tempVec3 =  new Vector3();
 class Texture extends EventDispatcher {
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
   constructor(image = Texture.DEFAULT_IMAGE, mapping = Texture.DEFAULT_MAPPING, wrapS = ClampToEdgeWrapping, wrapT = ClampToEdgeWrapping, magFilter = LinearFilter, minFilter = LinearMipmapLinearFilter, format = RGBAFormat, type = UnsignedByteType, anisotropy = Texture.DEFAULT_ANISOTROPY, colorSpace = NoColorSpace) {
     super();
     this.isTexture = true;
@@ -2042,33 +3631,71 @@ class Texture extends EventDispatcher {
     this.isArrayTexture = image && image.depth && image.depth > 1 ? true : false;
     this.pmremVersion = 0;
   }
+  
+
+
   get width() {
     return this.source.getSize(_tempVec3).x;
   }
+  
+
+
   get height() {
     return this.source.getSize(_tempVec3).y;
   }
+  
+
+
   get depth() {
     return this.source.getSize(_tempVec3).z;
   }
+  
+
+
+
+
   get image() {
     return this.source.data;
   }
   set image(value = null) {
     this.source.data = value;
   }
+  
+
+
+
   updateMatrix() {
     this.matrix.setUvTransform(this.offset.x, this.offset.y, this.repeat.x, this.repeat.y, this.rotation, this.center.x, this.center.y);
   }
+  
+
+
+
+
+
   addUpdateRange(start, count) {
     this.updateRanges.push({ start, count });
   }
+  
+
+
   clearUpdateRanges() {
     this.updateRanges.length = 0;
   }
+  
+
+
+
+
   clone() {
     return new this.constructor().copy(this);
   }
+  
+
+
+
+
+
   copy(source) {
     this.name = source.name;
     this.source = source.source;
@@ -2101,6 +3728,10 @@ class Texture extends EventDispatcher {
     this.needsUpdate = true;
     return this;
   }
+  
+
+
+
   setValues(values) {
     for (const key in values) {
       const newValue = values[key];
@@ -2124,6 +3755,13 @@ class Texture extends EventDispatcher {
       }
     }
   }
+  
+
+
+
+
+
+
   toJSON(meta) {
     const isRootObject = meta === void 0 || typeof meta === "string";
     if (!isRootObject && meta.textures[this.uuid] !== void 0) {
@@ -2164,9 +3802,21 @@ class Texture extends EventDispatcher {
     }
     return output;
   }
+  
+
+
+
+
+
   dispose() {
     this.dispatchEvent({ type: "dispose" });
   }
+  
+
+
+
+
+
   transformUv(uv) {
     if (this.mapping !== UVMapping)
       return uv;
@@ -2210,12 +3860,29 @@ class Texture extends EventDispatcher {
     }
     return uv;
   }
+  
+
+
+
+
+
+
+
+
   set needsUpdate(value) {
     if (value === true) {
       this.version++;
       this.source.needsUpdate = true;
     }
   }
+  
+
+
+
+
+
+
+
   set needsPMREMUpdate(value) {
     if (value === true) {
       this.pmremVersion++;
@@ -2226,6 +3893,14 @@ Texture.DEFAULT_IMAGE = null;
 Texture.DEFAULT_MAPPING = UVMapping;
 Texture.DEFAULT_ANISOTROPY = 1;
 class Vector4 {
+  
+
+
+
+
+
+
+
   constructor(x = 0, y = 0, z = 0, w = 1) {
     Vector4.prototype.isVector4 = true;
     this.x = x;
@@ -2233,18 +3908,37 @@ class Vector4 {
     this.z = z;
     this.w = w;
   }
+  
+
+
+
+
   get width() {
     return this.z;
   }
   set width(value) {
     this.z = value;
   }
+  
+
+
+
+
   get height() {
     return this.w;
   }
   set height(value) {
     this.w = value;
   }
+  
+
+
+
+
+
+
+
+
   set(x, y, z, w) {
     this.x = x;
     this.y = y;
@@ -2252,6 +3946,12 @@ class Vector4 {
     this.w = w;
     return this;
   }
+  
+
+
+
+
+
   setScalar(scalar) {
     this.x = scalar;
     this.y = scalar;
@@ -2259,22 +3959,54 @@ class Vector4 {
     this.w = scalar;
     return this;
   }
+  
+
+
+
+
+
   setX(x) {
     this.x = x;
     return this;
   }
+  
+
+
+
+
+
   setY(y) {
     this.y = y;
     return this;
   }
+  
+
+
+
+
+
   setZ(z) {
     this.z = z;
     return this;
   }
+  
+
+
+
+
+
   setW(w) {
     this.w = w;
     return this;
   }
+  
+
+
+
+
+
+
+
   setComponent(index, value) {
     switch (index) {
       case 0:
@@ -2294,6 +4026,13 @@ class Vector4 {
     }
     return this;
   }
+  
+
+
+
+
+
+
   getComponent(index) {
     switch (index) {
       case 0:
@@ -2308,9 +4047,20 @@ class Vector4 {
         throw new Error("index is out of range: " + index);
     }
   }
+  
+
+
+
+
   clone() {
     return new this.constructor(this.x, this.y, this.z, this.w);
   }
+  
+
+
+
+
+
   copy(v) {
     this.x = v.x;
     this.y = v.y;
@@ -2318,6 +4068,12 @@ class Vector4 {
     this.w = v.w !== void 0 ? v.w : 1;
     return this;
   }
+  
+
+
+
+
+
   add(v) {
     this.x += v.x;
     this.y += v.y;
@@ -2325,6 +4081,12 @@ class Vector4 {
     this.w += v.w;
     return this;
   }
+  
+
+
+
+
+
   addScalar(s) {
     this.x += s;
     this.y += s;
@@ -2332,6 +4094,13 @@ class Vector4 {
     this.w += s;
     return this;
   }
+  
+
+
+
+
+
+
   addVectors(a, b) {
     this.x = a.x + b.x;
     this.y = a.y + b.y;
@@ -2339,6 +4108,13 @@ class Vector4 {
     this.w = a.w + b.w;
     return this;
   }
+  
+
+
+
+
+
+
   addScaledVector(v, s) {
     this.x += v.x * s;
     this.y += v.y * s;
@@ -2346,6 +4122,12 @@ class Vector4 {
     this.w += v.w * s;
     return this;
   }
+  
+
+
+
+
+
   sub(v) {
     this.x -= v.x;
     this.y -= v.y;
@@ -2353,6 +4135,12 @@ class Vector4 {
     this.w -= v.w;
     return this;
   }
+  
+
+
+
+
+
   subScalar(s) {
     this.x -= s;
     this.y -= s;
@@ -2360,6 +4148,13 @@ class Vector4 {
     this.w -= s;
     return this;
   }
+  
+
+
+
+
+
+
   subVectors(a, b) {
     this.x = a.x - b.x;
     this.y = a.y - b.y;
@@ -2367,6 +4162,12 @@ class Vector4 {
     this.w = a.w - b.w;
     return this;
   }
+  
+
+
+
+
+
   multiply(v) {
     this.x *= v.x;
     this.y *= v.y;
@@ -2374,6 +4175,12 @@ class Vector4 {
     this.w *= v.w;
     return this;
   }
+  
+
+
+
+
+
   multiplyScalar(scalar) {
     this.x *= scalar;
     this.y *= scalar;
@@ -2381,6 +4188,12 @@ class Vector4 {
     this.w *= scalar;
     return this;
   }
+  
+
+
+
+
+
   applyMatrix4(m) {
     const x = this.x, y = this.y, z = this.z, w = this.w;
     const e = m.elements;
@@ -2390,6 +4203,12 @@ class Vector4 {
     this.w = e[3] * x + e[7] * y + e[11] * z + e[15] * w;
     return this;
   }
+  
+
+
+
+
+
   divide(v) {
     this.x /= v.x;
     this.y /= v.y;
@@ -2397,9 +4216,22 @@ class Vector4 {
     this.w /= v.w;
     return this;
   }
+  
+
+
+
+
+
   divideScalar(scalar) {
     return this.multiplyScalar(1 / scalar);
   }
+  
+
+
+
+
+
+
   setAxisAngleFromQuaternion(q) {
     this.w = 2 * Math.acos(q.w);
     const s = Math.sqrt(1 - q.w * q.w);
@@ -2414,6 +4246,13 @@ class Vector4 {
     }
     return this;
   }
+  
+
+
+
+
+
+
   setAxisAngleFromRotationMatrix(m) {
     let angle, x, y, z;
     const epsilon = 0.01, epsilon2 = 0.1, te = m.elements, m11 = te[0], m12 = te[4], m13 = te[8], m21 = te[1], m22 = te[5], m23 = te[9], m31 = te[2], m32 = te[6], m33 = te[10];
@@ -2472,6 +4311,13 @@ class Vector4 {
     this.w = Math.acos((m11 + m22 + m33 - 1) / 2);
     return this;
   }
+  
+
+
+
+
+
+
   setFromMatrixPosition(m) {
     const e = m.elements;
     this.x = e[12];
@@ -2480,6 +4326,13 @@ class Vector4 {
     this.w = e[15];
     return this;
   }
+  
+
+
+
+
+
+
   min(v) {
     this.x = Math.min(this.x, v.x);
     this.y = Math.min(this.y, v.y);
@@ -2487,6 +4340,13 @@ class Vector4 {
     this.w = Math.min(this.w, v.w);
     return this;
   }
+  
+
+
+
+
+
+
   max(v) {
     this.x = Math.max(this.x, v.x);
     this.y = Math.max(this.y, v.y);
@@ -2494,6 +4354,16 @@ class Vector4 {
     this.w = Math.max(this.w, v.w);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   clamp(min, max) {
     this.x = clamp(this.x, min.x, max.x);
     this.y = clamp(this.y, min.y, max.y);
@@ -2501,6 +4371,16 @@ class Vector4 {
     this.w = clamp(this.w, min.w, max.w);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   clampScalar(minVal, maxVal) {
     this.x = clamp(this.x, minVal, maxVal);
     this.y = clamp(this.y, minVal, maxVal);
@@ -2508,10 +4388,25 @@ class Vector4 {
     this.w = clamp(this.w, minVal, maxVal);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   clampLength(min, max) {
     const length = this.length();
     return this.divideScalar(length || 1).multiplyScalar(clamp(length, min, max));
   }
+  
+
+
+
+
   floor() {
     this.x = Math.floor(this.x);
     this.y = Math.floor(this.y);
@@ -2519,6 +4414,11 @@ class Vector4 {
     this.w = Math.floor(this.w);
     return this;
   }
+  
+
+
+
+
   ceil() {
     this.x = Math.ceil(this.x);
     this.y = Math.ceil(this.y);
@@ -2526,6 +4426,11 @@ class Vector4 {
     this.w = Math.ceil(this.w);
     return this;
   }
+  
+
+
+
+
   round() {
     this.x = Math.round(this.x);
     this.y = Math.round(this.y);
@@ -2533,6 +4438,12 @@ class Vector4 {
     this.w = Math.round(this.w);
     return this;
   }
+  
+
+
+
+
+
   roundToZero() {
     this.x = Math.trunc(this.x);
     this.y = Math.trunc(this.y);
@@ -2540,6 +4451,11 @@ class Vector4 {
     this.w = Math.trunc(this.w);
     return this;
   }
+  
+
+
+
+
   negate() {
     this.x = -this.x;
     this.y = -this.y;
@@ -2547,24 +4463,69 @@ class Vector4 {
     this.w = -this.w;
     return this;
   }
+  
+
+
+
+
+
   dot(v) {
     return this.x * v.x + this.y * v.y + this.z * v.z + this.w * v.w;
   }
+  
+
+
+
+
+
+
   lengthSq() {
     return this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w;
   }
+  
+
+
+
+
   length() {
     return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w);
   }
+  
+
+
+
+
   manhattanLength() {
     return Math.abs(this.x) + Math.abs(this.y) + Math.abs(this.z) + Math.abs(this.w);
   }
+  
+
+
+
+
+
   normalize() {
     return this.divideScalar(this.length() || 1);
   }
+  
+
+
+
+
+
+
   setLength(length) {
     return this.normalize().multiplyScalar(length);
   }
+  
+
+
+
+
+
+
+
+
   lerp(v, alpha) {
     this.x += (v.x - this.x) * alpha;
     this.y += (v.y - this.y) * alpha;
@@ -2572,6 +4533,16 @@ class Vector4 {
     this.w += (v.w - this.w) * alpha;
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   lerpVectors(v1, v2, alpha) {
     this.x = v1.x + (v2.x - v1.x) * alpha;
     this.y = v1.y + (v2.y - v1.y) * alpha;
@@ -2579,9 +4550,23 @@ class Vector4 {
     this.w = v1.w + (v2.w - v1.w) * alpha;
     return this;
   }
+  
+
+
+
+
+
   equals(v) {
     return v.x === this.x && v.y === this.y && v.z === this.z && v.w === this.w;
   }
+  
+
+
+
+
+
+
+
   fromArray(array, offset = 0) {
     this.x = array[offset];
     this.y = array[offset + 1];
@@ -2589,6 +4574,14 @@ class Vector4 {
     this.w = array[offset + 3];
     return this;
   }
+  
+
+
+
+
+
+
+
   toArray(array = [], offset = 0) {
     array[offset] = this.x;
     array[offset + 1] = this.y;
@@ -2596,6 +4589,13 @@ class Vector4 {
     array[offset + 3] = this.w;
     return array;
   }
+  
+
+
+
+
+
+
   fromBufferAttribute(attribute, index) {
     this.x = attribute.getX(index);
     this.y = attribute.getY(index);
@@ -2603,6 +4603,12 @@ class Vector4 {
     this.w = attribute.getW(index);
     return this;
   }
+  
+
+
+
+
+
   random() {
     this.x = Math.random();
     this.y = Math.random();
@@ -2618,16 +4624,37 @@ class Vector4 {
   }
 }
 class Box3 {
+  
+
+
+
+
+
   constructor(min = new Vector3(Infinity, Infinity, Infinity), max = new Vector3(-Infinity, -Infinity, -Infinity)) {
     this.isBox3 = true;
     this.min = min;
     this.max = max;
   }
+  
+
+
+
+
+
+
+
   set(min, max) {
     this.min.copy(min);
     this.max.copy(max);
     return this;
   }
+  
+
+
+
+
+
+
   setFromArray(array) {
     this.makeEmpty();
     for (let i = 0, il = array.length; i < il; i += 3) {
@@ -2635,6 +4662,13 @@ class Box3 {
     }
     return this;
   }
+  
+
+
+
+
+
+
   setFromBufferAttribute(attribute) {
     this.makeEmpty();
     for (let i = 0, il = attribute.count; i < il; i++) {
@@ -2642,6 +4676,13 @@ class Box3 {
     }
     return this;
   }
+  
+
+
+
+
+
+
   setFromPoints(points) {
     this.makeEmpty();
     for (let i = 0, il = points.length; i < il; i++) {
@@ -2649,53 +4690,140 @@ class Box3 {
     }
     return this;
   }
+  
+
+
+
+
+
+
+
   setFromCenterAndSize(center, size) {
     const halfSize = _vector$b.copy(size).multiplyScalar(0.5);
     this.min.copy(center).sub(halfSize);
     this.max.copy(center).add(halfSize);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   setFromObject(object, precise = false) {
     this.makeEmpty();
     return this.expandByObject(object, precise);
   }
+  
+
+
+
+
   clone() {
     return new this.constructor().copy(this);
   }
+  
+
+
+
+
+
   copy(box) {
     this.min.copy(box.min);
     this.max.copy(box.max);
     return this;
   }
+  
+
+
+
+
   makeEmpty() {
     this.min.x = this.min.y = this.min.z = Infinity;
     this.max.x = this.max.y = this.max.z = -Infinity;
     return this;
   }
+  
+
+
+
+
+
+
   isEmpty() {
     return this.max.x < this.min.x || this.max.y < this.min.y || this.max.z < this.min.z;
   }
+  
+
+
+
+
+
   getCenter(target) {
     return this.isEmpty() ? target.set(0, 0, 0) : target.addVectors(this.min, this.max).multiplyScalar(0.5);
   }
+  
+
+
+
+
+
   getSize(target) {
     return this.isEmpty() ? target.set(0, 0, 0) : target.subVectors(this.max, this.min);
   }
+  
+
+
+
+
+
   expandByPoint(point) {
     this.min.min(point);
     this.max.max(point);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   expandByVector(vector) {
     this.min.sub(vector);
     this.max.add(vector);
     return this;
   }
+  
+
+
+
+
+
+
   expandByScalar(scalar) {
     this.min.addScalar(-scalar);
     this.max.addScalar(scalar);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
+
   expandByObject(object, precise = false) {
     object.updateWorldMatrix(false, false);
     const geometry = object.geometry;
@@ -2733,12 +4861,32 @@ class Box3 {
     }
     return this;
   }
+  
+
+
+
+
+
   containsPoint(point) {
     return point.x >= this.min.x && point.x <= this.max.x && point.y >= this.min.y && point.y <= this.max.y && point.z >= this.min.z && point.z <= this.max.z;
   }
+  
+
+
+
+
+
+
   containsBox(box) {
     return this.min.x <= box.min.x && box.max.x <= this.max.x && this.min.y <= box.min.y && box.max.y <= this.max.y && this.min.z <= box.min.z && box.max.z <= this.max.z;
   }
+  
+
+
+
+
+
+
   getParameter(point, target) {
     return target.set(
       (point.x - this.min.x) / (this.max.x - this.min.x),
@@ -2746,13 +4894,31 @@ class Box3 {
       (point.z - this.min.z) / (this.max.z - this.min.z)
     );
   }
+  
+
+
+
+
+
   intersectsBox(box) {
     return box.max.x >= this.min.x && box.min.x <= this.max.x && box.max.y >= this.min.y && box.min.y <= this.max.y && box.max.z >= this.min.z && box.min.z <= this.max.z;
   }
+  
+
+
+
+
+
   intersectsSphere(sphere) {
     this.clampPoint(sphere.center, _vector$b);
     return _vector$b.distanceToSquared(sphere.center) <= sphere.radius * sphere.radius;
   }
+  
+
+
+
+
+
   intersectsPlane(plane) {
     let min, max;
     if (plane.normal.x > 0) {
@@ -2778,6 +4944,12 @@ class Box3 {
     }
     return min <= -plane.constant && max >= -plane.constant;
   }
+  
+
+
+
+
+
   intersectsTriangle(triangle3) {
     if (this.isEmpty()) {
       return false;
@@ -2830,12 +5002,32 @@ class Box3 {
     axes = [_triangleNormal.x, _triangleNormal.y, _triangleNormal.z];
     return satForAxes(axes, _v0$2, _v1$7, _v2$4, _extents);
   }
+  
+
+
+
+
+
+
   clampPoint(point, target) {
     return target.copy(point).clamp(this.min, this.max);
   }
+  
+
+
+
+
+
+
   distanceToPoint(point) {
     return this.clampPoint(point, _vector$b).distanceTo(point);
   }
+  
+
+
+
+
+
   getBoundingSphere(target) {
     if (this.isEmpty()) {
       target.makeEmpty();
@@ -2845,6 +5037,15 @@ class Box3 {
     }
     return target;
   }
+  
+
+
+
+
+
+
+
+
   intersect(box) {
     this.min.max(box.min);
     this.max.min(box.max);
@@ -2852,11 +5053,25 @@ class Box3 {
       this.makeEmpty();
     return this;
   }
+  
+
+
+
+
+
+
+
   union(box) {
     this.min.min(box.min);
     this.max.max(box.max);
     return this;
   }
+  
+
+
+
+
+
   applyMatrix4(matrix) {
     if (this.isEmpty())
       return this;
@@ -2871,20 +5086,44 @@ class Box3 {
     this.setFromPoints(_points);
     return this;
   }
+  
+
+
+
+
+
+
   translate(offset) {
     this.min.add(offset);
     this.max.add(offset);
     return this;
   }
+  
+
+
+
+
+
   equals(box) {
     return box.min.equals(this.min) && box.max.equals(this.max);
   }
+  
+
+
+
+
   toJSON() {
     return {
       min: this.min.toArray(),
       max: this.max.toArray()
     };
   }
+  
+
+
+
+
+
   fromJSON(json) {
     this.min.fromArray(json.min);
     this.max.fromArray(json.max);
@@ -2930,16 +5169,39 @@ const _box$3 =  new Box3();
 const _v1$6 =  new Vector3();
 const _v2$3 =  new Vector3();
 class Sphere {
+  
+
+
+
+
+
   constructor(center = new Vector3(), radius = -1) {
     this.isSphere = true;
     this.center = center;
     this.radius = radius;
   }
+  
+
+
+
+
+
+
   set(center, radius) {
     this.center.copy(center);
     this.radius = radius;
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   setFromPoints(points, optionalCenter) {
     const center = this.center;
     if (optionalCenter !== void 0) {
@@ -2954,35 +5216,96 @@ class Sphere {
     this.radius = Math.sqrt(maxRadiusSq);
     return this;
   }
+  
+
+
+
+
+
   copy(sphere) {
     this.center.copy(sphere.center);
     this.radius = sphere.radius;
     return this;
   }
+  
+
+
+
+
+
+
+
   isEmpty() {
     return this.radius < 0;
   }
+  
+
+
+
+
   makeEmpty() {
     this.center.set(0, 0, 0);
     this.radius = -1;
     return this;
   }
+  
+
+
+
+
+
+
   containsPoint(point) {
     return point.distanceToSquared(this.center) <= this.radius * this.radius;
   }
+  
+
+
+
+
+
+
+
   distanceToPoint(point) {
     return point.distanceTo(this.center) - this.radius;
   }
+  
+
+
+
+
+
   intersectsSphere(sphere) {
     const radiusSum = this.radius + sphere.radius;
     return sphere.center.distanceToSquared(this.center) <= radiusSum * radiusSum;
   }
+  
+
+
+
+
+
   intersectsBox(box) {
     return box.intersectsSphere(this);
   }
+  
+
+
+
+
+
   intersectsPlane(plane) {
     return Math.abs(plane.distanceToPoint(this.center)) <= this.radius;
   }
+  
+
+
+
+
+
+
+
+
   clampPoint(point, target) {
     const deltaLengthSq = this.center.distanceToSquared(point);
     target.copy(point);
@@ -2992,6 +5315,12 @@ class Sphere {
     }
     return target;
   }
+  
+
+
+
+
+
   getBoundingBox(target) {
     if (this.isEmpty()) {
       target.makeEmpty();
@@ -3001,15 +5330,33 @@ class Sphere {
     target.expandByScalar(this.radius);
     return target;
   }
+  
+
+
+
+
+
   applyMatrix4(matrix) {
     this.center.applyMatrix4(matrix);
     this.radius = this.radius * matrix.getMaxScaleOnAxis();
     return this;
   }
+  
+
+
+
+
+
   translate(offset) {
     this.center.add(offset);
     return this;
   }
+  
+
+
+
+
+
   expandByPoint(point) {
     if (this.isEmpty()) {
       this.center.copy(point);
@@ -3026,6 +5373,12 @@ class Sphere {
     }
     return this;
   }
+  
+
+
+
+
+
   union(sphere) {
     if (sphere.isEmpty()) {
       return this;
@@ -3043,18 +5396,40 @@ class Sphere {
     }
     return this;
   }
+  
+
+
+
+
+
   equals(sphere) {
     return sphere.center.equals(this.center) && sphere.radius === this.radius;
   }
+  
+
+
+
+
   clone() {
     return new this.constructor().copy(this);
   }
+  
+
+
+
+
   toJSON() {
     return {
       radius: this.radius,
       center: this.center.toArray()
     };
   }
+  
+
+
+
+
+
   fromJSON(json) {
     this.radius = json.radius;
     this.center.fromArray(json.center);
@@ -3069,31 +5444,76 @@ const _edge1 =  new Vector3();
 const _edge2 =  new Vector3();
 const _normal$1 =  new Vector3();
 class Ray {
+  
+
+
+
+
+
   constructor(origin = new Vector3(), direction = new Vector3(0, 0, -1)) {
     this.origin = origin;
     this.direction = direction;
   }
+  
+
+
+
+
+
+
   set(origin, direction) {
     this.origin.copy(origin);
     this.direction.copy(direction);
     return this;
   }
+  
+
+
+
+
+
   copy(ray) {
     this.origin.copy(ray.origin);
     this.direction.copy(ray.direction);
     return this;
   }
+  
+
+
+
+
+
+
   at(t, target) {
     return target.copy(this.origin).addScaledVector(this.direction, t);
   }
+  
+
+
+
+
+
   lookAt(v) {
     this.direction.copy(v).sub(this.origin).normalize();
     return this;
   }
+  
+
+
+
+
+
   recast(t) {
     this.origin.copy(this.at(t, _vector$a));
     return this;
   }
+  
+
+
+
+
+
+
   closestPointToPoint(point, target) {
     target.subVectors(point, this.origin);
     const directionDistance = target.dot(this.direction);
@@ -3102,9 +5522,21 @@ class Ray {
     }
     return target.copy(this.origin).addScaledVector(this.direction, directionDistance);
   }
+  
+
+
+
+
+
   distanceToPoint(point) {
     return Math.sqrt(this.distanceSqToPoint(point));
   }
+  
+
+
+
+
+
   distanceSqToPoint(point) {
     const directionDistance = _vector$a.subVectors(point, this.origin).dot(this.direction);
     if (directionDistance < 0) {
@@ -3113,6 +5545,15 @@ class Ray {
     _vector$a.copy(this.origin).addScaledVector(this.direction, directionDistance);
     return _vector$a.distanceToSquared(point);
   }
+  
+
+
+
+
+
+
+
+
   distanceSqToSegment(v0, v1, optionalPointOnRay, optionalPointOnSegment) {
     _segCenter.copy(v0).add(v1).multiplyScalar(0.5);
     _segDir.copy(v1).sub(v0).normalize();
@@ -3173,6 +5614,14 @@ class Ray {
     }
     return sqrDist;
   }
+  
+
+
+
+
+
+
+
   intersectSphere(sphere, target) {
     _vector$a.subVectors(sphere.center, this.origin);
     const tca = _vector$a.dot(this.direction);
@@ -3189,11 +5638,24 @@ class Ray {
       return this.at(t1, target);
     return this.at(t0, target);
   }
+  
+
+
+
+
+
   intersectsSphere(sphere) {
     if (sphere.radius < 0)
       return false;
     return this.distanceSqToPoint(sphere.center) <= sphere.radius * sphere.radius;
   }
+  
+
+
+
+
+
+
   distanceToPlane(plane) {
     const denominator = plane.normal.dot(this.direction);
     if (denominator === 0) {
@@ -3205,6 +5667,14 @@ class Ray {
     const t = -(this.origin.dot(plane.normal) + plane.constant) / denominator;
     return t >= 0 ? t : null;
   }
+  
+
+
+
+
+
+
+
   intersectPlane(plane, target) {
     const t = this.distanceToPlane(plane);
     if (t === null) {
@@ -3212,6 +5682,12 @@ class Ray {
     }
     return this.at(t, target);
   }
+  
+
+
+
+
+
   intersectsPlane(plane) {
     const distToPoint = plane.distanceToPoint(this.origin);
     if (distToPoint === 0) {
@@ -3223,6 +5699,14 @@ class Ray {
     }
     return false;
   }
+  
+
+
+
+
+
+
+
   intersectBox(box, target) {
     let tmin, tmax, tymin, tymax, tzmin, tzmax;
     const invdirx = 1 / this.direction.x, invdiry = 1 / this.direction.y, invdirz = 1 / this.direction.z;
@@ -3264,9 +5748,26 @@ class Ray {
       return null;
     return this.at(tmin >= 0 ? tmin : tmax, target);
   }
+  
+
+
+
+
+
   intersectsBox(box) {
     return this.intersectBox(box, _vector$a) !== null;
   }
+  
+
+
+
+
+
+
+
+
+
+
   intersectTriangle(a, b, c, backfaceCulling, target) {
     _edge1.subVectors(b, a);
     _edge2.subVectors(c, a);
@@ -3301,19 +5802,58 @@ class Ray {
     }
     return this.at(QdN / DdN, target);
   }
+  
+
+
+
+
+
   applyMatrix4(matrix4) {
     this.origin.applyMatrix4(matrix4);
     this.direction.transformDirection(matrix4);
     return this;
   }
+  
+
+
+
+
+
   equals(ray) {
     return ray.origin.equals(this.origin) && ray.direction.equals(this.direction);
   }
+  
+
+
+
+
   clone() {
     return new this.constructor().copy(this);
   }
 }
 class Matrix4 {
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   constructor(n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
     Matrix4.prototype.isMatrix4 = true;
     this.elements = [
@@ -3338,6 +5878,28 @@ class Matrix4 {
       this.set(n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44);
     }
   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   set(n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
     const te = this.elements;
     te[0] = n11;
@@ -3358,6 +5920,11 @@ class Matrix4 {
     te[15] = n44;
     return this;
   }
+  
+
+
+
+
   identity() {
     this.set(
       1,
@@ -3379,9 +5946,20 @@ class Matrix4 {
     );
     return this;
   }
+  
+
+
+
+
   clone() {
     return new Matrix4().fromArray(this.elements);
   }
+  
+
+
+
+
+
   copy(m) {
     const te = this.elements;
     const me = m.elements;
@@ -3403,6 +5981,13 @@ class Matrix4 {
     te[15] = me[15];
     return this;
   }
+  
+
+
+
+
+
+
   copyPosition(m) {
     const te = this.elements, me = m.elements;
     te[12] = me[12];
@@ -3410,6 +5995,12 @@ class Matrix4 {
     te[14] = me[14];
     return this;
   }
+  
+
+
+
+
+
   setFromMatrix3(m) {
     const me = m.elements;
     this.set(
@@ -3432,6 +6023,14 @@ class Matrix4 {
     );
     return this;
   }
+  
+
+
+
+
+
+
+
   extractBasis(xAxis, yAxis, zAxis) {
     if (this.determinant() === 0) {
       xAxis.set(1, 0, 0);
@@ -3444,6 +6043,14 @@ class Matrix4 {
     zAxis.setFromMatrixColumn(this, 2);
     return this;
   }
+  
+
+
+
+
+
+
+
   makeBasis(xAxis, yAxis, zAxis) {
     this.set(
       xAxis.x,
@@ -3465,6 +6072,15 @@ class Matrix4 {
     );
     return this;
   }
+  
+
+
+
+
+
+
+
+
   extractRotation(m) {
     if (m.determinant() === 0) {
       return this.identity();
@@ -3492,6 +6108,16 @@ class Matrix4 {
     te[15] = 1;
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   makeRotationFromEuler(euler) {
     const te = this.elements;
     const x = euler.x, y = euler.y, z = euler.z;
@@ -3574,9 +6200,26 @@ class Matrix4 {
     te[15] = 1;
     return this;
   }
+  
+
+
+
+
+
+
+
   makeRotationFromQuaternion(q) {
     return this.compose(_zero, q, _one);
   }
+  
+
+
+
+
+
+
+
+
   lookAt(eye, target, up) {
     const te = this.elements;
     _z.subVectors(eye, target);
@@ -3607,12 +6250,32 @@ class Matrix4 {
     te[10] = _z.z;
     return this;
   }
+  
+
+
+
+
+
   multiply(m) {
     return this.multiplyMatrices(this, m);
   }
+  
+
+
+
+
+
   premultiply(m) {
     return this.multiplyMatrices(m, this);
   }
+  
+
+
+
+
+
+
+
   multiplyMatrices(a, b) {
     const ae = a.elements;
     const be = b.elements;
@@ -3643,6 +6306,12 @@ class Matrix4 {
     te[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
     return this;
   }
+  
+
+
+
+
+
   multiplyScalar(s) {
     const te = this.elements;
     te[0] *= s;
@@ -3663,6 +6332,13 @@ class Matrix4 {
     te[15] *= s;
     return this;
   }
+  
+
+
+
+
+
+
   determinant() {
     const te = this.elements;
     const n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
@@ -3677,6 +6353,11 @@ class Matrix4 {
     const t23 = n21 * n32 - n22 * n31;
     return n11 * (n42 * t11 - n43 * t12 + n44 * t13) - n12 * (n41 * t11 - n43 * t21 + n44 * t22) + n13 * (n41 * t12 - n42 * t21 + n44 * t23) - n14 * (n41 * t13 - n42 * t22 + n43 * t23);
   }
+  
+
+
+
+
   transpose() {
     const te = this.elements;
     let tmp;
@@ -3700,6 +6381,15 @@ class Matrix4 {
     te[14] = tmp;
     return this;
   }
+  
+
+
+
+
+
+
+
+
   setPosition(x, y, z) {
     const te = this.elements;
     if (x.isVector3) {
@@ -3713,6 +6403,13 @@ class Matrix4 {
     }
     return this;
   }
+  
+
+
+
+
+
+
   invert() {
     const te = this.elements, n11 = te[0], n21 = te[1], n31 = te[2], n41 = te[3], n12 = te[4], n22 = te[5], n32 = te[6], n42 = te[7], n13 = te[8], n23 = te[9], n33 = te[10], n43 = te[11], n14 = te[12], n24 = te[13], n34 = te[14], n44 = te[15], t11 = n23 * n34 * n42 - n24 * n33 * n42 + n24 * n32 * n43 - n22 * n34 * n43 - n23 * n32 * n44 + n22 * n33 * n44, t12 = n14 * n33 * n42 - n13 * n34 * n42 - n14 * n32 * n43 + n12 * n34 * n43 + n13 * n32 * n44 - n12 * n33 * n44, t13 = n13 * n24 * n42 - n14 * n23 * n42 + n14 * n22 * n43 - n12 * n24 * n43 - n13 * n22 * n44 + n12 * n23 * n44, t14 = n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34;
     const det = n11 * t11 + n21 * t12 + n31 * t13 + n41 * t14;
@@ -3737,6 +6434,12 @@ class Matrix4 {
     te[15] = (n12 * n23 * n31 - n13 * n22 * n31 + n13 * n21 * n32 - n11 * n23 * n32 - n12 * n21 * n33 + n11 * n22 * n33) * detInv;
     return this;
   }
+  
+
+
+
+
+
   scale(v) {
     const te = this.elements;
     const x = v.x, y = v.y, z = v.z;
@@ -3754,6 +6457,11 @@ class Matrix4 {
     te[11] *= z;
     return this;
   }
+  
+
+
+
+
   getMaxScaleOnAxis() {
     const te = this.elements;
     const scaleXSq = te[0] * te[0] + te[1] * te[1] + te[2] * te[2];
@@ -3761,6 +6469,14 @@ class Matrix4 {
     const scaleZSq = te[8] * te[8] + te[9] * te[9] + te[10] * te[10];
     return Math.sqrt(Math.max(scaleXSq, scaleYSq, scaleZSq));
   }
+  
+
+
+
+
+
+
+
   makeTranslation(x, y, z) {
     if (x.isVector3) {
       this.set(
@@ -3803,6 +6519,13 @@ class Matrix4 {
     }
     return this;
   }
+  
+
+
+
+
+
+
   makeRotationX(theta) {
     const c = Math.cos(theta), s = Math.sin(theta);
     this.set(
@@ -3825,6 +6548,13 @@ class Matrix4 {
     );
     return this;
   }
+  
+
+
+
+
+
+
   makeRotationY(theta) {
     const c = Math.cos(theta), s = Math.sin(theta);
     this.set(
@@ -3847,6 +6577,13 @@ class Matrix4 {
     );
     return this;
   }
+  
+
+
+
+
+
+
   makeRotationZ(theta) {
     const c = Math.cos(theta), s = Math.sin(theta);
     this.set(
@@ -3869,6 +6606,17 @@ class Matrix4 {
     );
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
+
   makeRotationAxis(axis, angle) {
     const c = Math.cos(angle);
     const s = Math.sin(angle);
@@ -3895,6 +6643,14 @@ class Matrix4 {
     );
     return this;
   }
+  
+
+
+
+
+
+
+
   makeScale(x, y, z) {
     this.set(
       x,
@@ -3916,6 +6672,17 @@ class Matrix4 {
     );
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
+
   makeShear(xy, xz, yx, yz, zx, zy) {
     this.set(
       1,
@@ -3937,6 +6704,15 @@ class Matrix4 {
     );
     return this;
   }
+  
+
+
+
+
+
+
+
+
   compose(position, quaternion, scale) {
     const te = this.elements;
     const x = quaternion._x, y = quaternion._y, z = quaternion._z, w = quaternion._w;
@@ -3963,6 +6739,19 @@ class Matrix4 {
     te[15] = 1;
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
   decompose(position, quaternion, scale) {
     const te = this.elements;
     position.x = te[12];
@@ -3998,6 +6787,20 @@ class Matrix4 {
     scale.z = sz;
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
   makePerspective(left, right, top, bottom, near, far, coordinateSystem = WebGLCoordinateSystem, reversedDepth = false) {
     const te = this.elements;
     const x = 2 * near / (right - left);
@@ -4037,6 +6840,20 @@ class Matrix4 {
     te[15] = 0;
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
   makeOrthographic(left, right, top, bottom, near, far, coordinateSystem = WebGLCoordinateSystem, reversedDepth = false) {
     const te = this.elements;
     const x = 2 / (right - left);
@@ -4076,6 +6893,12 @@ class Matrix4 {
     te[15] = 1;
     return this;
   }
+  
+
+
+
+
+
   equals(matrix) {
     const te = this.elements;
     const me = matrix.elements;
@@ -4085,12 +6908,27 @@ class Matrix4 {
     }
     return true;
   }
+  
+
+
+
+
+
+
   fromArray(array, offset = 0) {
     for (let i = 0; i < 16; i++) {
       this.elements[i] = array[i + offset];
     }
     return this;
   }
+  
+
+
+
+
+
+
+
   toArray(array = [], offset = 0) {
     const te = this.elements;
     array[offset] = te[0];
@@ -4122,6 +6960,14 @@ const _z =  new Vector3();
 const _matrix$2 =  new Matrix4();
 const _quaternion$3 =  new Quaternion();
 class Euler {
+  
+
+
+
+
+
+
+
   constructor(x = 0, y = 0, z = 0, order = Euler.DEFAULT_ORDER) {
     this.isEuler = true;
     this._x = x;
@@ -4129,6 +6975,12 @@ class Euler {
     this._z = z;
     this._order = order;
   }
+  
+
+
+
+
+
   get x() {
     return this._x;
   }
@@ -4136,6 +6988,12 @@ class Euler {
     this._x = value;
     this._onChangeCallback();
   }
+  
+
+
+
+
+
   get y() {
     return this._y;
   }
@@ -4143,6 +7001,12 @@ class Euler {
     this._y = value;
     this._onChangeCallback();
   }
+  
+
+
+
+
+
   get z() {
     return this._z;
   }
@@ -4150,6 +7014,12 @@ class Euler {
     this._z = value;
     this._onChangeCallback();
   }
+  
+
+
+
+
+
   get order() {
     return this._order;
   }
@@ -4157,6 +7027,15 @@ class Euler {
     this._order = value;
     this._onChangeCallback();
   }
+  
+
+
+
+
+
+
+
+
   set(x, y, z, order = this._order) {
     this._x = x;
     this._y = y;
@@ -4165,9 +7044,20 @@ class Euler {
     this._onChangeCallback();
     return this;
   }
+  
+
+
+
+
   clone() {
     return new this.constructor(this._x, this._y, this._z, this._order);
   }
+  
+
+
+
+
+
   copy(euler) {
     this._x = euler._x;
     this._y = euler._y;
@@ -4176,6 +7066,14 @@ class Euler {
     this._onChangeCallback();
     return this;
   }
+  
+
+
+
+
+
+
+
   setFromRotationMatrix(m, order = this._order, update = true) {
     const te = m.elements;
     const m11 = te[0], m12 = te[4], m13 = te[8];
@@ -4250,20 +7148,59 @@ class Euler {
       this._onChangeCallback();
     return this;
   }
+  
+
+
+
+
+
+
+
   setFromQuaternion(q, order, update) {
     _matrix$2.makeRotationFromQuaternion(q);
     return this.setFromRotationMatrix(_matrix$2, order, update);
   }
+  
+
+
+
+
+
+
   setFromVector3(v, order = this._order) {
     return this.set(v.x, v.y, v.z, order);
   }
+  
+
+
+
+
+
+
+
+
+
   reorder(newOrder) {
     _quaternion$3.setFromEuler(this);
     return this.setFromQuaternion(_quaternion$3, newOrder);
   }
+  
+
+
+
+
+
   equals(euler) {
     return euler._x === this._x && euler._y === this._y && euler._z === this._z && euler._order === this._order;
   }
+  
+
+
+
+
+
+
+
   fromArray(array) {
     this._x = array[0];
     this._y = array[1];
@@ -4273,6 +7210,14 @@ class Euler {
     this._onChangeCallback();
     return this;
   }
+  
+
+
+
+
+
+
+
   toArray(array = [], offset = 0) {
     array[offset] = this._x;
     array[offset + 1] = this._y;
@@ -4295,30 +7240,73 @@ class Euler {
 }
 Euler.DEFAULT_ORDER = "XYZ";
 class Layers {
+  
+
+
+
   constructor() {
     this.mask = 1 | 0;
   }
+  
+
+
+
+
   set(layer) {
     this.mask = (1 << layer | 0) >>> 0;
   }
+  
+
+
+
+
   enable(layer) {
     this.mask |= 1 << layer | 0;
   }
+  
+
+
   enableAll() {
     this.mask = 4294967295 | 0;
   }
+  
+
+
+
+
   toggle(layer) {
     this.mask ^= 1 << layer | 0;
   }
+  
+
+
+
+
   disable(layer) {
     this.mask &= ~(1 << layer | 0);
   }
+  
+
+
   disableAll() {
     this.mask = 0;
   }
+  
+
+
+
+
+
+
   test(layers) {
     return (this.mask & layers.mask) !== 0;
   }
+  
+
+
+
+
+
   isEnabled(layer) {
     return (this.mask & (1 << layer | 0)) !== 0;
   }
@@ -4339,6 +7327,9 @@ const _removedEvent = { type: "removed" };
 const _childaddedEvent = { type: "childadded", child: null };
 const _childremovedEvent = { type: "childremoved", child: null };
 class Object3D extends EventDispatcher {
+  
+
+
   constructor() {
     super();
     this.isObject3D = true;
@@ -4362,29 +7353,68 @@ class Object3D extends EventDispatcher {
     rotation._onChange(onRotationChange);
     quaternion._onChange(onQuaternionChange);
     Object.defineProperties(this, {
+      
+
+
+
+
+
+
       position: {
         configurable: true,
         enumerable: true,
         value: position
       },
+      
+
+
+
+
+
+
       rotation: {
         configurable: true,
         enumerable: true,
         value: rotation
       },
+      
+
+
+
+
+
       quaternion: {
         configurable: true,
         enumerable: true,
         value: quaternion
       },
+      
+
+
+
+
+
+
       scale: {
         configurable: true,
         enumerable: true,
         value: scale
       },
+      
+
+
+
+
+
       modelViewMatrix: {
         value: new Matrix4()
       },
+      
+
+
+
+
+
       normalMatrix: {
         value: new Matrix3()
       }
@@ -4405,77 +7435,231 @@ class Object3D extends EventDispatcher {
     this.customDistanceMaterial = void 0;
     this.userData = {};
   }
+  
+
+
+
+
+
+
+
+
+
+
   onBeforeShadow() {
   }
+  
+
+
+
+
+
+
+
+
+
+
   onAfterShadow() {
   }
+  
+
+
+
+
+
+
+
+
+
   onBeforeRender() {
   }
+  
+
+
+
+
+
+
+
+
+
   onAfterRender() {
   }
+  
+
+
+
+
+
   applyMatrix4(matrix) {
     if (this.matrixAutoUpdate)
       this.updateMatrix();
     this.matrix.premultiply(matrix);
     this.matrix.decompose(this.position, this.quaternion, this.scale);
   }
+  
+
+
+
+
+
   applyQuaternion(q) {
     this.quaternion.premultiply(q);
     return this;
   }
+  
+
+
+
+
+
   setRotationFromAxisAngle(axis, angle) {
     this.quaternion.setFromAxisAngle(axis, angle);
   }
+  
+
+
+
+
   setRotationFromEuler(euler) {
     this.quaternion.setFromEuler(euler, true);
   }
+  
+
+
+
+
+
   setRotationFromMatrix(m) {
     this.quaternion.setFromRotationMatrix(m);
   }
+  
+
+
+
+
   setRotationFromQuaternion(q) {
     this.quaternion.copy(q);
   }
+  
+
+
+
+
+
+
   rotateOnAxis(axis, angle) {
     _q1.setFromAxisAngle(axis, angle);
     this.quaternion.multiply(_q1);
     return this;
   }
+  
+
+
+
+
+
+
   rotateOnWorldAxis(axis, angle) {
     _q1.setFromAxisAngle(axis, angle);
     this.quaternion.premultiply(_q1);
     return this;
   }
+  
+
+
+
+
+
   rotateX(angle) {
     return this.rotateOnAxis(_xAxis, angle);
   }
+  
+
+
+
+
+
   rotateY(angle) {
     return this.rotateOnAxis(_yAxis, angle);
   }
+  
+
+
+
+
+
   rotateZ(angle) {
     return this.rotateOnAxis(_zAxis, angle);
   }
+  
+
+
+
+
+
+
   translateOnAxis(axis, distance) {
     _v1$4.copy(axis).applyQuaternion(this.quaternion);
     this.position.add(_v1$4.multiplyScalar(distance));
     return this;
   }
+  
+
+
+
+
+
   translateX(distance) {
     return this.translateOnAxis(_xAxis, distance);
   }
+  
+
+
+
+
+
   translateY(distance) {
     return this.translateOnAxis(_yAxis, distance);
   }
+  
+
+
+
+
+
   translateZ(distance) {
     return this.translateOnAxis(_zAxis, distance);
   }
+  
+
+
+
+
+
   localToWorld(vector) {
     this.updateWorldMatrix(true, false);
     return vector.applyMatrix4(this.matrixWorld);
   }
+  
+
+
+
+
+
   worldToLocal(vector) {
     this.updateWorldMatrix(true, false);
     return vector.applyMatrix4(_m1$1.copy(this.matrixWorld).invert());
   }
+  
+
+
+
+
+
+
+
+
   lookAt(x, y, z) {
     if (x.isVector3) {
       _target.copy(x);
@@ -4497,6 +7681,16 @@ class Object3D extends EventDispatcher {
       this.quaternion.premultiply(_q1.invert());
     }
   }
+  
+
+
+
+
+
+
+
+
+
   add(object) {
     if (arguments.length > 1) {
       for (let i = 0; i < arguments.length; i++) {
@@ -4521,6 +7715,15 @@ class Object3D extends EventDispatcher {
     }
     return this;
   }
+  
+
+
+
+
+
+
+
+
   remove(object) {
     if (arguments.length > 1) {
       for (let i = 0; i < arguments.length; i++) {
@@ -4539,6 +7742,13 @@ class Object3D extends EventDispatcher {
     }
     return this;
   }
+  
+
+
+
+
+
+
   removeFromParent() {
     const parent = this.parent;
     if (parent !== null) {
@@ -4546,9 +7756,25 @@ class Object3D extends EventDispatcher {
     }
     return this;
   }
+  
+
+
+
+
+
+
   clear() {
     return this.remove(...this.children);
   }
+  
+
+
+
+
+
+
+
+
   attach(object) {
     this.updateWorldMatrix(true, false);
     _m1$1.copy(this.matrixWorld).invert();
@@ -4567,12 +7793,34 @@ class Object3D extends EventDispatcher {
     _childaddedEvent.child = null;
     return this;
   }
+  
+
+
+
+
+
+
   getObjectById(id) {
     return this.getObjectByProperty("id", id);
   }
+  
+
+
+
+
+
+
   getObjectByName(name) {
     return this.getObjectByProperty("name", name);
   }
+  
+
+
+
+
+
+
+
   getObjectByProperty(name, value) {
     if (this[name] === value)
       return this;
@@ -4585,6 +7833,15 @@ class Object3D extends EventDispatcher {
     }
     return void 0;
   }
+  
+
+
+
+
+
+
+
+
   getObjectsByProperty(name, value, result = []) {
     if (this[name] === value)
       result.push(this);
@@ -4594,27 +7851,67 @@ class Object3D extends EventDispatcher {
     }
     return result;
   }
+  
+
+
+
+
+
   getWorldPosition(target) {
     this.updateWorldMatrix(true, false);
     return target.setFromMatrixPosition(this.matrixWorld);
   }
+  
+
+
+
+
+
   getWorldQuaternion(target) {
     this.updateWorldMatrix(true, false);
     this.matrixWorld.decompose(_position$3, target, _scale$2);
     return target;
   }
+  
+
+
+
+
+
   getWorldScale(target) {
     this.updateWorldMatrix(true, false);
     this.matrixWorld.decompose(_position$3, _quaternion$2, target);
     return target;
   }
+  
+
+
+
+
+
   getWorldDirection(target) {
     this.updateWorldMatrix(true, false);
     const e = this.matrixWorld.elements;
     return target.set(e[8], e[9], e[10]).normalize();
   }
+  
+
+
+
+
+
+
+
+
   raycast() {
   }
+  
+
+
+
+
+
+
   traverse(callback) {
     callback(this);
     const children = this.children;
@@ -4622,6 +7919,14 @@ class Object3D extends EventDispatcher {
       children[i].traverse(callback);
     }
   }
+  
+
+
+
+
+
+
+
   traverseVisible(callback) {
     if (this.visible === false)
       return;
@@ -4631,6 +7936,13 @@ class Object3D extends EventDispatcher {
       children[i].traverseVisible(callback);
     }
   }
+  
+
+
+
+
+
+
   traverseAncestors(callback) {
     const parent = this.parent;
     if (parent !== null) {
@@ -4638,10 +7950,25 @@ class Object3D extends EventDispatcher {
       parent.traverseAncestors(callback);
     }
   }
+  
+
+
+
   updateMatrix() {
     this.matrix.compose(this.position, this.quaternion, this.scale);
     this.matrixWorldNeedsUpdate = true;
   }
+  
+
+
+
+
+
+
+
+
+
+
   updateMatrixWorld(force) {
     if (this.matrixAutoUpdate)
       this.updateMatrix();
@@ -4662,6 +7989,13 @@ class Object3D extends EventDispatcher {
       child.updateMatrixWorld(force);
     }
   }
+  
+
+
+
+
+
+
   updateWorldMatrix(updateParents, updateChildren) {
     const parent = this.parent;
     if (updateParents === true && parent !== null) {
@@ -4684,6 +8018,13 @@ class Object3D extends EventDispatcher {
       }
     }
   }
+  
+
+
+
+
+
+
   toJSON(meta) {
     const isRootObject = meta === void 0 || typeof meta === "string";
     const output = {};
@@ -4868,9 +8209,22 @@ class Object3D extends EventDispatcher {
       return values;
     }
   }
+  
+
+
+
+
+
   clone(recursive) {
     return new this.constructor().copy(this, recursive);
   }
+  
+
+
+
+
+
+
   copy(source, recursive = true) {
     this.name = source.name;
     this.up.copy(source.up);
@@ -4917,11 +8271,27 @@ const _v40 =  new Vector4();
 const _v41 =  new Vector4();
 const _v42 =  new Vector4();
 class Triangle {
+  
+
+
+
+
+
+
   constructor(a = new Vector3(), b = new Vector3(), c = new Vector3()) {
     this.a = a;
     this.b = b;
     this.c = c;
   }
+  
+
+
+
+
+
+
+
+
   static getNormal(a, b, c, target) {
     target.subVectors(c, b);
     _v0$1.subVectors(a, b);
@@ -4932,6 +8302,17 @@ class Triangle {
     }
     return target.set(0, 0, 0);
   }
+  
+
+
+
+
+
+
+
+
+
+
   static getBarycoord(point, a, b, c, target) {
     _v0$1.subVectors(c, a);
     _v1$3.subVectors(b, a);
@@ -4951,12 +8332,37 @@ class Triangle {
     const v = (dot00 * dot12 - dot01 * dot02) * invDenom;
     return target.set(1 - u - v, v, u);
   }
+  
+
+
+
+
+
+
+
+
+
+
   static containsPoint(point, a, b, c) {
     if (this.getBarycoord(point, a, b, c, _v3$2) === null) {
       return false;
     }
     return _v3$2.x >= 0 && _v3$2.y >= 0 && _v3$2.x + _v3$2.y <= 1;
   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
   static getInterpolation(point, p1, p2, p3, v1, v2, v3, target) {
     if (this.getBarycoord(point, p1, p2, p3, _v3$2) === null) {
       target.x = 0;
@@ -4973,6 +8379,17 @@ class Triangle {
     target.addScaledVector(v3, _v3$2.z);
     return target;
   }
+  
+
+
+
+
+
+
+
+
+
+
   static getInterpolatedAttribute(attr, i1, i2, i3, barycoord, target) {
     _v40.setScalar(0);
     _v41.setScalar(0);
@@ -4986,67 +8403,182 @@ class Triangle {
     target.addScaledVector(_v42, barycoord.z);
     return target;
   }
+  
+
+
+
+
+
+
+
+
   static isFrontFacing(a, b, c, direction) {
     _v0$1.subVectors(c, b);
     _v1$3.subVectors(a, b);
     return _v0$1.cross(_v1$3).dot(direction) < 0 ? true : false;
   }
+  
+
+
+
+
+
+
+
   set(a, b, c) {
     this.a.copy(a);
     this.b.copy(b);
     this.c.copy(c);
     return this;
   }
+  
+
+
+
+
+
+
+
+
   setFromPointsAndIndices(points, i0, i1, i2) {
     this.a.copy(points[i0]);
     this.b.copy(points[i1]);
     this.c.copy(points[i2]);
     return this;
   }
+  
+
+
+
+
+
+
+
+
   setFromAttributeAndIndices(attribute, i0, i1, i2) {
     this.a.fromBufferAttribute(attribute, i0);
     this.b.fromBufferAttribute(attribute, i1);
     this.c.fromBufferAttribute(attribute, i2);
     return this;
   }
+  
+
+
+
+
   clone() {
     return new this.constructor().copy(this);
   }
+  
+
+
+
+
+
   copy(triangle3) {
     this.a.copy(triangle3.a);
     this.b.copy(triangle3.b);
     this.c.copy(triangle3.c);
     return this;
   }
+  
+
+
+
+
   getArea() {
     _v0$1.subVectors(this.c, this.b);
     _v1$3.subVectors(this.a, this.b);
     return _v0$1.cross(_v1$3).length() * 0.5;
   }
+  
+
+
+
+
+
   getMidpoint(target) {
     return target.addVectors(this.a, this.b).add(this.c).multiplyScalar(1 / 3);
   }
+  
+
+
+
+
+
   getNormal(target) {
     return Triangle.getNormal(this.a, this.b, this.c, target);
   }
+  
+
+
+
+
+
   getPlane(target) {
     return target.setFromCoplanarPoints(this.a, this.b, this.c);
   }
+  
+
+
+
+
+
+
+
   getBarycoord(point, target) {
     return Triangle.getBarycoord(point, this.a, this.b, this.c, target);
   }
+  
+
+
+
+
+
+
+
+
+
+
   getInterpolation(point, v1, v2, v3, target) {
     return Triangle.getInterpolation(point, this.a, this.b, this.c, v1, v2, v3, target);
   }
+  
+
+
+
+
+
+
+
   containsPoint(point) {
     return Triangle.containsPoint(point, this.a, this.b, this.c);
   }
+  
+
+
+
+
+
   isFrontFacing(direction) {
     return Triangle.isFrontFacing(this.a, this.b, this.c, direction);
   }
+  
+
+
+
+
+
   intersectsBox(box) {
     return box.intersectsTriangle(this);
   }
+  
+
+
+
+
+
+
   closestPointToPoint(p, target) {
     const a = this.a, b = this.b, c = this.c;
     let v, w;
@@ -5091,6 +8623,12 @@ class Triangle {
     w = vc * denom;
     return target.copy(a).addScaledVector(_vab, v).addScaledVector(_vac, w);
   }
+  
+
+
+
+
+
   equals(triangle3) {
     return triangle3.a.equals(this.a) && triangle3.b.equals(this.b) && triangle3.c.equals(this.c);
   }
@@ -5261,6 +8799,17 @@ function hue2rgb(p, q, t) {
   return p;
 }
 class Color {
+  
+
+
+
+
+
+
+
+
+
+
   constructor(r, g, b) {
     this.isColor = true;
     this.r = 1;
@@ -5268,6 +8817,15 @@ class Color {
     this.b = 1;
     return this.set(r, g, b);
   }
+  
+
+
+
+
+
+
+
+
   set(r, g, b) {
     if (g === void 0 && b === void 0) {
       const value = r;
@@ -5283,12 +8841,25 @@ class Color {
     }
     return this;
   }
+  
+
+
+
+
+
   setScalar(scalar) {
     this.r = scalar;
     this.g = scalar;
     this.b = scalar;
     return this;
   }
+  
+
+
+
+
+
+
   setHex(hex, colorSpace = SRGBColorSpace) {
     hex = Math.floor(hex);
     this.r = (hex >> 16 & 255) / 255;
@@ -5297,6 +8868,15 @@ class Color {
     ColorManagement.colorSpaceToWorking(this, colorSpace);
     return this;
   }
+  
+
+
+
+
+
+
+
+
   setRGB(r, g, b, colorSpace = ColorManagement.workingColorSpace) {
     this.r = r;
     this.g = g;
@@ -5304,6 +8884,15 @@ class Color {
     ColorManagement.colorSpaceToWorking(this, colorSpace);
     return this;
   }
+  
+
+
+
+
+
+
+
+
   setHSL(h, s, l, colorSpace = ColorManagement.workingColorSpace) {
     h = euclideanModulo(h, 1);
     s = clamp(s, 0, 1);
@@ -5320,6 +8909,16 @@ class Color {
     ColorManagement.colorSpaceToWorking(this, colorSpace);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   setStyle(style, colorSpace = SRGBColorSpace) {
     function handleAlpha(string) {
       if (string === void 0)
@@ -5390,6 +8989,19 @@ class Color {
     }
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
   setColorName(style, colorSpace = SRGBColorSpace) {
     const hex = _colorKeywords[style.toLowerCase()];
     if (hex !== void 0) {
@@ -5399,42 +9011,97 @@ class Color {
     }
     return this;
   }
+  
+
+
+
+
   clone() {
     return new this.constructor(this.r, this.g, this.b);
   }
+  
+
+
+
+
+
   copy(color) {
     this.r = color.r;
     this.g = color.g;
     this.b = color.b;
     return this;
   }
+  
+
+
+
+
+
+
   copySRGBToLinear(color) {
     this.r = SRGBToLinear(color.r);
     this.g = SRGBToLinear(color.g);
     this.b = SRGBToLinear(color.b);
     return this;
   }
+  
+
+
+
+
+
+
   copyLinearToSRGB(color) {
     this.r = LinearToSRGB(color.r);
     this.g = LinearToSRGB(color.g);
     this.b = LinearToSRGB(color.b);
     return this;
   }
+  
+
+
+
+
   convertSRGBToLinear() {
     this.copySRGBToLinear(this);
     return this;
   }
+  
+
+
+
+
   convertLinearToSRGB() {
     this.copyLinearToSRGB(this);
     return this;
   }
+  
+
+
+
+
+
   getHex(colorSpace = SRGBColorSpace) {
     ColorManagement.workingToColorSpace(_color.copy(this), colorSpace);
     return Math.round(clamp(_color.r * 255, 0, 255)) * 65536 + Math.round(clamp(_color.g * 255, 0, 255)) * 256 + Math.round(clamp(_color.b * 255, 0, 255));
   }
+  
+
+
+
+
+
   getHexString(colorSpace = SRGBColorSpace) {
     return ("000000" + this.getHex(colorSpace).toString(16)).slice(-6);
   }
+  
+
+
+
+
+
+
+
   getHSL(target, colorSpace = ColorManagement.workingColorSpace) {
     ColorManagement.workingToColorSpace(_color.copy(this), colorSpace);
     const r = _color.r, g = _color.g, b = _color.b;
@@ -5466,6 +9133,13 @@ class Color {
     target.l = lightness;
     return target;
   }
+  
+
+
+
+
+
+
   getRGB(target, colorSpace = ColorManagement.workingColorSpace) {
     ColorManagement.workingToColorSpace(_color.copy(this), colorSpace);
     target.r = _color.r;
@@ -5473,6 +9147,12 @@ class Color {
     target.b = _color.b;
     return target;
   }
+  
+
+
+
+
+
   getStyle(colorSpace = SRGBColorSpace) {
     ColorManagement.workingToColorSpace(_color.copy(this), colorSpace);
     const r = _color.r, g = _color.g, b = _color.b;
@@ -5481,58 +9161,135 @@ class Color {
     }
     return `rgb(${Math.round(r * 255)},${Math.round(g * 255)},${Math.round(b * 255)})`;
   }
+  
+
+
+
+
+
+
+
+
+
   offsetHSL(h, s, l) {
     this.getHSL(_hslA);
     return this.setHSL(_hslA.h + h, _hslA.s + s, _hslA.l + l);
   }
+  
+
+
+
+
+
   add(color) {
     this.r += color.r;
     this.g += color.g;
     this.b += color.b;
     return this;
   }
+  
+
+
+
+
+
+
   addColors(color1, color2) {
     this.r = color1.r + color2.r;
     this.g = color1.g + color2.g;
     this.b = color1.b + color2.b;
     return this;
   }
+  
+
+
+
+
+
   addScalar(s) {
     this.r += s;
     this.g += s;
     this.b += s;
     return this;
   }
+  
+
+
+
+
+
   sub(color) {
     this.r = Math.max(0, this.r - color.r);
     this.g = Math.max(0, this.g - color.g);
     this.b = Math.max(0, this.b - color.b);
     return this;
   }
+  
+
+
+
+
+
   multiply(color) {
     this.r *= color.r;
     this.g *= color.g;
     this.b *= color.b;
     return this;
   }
+  
+
+
+
+
+
   multiplyScalar(s) {
     this.r *= s;
     this.g *= s;
     this.b *= s;
     return this;
   }
+  
+
+
+
+
+
+
+
+
   lerp(color, alpha) {
     this.r += (color.r - this.r) * alpha;
     this.g += (color.g - this.g) * alpha;
     this.b += (color.b - this.b) * alpha;
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   lerpColors(color1, color2, alpha) {
     this.r = color1.r + (color2.r - color1.r) * alpha;
     this.g = color1.g + (color2.g - color1.g) * alpha;
     this.b = color1.b + (color2.b - color1.b) * alpha;
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
+
   lerpHSL(color, alpha) {
     this.getHSL(_hslA);
     color.getHSL(_hslB);
@@ -5542,12 +9299,24 @@ class Color {
     this.setHSL(h, s, l);
     return this;
   }
+  
+
+
+
+
+
   setFromVector3(v) {
     this.r = v.x;
     this.g = v.y;
     this.b = v.z;
     return this;
   }
+  
+
+
+
+
+
   applyMatrix3(m) {
     const r = this.r, g = this.g, b = this.b;
     const e = m.elements;
@@ -5556,27 +9325,61 @@ class Color {
     this.b = e[2] * r + e[5] * g + e[8] * b;
     return this;
   }
+  
+
+
+
+
+
   equals(c) {
     return c.r === this.r && c.g === this.g && c.b === this.b;
   }
+  
+
+
+
+
+
+
   fromArray(array, offset = 0) {
     this.r = array[offset];
     this.g = array[offset + 1];
     this.b = array[offset + 2];
     return this;
   }
+  
+
+
+
+
+
+
+
   toArray(array = [], offset = 0) {
     array[offset] = this.r;
     array[offset + 1] = this.g;
     array[offset + 2] = this.b;
     return array;
   }
+  
+
+
+
+
+
+
   fromBufferAttribute(attribute, index) {
     this.r = attribute.getX(index);
     this.g = attribute.getY(index);
     this.b = attribute.getZ(index);
     return this;
   }
+  
+
+
+
+
+
   toJSON() {
     return this.getHex();
   }
@@ -5590,6 +9393,9 @@ const _color =  new Color();
 Color.NAMES = _colorKeywords;
 let _materialId = 0;
 let Material$1 = class Material extends EventDispatcher {
+  
+
+
   constructor() {
     super();
     this.isMaterial = true;
@@ -5642,6 +9448,14 @@ let Material$1 = class Material extends EventDispatcher {
     this.version = 0;
     this._alphaTest = 0;
   }
+  
+
+
+
+
+
+
+
   get alphaTest() {
     return this._alphaTest;
   }
@@ -5651,13 +9465,53 @@ let Material$1 = class Material extends EventDispatcher {
     }
     this._alphaTest = value;
   }
+  
+
+
+
+
+
+
+
+
+
+
+
   onBeforeRender() {
   }
+  
+
+
+
+
+
+
+
+
+
+
+
   onBeforeCompile() {
   }
+  
+
+
+
+
+
+
+
+
   customProgramCacheKey() {
     return this.onBeforeCompile.toString();
   }
+  
+
+
+
+
+
+
   setValues(values) {
     if (values === void 0)
       return;
@@ -5681,6 +9535,13 @@ let Material$1 = class Material extends EventDispatcher {
       }
     }
   }
+  
+
+
+
+
+
+
   toJSON(meta) {
     const isRootObject = meta === void 0 || typeof meta === "string";
     if (isRootObject) {
@@ -5956,9 +9817,20 @@ let Material$1 = class Material extends EventDispatcher {
     }
     return data;
   }
+  
+
+
+
+
   clone() {
     return new this.constructor().copy(this);
   }
+  
+
+
+
+
+
   copy(source) {
     this.name = source.name;
     this.blending = source.blending;
@@ -6015,15 +9887,38 @@ let Material$1 = class Material extends EventDispatcher {
     this.userData = JSON.parse(JSON.stringify(source.userData));
     return this;
   }
+  
+
+
+
+
+
   dispose() {
     this.dispatchEvent({ type: "dispose" });
   }
+  
+
+
+
+
+
+
+
   set needsUpdate(value) {
     if (value === true)
       this.version++;
   }
 };
 class MeshBasicMaterial extends Material$1 {
+  
+
+
+
+
+
+
+
+
   constructor(parameters) {
     super();
     this.isMeshBasicMaterial = true;
@@ -6075,6 +9970,13 @@ const _vector$9 =  new Vector3();
 const _vector2$1 =  new Vector2();
 let _id$2 = 0;
 class BufferAttribute {
+  
+
+
+
+
+
+
   constructor(array, itemSize, normalized = false) {
     if (Array.isArray(array)) {
       throw new TypeError("THREE.BufferAttribute: array should be a Typed Array.");
@@ -6091,22 +9993,55 @@ class BufferAttribute {
     this.gpuType = FloatType;
     this.version = 0;
   }
+  
+
+
+
   onUploadCallback() {
   }
+  
+
+
+
+
+
+
+
   set needsUpdate(value) {
     if (value === true)
       this.version++;
   }
+  
+
+
+
+
+
   setUsage(value) {
     this.usage = value;
     return this;
   }
+  
+
+
+
+
+
   addUpdateRange(start, count) {
     this.updateRanges.push({ start, count });
   }
+  
+
+
   clearUpdateRanges() {
     this.updateRanges.length = 0;
   }
+  
+
+
+
+
+
   copy(source) {
     this.name = source.name;
     this.array = new source.array.constructor(source.array);
@@ -6117,6 +10052,16 @@ class BufferAttribute {
     this.gpuType = source.gpuType;
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   copyAt(index1, attribute, index2) {
     index1 *= this.itemSize;
     index2 *= attribute.itemSize;
@@ -6125,10 +10070,23 @@ class BufferAttribute {
     }
     return this;
   }
+  
+
+
+
+
+
   copyArray(array) {
     this.array.set(array);
     return this;
   }
+  
+
+
+
+
+
+
   applyMatrix3(m) {
     if (this.itemSize === 2) {
       for (let i = 0, l = this.count; i < l; i++) {
@@ -6145,6 +10103,13 @@ class BufferAttribute {
     }
     return this;
   }
+  
+
+
+
+
+
+
   applyMatrix4(m) {
     for (let i = 0, l = this.count; i < l; i++) {
       _vector$9.fromBufferAttribute(this, i);
@@ -6153,6 +10118,13 @@ class BufferAttribute {
     }
     return this;
   }
+  
+
+
+
+
+
+
   applyNormalMatrix(m) {
     for (let i = 0, l = this.count; i < l; i++) {
       _vector$9.fromBufferAttribute(this, i);
@@ -6161,6 +10133,13 @@ class BufferAttribute {
     }
     return this;
   }
+  
+
+
+
+
+
+
   transformDirection(m) {
     for (let i = 0, l = this.count; i < l; i++) {
       _vector$9.fromBufferAttribute(this, i);
@@ -6169,70 +10148,152 @@ class BufferAttribute {
     }
     return this;
   }
+  
+
+
+
+
+
+
   set(value, offset = 0) {
     this.array.set(value, offset);
     return this;
   }
+  
+
+
+
+
+
+
   getComponent(index, component) {
     let value = this.array[index * this.itemSize + component];
     if (this.normalized)
       value = denormalize(value, this.array);
     return value;
   }
+  
+
+
+
+
+
+
+
   setComponent(index, component, value) {
     if (this.normalized)
       value = normalize(value, this.array);
     this.array[index * this.itemSize + component] = value;
     return this;
   }
+  
+
+
+
+
+
   getX(index) {
     let x = this.array[index * this.itemSize];
     if (this.normalized)
       x = denormalize(x, this.array);
     return x;
   }
+  
+
+
+
+
+
+
   setX(index, x) {
     if (this.normalized)
       x = normalize(x, this.array);
     this.array[index * this.itemSize] = x;
     return this;
   }
+  
+
+
+
+
+
   getY(index) {
     let y = this.array[index * this.itemSize + 1];
     if (this.normalized)
       y = denormalize(y, this.array);
     return y;
   }
+  
+
+
+
+
+
+
   setY(index, y) {
     if (this.normalized)
       y = normalize(y, this.array);
     this.array[index * this.itemSize + 1] = y;
     return this;
   }
+  
+
+
+
+
+
   getZ(index) {
     let z = this.array[index * this.itemSize + 2];
     if (this.normalized)
       z = denormalize(z, this.array);
     return z;
   }
+  
+
+
+
+
+
+
   setZ(index, z) {
     if (this.normalized)
       z = normalize(z, this.array);
     this.array[index * this.itemSize + 2] = z;
     return this;
   }
+  
+
+
+
+
+
   getW(index) {
     let w = this.array[index * this.itemSize + 3];
     if (this.normalized)
       w = denormalize(w, this.array);
     return w;
   }
+  
+
+
+
+
+
+
   setW(index, w) {
     if (this.normalized)
       w = normalize(w, this.array);
     this.array[index * this.itemSize + 3] = w;
     return this;
   }
+  
+
+
+
+
+
+
+
   setXY(index, x, y) {
     index *= this.itemSize;
     if (this.normalized) {
@@ -6243,6 +10304,15 @@ class BufferAttribute {
     this.array[index + 1] = y;
     return this;
   }
+  
+
+
+
+
+
+
+
+
   setXYZ(index, x, y, z) {
     index *= this.itemSize;
     if (this.normalized) {
@@ -6255,6 +10325,16 @@ class BufferAttribute {
     this.array[index + 2] = z;
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   setXYZW(index, x, y, z, w) {
     index *= this.itemSize;
     if (this.normalized) {
@@ -6269,13 +10349,31 @@ class BufferAttribute {
     this.array[index + 3] = w;
     return this;
   }
+  
+
+
+
+
+
+
+
   onUpload(callback) {
     this.onUploadCallback = callback;
     return this;
   }
+  
+
+
+
+
   clone() {
     return new this.constructor(this.array, this.itemSize).copy(this);
   }
+  
+
+
+
+
   toJSON() {
     const data = {
       itemSize: this.itemSize,
@@ -6291,16 +10389,37 @@ class BufferAttribute {
   }
 }
 class Uint16BufferAttribute extends BufferAttribute {
+  
+
+
+
+
+
+
   constructor(array, itemSize, normalized) {
     super(new Uint16Array(array), itemSize, normalized);
   }
 }
 class Uint32BufferAttribute extends BufferAttribute {
+  
+
+
+
+
+
+
   constructor(array, itemSize, normalized) {
     super(new Uint32Array(array), itemSize, normalized);
   }
 }
 class Float32BufferAttribute extends BufferAttribute {
+  
+
+
+
+
+
+
   constructor(array, itemSize, normalized) {
     super(new Float32Array(array), itemSize, normalized);
   }
@@ -6313,6 +10432,9 @@ const _box$2 =  new Box3();
 const _boxMorphTargets =  new Box3();
 const _vector$8 =  new Vector3();
 class BufferGeometry extends EventDispatcher {
+  
+
+
   constructor() {
     super();
     this.isBufferGeometry = true;
@@ -6332,9 +10454,20 @@ class BufferGeometry extends EventDispatcher {
     this.drawRange = { start: 0, count: Infinity };
     this.userData = {};
   }
+  
+
+
+
+
   getIndex() {
     return this.index;
   }
+  
+
+
+
+
+
   setIndex(index) {
     if (Array.isArray(index)) {
       this.index = new (arrayNeedsUint32(index) ? Uint32BufferAttribute : Uint16BufferAttribute)(index, 1);
@@ -6343,28 +10476,74 @@ class BufferGeometry extends EventDispatcher {
     }
     return this;
   }
+  
+
+
+
+
+
+
   setIndirect(indirect, indirectOffset = 0) {
     this.indirect = indirect;
     this.indirectOffset = indirectOffset;
     return this;
   }
+  
+
+
+
+
   getIndirect() {
     return this.indirect;
   }
+  
+
+
+
+
+
+
   getAttribute(name) {
     return this.attributes[name];
   }
+  
+
+
+
+
+
+
   setAttribute(name, attribute) {
     this.attributes[name] = attribute;
     return this;
   }
+  
+
+
+
+
+
   deleteAttribute(name) {
     delete this.attributes[name];
     return this;
   }
+  
+
+
+
+
+
   hasAttribute(name) {
     return this.attributes[name] !== void 0;
   }
+  
+
+
+
+
+
+
+
   addGroup(start, count, materialIndex = 0) {
     this.groups.push({
       start,
@@ -6372,13 +10551,29 @@ class BufferGeometry extends EventDispatcher {
       materialIndex
     });
   }
+  
+
+
   clearGroups() {
     this.groups = [];
   }
+  
+
+
+
+
+
+
   setDrawRange(start, count) {
     this.drawRange.start = start;
     this.drawRange.count = count;
   }
+  
+
+
+
+
+
   applyMatrix4(matrix) {
     const position = this.attributes.position;
     if (position !== void 0) {
@@ -6404,48 +10599,122 @@ class BufferGeometry extends EventDispatcher {
     }
     return this;
   }
+  
+
+
+
+
+
   applyQuaternion(q) {
     _m1.makeRotationFromQuaternion(q);
     this.applyMatrix4(_m1);
     return this;
   }
+  
+
+
+
+
+
+
+
   rotateX(angle) {
     _m1.makeRotationX(angle);
     this.applyMatrix4(_m1);
     return this;
   }
+  
+
+
+
+
+
+
+
   rotateY(angle) {
     _m1.makeRotationY(angle);
     this.applyMatrix4(_m1);
     return this;
   }
+  
+
+
+
+
+
+
+
   rotateZ(angle) {
     _m1.makeRotationZ(angle);
     this.applyMatrix4(_m1);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   translate(x, y, z) {
     _m1.makeTranslation(x, y, z);
     this.applyMatrix4(_m1);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   scale(x, y, z) {
     _m1.makeScale(x, y, z);
     this.applyMatrix4(_m1);
     return this;
   }
+  
+
+
+
+
+
+
+
   lookAt(vector) {
     _obj.lookAt(vector);
     _obj.updateMatrix();
     this.applyMatrix4(_obj.matrix);
     return this;
   }
+  
+
+
+
+
   center() {
     this.computeBoundingBox();
     this.boundingBox.getCenter(_offset).negate();
     this.translate(_offset.x, _offset.y, _offset.z);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
+
   setFromPoints(points) {
     const positionAttribute = this.getAttribute("position");
     if (positionAttribute === void 0) {
@@ -6468,6 +10737,11 @@ class BufferGeometry extends EventDispatcher {
     }
     return this;
   }
+  
+
+
+
+
   computeBoundingBox() {
     if (this.boundingBox === null) {
       this.boundingBox = new Box3();
@@ -6506,6 +10780,11 @@ class BufferGeometry extends EventDispatcher {
       error('BufferGeometry.computeBoundingBox(): Computed min/max have NaN values. The "position" attribute is likely to have NaN values.', this);
     }
   }
+  
+
+
+
+
   computeBoundingSphere() {
     if (this.boundingSphere === null) {
       this.boundingSphere = new Sphere();
@@ -6561,6 +10840,13 @@ class BufferGeometry extends EventDispatcher {
       }
     }
   }
+  
+
+
+
+
+
+
   computeTangents() {
     const index = this.index;
     const attributes = this.attributes;
@@ -6647,6 +10933,12 @@ class BufferGeometry extends EventDispatcher {
       }
     }
   }
+  
+
+
+
+
+
   computeVertexNormals() {
     const index = this.index;
     const positionAttribute = this.getAttribute("position");
@@ -6701,6 +10993,10 @@ class BufferGeometry extends EventDispatcher {
       normalAttribute.needsUpdate = true;
     }
   }
+  
+
+
+
   normalizeNormals() {
     const normals = this.attributes.normal;
     for (let i = 0, il = normals.count; i < il; i++) {
@@ -6709,6 +11005,12 @@ class BufferGeometry extends EventDispatcher {
       normals.setXYZ(i, _vector$8.x, _vector$8.y, _vector$8.z);
     }
   }
+  
+
+
+
+
+
   toNonIndexed() {
     function convertBufferAttribute(attribute, indices2) {
       const array = attribute.array;
@@ -6759,6 +11061,11 @@ class BufferGeometry extends EventDispatcher {
     }
     return geometry2;
   }
+  
+
+
+
+
   toJSON() {
     const data = {
       metadata: {
@@ -6822,9 +11129,20 @@ class BufferGeometry extends EventDispatcher {
     }
     return data;
   }
+  
+
+
+
+
   clone() {
     return new this.constructor().copy(this);
   }
+  
+
+
+
+
+
   copy(source) {
     this.index = null;
     this.attributes = {};
@@ -6871,6 +11189,12 @@ class BufferGeometry extends EventDispatcher {
     this.userData = source.userData;
     return this;
   }
+  
+
+
+
+
+
   dispose() {
     this.dispatchEvent({ type: "dispose" });
   }
@@ -6887,6 +11211,12 @@ const _morphA =  new Vector3();
 const _intersectionPoint$1 =  new Vector3();
 const _intersectionPointWorld =  new Vector3();
 class Mesh extends Object3D {
+  
+
+
+
+
+
   constructor(geometry = new BufferGeometry(), material = new MeshBasicMaterial()) {
     super();
     this.isMesh = true;
@@ -6910,6 +11240,10 @@ class Mesh extends Object3D {
     this.geometry = source.geometry;
     return this;
   }
+  
+
+
+
   updateMorphTargets() {
     const geometry = this.geometry;
     const morphAttributes = geometry.morphAttributes;
@@ -6927,6 +11261,14 @@ class Mesh extends Object3D {
       }
     }
   }
+  
+
+
+
+
+
+
+
   getVertexPosition(index, target) {
     const geometry = this.geometry;
     const position = geometry.attributes.position;
@@ -6952,6 +11294,12 @@ class Mesh extends Object3D {
     }
     return target;
   }
+  
+
+
+
+
+
   raycast(raycaster, intersects2) {
     const geometry = this.geometry;
     const material = this.material;
@@ -7111,6 +11459,22 @@ function checkGeometryIntersection(object, material, raycaster, ray, uv, uv1, no
   return intersection;
 }
 class DataTexture extends Texture {
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   constructor(data = null, width = 1, height = 1, format, type, mapping, wrapS, wrapT, magFilter = NearestFilter, minFilter = NearestFilter, anisotropy, colorSpace) {
     super(null, mapping, wrapS, wrapT, magFilter, minFilter, format, type, anisotropy, colorSpace);
     this.isDataTexture = true;
@@ -7121,6 +11485,14 @@ class DataTexture extends Texture {
   }
 }
 class InstancedBufferAttribute extends BufferAttribute {
+  
+
+
+
+
+
+
+
   constructor(array, itemSize, normalized, meshPerAttribute = 1) {
     super(array, itemSize, normalized);
     this.isInstancedBufferAttribute = true;
@@ -7146,6 +11518,13 @@ const _identity =  new Matrix4();
 const _mesh$1 =  new Mesh();
 const _sphere$4 =  new Sphere();
 class InstancedMesh extends Mesh {
+  
+
+
+
+
+
+
   constructor(geometry, material, count) {
     super(geometry, material);
     this.isInstancedMesh = true;
@@ -7159,6 +11538,11 @@ class InstancedMesh extends Mesh {
       this.setMatrixAt(i, _identity);
     }
   }
+  
+
+
+
+
   computeBoundingBox() {
     const geometry = this.geometry;
     const count = this.count;
@@ -7175,6 +11559,11 @@ class InstancedMesh extends Mesh {
       this.boundingBox.union(_box3);
     }
   }
+  
+
+
+
+
   computeBoundingSphere() {
     const geometry = this.geometry;
     const count = this.count;
@@ -7205,12 +11594,30 @@ class InstancedMesh extends Mesh {
       this.boundingSphere = source.boundingSphere.clone();
     return this;
   }
+  
+
+
+
+
+
   getColorAt(index, color) {
     color.fromArray(this.instanceColor.array, index * 3);
   }
+  
+
+
+
+
+
   getMatrixAt(index, matrix) {
     matrix.fromArray(this.instanceMatrix.array, index * 16);
   }
+  
+
+
+
+
+
   getMorphAt(index, object) {
     const objectInfluences = object.morphTargetInfluences;
     const array = this.morphTexture.source.data.data;
@@ -7247,15 +11654,37 @@ class InstancedMesh extends Mesh {
       _instanceIntersects.length = 0;
     }
   }
+  
+
+
+
+
+
+
   setColorAt(index, color) {
     if (this.instanceColor === null) {
       this.instanceColor = new InstancedBufferAttribute(new Float32Array(this.instanceMatrix.count * 3).fill(1), 3);
     }
     color.toArray(this.instanceColor.array, index * 3);
   }
+  
+
+
+
+
+
+
   setMatrixAt(index, matrix) {
     matrix.toArray(this.instanceMatrix.array, index * 16);
   }
+  
+
+
+
+
+
+
+
   setMorphAt(index, object) {
     const objectInfluences = object.morphTargetInfluences;
     const len = objectInfluences.length + 1;
@@ -7274,6 +11703,10 @@ class InstancedMesh extends Mesh {
   }
   updateMorphTargets() {
   }
+  
+
+
+
   dispose() {
     this.dispatchEvent({ type: "dispose" });
     if (this.morphTexture !== null) {
@@ -7286,56 +11719,141 @@ const _vector1 =  new Vector3();
 const _vector2 =  new Vector3();
 const _normalMatrix =  new Matrix3();
 class Plane {
+  
+
+
+
+
+
   constructor(normal = new Vector3(1, 0, 0), constant = 0) {
     this.isPlane = true;
     this.normal = normal;
     this.constant = constant;
   }
+  
+
+
+
+
+
+
   set(normal, constant) {
     this.normal.copy(normal);
     this.constant = constant;
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   setComponents(x, y, z, w) {
     this.normal.set(x, y, z);
     this.constant = w;
     return this;
   }
+  
+
+
+
+
+
+
+
   setFromNormalAndCoplanarPoint(normal, point) {
     this.normal.copy(normal);
     this.constant = -point.dot(this.normal);
     return this;
   }
+  
+
+
+
+
+
+
+
+
+
   setFromCoplanarPoints(a, b, c) {
     const normal = _vector1.subVectors(c, b).cross(_vector2.subVectors(a, b)).normalize();
     this.setFromNormalAndCoplanarPoint(normal, a);
     return this;
   }
+  
+
+
+
+
+
   copy(plane) {
     this.normal.copy(plane.normal);
     this.constant = plane.constant;
     return this;
   }
+  
+
+
+
+
   normalize() {
     const inverseNormalLength = 1 / this.normal.length();
     this.normal.multiplyScalar(inverseNormalLength);
     this.constant *= inverseNormalLength;
     return this;
   }
+  
+
+
+
+
   negate() {
     this.constant *= -1;
     this.normal.negate();
     return this;
   }
+  
+
+
+
+
+
   distanceToPoint(point) {
     return this.normal.dot(point) + this.constant;
   }
+  
+
+
+
+
+
   distanceToSphere(sphere) {
     return this.distanceToPoint(sphere.center) - sphere.radius;
   }
+  
+
+
+
+
+
+
   projectPoint(point, target) {
     return target.copy(point).addScaledVector(this.normal, -this.distanceToPoint(point));
   }
+  
+
+
+
+
+
+
+
+
   intersectLine(line, target) {
     const direction = line.delta(_vector1);
     const denominator = this.normal.dot(direction);
@@ -7351,20 +11869,57 @@ class Plane {
     }
     return target.copy(line.start).addScaledVector(direction, t);
   }
+  
+
+
+
+
+
   intersectsLine(line) {
     const startSign = this.distanceToPoint(line.start);
     const endSign = this.distanceToPoint(line.end);
     return startSign < 0 && endSign > 0 || endSign < 0 && startSign > 0;
   }
+  
+
+
+
+
+
   intersectsBox(box) {
     return box.intersectsPlane(this);
   }
+  
+
+
+
+
+
   intersectsSphere(sphere) {
     return sphere.intersectsPlane(this);
   }
+  
+
+
+
+
+
+
   coplanarPoint(target) {
     return target.copy(this.normal).multiplyScalar(-this.constant);
   }
+  
+
+
+
+
+
+
+
+
+
+
+
   applyMatrix4(matrix, optionalNormalMatrix) {
     const normalMatrix = optionalNormalMatrix || _normalMatrix.getNormalMatrix(matrix);
     const referencePoint = this.coplanarPoint(_vector1).applyMatrix4(matrix);
@@ -7372,13 +11927,31 @@ class Plane {
     this.constant = -referencePoint.dot(normal);
     return this;
   }
+  
+
+
+
+
+
+
   translate(offset) {
     this.constant -= offset.dot(this.normal);
     return this;
   }
+  
+
+
+
+
+
   equals(plane) {
     return plane.normal.equals(this.normal) && plane.constant === this.constant;
   }
+  
+
+
+
+
   clone() {
     return new this.constructor().copy(this);
   }
@@ -7387,9 +11960,30 @@ const _sphere$3 =  new Sphere();
 const _defaultSpriteCenter =  new Vector2(0.5, 0.5);
 const _vector$6 =  new Vector3();
 class Frustum {
+  
+
+
+
+
+
+
+
+
+
   constructor(p0 = new Plane(), p1 = new Plane(), p2 = new Plane(), p3 = new Plane(), p4 = new Plane(), p5 = new Plane()) {
     this.planes = [p0, p1, p2, p3, p4, p5];
   }
+  
+
+
+
+
+
+
+
+
+
+
   set(p0, p1, p2, p3, p4, p5) {
     const planes = this.planes;
     planes[0].copy(p0);
@@ -7400,6 +11994,12 @@ class Frustum {
     planes[5].copy(p5);
     return this;
   }
+  
+
+
+
+
+
   copy(frustum) {
     const planes = this.planes;
     for (let i = 0; i < 6; i++) {
@@ -7407,6 +12007,14 @@ class Frustum {
     }
     return this;
   }
+  
+
+
+
+
+
+
+
   setFromProjectionMatrix(m, coordinateSystem = WebGLCoordinateSystem, reversedDepth = false) {
     const planes = this.planes;
     const me = m.elements;
@@ -7433,6 +12041,14 @@ class Frustum {
     }
     return this;
   }
+  
+
+
+
+
+
+
+
   intersectsObject(object) {
     if (object.boundingSphere !== void 0) {
       if (object.boundingSphere === null)
@@ -7446,6 +12062,12 @@ class Frustum {
     }
     return this.intersectsSphere(_sphere$3);
   }
+  
+
+
+
+
+
   intersectsSprite(sprite) {
     _sphere$3.center.set(0, 0, 0);
     const offset = _defaultSpriteCenter.distanceTo(sprite.center);
@@ -7453,6 +12075,12 @@ class Frustum {
     _sphere$3.applyMatrix4(sprite.matrixWorld);
     return this.intersectsSphere(_sphere$3);
   }
+  
+
+
+
+
+
   intersectsSphere(sphere) {
     const planes = this.planes;
     const center = sphere.center;
@@ -7465,6 +12093,12 @@ class Frustum {
     }
     return true;
   }
+  
+
+
+
+
+
   intersectsBox(box) {
     const planes = this.planes;
     for (let i = 0; i < 6; i++) {
@@ -7478,6 +12112,12 @@ class Frustum {
     }
     return true;
   }
+  
+
+
+
+
+
   containsPoint(point) {
     const planes = this.planes;
     for (let i = 0; i < 6; i++) {
@@ -7487,6 +12127,11 @@ class Frustum {
     }
     return true;
   }
+  
+
+
+
+
   clone() {
     return new this.constructor().copy(this);
   }
@@ -7494,9 +12139,21 @@ class Frustum {
 const _projScreenMatrix$1 =  new Matrix4();
 const _frustum$1 =  new Frustum();
 class FrustumArray {
+  
+
+
+
   constructor() {
     this.coordinateSystem = WebGLCoordinateSystem;
   }
+  
+
+
+
+
+
+
+
   intersectsObject(object, cameraArray) {
     if (!cameraArray.isArrayCamera || cameraArray.cameras.length === 0) {
       return false;
@@ -7518,6 +12175,14 @@ class FrustumArray {
     }
     return false;
   }
+  
+
+
+
+
+
+
+
   intersectsSprite(sprite, cameraArray) {
     if (!cameraArray || !cameraArray.cameras || cameraArray.cameras.length === 0) {
       return false;
@@ -7539,6 +12204,14 @@ class FrustumArray {
     }
     return false;
   }
+  
+
+
+
+
+
+
+
   intersectsSphere(sphere, cameraArray) {
     if (!cameraArray || !cameraArray.cameras || cameraArray.cameras.length === 0) {
       return false;
@@ -7560,6 +12233,14 @@ class FrustumArray {
     }
     return false;
   }
+  
+
+
+
+
+
+
+
   intersectsBox(box, cameraArray) {
     if (!cameraArray || !cameraArray.cameras || cameraArray.cameras.length === 0) {
       return false;
@@ -7581,6 +12262,14 @@ class FrustumArray {
     }
     return false;
   }
+  
+
+
+
+
+
+
+
   containsPoint(point, cameraArray) {
     if (!cameraArray || !cameraArray.cameras || cameraArray.cameras.length === 0) {
       return false;
@@ -7602,6 +12291,11 @@ class FrustumArray {
     }
     return false;
   }
+  
+
+
+
+
   clone() {
     return new FrustumArray();
   }
@@ -7683,6 +12377,14 @@ function copyArrayContents(src, target) {
   }
 }
 class BatchedMesh extends Mesh {
+  
+
+
+
+
+
+
+
   constructor(maxInstanceCount, maxVertexCount, maxIndexCount = maxVertexCount * 2, material) {
     super(new BufferGeometry(), material);
     this.isBatchedMesh = true;
@@ -7713,15 +12415,39 @@ class BatchedMesh extends Mesh {
     this._initMatricesTexture();
     this._initIndirectTexture();
   }
+  
+
+
+
+
+
   get maxInstanceCount() {
     return this._maxInstanceCount;
   }
+  
+
+
+
+
+
   get instanceCount() {
     return this._instanceInfo.length - this._availableInstanceIds.length;
   }
+  
+
+
+
+
+
   get unusedVertexCount() {
     return this._maxVertexCount - this._nextVertexStart;
   }
+  
+
+
+
+
+
   get unusedIndexCount() {
     return this._maxIndexCount - this._nextIndexStart;
   }
@@ -7767,6 +12493,7 @@ class BatchedMesh extends Mesh {
       this._geometryInitialized = true;
     }
   }
+  
   _validateGeometry(geometry) {
     const batchGeometry = this.geometry;
     if (Boolean(geometry.getIndex()) !== Boolean(batchGeometry.getIndex())) {
@@ -7783,22 +12510,44 @@ class BatchedMesh extends Mesh {
       }
     }
   }
+  
+
+
+
+
   validateInstanceId(instanceId) {
     const instanceInfo = this._instanceInfo;
     if (instanceId < 0 || instanceId >= instanceInfo.length || instanceInfo[instanceId].active === false) {
       throw new Error(`THREE.BatchedMesh: Invalid instanceId ${instanceId}. Instance is either out of range or has been deleted.`);
     }
   }
+  
+
+
+
+
   validateGeometryId(geometryId) {
     const geometryInfoList = this._geometryInfo;
     if (geometryId < 0 || geometryId >= geometryInfoList.length || geometryInfoList[geometryId].active === false) {
       throw new Error(`THREE.BatchedMesh: Invalid geometryId ${geometryId}. Geometry is either out of range or has been deleted.`);
     }
   }
+  
+
+
+
+
+
+
   setCustomSort(func) {
     this.customSort = func;
     return this;
   }
+  
+
+
+
+
   computeBoundingBox() {
     if (this.boundingBox === null) {
       this.boundingBox = new Box3();
@@ -7815,6 +12564,11 @@ class BatchedMesh extends Mesh {
       boundingBox2.union(_box$1);
     }
   }
+  
+
+
+
+
   computeBoundingSphere() {
     if (this.boundingSphere === null) {
       this.boundingSphere = new Sphere();
@@ -7831,6 +12585,13 @@ class BatchedMesh extends Mesh {
       boundingSphere.union(_sphere$2);
     }
   }
+  
+
+
+
+
+
+
   addInstance(geometryId) {
     const atCapacity = this._instanceInfo.length >= this.maxInstanceCount;
     if (atCapacity && this._availableInstanceIds.length === 0) {
@@ -7861,18 +12622,36 @@ class BatchedMesh extends Mesh {
     this._visibilityChanged = true;
     return drawId;
   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   addGeometry(geometry, reservedVertexCount = -1, reservedIndexCount = -1) {
     this._initializeGeometry(geometry);
     this._validateGeometry(geometry);
     const geometryInfo = {
+      
       vertexStart: -1,
       vertexCount: -1,
       reservedVertexCount: -1,
       indexStart: -1,
       indexCount: -1,
       reservedIndexCount: -1,
+      
       start: -1,
       count: -1,
+      
       boundingBox: null,
       boundingSphere: null,
       active: true
@@ -7904,6 +12683,15 @@ class BatchedMesh extends Mesh {
     this._nextVertexStart = geometryInfo.vertexStart + geometryInfo.reservedVertexCount;
     return geometryId;
   }
+  
+
+
+
+
+
+
+
+
   setGeometryAt(geometryId, geometry) {
     if (geometryId >= this._geometryCount) {
       throw new Error("THREE.BatchedMesh: Maximum geometry count reached.");
@@ -7960,6 +12748,13 @@ class BatchedMesh extends Mesh {
     this._visibilityChanged = true;
     return geometryId;
   }
+  
+
+
+
+
+
+
   deleteGeometry(geometryId) {
     const geometryInfoList = this._geometryInfo;
     if (geometryId >= geometryInfoList.length || geometryInfoList[geometryId].active === false) {
@@ -7976,6 +12771,12 @@ class BatchedMesh extends Mesh {
     this._visibilityChanged = true;
     return this;
   }
+  
+
+
+
+
+
   deleteInstance(instanceId) {
     this.validateInstanceId(instanceId);
     this._instanceInfo[instanceId].active = false;
@@ -7983,6 +12784,12 @@ class BatchedMesh extends Mesh {
     this._visibilityChanged = true;
     return this;
   }
+  
+
+
+
+
+
   optimize() {
     let nextVertexStart = 0;
     let nextIndexStart = 0;
@@ -8033,6 +12840,13 @@ class BatchedMesh extends Mesh {
     this._visibilityChanged = true;
     return this;
   }
+  
+
+
+
+
+
+
   getBoundingBoxAt(geometryId, target) {
     if (geometryId >= this._geometryCount) {
       return null;
@@ -8055,6 +12869,13 @@ class BatchedMesh extends Mesh {
     target.copy(geometryInfo.boundingBox);
     return target;
   }
+  
+
+
+
+
+
+
   getBoundingSphereAt(geometryId, target) {
     if (geometryId >= this._geometryCount) {
       return null;
@@ -8082,6 +12903,14 @@ class BatchedMesh extends Mesh {
     target.copy(geometryInfo.boundingSphere);
     return target;
   }
+  
+
+
+
+
+
+
+
   setMatrixAt(instanceId, matrix) {
     this.validateInstanceId(instanceId);
     const matricesTexture = this._matricesTexture;
@@ -8090,10 +12919,24 @@ class BatchedMesh extends Mesh {
     matricesTexture.needsUpdate = true;
     return this;
   }
+  
+
+
+
+
+
+
   getMatrixAt(instanceId, matrix) {
     this.validateInstanceId(instanceId);
     return matrix.fromArray(this._matricesTexture.image.data, instanceId * 16);
   }
+  
+
+
+
+
+
+
   setColorAt(instanceId, color) {
     this.validateInstanceId(instanceId);
     if (this._colorsTexture === null) {
@@ -8103,10 +12946,24 @@ class BatchedMesh extends Mesh {
     this._colorsTexture.needsUpdate = true;
     return this;
   }
+  
+
+
+
+
+
+
   getColorAt(instanceId, color) {
     this.validateInstanceId(instanceId);
     return color.fromArray(this._colorsTexture.image.data, instanceId * 4);
   }
+  
+
+
+
+
+
+
   setVisibleAt(instanceId, visible) {
     this.validateInstanceId(instanceId);
     if (this._instanceInfo[instanceId].visible === visible) {
@@ -8116,20 +12973,51 @@ class BatchedMesh extends Mesh {
     this._visibilityChanged = true;
     return this;
   }
+  
+
+
+
+
+
   getVisibleAt(instanceId) {
     this.validateInstanceId(instanceId);
     return this._instanceInfo[instanceId].visible;
   }
+  
+
+
+
+
+
+
   setGeometryIdAt(instanceId, geometryId) {
     this.validateInstanceId(instanceId);
     this.validateGeometryId(geometryId);
     this._instanceInfo[instanceId].geometryIndex = geometryId;
     return this;
   }
+  
+
+
+
+
+
   getGeometryIdAt(instanceId) {
     this.validateInstanceId(instanceId);
     return this._instanceInfo[instanceId].geometryIndex;
   }
+  
+
+
+
+
+
+
+
+
+
+
+
   getGeometryRangeAt(geometryId, target = {}) {
     this.validateGeometryId(geometryId);
     const geometryInfo = this._geometryInfo[geometryId];
@@ -8143,6 +13031,13 @@ class BatchedMesh extends Mesh {
     target.count = geometryInfo.count;
     return target;
   }
+  
+
+
+
+
+
+
   setInstanceCount(maxInstanceCount) {
     const availableInstanceIds = this._availableInstanceIds;
     const instanceInfo = this._instanceInfo;
@@ -8176,6 +13071,14 @@ class BatchedMesh extends Mesh {
       copyArrayContents(colorsTexture.image.data, this._colorsTexture.image.data);
     }
   }
+  
+
+
+
+
+
+
+
   setGeometrySize(maxVertexCount, maxIndexCount) {
     const validRanges = [...this._geometryInfo].filter((info) => info.active);
     const requiredVertexLength = Math.max(...validRanges.map((range) => range.vertexStart + range.reservedVertexCount));
@@ -8277,6 +13180,10 @@ class BatchedMesh extends Mesh {
     }
     return this;
   }
+  
+
+
+
   dispose() {
     this.geometry.dispose();
     this._matricesTexture.dispose();
@@ -8375,6 +13282,15 @@ class BatchedMesh extends Mesh {
   }
 }
 class LineBasicMaterial extends Material$1 {
+  
+
+
+
+
+
+
+
+
   constructor(parameters) {
     super();
     this.isLineBasicMaterial = true;
@@ -8406,6 +13322,12 @@ const _sphere$1 =  new Sphere();
 const _intersectPointOnRay =  new Vector3();
 const _intersectPointOnSegment =  new Vector3();
 class Line extends Object3D {
+  
+
+
+
+
+
   constructor(geometry = new BufferGeometry(), material = new LineBasicMaterial()) {
     super();
     this.isLine = true;
@@ -8422,6 +13344,13 @@ class Line extends Object3D {
     this.geometry = source.geometry;
     return this;
   }
+  
+
+
+
+
+
+
   computeLineDistances() {
     const geometry = this.geometry;
     if (geometry.index === null) {
@@ -8439,6 +13368,12 @@ class Line extends Object3D {
     }
     return this;
   }
+  
+
+
+
+
+
   raycast(raycaster, intersects2) {
     const geometry = this.geometry;
     const matrixWorld = this.matrixWorld;
@@ -8495,6 +13430,10 @@ class Line extends Object3D {
       }
     }
   }
+  
+
+
+
   updateMorphTargets() {
     const geometry = this.geometry;
     const morphAttributes = geometry.morphAttributes;
@@ -8526,6 +13465,8 @@ function checkIntersection$2(object, raycaster, ray, thresholdSq, a, b, i) {
     return;
   return {
     distance,
+    
+    
     point: _intersectPointOnSegment.clone().applyMatrix4(object.matrixWorld),
     index: i,
     face: null,
@@ -8537,6 +13478,12 @@ function checkIntersection$2(object, raycaster, ray, thresholdSq, a, b, i) {
 const _start =  new Vector3();
 const _end =  new Vector3();
 class LineSegments extends Line {
+  
+
+
+
+
+
   constructor(geometry, material) {
     super(geometry, material);
     this.isLineSegments = true;
@@ -8561,6 +13508,12 @@ class LineSegments extends Line {
   }
 }
 class LineLoop extends Line {
+  
+
+
+
+
+
   constructor(geometry, material) {
     super(geometry, material);
     this.isLineLoop = true;
@@ -8568,6 +13521,15 @@ class LineLoop extends Line {
   }
 }
 class PointsMaterial extends Material$1 {
+  
+
+
+
+
+
+
+
+
   constructor(parameters) {
     super();
     this.isPointsMaterial = true;
@@ -8596,6 +13558,12 @@ const _ray$2 =  new Ray();
 const _sphere =  new Sphere();
 const _position$2 =  new Vector3();
 class Points extends Object3D {
+  
+
+
+
+
+
   constructor(geometry = new BufferGeometry(), material = new PointsMaterial()) {
     super();
     this.isPoints = true;
@@ -8612,6 +13580,12 @@ class Points extends Object3D {
     this.geometry = source.geometry;
     return this;
   }
+  
+
+
+
+
+
   raycast(raycaster, intersects2) {
     const geometry = this.geometry;
     const matrixWorld = this.matrixWorld;
@@ -8648,6 +13622,10 @@ class Points extends Object3D {
       }
     }
   }
+  
+
+
+
   updateMorphTargets() {
     const geometry = this.geometry;
     const morphAttributes = geometry.morphAttributes;
@@ -8695,35 +13673,90 @@ const _r =  new Vector3();
 const _c1 =  new Vector3();
 const _c2 =  new Vector3();
 class Line3 {
+  
+
+
+
+
+
   constructor(start = new Vector3(), end = new Vector3()) {
     this.start = start;
     this.end = end;
   }
+  
+
+
+
+
+
+
   set(start, end) {
     this.start.copy(start);
     this.end.copy(end);
     return this;
   }
+  
+
+
+
+
+
   copy(line) {
     this.start.copy(line.start);
     this.end.copy(line.end);
     return this;
   }
+  
+
+
+
+
+
   getCenter(target) {
     return target.addVectors(this.start, this.end).multiplyScalar(0.5);
   }
+  
+
+
+
+
+
   delta(target) {
     return target.subVectors(this.end, this.start);
   }
+  
+
+
+
+
   distanceSq() {
     return this.start.distanceToSquared(this.end);
   }
+  
+
+
+
+
   distance() {
     return this.start.distanceTo(this.end);
   }
+  
+
+
+
+
+
+
   at(t, target) {
     return this.delta(target).multiplyScalar(t).add(this.start);
   }
+  
+
+
+
+
+
+
   closestPointToPointParameter(point, clampToLine) {
     _startP.subVectors(point, this.start);
     _startEnd.subVectors(this.end, this.start);
@@ -8735,10 +13768,26 @@ class Line3 {
     }
     return t;
   }
+  
+
+
+
+
+
+
+
   closestPointToPoint(point, clampToLine, target) {
     const t = this.closestPointToPointParameter(point, clampToLine);
     return this.delta(target).multiplyScalar(t).add(this.start);
   }
+  
+
+
+
+
+
+
+
   distanceSqToLine3(line, c1 = _c1, c2 = _c2) {
     const EPSILON = 1e-8 * 1e-8;
     let s, t;
@@ -8790,14 +13839,31 @@ class Line3 {
     c1.sub(c2);
     return c1.dot(c1);
   }
+  
+
+
+
+
+
   applyMatrix4(matrix) {
     this.start.applyMatrix4(matrix);
     this.end.applyMatrix4(matrix);
     return this;
   }
+  
+
+
+
+
+
   equals(line) {
     return line.start.equals(this.start) && line.end.equals(this.end);
   }
+  
+
+
+
+
   clone() {
     return new this.constructor().copy(this);
   }
@@ -8927,6 +13993,10 @@ const _MultithreadingHelper = class _MultithreadingHelper {
     }
     return data;
   }
+  
+
+
+
   static get lastDispatchedSeq() {
     return _MultithreadingHelper._seq;
   }
@@ -8992,6 +14062,12 @@ const _MultithreadingHelper = class _MultithreadingHelper {
     const availableThreads = Math.max(capacity, 2);
     return currentThreads < availableThreads;
   }
+  
+
+
+
+
+
   static getMaxWorkers(override) {
     if (override !== void 0) {
       if (!Number.isFinite(override) || override < 2) {
@@ -9055,6 +14131,19 @@ const _MultithreadingHelper = class _MultithreadingHelper {
     return ["positions", "indices", "normals", "itemIds"];
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
 __publicField(_MultithreadingHelper, "_seq", 0);
 let MultithreadingHelper = _MultithreadingHelper;
 class Connection {
@@ -9121,6 +14210,7 @@ class Connection {
     await this.manageOutput(input);
   }
 }
+
 const Z_FIXED$1 = 4;
 const Z_BINARY = 0;
 const Z_TEXT = 1;
@@ -9150,12 +14240,15 @@ const REP_3_6 = 16;
 const REPZ_3_10 = 17;
 const REPZ_11_138 = 18;
 const extra_lbits = (
+  
   new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0])
 );
 const extra_dbits = (
+  
   new Uint8Array([0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13])
 );
 const extra_blbits = (
+  
   new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 7])
 );
 const bl_order = new Uint8Array([16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15]);
@@ -9211,6 +14304,7 @@ const send_code = (s, c, tree) => {
     s,
     tree[c * 2],
     tree[c * 2 + 1]
+    
   );
 };
 const bi_reverse = (code, len) => {
@@ -9494,17 +14588,21 @@ const build_tree = (s, desc) => {
   do {
     n = s.heap[
       1
+      
     ];
     s.heap[
       1
+      
     ] = s.heap[s.heap_len--];
     pqdownheap(
       s,
       tree,
       1
+      
     );
     m = s.heap[
       1
+      
     ];
     s.heap[--s.heap_max] = n;
     s.heap[--s.heap_max] = m;
@@ -9513,15 +14611,18 @@ const build_tree = (s, desc) => {
     tree[n * 2 + 1] = tree[m * 2 + 1] = node;
     s.heap[
       1
+      
     ] = node++;
     pqdownheap(
       s,
       tree,
       1
+      
     );
   } while (s.heap_len >= 2);
   s.heap[--s.heap_max] = s.heap[
     1
+    
   ];
   gen_bitlen(s, desc);
   gen_codes(tree, max_code, s.bl_count);
@@ -9787,16 +14888,26 @@ const crc32 = (crc, buf, len, pos) => {
 var crc32_1 = crc32;
 var messages = {
   2: "need dictionary",
+  
   1: "stream end",
+  
   0: "",
+  
   "-1": "file error",
+  
   "-2": "stream error",
+  
   "-3": "data error",
+  
   "-4": "insufficient memory",
+  
   "-5": "buffer error",
+  
   "-6": "incompatible version"
+  
 };
 var constants$2 = {
+  
   Z_NO_FLUSH: 0,
   Z_PARTIAL_FLUSH: 1,
   Z_SYNC_FLUSH: 2,
@@ -9804,6 +14915,9 @@ var constants$2 = {
   Z_FINISH: 4,
   Z_BLOCK: 5,
   Z_TREES: 6,
+  
+
+
   Z_OK: 0,
   Z_STREAM_END: 1,
   Z_NEED_DICT: 2,
@@ -9812,6 +14926,8 @@ var constants$2 = {
   Z_DATA_ERROR: -3,
   Z_MEM_ERROR: -4,
   Z_BUF_ERROR: -5,
+  
+  
   Z_NO_COMPRESSION: 0,
   Z_BEST_SPEED: 1,
   Z_BEST_COMPRESSION: 9,
@@ -9821,10 +14937,14 @@ var constants$2 = {
   Z_RLE: 3,
   Z_FIXED: 4,
   Z_DEFAULT_STRATEGY: 0,
+  
   Z_BINARY: 0,
   Z_TEXT: 1,
+  
   Z_UNKNOWN: 2,
+  
   Z_DEFLATED: 8
+  
 };
 const { _tr_init, _tr_stored_block, _tr_flush_block, _tr_tally, _tr_align } = trees;
 const {
@@ -10419,16 +15539,27 @@ function Config(good_length, max_lazy, nice_length, max_chain, func) {
   this.func = func;
 }
 const configuration_table = [
+  
   new Config(0, 0, 0, 0, deflate_stored),
+  
   new Config(4, 4, 8, 4, deflate_fast),
+  
   new Config(4, 5, 16, 8, deflate_fast),
+  
   new Config(4, 6, 32, 32, deflate_fast),
+  
   new Config(4, 4, 16, 16, deflate_slow),
+  
   new Config(8, 16, 32, 32, deflate_slow),
+  
   new Config(8, 16, 128, 128, deflate_slow),
+  
   new Config(8, 32, 128, 256, deflate_slow),
+  
   new Config(32, 128, 258, 1024, deflate_slow),
+  
   new Config(32, 258, 258, 4096, deflate_slow)
+  
 ];
 const lm_init = (s) => {
   s.window_size = 2 * s.w_size;
@@ -10515,8 +15646,8 @@ const deflateStateCheck = (strm) => {
     return 1;
   }
   const s = strm.state;
-  if (!s || s.strm !== strm || s.status !== INIT_STATE &&
-  s.status !== GZIP_STATE &&
+  if (!s || s.strm !== strm || s.status !== INIT_STATE && 
+  s.status !== GZIP_STATE && 
   s.status !== EXTRA_STATE && s.status !== NAME_STATE && s.status !== COMMENT_STATE && s.status !== HCRC_STATE && s.status !== BUSY_STATE && s.status !== FINISH_STATE) {
     return 1;
   }
@@ -10534,8 +15665,9 @@ const deflateResetKeep = (strm) => {
   if (s.wrap < 0) {
     s.wrap = -s.wrap;
   }
-  s.status =
+  s.status = 
   s.wrap === 2 ? GZIP_STATE : (
+    
     s.wrap ? INIT_STATE : BUSY_STATE
   );
   strm.adler = s.wrap === 2 ? 0 : 1;
@@ -11520,6 +16652,7 @@ const CODES$1 = 0;
 const LENS$1 = 1;
 const DISTS$1 = 2;
 const lbase = new Uint16Array([
+  
   3,
   4,
   5,
@@ -11553,6 +16686,7 @@ const lbase = new Uint16Array([
   0
 ]);
 const lext = new Uint8Array([
+  
   16,
   16,
   16,
@@ -11586,6 +16720,7 @@ const lext = new Uint8Array([
   78
 ]);
 const dbase = new Uint16Array([
+  
   1,
   2,
   3,
@@ -11620,6 +16755,7 @@ const dbase = new Uint16Array([
   0
 ]);
 const dext = new Uint8Array([
+  
   16,
   16,
   16,
@@ -12083,6 +17219,7 @@ const inflate$2 = (strm, flush) => {
   let opts;
   let n;
   const order = (
+    
     new Uint8Array([16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15])
   );
   if (inflateStateCheck(strm) || !strm.output || !strm.input && strm.avail_in !== 0) {
@@ -12135,7 +17272,7 @@ const inflate$2 = (strm, flush) => {
           if (state.head) {
             state.head.done = false;
           }
-          if (!(state.wrap & 1) ||
+          if (!(state.wrap & 1) || 
           (((hold & 255) << 8) + (hold >> 8)) % 31) {
             strm.msg = "incorrect header check";
             state.mode = BAD;
@@ -12278,8 +17415,11 @@ const inflate$2 = (strm, flush) => {
                 state.head.extra.set(
                   input.subarray(
                     next,
+                    
+                    
                     next + copy
                   ),
+                  
                   len
                 );
               }
@@ -12894,7 +18034,7 @@ const inflate$2 = (strm, flush) => {
             strm.total_out += _out;
             state.total += _out;
             if (state.wrap & 4 && _out) {
-              strm.adler = state.check =
+              strm.adler = state.check = 
               state.flags ? crc32_1(state.check, output, _out, put - _out) : adler32_1(state.check, output, _out, put - _out);
             }
             _out = left;
@@ -12955,7 +18095,7 @@ const inflate$2 = (strm, flush) => {
   strm.total_out += _out;
   state.total += _out;
   if (state.wrap & 4 && _out) {
-    strm.adler = state.check =
+    strm.adler = state.check = 
     state.flags ? crc32_1(state.check, output, _out, strm.next_out - _out) : adler32_1(state.check, output, _out, strm.next_out - _out);
   }
   strm.data_type = state.bits + (state.last ? 64 : 0) + (state.mode === TYPE ? 128 : 0) + (state.mode === LEN_ || state.mode === COPY_ ? 256 : 0);
@@ -13268,26 +18408,44 @@ var Encoding;
   Encoding2[Encoding2["UTF16_STRING"] = 2] = "UTF16_STRING";
 })(Encoding || (Encoding = {}));
 class ByteBuffer {
+  
+
+
   constructor(bytes_) {
     this.bytes_ = bytes_;
     this.position_ = 0;
     this.text_decoder_ = new TextDecoder();
   }
+  
+
+
   static allocate(byte_size) {
     return new ByteBuffer(new Uint8Array(byte_size));
   }
   clear() {
     this.position_ = 0;
   }
+  
+
+
   bytes() {
     return this.bytes_;
   }
+  
+
+
   position() {
     return this.position_;
   }
+  
+
+
   setPosition(position) {
     this.position_ = position;
   }
+  
+
+
   capacity() {
     return this.bytes_.length;
   }
@@ -13367,6 +18525,11 @@ class ByteBuffer {
     this.writeInt32(offset, int32[isLittleEndian ? 0 : 1]);
     this.writeInt32(offset + 4, int32[isLittleEndian ? 1 : 0]);
   }
+  
+
+
+
+
   getBufferIdentifier() {
     if (this.bytes_.length < this.position_ + SIZEOF_INT + FILE_IDENTIFIER_LENGTH) {
       throw new Error("FlatBuffers: ByteBuffer is too short to contain an identifier.");
@@ -13377,15 +18540,33 @@ class ByteBuffer {
     }
     return result;
   }
+  
+
+
+
   __offset(bb_pos, vtable_offset) {
     const vtable = bb_pos - this.readInt32(bb_pos);
     return vtable_offset < this.readInt16(vtable) ? this.readInt16(vtable + vtable_offset) : 0;
   }
+  
+
+
   __union(t, offset) {
     t.bb_pos = offset + this.readInt32(offset);
     t.bb = this;
     return t;
   }
+  
+
+
+
+
+
+
+
+
+
+
   __string(offset, opt_encoding) {
     offset += this.readInt32(offset);
     const length = this.readInt32(offset);
@@ -13396,18 +18577,34 @@ class ByteBuffer {
     else
       return this.text_decoder_.decode(utf8bytes);
   }
+  
+
+
+
+
+
+
   __union_with_string(o, offset) {
     if (typeof o === "string") {
       return this.__string(offset);
     }
     return this.__union(o, offset);
   }
+  
+
+
   __indirect(offset) {
     return offset + this.readInt32(offset);
   }
+  
+
+
   __vector(offset) {
     return offset + this.readInt32(offset) + SIZEOF_INT;
   }
+  
+
+
   __vector_len(offset) {
     return this.readInt32(offset + this.readInt32(offset));
   }
@@ -13422,6 +18619,9 @@ class ByteBuffer {
     }
     return true;
   }
+  
+
+
   createScalarList(listAccessor, listLength) {
     const ret = [];
     for (let i = 0; i < listLength; ++i) {
@@ -13432,6 +18632,12 @@ class ByteBuffer {
     }
     return ret;
   }
+  
+
+
+
+
+
   createObjList(listAccessor, listLength) {
     const ret = [];
     for (let i = 0; i < listLength; ++i) {
@@ -13444,6 +18650,9 @@ class ByteBuffer {
   }
 }
 class Builder {
+  
+
+
   constructor(opt_initial_size) {
     this.minalign = 1;
     this.vtable = null;
@@ -13477,15 +18686,40 @@ class Builder {
     this.force_defaults = false;
     this.string_maps = null;
   }
+  
+
+
+
+
+
+
   forceDefaults(forceDefaults) {
     this.force_defaults = forceDefaults;
   }
+  
+
+
+
+
   dataBuffer() {
     return this.bb;
   }
+  
+
+
+
   asUint8Array() {
     return this.bb.bytes().subarray(this.bb.position(), this.bb.position() + this.offset());
   }
+  
+
+
+
+
+
+
+
+
   prep(size, additional_bytes) {
     if (size > this.minalign) {
       this.minalign = size;
@@ -13521,26 +18755,50 @@ class Builder {
   writeFloat64(value) {
     this.bb.writeFloat64(this.space -= 8, value);
   }
+  
+
+
+
   addInt8(value) {
     this.prep(1, 0);
     this.writeInt8(value);
   }
+  
+
+
+
   addInt16(value) {
     this.prep(2, 0);
     this.writeInt16(value);
   }
+  
+
+
+
   addInt32(value) {
     this.prep(4, 0);
     this.writeInt32(value);
   }
+  
+
+
+
   addInt64(value) {
     this.prep(8, 0);
     this.writeInt64(value);
   }
+  
+
+
+
   addFloat32(value) {
     this.prep(4, 0);
     this.writeFloat32(value);
   }
+  
+
+
+
   addFloat64(value) {
     this.prep(8, 0);
     this.writeFloat64(value);
@@ -13587,29 +18845,59 @@ class Builder {
       this.slot(voffset);
     }
   }
+  
+
+
   addFieldStruct(voffset, value, defaultValue) {
     if (value != defaultValue) {
       this.nested(value);
       this.slot(voffset);
     }
   }
+  
+
+
+
+
   nested(obj) {
     if (obj != this.offset()) {
       throw new TypeError("FlatBuffers: struct must be serialized inline.");
     }
   }
+  
+
+
+
   notNested() {
     if (this.isNested) {
       throw new TypeError("FlatBuffers: object serialization must not be nested.");
     }
   }
+  
+
+
   slot(voffset) {
     if (this.vtable !== null)
       this.vtable[voffset] = this.offset();
   }
+  
+
+
   offset() {
     return this.bb.capacity() - this.space;
   }
+  
+
+
+
+
+
+
+
+
+
+
+
   static growByteBuffer(bb) {
     const old_buf_size = bb.capacity();
     if (old_buf_size & 3221225472) {
@@ -13621,10 +18909,20 @@ class Builder {
     nbb.bytes().set(bb.bytes(), new_buf_size - old_buf_size);
     return nbb;
   }
+  
+
+
+
+
   addOffset(offset) {
     this.prep(SIZEOF_INT, 0);
     this.writeInt32(this.offset() - offset + SIZEOF_INT);
   }
+  
+
+
+
+
   startObject(numfields) {
     this.notNested();
     if (this.vtable == null) {
@@ -13637,6 +18935,11 @@ class Builder {
     this.isNested = true;
     this.object_start = this.offset();
   }
+  
+
+
+
+
   endObject() {
     if (this.vtable == null || !this.isNested) {
       throw new Error("FlatBuffers: endObject called without startObject");
@@ -13679,6 +18982,9 @@ class Builder {
     this.isNested = false;
     return vtableloc;
   }
+  
+
+
   finish(root_table, opt_file_identifier, opt_size_prefix) {
     const size_prefix = opt_size_prefix ? SIZE_PREFIX_LENGTH : 0;
     if (opt_file_identifier) {
@@ -13698,9 +19004,16 @@ class Builder {
     }
     this.bb.setPosition(this.space);
   }
+  
+
+
   finishSizePrefixed(root_table, opt_file_identifier) {
     this.finish(root_table, opt_file_identifier, true);
   }
+  
+
+
+
   requiredField(table, field) {
     const table_start = this.bb.capacity() - table;
     const vtable_start = table_start - this.bb.readInt32(table_start);
@@ -13709,16 +19022,39 @@ class Builder {
       throw new TypeError("FlatBuffers: field " + field + " must be set");
     }
   }
+  
+
+
+
+
+
+
+
+
   startVector(elem_size, num_elems, alignment) {
     this.notNested();
     this.vector_num_elems = num_elems;
     this.prep(SIZEOF_INT, elem_size * num_elems);
     this.prep(alignment, elem_size * num_elems);
   }
+  
+
+
+
+
+
+
   endVector() {
     this.writeInt32(this.vector_num_elems);
     return this.offset();
   }
+  
+
+
+
+
+
+
   createSharedString(s) {
     if (!s) {
       return 0;
@@ -13733,6 +19069,13 @@ class Builder {
     this.string_maps.set(s, offset);
     return offset;
   }
+  
+
+
+
+
+
+
   createString(s) {
     if (s === null || s === void 0) {
       return 0;
@@ -13749,6 +19092,12 @@ class Builder {
     this.bb.bytes().set(utf8, this.space);
     return this.endVector();
   }
+  
+
+
+
+
+
   createByteVector(v) {
     if (v === null || v === void 0) {
       return 0;
@@ -13758,6 +19107,11 @@ class Builder {
     this.bb.bytes().set(v, this.space);
     return this.endVector();
   }
+  
+
+
+
+
   createObjectOffset(obj) {
     if (obj === null) {
       return 0;
@@ -13768,6 +19122,11 @@ class Builder {
       return obj.pack(this);
     }
   }
+  
+
+
+
+
   createObjectOffsetList(list) {
     const ret = [];
     for (let i = 0; i < list.length; ++i) {
@@ -14751,9 +20110,13 @@ class BVH {
   getRootRanges() {
     throw new Error("BVH: getRootRanges() not implemented");
   }
+  
+  
   writePrimitiveBounds() {
     throw new Error("BVH: writePrimitiveBounds() not implemented");
   }
+  
+  
   writePrimitiveRangeBounds(offset, count, targetBuffer, baseIndex) {
     let minX = Infinity;
     let minY = Infinity;
@@ -14894,6 +20257,9 @@ class BVH {
     });
     return target;
   }
+  
+  
+  
   shapecast(callbacks) {
     let {
       boundsTraverseOrder,
@@ -15099,6 +20465,7 @@ class GeometryBVH extends BVH {
       geometry.boundingBox = this.getBoundingBox(new Box3());
     }
   }
+  
   getRootRanges(range) {
     if (this.indirect) {
       return [{ offset: 0, count: this._indirectBuffer.length }];
@@ -16545,6 +21912,7 @@ function _raycastFirst$1(nodeIndex32, bvh, materialOrSide, ray, near, far) {
     if (c1Result) {
       const point = c1Result.point[xyzAxis];
       const isOutside = leftToRight ? point <= float32Array2[c2 + splitAxis] : (
+        
         point >= float32Array2[c2 + splitAxis + 3]
       );
       if (isOutside) {
@@ -16948,6 +22316,7 @@ function _raycastFirst(nodeIndex32, bvh, materialOrSide, ray, near, far) {
     if (c1Result) {
       const point = c1Result.point[xyzAxis];
       const isOutside = leftToRight ? point <= float32Array2[c2 + splitAxis] : (
+        
         point >= float32Array2[c2 + splitAxis + 3]
       );
       if (isOutside) {
@@ -17291,9 +22660,11 @@ class MeshBVH extends GeometryBVH {
     }
     super(geometry, options);
   }
+  
   shiftTriangleOffsets(offset) {
     return super.shiftPrimitiveOffsets(offset);
   }
+  
   writePrimitiveBounds(i, targetBuffer, baseIndex) {
     const geometry = this.geometry;
     const indirectBuffer = this._indirectBuffer;
@@ -17328,6 +22699,10 @@ class MeshBVH extends GeometryBVH {
     }
     return targetBuffer;
   }
+  
+  
+  
+  
   computePrimitiveBounds(offset, count, targetBuffer) {
     const geometry = this.geometry;
     const indirectBuffer = this._indirectBuffer;
@@ -17424,6 +22799,7 @@ class MeshBVH extends GeometryBVH {
     const refitFunc = this.indirect ? refit_indirect : refit;
     return refitFunc(this, nodeIndices);
   }
+  
   raycast(ray, materialOrSide = FrontSide, near = 0, far = Infinity) {
     const roots = this._roots;
     const intersects2 = [];
@@ -17464,6 +22840,8 @@ class MeshBVH extends GeometryBVH {
         ...callbacks,
         intersectsPrimitive: callbacks.intersectsTriangle,
         scratchPrimitive: triangle3,
+        
+        
         iterate: this.indirect ? iterateOverTriangles_indirect : iterateOverTriangles
       }
     );
@@ -17528,6 +22906,7 @@ class MeshBVH extends GeometryBVH {
     }
     return super.bvhcast(otherBvh, matrixToLocal, { intersectsRanges });
   }
+  
   intersectsBox(box, boxToMesh) {
     _obb.set(box.min, box.max, boxToMesh);
     _obb.needsUpdate = true;
@@ -18046,9 +23425,9 @@ function pointInTriangleExceptFirst(ax, ay, bx, by, cx, cy, px, py) {
   return !(ax === px && ay === py) && pointInTriangle$1(ax, ay, bx, by, cx, cy, px, py);
 }
 function isValidDiagonal$1(a, b) {
-  return a.next.i !== b.i && a.prev.i !== b.i && !intersectsPolygon$1(a, b) &&
-  (locallyInside$1(a, b) && locallyInside$1(b, a) && middleInside$1(a, b) &&
-  (area$1(a.prev, a, b.prev) || area$1(a, b.prev, b)) ||
+  return a.next.i !== b.i && a.prev.i !== b.i && !intersectsPolygon$1(a, b) && 
+  (locallyInside$1(a, b) && locallyInside$1(b, a) && middleInside$1(a, b) && 
+  (area$1(a.prev, a, b.prev) || area$1(a, b.prev, b)) || 
   equals$1(a, b) && area$1(a.prev, a, a.next) > 0 && area$1(b.prev, b, b.next) > 0);
 }
 function area$1(p, q, r) {
@@ -18140,14 +23519,20 @@ function removeNode$1(p) {
 function createNode$1(i, x, y) {
   return {
     i,
+    
     x,
     y,
+    
     prev: null,
+    
     next: null,
     z: 0,
+    
     prevZ: null,
+    
     nextZ: null,
     steiner: false
+    
   };
 }
 function signedArea$1(data, start, end, dim) {
@@ -18168,6 +23553,8 @@ class SectionGenerator {
     __publicField(this, "_plane2DCoordinateSystem", new Matrix4());
     __publicField(this, "_precission", 1e4);
   }
+  
+  
   get plane() {
     if (!this._plane) {
       throw new Error("Fragments: Plane not set");
@@ -18177,6 +23564,7 @@ class SectionGenerator {
   set plane(plane) {
     this._plane = plane;
   }
+  
   createEdges(data) {
     const { meshes, posAttr } = data;
     let index = 0;
@@ -18489,6 +23877,7 @@ class SectionGenerator {
       intersectsBounds: (box) => {
         return this._localPlane.intersectsBox(box);
       },
+      
       intersectsTriangle: (tri) => {
         let count = 0;
         this._tempLine.start.copy(tri.a);
@@ -22104,9 +27493,9 @@ function pointInTriangle(ax, ay, bx, by, cx, cy, px, py) {
   return (cx - px) * (ay - py) - (ax - px) * (cy - py) >= 0 && (ax - px) * (by - py) - (bx - px) * (ay - py) >= 0 && (bx - px) * (cy - py) - (cx - px) * (by - py) >= 0;
 }
 function isValidDiagonal(a, b) {
-  return a.next.i !== b.i && a.prev.i !== b.i && !intersectsPolygon(a, b) &&
-  (locallyInside(a, b) && locallyInside(b, a) && middleInside(a, b) &&
-  (area(a.prev, a, b.prev) || area(a, b.prev, b)) ||
+  return a.next.i !== b.i && a.prev.i !== b.i && !intersectsPolygon(a, b) && 
+  (locallyInside(a, b) && locallyInside(b, a) && middleInside(a, b) && 
+  (area(a.prev, a, b.prev) || area(a, b.prev, b)) || 
   equals(a, b) && area(a.prev, a, a.next) > 0 && area(b.prev, b, b.next) > 0);
 }
 function area(p, q, r) {
@@ -22203,14 +27592,20 @@ function removeNode(p) {
 function createNode(i, x, y) {
   return {
     i,
+    
     x,
     y,
+    
     prev: null,
+    
     next: null,
     z: null,
+    
     prevZ: null,
+    
     nextZ: null,
     steiner: false
+    
   };
 }
 function signedArea(data, start, end, dim, a, b) {
@@ -23496,6 +28891,7 @@ __publicField(VceCasterUtils, "_circleOrigin", new Vector3());
 __publicField(VceCasterUtils, "_circleOrientation", new Vector3());
 __publicField(VceCasterUtils, "_currentWireSetPoint", new Vector3());
 __publicField(VceCasterUtils, "_nextWireSetPoint", new Vector3());
+
 __publicField(VceCasterUtils, "_ceAxisZ", new Vector3());
 __publicField(VceCasterUtils, "_ceAxisY", new Vector3());
 __publicField(VceCasterUtils, "_ceAxisX", new Vector3());
@@ -25237,6 +30633,7 @@ const _Stack = class _Stack {
   }
 };
 _constructing = new WeakMap();
+
 __privateAdd(_Stack, _constructing, false);
 let Stack = _Stack;
 const _LRUCache = class _LRUCache {
@@ -25253,6 +30650,7 @@ const _LRUCache = class _LRUCache {
     __privateAdd(this, _moveToTail);
     __privateAdd(this, _delete);
     __privateAdd(this, _clear);
+    
     __privateAdd(this, _max, void 0);
     __privateAdd(this, _maxSize, void 0);
     __privateAdd(this, _dispose, void 0);
@@ -25260,21 +30658,67 @@ const _LRUCache = class _LRUCache {
     __privateAdd(this, _disposeAfter, void 0);
     __privateAdd(this, _fetchMethod, void 0);
     __privateAdd(this, _memoMethod, void 0);
+    
+
+
     __publicField(this, "ttl");
+    
+
+
     __publicField(this, "ttlResolution");
+    
+
+
     __publicField(this, "ttlAutopurge");
+    
+
+
     __publicField(this, "updateAgeOnGet");
+    
+
+
     __publicField(this, "updateAgeOnHas");
+    
+
+
     __publicField(this, "allowStale");
+    
+
+
     __publicField(this, "noDisposeOnSet");
+    
+
+
     __publicField(this, "noUpdateTTL");
+    
+
+
     __publicField(this, "maxEntrySize");
+    
+
+
     __publicField(this, "sizeCalculation");
+    
+
+
     __publicField(this, "noDeleteOnFetchRejection");
+    
+
+
     __publicField(this, "noDeleteOnStaleGet");
+    
+
+
     __publicField(this, "allowStaleOnFetchAbort");
+    
+
+
     __publicField(this, "allowStaleOnFetchRejection");
+    
+
+
     __publicField(this, "ignoreFetchAbort");
+    
     __privateAdd(this, _size, void 0);
     __privateAdd(this, _calculatedSize, void 0);
     __privateAdd(this, _keyMap, void 0);
@@ -25293,12 +30737,14 @@ const _LRUCache = class _LRUCache {
     __privateAdd(this, _hasFetchMethod, void 0);
     __privateAdd(this, _hasDisposeAfter, void 0);
     __privateAdd(this, _hasOnInsert, void 0);
+    
     __privateAdd(this, _updateItemAge, () => {
     });
     __privateAdd(this, _statusTTL, () => {
     });
     __privateAdd(this, _setItemTTL, () => {
     });
+    
     __privateAdd(this, _isStale, () => false);
     __privateAdd(this, _removeItemSize, (_i) => {
     });
@@ -25310,6 +30756,11 @@ const _LRUCache = class _LRUCache {
       }
       return 0;
     });
+    
+
+
+
+
     __publicField(this, _b, "LRUCache");
     const { max = 0, ttl, ttlResolution = 1, ttlAutopurge, updateAgeOnGet, updateAgeOnHas, allowStale, dispose, onInsert, disposeAfter, noDisposeOnSet, noUpdateTTL, maxSize = 0, maxEntrySize = 0, sizeCalculation, fetchMethod, memoMethod, noDeleteOnFetchRejection, noDeleteOnStaleGet, allowStaleOnFetchRejection, allowStaleOnFetchAbort, ignoreFetchAbort } = options;
     if (max !== 0 && !isPosInt(max)) {
@@ -25408,8 +30859,18 @@ const _LRUCache = class _LRUCache {
       }
     }
   }
+  
+
+
+
+
+
+
+
+
   static unsafeExposeInternals(c) {
     return {
+      
       starts: __privateGet(c, _starts),
       ttls: __privateGet(c, _ttls),
       sizes: __privateGet(c, _sizes),
@@ -25425,6 +30886,7 @@ const _LRUCache = class _LRUCache {
         return __privateGet(c, _tail);
       },
       free: __privateGet(c, _free),
+      
       isBackgroundFetch: (p) => {
         var _a2;
         return __privateMethod(_a2 = c, _isBackgroundFetch, isBackgroundFetch_fn).call(_a2, p);
@@ -25451,36 +30913,69 @@ const _LRUCache = class _LRUCache {
       }
     };
   }
+  
+  
+
+
   get max() {
     return __privateGet(this, _max);
   }
+  
+
+
   get maxSize() {
     return __privateGet(this, _maxSize);
   }
+  
+
+
   get calculatedSize() {
     return __privateGet(this, _calculatedSize);
   }
+  
+
+
   get size() {
     return __privateGet(this, _size);
   }
+  
+
+
   get fetchMethod() {
     return __privateGet(this, _fetchMethod);
   }
   get memoMethod() {
     return __privateGet(this, _memoMethod);
   }
+  
+
+
   get dispose() {
     return __privateGet(this, _dispose);
   }
+  
+
+
   get onInsert() {
     return __privateGet(this, _onInsert);
   }
+  
+
+
   get disposeAfter() {
     return __privateGet(this, _disposeAfter);
   }
+  
+
+
+
   getRemainingTTL(key) {
     return __privateGet(this, _keyMap).has(key) ? Infinity : 0;
   }
+  
+
+
+
   *entries() {
     for (const i of __privateMethod(this, _indexes, indexes_fn).call(this)) {
       if (__privateGet(this, _valList)[i] !== void 0 && __privateGet(this, _keyList)[i] !== void 0 && !__privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, __privateGet(this, _valList)[i])) {
@@ -25488,6 +30983,12 @@ const _LRUCache = class _LRUCache {
       }
     }
   }
+  
+
+
+
+
+
   *rentries() {
     for (const i of __privateMethod(this, _rindexes, rindexes_fn).call(this)) {
       if (__privateGet(this, _valList)[i] !== void 0 && __privateGet(this, _keyList)[i] !== void 0 && !__privateMethod(this, _isBackgroundFetch, isBackgroundFetch_fn).call(this, __privateGet(this, _valList)[i])) {
@@ -25495,6 +30996,10 @@ const _LRUCache = class _LRUCache {
       }
     }
   }
+  
+
+
+
   *keys() {
     for (const i of __privateMethod(this, _indexes, indexes_fn).call(this)) {
       const k = __privateGet(this, _keyList)[i];
@@ -25503,6 +31008,12 @@ const _LRUCache = class _LRUCache {
       }
     }
   }
+  
+
+
+
+
+
   *rkeys() {
     for (const i of __privateMethod(this, _rindexes, rindexes_fn).call(this)) {
       const k = __privateGet(this, _keyList)[i];
@@ -25511,6 +31022,10 @@ const _LRUCache = class _LRUCache {
       }
     }
   }
+  
+
+
+
   *values() {
     for (const i of __privateMethod(this, _indexes, indexes_fn).call(this)) {
       const v = __privateGet(this, _valList)[i];
@@ -25519,6 +31034,12 @@ const _LRUCache = class _LRUCache {
       }
     }
   }
+  
+
+
+
+
+
   *rvalues() {
     for (const i of __privateMethod(this, _rindexes, rindexes_fn).call(this)) {
       const v = __privateGet(this, _valList)[i];
@@ -25527,9 +31048,17 @@ const _LRUCache = class _LRUCache {
       }
     }
   }
+  
+
+
+
   [Symbol.iterator]() {
     return this.entries();
   }
+  
+
+
+
   find(fn, getOptions = {}) {
     for (const i of __privateMethod(this, _indexes, indexes_fn).call(this)) {
       const v = __privateGet(this, _valList)[i];
@@ -25541,6 +31070,17 @@ const _LRUCache = class _LRUCache {
       }
     }
   }
+  
+
+
+
+
+
+
+
+
+
+
   forEach(fn, thisp = this) {
     for (const i of __privateMethod(this, _indexes, indexes_fn).call(this)) {
       const v = __privateGet(this, _valList)[i];
@@ -25550,6 +31090,10 @@ const _LRUCache = class _LRUCache {
       fn.call(thisp, value, __privateGet(this, _keyList)[i], this);
     }
   }
+  
+
+
+
   rforEach(fn, thisp = this) {
     for (const i of __privateMethod(this, _rindexes, rindexes_fn).call(this)) {
       const v = __privateGet(this, _valList)[i];
@@ -25559,6 +31103,10 @@ const _LRUCache = class _LRUCache {
       fn.call(thisp, value, __privateGet(this, _keyList)[i], this);
     }
   }
+  
+
+
+
   purgeStale() {
     let deleted = false;
     for (const i of __privateMethod(this, _rindexes, rindexes_fn).call(this, { allowStale: true })) {
@@ -25569,6 +31117,18 @@ const _LRUCache = class _LRUCache {
     }
     return deleted;
   }
+  
+
+
+
+
+
+
+
+
+
+
+
   info(key) {
     const i = __privateGet(this, _keyMap).get(key);
     if (i === void 0)
@@ -25592,6 +31152,19 @@ const _LRUCache = class _LRUCache {
     }
     return entry;
   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
   dump() {
     const arr = [];
     for (const i of __privateMethod(this, _indexes, indexes_fn).call(this, { allowStale: true })) {
@@ -25613,6 +31186,15 @@ const _LRUCache = class _LRUCache {
     }
     return arr;
   }
+  
+
+
+
+
+
+
+
+
   load(arr) {
     this.clear();
     for (const [key, entry] of arr) {
@@ -25623,6 +31205,36 @@ const _LRUCache = class _LRUCache {
       this.set(key, entry.value, entry);
     }
   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   set(k, v, setOptions = {}) {
     var _a2, _b2, _c3, _d, _e, _f, _g;
     if (v === void 0) {
@@ -25715,6 +31327,10 @@ const _LRUCache = class _LRUCache {
     }
     return this;
   }
+  
+
+
+
   pop() {
     var _a2;
     try {
@@ -25739,6 +31355,22 @@ const _LRUCache = class _LRUCache {
       }
     }
   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   has(k, hasOptions = {}) {
     const { updateAgeOnHas = this.updateAgeOnHas, status } = hasOptions;
     const index = __privateGet(this, _keyMap).get(k);
@@ -25765,6 +31397,13 @@ const _LRUCache = class _LRUCache {
     }
     return false;
   }
+  
+
+
+
+
+
+
   peek(k, peekOptions = {}) {
     const { allowStale = this.allowStale } = peekOptions;
     const index = __privateGet(this, _keyMap).get(k);
@@ -25776,14 +31415,17 @@ const _LRUCache = class _LRUCache {
   }
   async fetch(k, fetchOptions = {}) {
     const {
+      
       allowStale = this.allowStale,
       updateAgeOnGet = this.updateAgeOnGet,
       noDeleteOnStaleGet = this.noDeleteOnStaleGet,
+      
       ttl = this.ttl,
       noDisposeOnSet = this.noDisposeOnSet,
       size = 0,
       sizeCalculation = this.sizeCalculation,
       noUpdateTTL = this.noUpdateTTL,
+      
       noDeleteOnFetchRejection = this.noDeleteOnFetchRejection,
       allowStaleOnFetchRejection = this.allowStaleOnFetchRejection,
       ignoreFetchAbort = this.ignoreFetchAbort,
@@ -25881,6 +31523,12 @@ const _LRUCache = class _LRUCache {
     this.set(k, vv, options);
     return vv;
   }
+  
+
+
+
+
+
   get(k, getOptions = {}) {
     const { allowStale = this.allowStale, updateAgeOnGet = this.updateAgeOnGet, noDeleteOnStaleGet = this.noDeleteOnStaleGet, status } = getOptions;
     const index = __privateGet(this, _keyMap).get(k);
@@ -25921,9 +31569,17 @@ const _LRUCache = class _LRUCache {
       status.get = "miss";
     }
   }
+  
+
+
+
+
   delete(k) {
     return __privateMethod(this, _delete, delete_fn).call(this, k, "delete");
   }
+  
+
+
   clear() {
     return __privateMethod(this, _clear, clear_fn).call(this, "delete");
   }
@@ -26588,6 +32244,26 @@ const _VirtualTilesController = class _VirtualTilesController {
     const sample = this.sampleTemplate(id);
     return sample.transform;
   }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   getDrawChunksForItems(itemIds) {
     const result = [];
     if (itemIds.size === 0)
@@ -26725,6 +32401,13 @@ const _VirtualTilesController = class _VirtualTilesController {
     this._meshConnection.process({
       tileRequestClass: TileRequestClass.FINISH,
       modelId: this._modelId,
+      
+      
+      
+      
+      
+      
+      
       seq: thread.lastSeenSeq
     });
     this.tilesUpdated = true;
@@ -28524,7 +34207,9 @@ function getIdsDelta(model, requests) {
     materials,
     representations,
     shells,
+    
     circleExtrusions,
+    
     detaDeletedGts: detaDeletedGtsCount,
     detaDeletedLts: detaDeletedLtsCount,
     detaDeletedSamples: detaDeletedSamplesCount,
@@ -30257,6 +35942,8 @@ function getItemSnapData(vModel, itemId) {
     result.samples[sampleLocalId] = {
       item: gtId,
       localTransform: ltId,
+      
+      
       material: 0,
       representation: reprId
     };
@@ -73183,6 +78870,39 @@ class VirtualPropertiesController {
     }
     return [...names];
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   getItemAttributes(id) {
     var _a2;
     const isLocalId = typeof id === "number";
@@ -73195,7 +78915,8 @@ class VirtualPropertiesController {
       const data2 = {};
       for (let i = this._virtualModel.requests.length - 1; i >= 0; i--) {
         const request = this._virtualModel.requests[i];
-        if (request.type === EditRequestType.CREATE_ITEM ||
+        if (request.type === EditRequestType.CREATE_ITEM || 
+        
         request.type === EditRequestType.UPDATE_ITEM) {
           if (request.localId === localId) {
             for (const name in request.data.data) {
@@ -73409,6 +79130,8 @@ class VirtualPropertiesController {
     }
     return [...categories];
   }
+  
+  
   getItemsOfCategories(categories) {
     const result = {};
     const deletedItems =  new Set();
@@ -73836,10 +79559,17 @@ class VirtualIndexesController {
     __publicField(this, "_vm");
     __publicField(this, "_storedByName",  new Map());
     __publicField(this, "_storedNames", null);
+    
     __publicField(this, "_overlay", null);
+    
     __publicField(this, "_overlayRequestsLen", -1);
     this._vm = vm;
   }
+  
+
+
+
+
   getNames() {
     const overlay = this.overlay();
     const stored = this.storedNames();
@@ -73861,16 +79591,28 @@ class VirtualIndexesController {
     }
     return out;
   }
+  
+
+
+
   getInfo(name) {
     const entry = this.resolve(name);
     return entry ? entry.info : null;
   }
+  
+
+
+
+
   getKeys(name) {
     const entry = this.resolve(name);
     if (!entry)
       return null;
     return entry.info.keyType === "number" ? this.materializeNumberKeys(entry) : this.materializeStringKeys(entry);
   }
+  
+
+
   has(name, key) {
     const entry = this.resolve(name);
     if (!entry)
@@ -73879,6 +79621,11 @@ class VirtualIndexesController {
       return false;
     return this.keyMap(entry).has(key);
   }
+  
+
+
+
+
   getEntry(name, key) {
     const entry = this.resolve(name);
     if (!entry)
@@ -73900,6 +79647,10 @@ class VirtualIndexesController {
     }
     return valueType === "number" ? this.readNumberSlice(entry, start, end) : this.readStringSlice(entry, start, end);
   }
+  
+
+
+
   getInverseEntry(name, value) {
     const entry = this.resolve(name);
     if (!entry)
@@ -73914,6 +79665,11 @@ class VirtualIndexesController {
       return null;
     return entry.info.keyType === "number" ? Uint32Array.from(keys) : keys.slice();
   }
+  
+
+
+
+
   invalidate(name) {
     if (name === void 0) {
       this._storedByName.clear();
@@ -73931,6 +79687,9 @@ class VirtualIndexesController {
     if (this._overlay)
       this._overlay.delete(name);
   }
+  
+  
+  
   resolve(name) {
     const overlay = this.overlay();
     const pending = overlay.get(name);
@@ -73991,6 +79750,9 @@ class VirtualIndexesController {
     this._overlayRequestsLen = requests.length;
     return map;
   }
+  
+  
+  
   entryFromFb(fb, name) {
     const stringKeys = fb.stringKeysLength();
     const numberKeys = fb.numberKeysLength();
@@ -74050,6 +79812,9 @@ class VirtualIndexesController {
       inverse: null
     };
   }
+  
+  
+  
   readNumberKey(src, i) {
     return src.kind === "fb" ? src.fb.numberKeys(i) : src.data.keys[i] ?? null;
   }
@@ -74071,6 +79836,10 @@ class VirtualIndexesController {
   startAt(src, i) {
     return src.kind === "fb" ? src.fb.start(i) ?? 0 : src.data.start[i] ?? 0;
   }
+  
+  
+  
+  
   keyMap(entry) {
     if (entry.keyPositions)
       return entry.keyPositions;
@@ -74138,6 +79907,7 @@ class VirtualIndexesController {
     }
     return out;
   }
+  
   inverseMap(entry) {
     if (entry.inverse)
       return entry.inverse;
@@ -75090,17 +80860,24 @@ class VisibilityHelper {
     model.traverse(filtered, setEvent);
     model.tiles.updateVirtualMeshes(filtered);
   }
+  
+  
   hideForEdit(model, localIds) {
     this.setVisible(model, localIds, false);
     for (const id of localIds) {
       this._hiddenForEdit.add(id);
     }
   }
+  
+  
+  
   unhideForEdit(localIds) {
     for (const id of localIds) {
       this._hiddenForEdit.delete(id);
     }
   }
+  
+  
   clearHiddenForEdit() {
     this._hiddenForEdit.clear();
   }
@@ -75437,6 +81214,9 @@ class VirtualFragmentsModel {
     this.setupBVH();
     this._nextId = this.getMaxLocalId();
   }
+  
+  
+  
   getIndexNames() {
     return this.indexes.getNames();
   }
@@ -75467,6 +81247,9 @@ class VirtualFragmentsModel {
   getItemAttributes(id) {
     return this.properties.getItemAttributes(id);
   }
+  
+  
+  
   getAttributesUniqueValues(config) {
     return this.properties.getAttributesUniqueValues(config);
   }
@@ -75530,6 +81313,12 @@ class VirtualFragmentsModel {
   getGuidsByLocalIds(localIds) {
     return this.properties.getGuidsByLocalIds(localIds);
   }
+  
+
+
+
+
+
   getLocalIdsFromItemIds(itemIds) {
     return this.properties.getLocalIdsFromItemIds(itemIds);
   }
@@ -75560,6 +81349,16 @@ class VirtualFragmentsModel {
   resetHighlight(items) {
     this._highlightHelper.resetHighlight(this, items);
   }
+  
+
+
+
+
+
+
+
+
+
   getItemDrawChunks(localIds) {
     const itemIds = this.properties.getItemIdsFromLocalIds(localIds);
     return this.tiles.getDrawChunksForItems(new Set(itemIds));
@@ -75923,6 +81722,12 @@ class VirtualFragmentsModel {
     EditUtils.applyChangesToIds(this.requests, filtered, "ITEM", false);
     return EditUtils.getElementsData(this, filtered);
   }
+  
+
+
+
+
+
   getItemSnapData(itemId) {
     return EditUtils.getItemSnapData(this, itemId);
   }
@@ -76266,9 +82071,24 @@ class FragmentsThread {
   constructor() {
     __publicField(this, "actions", {});
     __publicField(this, "list",  new Map());
+    
     __publicField(this, "loading",  new Set());
+    
     __publicField(this, "aborting",  new Set());
+    
+
+
+
+
+
+
+
+
+
+
+
     __publicField(this, "lastSeenSeq", 0);
+    
     __publicField(this, "controllerManager", new ThreadControllerManager(this));
     __publicField(this, "_connection");
   }
@@ -76309,3 +82129,4 @@ export {
   FragmentsThread,
   thread
 };
+

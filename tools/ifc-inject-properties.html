@@ -25,10 +25,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IFC Inject Properties - Add Custom Properties to IFC Models | liteAECO</title>
 
+    
     <meta name="description" content="Free client-side tool to import and create new properties in existing IFC models. No uploads, private, fast, and built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/ifc-inject-properties.html">
 
+    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/ifc-inject-properties.html">
     <meta property="og:site_name" content="liteAECO">
@@ -40,12 +42,14 @@
     <meta property="og:image:alt" content="liteAECO IFC Inject Properties tool interface">
     <meta property="og:locale" content="en_US">
 
+    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-inject-properties.html">
     <meta name="twitter:title" content="IFC Inject Properties - Add Custom Properties to IFC Models | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to import and create new properties in existing IFC models. No uploads, private, fast, and built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-ifc-inject-properties.png">
 
+    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -54,13 +58,16 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../js/vendor/lucide-1.41.0.min.js"></script>
+    <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
+    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
 
+    
     <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
 
     <script>
@@ -71,6 +78,7 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
+                        
                         accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
                     }
                 }
@@ -78,32 +86,36 @@
         }
     </script>
 
+    
     <link rel="stylesheet" type="text/css" href="../css/global.css">
 </head>
 
 <body
-    class="bg-slate-50 text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
+    class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
 
-    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full transition-all flex-grow">
+    
 
-        <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded p-6 md:p-8 mb-6">
+    
+    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
+
+        <div class="bg-white">
             <div
-                class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 border-b border-slate-200/60 pb-4">
+                class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4">
                 <div class="flex items-center gap-3">
                     <div
-                        class="w-10 h-10 rounded-lg bg-white border border-slate-100 shadow-sm flex items-center justify-center text-indigo-600 shrink-0 rotate-180">
+                        class="w-10 h-10 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-900 shrink-0 rotate-180">
                         <i data-lucide="square-arrow-right-enter" class="w-5 h-5"></i>
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold text-slate-900 tracking-tight leading-tight" id="ui-title">IFC
                             Inject Properties</h1>
                         <p class="text-sm font-medium text-indigo-500 uppercase tracking-widest mt-0.5"
-                            id="ui-subtitle">Streaming Pset Operations</p>
+                            id="ui-subtitle">Add new attributes into IFC Models</p>
                     </div>
                 </div>
             </div>
 
-            <details class="text-sm text-slate-600 leading-relaxed group">
+            <details class="text-sm text-slate-600 leading-relaxed group border-b border-slate-300 pb-4">
 				<summary class="cursor-pointer list-none flex items-center gap-2 font-semibold text-slate-900 select-none">
 					<i data-lucide="chevron-right" class="w-4 h-4 text-indigo-500 transition-transform group-open:rotate-90"></i>
 					<span id="ui-rule-title">What this tool does</span>
@@ -121,18 +133,18 @@
 			</details>
         </div>
 
-        <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-6 md:p-8">
+        <div class="bg-white pt-6 md:pt-8">
 
             <div class="mb-8">
                 <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
                     <span
-                        class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                        class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
                             data-lucide="file-code-2" class="w-3.5 h-3.5"></i></span>
-                    <span id="ui-step1">Step 1: Load Model</span>
+                    <span id="ui-step1">Step 1: Load Models</span>
                 </h2>
 
                 <div
-                    class="bg-white/50 p-6 rounded border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6">
+                    class="bg-white p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="flex flex-col h-full">
                         <label id="drop-zone" for="fileInput"
                             class="drop-zone flex flex-col items-center justify-center w-full h-full min-h-[140px] px-4 py-4 border-2 border-slate-300 border-dashed rounded-lg hover:border-indigo-500 hover:bg-indigo-50/30 bg-slate-50/50 cursor-pointer transition-all">
@@ -153,9 +165,9 @@
                         </label>
                     </div>
 
-                    <div class="flex flex-col h-full bg-white/60 p-4 rounded border border-slate-200/60 shadow-sm">
+                    <div class="flex flex-col h-full bg-white p-4 rounded border border-slate-200 shadow-sm">
                         <p id="ui-modelInfoTitle"
-                            class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200/60 pb-1">Model
+                            class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200 pb-1">Model
                             Information</p>
                         <div class="grid grid-cols-4 gap-x-4 gap-y-2 text-[12px] flex-grow content-start">
                             <div id="ui-infoDate" class="text-slate-500 font-medium">Date:</div>
@@ -183,14 +195,14 @@
                 </div>
             </div>
 
-            <div id="stepAddProps" class="hidden mb-8">
+            <div id="stepAddProps" class="hidden mb-8 px-6">
                 <details
                     class="group bg-white/50 border border-slate-200 shadow-sm rounded overflow-hidden transition-all">
                     <summary
                         class="flex justify-between items-center font-medium cursor-pointer list-none p-4 hover:bg-white/80 transition-colors [&::-webkit-details-marker]:hidden border-b border-transparent group-open:border-slate-200/60">
                         <h2 class="text-base font-bold text-slate-800 flex items-center m-0">
                             <span
-                                class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                                class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
                                     data-lucide="plus-circle" class="w-3.5 h-3.5"></i></span>
                             <span id="ui-stepAddPropsTitle">Optional: Add New Properties</span>
                         </h2>
@@ -291,14 +303,14 @@
             </div>
 
             <div id="stepExportArea" class="hidden mb-8">
-                <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
+                <h2 class="text-base font-bold text-slate-800 flex items-center mb-6">
                     <span
-                        class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                        class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
                             data-lucide="upload" class="w-3.5 h-3.5"></i></span>
                     <span id="ui-step3">Step 2: Update Values & Export</span>
                 </h2>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 px-6">
                     <div class="flex flex-col h-full bg-white/50 p-4 rounded border border-slate-200 shadow-sm">
                         <div class="mb-2 border-b border-slate-200/60 pb-1">
                             <p id="ui-uploadDataTitle" class="font-semibold text-sm text-slate-800">1. Modify Existing
@@ -329,7 +341,7 @@
 
                         <div class="flex flex-col gap-3 mt-auto relative">
                             <button id="processImportBtn" disabled
-                                class="w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-bold text-white bg-slate-900 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 disabled:bg-slate-300 disabled:text-slate-500 disabled:shadow-none disabled:cursor-not-allowed transition-all duration-300 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5">
+                                class="w-full flex justify-center items-center py-2 px-4 border border-transparent text-sm font-bold text-white bg-slate-900 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 disabled:bg-slate-300 disabled:text-slate-500 disabled:shadow-none disabled:cursor-not-allowed transition-all duration-300 rounded shadow-md hover:shadow-lg">
                                 <i data-lucide="save" class="w-4 h-4 mr-2"></i>
                                 <span id="ui-btnUpdateDownload">Update & Download IFC</span>
                             </button>
@@ -371,17 +383,27 @@
         </div>
     </div>
 
+    
+    
     <script>
+        
+        
+        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
+        
+        
         window.updateToolDynamicUI = function (d) {
             if (typeof refreshTable === 'function') refreshTable();
         };
 
+        
         function bootApp() {
+            
             autoDetectLanguage();
 
+            
             window.injectUI({
                 showNav: true,
                 transparentNav: false,
@@ -393,8 +415,10 @@
                 showFooterLinks: true,
             });
 
+            
             window.injectCookieBanner();
 
+            
             const currentYear = new Date().getFullYear();
             const targetVersionInput = document.getElementById('targetVersionInput');
             if (targetVersionInput) {
@@ -422,17 +446,24 @@
                 toggleVersionInput();
             }
 
+            
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
 
+        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
+        
+        
+        
     </script>
     <script type="module">
+        
 
+        
         let classCounts = {};
         let fileLoaded = false;
 
@@ -441,14 +472,15 @@
         let availableIfcClasses = new Set();
         let classData = {};
 
+        
         const SECURITY_BLACKLIST = {
             systemCols: ["_hash", "_globalId", "_elementName"],
             exactPsets: ["IfcRelDefinesByType", "BaseQuantities"],
             psetPatterns: [
-                /^Qto_/i,
-                /Common$/i,
-                /Dimensions$/i,
-                /Constraints$/i,
+                /^Qto_/i,           
+                /Common$/i,         
+                /Dimensions$/i,     
+                /Constraints$/i,    
                 /Quantity$/i,
                 /Requirements$/i
             ],
@@ -458,11 +490,11 @@
                 "IsExternal"
             ],
             propertyPatterns: [
-                /storey/i,
-                /level/i,
-                /opening\s*id/i,
-                /layer/i,
-                /omniclass/i
+                /storey/i,       
+                /level/i,        
+                /opening\s*id/i, 
+                /layer/i,        
+                /omniclass/i     
             ]
         };
 
@@ -481,6 +513,7 @@
             return false;
         }
 
+        
         const fileInput = document.getElementById('fileInput');
         const fileNameDisplay = document.getElementById('fileNameDisplay');
         const dropZone = document.getElementById('drop-zone');
@@ -489,6 +522,7 @@
         const logAreaWrapper = document.getElementById('logAreaWrapper');
         const logArea = document.getElementById('logArea');
 
+        
         const newPropClass = document.getElementById('newPropClass');
         const newPropPset = document.getElementById('newPropPset');
         const newPropName = document.getElementById('newPropName');
@@ -498,11 +532,13 @@
         const queuedPropsContainer = document.getElementById('queuedPropsContainer');
         const queuedPropsTableBody = document.getElementById('queuedPropsTableBody');
 
+        
         const dataFileInput = document.getElementById('dataFileInput');
         const processImportBtn = document.getElementById('processImportBtn');
         const dataFileStatus = document.getElementById('dataFileStatus');
         const dataFileStatusText = document.getElementById('dataFileStatusText');
 
+        
         function log(msg, isWarning = false) {
             logAreaWrapper.classList.remove('hidden');
             logAreaWrapper.classList.add('flex');
@@ -526,6 +562,9 @@
             if (loader) loader.classList.add('hidden');
         }
 
+        
+        
+
         function updateProcessButtonState() {
             if (parsedData.length > 0 || queuedProperties.length > 0) {
                 processImportBtn.disabled = false;
@@ -534,10 +573,13 @@
             }
         }
 
+        
+        
         const WORKER_VERSION = 8;
         const WORKER_URL = window.SITE_ROOT + 'js/ifc-worker.js?v=' + WORKER_VERSION;
         const STALE_WORKER_MSG = 'js/ifc-worker.js is missing or out of date (browser cache?). Hard-refresh the page (Ctrl+F5 / Cmd+Shift+R) and make sure the new ifc-worker.js is deployed.';
 
+        
         function createCoordinator() {
             const w = new Worker(WORKER_URL);
             let readyResolve, readyReject;
@@ -582,6 +624,8 @@
             };
         }
 
+
+        
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
         });
@@ -623,7 +667,8 @@
             }, 150);
         }
 
-        let sessionCoord = null;
+        
+        let sessionCoord = null; 
 
         async function processIfcFile(file) {
             try {
@@ -657,6 +702,7 @@
                 classData = res.classData || {};
                 classCounts = res.classCounts || {};
 
+                
                 newPropClass.innerHTML = '';
                 Object.keys(classData).sort().forEach(cls => {
                     if (!cls.includes('CARTESIAN') && !cls.includes('DIRECTION') && !cls.includes('REPRESENTATION')) {
@@ -675,6 +721,7 @@
             }
         }
 
+        
         btnAddProp.addEventListener('click', () => {
             const selectedClasses = Array.from(newPropClass.selectedOptions).map(opt => opt.value);
             const pset = newPropPset.value.trim();
@@ -748,6 +795,7 @@
             updateProcessButtonState();
         };
 
+        
         dataFileInput.addEventListener('change', async (e) => {
             if (!e.target.files.length) {
                 parsedData = [];
@@ -797,6 +845,7 @@
                                 const propValue = row[col];
 
                                 if (psetName && propName && propValue !== undefined && propValue !== "") {
+                                    
                                     if (isPsetLocked(psetName) || isPropertyLocked(propName)) {
                                         continue;
                                     }
@@ -830,6 +879,7 @@
             reader.readAsArrayBuffer(file);
         });
 
+        
         processImportBtn.addEventListener('click', async () => {
             if (!fileLoaded || !sessionCoord) return;
             processImportBtn.disabled = true;

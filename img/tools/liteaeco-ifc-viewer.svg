@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   fill="none"
+   stroke="currentColor"
+   stroke-width="2"
+   stroke-linecap="round"
+   stroke-linejoin="round"
+   class="lucide lucide-box preview-icon"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="liteaeco-ifc-viewer.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showguides="true"
+     inkscape:zoom="14.458333"
+     inkscape:cx="2.5936599"
+     inkscape:cy="20.74928"
+     inkscape:window-width="1500"
+     inkscape:window-height="938"
+     inkscape:window-x="-6"
+     inkscape:window-y="-6"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3">
+    <sodipodi:guide
+       position="21,22.997348"
+       orientation="0,-1"
+       id="guide9"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="21.35424,10.167147"
+       orientation="1,0"
+       id="guide10"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="26.974063,2.5590778"
+       orientation="0,-1"
+       id="guide11"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <path
+     d="m 20,6.27 -3.5,-2 -3.5,-2 c -0.618802,-0.3572656 -1.381198,-0.3572656 -2,0 l -7,4 C 3.3818319,6.626899 3.0007321,7.2862016 3,8 v 8 c 7.321e-4,0.713798 0.3818319,1.373101 1,1.73 l 3.5,2"
+     id="path1"
+     sodipodi:nodetypes="ccccccccc" />
+  <g
+     id="g4"
+     transform="matrix(0.64,0,0,0.64,6.3384354,6.5538768)"
+     style="stroke-width:3.125;stroke-dasharray:none">
+    <g
+       id="g5"
+       style="stroke:#000000;stroke-width:3.125;stroke-dasharray:none;stroke-opacity:1">
+      <path
+         d="m 14.509403,14.197012 8.991,-8.9900002 V 23.223012"
+         style="stroke:#000000;stroke-width:3.125;stroke-dasharray:none;stroke-opacity:1"
+         id="path2" />
+      <path
+         style="stroke:#000000;stroke-width:3.125;stroke-dasharray:none;stroke-opacity:1"
+         d="m 5.500403,5.2230118 18.009,18.0180002"
+         fill="none"
+         id="path3" />
+      <path
+         d="m 5.509403,5.1710118 v 4.437 l -0.009,4.6240002 8.982,8.991 9.027,0.018"
+         style="stroke:#000000;stroke-width:3.125;stroke-dasharray:none;stroke-opacity:1"
+         id="path1-9" />
+    </g>
+  </g>
+</svg>

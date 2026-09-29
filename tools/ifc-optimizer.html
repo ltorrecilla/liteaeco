@@ -25,10 +25,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IFC Optimizer - Compress & Optimize IFC Files Locally | liteAECO</title>
 
+    
     <meta name="description" content="Free client-side tool to optimize and compress single IFC files. Reduce file size, clean model data, and improve performance. No uploads, private, fast, and built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/ifc-optimizer.html">
 
+    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/ifc-optimizer.html">
     <meta property="og:site_name" content="liteAECO">
@@ -40,12 +42,14 @@
     <meta property="og:image:alt" content="liteAECO IFC Optimizer tool interface">
     <meta property="og:locale" content="en_US">
 
+    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-optimizer.html">
     <meta name="twitter:title" content="IFC Optimizer - Compress & Optimize IFC Files Locally | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to optimize and compress single IFC files. Reduce file size, clean model data, and improve performance. No uploads, private, fast, and built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-ifc-optimizer.png">
 
+    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -54,9 +58,11 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../js/vendor/lucide-1.41.0.min.js"></script>
+    <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
+    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
@@ -76,32 +82,37 @@
         }
     </script>
 
+    
     <link rel="stylesheet" type="text/css" href="../css/global.css">
 </head>
 
 <body
-    class="bg-slate-50 text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
+    class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
 
-    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full transition-all flex-grow">
+    
 
-        <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded p-6 md:p-8 mb-6">
+    
+
+    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
+
+        <div class="bg-white">
             <div
-                class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 border-b border-slate-200/60 pb-4">
+                class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4">
                 <div class="flex items-center gap-3">
                     <div
-                        class="w-10 h-10 rounded-lg bg-white border border-slate-100 shadow-sm flex items-center justify-center text-indigo-600 shrink-0">
+                        class="w-10 h-10 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-900 shrink-0">
                         <i data-lucide="zap" class="w-5 h-5"></i>
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold text-slate-900 tracking-tight leading-tight" id="ui-title">IFC
                             Optimizer</h1>
                         <p class="text-sm font-medium text-indigo-500 uppercase tracking-widest mt-0.5"
-                            id="ui-subtitle">Graph Compression & Deduplication</p>
+                            id="ui-subtitle">Reduce size of ifc models</p>
                     </div>
                 </div>
             </div>
 
-            <details class="text-sm text-slate-600 leading-relaxed group">
+            <details class="text-sm text-slate-600 leading-relaxed group border-b border-slate-300 pb-4">
 				<summary class="cursor-pointer list-none flex items-center gap-2 font-semibold text-slate-900 select-none">
 					<i data-lucide="chevron-right" class="w-4 h-4 text-indigo-500 transition-transform group-open:rotate-90"></i>
 					<span id="ui-rule-title">What this tool does</span>
@@ -119,14 +130,14 @@
 			</details>
         </div>
 
-        <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-6 md:p-8">
+        <div class="bg-white pt-6 md:pt-8">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
 
                 <div class="flex flex-col">
                     <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
                         <span
-                            class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                            class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
                                 data-lucide="file-code-2" class="w-3.5 h-3.5"></i></span>
                         <span id="ui-step-1">Load Model</span>
                     </h2>
@@ -157,7 +168,7 @@
                 <div class="flex flex-col">
                     <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
                         <span
-                            class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                            class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
                                 data-lucide="settings-2" class="w-3.5 h-3.5"></i></span>
                         <span id="ui-step-2">Optimization Settings</span>
                     </h2>
@@ -166,7 +177,7 @@
                         class="bg-white/50 p-6 rounded border border-slate-200 shadow-sm flex-grow flex flex-col justify-start gap-6 relative group">
 
                         <div>
-                            <div class="flex justify-between items-center mb-3 border-b border-slate-200/60 pb-2">
+                            <div class="flex justify-between items-center mb-3 border-b border-slate-200 pb-2">
                                 <p class="font-semibold text-sm text-slate-800" id="ui-opt-level">Global Optimization Level</p>
                                 <span id="ui-opt-level-badge" class="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 uppercase tracking-wide">Higher = Slower</span>
                             </div>
@@ -195,7 +206,7 @@
                     <summary
                         class="flex justify-between items-center font-medium cursor-pointer list-none p-4 hover:bg-slate-50 transition-colors [&::-webkit-details-marker]:hidden">
                         <span class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                            <span class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs"><i data-lucide="cpu" class="w-3.5 h-3.5"></i></span>
+                            <span class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs"><i data-lucide="cpu" class="w-3.5 h-3.5"></i></span>
                             <span id="ui-adv-opt-title">Advanced Optimization</span>
                         </span>
                         <span
@@ -203,14 +214,14 @@
                             <i data-lucide="chevron-down" class="w-4 h-4"></i>
                         </span>
                     </summary>
-                    <div class="p-6 border-t border-slate-200/60 bg-white/50 flex flex-col md:flex-row gap-8">
+                    <div class="p-6 border-t border-slate-200 bg-white flex flex-col md:flex-row gap-8">
 
                         <div class="flex-1 flex flex-col gap-8">
                             <div>
-                                <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200/60 pb-2" id="ui-webifc-opt-title">Web-IFC Optimization</p>
+                                <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200 pb-2" id="ui-webifc-opt-title">Web-IFC Optimization</p>
                                 <div class="flex flex-col space-y-4 text-[13px]">
                                     <label class="flex items-start space-x-3 cursor-pointer group/opt">
-                                        <input type="checkbox" id="opt_deep_compress" class="accent-indigo-500 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
+                                        <input type="checkbox" id="opt_deep_compress" class="accent-neutral-900 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
                                         <span class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors leading-snug">
                                             <span id="ui-deep-comp">Deep Graph Compression</span>
                                             <span class="block text-[11px] font-normal text-slate-400 mt-0.5" id="ui-deep-comp-desc">Loads the model into memory to destructively prune dead graph elements.<br />
@@ -221,7 +232,7 @@
 
                                     <div id="deep_compress_controls" class="flex flex-col gap-3 pl-7">
                                         <label class="flex items-start space-x-3 cursor-pointer group/opt">
-                                            <input type="checkbox" id="opt_strip_psets" class="accent-indigo-500 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
+                                            <input type="checkbox" id="opt_strip_psets" class="accent-neutral-900 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
                                             <span class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors leading-snug">
                                                 <span id="ui-strip-psets">Delete BIM Data (Property Sets &amp; Quantities)</span>
                                                 <span class="block text-[11px] font-normal text-slate-400 mt-0.5" id="ui-strip-psets-desc">Removes <code class="bg-slate-100 px-1 py-0.5 rounded border border-slate-200 text-slate-600">IfcPropertySet</code> and related data. Massive size reduction, but objects lose attributes.</span>
@@ -233,10 +244,10 @@
                         </div>
 
                         <div class="flex-1">
-                            <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200/60 pb-2" id="ui-out-opt-title">Output Optimization</p>
+                            <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200 pb-2" id="ui-out-opt-title">Output Optimization</p>
                             <div class="flex flex-col space-y-4 text-[13px]">
                                 <label class="flex items-start space-x-3 cursor-pointer group/opt">
-                                    <input type="checkbox" id="opt_float_precision" class="accent-indigo-500 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
+                                    <input type="checkbox" id="opt_float_precision" class="accent-neutral-900 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
                                     <span class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors leading-snug">
                                         <span id="ui-float-prec">Normalize float precision</span>
                                         <span class="block text-[11px] font-normal text-slate-400 mt-0.5" id="ui-float-prec-desc">Trims excess decimal places from all numeric values</span>
@@ -248,7 +259,7 @@
                                 </div>
 
                                 <label class="flex items-start space-x-3 cursor-pointer group/opt">
-                                    <input type="checkbox" id="opt_dedup_colors" class="accent-indigo-500 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
+                                    <input type="checkbox" id="opt_dedup_colors" class="accent-neutral-900 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
                                     <span class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors leading-snug">
                                         <span id="ui-dedup-col">Deduplicate colour definitions</span>
                                         <span class="block text-[11px] font-normal text-slate-400 mt-0.5" id="ui-dedup-col-desc">Consolidates duplicate <code class="bg-slate-100 px-1 py-0.5 rounded border border-slate-200 text-slate-600">IFCCOLOURRGB</code> entities</span>
@@ -256,7 +267,7 @@
                                 </label>
 
                                 <label class="flex items-start space-x-3 cursor-pointer group/opt">
-                                    <input type="checkbox" id="opt_guid_repair" class="accent-indigo-500 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0" checked>
+                                    <input type="checkbox" id="opt_guid_repair" class="accent-neutral-900 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0" checked>
                                     <span class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors leading-snug">
                                         <span id="ui-guid-repair">Repair duplicate GlobalIds</span>
                                         <span class="block text-[11px] font-normal text-slate-400 mt-0.5" id="ui-guid-repair-desc">Regenerates the later copies of any duplicated <code class="bg-slate-100 px-1 py-0.5 rounded border border-slate-200 text-slate-600">GlobalId</code>. Unchecked: duplicates are only reported.</span>
@@ -264,7 +275,7 @@
                                 </label>
 
                                 <label class="flex items-start space-x-3 cursor-pointer group/opt">
-                                    <input type="checkbox" id="opt_strip_presentation" class="accent-indigo-500 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
+                                    <input type="checkbox" id="opt_strip_presentation" class="accent-neutral-900 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
                                     <span class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors leading-snug">
                                         <span id="ui-strip-pres">Strip presentation &amp; appearance data</span>
                                         <span class="block text-[11px] font-normal text-slate-400 mt-0.5" id="ui-strip-pres-desc">Removes all visual styling entities.<br />
@@ -281,7 +292,7 @@
 
             <div>
                 <button id="optimizeBtn"
-                    class="w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-bold text-white bg-slate-900 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 disabled:bg-slate-300 disabled:text-slate-500 disabled:shadow-none disabled:cursor-not-allowed transition-all duration-300 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                    class="w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-bold text-white bg-slate-900 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 disabled:bg-slate-300 disabled:text-slate-500 disabled:shadow-none disabled:cursor-not-allowed transition-all duration-300 rounded shadow-md hover:shadow-lg"
                     disabled>
                     <span id="btnText">Optimize File</span>
                 </button>
@@ -298,7 +309,7 @@
                         <summary
                             class="flex justify-between items-center font-medium cursor-pointer list-none p-4 hover:bg-white/80 transition-colors [&::-webkit-details-marker]:hidden">
                             <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
-                                <i data-lucide="terminal" class="w-4 h-4 text-indigo-500"></i>
+                                <i data-lucide="terminal" class="w-4 h-4 text-indigo-500"></i> 
                                 <span id="ui-sys-log">System Log Output</span>
                             </span>
                             <span
@@ -316,7 +327,7 @@
 
                 <div id="downloadArea" class="hidden mt-6">
                     <a id="downloadLink" href="#"
-                        class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm transition-all hover:shadow hover:-translate-y-0.5">
+                        class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded shadow-sm transition-all hover:shadow">
                         <i data-lucide="download" class="w-4 h-4 mr-2"></i>
                         <span id="ui-download-text">Download Optimized Model</span>
                     </a>
@@ -326,20 +337,31 @@
         </div>
     </div>
 
+    
+    
+
     <script>
+        
+        
+        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
+        
+        
         window.updateToolDynamicUI = function (d) {
             if (typeof refreshTable === 'function') refreshTable();
         };
 
+        
         function bootApp() {
+            
             autoDetectLanguage();
 
+            
             window.injectUI({
                 showNav: true,
-                linkTarget: '_blank',
+                linkTarget: '', 
                 transparentNav: false,
                 showSignIn: false,
                 showCategories: true,
@@ -349,8 +371,10 @@
                 showFooterLinks: true,
             });
 
+            
             window.injectCookieBanner();
 
+            
             const currentYear = new Date().getFullYear();
             const targetVersionInput = document.getElementById('targetVersionInput');
             if (targetVersionInput) {
@@ -378,17 +402,23 @@
                 toggleVersionInput();
             }
 
+            
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
 
+        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
+        
+        
+        
     </script>
 
     <script>
+        
         const file1Input = document.getElementById('file1');
         const file1Name = document.getElementById('file1-name');
         const optimizeBtn = document.getElementById('optimizeBtn');
@@ -398,6 +428,7 @@
         const downloadArea = document.getElementById('downloadArea');
         const downloadLink = document.getElementById('downloadLink');
 
+        
         function t(key, fallback) {
             try {
                 const d = (typeof getTranslations === 'function') ? getTranslations() : (window.PAGE_I18N || {});
@@ -441,9 +472,10 @@
             checkReady();
         }
 
+        
         const MEM_GB = Math.min(8, Math.max(1, navigator.deviceMemory || 8));
-        const WARN_BYTES = Math.round(MEM_GB * 20) * 1048576;
-        const DEEP_CAP_BYTES = Math.round(MEM_GB * 32) * 1048576;
+        const WARN_BYTES = Math.round(MEM_GB * 20) * 1048576;      
+        const DEEP_CAP_BYTES = Math.round(MEM_GB * 32) * 1048576;  
 
         function inputBytes() { return file1Input.files.length ? file1Input.files[0].size : 0; }
 
@@ -476,6 +508,7 @@
 
         setupDropZone('drop-zone-1', file1Input, file1Name);
 
+        
         const optLevelSelect = document.getElementById('opt_level_select');
         const optLevelDesc = document.getElementById('opt_level_desc');
 
@@ -522,6 +555,7 @@
         syncDeepCompressControl();
         optDeepCompressCb.addEventListener('change', () => { if (optDeepCompressCb.checked) checkSizeGuardrails(); });
 
+        
         function formatDuration(ms) {
             if (ms < 1000) return `${Math.round(ms)} ms`;
             const s = ms / 1000;
@@ -541,10 +575,14 @@
             console.log(msg);
         }
 
+        
+        
+        
         const WORKER_VERSION = 8;
         const WORKER_URL = window.SITE_ROOT + 'js/ifc-worker.js?v=' + WORKER_VERSION;
         const STALE_WORKER_MSG = 'js/ifc-worker.js is missing or out of date (browser cache?). Hard-refresh the page (Ctrl+F5 / Cmd+Shift+R) and make sure the new ifc-worker.js is deployed.';
 
+        
         function createCoordinator() {
             const w = new Worker(WORKER_URL);
             let readyResolve, readyReject;
@@ -589,6 +627,7 @@
             };
         }
 
+
         function setInputsLocked(locked) {
             file1Input.disabled = locked;
             const z = document.getElementById('drop-zone-1');
@@ -596,6 +635,7 @@
         }
         let lastDownloadUrl = null;
 
+        
         optimizeBtn.addEventListener('click', async () => {
             logArea.textContent = '';
             downloadArea.classList.add('hidden');

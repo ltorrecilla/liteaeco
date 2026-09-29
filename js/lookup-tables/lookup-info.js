@@ -1,3 +1,10 @@
+/* lookup-info.js — shared lookup tables for liteAECO tools.
+ * lookupCountry: country names (UPPERCASE).
+ * lookupTimezone: country -> principal IANA zone (capital city).
+ * lookupTimezoneState: multi-timezone countries resolved via state/region;
+ * without a region the principal (capital) zone from lookupTimezone is used.
+ * Reference: en.wikipedia.org/wiki/List_of_time_zones_by_country */
+
 const lookupTimezone = {
     'AFGHANISTAN': 'Asia/Kabul', 'ALBANIA': 'Europe/Tirane', 'ALGERIA': 'Africa/Algiers',
     'ANDORRA': 'Europe/Andorra', 'ANGOLA': 'Africa/Luanda', 'ARGENTINA': 'America/Argentina/Buenos_Aires',

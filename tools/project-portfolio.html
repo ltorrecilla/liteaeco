@@ -25,10 +25,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Portfolio - Manage & Visualize Your Project Portfolio | liteAECO</title>
 
+    
     <meta name="description" content="Free client-side tool to manage and visualize your project portfolio. Track status, budgets and timelines. No uploads, private, fast, and built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/project-portfolio.html">
 
+    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/project-portfolio.html">
     <meta property="og:site_name" content="liteAECO">
@@ -40,12 +42,14 @@
     <meta property="og:image:alt" content="liteAECO Project Portfolio tool interface">
     <meta property="og:locale" content="en_US">
 
+    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/project-portfolio.html">
     <meta name="twitter:title" content="Project Portfolio - Manage & Visualize Your Project Portfolio | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to manage and visualize your project portfolio. Track status, budgets and timelines. No uploads, private, fast, and built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-project-portfolio.png">
 
+    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -54,18 +58,21 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
+    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/liteaeco-autosave.js"></script>
     <script src="../js/project-registry.js"></script>
-
+	
+    
     <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
     <script src="../js/vendor/chart-4.5.1.js"></script>
-    <script src="../js/vendor/lz-string-1.5.0.min.js"></script>
+    <script src="../js/vendor/lz-string-1.5.0.min.js"></script> 
 
     <script>
         tailwind.config = {
@@ -75,6 +82,7 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
+                        
                         accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
                     }
                 }
@@ -82,6 +90,7 @@
         }
     </script>
 
+    
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -89,6 +98,7 @@
             overflow: hidden;
         }
 
+        
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -107,9 +117,11 @@
             background: #94a3b8;
         }
 
+        
         .gantt-layout {
             display: flex;
             height: calc(100vh - 48px);
+            
         }
 
         .gantt-sidebar {
@@ -172,6 +184,7 @@
             position: relative;
         }
 
+        
         .gantt-row {
             height: 40px;
             border-bottom: 1px solid rgba(241, 245, 249, 0.5);
@@ -184,6 +197,7 @@
             background: rgba(255, 255, 255, 0.8);
         }
 
+        
         .sidebar-minimized {
             width: 64px !important;
         }
@@ -223,6 +237,7 @@
             margin-right: 0 !important;
         }
 
+        
         .timeline-grid-bg {
             position: absolute;
             top: 0;
@@ -231,6 +246,7 @@
             display: flex;
             pointer-events: none;
             z-index: 1;
+            
             background-color: rgb(255, 255, 255);
         }
 
@@ -279,6 +295,7 @@
             white-space: nowrap;
         }
 
+        
         .gantt-elements-layer {
             position: absolute;
             top: 0;
@@ -320,6 +337,7 @@
             transform: scale(1.02);
         }
 
+        
         .resize-handle {
             position: absolute;
             top: 0;
@@ -346,6 +364,7 @@
             background-color: rgba(255, 255, 255, 0.4);
         }
 
+        
         body.is-presentation .task-bar {
             height: 18px;
             border-radius: 9px;
@@ -362,6 +381,7 @@
             display: none !important;
         }
 
+        
         .modal-overlay {
             background: rgba(15, 23, 42, 0.4);
             backdrop-filter: blur(6px);
@@ -379,11 +399,13 @@
             -webkit-filter: drop-shadow(0px 5px 5px rgba(99, 102, 241, 0.3));
             filter: drop-shadow(0px 5px 5px rgba(99, 102, 241, 0.3));
             transition: all 0.3s ease;
+            
         }
 
         .shadow-logo:hover {
             -webkit-filter: drop-shadow(0px 5px 5px rgba(99, 102, 241, 0.1));
             filter: drop-shadow(0px 5px 5px rgba(99, 102, 241, 0.1));
+            
         }
     </style>
     <style>
@@ -458,6 +480,9 @@
                     <option value="fr">FR</option>
                     <option value="pt">PT</option>
                     <option value="it">IT</option>
+                    
+
+
                 </select>
             </div>
         </div>
@@ -576,6 +601,7 @@
                 </div>
 
                 <div class="flex gap-2 stack-on-min">
+                    
                     <div class="relative group flex-1 min-w-0 hide-on-min">
                         <button
                             class="w-full px-1 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1">
@@ -594,6 +620,8 @@
                         </div>
                     </div>
 
+                    
+
                     <div class="relative group flex-1 min-w-0 hide-on-min">
                         <button onclick="exportSession()"
                             class="w-full px-1 py-1.5 bg-white border border-slate-200 hover:border-green-200 hover:bg-green-50 hover:text-green-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1"
@@ -609,11 +637,14 @@
                         </div>
                     </div>
 
+                    
                     <button onclick="toggleViewMenu()"
                         class="px-2 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-none text-[10px] font-bold uppercase transition flex items-center justify-center hide-on-min"
                         title="Toggle View Menu" data-i18n-title="view">
                         <i data-lucide="eye-off" id="view-menu-icon" class="w-3.5 h-3.5 shrink-0"></i>
                     </button>
+
+                    
 
                     <div class="relative group hide-on-min">
                         <button
@@ -622,6 +653,9 @@
                                 class="w-3.5 h-3.5 shrink-0"></i></button>
                         <div
                             class="absolute bottom-full right-0 w-44 mb-1 bg-white/95 backdrop-blur-xl border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col">
+                            
+
+
                             <button onclick="pfAutosaveToggle()" id="pf-autosave-row"
                                 class="px-3 py-2 text-[10px] font-bold text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 uppercase tracking-widest border-b border-slate-100 text-left transition-colors flex items-center justify-between gap-3">
                                 <span data-i18n="autosaveToggle">Autosave</span>
@@ -1011,11 +1045,16 @@
         </div>
         <p id="loader-text" class="text-sm font-bold uppercase tracking-widest text-slate-900">Processing...</p>
     </div>
-
+	
     <script>
+        
+        
+        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
+        
+        
         window.updateToolDynamicUI = function () {
             if (typeof updateAndRenderAll === "function") {
                 updateAndRenderAll();
@@ -1042,7 +1081,7 @@
             if (typeof window.injectUI === "function") {
                 window.injectUI({
                     showNav: false,
-                    linkTarget: '',
+                    linkTarget: '', 
                     transparentNav: false,
                     showSignIn: false,
                     showCategories: false,
@@ -1074,21 +1113,28 @@
             bootTranslationLayer();
         }
 
+        
+        
+        
     </script>
 
     <script>
 
+        
+        
+        
         let lastSavedHistoryIndex = 0;
 
         function handleHomeNavigation(event) {
+            
             if (historyIndex !== lastSavedHistoryIndex) {
-                event.preventDefault();
+                event.preventDefault(); 
                 document.getElementById("unsaved-modal").classList.remove("hidden");
                 document.getElementById("unsaved-modal").classList.add("flex");
                 lucide.createIcons();
                 return false;
             }
-            return true;
+            return true; 
         }
 
         function closeUnsavedModal() {
@@ -1100,20 +1146,29 @@
             window.location.href = "../index.html";
         }
 
-        Chart.defaults.font.family = "'Inter', sans-serif";
-        Chart.defaults.color = "#64748b";
+        
+        
+        
 
+        
+
+        
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.color = "#64748b"; 
+
+        
         let ringChartInst = null;
         let lineChartInst = null;
         let barChartInst = null;
 
+        
         lucide.createIcons();
 
         let hasUnsavedChanges = false;
 
         function handleLogoClick(event) {
             if (hasUnsavedChanges) {
-                event.preventDefault();
+                event.preventDefault(); 
                 document.getElementById('unsaved-modal').classList.remove('hidden');
                 document.getElementById('unsaved-modal').classList.add('flex');
                 lucide.createIcons();
@@ -1130,6 +1185,7 @@
             window.location.href = '../index.html';
         }
 
+        
         function escapeHTML(str) {
             if (typeof str !== 'string') return str;
             return str.replace(/[&<>'"]/g, tag => ({
@@ -1153,6 +1209,7 @@
             }
         }
 
+        
         const config = {
             cellWidth: 30,
             rowHeight: 40,
@@ -1161,12 +1218,13 @@
         };
 
         const colorPalette = [
-            { color: '#4f46e5', lightColor: '#e0e7ff' },
-            { color: '#0ea5e9', lightColor: '#e0f2fe' },
-            { color: '#8b5cf6', lightColor: '#ede9fe' },
-            { color: '#f43f5e', lightColor: '#ffe4e6' }
+            { color: '#4f46e5', lightColor: '#e0e7ff' }, 
+            { color: '#0ea5e9', lightColor: '#e0f2fe' }, 
+            { color: '#8b5cf6', lightColor: '#ede9fe' }, 
+            { color: '#f43f5e', lightColor: '#ffe4e6' }  
         ];
 
+        
         function addDays(date, days) {
             const result = new Date(date);
             result.setDate(result.getDate() + days);
@@ -1193,6 +1251,7 @@
             return `${yyyy}-${mm}-${dd}`;
         }
 
+        
         var projects = [];
 
         let isPresentMode = false;
@@ -1211,13 +1270,16 @@
         let currentDisplayRows = [];
 
         function handleCurrencyChange(event) {
+            
             currentCurrency = event.target.value;
 
+            
             const modalLabel = document.getElementById('dummy-modal-currency-label');
             if (modalLabel) {
                 modalLabel.innerText = currentCurrency;
             }
 
+            
             updateHeaderMetrics();
             renderSidebar();
 
@@ -1309,6 +1371,7 @@
             return colorPercentage;
         }
 
+        
         let stateHistory = [];
         let historyIndex = -1;
         const MAX_HISTORY = 50;
@@ -1335,6 +1398,7 @@
                 historyIndex++;
             }
 
+            
             hasUnsavedChanges = true;
             if (typeof Autosave !== "undefined") Autosave.markDirty();
         }
@@ -1373,22 +1437,29 @@
         function adjustTimelinePadding() {
             const visibleProjects = getVisibleProjects();
 
+            
             if (visibleProjects.length === 0) {
                 config.startDate = new Date();
+                
                 config.startDate.setDate(config.startDate.getDate() - config.startDate.getDay());
+                
                 config.totalDays = 42;
                 return;
             }
 
+            
             let minTime = Math.min(...visibleProjects.map(p => p.startDate.getTime()));
             let maxTime = Math.max(...visibleProjects.map(p => p.endDate.getTime()));
 
             let desiredStartDate = new Date(minTime);
+            
             desiredStartDate.setDate(desiredStartDate.getDate() - desiredStartDate.getDay());
             config.startDate = desiredStartDate;
 
             let desiredEndDate = new Date(maxTime);
+            
             desiredEndDate.setDate(desiredEndDate.getDate() + 42);
+            
             desiredEndDate.setDate(desiredEndDate.getDate() + (6 - desiredEndDate.getDay()));
 
             config.totalDays = Math.max(14, diffDays(config.startDate, desiredEndDate));
@@ -1609,11 +1680,13 @@
         function parseSessionData(jsonData) {
             const parsed = JSON.parse(jsonData);
 
+            
             if (parsed && parsed.app === "liteAECO-timeline") {
                 const proj = parseTimelineJSON(parsed);
                 return proj ? [proj] : [];
             }
 
+            
             let list = null;
             if (parsed && parsed.app === "liteAECO-portfolio" && Array.isArray(parsed.projects)) {
                 if ((parsed.schema || 0) > 1) throw new Error("Newer session format – please update the app");
@@ -1623,7 +1696,7 @@
                     calInvalidate();
                 }
             } else if (Array.isArray(parsed)) {
-                list = parsed;
+                list = parsed;                       
             }
             if (!list) throw new Error("Invalid session format");
             return list.map(p => ({
@@ -1633,6 +1706,11 @@
                 isDummy: p.isDummy || false
             }));
         }
+
+        
+
+
+
 
         function parseTimelineJSON(data) {
             const tl = data.timeline || {};
@@ -1652,6 +1730,7 @@
                 const d = addDaysLocal(startDate, off);
                 return workweek[d.getDay()] && !holidaySet.has(fmt(d));
             };
+            
             const calSpanLocal = (start, n) => {
                 if (n <= 0) return 0;
                 let o = start, guard = 0;
@@ -1670,7 +1749,7 @@
             (tl.phases || []).forEach(ph => phaseName[ph.id] = ph.name);
 
             let minTime = Infinity, maxTime = -Infinity, totalBudget = 0, totalActual = 0, hasActual = false;
-            const phaseAgg = new Map();
+            const phaseAgg = new Map();          
             tTasks.forEach(t => {
                 const s = addDaysLocal(startDate, t.start || 0).getTime();
                 const e = addDaysLocal(startDate, taskEndOffset(t)).getTime();
@@ -1778,6 +1857,7 @@
 
                     const proj = parseProjectExcel(rows, file.name.replace(/\.[^/.]+$/, ""));
                     if (proj) {
+                        
                         if (workbook.Sheets["INFO"]) {
                             const infoRows = XLSX.utils.sheet_to_json(workbook.Sheets["INFO"], { header: 1, raw: false, defval: "" });
                             infoRows.forEach(r => {
@@ -1804,6 +1884,10 @@
             updateLoader("Removing duplicates & applying updates...", 95);
             await new Promise(r => setTimeout(r, 10));
 
+            
+            
+            
+            
             const uniqueMap = new Map();
 
             for (const p of mergedProjects) {
@@ -1815,6 +1899,8 @@
 
             projects = Array.from(uniqueMap.values());
 
+            
+            
             if (window.liteAECO && window.liteAECO.projects) {
                 projects.forEach(p => {
                     if (!p.guid) return;
@@ -1866,8 +1952,10 @@
                     if (acNode && acNode.textContent) projectActualBudget = parseFloat(acNode.textContent) || 0;
                 }
 
+                
                 function parseXMLDate(dateStr) {
                     if (!dateStr) return Infinity;
+                    
                     const dateMatch = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
                     if (dateMatch) {
                         return new Date(parseInt(dateMatch[1]), parseInt(dateMatch[2]) - 1, parseInt(dateMatch[3])).getTime();
@@ -1896,6 +1984,7 @@
                     let taskEnd = finishNode ? parseXMLDate(finishNode.textContent) : -Infinity;
 
                     if (level === 1) {
+                        
                         let cleanName = nameNode.textContent.replace(/^[\d\.]+\s/, '').trim();
 
                         currentPhaseObj = {
@@ -1924,6 +2013,7 @@
                 phasesData = phasesData.filter(p => p.minTime !== Infinity && p.maxTime !== -Infinity);
                 if (minTime === Infinity) return null;
 
+                
                 if (phasesData.length > 0 && title === fallbackName) {
                     title = phasesData[0].name;
                 }
@@ -1949,6 +2039,7 @@
         function parseProjectExcel(rows, fallbackName) {
             if (rows.length < 2) return null;
 
+            
             function parseLocalDate(dateVal) {
                 if (!dateVal) return NaN;
                 if (typeof dateVal === 'number') {
@@ -1962,6 +2053,7 @@
                 return new Date(dStr);
             }
 
+            
             const headerRow = rows[0] || [];
             const headerCol0 = String(headerRow[0]).trim();
             const headerCol3 = String(headerRow[3]).trim();
@@ -2042,6 +2134,7 @@
                 };
             }
 
+            
             let title = fallbackName;
             let projectBudget = 0;
             let projectActualBudget = null;
@@ -2090,7 +2183,7 @@
                 const isTaskRow = col0 === "" && col1 !== "";
 
                 if (isPhaseRow) {
-                    let cleanName = col0.replace(/^[\d\.]+\s/, '');
+                    let cleanName = col0.replace(/^[\d\.]+\s/, ''); 
                     currentPhase = { name: cleanName, minTime: Infinity, maxTime: -Infinity };
                     phasesData.push(currentPhase);
                 }
@@ -2166,6 +2259,7 @@
                 toggleBtn.classList.replace('border-slate-900', 'border-indigo-600');
                 toggleBtn.classList.replace('hover:bg-slate-800', 'hover:bg-indigo-700');
 
+                
                 toggleBtn.innerHTML = '<i data-lucide="chart-gantt" class="w-3.5 h-3.5"></i> <span class="hide-on-min">Schedule</span>';
 
                 hideOnDash.forEach(el => el.style.display = 'none');
@@ -2181,6 +2275,7 @@
                 toggleBtn.classList.replace('border-indigo-600', 'border-slate-900');
                 toggleBtn.classList.replace('hover:bg-indigo-700', 'hover:bg-slate-800');
 
+                
                 toggleBtn.innerHTML = '<i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i> <span class="hide-on-min">Dashboard</span>';
 
                 hideOnDash.forEach(el => el.style.display = '');
@@ -2262,7 +2357,7 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="grid grid-cols-3 gap-4 border-y border-white py-3">
                     <div>
                         <span class="block text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1" data-i18n="statusCompleted">Completed</span>
@@ -2277,7 +2372,7 @@
                         <span class="text-slate-500 font-bold text-lg leading-none">${upcomingCount}</span>
                     </div>
                 </div>
-
+                
                 <div class="grid grid-cols-2 gap-4 pt-1">
                     <div>
                         <span class="block text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1" data-i18n="totalPortfolioBudget">Total Portfolio Budget</span>
@@ -2499,17 +2594,21 @@
             if (isPresentMode) {
                 document.body.classList.add('is-presentation');
 
+                
                 isFutureCollapsed = true;
                 isCompletedCollapsed = true;
 
+                
                 presBtn.classList.add('bg-green-50', 'border-green-200', 'text-green-700', 'hover:bg-green-100', 'hover:border-green-200', 'hover:text-green-700');
                 presBtn.classList.remove('bg-indigo-50', 'border-indigo-200', 'text-indigo-700', 'hover:bg-indigo-100', 'hover:border-indigo-200', 'bg-white', 'text-slate-700');
             } else {
                 document.body.classList.remove('is-presentation');
 
+                
                 isFutureCollapsed = false;
                 isCompletedCollapsed = false;
 
+                
                 presBtn.classList.add('bg-indigo-50', 'border-indigo-200', 'text-indigo-700', 'hover:bg-indigo-100', 'hover:border-indigo-200');
                 presBtn.classList.remove('bg-green-50', 'border-green-200', 'text-green-700', 'hover:bg-green-100', 'hover:border-green-200', 'hover:text-green-700');
             }
@@ -2598,15 +2697,19 @@
             const timelineScroll = document.getElementById("timeline-scroll");
             const todayOffset = getTodayOffset();
 
+            
             if (todayOffset < 0 || todayOffset > config.totalDays) {
                 alert("Today's date is currently outside the portfolio timeline bounds.");
                 return;
             }
 
+            
             const requiredVisibleDays = 16;
             const maxAllowedCellWidth = Math.floor(timelineScroll.clientWidth / requiredVisibleDays);
 
+            
             if (config.cellWidth > maxAllowedCellWidth) {
+                
                 config.cellWidth = Math.max(5, maxAllowedCellWidth);
                 renderTimelineGrid();
                 renderBars();
@@ -2644,6 +2747,7 @@
                 const isWeekBoundary = d.getDay() === 0;
                 const isToday = (i === todayOffset);
 
+                
                 const tomorrow = new Date(d);
                 tomorrow.setDate(tomorrow.getDate() + 1);
                 const isMonthBoundary = tomorrow.getMonth() !== d.getMonth();
@@ -2659,6 +2763,7 @@
 
                 daysHtml += `<div class="${dayClass}" style="width: ${config.cellWidth}px">${dayText}</div>`;
 
+                
                 let showBorder = false;
                 if (config.cellWidth < 12) {
                     showBorder = isMonthBoundary;
@@ -2773,11 +2878,11 @@
                                     <i data-lucide="x" class="w-3.5 h-3.5"></i>
                                 </button>
                                 ${editBtnHtml}
-
+                                
                                 <div class="w-2.5 h-2.5 rounded flex-shrink-0 border border-white/50" style="background-color: ${proj.color}"></div>
                                 <span class="${nameClass} truncate hide-on-min" title="${escapeHTML(proj.name)}">${escapeHTML(proj.name)}</span>
                             </div>
-
+                            
                             <div class="flex flex-col items-end flex-shrink-0 ml-2 w-20 pointer-events-none hide-on-min">
                                 ${isBudgetVisible ? `<span class="text-xs font-semibold text-slate-700">${formatCurrency(proj.budget)}</span>` : ''}
                                 <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">${durationDisplay}</span>
@@ -2823,7 +2928,7 @@
                         }
 
                         html += `
-                            <div class="task-bar pointer-events-none"
+                            <div class="task-bar pointer-events-none" 
                                 style="left: ${left}px; width: ${width}px; top: ${top}px; background-color: ${bg}; color: ${textCol}; border: ${border}; z-index: 1;">
                                 ${row.label} Summary (${row.items.length} projects)
                             </div>
@@ -2868,7 +2973,7 @@
                         }
 
                         html += `
-                            <div class="task-bar ${dragClass}"
+                            <div class="task-bar ${dragClass}" 
                                 data-id="${proj.id}"
                                 ${proj.isDummy ? `ondblclick="openDummyModal('${proj.id}')"` : ''}
                                 title="${escapeHTML(proj.name)}${proj.projectNumber ? '\n' + escapeHTML(proj.projectNumber) : ''}${proj.client ? '\nClient: ' + escapeHTML(proj.client) : ''}\nStart: ${proj.startDate.toLocaleDateString()}\nEnd: ${proj.endDate.toLocaleDateString()}${proj.isDummy ? '\nDouble-click to edit' : ''}"
@@ -2881,7 +2986,7 @@
 
                     } else {
                         html += `
-                            <div class="task-bar ${dragClass}"
+                            <div class="task-bar ${dragClass}" 
                                 data-id="${proj.id}"
                                 ${proj.isDummy ? `ondblclick="openDummyModal('${proj.id}')"` : ''}
                                 title="${escapeHTML(proj.name)} (Total Duration)"
@@ -2917,7 +3022,7 @@
                             }
 
                             html += `
-                                <div class="task-bar shadow-sm ${dragClass}"
+                                <div class="task-bar shadow-sm ${dragClass}" 
                                     data-id="${proj.id}"
                                     ${proj.isDummy ? `ondblclick="openDummyModal('${proj.id}')"` : ''}
                                     title="${escapeHTML(proj.name)} - ${escapeHTML(phase.name)}\nStart: ${new Date(phase.minTime).toLocaleDateString()}\nEnd: ${new Date(phase.maxTime).toLocaleDateString()}${proj.isDummy ? '\nDouble-click to edit' : ''}"
@@ -3250,6 +3355,12 @@
             }
         });
 
+        
+
+
+
+        
+
         function tt(key, fallback) {
             if (typeof i18n === "function") {
                 const v = i18n(key);
@@ -3259,9 +3370,10 @@
             return fallback;
         }
 
+        
         let displayCalendar = {
-            workweek: [false, true, true, true, true, true, false],
-            holidays: []
+            workweek: [false, true, true, true, true, true, false],   
+            holidays: []                                              
         };
         let _holCache = { set: null, key: "" };
         function calInvalidate() { _holCache = { set: null, key: "" }; }
@@ -3282,7 +3394,7 @@
         }
 
         const WEEKDAY_SHORT = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-        const WEEKDAY_ORDER = [1, 2, 3, 4, 5, 6, 0];
+        const WEEKDAY_ORDER = [1, 2, 3, 4, 5, 6, 0];    
         const COUNTRY_TABLE = "Albania:AL;Andorra:AD;Argentina:AR;Armenia:AM;Australia:AU;Austria:AT;Belarus:BY;Belgium:BE;Bolivia:BO;Bosnia and Herzegovina:BA;Botswana:BW;Brazil:BR;Bulgaria:BG;Canada:CA;Chile:CL;China:CN;Colombia:CO;Costa Rica:CR;Croatia:HR;Cuba:CU;Cyprus:CY;Czechia:CZ;Denmark:DK;Dominican Republic:DO;Ecuador:EC;Egypt:EG;Estonia:EE;Faroe Islands:FO;Finland:FI;France:FR;Georgia:GE;Germany:DE;Gibraltar:GI;Greece:GR;Greenland:GL;Grenada:GD;Guatemala:GT;Guernsey:GG;Guyana:GY;Haiti:HT;Honduras:HN;Hong Kong:HK;Hungary:HU;Iceland:IS;India:IN;Indonesia:ID;Ireland:IE;Isle of Man:IM;Israel:IL;Italy:IT;Jamaica:JM;Japan:JP;Jersey:JE;Kazakhstan:KZ;Kenya:KE;Latvia:LV;Lesotho:LS;Liechtenstein:LI;Lithuania:LT;Luxembourg:LU;Madagascar:MG;Malawi:MW;Malaysia:MY;Malta:MT;Mexico:MX;Moldova:MD;Monaco:MC;Mongolia:MN;Montenegro:ME;Morocco:MA;Mozambique:MZ;Namibia:NA;Netherlands:NL;New Zealand:NZ;Nicaragua:NI;Niger:NE;Nigeria:NG;North Macedonia:MK;Norway:NO;Panama:PA;Papua New Guinea:PG;Paraguay:PY;Peru:PE;Philippines:PH;Poland:PL;Portugal:PT;Puerto Rico:PR;Romania:RO;Russia:RU;San Marino:SM;Serbia:RS;Singapore:SG;Slovakia:SK;Slovenia:SI;South Africa:ZA;South Korea:KR;Spain:ES;Suriname:SR;Sweden:SE;Switzerland:CH;Tunisia:TN;Turkey:TR;Ukraine:UA;United Kingdom:GB;United States:US;Uruguay:UY;Vatican City:VA;Venezuela:VE;Vietnam:VN;Zimbabwe:ZW"
             .split(";").map(e => { const ix = e.lastIndexOf(":"); return { name: e.slice(0, ix), code: e.slice(ix + 1) }; });
 
@@ -3313,6 +3425,7 @@
             return list;
         }
 
+        
         function openPfSettingsModal() {
             renderCalendarPanel();
             const m = document.getElementById("pf-settings-modal");
@@ -3388,6 +3501,7 @@
             btn.textContent = tt("search", "Search"); btn.disabled = false;
         }
 
+        
         function buildSessionPayload() {
             const serialized = projects.map(p => {
                 const { color, lightColor, ...rest } = p;
@@ -3412,6 +3526,7 @@
             return true;
         }
 
+        
         const Autosave = liteAECO.createAutosave({
             toolId: "portfolio",
             fileSuffix: ".portfolio.json",
@@ -3425,6 +3540,8 @@
             hasUnsaved: () => historyIndex !== lastSavedHistoryIndex
         });
 
+        
+
         async function pfAutosaveToggle() {
             const pill = document.getElementById('pf-save-menu-disconnect');
             const on = pill && !pill.classList.contains('hidden');
@@ -3432,6 +3549,7 @@
             else await Autosave.connectFile();
         }
 
+        
         const PF_SHARE_PREFIX = "s2=";
         function pfPackSession() {
             const payload = buildSessionPayload();
@@ -3505,7 +3623,8 @@
             history.replaceState(null, "", location.pathname + location.search);
         }
 
-        const PF_PRINT_PAGE_PX = 1512;
+        
+        const PF_PRINT_PAGE_PX = 1512;   
 
         function openPfPrintModal() {
             const m = document.getElementById("pf-print-modal");
@@ -3529,6 +3648,7 @@
             const sheet = document.createElement("div");
             sheet.id = "pf-print-sheet";
 
+            
             const dates = projects.length
                 ? `${new Date(Math.min(...projects.map(p => p.startDate.getTime()))).toLocaleDateString()} – ${new Date(Math.max(...projects.map(p => p.endDate.getTime()))).toLocaleDateString()}`
                 : "";
@@ -3548,6 +3668,7 @@
             const shiftSrc = mode === "view" ? -timelineScroll.scrollLeft : 0;
             const cropW = mode === "view" ? viewW : fullW;
 
+            
             const sideClone = sidebar.cloneNode(true);
             sideClone.removeAttribute("id");
             sideClone.style.overflow = "visible";
@@ -3555,6 +3676,9 @@
             sideClone.style.width = sidebarW + "px";
             sideClone.style.flexShrink = "0";
             main.appendChild(sideClone);
+
+            
+
 
             const col = document.createElement("div");
             col.style.width = cropW + "px";
@@ -3583,6 +3707,7 @@
             main.appendChild(col);
             sheet.appendChild(main);
 
+            
             const totalW = sidebarW + cropW;
             const zoom = Math.min(1, PF_PRINT_PAGE_PX / totalW);
             sheet.style.zoom = zoom;
@@ -3619,13 +3744,14 @@
                 if (sh) sh.remove();
             });
 
+            
             if (projects.length === 0) {
                 const startD = new Date();
                 startD.setHours(0, 0, 0, 0);
-                startD.setDate(startD.getDate() - 3);
+                startD.setDate(startD.getDate() - 3); 
 
                 const endD = new Date(startD);
-                endD.setDate(endD.getDate() + 20);
+                endD.setDate(endD.getDate() + 20); 
 
                 projects.push({
                     id: 'proj_default_' + Math.random().toString(36).substr(2, 9),
@@ -3635,7 +3761,7 @@
                     budget: 50000,
                     color: colorPalette[0].color,
                     lightColor: colorPalette[0].lightColor,
-                    isDummy: true,
+                    isDummy: true, 
                     phasesData: [
                         { name: "Design and Planning", minTime: startD.getTime(), maxTime: addDays(startD, 4).getTime() },
                         { name: "Pre-Construction", minTime: addDays(startD, 4).getTime(), maxTime: addDays(startD, 8).getTime() },
@@ -3651,13 +3777,17 @@
 
             updateAndRenderAll();
 
+            
             const langToggle = document.getElementById('langToggle');
             if (langToggle) {
+                
                 langToggle.value = localStorage.getItem('liteAECOLang') || 'en';
 
+                
                 langToggle.addEventListener('change', (e) => {
                     const selectedLang = e.target.value;
                     localStorage.setItem('liteAECOLang', selectedLang);
+                    
                     if (typeof window.loadLanguage === 'function') {
                         window.loadLanguage(selectedLang, 'project_portfolio');
                     }

@@ -15,18 +15,8 @@
  */
 
 // ========
-// liteAECO - (common.js)
+// liteAECO - (common_icon.js)
 // ========
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -46,49 +36,48 @@
 
 window.dataLayer = window.dataLayer || [];
 function gtag() { dataLayer.push(arguments); }
+gtag('js', new Date());
 
 
-window.LITEAECO_GA_ID = null;
-
-function initAnalytics(cfg) {
-    const gaId = cfg && typeof cfg.gaId === 'string' ? cfg.gaId.trim() : '';
-    if (!gaId || window.LITEAECO_GA_ID) return;
-    window.LITEAECO_GA_ID = gaId;
-
-    
-    if (localStorage.getItem('cookieConsent') === 'declined') {
-        window['ga-disable-' + gaId] = true;
-    }
-
-    gtag('js', new Date());
-    gtag('config', gaId);
-
-    const gaScript = document.createElement('script');
-    gaScript.async = true;
-    gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(gaId);
-    document.head.appendChild(gaScript);
+if (localStorage.getItem('cookieConsent') === 'declined') {
+    window['ga-disable-G-WF672S6T88'] = true;
 }
 
-(function loadSiteConfig() {
-    
-    if (window.LITEAECO_CONFIG) {
-        initAnalytics(window.LITEAECO_CONFIG);
-        return;
+gtag('config', 'G-WF672S6T88');
+
+
+(function () {
+    const gaScript = document.createElement('script');
+    gaScript.async = true;
+    gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-WF672S6T88';
+    const firstScript = document.getElementsByTagName('script')[0];
+    if (firstScript && firstScript.parentNode) {
+        firstScript.parentNode.insertBefore(gaScript, firstScript);
+    } else {
+        document.head.appendChild(gaScript);
     }
-
-    
-    const self = document.currentScript;
-    const src = (self && self.src)
-        ? self.src.replace(/common\.js(\?.*)?$/, 'config.js')
-        : (window.SITE_ROOT || './') + 'js/config.js';
-
-    const s = document.createElement('script');
-    s.src = src;
-    s.async = true;
-    s.onload = () => initAnalytics(window.LITEAECO_CONFIG);
-    s.onerror = () => console.info('liteAECO: js/config.js not found, analytics disabled.');
-    document.head.appendChild(s);
 })();
+
+
+window.handleCookieChoice = function (choice) {
+    localStorage.setItem('cookieConsent', choice);
+    const banner = document.getElementById('cookie-banner');
+    if (banner) banner.remove();
+
+    if (choice === 'declined') {
+        
+        window['ga-disable-G-WF672S6T88'] = true;
+
+        
+        if (window._paq) {
+            _paq.push(['forgetConsentGiven']);
+            _paq.push(['optUserOut']);
+        }
+    } else if (choice === 'accepted') {
+        
+        window['ga-disable-G-WF672S6T88'] = false;
+    }
+};
 
 
 
@@ -130,17 +119,12 @@ window.handleCookieChoice = function (choice) {
     const banner = document.getElementById('cookie-banner');
     if (banner) banner.remove();
 
-    
-    
-    const gaId = window.LITEAECO_GA_ID;
-    if (gaId) window['ga-disable-' + gaId] = (choice === 'declined');
-
-    
     if (choice === 'declined' && window._paq) {
         _paq.push(['forgetConsentGiven']);
         _paq.push(['optUserOut']);
     }
 };
+
 
 
 
@@ -205,13 +189,10 @@ const CATEGORIES = [
     { id: 'ops', label: 'OPERATIONS' },
 ];
 
-
-
-
 const APPS = [
     { id: 2, skipModal: false, icon: 'calendars', categories: ['ops', 'pm'], url: window.SITE_ROOT + 'tools/project-portfolio.html' },
     { id: 26, skipModal: false, icon: 'file-text', categories: ['ops'], url: window.SITE_ROOT + 'tools/pdf-viewer.html' },
-    { id: 11, skipModal: false, icon: 'box', svgIcon: window.SITE_ROOT + 'img/tools/liteaeco-ifc-viewer.svg', categories: ['bim'], url: window.SITE_ROOT + 'tools/ifc-viewer-audit.html' },
+    { id: 11, skipModal: false, icon: 'box', svgIcon: window.SITE_ROOT + 'img/tools/liteaeco-ifc-viewer.svg', categories: ['bim'], url: window.SITE_ROOT + 'tools/ifc-audit.html' },
     { id: 3, skipModal: false, icon: 'file-badge', categories: ['data', 'bim'], url: window.SITE_ROOT + 'tools/ids-generator.html' },
 
     { id: 1, skipModal: false, icon: 'chart-bar', categories: ['pm', 'ops'], url: window.SITE_ROOT + 'tools/project-timeline.html', imageUrl: window.SITE_ROOT + 'img/tools/timeline.webp' },
@@ -241,31 +222,6 @@ const APPS = [
     
     
 ];
-
-
-
-
-
-
-
-
-window.appRotationClass = function (app) {
-    if (!app) return '';
-    if (app.rotation == 90) return 'rotate-90';
-    if (app.rotation == -90) return '-rotate-90';
-    if (app.rotation == 180) return 'rotate-180';
-    return '';
-};
-
-window.renderAppIcon = function (app, sizeClass = 'w-4 h-4', extraClass = '') {
-    const rot = window.appRotationClass(app);
-    if (app && app.svgIcon) {
-        const url = String(app.svgIcon).replace(/'/g, '%27');
-        return `<span aria-hidden="true" class="inline-block shrink-0 bg-current ${sizeClass} ${rot} ${extraClass}"
-            style="-webkit-mask: url('${url}') center / contain no-repeat; mask: url('${url}') center / contain no-repeat;"></span>`;
-    }
-    return `<i data-lucide="${app ? app.icon : 'box'}" class="${sizeClass} ${rot} ${extraClass}"></i>`;
-};
 
 let activeCategory = 'all';
 
@@ -337,12 +293,8 @@ window.loadLanguage = function (lang, pageScriptPrefix) {
     const seq = ++langRequestSeq;
 
     
-    
-    
-    
     window.GLOBAL_I18N = { ...BASE_GLOBAL, categories: { ...BASE_GLOBAL.categories }, apps: { ...BASE_GLOBAL.apps } };
-    const resetPage = window.EN_PAGE || window.BASE_PAGE;
-    if (resetPage) window.PAGE_I18N = { ...resetPage };
+    if (window.BASE_PAGE) window.PAGE_I18N = { ...window.BASE_PAGE };
 
     
     ['dynamic-global-lang', 'dynamic-page-lang'].forEach(id => {
@@ -426,8 +378,7 @@ function autoDetectLanguage() {
 function getTranslations() {
     const curGlobal = window.GLOBAL_I18N || {};
     const curPage = window.PAGE_I18N || {};
-    
-    const basePage = window.EN_PAGE || window.BASE_PAGE || {};
+    const basePage = window.BASE_PAGE || {};
 
     const merged = {
         ...BASE_GLOBAL,
@@ -448,56 +399,26 @@ function getTranslations() {
 }
 
 
-
-
-
-
-
-window.t = function (key, fallback, vars) {
+window.t = function (key) {
     const d = typeof getTranslations === 'function' ? getTranslations() : (window.PAGE_I18N || {});
-    let v = d[key];
-    if (v === undefined || v === null) v = fallback !== undefined ? fallback : key;
-    if (typeof v === 'function') return v(...(Array.isArray(vars) ? vars : [vars]));
-    if (vars && typeof v === 'string') {
-        v = v.replace(/\{(\w+)\}/g, (m, k) => (vars[k] !== undefined && vars[k] !== null ? String(vars[k]) : m));
-    }
-    return v;
+    
+    return d[key] !== undefined ? d[key] : key;
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-const I18N_ATTRS = [
-    ['data-i18n-title', 'title'],
-    ['data-i18n-placeholder', 'placeholder'],
-    ['data-i18n-aria', 'aria-label'],
-];
-function i18nApplyTo(root, dict) {
-    const d = dict || (typeof getTranslations === 'function' ? getTranslations() : window.PAGE_I18N);
+function applyLanguage() {
+    
+    const d = typeof getTranslations === 'function' ? getTranslations() : window.PAGE_I18N;
     if (!d) return;
-    const scope = root || document;
-    const all = (sel) => {
-        const list = [...scope.querySelectorAll(sel)];
-        if (scope !== document && scope.matches && scope.matches(sel)) list.unshift(scope);
-        return list;
-    };
+
+    document.documentElement.lang = currentLang;
+    if (d.title) document.title = d.title;
 
     
     const kebabToCamel = (str) => str.replace(/-([a-z0-9])/ig, (g) => g[1].toUpperCase());
 
     
     const applyTranslation = (el, dictKey) => {
-        if (d[dictKey] !== undefined && typeof d[dictKey] !== 'function') {
+        if (d[dictKey] !== undefined) {
             if (el.tagName === 'INPUT' && el.hasAttribute('placeholder')) {
                 el.placeholder = d[dictKey];
             } else {
@@ -509,7 +430,7 @@ function i18nApplyTo(root, dict) {
     
     
     
-    all('[data-i18n]').forEach(el => {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         applyTranslation(el, key);
     });
@@ -517,61 +438,13 @@ function i18nApplyTo(root, dict) {
     
     
     
-    all('[id^="ui-"]').forEach(el => {
+    document.querySelectorAll('[id^="ui-"]').forEach(el => {
         if (!el.hasAttribute('data-i18n')) {
             const baseId = el.id.substring(3);
             const dictKey = kebabToCamel(baseId);
             applyTranslation(el, dictKey);
         }
     });
-
-    
-    
-    
-    
-    
-    for (const [dataAttr, target] of I18N_ATTRS) {
-        all('[' + dataAttr + ']').forEach(el => {
-            const v = d[el.getAttribute(dataAttr)];
-            if (v !== undefined && typeof v !== 'function' && el.hasAttribute(target)) el.setAttribute(target, v);
-        });
-    }
-
-    
-    
-    
-    
-    
-    
-    const norm = (x) => String(x == null ? '' : x).replace(/\s+/g, ' ').trim();
-    all('[data-i18n-soft]').forEach(el => {
-        const key = el.getAttribute('data-i18n-soft');
-        const v = d[key];
-        if (v === undefined || typeof v === 'function') return;
-        const cur = norm(el.innerHTML);
-        let untouched;
-        if (el.__i18nLast !== undefined) untouched = cur === el.__i18nLast;
-        else if (window.EN_PAGE && window.EN_PAGE[key] !== undefined) untouched = cur === norm(window.EN_PAGE[key]);
-        else untouched = true; 
-        if (!untouched) return;
-        el.innerHTML = v;
-        el.__i18nLast = norm(el.innerHTML);
-    });
-}
-
-
-
-window.applyI18n = function (root) { i18nApplyTo(root); };
-
-function applyLanguage() {
-    
-    const d = typeof getTranslations === 'function' ? getTranslations() : window.PAGE_I18N;
-    if (!d) return;
-
-    document.documentElement.lang = currentLang;
-    if (d.title) document.title = d.title;
-
-    i18nApplyTo(document, d);
 
     if (typeof renderNav === 'function') renderNav();
 
@@ -916,10 +789,23 @@ function renderNav() {
             const appFileName = app.url.split('/').pop();
             const isCurrentApp = window.location.pathname.includes(appFileName);
 
+            // Map custom rotation to Tailwind class
+            let rotationClass = '';
+            if (app.rotation == 90) rotationClass = 'rotate-90';
+            if (app.rotation == -90) rotationClass = '-rotate-90';
+            if (app.rotation == 180) rotationClass = 'rotate-180';
+
+            // Prefer a custom SVG file over a Lucide glyph when one is provided.
+            const iconHTML = app.svgIcon
+                ? `<span aria-hidden="true"
+                        class="inline-block w-4 h-4 bg-current transition-transform ${rotationClass}"
+                        style="-webkit-mask: url('${app.svgIcon}') center / contain no-repeat; mask: url('${app.svgIcon}') center / contain no-repeat;"></span>`
+                : `<i data-lucide="${app.icon}" class="w-4 h-4 transition-transform ${rotationClass}"></i>`;
+
             return `
                                 <a href="${app.url}"${cdeTarget()} class="flex items-center gap-3 p-2 hover:bg-indigo-50 rounded-none transition-colors group/item block ${isCurrentApp ? 'bg-indigo-50/50' : ''}">
                                     <div class="w-8 h-8 bg-white border flex items-center justify-center shrink-0 ${isCurrentApp ? 'border-indigo-300 text-indigo-600 shadow-sm' : 'border-slate-100 text-slate-500 group-hover/item:text-indigo-600'}">
-                                        ${window.renderAppIcon(app, 'w-4 h-4', 'transition-transform')}
+                                        ${iconHTML}
                                     </div>
                                     <span class="text-sm ${isCurrentApp ? 'font-bold text-indigo-700' : 'font-medium text-slate-700 group-hover/item:text-indigo-700'}">${appTitle}</span>
                                 </a>`
@@ -961,10 +847,22 @@ function renderNav() {
             const appFileName = app.url.split('/').pop();
             const isCurrentApp = window.location.pathname.includes(appFileName);
 
+            let rotationClass = '';
+            if (app.rotation == 90) rotationClass = 'rotate-90';
+            if (app.rotation == -90) rotationClass = '-rotate-90';
+            if (app.rotation == 180) rotationClass = 'rotate-180';
+
+            
+            const iconHTML = app.svgIcon
+                ? `<span aria-hidden="true"
+                        class="inline-block w-4 h-4 bg-current ${rotationClass}"
+                        style="-webkit-mask: url('${app.svgIcon}') center / contain no-repeat; mask: url('${app.svgIcon}') center / contain no-repeat;"></span>`
+                : `<i data-lucide="${app.icon}" class="w-4 h-4 ${rotationClass}"></i>`;
+
             return `
                 <a href="${app.url}"${cdeTarget()} class="flex items-center gap-3 px-6 py-3 border-b border-slate-100 last:border-b-0 transition-colors ${isCurrentApp ? 'bg-indigo-50/70' : 'hover:bg-white'}">
                     <div class="w-7 h-7 bg-white border flex items-center justify-center shrink-0 ${isCurrentApp ? 'border-indigo-300 text-indigo-600 shadow-sm' : 'border-slate-100 text-slate-500'}">
-                        ${window.renderAppIcon(app, 'w-4 h-4')}
+                        ${iconHTML}
                     </div>
                     <span class="text-sm ${isCurrentApp ? 'font-bold text-indigo-700' : 'font-medium text-slate-700'}">${appTitle}</span>
                 </a>`;
@@ -1062,101 +960,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (window.lucide) lucide.createIcons();
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-(function () {
-    var W = typeof window !== 'undefined' ? window : globalThis;
-    
-    var DEFS = [
-        { code: 'VOID', label: 'Provisions / Voids', color: '#fdba74', keywords: ['VOID', 'VOIDS', 'PROVISION', 'PROVISIONS', 'OPENING', 'OPENINGS', 'PFV', 'SUD', 'DURCHBRUCH'] },
-        { code: 'ARC', label: 'Architectural', color: '#d4d4d8', keywords: ['ARCH', 'ARCHITECTURE', 'ARCHITECTURAL', 'ARC', 'AA'] },
-        { code: 'STR', label: 'Structural', color: '#fca5a5', keywords: ['STRUCT', 'STRUCTURE', 'STRUCTURAL', 'STR', 'ST'] },
-        { code: 'ELE', label: 'Electrical', color: '#fcd34d', keywords: ['ELECT', 'ELECTRICAL', 'ELECTRICITY', 'ELE', 'EL'] },
-        { code: 'HVAC', label: 'Heating, Ventilation, and Air Conditioning', color: '#a5f3fc', keywords: ['HVAC', 'HEATING', 'VENTILATION', 'AIR CONDITIONING', 'HLKS', 'HL'] },
-        { code: 'SAN', label: 'Sanitary / Plumbing', color: '#93c5fd', keywords: ['SANITARY', 'SANITAER', 'SANIT\u00c4R', 'PLUMBING', 'SAN', 'SA'] },
-        { code: 'MEP', label: 'Mechanical, Electrical, and Plumbing', color: '#ddd6fe', keywords: ['MEP', 'MECHANICAL ELECTRICAL PLUMBING'] },
-        { code: 'FUR', label: 'Furniture', color: '#d9f99d', keywords: ['FURNITURE', 'FURNISHING', 'FURNISHINGS', 'FUR', 'FU', 'MOB'] },
-        { code: 'INT', label: 'Interior design', color: '#c4b5fd', keywords: ['INTERIOR', 'INTERIOR DESIGN', 'INTERIORS', 'INT', 'IN'] },
-        { code: 'FAC', label: 'Facade', color: '#bfdbfe', keywords: ['FACADE', 'FA\u00c7ADE', 'ENVELOPE', 'FAS', 'FA'] },
-        { code: 'FND', label: 'Foundations', color: '#fecaca', keywords: ['FOUNDATION', 'FOUNDATIONS', 'SUBSTRUCTURE'] },
-        { code: 'LAN', label: 'Landscape', color: '#6ee7b7', keywords: ['LANDSCAPE', 'LANDSCAPING', 'SITE', 'LAND', 'LAN'] },
-        { code: 'PRO', label: 'Process', color: '#fde68a', keywords: ['PROCESS', 'PROCESSING', 'PRODUCTION', 'PRO', 'PR'] },
-        { code: 'LAB', label: 'Laboratory', color: '#a7f3d0', keywords: ['LAB', 'LABORATORY', 'LABORATORIES', 'LB'] },
-        { code: 'ICT', label: 'Telecommunications and data', color: '#93c5fd', keywords: ['ICT', 'DATA', 'TELECOM', 'TELECOMMUNICATIONS', 'NETWORK', 'IT', 'TEL'] },
-        { code: 'SEC', label: 'Security and access control', color: '#bef264', keywords: ['SECURITY', 'ACCESS CONTROL', 'ACCESS', 'SEC', 'SE'] },
-        
-        { code: 'BIM', label: 'BIM management', color: '#e5e7eb', keywords: [], role: true },
-        { code: 'COO', label: 'Coordination', color: '#e5e7eb', keywords: [], role: true },
-        { code: 'REFM', label: 'Real estate and facility management', color: '#e5e7eb', keywords: [], role: true },
-        { code: 'VDC', label: 'Virtual design and construction', color: '#e5e7eb', keywords: [], role: true },
-        { code: 'VIEWER', label: 'Viewer (read only)', color: '#e5e7eb', keywords: [], role: true }
-    ];
-    DEFS.forEach(function (d) { Object.freeze(d.keywords); Object.freeze(d); });
-    var BY = {};
-    DEFS.forEach(function (d) { BY[d.code] = d; });
-    function az(a, b) { return a.code < b.code ? -1 : a.code > b.code ? 1 : 0; }
-    function copy(d) { return { code: d.code, label: d.label, color: d.color, keywords: d.keywords.slice(), role: !!d.role }; }
-
-    function normalize(v) { return String(v == null ? '' : v).toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12); }
-    function byCode(code) { var c = normalize(code); return Object.prototype.hasOwnProperty.call(BY, c) ? copy(BY[c]) : null; }
-    function isModelCode(code) { var c = normalize(code); return Object.prototype.hasOwnProperty.call(BY, c) && !BY[c].role; }
-
-    function infer(text) {
-        var name = String(text || '').split(/[\\/]/).pop().toUpperCase().replace(/\.(IFC|IFCZIP|IFCXML|FRAG)$/, '');
-        var tokens = name.split(/[^A-Z0-9\u00c4\u00c7\u00d6\u00dc]+/).filter(Boolean);
-        if (!tokens.length) return '';
-        var spaced = ' ' + tokens.join(' ') + ' ';
-        var i, d;
-        for (i = 0; i < DEFS.length; i++) {
-            d = DEFS[i];
-            if (d.role) continue;
-            if (tokens.indexOf(d.code) !== -1 || tokens.indexOf(d.code + 'S') !== -1) return d.code;
-        }
-        
-        for (var pass = 0; pass < 2; pass++) {
-            for (i = 0; i < DEFS.length; i++) {
-                d = DEFS[i];
-                if (d.role) continue;
-                for (var k = 0; k < d.keywords.length; k++) {
-                    var kw = d.keywords[k];
-                    var multi = kw.indexOf(' ') !== -1;
-                    if (pass === 0 && multi && spaced.indexOf(' ' + kw + ' ') !== -1) return d.code;
-                    if (pass === 1 && !multi && tokens.indexOf(kw) !== -1) return d.code;
-                }
-            }
-        }
-        return '';
-    }
-
-    var api = {
-        VERSION: 1,
-        all: function () { return DEFS.map(copy); },
-        models: function () { return DEFS.filter(function (d) { return !d.role; }).sort(az).map(copy); },
-        roles: function () { return DEFS.filter(function (d) { return d.role; }).sort(az).map(copy); },
-        byCode: byCode,
-        isModelCode: isModelCode,
-        normalize: normalize,
-        infer: infer
-    };
-    W.liteAECO = W.liteAECO || {};
-    W.liteAECO.disciplines = Object.freeze(api);
-})();

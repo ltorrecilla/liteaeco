@@ -3,93 +3,101 @@ let lookupProps = new Set([
     'IsExternal', 'LoadBearing', 'ThermalTransmittance', 'AcousticRating', 'Combustible', 'SurfaceSpreadOfFlame',
     'Status', 'NumberofDoors', 'OperationType', 'FireExit'
 ]);
+
 let lookupMaterials = new Set([
     'Concrete', 'Cast-in-place', 'Steel', 'Wood', 'Brick', 'Glass', 'Precast', 'Aluminum', 'Insulation', 'Gypsum',
     'Plaster', 'Asphalt', 'Stone', 'Plastic', 'Ceramic', 'Copper', 'Rubber', 'Composite', 'Lightweight', 'C30/37'
 ]);
+
 let lookupClassifications = [
     "OmniClass", "Uniclass 2015", "MasterFormat", "UniFormat", "NBS", "SfB", "DIN 276"
 ];
+
 const lookupEntities = [
-    'IFCPROJECT',                       
-    'IFCSITE',                          
-    'IFCBUILDING',                      
-    'IFCBUILDINGSTOREY',                
-    'IFCSPACE',                         
-    'IFCWALL',                          
-    'IFCSLAB',                          
-    'IFCDOOR',                          
-    'IFCWINDOW',                        
-    'IFCROOF',                          
-    'IFCSTAIR',                         
-    'IFCSTAIRFLIGHT',                   
-    'IFCRAILING',                       
-    'IFCCOLUMN',                        
-    'IFCBEAM',                          
-    'IFCCURTAINWALL',                   
-    'IFCCOVERING',                      
-    'IFCFOOTING',                       
-    'IFCFURNITURE',                     
-    'IFCOPENINGELEMENT',                
-    'IFCANNOTATION',                    
-    'IFCGRID',                          
-    'IFCGRIDAXIS',                      
-    'IFCMATERIAL',                      
-    'IFCMATERIALLAYER',                 
-    'IFCMATERIALLAYERSET',              
-    'IFCLOCALPLACEMENT',                
-    'IFCAXIS2PLACEMENT3D',              
-    'IFCCARTESIANPOINT',                
-    'IFCPOLYLINE',                      
-    'IFCEXTRUDEDAREASOLID',             
-    'IFCPRODUCTDEFINITIONSHAPE',        
-    'IFCSHAPEREPRESENTATION',           
-    'IFCGEOMETRICREPRESENTATIONCONTEXT',
-    'IFCRELCONTAINEDINSPATIALSTRUCTURE',
-    'IFCRELAGGREGATES',                 
-    'IFCRELDEFINESBYPROPERTIES',        
-    'IFCPROPERTYSET',                   
-    'IFCPROPERTYSINGLEVALUE',           
-    'IFCQUANTITYSET',                   
-    'IFCQUANTITYLENGTH',                
-    'IFCQUANTITYAREA',                  
-    'IFCQUANTITYVOLUME',                
-    'IFCELEMENT',                       
-    'IFCALARM',                         
-    'IFCDISTRIBUTIONCIRCUIT',           
-    'IFCELECTRICDISTRIBUTIONBOARD',     
-    'IFCCABLESEGMENT',                  
-    'IFCSWITCHINGDEVICE',               
-    'IFCLIGHTFIXTURE',                  
-    'IFCPROTECTIVEDEVICE',              
-    'IFCJUNCTIONBOX',                   
-    'IFCELECTRICMOTOR',                 
-    'IFCDISTRIBUTIONPORT',              
-    'IFCSENSOR',                        
-    'IFCAIRTERMINAL',                   
-    'IFCDUCTSEGMENT',                   
-    'IFCDUCTFITTING',                   
-    'IFCFAN',                           
-    'IFCDAMPER',                        
-    'IFCAIRTOAIRHEATRECOVERY',          
-    'IFCAIRTERMINALBOX',                
-    'IFCDUCTSILENCER',                  
-    'IFCFILTER',                        
-    'IFCUNINARYCONTROLELEMENT',         
-    'IFCBOILER',                        
-    'IFCSPACEHEATER',                   
-    'IFCPIPESEGMENT',                   
-    'IFCPIPEFITTING',                   
-    'IFCVALVE',                         
-    'IFCPUMP',                          
-    'IFCELECTRICFLOWSTORAGEDEVICE',     
-    'IFCHEATEXCHANGER',                 
-    'IFCTANK',                          
-    'IFCTERMINAL',                      
-    'IFCSANITARYTERMINAL',              
-    'IFCWASTETERMINAL',                 
-    'IFCINTERCEPTOR',                   
-    'IFCFLOWMETER',                     
+    /* ARCHITECTURE AND STRUCTURAL */
+    'IFCPROJECT',                       // Root project container
+    'IFCSITE',                          // Site geometry and context
+    'IFCBUILDING',                      // Building container
+    'IFCBUILDINGSTOREY',                // Levels / storeys
+    'IFCSPACE',                         // Rooms and areas
+    'IFCWALL',                          // Walls (base type)
+    'IFCSLAB',                          // Floors, roofs, slabs (base type)
+    'IFCDOOR',                          // Doors (base type)
+    'IFCWINDOW',                        // Windows (base type)
+    'IFCROOF',                          // Roof geometry
+    'IFCSTAIR',                         // Stairs (base type)
+    'IFCSTAIRFLIGHT',                   // Stair runs (more common than IfcStair)
+    'IFCRAILING',                       // Handrails, guardrails
+    'IFCCOLUMN',                        // Columns (base type)
+    'IFCBEAM',                          // Beams (base type)
+    'IFCCURTAINWALL',                   // Curtain walls and glazing systems
+    'IFCCOVERING',                      // Floor coverings, ceiling linings, cladding
+    'IFCFOOTING',                       // Footings (foundation elements)
+    'IFCFURNITURE',                     // Furniture and decorative items
+    'IFCOPENINGELEMENT',                // Openings (for doors, windows, voids)
+    'IFCANNOTATION',                    // 2D annotations, dimensions, text
+    'IFCGRID',                          // Grid axes
+    'IFCGRIDAXIS',                      // Individual grid lines
+    'IFCMATERIAL',                      // Material definitions
+    'IFCMATERIALLAYER',                 // Layered materials (walls, slabs)
+    'IFCMATERIALLAYERSET',              // Material layer sets
+    'IFCLOCALPLACEMENT',                // Positioning of elements
+    'IFCAXIS2PLACEMENT3D',              // 3D placement
+    'IFCCARTESIANPOINT',                // Points in space
+    'IFCPOLYLINE',                      // Polyline geometry
+    'IFCEXTRUDEDAREASOLID',             // Extruded solid geometry
+    'IFCPRODUCTDEFINITIONSHAPE',        // Shape representation of products
+    'IFCSHAPEREPRESENTATION',           // Shape representation container
+    'IFCGEOMETRICREPRESENTATIONCONTEXT',// Geometry context
+    'IFCRELCONTAINEDINSPATIALSTRUCTURE',// Relates elements to storeys
+    'IFCRELAGGREGATES',                 // Decomposes building into storeys
+    'IFCRELDEFINESBYPROPERTIES',        // Property assignment
+    'IFCPROPERTYSET',                   // Property set container
+    'IFCPROPERTYSINGLEVALUE',           // Single property value
+    'IFCQUANTITYSET',                   // Quantity takeoff
+    'IFCQUANTITYLENGTH',                // Length quantity
+    'IFCQUANTITYAREA',                  // Area quantity
+    'IFCQUANTITYVOLUME',                // Volume quantity
+    'IFCELEMENT',                       // Base element type for all building elements
+    /* ELECTRICAL */
+    'IFCALARM',                         // Fire alarms, smoke detectors, emergency alarms
+    'IFCDISTRIBUTIONCIRCUIT',           // Electrical circuits (power, lighting, etc.)
+    'IFCELECTRICDISTRIBUTIONBOARD',     // Panelboards, switchboards, distribution boards
+    'IFCCABLESEGMENT',                  // Power cables, wiring, conductors
+    'IFCSWITCHINGDEVICE',               // Switches, contactors, disconnectors
+    'IFCLIGHTFIXTURE',                  // Light fixtures and luminaires
+    'IFCPROTECTIVEDEVICE',              // Circuit breakers, fuses, surge protectors
+    'IFCJUNCTIONBOX',                   // Junction boxes, pull boxes, enclosures
+    'IFCELECTRICMOTOR',                 // Motors for mechanical equipment (fans, pumps, etc.)
+    'IFCDISTRIBUTIONPORT',              // Connection points for power distribution
+    'IFCSENSOR',                        // Electrical sensors (current, voltage, etc.)
+    /* HVAC */
+    'IFCAIRTERMINAL',                   // Diffusers, grilles, registers
+    'IFCDUCTSEGMENT',                   // Ductwork segments
+    'IFCDUCTFITTING',                   // Duct fittings (elbows, reducers, tees)
+    'IFCFAN',                           // Supply/exhaust fans
+    'IFCDAMPER',                        // Volume control, fire, smoke dampers
+    'IFCAIRTOAIRHEATRECOVERY',          // Heat recovery ventilators (HRV/ERV)
+    'IFCAIRTERMINALBOX',                // VAV boxes, constant volume boxes
+    'IFCDUCTSILENCER',                  // Attenuators, silencers
+    'IFCFILTER',                        // Air filters, filtration units
+    'IFCUNINARYCONTROLELEMENT',         // Thermostats, zone controls (note: corrected spelling)
+    'IFCBOILER',                        // Heat source (gas, oil, electric boiler)
+    'IFCSPACEHEATER',                   // Radiators, convectors, fan coil units
+    'IFCPIPESEGMENT',                   // Heating pipes (supply/return), Water supply pipes, drain pipes, risers
+    'IFCPIPEFITTING',                   // Pipe fittings (elbows, tees, reducers)
+    'IFCVALVE',                         // Control valves, balancing valves, zone valves
+    'IFCPUMP',                          // Circulator pumps for hydronic systems
+    'IFCELECTRICFLOWSTORAGEDEVICE',     // Electric storage heaters
+    'IFCHEATEXCHANGER',                 // Heat exchangers (e.g., between boiler and tank)
+    'IFCTANK',                          // Expansion tanks, buffer tanks
+    'IFCTERMINAL',                      // Hydronic terminals
+    /* SANITARY */
+    'IFCSANITARYTERMINAL',              // Toilets, sinks, urinals, bidets, showers
+    'IFCWASTETERMINAL',                 // Floor drains, roof drains, gully traps, waste outlets
+    'IFCINTERCEPTOR',                   // Grease interceptors, oil separators, sediment traps
+    'IFCFLOWMETER',                     // Water meters, flow sensors
+    /* Rest of Ifc Entities*/
     'IFCACTIONREQUEST',
     'IFCACTOR',
     'IFCACTORROLE',
@@ -773,7 +781,9 @@ const lookupEntities = [
     'IFCTEXTUREMAP',
     'IFCTEXTUREVERTEX',
 ]
+
 const lookupPsets = new Set([
+    /* Most Common */
     'Pset_WallCommon',
     'Pset_DoorCommon',
     'Pset_WindowCommon',
@@ -794,6 +804,7 @@ const lookupPsets = new Set([
     'Pset_ManufacturerTypeInformation',
     'Pset_Asset',
     'Pset_Warranty',
+    /* All pset */
     'Pset_ActionRequest',
     'Pset_ActorCommon',
     'Pset_ActuatorPHistory',

@@ -25,10 +25,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IFC Reposition - Edit Georeferencing Coordinates & Elevation | liteAECO</title>
 
+    
     <meta name="description" content="Free client-side tool to edit georeferencing coordinates and elevation of IFC files. Adjust model positioning, and height locally. No uploads, private, fast, built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/ifc-reposition.html">
 
+    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/ifc-reposition.html">
     <meta property="og:site_name" content="liteAECO">
@@ -40,12 +42,14 @@
     <meta property="og:image:alt" content="liteAECO IFC Reposition tool interface">
     <meta property="og:locale" content="en_US">
 
+    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-reposition.html">
     <meta name="twitter:title" content="IFC Reposition - Edit Georeferencing Coordinates & Elevation | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to edit georeferencing coordinates and elevation of IFC files. Adjust model positioning, and height locally. No uploads, private, fast, built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-ifc-reposition.png">
 
+    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -54,13 +58,16 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../js/vendor/lucide-1.41.0.min.js"></script>
+    <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
+    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
 
+    
     <script src="../js/vendor/jszip-3.10.1.min.js"></script>
 
     <script>
@@ -71,6 +78,7 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
+                        
                         accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
                     }
                 }
@@ -78,20 +86,24 @@
         }
     </script>
 
+    
     <link rel="stylesheet" type="text/css" href="../css/global.css">
 </head>
 
 <body
-    class="bg-slate-50 text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
+    class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
 
-    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full transition-all flex-grow">
+    
 
-        <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded p-6 md:p-8 mb-6">
+    
+    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
+
+        <div class="bg-white">
             <div
-                class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 border-b border-slate-200/60 pb-4">
+                class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4">
                 <div class="flex items-center gap-3">
                     <div
-                        class="w-10 h-10 rounded-lg bg-white border border-slate-100 shadow-sm flex items-center justify-center text-indigo-600 shrink-0">
+                        class="w-10 h-10 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-900 shrink-0">
                         <i data-lucide="map-pin" class="w-5 h-5"></i>
                     </div>
                     <div>
@@ -103,7 +115,7 @@
                 </div>
             </div>
 
-            <details class="text-sm text-slate-600 leading-relaxed group">
+            <details class="text-sm text-slate-600 leading-relaxed group border-b border-slate-300 pb-4">
 				<summary class="cursor-pointer list-none flex items-center gap-2 font-semibold text-slate-900 select-none">
 					<i data-lucide="chevron-right" class="w-4 h-4 text-indigo-500 transition-transform group-open:rotate-90"></i>
 					<span id="ui-rule-title">What this tool does</span>
@@ -120,18 +132,18 @@
 			</details>
         </div>
 
-        <div class="bg-white border border-white shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded p-6 md:p-8">
+        <div class="bg-white pt-6 md:pt-8">
 
             <div class="mb-8">
                 <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
                     <span
-                        class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                        class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
                             data-lucide="file-input" class="w-3.5 h-3.5"></i></span>
                     <span id="ui-step-1">Step 1: Load Files & Information</span>
                 </h2>
 
                 <div
-                    class="bg-white/50 p-6 rounded border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6">
+                    class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="flex flex-col h-full">
                         <label id="dropzone" for="fileInput"
                             class="drop-zone flex flex-col items-center justify-center w-full h-full min-h-[160px] px-4 py-4 border-2 border-slate-300 border-dashed rounded-lg hover:border-indigo-500 hover:bg-indigo-50/30 bg-slate-50/50 cursor-pointer transition-all">
@@ -151,8 +163,8 @@
                         </label>
                     </div>
 
-                    <div class="flex flex-col h-full bg-white p-4 rounded border border-slate-200/60 shadow-sm">
-                        <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200/60 pb-1"
+                    <div class="flex flex-col h-full bg-white p-4 rounded border border-slate-200 shadow-sm">
+                        <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200 pb-1"
                             id="ui-model-info-title">Model Information</p>
                         <div class="grid grid-cols-4 gap-x-4 gap-y-2 text-[12px] flex-grow content-start">
                             <div class="text-slate-500 font-medium" id="ui-info-date">Date:</div>
@@ -181,25 +193,25 @@
             </div>
 
             <div class="mb-8">
-                <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
+                <h2 class="text-base font-bold text-slate-800 flex items-center mb-6">
                     <span
-                        class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                        class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
                             data-lucide="settings-2" class="w-3.5 h-3.5"></i></span>
                     <span id="ui-step-2">Step 2: Target Location Configuration</span>
                 </h2>
 
                 <div
-                    class="bg-white/50 p-6 rounded border border-slate-200 shadow-sm flex flex-col justify-start relative">
+                    class="p-6 pt-2 flex flex-col justify-start relative">
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-32 w-full mb-6">
 
                         <div class="flex flex-col space-y-4 text-[13px] h-full">
-                            <div id="ui-world-coords-title" class="font-semibold text-sm text-slate-800 border-b border-slate-200/60 pb-2">World Coordinates (IFCSITE)</div>
+                            <div id="ui-world-coords-title" class="font-semibold text-sm text-slate-800 border-b border-slate-200 pb-2">World Coordinates (IFCSITE)</div>
 
                             <div class="flex items-start justify-between">
                                 <label class="flex items-start space-x-3 cursor-pointer group/opt mt-1">
                                     <input type="checkbox" id="updateCoordsCb"
-                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer shrink-0 mt-0.5">
+                                        class="accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer shrink-0 mt-0.5">
                                     <span id="ui-opt-coords"
                                         class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors">Update
                                         Coordinates (Lat/Lon)</span>
@@ -226,7 +238,7 @@
                             <div class="flex items-start justify-between border-t border-slate-100 pt-4 mt-auto">
                                 <label class="flex items-start space-x-3 cursor-pointer group/opt mt-1">
                                     <input type="checkbox" id="updateElevCb"
-                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer shrink-0 mt-0.5"
+                                        class="accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer shrink-0 mt-0.5"
                                         checked>
                                     <span id="ui-opt-elev"
                                         class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors">Update
@@ -243,12 +255,12 @@
                         </div>
 
                         <div class="flex flex-col space-y-4 text-[13px] h-full">
-                            <div id="ui-proj-coords-title" class="font-semibold text-sm text-slate-800 border-b border-slate-200/60 pb-2">IFC 4 - Project Coordinates (IFCMAPCONVERSION)</div>
+                            <div id="ui-proj-coords-title" class="font-semibold text-sm text-slate-800 border-b border-slate-200 pb-2">IFC 4 - Project Coordinates (IFCMAPCONVERSION)</div>
 
                             <div class="flex items-start justify-between">
                                 <label class="flex items-start space-x-3 cursor-pointer group/opt mt-1">
                                     <input type="checkbox" id="updateMapConvCb"
-                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer shrink-0 mt-0.5">
+                                        class="accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer shrink-0 mt-0.5">
                                     <span id="ui-opt-mapconv"
                                         class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors leading-snug">
                                         Update Map Coordinates
@@ -276,7 +288,7 @@
                             <div class="flex items-start justify-between border-t border-slate-100 pt-4 mt-auto">
                                 <label class="flex items-start space-x-3 cursor-pointer group/opt mt-1">
                                     <input type="checkbox" id="updateMapConvZCb"
-                                        class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer shrink-0 mt-0.5">
+                                        class="accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer shrink-0 mt-0.5">
                                     <span id="ui-opt-mapconv-z"
                                         class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors">Update Ortho. Height</span>
                                 </label>
@@ -292,10 +304,10 @@
                     </div>
 
                     <div
-                        class="pt-4 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
+                        class="pb-4 pt-4 border-b border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
                         <label class="flex items-center space-x-3 cursor-pointer group/opt">
                             <input type="checkbox" id="updateTimestampCb"
-                                class="accent-indigo-500 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer shrink-0">
+                                class="accent-neutral-900 text-indigo-600 focus:ring-indigo-500 w-4 h-4 border-slate-300 rounded transition-all cursor-pointer shrink-0">
                             <span id="ui-opt-timestamp"
                                 class="font-medium text-[13px] text-slate-700 group-hover/opt:text-indigo-600 transition-colors">Update
                                 File Timestamp</span>
@@ -313,7 +325,7 @@
             <div class="flex flex-col">
                 <h2 class="text-base font-bold text-slate-800 flex items-center mb-4">
                     <span
-                        class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
+                        class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs mr-2 font-bold"><i
                             data-lucide="download" class="w-3.5 h-3.5"></i></span>
                     <span id="ui-step-3">Step 3: Process & Download</span>
                 </h2>
@@ -322,23 +334,19 @@
 
                     <div class="flex flex-wrap items-center gap-3 p-4 bg-slate-50/50 border-b border-slate-200">
                         <button id="zipBtn" disabled
-                            class="flex items-center px-4 py-2 border border-transparent text-xs font-bold text-white bg-slate-900 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-300 rounded-lg shadow-sm hover:shadow-md hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:-translate-y-0 disabled:hover:shadow-sm">
-                            <svg class="mr-1.5 h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
+                            class="flex items-center px-4 py-2 border border-transparent text-xs font-bold text-white bg-slate-900 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-300 rounded shadow-sm hover:shadow-md hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:-translate-y-0 disabled:hover:shadow-sm">
+                            
                             <span id="ui-zip-btn">Download as ZIP</span>
                         </button>
                         <button id="saveBtn" disabled
-                            class="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded-lg shadow-sm font-semibold text-xs hover:bg-slate-50 focus:ring-2 focus:ring-offset-1 focus:ring-slate-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"><span
+                            class="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded shadow-sm font-semibold text-xs hover:bg-slate-50 focus:ring-2 focus:ring-offset-1 focus:ring-slate-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"><span
                                 id="ui-save-btn">Save to Folder</span></button>
                         <button id="downloadBtn" disabled
-                            class="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded-lg shadow-sm font-semibold text-xs hover:bg-slate-50 focus:ring-2 focus:ring-offset-1 focus:ring-slate-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"><span
+                            class="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded shadow-sm font-semibold text-xs hover:bg-slate-50 focus:ring-2 focus:ring-offset-1 focus:ring-slate-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"><span
                                 id="ui-download-btn">Download Individually</span></button>
                         <div class="flex-grow"></div>
                         <button id="clearBtn" disabled
-                            class="px-4 py-2 bg-white text-rose-600 border border-slate-300 rounded-lg shadow-sm font-semibold text-xs hover:bg-rose-50 hover:border-rose-200 hover:text-rose-700 focus:ring-2 focus:ring-offset-1 focus:ring-rose-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"><span
+                            class="px-4 py-2 bg-white text-rose-600 border border-slate-300 rounded shadow-sm font-semibold text-xs hover:bg-rose-50 hover:border-rose-200 hover:text-rose-700 focus:ring-2 focus:ring-offset-1 focus:ring-rose-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"><span
                                 id="ui-clear-btn">Clear List</span></button>
                     </div>
 
@@ -381,17 +389,27 @@
         <span id="toastMessage"></span>
     </div>
 
+    
+    
     <script>
+        
+        
+        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
+        
+        
         window.updateToolDynamicUI = function (d) {
             if (typeof refreshTable === 'function') refreshTable();
         };
 
+        
         function bootApp() {
+            
             autoDetectLanguage();
 
+            
             window.injectUI({
                 showNav: true,
                 transparentNav: false,
@@ -403,18 +421,25 @@
                 showFooterLinks: true,
             });
 
+            
             window.injectCookieBanner();
 
+            
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
 
+        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
+        
+        
+        
     </script>
     <script>
+        
         const I18N_FALLBACK = {
             statusEmpty: "No IFC file loaded yet.",
             statusPending: "Pending configuration",
@@ -458,6 +483,7 @@
             return typeof v === 'function' ? v(...args) : v;
         }
 
+        
         function showToast(message) {
             const toast = document.getElementById('toast');
             document.getElementById('toastMessage').innerText = message;
@@ -480,10 +506,12 @@
             return `${yy}${mm}${dd}_${hr}${min}_Repositioned_IFC.zip`;
         }
 
+        
         function esc(str) {
             return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
         }
 
+        
         function bytesToLatin1(u8) {
             let out = '';
             const CH = 0x8000;
@@ -496,6 +524,7 @@
             return out;
         }
 
+        
         function fmtIfcReal(v) {
             let str = String(v);
             if (/e/i.test(str)) {
@@ -525,6 +554,7 @@
             refreshTable();
         };
 
+        
         function decToDMS(deg) {
             const sign = deg < 0 ? -1 : 1;
             const absDeg = Math.abs(deg);
@@ -534,6 +564,7 @@
             const secFloat = (minFloat - m) * 60;
             let s = Math.floor(secFloat);
             let micro = Math.round((secFloat - s) * 1000000);
+            
             if (micro >= 1000000) { micro -= 1000000; s += 1; }
             if (s >= 60) { s -= 60; m += 1; }
             if (m >= 60) { m -= 60; d += 1; }
@@ -556,6 +587,8 @@
             return `(${ds},${ms},${ss})`;
         }
 
+        
+        
         function ifcTupleToDecimal(tupleStr) {
             if (!tupleStr || typeof tupleStr !== 'string') return null;
             const nums = tupleStr.replace(/[()]/g, '').split(',').map(v => parseFloat(v.trim()));
@@ -594,6 +627,7 @@
             return args;
         }
 
+        
         function extractMetadata(content, file) {
             let meta = {
                 size: (file.size / 1024 / 1024).toFixed(2) + " MB",
@@ -605,6 +639,7 @@
                 xyz: "- / - / -"
             };
 
+            
             const headerLimit = Math.min(content.length, 2 * 1024 * 1024);
             const headerMatch = content.slice(0, headerLimit);
 
@@ -637,6 +672,7 @@
                 else if (name === 'INCH') meta.units = 'Inches';
             }
 
+            
             let siteIdx = content.indexOf('IFCSITE');
             if (siteIdx !== -1) {
                 let chunkStart = Math.max(0, siteIdx - 100);
@@ -701,6 +737,7 @@
             let siteCount = 0, mapConvCount = 0;
             const originalLines = [];
 
+            
             let currentContent = content.replace(RE_SITE, (match, prefix, innerArgs, suffix) => {
                 const args = parseIfcArgs(innerArgs);
                 if (args.length < 12) { parsingError = true; return match; }
@@ -735,6 +772,8 @@
                 return match;
             });
 
+            
+            
             if (shouldUpdateMapConv) {
                 currentContent = currentContent.replace(RE_MAPCONV, (match, prefix, innerArgs, suffix) => {
                     const args = parseIfcArgs(innerArgs);
@@ -768,6 +807,7 @@
                 if (newOrthoHeightStr === null) newOrthoHeightStr = oldOrthoHeight;
             }
 
+            
             if (shouldUpdateTimestamp) {
                 const m = currentContent.match(RE_FILENAME_TS);
                 if (m) {
@@ -778,6 +818,7 @@
                 }
             }
 
+            
             if (coordsUpdated || elevUpdated || mapConvUpdated || timestampUpdated) {
                 const fmtDec = (v) => (v === null || isNaN(v)) ? null : String(parseFloat(v.toFixed(7)));
                 const actionLogs = [];
@@ -801,6 +842,7 @@
                     for (const ln of originalLines) actionLogs.push(ln);
                 }
 
+                
                 const commentBody = actionLogs.join('\n').replace(/\*\//g, '* /');
                 const commentBlock = `/******************************************************
 * IFC Operations with liteAECO.com
@@ -902,6 +944,7 @@ ${commentBody}
         function refreshTable() {
             const $tbody = document.getElementById("resultTable");
             const hasItems = items.length > 0;
+            
             const allProcessed = hasItems && items.every(it => it.isProcessed);
 
             ['zipBtn', 'saveBtn', 'downloadBtn'].forEach(id => {
@@ -954,6 +997,7 @@ ${commentBody}
                     badgeClass = "text-slate-600 bg-slate-100 border-slate-200";
                     statusText = it.siteFound === false ? T("statusSiteNotFound") : T("statusNoChangesApplied");
                 } else {
+                    
                     badgeClass = "text-emerald-700 bg-emerald-50 border-emerald-200";
                     let updates = [];
                     if (it.coordsUpdated) updates.push(T("lblLatLon"));
@@ -1000,10 +1044,12 @@ ${commentBody}
 
                 let metaText = "";
                 try {
-                    const slice = file.slice(0, 5 * 1024 * 1024);
+                    
+                    
+                    const slice = file.slice(0, 5 * 1024 * 1024); 
                     const buf = await slice.arrayBuffer();
                     metaText = new TextDecoder('utf-8', { fatal: false }).decode(buf);
-
+                    
                     const looksBroken = /Ã.| /.test(metaText.slice(0, 2000));
                     if (looksBroken) {
                         try { metaText = new TextDecoder('windows-1252', { fatal: false }).decode(buf); } catch (_) { }
@@ -1012,15 +1058,16 @@ ${commentBody}
                     console.error("Memory limit hit reading slice:", err);
                 }
 
+                
                 const meta = extractMetadata(metaText, file);
 
                 const index = items.indexOf(placeholder);
                 if (index !== -1) {
                     items[index] = {
                         name: file.name,
-                        size: file.size,
+                        size: file.size, 
                         lastModified: file.lastModified,
-                        fileRef: file,
+                        fileRef: file, 
                         meta: meta,
                         isProcessed: false,
                         coordsUpdated: false,
@@ -1045,15 +1092,19 @@ ${commentBody}
 
             const shouldUpdateTimestamp = document.getElementById('updateTimestampCb').checked;
 
+            
             const updateMapConvXY = document.getElementById('updateMapConvCb').checked;
             const updateMapConvZ = document.getElementById('updateMapConvZCb').checked;
 
+            
             const targetEasting = updateMapConvXY ? document.getElementById('eastingInput').value.trim() : '';
             const targetNorthing = updateMapConvXY ? document.getElementById('northingInput').value.trim() : '';
             const targetOrthoHeight = updateMapConvZ ? document.getElementById('orthoHeightInput').value.trim() : '';
 
+            
             const shouldUpdateMapConv = updateMapConvXY || updateMapConvZ;
 
+            
             if (shouldUpdateCoords) {
                 const la = parseFloat(targetLat), lo = parseFloat(targetLon);
                 if (targetLat === '' || targetLon === '' || isNaN(la) || isNaN(lo)) { showToast(T("errValLatLon")); return; }
@@ -1078,13 +1129,14 @@ ${commentBody}
                 refreshTable();
                 await new Promise(r => setTimeout(r, 10));
 
-                const CHUNK_SIZE = 5 * 1024 * 1024;
+                
+                const CHUNK_SIZE = 5 * 1024 * 1024; 
                 let headText = "", tailBlob;
                 try {
                     const headU8 = new Uint8Array(await it.fileRef.slice(0, CHUNK_SIZE).arrayBuffer());
                     let cut = headU8.length;
                     if (it.fileRef.size > headU8.length) {
-                        cut = headU8.lastIndexOf(0x0A) + 1;
+                        cut = headU8.lastIndexOf(0x0A) + 1; 
                         if (cut <= 0) cut = headU8.length;
                     }
                     headText = bytesToLatin1(headU8.subarray(0, cut));
@@ -1096,6 +1148,7 @@ ${commentBody}
                     continue;
                 }
 
+                
                 const t = transformIFC(
                     headText,
                     shouldUpdateCoords, targetLat, targetLon,
@@ -1104,21 +1157,26 @@ ${commentBody}
                     shouldUpdateMapConv, targetEasting, targetNorthing, targetOrthoHeight
                 );
 
+                
                 let finalBlob;
                 if (t.coordsUpdated || t.elevUpdated || t.mapConvUpdated || t.timestampUpdated) {
+                    
                     const modifiedHeadBuf = latin1ToBytes(t.content);
+                    
                     finalBlob = new Blob([modifiedHeadBuf, tailBlob], { type: "application/octet-stream" });
                 } else {
-                    finalBlob = it.fileRef;
+                    
+                    finalBlob = it.fileRef; 
                 }
 
+                
                 let updatedMeta = { ...it.meta };
                 if (t.timestampUpdated && t.newDate) updatedMeta.date = t.newDate.replace('T', ' ');
 
                 items[i] = {
                     ...it,
                     size: finalBlob.size,
-                    arrayBuf: finalBlob,
+                    arrayBuf: finalBlob, 
                     meta: updatedMeta,
                     isProcessed: true,
                     isProcessing: false,
@@ -1296,6 +1354,7 @@ ${commentBody}
             const updateMapConvCb = document.getElementById('updateMapConvCb');
             const mapConvInputContainer = document.getElementById('mapConvInputContainer');
 
+            
             const updateMapConvZCb = document.getElementById('updateMapConvZCb');
             const mapConvZInputContainer = document.getElementById('mapConvZInputContainer');
 
@@ -1315,17 +1374,20 @@ ${commentBody}
                     mapConvInputContainer.style.pointerEvents = updateMapConvCb.checked ? 'auto' : 'none';
                 }
 
+                
                 if (updateMapConvZCb) {
                     mapConvZInputContainer.style.opacity = updateMapConvZCb.checked ? '1' : '0.4';
                     mapConvZInputContainer.style.pointerEvents = updateMapConvZCb.checked ? 'auto' : 'none';
                 }
             }
 
+            
             if (updateCoordsCb) updateCoordsCb.addEventListener('change', toggleInputs);
             if (updateElevCb) updateElevCb.addEventListener('change', toggleInputs);
             if (updateMapConvCb) updateMapConvCb.addEventListener('change', toggleInputs);
-            if (updateMapConvZCb) updateMapConvZCb.addEventListener('change', toggleInputs);
+            if (updateMapConvZCb) updateMapConvZCb.addEventListener('change', toggleInputs); 
 
+            
             toggleInputs();
         });
     </script>
