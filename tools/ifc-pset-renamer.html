@@ -25,12 +25,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pset Renamer - Inspect IFC Classes & Batch Rename PSets | liteAECO</title>
 
-    
     <meta name="description" content="Free client-side tool to inspect IFC classes and batch rename property sets in IFC models. No uploads, private, fast, and built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/ifc-pset-renamer.html">
 
-    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/ifc-pset-renamer.html">
     <meta property="og:site_name" content="liteAECO">
@@ -42,14 +40,12 @@
     <meta property="og:image:alt" content="liteAECO Pset Renamer tool interface">
     <meta property="og:locale" content="en_US">
 
-    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-pset-renamer.html">
     <meta name="twitter:title" content="Pset Renamer - Inspect IFC Classes & Batch Rename Property Sets | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to inspect IFC classes and batch rename property sets in IFC models. No uploads, private, fast, and built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-ifc-pset-renamer.png">
 
-    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -58,11 +54,9 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
-    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
@@ -75,7 +69,6 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        
                         accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
                     }
                 }
@@ -83,16 +76,12 @@
         }
     </script>
 
-    
     <link rel="stylesheet" type="text/css" href="../css/global.css">
 </head>
 
 <body
     class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
 
-    
-
-    
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
 
         <div class="bg-white">
@@ -299,27 +288,17 @@
         </div>
     </div>
 
-    
-    
     <script>
-        
-        
-        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
-        
-        
         window.updateToolDynamicUI = function (d) {
             if (typeof refreshTable === 'function') refreshTable();
         };
 
-        
         function bootApp() {
-            
             autoDetectLanguage();
 
-            
             window.injectUI({
                 showNav: true,
                 transparentNav: false,
@@ -331,10 +310,8 @@
                 showFooterLinks: true,
             });
 
-            
             window.injectCookieBanner();
 
-            
             const currentYear = new Date().getFullYear();
             const targetVersionInput = document.getElementById('targetVersionInput');
             if (targetVersionInput) {
@@ -362,67 +339,53 @@
                 toggleVersionInput();
             }
 
-            
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
 
-        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
-        
-        
-        
     </script>
     <script type="module">
-        
 
-        
         let classData = {};
         let classCounts = {};
-        let psetNameToIds = {}; 
+        let psetNameToIds = {};
         let fileLoaded = false;
 
-        
         const SECURITY_BLACKLIST = {
-            
             systemCols: ["_hash", "_globalId", "_elementName"],
 
-            
             exactPsets: [
                 "IfcRelDefinesByType", "BaseQuantities"
             ],
 
-            
             psetPatterns: [
-                /^Qto_/i,           
-                /Common$/i,         
-                /Dimensions$/i,     
-                /Constraints$/i,    
+                /^Qto_/i,
+                /Common$/i,
+                /Dimensions$/i,
+                /Constraints$/i,
                 /Quantity$/i,
                 /Requirements$/i
             ],
 
-            
             exactProperties: [
                 "Length", "Width", "Height", "Thickness",
                 "GrossVolume", "NetVolume", "GrossArea", "NetArea", "CrossSectionArea",
                 "IsExternal"
             ],
 
-            
             propertyPatterns: [
-                /storey/i,       
-                /level/i,        
-                /opening\s*id/i, 
-                /layer/i,        
-                /omniclass/i     
+                /storey/i,
+                /level/i,
+                /opening\s*id/i,
+                /layer/i,
+                /omniclass/i
             ]
         };
 
-        
         function isPsetLocked(psetName) {
             if (!psetName) return false;
             if (SECURITY_BLACKLIST.exactPsets.includes(psetName)) return true;
@@ -445,21 +408,18 @@
             if (!classData[className]) classData[className] = {};
             if (!classData[className][psetName]) {
                 classData[className][psetName] = {
-                    psetIds: new Set(),   
-                    objectIds: new Set()  
+                    psetIds: new Set(),
+                    objectIds: new Set()
                 };
             }
             return classData[className][psetName];
         }
 
-        
         let pendingRenames = {};
 
-        
         let preparedDownloadUrl = null;
         let preparedDownloadName = null;
 
-        
         const fileInput = document.getElementById('fileInput');
         const fileNameDisplay = document.getElementById('fileNameDisplay');
         const dropZone = document.getElementById('drop-zone');
@@ -474,7 +434,6 @@
         const exportBtn = document.getElementById('exportBtn');
         const exportBtnText = document.getElementById('exportBtnText');
 
-        
         function log(msg, isWarning = false) {
             logAreaWrapper.classList.remove('hidden');
             logAreaWrapper.classList.add('flex');
@@ -488,7 +447,6 @@
             const loader = document.getElementById('inline-loader');
             if (loader) loader.classList.remove('hidden');
 
-            
             if (logAreaWrapper) {
                 logAreaWrapper.classList.remove('hidden');
                 logAreaWrapper.classList.add('flex');
@@ -523,16 +481,10 @@
             exportBtnText.textContent = "Download File";
         }
 
-        
-        
-
-        
-        
-        const WORKER_VERSION = 8;
+        const WORKER_VERSION = 11;
         const WORKER_URL = window.SITE_ROOT + 'js/ifc-worker.js?v=' + WORKER_VERSION;
         const STALE_WORKER_MSG = 'js/ifc-worker.js is missing or out of date (browser cache?). Hard-refresh the page (Ctrl+F5 / Cmd+Shift+R) and make sure the new ifc-worker.js is deployed.';
 
-        
         function createCoordinator() {
             const w = new Worker(WORKER_URL);
             let readyResolve, readyReject;
@@ -577,7 +529,6 @@
             };
         }
 
-        
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
         });
@@ -628,17 +579,15 @@
                 renameStats.classList.remove('flex');
             }
 
-            showLoader(); 
+            showLoader();
 
-            
             setTimeout(async () => {
                 await processIfcFile(file);
-                hideLoader(); 
+                hideLoader();
             }, 150);
         }
 
-        
-        let sessionCoord = null; 
+        let sessionCoord = null;
 
         async function processIfcFile(file) {
             try {
@@ -649,7 +598,6 @@
                 const res = await sessionCoord.call('psetLoad', { file, fileName: file.name });
                 const meta = res.meta;
 
-                
                 document.getElementById('info-size').innerText = (meta.sizeBytes / 1048576).toFixed(2) + " MB";
                 document.getElementById('info-schema').innerText = meta.schema || "Unknown";
                 document.getElementById('info-date').innerText = meta.date || "Unknown";
@@ -662,8 +610,6 @@
                 const unitNames = { MILLIMETER: 'Millimeters', CENTIMETER: 'Centimeters', METER: 'Meters', FOOT: 'Feet', INCH: 'Inches' };
                 document.getElementById('info-units').innerText = unitNames[meta.unit] || 'Unknown';
 
-                
-                
                 classData = {};
                 classCounts = res.classCounts || {};
                 for (const cls in res.classData) {
@@ -676,7 +622,6 @@
                 psetNameToIds = {};
                 for (const name in res.psetNameToIds) psetNameToIds[name] = new Set(res.psetNameToIds[name]);
 
-                
                 bulkClassSelect.innerHTML = '';
                 Object.keys(classData).sort().forEach(cls => {
                     const opt = document.createElement('option');
@@ -694,7 +639,6 @@
             }
         }
 
-        
         bulkClassSelect.addEventListener('change', () => {
             const selectedClasses = Array.from(bulkClassSelect.selectedOptions).map(opt => opt.value);
             bulkPsetSelect.innerHTML = '';
@@ -712,36 +656,31 @@
                     const editablePsets = [];
                     const lockedPsets = [];
 
-                    
                     sortedPsets.forEach(p => {
                         if (isPsetLocked(p)) lockedPsets.push(p);
                         else editablePsets.push(p);
                     });
 
-                    
                     const appendOption = (p, isLocked) => {
                         const opt = document.createElement('option');
                         opt.value = p;
 
                         if (isLocked) {
-                            opt.innerText = p; 
-                            
+                            opt.innerText = p;
                             opt.classList.add('text-slate-400', 'bg-slate-50/50', 'italic');
                         } else {
-                            opt.innerText = p; 
+                            opt.innerText = p;
                         }
 
                         bulkPsetSelect.appendChild(opt);
                     };
 
-                    
                     editablePsets.forEach(p => appendOption(p, false));
 
-                    
                     if (lockedPsets.length > 0) {
                         if (editablePsets.length > 0) {
                             const separator = document.createElement('option');
-                            separator.disabled = true; 
+                            separator.disabled = true;
                             separator.innerText = "────── Protected Schema ──────";
                             separator.classList.add('text-center', 'text-slate-300', 'py-1');
                             bulkPsetSelect.appendChild(separator);
@@ -759,9 +698,7 @@
             updateRenameAction();
         });
 
-        
         bulkPsetSelect.addEventListener('change', () => {
-            
             updateRenameAction();
         });
 
@@ -781,11 +718,8 @@
             if (selectedClasses.length > 0 && selectedPsets.length === 1) {
                 const targetPset = selectedPsets[0];
 
-                
                 isLocked = isPsetLocked(targetPset);
 
-                
-                
                 let count = 0;
                 selectedClasses.forEach(cls => {
                     if (classData[cls] && classData[cls][targetPset]) {
@@ -794,7 +728,6 @@
                 });
                 instanceCountNum.innerText = count;
 
-                
                 if (isLocked) {
                     renameStats.classList.add('hidden');
                     renameStats.classList.remove('flex');
@@ -813,13 +746,11 @@
                     newNameInput.disabled = false;
                     newNameInput.placeholder = "New Pset Name";
 
-                    
                     if (document.activeElement !== newNameInput) {
                         newNameInput.value = targetPset;
                     }
                 }
             } else {
-                
                 renameStats.classList.add('hidden');
                 renameStats.classList.remove('flex');
                 if (securityWarning) {
@@ -831,7 +762,6 @@
                 newNameInput.placeholder = "New Pset Name";
             }
 
-            
             const currentNameVal = newNameInput.value.trim();
             const targetIsLocked = currentNameVal !== '' && isPsetLocked(currentNameVal);
             const targetExists = currentNameVal !== '' && currentNameVal !== selectedPsets[0] && selectedClasses.some(cls => classData[cls] && classData[cls][currentNameVal]);
@@ -853,7 +783,6 @@
             renameBtn.disabled = isLocked || targetIsLocked || selectedClasses.length === 0 || selectedPsets.length !== 1 || currentNameVal === '' || currentNameVal === selectedPsets[0];
         }
 
-        
         renameBtn.addEventListener('click', () => {
             const newName = newNameInput.value.trim();
             const selectedClasses = Array.from(bulkClassSelect.selectedOptions).map(opt => opt.value);
@@ -881,16 +810,12 @@
                     if (classData[cls] && classData[cls][targetPset]) {
                         const targetEntry = classData[cls][targetPset];
 
-                        
-                        
                         targetEntry.psetIds.forEach(psetId => {
                             pendingRenames[psetId] = newName;
                             queuedPsetIds.add(psetId);
                         });
                         affectedObjects += targetEntry.objectCount;
 
-                        
-                        
                         if (!classData[cls][newName]) {
                             classData[cls][newName] = { psetIds: new Set(), objectCount: 0 };
                         }
@@ -912,7 +837,6 @@
                     }
                 }
 
-                
                 if (!psetNameToIds[newName]) psetNameToIds[newName] = new Set();
                 queuedPsetIds.forEach(id => {
                     psetNameToIds[newName].add(id);
@@ -928,7 +852,6 @@
                 downloadArea.classList.remove('hidden');
                 exportBtn.disabled = false;
 
-                
                 bulkClassSelect.dispatchEvent(new Event('change'));
                 newNameInput.value = '';
                 newNameInput.disabled = true;
@@ -939,11 +862,9 @@
             }, 50);
         });
 
-        
         exportBtn.addEventListener('click', async () => {
             if (!fileLoaded || !sessionCoord) return;
 
-            
             if (preparedDownloadUrl && preparedDownloadName) {
                 triggerPreparedDownload();
                 return;

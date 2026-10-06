@@ -25,12 +25,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pset Exporter - Inspect IFC Classes & Export PSets | liteAECO</title>
 
-    
     <meta name="description" content="Free client-side tool to inspect IFC classes and export property sets to Excel/CSV for analysis and documentation. No uploads, private, fast, and built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/ifc-pset-exporter.html">
 
-    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/ifc-pset-exporter.html">
     <meta property="og:site_name" content="liteAECO">
@@ -42,14 +40,12 @@
     <meta property="og:image:alt" content="liteAECO Pset Exporter tool interface">
     <meta property="og:locale" content="en_US">
 
-    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-pset-exporter.html">
     <meta name="twitter:title" content="Pset Exporter - Inspect IFC Classes & Export Property Sets | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to inspect IFC classes and export property sets to Excel/CSV for analysis and documentation. No uploads, private, fast, and built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-ifc-pset-exporter.png">
 
-    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -58,16 +54,13 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
-    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
 
-    
     <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
 
     <script>
@@ -78,7 +71,6 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        
                         accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
                     }
                 }
@@ -86,16 +78,12 @@
         }
     </script>
 
-    
     <link rel="stylesheet" type="text/css" href="../css/global.css">
 </head>
 
 <body
     class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
 
-    
-
-    
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
 
         <div class="bg-white">
@@ -362,27 +350,17 @@
         </div>
     </div>
 
-    
-    
     <script>
-        
-        
-        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
-        
-        
         window.updateToolDynamicUI = function (d) {
             if (typeof refreshTable === 'function') refreshTable();
         };
 
-        
         function bootApp() {
-            
             autoDetectLanguage();
 
-            
             window.injectUI({
                 showNav: true,
                 transparentNav: false,
@@ -394,10 +372,8 @@
                 showFooterLinks: true,
             });
 
-            
             window.injectCookieBanner();
 
-            
             const currentYear = new Date().getFullYear();
             const targetVersionInput = document.getElementById('targetVersionInput');
             if (targetVersionInput) {
@@ -425,67 +401,38 @@
                 toggleVersionInput();
             }
 
-            
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
 
-        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
-        
-        
-        
     </script>
     <script type="module">
-        
 
-        
         let classCounts = {};
         let psetNameToIds = {};
         let classData = {};
         let fileLoaded = false;
 
-        
         const SECURITY_BLACKLIST = {
-            
             systemCols: ["_hash", "_globalId", "_elementName"],
 
-            
             exactPsets: [
-                
             ],
 
-            
             psetPatterns: [
-                
-                
-                
-                
-                
-                
             ],
 
-            
             exactProperties: [
-                
-                
-                
             ],
 
-            
             propertyPatterns: [
-                
-                
-                
-                
-                
             ]
         };
 
-        
         function isPsetLocked(psetName) {
             if (!psetName) return false;
             if (SECURITY_BLACKLIST.exactPsets.includes(psetName)) return true;
@@ -493,7 +440,6 @@
             return false;
         }
 
-        
         const fileInput = document.getElementById('fileInput');
         const fileNameDisplay = document.getElementById('fileNameDisplay');
         const dropZone = document.getElementById('drop-zone');
@@ -510,7 +456,6 @@
             exportStats.classList.remove('flex');
         }
 
-        
         function log(msg, isWarning = false) {
             logAreaWrapper.classList.remove('hidden');
             logAreaWrapper.classList.add('flex');
@@ -524,7 +469,6 @@
             const loader = document.getElementById('inline-loader');
             if (loader) loader.classList.remove('hidden');
 
-            
             if (logAreaWrapper) {
                 logAreaWrapper.classList.remove('hidden');
                 logAreaWrapper.classList.add('flex');
@@ -536,13 +480,10 @@
             if (loader) loader.classList.add('hidden');
         }
 
-        
-        
-        const WORKER_VERSION = 8;
+        const WORKER_VERSION = 11;
         const WORKER_URL = window.SITE_ROOT + 'js/ifc-worker.js?v=' + WORKER_VERSION;
         const STALE_WORKER_MSG = 'js/ifc-worker.js is missing or out of date (browser cache?). Hard-refresh the page (Ctrl+F5 / Cmd+Shift+R) and make sure the new ifc-worker.js is deployed.';
 
-        
         function createCoordinator() {
             const w = new Worker(WORKER_URL);
             let readyResolve, readyReject;
@@ -587,7 +528,6 @@
             };
         }
 
-        
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
         });
@@ -630,17 +570,15 @@
                 exportStats.classList.remove('flex');
             }
 
-            showLoader(); 
+            showLoader();
 
-            
             setTimeout(async () => {
                 await processIfcFile(file);
-                hideLoader(); 
+                hideLoader();
             }, 150);
         }
 
-        
-        let sessionCoord = null; 
+        let sessionCoord = null;
 
         async function processIfcFile(file) {
             try {
@@ -690,7 +628,6 @@
             }
         }
 
-        
         bulkClassSelect.addEventListener('change', () => {
             const selectedClasses = Array.from(bulkClassSelect.selectedOptions).map(opt => opt.value);
             bulkPsetSelect.innerHTML = '';
@@ -713,17 +650,15 @@
                         else editablePsets.push(p);
                     });
 
-                    
                     const appendOption = (p, isLocked) => {
                         const opt = document.createElement('option');
                         opt.value = p;
 
                         if (isLocked) {
-                            opt.innerText = p; 
-                            
+                            opt.innerText = p;
                             opt.classList.add('text-slate-400', 'bg-slate-50/50', 'italic');
                         } else {
-                            opt.innerText = p; 
+                            opt.innerText = p;
                         }
 
                         bulkPsetSelect.appendChild(opt);
@@ -779,7 +714,6 @@
                 exportStats.classList.remove('hidden');
                 exportStats.classList.add('flex');
 
-                
                 if (totalInstances > 500000) {
                     massiveWarning.classList.remove('hidden');
                     massiveWarning.classList.add('flex');
@@ -795,14 +729,12 @@
             exportExcelBtn.disabled = selectedClasses.length === 0 || selectedPsets.length === 0;
         }
 
-        
         const simpleExportMenuOptions = document.getElementById('simpleExportMenuOptions');
         const exportModal = document.getElementById('exportModal');
         const btnCancelExport = document.getElementById('btnCancelExport');
         const btnConfirmExport = document.getElementById('btnConfirmExport');
         let pendingExportFormat = null;
 
-        
         exportExcelBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (!exportExcelBtn.disabled) {
@@ -816,7 +748,6 @@
             }
         });
 
-        
         document.querySelectorAll('.simple-export-format-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 pendingExportFormat = e.target.getAttribute('data-format');
@@ -826,7 +757,6 @@
                 const selectedPsets = Array.from(bulkPsetSelect.selectedOptions).map(opt => opt.value);
                 if (selectedClasses.length === 0 || selectedPsets.length === 0) return;
 
-                
                 if (pendingExportFormat === 'csv') {
                     executeSimpleExport('single');
                 } else {
@@ -835,7 +765,6 @@
             });
         });
 
-        
         if (btnCancelExport) {
             btnCancelExport.addEventListener('click', () => {
                 exportModal.classList.add('hidden');
@@ -843,7 +772,6 @@
             });
         }
 
-        
         if (btnConfirmExport) {
             btnConfirmExport.addEventListener('click', () => {
                 const layout = document.querySelector('input[name="exportLayout"]:checked').value;
@@ -852,7 +780,6 @@
             });
         }
 
-        
         let isExportCancelled = false;
 
         document.addEventListener('keydown', (e) => {
@@ -862,21 +789,18 @@
             }
         });
 
-        
         function executeSimpleExport(layout) {
             const selectedClasses = Array.from(bulkClassSelect.selectedOptions).map(opt => opt.value);
             const selectedPsets = Array.from(bulkPsetSelect.selectedOptions).map(opt => opt.value);
             let format = pendingExportFormat;
 
-            isExportCancelled = false; 
+            isExportCancelled = false;
             exportExcelBtn.disabled = true;
             log(`Generating ${format.toUpperCase()} file... (Press ESC to cancel)`);
             showLoader();
 
             setTimeout(async () => {
                 try {
-                    
-                    
                     const res = await sessionCoord.call('psetTable', { classes: selectedClasses, psetNames: selectedPsets });
 
                     let excelData = new Map();
@@ -895,7 +819,6 @@
                         classProps.set(cls, propsSet);
                     }
 
-                    
                     if (totalElements === 0) {
                         log("No data found to export.", true);
                         exportExcelBtn.disabled = false;
@@ -910,7 +833,6 @@
 
                     const originalName = fileInput.files[0].name.replace(/\.ifc$/i, '');
 
-                    
                     if (format === 'csv') {
                         log(`Compiling CSV for ${totalElements} elements...`);
 

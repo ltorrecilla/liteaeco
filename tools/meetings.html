@@ -25,12 +25,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meetings - Create Notes, Track Discussions & Open Issues | liteAECO</title>
 
-    
     <meta name="description" content="Free client-side tool to create meeting notes, track project discussions, and manage open issues locally. No uploads, private, fast, and built for AEC project teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/meetings.html">
 
-    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/meetings.html">
     <meta property="og:site_name" content="liteAECO">
@@ -42,14 +40,12 @@
     <meta property="og:image:alt" content="liteAECO Meetings tool interface">
     <meta property="og:locale" content="en_US">
 
-    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/meetings.html">
     <meta name="twitter:title" content="Meetings - Create Notes, Track Discussions & Open Issues | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to create meeting notes, track project discussions, and manage open issues locally. No uploads, private, fast, and built for AEC project teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-meetings.png">
 
-    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -58,23 +54,16 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
-    
     <style>
         .hidden{display:none}
-        
-
         .as-switch:has(#mtg-save-menu-disconnect:not(.hidden)){background:#22c55e}
         .as-switch:has(#mtg-save-menu-disconnect:not(.hidden)) .as-knob{transform:translateX(16px)}
-        
-
         #mtg-save-icon-on.text-slate-600{color:#fff}
     </style>
 
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
-    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
@@ -83,12 +72,10 @@
     <script src="../js/liteaeco-cde.js"></script>
     <script src="../js/liteaeco-cde-app.js"></script>
     <script src="../js/liteaeco-contacts.js"></script>
-    
     <script src="../js/meetings/meetings-cde-libs.js"></script>
     <script src="../js/meetings/meetings-issues.js"></script>
     <script src="../js/meetings/meetings-links.js"></script>
 
-    
     <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
 
     <script>
@@ -106,7 +93,6 @@
         }
     </script>
 
-    
     <link rel="stylesheet" type="text/css" href="../css/global.css">
     <link rel="stylesheet" type="text/css" href="../css/pdf_report.css">
 </head>
@@ -114,9 +100,6 @@
 <body
     class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
 
-    
-
-    
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
 
         <div id="info-app" class="info-app">
@@ -165,7 +148,6 @@
         <div
             class="p-4 mb-4 flex flex-wrap gap-4 justify-between items-center shrink-0 border-b border-slate-300">
 
-            
             <div id="project-bar" class="hidden w-full flex flex-wrap items-center gap-3 border-b border-slate-100 pb-3">
                 <input type="text" id="app-project-number" placeholder="No."
                     class="border-0 bg-slate-50 rounded p-1.5 w-24 text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-accent outline-none transition-all" />
@@ -235,8 +217,6 @@
 
             <div class="flex items-center">
                 <div class="flex items-center rounded overflow-visible relative gap-2">
-                    
-
                     <div class="relative flex-1 min-w-[80px] hidden" id="wrapper-cde-save">
                         <button onclick="cdeSaveNow()" id="btn-cde-save"
                             class="w-full px-3 py-1.5 bg-indigo-600 border border-indigo-600 hover:bg-indigo-700 text-white rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center gap-1 disabled:opacity-60 disabled:pointer-events-none">
@@ -245,8 +225,6 @@
                                 data-i18n="btnSave">Save</span>
                         </button>
                     </div>
-
-                    
 
                     <div class="relative group flex-1 min-w-[80px]">
                         <button
@@ -296,7 +274,6 @@
                         </button>
                     </div>
 
-                    
                     <div class="relative group shrink-0">
                         <button
                             class="px-3 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600 text-slate-600 rounded-none text-[10px] font-bold tracking-wider uppercase transition flex items-center justify-center"
@@ -305,9 +282,6 @@
                         </button>
                         <div
                             class="absolute top-full right-0 w-44 mt-1 bg-white border border-slate-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col rounded-none overflow-hidden">
-                            
-
-
                             <button onclick="autosaveToggle()" id="mtg-autosave-row"
                                 class="px-3 py-2.5 text-[10px] font-bold text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 uppercase tracking-widest border-b border-slate-100 text-left transition-colors flex items-center justify-between gap-3">
                                 <span data-i18n="autosaveToggle">Autosave</span>
@@ -336,7 +310,6 @@
                             & Minutes</span>
                     </h2>
                     <div class="flex items-center gap-3">
-                        
                         <button type="button" id="btn-files-jump" title="Files" data-i18n-title="lnkPanelTitle"
                             class="att-noprint flex items-center gap-1 text-slate-400 hover:text-indigo-600 transition-colors text-xs font-bold">
                             <i data-lucide="paperclip" class="w-4 h-4"></i><span data-count></span>
@@ -348,6 +321,9 @@
                         </div>
                     </div>
                 </div>
+                <div id="filter-bar" class="att-noprint hidden px-4 py-2.5 border-b border-slate-100 bg-slate-50/60 shrink-0"></div>
+                <div id="filter-print-note" class="hidden px-4 pt-3 text-xs font-bold text-slate-700"></div>
+                <style>@media print { #filter-print-note.vf-on { display: block !important; } }</style>
                 <div id="threads-container" class="p-4 pb-48 overflow-y-auto no-scrollbar flex-grow space-y-6">
                     <div id="meeting-attachments" class="hidden bg-white border border-slate-200 rounded p-3"></div>
                 </div>
@@ -505,7 +481,6 @@
         </div>
     </div>
 
-    
     <div id="meta-modal"></div>
 
     <div id="custom-dialog"
@@ -527,21 +502,13 @@
         </div>
     </div>
 
-    
-    
     <script>
-        
-        
-        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
-        
-        
         window.updateToolDynamicUI = function (d) {
             window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
-            
             const titleInput = document.getElementById('app-meeting-title');
             if (titleInput) titleInput.placeholder = window.BASE_PAGE.phMeetingTitle || "Enter Meeting Title...";
 
@@ -563,15 +530,12 @@
             renderApp();
         };
 
-        
         function bootApp() {
-            
             autoDetectLanguage();
 
-            
             window.injectUI({
                 showNav: true,
-                linkTarget: '', 
+                linkTarget: '',
                 transparentNav: false,
                 showSignIn: false,
                 showCategories: true,
@@ -581,50 +545,31 @@
                 showFooterLinks: true,
             });
 
-            
             window.injectCookieBanner();
 
-            
-            
-
-            
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
 
-        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
 
-        
-        
-        
-
-
-        
-        
-        
         const state = {
             No: 1,
             title: '',
-            meetingGuid: '',   
+            meetingGuid: '',
             date: new Date().toISOString().split('T')[0],
             initialDate: new Date().toISOString().split('T')[0],
             searchQuery: '',
             people: [],
             attendanceHistory: [],
 
-            
             viewingHistory: false,
             historyMeetingNo: null,
             historyDate: null,
 
-            
-            
-
-            
             threads: [
                 {
                     id: 'th1',
@@ -637,13 +582,7 @@
             ]
         };
 
-        
         let isDirty = false;
-
-        
-
-
-
 
         let typingDirty = false;
         let typingIdleTimer = null;
@@ -663,9 +602,6 @@
             if (typeof Autosave !== "undefined") Autosave.markDirty();
         }
 
-        
-        
-        
         state.project = { guid: '', number: '', title: '', client: '', address: '', type: '' };
 
         const PROJECT_FIELD_MAP = {
@@ -682,17 +618,13 @@
             return !!(p.guid || p.number || p.title || p.client || p.address || p.type);
         }
 
-        
-
-
-
         function updateProjectBarVisibility() {
             const bar = document.getElementById('project-bar');
             if (!bar) return;
             const show = !!(window.__cdeCtx || projectBarHasData() || window.__projectBarManual);
             bar.classList.toggle('hidden', !show);
             const mi = document.getElementById('menu-project-info');
-            if (mi) mi.classList.toggle('hidden', show);   
+            if (mi) mi.classList.toggle('hidden', show);
         }
         window.showProjectBar = function () {
             window.__projectBarManual = true;
@@ -704,7 +636,6 @@
                 const el = document.getElementById(elId);
                 if (el) el.value = state.project[key] || '';
             }
-            
             updateProjectBarVisibility();
         }
 
@@ -713,7 +644,7 @@
                 const el = document.getElementById(elId);
                 if (el) el.addEventListener('input', e => {
                     state.project[key] = e.target.value.trim();
-                    noteTyping(); 
+                    noteTyping();
                 });
             }
             const btn = document.getElementById('btn-project-details');
@@ -726,15 +657,11 @@
         }
         initProjectBar();
 
-        
-
-
         function ensureMeetingGuid() {
             if (!state.meetingGuid) state.meetingGuid = newGuid();
             return state.meetingGuid;
         }
 
-        
         function buildProjectInfoRows() {
             if (!state.project.guid && (state.project.number || state.project.title || state.project.client || state.project.address || state.project.type)) {
                 state.project.guid = newGuid();
@@ -751,7 +678,6 @@
             ];
         }
 
-        
         function parseProjectInfo(infoAoA, getValue) {
             const pv = (k) => { const v = getValue(infoAoA, k); return (v && v !== '-') ? v : ''; };
             state.project = {
@@ -764,16 +690,11 @@
             };
         }
 
-        
-        
-        
-        
-        
         state.attachments = [];
-        let pendingAttachTarget = null;   
-        let pendingLtmHydration = null;   
+        let pendingAttachTarget = null;
+        let pendingLtmHydration = null;
 
-        const PDF_EMBED_LIMIT = 5 * 1048576; 
+        const PDF_EMBED_LIMIT = 5 * 1048576;
 
         function u8ToBase64(u8) {
             let s = '';
@@ -799,13 +720,11 @@
             } catch (e) { return ''; }
         }
 
-        
-        
         function extractExifMeta(u8) {
             const meta = { capturedAt: '', gps: null, device: '' };
             try {
                 const dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
-                if (dv.getUint16(0) !== 0xFFD8) return meta; 
+                if (dv.getUint16(0) !== 0xFFD8) return meta;
                 let p = 2, tiff = -1;
                 while (p + 4 < u8.length) {
                     if (dv.getUint8(p) !== 0xFF) break;
@@ -900,9 +819,6 @@
             return meta;
         }
 
-        
-        
-        
         function processImageFile(file) {
             return new Promise((resolve, reject) => {
                 const isHeic = /image\/hei[cf]/i.test(file.type || '') || /\.hei[cf]$/i.test(file.name || '');
@@ -963,7 +879,6 @@
                         const buf = new Uint8Array(await file.arrayBuffer());
                         const sha = await sha256Hex(buf);
                         if (buf.length > PDF_EMBED_LIMIT) {
-                            
                             const mb = (buf.length / 1048576).toFixed(1);
                             if (!confirm(file.name + ' ' + ((window.BASE_PAGE && window.BASE_PAGE.confirmPdfReference) || 'is {0} MB (limit for embedding is 5 MB).\n\nAttach it as a REFERENCE instead? The file itself stays where it is; only its name, size and fingerprint travel in the .ltm.').replace('{0}', mb))) continue;
                             state.attachments.push({
@@ -1012,12 +927,12 @@
                         mimeType: processed.mime,
                         dataBase64: u8ToBase64(processed.u8),
                         size: processed.u8.length,
-                        originalSize: file.size || 0,                
+                        originalSize: file.size || 0,
                         sha256: sha,
                         createdAt: new Date().toISOString(),
-                        capturedAt: processed.meta.capturedAt || '', 
-                        gps: processed.meta.gps || null,             
-                        device: processed.meta.device || '',         
+                        capturedAt: processed.meta.capturedAt || '',
+                        gps: processed.meta.gps || null,
+                        device: processed.meta.device || '',
                         embedded: true,
                         reference: null,
                         linkedTo: { ...linkedTo },
@@ -1054,7 +969,6 @@
             btn.textContent = mb > 0.05 ? ('LTM · ' + mb.toFixed(1) + ' MB') : 'LTM';
         }
 
-        
         function fmtKb(bytes) {
             return bytes >= 1048576 ? (bytes / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(bytes / 1024)) + ' KB';
         }
@@ -1119,25 +1033,20 @@
                 + (lnks.length ? `<div class="flex flex-wrap gap-2 pl-[58px] pt-2">${lnks.map(l => linkChipHtml(l, isHistory)).join('')}</div>` : '');
         }
 
-        
-
         function renderMeetingAttachments() {
             const box = document.getElementById('meeting-attachments');
             if (box) { box.innerHTML = ''; box.classList.add('hidden'); }
             updateLtmMeter();
         }
 
-        
         state.links = [];
-        const filesPanelOpen = {};   
+        const filesPanelOpen = {};
         function _linksApi() { return (window.liteAECO && liteAECO.meetings && liteAECO.meetings.links) || null; }
         function _whoName(id) {
             if (!id) return '';
             const p = state.people.find(x => x.id === id);
             return p ? p.name : String(id).replace(/^device:/, '');
         }
-        
-
         function linkActionsHtml(guid, locked, small) {
             const T = window.BASE_PAGE || {};
             if (locked) return '';
@@ -1159,16 +1068,25 @@
                 </button>${window.__cdeCtx ? linkActionsHtml(l.guid, locked, true) : ''}${del}</span>`;
         }
 
-        
         function _fileRows() {
             const L = _linksApi();
             const rows = (state.links || []).map(l => ({ type: 'link', guid: l.guid, name: l.name, path: l.path, icon: L ? L.iconFor(l.path) : 'file',
                 session: l.session || 0, who: _whoName(l.addedBy), at: l.addedAt, linkedTo: l.linkedTo, kind: l.kind }));
             (state.attachments || []).forEach(a => rows.push({ type: 'att', guid: a.guid, name: a.originalName, path: '', icon: /^image\//.test(a.mimeType) ? 'image' : 'file-text',
                 session: a.meetingNo || 0, who: '', at: a.createdAt, linkedTo: a.linkedTo, kind: a.embedded === false ? 'reference' : 'embedded' }));
-            return rows;
+            return rows.filter(r => !_fileHiddenByClose(r.linkedTo));
         }
-        function fileCount() { return (state.links || []).length + (state.attachments || []).length; }
+        function _fileHiddenByClose(linkedTo) {
+            if (state.viewingHistory || !linkedTo || linkedTo.type !== 'subthread' || !linkedTo.refGuid) return false;
+            const cur = parseInt(state.meetingNo || state.No, 10) || 1;
+            for (const th of state.threads) {
+                for (const s of th.subthreads) {
+                    if (s.guid === linkedTo.refGuid) return sthClosedBefore(s, cur);
+                }
+            }
+            return false;
+        }
+        function fileCount() { return _fileRows().length; }
         function renderFilesJump() {
             const b = document.getElementById('btn-files-jump');
             if (!b) return;
@@ -1205,7 +1123,6 @@
                 const locked = r.type === 'link' && L && env && L.visible(env, r.path) === false;
                 const openCls = r.type === 'link' ? 'btn-open-link' : 'btn-view-att';
                 const tip = r.type === 'link' ? ((T.lnkOpenFolder || 'Open the folder in Files') + ': ' + r.path) : r.name;
-                
                 let acts = '';
                 if (r.type === 'link' && window.__cdeCtx) acts = linkActionsHtml(r.guid, locked, false);
                 else if (r.type === 'att' && r.kind === 'embedded') acts = `<button class="btn-dl-att att-noprint shrink-0 p-0.5 rounded text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors" data-guid="${escapeHtml(r.guid)}" title="${escapeHtml(T.lnkDownload || 'Download')}"><i data-lucide="download" class="w-3.5 h-3.5"></i></button>`;
@@ -1237,8 +1154,6 @@
                 ${body}
             </div>`;
         }
-        
-
         function _relinkToMeeting(sthGuids) {
             const gone = new Set((sthGuids || []).filter(Boolean));
             if (!gone.size) return 0;
@@ -1298,7 +1213,6 @@
                     : (T.lnkUploadFailed || 'The file could not be uploaded:') + ' ' + (e && e.message ? e.message : e));
             }
         }
-        
         async function openLink(guid, action) {
             const L = _linksApi(), l = (state.links || []).find(x => x.guid === guid);
             if (!L || !l) return;
@@ -1310,7 +1224,6 @@
             const run = () => action === 'download' ? L.download(issueEnv(), l) : L.openFolder(issueEnv(), l);
             const r = await run();
             if (r.ok) return;
-            
             if (r.reason === 'missing' && L.relocate) {
                 let found = null;
                 try { found = await L.relocate(issueEnv(), l); } catch (e) { found = null; }
@@ -1327,7 +1240,7 @@
                         if (l.name === prevPath.split('/').pop()) l.name = found.name;
                         isDirty = true; if (typeof Autosave !== 'undefined') Autosave.markDirty();
                         renderThreads();
-                    } else l.path = prevPath;   
+                    } else l.path = prevPath;
                     if (r2.ok) return;
                     r.reason = r2.reason;
                 }
@@ -1371,10 +1284,7 @@
             document.body.appendChild(menu);
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: menu });
         }
-        
 
-
-        
         function formatBytes(n) {
             if (!n) return '—';
             if (n < 1024) return `${n} B`;
@@ -1479,7 +1389,6 @@
             if (wrap) wrap.innerHTML = '';
         }
 
-        
         const CRC_TABLE = (() => {
             const tt = new Uint32Array(256);
             for (let n = 0; n < 256; n++) {
@@ -1503,7 +1412,7 @@
             };
         }
 
-        function zipStore(entries) { 
+        function zipStore(entries) {
             const enc = new TextEncoder();
             const now = dosDateTime(new Date());
             const le16 = (v) => [v & 0xFF, (v >>> 8) & 0xFF];
@@ -1547,7 +1456,7 @@
             return new Uint8Array(await new Response(stream).arrayBuffer());
         }
 
-        async function readZip(u8) { 
+        async function readZip(u8) {
             const dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
             let eocd = -1;
             for (let i = u8.length - 22; i >= Math.max(0, u8.length - 22 - 65536); i--) {
@@ -1579,7 +1488,6 @@
             return map;
         }
 
-        
         function attachmentZipPath(a) {
             let safe = (a.originalName || 'file').replace(/[^a-zA-Z0-9._-]/g, '_');
             const ext = a.mimeType === 'image/png' ? '.png' : (a.mimeType === 'image/jpeg' ? '.jpg' : (a.mimeType === 'application/pdf' ? '.pdf' : ''));
@@ -1619,23 +1527,23 @@
                 spreadsheet: 'meeting.xlsx',
                 attachments: state.attachments.map(a => ({
                     guid: a.guid,
-                    linkedTo: { ...a.linkedTo },                 
+                    linkedTo: { ...a.linkedTo },
                     topicRef: a.linkedTo && a.linkedTo.type === 'subthread' ? sthTopicRef(a.linkedTo.refGuid) : 'meeting',
                     file: a.embedded === false ? '' : attachmentZipPath(a),
                     originalName: a.originalName,
                     mimeType: a.mimeType,
                     size: a.size,
-                    sha256: a.sha256,                            
+                    sha256: a.sha256,
                     createdAt: a.createdAt,
-                    capturedAt: a.capturedAt || '',              
-                    gps: a.gps ? { ...a.gps } : null,            
-                    device: a.device || '',                      
-                    originalSize: a.originalSize || 0,           
-                    embedded: a.embedded !== false,              
+                    capturedAt: a.capturedAt || '',
+                    gps: a.gps ? { ...a.gps } : null,
+                    device: a.device || '',
+                    originalSize: a.originalSize || 0,
+                    embedded: a.embedded !== false,
                     reference: a.embedded === false ? { ...(a.reference || { sourcePath: '', note: '' }) } : null,
-                    meetingNo: a.meetingNo || 0,                 
+                    meetingNo: a.meetingNo || 0,
                     comments: (a.comments || []).map(c => ({ ...c })),
-                    isSnapshot: false                            
+                    isSnapshot: false
                 }))
             };
         }
@@ -1686,7 +1594,6 @@
                 return;
             }
 
-            
             let manifest = null;
             if (entries.has('manifest.json')) {
                 try { manifest = JSON.parse(new TextDecoder().decode(entries.get('manifest.json'))); }
@@ -1711,7 +1618,6 @@
             if (!manifest) {
                 showDialog('alert', (window.BASE_PAGE && window.BASE_PAGE.warnNoManifest) || "No valid manifest.json in this container, spreadsheet loaded, attachments skipped.");
             } else {
-                
                 pendingLtmHydration = { manifest, entries };
             }
             importExcelData(wb);
@@ -1728,15 +1634,13 @@
             state.attachments = (manifest.attachments || []).map(m => {
                 const isRef = m.embedded === false;
                 const data = (!isRef && m.file) ? entries.get(m.file) : null;
-                if (!isRef && !data) return null; 
+                if (!isRef && !data) return null;
 
-                
                 const refGuid = m.linkedTo ? String(m.linkedTo.refGuid || '') : '';
                 const linkedTo = (m.linkedTo && m.linkedTo.type === 'subthread' && sthGuids.has(refGuid))
                     ? { type: 'subthread', refGuid }
                     : { type: 'meeting', refGuid: '' };
 
-                
                 const rawComments = Array.isArray(m.comments) ? m.comments
                     : (m.comment ? [{ author: '', date: m.createdAt || '', text: String(m.comment) }] : []);
 
@@ -1776,20 +1680,13 @@
             renderApp();
         }
 
-        
-        
-
-        
         const generateId = (prefix) => prefix + Math.random().toString(36).substr(2, 9);
 
-        
         const sanitizeStr = (str) => {
             if (!str) return '';
-            
             return String(str).replace(/["'<>\&]/g, '').trim();
         };
 
-        
         const escapeHtml = (unsafe) => {
             if (!unsafe) return '';
             return String(unsafe)
@@ -1812,18 +1709,6 @@
             return String.fromCharCode(65 + Math.floor(i / 26) % 26) + String.fromCharCode(65 + (i % 26));
         }
 
-        
-        
-
-
-
-
-
-
-
-
-
-
         const CONTACTS_CONTRACT = 1;
         function _contactsLib() { return (window.liteAECO && window.liteAECO.contacts) || null; }
 
@@ -1841,17 +1726,13 @@
             const h = Array.from(b, x => x.toString(16).padStart(2, '0')).join('');
             return h.slice(0, 8) + '-' + h.slice(8, 12) + '-' + h.slice(12, 16) + '-' + h.slice(16, 20) + '-' + h.slice(20);
         }
-        
         function newGuid() { return generatePersonId(); }
-        
-
         function _safeId(v) { const s = String(v == null ? '' : v).trim(); return /^[A-Za-z0-9-]{1,64}$/.test(s) ? s : ''; }
 
         function _normPersonName(v) {
             const C = _contactsLib();
             return C ? C.normName(v) : String(v == null ? '' : v).trim().toLowerCase().replace(/\s+/g, ' ');
         }
-        
         function _findPersonByName(list, name, company) {
             const n = _normPersonName(name);
             if (!n) return null;
@@ -1862,7 +1743,6 @@
             }
             return hits[0] || null;
         }
-        
         function _remapRefValue(v, map) {
             const C = _contactsLib();
             if (Array.isArray(v)) return C ? C.remapArray(v, map) : v.map(x => (typeof x === 'string' && map[x]) || x);
@@ -1885,9 +1765,6 @@
             counter.n += moved.length;
         }
 
-        
-
-
         function applyPersonRemap(map, opts) {
             opts = opts || {};
             const people = state.people || [];
@@ -1906,7 +1783,6 @@
             const counter = { n: 0 };
             _remapPersonRefs(ok, counter, res.conflicts);
             res.refs = counter.n;
-            
             if (typeof cdeBridge !== 'undefined' && cdeBridge.baseline && Array.isArray(cdeBridge.baseline.people)) {
                 cdeBridge.baseline.people.forEach(p => { if (ok[p.id]) p.id = ok[p.id]; });
             }
@@ -1918,9 +1794,6 @@
             if (res.conflicts.length) console.warn('person remap: kept target values on conflict', res.conflicts);
             return res;
         }
-
-        
-
 
         function _cdeResolveStaleRefs(st) {
             const C = _contactsLib();
@@ -1938,13 +1811,11 @@
             if (conflicts.length) console.warn('stale refs: kept target values on conflict', conflicts);
             return counter.n;
         }
-        
         function _looksLikePersonId(v) {
             const s = String(v == null ? '' : v).trim();
             return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s) || /^m-[a-z0-9-]+$/.test(s);
         }
 
-        
         function _remapPersonRefs(map, counter, conflicts) {
             (state.threads || []).forEach(th => (th.subthreads || []).forEach(sth => _remapRefField(sth, 'assignees', map, counter)));
             (state.attendanceHistory || []).forEach(rec => {
@@ -1956,7 +1827,6 @@
         }
         function _rosterPersonDefaults() { return { participation: 'No', archived: true, present: false }; }
         function _markPeopleDirty() { isDirty = true; if (typeof Autosave !== 'undefined' && Autosave.markDirty) Autosave.markDirty(); }
-        
 
         function toExcelDate(htmlDate) {
             if (!htmlDate || htmlDate === '-') return '-';
@@ -1976,9 +1846,6 @@
             return strDate.replace(/\./g, '-');
         }
 
-        
-        
-        
         function renderApp() {
             const displayNo = state.viewingHistory ? state.historyMeetingNo : (state.meetingNo || state.No);
             const displayDate = state.viewingHistory ? state.historyDate : state.date;
@@ -2063,14 +1930,12 @@
                 return !p.archived || historicalPresentIds.includes(p.id);
             });
 
-            
             if (peopleToRender.length === 0 && !state.people.some(p => p.archived && !isHistory)) {
                 const emptyStr = window.BASE_PAGE.emptyAttendees || 'No attendees added yet.';
                 listEl.innerHTML = `<p class="text-sm text-slate-400 italic" data-i18n="emptyAttendees">${emptyStr}</p>`;
                 return;
             }
 
-            
             const renderGroup = (titleKey, defaultTitle, peopleArr) => {
                 if (peopleArr.length === 0) return '';
                 const translatedTitle = window.BASE_PAGE[titleKey] || defaultTitle;
@@ -2108,7 +1973,6 @@
                 renderGroup('optRequired', 'Required', reqPeople) +
                 renderGroup('optOptional', 'Optional', optPeople);
 
-            
             if (state.people.length > 0 && !isHistory) {
                 finalHtml += `
                 <button onclick="openAllContactsModal()" class="w-full text-left text-[10px] font-bold text-slate-400 hover:text-indigo-600 uppercase tracking-wider mt-4 border-t border-slate-100 pt-3 transition-colors print:hidden flex justify-between items-center group">
@@ -2121,30 +1985,25 @@
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: listEl });
         }
 
-        
-        
-        
         let currentContactSort = { field: 'status', direction: 'asc' };
         let currentContactSearch = '';
         let currentContactPage = 1;
-        const CONTACTS_PER_PAGE = 12; 
+        const CONTACTS_PER_PAGE = 12;
 
         function updateContactSearch(query) {
             currentContactSearch = query.toLowerCase();
-            currentContactPage = 1; 
+            currentContactPage = 1;
             renderAllContactsList();
         }
 
         function changeContactSort(field) {
             if (currentContactSort.field === field) {
-                
                 currentContactSort.direction = currentContactSort.direction === 'asc' ? 'desc' : 'asc';
             } else {
-                
                 currentContactSort.field = field;
                 currentContactSort.direction = 'asc';
             }
-            currentContactPage = 1; 
+            currentContactPage = 1;
             renderAllContactsList();
         }
 
@@ -2152,13 +2011,11 @@
             currentContactPage = newPage;
             renderAllContactsList();
 
-            
             const scrollContainer = document.getElementById('all-contacts-list').parentElement;
             if (scrollContainer) scrollContainer.scrollTop = 0;
         }
 
         function openAllContactsModal() {
-            
             currentContactSearch = '';
             currentContactPage = 1;
             const searchInput = document.getElementById('modal-search-input');
@@ -2174,7 +2031,6 @@
             renderThreads();
         }
 
-        
         function getSortIcon(field) {
             if (currentContactSort.field !== field) return '<i data-lucide="chevrons-up-down" class="w-3 h-3 opacity-30 group-hover:opacity-100 transition-opacity"></i>';
             return currentContactSort.direction === 'asc'
@@ -2188,15 +2044,12 @@
 
             if (state.people.length === 0) return;
 
-            
             let filteredPeople = state.people.filter(p => {
                 if (!currentContactSearch) return true;
-                
                 const searchStr = `${p.name} ${p.company} ${p.role} ${p.contactInfo}`.toLowerCase();
                 return searchStr.includes(currentContactSearch);
             });
 
-            
             let sortedPeople = filteredPeople.sort((a, b) => {
                 let valA, valB;
 
@@ -2229,11 +2082,9 @@
                 return currentContactSort.direction === 'asc' ? (valA - valB) : (valB - valA);
             });
 
-            
             const totalItems = sortedPeople.length;
             const totalPages = Math.max(1, Math.ceil(totalItems / CONTACTS_PER_PAGE));
 
-            
             if (currentContactPage > totalPages) currentContactPage = totalPages;
             if (currentContactPage < 1) currentContactPage = 1;
 
@@ -2242,7 +2093,6 @@
 
             const paginatedPeople = sortedPeople.slice(startIndex, endIndex);
 
-            
             let html = `
             <div class="grid grid-cols-12 gap-3 p-4 border-b border-slate-200 bg-slate-50 text-[11px] font-bold text-slate-500 uppercase tracking-wider sticky top-0 z-10 shadow-sm">
                 <button onclick="changeContactSort('name')" class="col-span-3 flex items-center gap-1 hover:text-indigo-600 transition-colors group outline-none text-left">Name ${getSortIcon('name')}</button>
@@ -2252,7 +2102,6 @@
                 <button onclick="changeContactSort('status')" class="col-span-1 flex items-center justify-center gap-1 hover:text-indigo-600 transition-colors group outline-none">Status ${getSortIcon('status')}</button>
             </div>`;
 
-            
             if (paginatedPeople.length === 0) {
                 html += `<div class="p-8 text-center text-sm text-slate-400 italic">No contacts match your search.</div>`;
             } else {
@@ -2284,12 +2133,10 @@
                 });
             }
 
-            
             const paginationEl = document.getElementById('all-contacts-pagination');
             let paginationHtml = '';
 
             if (totalItems > CONTACTS_PER_PAGE) {
-                
                 paginationHtml = `
                 <div class="flex items-center justify-between px-6 py-3">
                     <div class="text-xs text-slate-500">
@@ -2307,11 +2154,9 @@
                 </div>`;
             }
 
-            
             listEl.innerHTML = html;
             if (paginationEl) paginationEl.innerHTML = paginationHtml;
 
-            
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons({ root: listEl });
                 if (paginationEl) lucide.createIcons({ root: paginationEl });
@@ -2324,19 +2169,14 @@
             return assignees.map(id => {
                 if (id.startsWith('c_')) {
                     const compName = id.substring(2);
-                    
                     return `<span class="bg-amber-100 text-amber-700 border border-amber-200 text-[10px] font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 shadow-sm cursor-help print:bg-slate-200 print:text-black print:border-slate-400 print:shadow-none" title="${escapeHtml(compName)}">${getInitials(compName)}</span>`;
                 } else {
                     const p = state.people.find(x => x.id === id);
-                    
                     if (p) return `<span class="bg-slate-100 text-slate-700 border border-indigo-200 text-[10px] font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 shadow-sm cursor-help print:bg-white print:text-black print:border-slate-400 print:shadow-none" title="${escapeHtml(p.name)}">${getInitials(p.name)}</span>`;
                     return '';
                 }
             }).join('');
         }
-
-        
-
 
         function _issuesApi() { return (window.liteAECO && liteAECO.meetings && liteAECO.meetings.issues) || null; }
         function _cdeWritable() { return !!(window.__cdeCtx && !window.__cdeReadOnly && typeof cdeBridge !== 'undefined' && cdeBridge.session); }
@@ -2357,12 +2197,6 @@
             }
             return _issueEnv;
         }
-        
-
-
-
-
-
         function issueControlHtml(sth, isHistory) {
             const T = window.BASE_PAGE || {};
             const icon = '<i data-lucide="message-square-warning" class="w-3.5 h-3.5 shrink-0"></i>';
@@ -2381,7 +2215,7 @@
             if (!th) return '';
             return String(state.threads.indexOf(th) + 1).padStart(3, '0') + '.' + String(sth.number || th.subthreads.indexOf(sth) + 1).padStart(2, '0');
         }
-        let _issueCreateBusy = false;   
+        let _issueCreateBusy = false;
         async function openIssueCreate(sthId) {
             const api = _issuesApi(), sth = findSubthread(sthId);
             if (!api || !sth || !_cdeWritable()) return;
@@ -2392,7 +2226,7 @@
             try {
                 const libs = liteAECO.meetings.loadCdeLibs ? await liteAECO.meetings.loadCdeLibs() : { ok: false };
                 if (!libs.ok) { showDialog('alert', (window.BASE_PAGE || {}).issNoLib || 'The issue library could not be loaded (js/liteaeco-bcf.js, js/vendor/index-0.8.3.js).'); return; }
-                if (sth.issueGuid) return;   
+                if (sth.issueGuid) return;
                 const th = _threadOf(sth);
                 const persons = state.people.filter(p => !p.archived || (sth.assignees || []).includes(p.id));
                 const companies = [...new Set(state.people.filter(p => p.company && p.company.trim()).map(p => p.company.trim()))];
@@ -2415,8 +2249,6 @@
                         sth.issueNo = res.number;
                         isDirty = true; if (typeof Autosave !== 'undefined') Autosave.markDirty();
                         renderThreads();
-                        
-                        
                         cdeSaveNow();
                     }
                 });
@@ -2432,7 +2264,6 @@
             if (!libs.ok) { showDialog('alert', (window.BASE_PAGE || {}).issNoLib || 'The issue library could not be loaded (js/liteaeco-bcf.js, js/vendor/index-0.8.3.js).'); return; }
             return api.openViewPanel({
                 env: issueEnv(), guid: sth.issueGuid, number: sth.issueNo,
-                
                 onNumber: (n) => {
                     sth.issueNo = n;
                     if (_cdeWritable()) { isDirty = true; if (typeof Autosave !== 'undefined') Autosave.markDirty(); }
@@ -2440,7 +2271,291 @@
                 }
             });
         }
-        
+
+        function sthClosedBefore(sth, curNo) {
+            const closed = sth.status === 'closed' || sth.status === 'close';
+            if (!closed) return false;
+            if (sth.closeSession) return sth.closeSession < curNo;
+            return !!sth.hiddenFromImport;
+        }
+
+        const VF_STATUSES = ['open', 'info', 'closed'];
+        const vfDefault = () => ({ assignee: '', status: VF_STATUSES.slice(), due: 'all', priority: 'all', sort: 'thread' });
+        let viewFilter = vfDefault();
+        let _vfKey = null;
+        const _vfSticky = new Set();
+
+        function _vfStorageKey() { return 'liteaeco.meetings.filter.' + (state.meetingGuid || 'local'); }
+        function vfLoad() {
+            const k = _vfStorageKey();
+            if (k === _vfKey) return;
+            _vfKey = k;
+            _vfSticky.clear();
+            const d = vfDefault();
+            let v = null;
+            try { v = JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { v = null; }
+            if (v && typeof v === 'object') {
+                if (typeof v.assignee === 'string') d.assignee = v.assignee;
+                if (Array.isArray(v.status)) {
+                    const st = v.status.filter(s => VF_STATUSES.includes(s));
+                    if (st.length) d.status = st;
+                }
+                if (['all', 'overdue', 'week', 'none'].includes(v.due)) d.due = v.due;
+                if (['all', 'high', 'medium', 'low'].includes(v.priority)) d.priority = v.priority;
+                if (['thread', 'due', 'priority'].includes(v.sort)) d.sort = v.sort;
+            }
+            viewFilter = d;
+        }
+        function vfSave() {
+            _vfSticky.clear();
+            try { localStorage.setItem(_vfStorageKey(), JSON.stringify(viewFilter)); } catch (e) { }
+        }
+        function vfReset() { viewFilter = vfDefault(); vfSave(); }
+
+        const VF_PANEL_KEY = 'liteaeco.meetings.filterPanel';
+        let _vfAdvOpen = (() => { try { return localStorage.getItem(VF_PANEL_KEY) === '1'; } catch (e) { return false; } })();
+        function vfToggleAdv() {
+            _vfAdvOpen = !_vfAdvOpen;
+            try { localStorage.setItem(VF_PANEL_KEY, _vfAdvOpen ? '1' : '0'); } catch (e) { }
+        }
+        function vfAdvCount() {
+            const f = viewFilter;
+            const chipOn = ['open', 'overdue', 'week'].some(_vfChipActive);
+            let n = 0;
+            if (f.assignee) n++;
+            if (f.priority !== 'all') n++;
+            if (f.sort !== 'thread') n++;
+            if (!chipOn) {
+                if (f.status.length !== VF_STATUSES.length) n++;
+                if (f.due !== 'all') n++;
+            }
+            return n;
+        }
+        function vfActive() {
+            const f = viewFilter;
+            return !!(f.assignee || f.status.length !== VF_STATUSES.length || f.due !== 'all' || f.priority !== 'all');
+        }
+        function _vfToday() { return new Date().toISOString().split('T')[0]; }
+        function _vfPlusDays(n) { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().split('T')[0]; }
+        function _vfStatusOf(sth) { const s = sth.status || 'open'; return s === 'close' ? 'closed' : s; }
+
+        function itemPasses(sth) {
+            if (_vfSticky.has(sth.id)) return true;
+            const f = viewFilter;
+            if (f.assignee && !(sth.assignees || []).includes(f.assignee)) return false;
+            if (!f.status.includes(_vfStatusOf(sth))) return false;
+            const d = sth.dueDate || '';
+            const t = _vfToday();
+            if (f.due === 'overdue' && !(d && d < t)) return false;
+            if (f.due === 'week' && !(d && d >= t && d <= _vfPlusDays(7))) return false;
+            if (f.due === 'none' && d) return false;
+            if (f.priority !== 'all' && (sth.priority || 'low') !== f.priority) return false;
+            return true;
+        }
+
+        function _vfLiveItems() {
+            const cur = parseInt(state.meetingNo || state.No, 10) || 1;
+            const out = [];
+            state.threads.forEach((th, ti) => th.subthreads.forEach((s, si) => {
+                if (!sthClosedBefore(s, cur)) out.push({ th, ti, s, si });
+            }));
+            return out;
+        }
+
+        function filterCounts() {
+            const t = _vfToday(), w = _vfPlusDays(7), a = viewFilter.assignee;
+            const c = { open: 0, overdue: 0, week: 0 };
+            _vfLiveItems().forEach(({ s }) => {
+                if (a && !(s.assignees || []).includes(a)) return;
+                if (_vfStatusOf(s) !== 'open') return;
+                c.open++;
+                const d = s.dueDate || '';
+                if (d && d < t) c.overdue++;
+                else if (d && d <= w) c.week++;
+            });
+            return c;
+        }
+        function _vfChipActive(key) {
+            const f = viewFilter;
+            if (!(f.status.length === 1 && f.status[0] === 'open')) return false;
+            return f.due === (key === 'open' ? 'all' : key);
+        }
+
+        function _vfAssigneeOptions() {
+            const ids = new Set();
+            _vfLiveItems().forEach(({ s }) => (s.assignees || []).forEach(id => { if (id) ids.add(id); }));
+            if (viewFilter.assignee) ids.add(viewFilter.assignee);
+            const people = [], comps = [];
+            ids.forEach(id => {
+                if (String(id).startsWith('c_')) comps.push({ id, label: id.slice(2) });
+                else {
+                    const p = state.people.find(x => x.id === id);
+                    people.push({ id, label: p ? p.name : _whoName(id) });
+                }
+            });
+            const by = (a, b) => a.label.localeCompare(b.label);
+            return { people: people.sort(by), comps: comps.sort(by) };
+        }
+        function _vfAssigneeLabel(id) {
+            if (!id) return '';
+            if (String(id).startsWith('c_')) return id.slice(2);
+            const p = state.people.find(x => x.id === id);
+            return p ? p.name : _whoName(id);
+        }
+
+        function renderFilterBar(shown, total) {
+            const bar = document.getElementById('filter-bar');
+            if (!bar) return;
+            if (state.viewingHistory) { bar.classList.add('hidden'); bar.innerHTML = ''; return; }
+            bar.classList.remove('hidden');
+            const T = window.BASE_PAGE || {};
+            const f = viewFilter;
+            const c = filterCounts();
+            const opts = _vfAssigneeOptions();
+
+            const chip = (key, label, n, tone) => {
+                const on = _vfChipActive(key);
+                const tones = {
+                    slate: on ? 'bg-amber-500 border-amber-500 text-white' : 'bg-white border-slate-200 text-slate-600 hover:border-amber-300 hover:text-amber-700',
+                    red: on ? 'bg-red-600 border-red-600 text-white' : 'bg-white border-slate-200 text-slate-600 hover:border-red-300 hover:text-red-700',
+                    indigo: on ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-white border-slate-200 text-slate-600 hover:border-indigo-300 hover:text-indigo-700'
+                };
+                const numCls = on ? 'bg-white/25' : (tone === 'red' && n ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-500');
+                return `<button type="button" class="vf-chip flex items-center gap-1.5 border rounded-full pl-3 pr-1 py-0.5 text-[11px] font-bold transition-colors ${tones[tone]}" data-chip="${key}">
+                    ${escapeHtml(label)}<span class="min-w-[20px] text-center rounded-full px-1.5 py-px text-[10px] ${numCls}">${n}</span></button>`;
+            };
+            const sel = (key, value, options, label) => `
+                <label class="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">${escapeHtml(label)}
+                    <select data-vf="${key}" class="border ${value && value !== 'all' && value !== 'thread' ? 'border-indigo-300 text-indigo-700 bg-indigo-50' : 'border-slate-200 text-slate-700 bg-white'} rounded px-1.5 py-1 text-xs font-semibold normal-case tracking-normal outline-none focus:ring-2 focus:ring-accent max-w-[180px]">
+                        ${options.map(o => o.group
+                            ? `<optgroup label="${escapeHtml(o.group)}">${o.items.map(i => `<option value="${escapeHtml(i.id)}" ${i.id === value ? 'selected' : ''}>${escapeHtml(i.label)}</option>`).join('')}</optgroup>`
+                            : `<option value="${escapeHtml(o.id)}" ${o.id === value ? 'selected' : ''}>${escapeHtml(o.label)}</option>`).join('')}
+                    </select>
+                </label>`;
+
+            const assigneeOpts = [{ id: '', label: T.vfEveryone || 'Everyone' }];
+            if (opts.people.length) assigneeOpts.push({ group: T.vfPeople || 'People', items: opts.people });
+            if (opts.comps.length) assigneeOpts.push({ group: T.titleCompanies || 'Companies', items: opts.comps });
+
+            const stLabels = { open: T.statusOpen || 'OPEN', info: T.statusInfo || 'INFO', closed: T.statusClosed || 'CLOSED' };
+            const stTone = { open: 'amber', info: 'blue', closed: 'emerald' };
+            const statusPills = VF_STATUSES.map(s => {
+                const on = f.status.includes(s);
+                const cls = on
+                    ? { amber: 'bg-amber-50 border-amber-400 text-amber-700', blue: 'bg-blue-50 border-blue-400 text-blue-700', emerald: 'bg-emerald-50 border-emerald-400 text-emerald-700' }[stTone[s]]
+                    : 'bg-white border-slate-200 text-slate-300 line-through';
+                return `<button type="button" class="vf-status border rounded px-2 py-1 text-[10px] font-bold uppercase tracking-wider transition-colors ${cls}" data-status="${s}">${escapeHtml(stLabels[s])}</button>`;
+            }).join('');
+
+            const active = vfActive() || f.sort !== 'thread';
+            const advN = vfAdvCount();
+            const funnelCls = _vfAdvOpen
+                ? 'bg-indigo-600 border-indigo-600 text-white'
+                : (advN ? 'bg-indigo-50 border-indigo-300 text-indigo-700 hover:bg-indigo-100' : 'bg-white border-slate-200 text-slate-500 hover:border-indigo-300 hover:text-indigo-700');
+            bar.innerHTML = `
+                <div class="flex flex-wrap items-center gap-2">
+                    <button type="button" class="vf-adv relative flex items-center justify-center w-7 h-7 border rounded-full transition-colors ${funnelCls}"
+                        aria-expanded="${_vfAdvOpen}" aria-controls="vf-adv-row" title="${escapeHtml(T.vfAdvanced || 'Advanced filters')}">
+                        <i data-lucide="funnel" class="w-3.5 h-3.5"></i>
+                        ${advN ? `<span class="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-indigo-600 text-white text-[9px] font-bold leading-4 text-center ring-2 ring-white">${advN}</span>` : ''}
+                    </button>
+                    ${chip('open', T.vfChipOpen || 'Open', c.open, 'slate')}
+                    ${chip('overdue', T.vfChipOverdue || 'Overdue', c.overdue, 'red')}
+                    ${chip('week', T.vfChipWeek || 'Due in 7 days', c.week, 'indigo')}
+                    <span class="ml-auto text-[11px] text-slate-400 font-medium">${escapeHtml((T.vfShown || '{0} of {1} items shown').replace('{0}', shown).replace('{1}', total))}</span>
+                    <button type="button" class="vf-reset flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider transition-colors ${active ? 'text-indigo-600 hover:text-indigo-800' : 'hidden'}">
+                        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> ${escapeHtml(T.vfReset || 'Reset')}
+                    </button>
+                </div>
+                <div id="vf-adv-row" class="${_vfAdvOpen ? 'flex' : 'hidden'} flex-wrap items-center gap-x-4 gap-y-2 mt-2 pt-2 border-t border-slate-200/70">
+                    ${sel('assignee', f.assignee, assigneeOpts, T.vfAssignee || 'Assignee')}
+                    <div class="flex items-center gap-1">${statusPills}</div>
+                    ${sel('due', f.due, [
+                        { id: 'all', label: T.vfAll || 'All' },
+                        { id: 'overdue', label: T.vfOverdue || 'Overdue' },
+                        { id: 'week', label: T.vfWeek || 'Next 7 days' },
+                        { id: 'none', label: T.vfNoDate || 'No date' }], T.vfDue || 'Due')}
+                    ${sel('priority', f.priority, [
+                        { id: 'all', label: T.vfAll || 'All' },
+                        { id: 'high', label: T.priorityHigh || 'High' },
+                        { id: 'medium', label: T.priorityMed || 'Med' },
+                        { id: 'low', label: T.priorityLow || 'Low' }], T.vfPriority || 'Priority')}
+                    ${sel('sort', f.sort, [
+                        { id: 'thread', label: T.vfSortThread || 'Thread order' },
+                        { id: 'due', label: T.vfSortDue || 'Due date' },
+                        { id: 'priority', label: T.vfSortPriority || 'Priority' }], T.vfSort || 'Sort')}
+                </div>`;
+            if (typeof lucide !== 'undefined') lucide.createIcons({ root: bar });
+        }
+
+        function vfDescribe() {
+            const T = window.BASE_PAGE || {};
+            const f = viewFilter, parts = [];
+            if (f.assignee) parts.push(_vfAssigneeLabel(f.assignee));
+            if (f.status.length !== VF_STATUSES.length) {
+                const lab = { open: T.statusOpen || 'OPEN', info: T.statusInfo || 'INFO', closed: T.statusClosed || 'CLOSED' };
+                parts.push(f.status.map(s => lab[s]).join(' + '));
+            }
+            if (f.due !== 'all') parts.push({ overdue: T.vfOverdue || 'Overdue', week: T.vfWeek || 'Next 7 days', none: T.vfNoDate || 'No date' }[f.due]);
+            if (f.priority !== 'all') parts.push((T.vfPriority || 'Priority') + ' ' + ({ high: T.priorityHigh || 'High', medium: T.priorityMed || 'Med', low: T.priorityLow || 'Low' }[f.priority]));
+            if (f.sort !== 'thread') parts.push((T.vfSortedBy || 'sorted by') + ' ' + (f.sort === 'due' ? (T.vfSortDue || 'Due date') : (T.vfSortPriority || 'Priority')));
+            return parts.length ? (T.vfPrintPrefix || 'Filter: ') + parts.join(' · ') : '';
+        }
+
+        function renderFlatList(container, query) {
+            const T = window.BASE_PAGE || {};
+            const t = _vfToday();
+            const pr = { high: 0, medium: 1, low: 2 };
+            const rows = _vfLiveItems().filter(({ th, s }) => {
+                if (!itemPasses(s)) return false;
+                if (!query) return true;
+                return (th.title || '').toLowerCase().includes(query) || (s.text || '').toLowerCase().includes(query);
+            });
+            const byDue = (a, b) => {
+                const da = a.s.dueDate || '', db = b.s.dueDate || '';
+                if (da === db) return 0;
+                if (!da) return 1;
+                if (!db) return -1;
+                return da < db ? -1 : 1;
+            };
+            const byRef = (a, b) => (a.ti - b.ti) || ((a.s.number || a.si + 1) - (b.s.number || b.si + 1));
+            const byPrio = (a, b) => ((pr[a.s.priority] ?? 2) - (pr[b.s.priority] ?? 2));
+            rows.sort(viewFilter.sort === 'priority'
+                ? (a, b) => byPrio(a, b) || byDue(a, b) || byRef(a, b)
+                : (a, b) => byDue(a, b) || byRef(a, b));
+
+            const stLab = { open: T.statusOpen || 'OPEN', info: T.statusInfo || 'INFO', closed: T.statusClosed || 'CLOSED' };
+            const stCls = { open: 'text-amber-600', info: 'text-blue-600', closed: 'text-emerald-600' };
+            const prLab = { high: T.priorityHigh || 'High', medium: T.priorityMed || 'Med', low: T.priorityLow || 'Low' };
+            const prCls = { high: 'text-red-600', medium: 'text-orange-600', low: 'text-slate-500' };
+            const G = 'grid grid-cols-[64px_minmax(0,1fr)_64px_90px_48px_minmax(0,140px)] gap-3 items-start';
+
+            const body = rows.map(({ th, ti, s, si }) => {
+                const st = _vfStatusOf(s);
+                const ref = String(ti + 1).padStart(3, '0') + '.' + String(s.number || si + 1).padStart(2, '0');
+                const overdue = s.dueDate && s.dueDate < t && st !== 'closed';
+                return `<button type="button" class="btn-flat-row w-full text-left ${G} px-3 py-2 border-b border-slate-100 last:border-0 hover:bg-indigo-50/50 transition-colors" data-sthid="${escapeHtml(s.id)}">
+                    <span class="text-xs font-bold text-slate-400 font-mono pt-0.5">${ref}</span>
+                    <span class="min-w-0">
+                        <span class="block text-[10px] font-bold uppercase tracking-wider text-indigo-700 truncate">${escapeHtml(th.title || '-')}</span>
+                        <span class="block text-sm text-slate-700 whitespace-pre-line break-words">${escapeHtml(s.text || '') || '<span class="text-slate-300 italic">-</span>'}</span>
+                    </span>
+                    <span class="text-[10px] font-bold uppercase tracking-wider pt-0.5 ${stCls[st] || 'text-slate-500'}">${escapeHtml(stLab[st] || st)}</span>
+                    <span class="text-xs pt-0.5 tabular-nums ${overdue ? 'text-red-700 font-bold' : 'text-slate-600'}">${escapeHtml(s.dueDate || '-')}</span>
+                    <span class="text-[10px] font-bold uppercase tracking-wider pt-0.5 ${prCls[s.priority] || 'text-slate-500'}">${escapeHtml(prLab[s.priority] || '-')}</span>
+                    <span class="flex flex-wrap gap-1">${generateAssigneeBadgesHTML(s.assignees || [])}</span>
+                </button>`;
+            }).join('');
+
+            const head = `<div class="${G} px-3 py-2 border-b border-slate-200 bg-slate-50 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                <span>${escapeHtml(T.vfColId || 'ID')}</span><span>${escapeHtml(T.vfColItem || 'Thread / item')}</span><span>${escapeHtml(T.vfColStatus || 'Status')}</span>
+                <span>${escapeHtml(T.vfColDue || 'Due')}</span><span>${escapeHtml(T.vfColPrio || 'Prio')}</span><span>${escapeHtml(T.vfColWho || 'Assigned')}</span></div>`;
+
+            container.insertAdjacentHTML('beforeend', rows.length
+                ? `<div id="flat-list" class="bg-white border border-slate-200 rounded shadow-sm overflow-hidden">${head}${body}</div>`
+                : `<div class="text-center py-12 text-sm text-slate-400 italic">${escapeHtml(T.vfNoMatch || 'No items match the filters.')}</div>`);
+            return rows.length;
+        }
 
         function renderThreads() {
             const container = document.getElementById('threads-container');
@@ -2450,10 +2565,25 @@
 
             const isHistory = state.viewingHistory;
             const histDate = state.historyDate;
+            const curNo = parseInt(state.meetingNo || state.No, 10) || 1;
+            const histNo = parseInt(state.historyMeetingNo, 10) || 0;
+
+            if (!isHistory) vfLoad();
+            const filtering = !isHistory && vfActive();
+            const liveTotal = isHistory ? 0 : _vfLiveItems().length;
+
+            if (!isHistory && viewFilter.sort !== 'thread') {
+                const shownFlat = renderFlatList(container, query);
+                renderFilterBar(shownFlat, liveTotal);
+                container.insertAdjacentHTML('beforeend', filesPanelHtml());
+                renderFilesJump();
+                if (typeof lucide !== 'undefined') lucide.createIcons({ root: container });
+                return;
+            }
+            let shownCount = 0;
 
             const uniqueCompanies = [...new Set(state.people.filter(p => p.company && p.company.trim() !== '').map(p => p.company.trim()))];
 
-            
             const phNotesStr = window.BASE_PAGE.phNotes || 'Notes...';
             const statusInfoStr = window.BASE_PAGE.statusInfo || 'INFO';
             const statusOpenStr = window.BASE_PAGE.statusOpen || 'OPEN';
@@ -2468,20 +2598,25 @@
                 thread.number = index + 1;
 
                 const visibleSubthreadsAll = thread.subthreads.filter(sth => {
-                    if (!isHistory) return !sth.hiddenFromImport;
+                    if (!isHistory) return !sthClosedBefore(sth, curNo);
                     if (!sth.initialDate) return true;
                     if (sth.initialDate > histDate) return false;
+                    if (sth.closeSession) return !sthClosedBefore(sth, histNo);
                     if (sth.closeDate && sth.closeDate < histDate) return false;
                     return true;
                 });
 
                 if (thread.subthreads.length > 0 && visibleSubthreadsAll.length === 0) return;
 
+                const passingSubthreads = filtering ? visibleSubthreadsAll.filter(itemPasses) : visibleSubthreadsAll;
+                if (filtering && passingSubthreads.length === 0) return;
+
                 const threadMatches = thread.title.toLowerCase().includes(query);
-                const matchingSubthreads = visibleSubthreadsAll.filter(sth => sth.text.toLowerCase().includes(query));
+                const matchingSubthreads = passingSubthreads.filter(sth => sth.text.toLowerCase().includes(query));
                 if (query && !threadMatches && matchingSubthreads.length === 0) return;
 
-                const subthreadsToRender = query && !threadMatches ? matchingSubthreads : visibleSubthreadsAll;
+                const subthreadsToRender = query && !threadMatches ? matchingSubthreads : passingSubthreads;
+                shownCount += subthreadsToRender.length;
 
                 const threadEl = document.createElement('div');
                 threadEl.className = 'bg-white border border-slate-200 rounded shadow-sm p-4 relative';
@@ -2498,10 +2633,13 @@
                 let subthreadsHTML = subthreadsToRender.map((sth, sthIndex) => {
                     if (!sth.assignees) sth.assignees = sth.assignee ? [sth.assignee] : [];
                     if (!sth.number) sth.number = sthIndex + 1;
-                    if (!sth.guid) sth.guid = newGuid(); 
+                    if (!sth.guid) sth.guid = newGuid();
 
                     let displayStatus = sth.status || 'open';
-                    if (isHistory && sth.closeDate && sth.closeDate > histDate) displayStatus = 'open';
+                    if (isHistory && displayStatus === 'closed') {
+                        const later = sth.closeSession ? sth.closeSession > histNo : (sth.closeDate && sth.closeDate > histDate);
+                        if (later) displayStatus = 'open';
+                    }
 
                     const subthreadNumStr = String(sth.number).padStart(2, '0');
                     const isOverdue = sth.dueDate && sth.dueDate < todayStr && displayStatus !== 'closed' && !isHistory;
@@ -2636,9 +2774,10 @@
 
             renderMeetingAttachments();
 
-            
             if (container.childElementCount <= 1 && !isHistory) {
-                const emptyThreadsStr = window.BASE_PAGE.emptyThreads || 'No topics found';
+                const emptyThreadsStr = filtering
+                    ? (window.BASE_PAGE.vfNoMatch || 'No items match the filters.')
+                    : (window.BASE_PAGE.emptyThreads || 'No topics found');
                 container.innerHTML = `<div class="text-center py-12"><div class="bg-slate-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="clipboard-list" class="w-8 h-8 text-slate-400"></i></div><h3 class="text-slate-500 font-medium">${emptyThreadsStr}</h3></div>`;
             }
 
@@ -2650,16 +2789,13 @@
                 container.appendChild(addContainer);
             }
 
-            
             container.insertAdjacentHTML('beforeend', filesPanelHtml());
             renderFilesJump();
+            renderFilterBar(shownCount, liveTotal);
 
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: container });
         }
 
-        
-        
-        
         function openContactModal(id) {
             const person = state.people.find(p => p.id === id);
             if (!person) return;
@@ -2686,7 +2822,6 @@
             const person = state.people.find(p => p.id === id);
 
             if (person) {
-                
                 person.name = sanitizeStr(document.getElementById('contact-modal-name').value);
                 person.company = sanitizeStr(document.getElementById('contact-modal-company').value);
                 person.role = sanitizeStr(document.getElementById('contact-modal-role').value);
@@ -2700,9 +2835,6 @@
             }
         }
 
-        
-        
-        
         function showDialog(type, message, onConfirm = null, onCancel = null) {
             const overlay = document.getElementById('custom-dialog');
             const box = document.getElementById('custom-dialog-box');
@@ -2749,7 +2881,6 @@
             overlay.classList.remove('hidden');
             if (typeof lucide !== 'undefined') lucide.createIcons({ root: overlay });
 
-            
             setTimeout(() => {
                 overlay.classList.remove('opacity-0');
                 box.classList.remove('scale-95');
@@ -2768,9 +2899,6 @@
             setTimeout(() => { overlay.classList.add('hidden'); }, 200);
         }
 
-        
-        
-        
         function prepareAndPrint() {
             document.querySelectorAll('.thread-content-wrapper.hidden, .sth-controls-wrapper.hidden, .mf-group-body.hidden').forEach(el => {
                 el.classList.remove('hidden');
@@ -2787,12 +2915,15 @@
                 ta.style.height = 'auto';
                 ta.style.height = ta.scrollHeight + 'px';
             });
+            const vfNote = document.getElementById('filter-print-note');
+            if (vfNote) {
+                const d = state.viewingHistory ? '' : vfDescribe();
+                vfNote.textContent = d;
+                vfNote.classList.toggle('vf-on', !!d);
+            }
             setTimeout(() => { window.print(); }, 300);
         }
 
-        
-        
-        
         document.addEventListener('DOMContentLoaded', () => {
 
             document.addEventListener('keydown', (e) => {
@@ -2803,8 +2934,6 @@
             const elSearch = document.getElementById('app-search');
             if (elTitle) elTitle.addEventListener('input', e => {
                 state.title = e.target.value;
-                
-                
                 noteTyping();
             });
             if (elSearch) elSearch.addEventListener('input', e => {
@@ -2812,21 +2941,52 @@
                 renderThreads();
             });
 
+            const vfBar = document.getElementById('filter-bar');
+            if (vfBar) {
+                vfBar.addEventListener('input', e => e.stopPropagation());
+                vfBar.addEventListener('change', e => {
+                    e.stopPropagation();
+                    const k = e.target.dataset && e.target.dataset.vf;
+                    if (!k) return;
+                    viewFilter[k] = e.target.value;
+                    vfSave();
+                    renderThreads();
+                });
+                vfBar.addEventListener('click', e => {
+                    if (e.target.closest('.vf-adv')) { vfToggleAdv(); renderThreads(); return; }
+                    const chipBtn = e.target.closest('.vf-chip');
+                    if (chipBtn) {
+                        const key = chipBtn.dataset.chip;
+                        if (_vfChipActive(key)) { viewFilter.status = VF_STATUSES.slice(); viewFilter.due = 'all'; }
+                        else { viewFilter.status = ['open']; viewFilter.due = key === 'open' ? 'all' : key; }
+                        vfSave(); renderThreads();
+                        return;
+                    }
+                    const stBtn = e.target.closest('.vf-status');
+                    if (stBtn) {
+                        const s = stBtn.dataset.status;
+                        const cur = viewFilter.status;
+                        viewFilter.status = cur.includes(s) ? cur.filter(x => x !== s) : VF_STATUSES.filter(x => x === s || cur.includes(x));
+                        if (!viewFilter.status.length) viewFilter.status = VF_STATUSES.slice();
+                        vfSave(); renderThreads();
+                        return;
+                    }
+                    if (e.target.closest('.vf-reset')) { vfReset(); renderThreads(); }
+                });
+            }
+
             const formAddPerson = document.getElementById('form-add-person');
             if (formAddPerson) formAddPerson.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const inputName = document.getElementById('input-new-person');
                 const inputPart = document.getElementById('input-new-participation');
 
-                
                 const rawName = inputName.value.trim();
                 const name = sanitizeStr(rawName);
 
-                
                 let part = inputPart ? inputPart.value : 'Required';
 
                 if (name) {
-                    
                     const activeMatch = state.people.find(p => p.name.toLowerCase() === name.toLowerCase() && !p.archived);
                     const archivedMatch = state.people.find(p => p.name.toLowerCase() === name.toLowerCase() && p.archived);
 
@@ -2887,13 +3047,10 @@
                     renderApp();
                 }
 
-                
                 const activeDropdown = e.target.closest('.dropdown-container');
                 if (!activeDropdown) {
-                    
                     document.querySelectorAll('.dropdown-container > .absolute').forEach(el => el.classList.add('hidden'));
                 } else {
-                    
                     document.querySelectorAll('.dropdown-container').forEach(container => {
                         if (container !== activeDropdown) {
                             const menu = container.querySelector('.absolute');
@@ -2902,13 +3059,11 @@
                     });
                 }
 
-                
                 if (e.target.closest('.btn-issue-view')) {
                     openIssueView(e.target.closest('.btn-issue-view').dataset.sthid);
                     return;
                 }
 
-                
                 if (!e.target.closest('[data-link-menu]') && !e.target.closest('.btn-attach-sth')) {
                     document.querySelectorAll('[data-link-menu]').forEach(m => m.remove());
                 }
@@ -2944,8 +3099,16 @@
                     if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     return;
                 }
+                if (e.target.closest('.btn-flat-row')) {
+                    const sid = e.target.closest('.btn-flat-row').dataset.sthid;
+                    viewFilter.sort = 'thread';
+                    vfSave();
+                    renderThreads();
+                    const el = document.querySelector('[data-sth-id="' + sid + '"]');
+                    if (el && el.scrollIntoView) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }), 30);
+                    return;
+                }
 
-                
                 if (e.target.closest('.btn-att-info')) {
                     openAttachmentMeta(e.target.closest('.btn-att-info').dataset.guid);
                     return;
@@ -2986,7 +3149,7 @@
                     return;
                 }
                 if (e.target.closest('.btn-mf-attach')) {
-                    pendingAttachTarget = null;   
+                    pendingAttachTarget = null;
                     const fi = document.getElementById('attach-file-input');
                     if (fi) fi.click();
                     return;
@@ -3001,7 +3164,6 @@
                     const id = e.target.closest('.btn-del-person').dataset.id;
                     const confirmStr = window.BASE_PAGE.confirmRemovePerson || 'Remove this person from the active contacts list? (They will be preserved in past meeting records)';
 
-                    
                     showDialog('confirm', confirmStr, () => {
                         const person = state.people.find(p => p.id === id);
                         if (person) person.archived = true;
@@ -3020,7 +3182,6 @@
                     const id = e.target.closest('.btn-del-thread').dataset.id;
                     const confirmStr = window.BASE_PAGE.confirmDeleteThread || 'Delete this entire thread and its subthreads?';
 
-                    
                     showDialog('confirm', confirmStr, () => {
                         const gone = state.threads.find(t => t.id === id);
                         if (gone) _relinkToMeeting(gone.subthreads.map(s => s.guid));
@@ -3039,7 +3200,8 @@
                             id: generateId('sth'), guid: newGuid(), number: maxSthNum + 1, text: '', assignees: [], dueDate: '', priority: 'low', status: 'open',
                             initialDate: state.date, closeDate: ''
                         });
-                        isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); 
+                        if (vfActive()) vfReset();
+                        isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
                         renderThreads();
                     }
                 }
@@ -3057,8 +3219,9 @@
                     state.searchQuery = '';
                     const searchEl = document.getElementById('app-search');
                     if (searchEl) searchEl.value = '';
+                    if (vfActive() || viewFilter.sort !== 'thread') vfReset();
 
-                    isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); 
+                    isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
                     renderThreads();
 
                     const container = document.getElementById('threads-container');
@@ -3066,7 +3229,6 @@
                 }
 
                 if (e.target.closest('.btn-attach-sth') && window.__cdeCtx) {
-                    
                     const b = e.target.closest('.btn-attach-sth');
                     if (_cdeWritable() && _linksApi()) openAddMenu(b, b.dataset.guid || '');
                     return;
@@ -3099,7 +3261,7 @@
                         att.comments.push({
                             guid: newGuid(),
                             author: organizer ? organizer.name : '',
-                            authorId: organizer ? organizer.id : '',   
+                            authorId: organizer ? organizer.id : '',
                             date: new Date().toISOString(),
                             text: text
                         });
@@ -3126,7 +3288,7 @@
                         const idx = thread.subthreads.findIndex(sth => sth.id === sthId);
                         if (idx > -1) { _relinkToMeeting([thread.subthreads[idx].guid]); thread.subthreads.splice(idx, 1); }
                     });
-                    isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty(); 
+                    isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
                     renderThreads();
                 }
 
@@ -3178,7 +3340,6 @@
             });
 
             document.addEventListener('change', (e) => {
-                
                 if (e.target.id !== 'excel-upload') {
                     isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
                 }
@@ -3190,12 +3351,10 @@
                 }
 
                 if (e.target.classList.contains('input-sth-assignee-cb')) {
-                    
                     const sthId = e.target.getAttribute('data-sthid');
                     const pId = e.target.getAttribute('data-pid');
                     const cId = e.target.getAttribute('data-cid');
 
-                    
                     let assignId = null;
                     if (pId && pId !== "null" && pId !== "") {
                         assignId = pId;
@@ -3235,13 +3394,17 @@
                 if (sthWrapper) {
                     const sth = findSubthread(sthWrapper.dataset.sthId);
                     if (sth) {
+                        if (vfActive()) _vfSticky.add(sth.id);
                         if (e.target.classList.contains('input-sth-status')) {
                             sth.status = e.target.value;
                             if (sth.status === 'closed') {
                                 sth.closeDate = state.date;
+                                sth.closeSession = parseInt(state.meetingNo || state.No, 10) || 1;
                             } else {
                                 sth.closeDate = '';
+                                sth.closeSession = null;
                             }
+                            delete sth.hiddenFromImport;
                             renderThreads();
                         }
                         if (e.target.classList.contains('input-sth-priority')) {
@@ -3250,10 +3413,8 @@
                         }
                         if (e.target.classList.contains('input-sth-date')) {
                             sth.dueDate = e.target.value;
-                            
                             e.target.setAttribute('value', e.target.value);
 
-                            
                             const todayStr = new Date().toISOString().split('T')[0];
                             const isOverdue = sth.dueDate && sth.dueDate < todayStr && sth.status !== 'closed' && !state.viewingHistory;
                             const parentWrapper = e.target.parentElement;
@@ -3275,13 +3436,10 @@
             });
 
             document.addEventListener('input', (e) => {
-                
-                
                 if (e.target.id !== 'app-search' && e.target.id !== 'modal-search-input' && !e.target.classList.contains('input-sth-assignee-search')) {
                     noteTyping();
                 }
 
-                
                 if (e.target.classList.contains('input-sth-assignee-search')) {
                     const query = e.target.value.toLowerCase();
                     const listContainer = e.target.closest('.absolute').querySelector('.assignee-list-container');
@@ -3290,7 +3448,6 @@
                         const labels = listContainer.querySelectorAll('label');
                         labels.forEach(label => {
                             const text = label.textContent.toLowerCase();
-                            
                             label.style.display = text.includes(query) ? '' : 'none';
                         });
                     }
@@ -3308,7 +3465,6 @@
                     }
                 }
 
-                
                 if (e.target.classList.contains('input-allcontacts-edit')) {
                     const id = e.target.dataset.id;
                     const field = e.target.dataset.field;
@@ -3316,7 +3472,7 @@
                     if (person) {
                         if (field === 'name') {
                             let safeName = sanitizeStr(e.target.value);
-                            e.target.value = safeName; 
+                            e.target.value = safeName;
                             person.name = safeName;
                         } else {
                             person[field] = e.target.value;
@@ -3325,8 +3481,6 @@
                 }
             });
 
-            
-            
             document.addEventListener('focusout', (e) => {
                 if (!typingDirty) return;
                 const t = e.target;
@@ -3334,18 +3488,12 @@
                     commitTypingDirty();
                 }
             });
-            
             document.addEventListener('visibilitychange', () => {
                 if (document.visibilityState === 'hidden' && typingDirty) {
                     commitTypingDirty();
                     if (typeof Autosave !== "undefined" && Autosave.flush) Autosave.flush();
                 }
             });
-            
-            
-            
-            
-            
             window.addEventListener('beforeunload', (e) => {
                 if (!window.__cdeCtx) return;
                 let cdePending = false;
@@ -3355,14 +3503,13 @@
                             (cdeBridge.baseline && cdeBridge.diff(cdeBridge.baseline, cdeBridge.snap()).length > 0));
                 } catch (err) { }
                 if (typingDirty || cdePending) {
-                    commitTypingDirty(); 
+                    commitTypingDirty();
                     try { if (typeof cdeBridge !== 'undefined' && cdeBridge.flush) cdeBridge.flush(); } catch (err) { }
                     e.preventDefault();
                     e.returnValue = (window.BASE_PAGE && window.BASE_PAGE.unsavedLeaveMessage) || "You have unsaved changes. Are you sure you want to leave?";
                     return e.returnValue;
                 }
             });
-
 
             const contactsUploadEl = document.getElementById('contacts-upload');
             if (contactsUploadEl) {
@@ -3390,14 +3537,12 @@
                     const file = e.target.files[0];
                     if (!file) return;
 
-                    
                     let isModified = false;
 
                     if (state.title.trim() !== '') isModified = true;
                     if (state.people.length > 0) isModified = true;
                     if (state.threads.length > 1) isModified = true;
 
-                    
                     if (state.threads.length === 1) {
                         const t = state.threads[0];
                         if (t.title !== 'General Updates' && t.title !== '') isModified = true;
@@ -3409,11 +3554,10 @@
                         }
                     }
 
-                    
                     if (isDirty && isModified) {
                         const msg = (window.BASE_PAGE && window.BASE_PAGE.confirmImportReplace) || "Are you sure you want to import this Meeting? Existing unsaved data will be replaced.";
                         if (!confirm(msg)) {
-                            e.target.value = ''; 
+                            e.target.value = '';
                             return;
                         }
                     }
@@ -3435,22 +3579,20 @@
                             showDialog('alert', errorStr);
                             console.error(err);
                         }
-                        e.target.value = ''; 
+                        e.target.value = '';
                     };
                     reader.readAsArrayBuffer(file);
                 });
             }
 
-            
             const attachInput = document.getElementById('attach-file-input');
             if (attachInput) {
                 attachInput.addEventListener('change', (e) => {
                     handleAttachmentFiles(e.target.files, pendingAttachTarget);
                     pendingAttachTarget = null;
-                    e.target.value = ''; 
+                    e.target.value = '';
                 });
             }
-            
             const linkUploadInput = document.getElementById('link-upload-input');
             if (linkUploadInput) {
                 linkUploadInput.addEventListener('change', (e) => {
@@ -3462,7 +3604,6 @@
                 });
             }
 
-            
             const nameInput = document.getElementById('input-new-person');
             const nameDropdown = document.getElementById('name-autocomplete-dropdown');
 
@@ -3500,19 +3641,16 @@
             }
 
             document.addEventListener('click', (e) => {
-                
                 if (e.target.closest('.name-suggestion')) {
                     const suggestion = e.target.closest('.name-suggestion');
                     const pId = suggestion.dataset.id;
                     const person = state.people.find(p => p.id === pId);
 
                     if (person) {
-                        
                         if (person.archived || !['Required', 'Optional', 'Organizer'].includes(person.participation)) {
                             person.archived = false;
                             person.present = true;
 
-                            
                             person.participation = 'Required';
 
                             isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
@@ -3527,20 +3665,18 @@
                     nameDropdown.classList.add('hidden');
                 }
 
-                
                 if (e.target.closest('.btn-toggle-archive')) {
                     const id = e.target.closest('.btn-toggle-archive').dataset.id;
                     const person = state.people.find(p => p.id === id);
                     if (person) {
                         person.archived = !person.archived;
-                        if (!person.archived) person.present = true; 
+                        if (!person.archived) person.present = true;
                         isDirty = true; if (typeof Autosave !== "undefined") Autosave.markDirty();
-                        renderAllContactsList(); 
+                        renderAllContactsList();
                     }
                 }
             });
 
-            
             const compInput = document.getElementById('contact-modal-company');
             const compDropdown = document.getElementById('company-autocomplete-dropdown');
 
@@ -3578,7 +3714,6 @@
                 }
             });
 
-            
             renderApp();
         });
 
@@ -3590,10 +3725,6 @@
             return null;
         }
 
-        
-        
-        
-        
         const Autosave = liteAECO.createAutosave({
             toolId: "meetings",
             fileSuffix: ".meetings.json",
@@ -3617,13 +3748,7 @@
             commitPendingInput: () => commitTypingDirty()
         });
 
-        
-
-
-
-
         function _cdeParams() {
-            
             if (window.liteAECO && liteAECO.app) {
                 const p = liteAECO.app.params();
                 return p ? { guid: p.guid, open: p.open } : null;
@@ -3646,11 +3771,6 @@
         }
 
         async function _cdeLoad(info, params) {
-            
-            
-            
-            
-            
             window.__cdeReadOnly = !!(window.__cdeApp && window.__cdeApp.readOnly);
             let data;
             try { data = await _cdeReadFile(info.handle, params.open); }
@@ -3673,13 +3793,10 @@
                 console.error("CDE IMPORT LOGIC ERROR:", err);
                 return true;
             }
-            
-            
             if (!imported) {
                 window.location.href = 'project-core.html?project=' + encodeURIComponent(params.guid);
                 return true;
             }
-            
             if (state.project.guid && state.project.guid !== params.guid) {
                 const adopt = await new Promise(function (resolve) {
                     showDialog('confirm',
@@ -3695,8 +3812,6 @@
             window.__cdeCtx = { guid: params.guid, path: params.open, handle: info.handle };
             const cs = document.getElementById('wrapper-cde-save');
             if (cs) cs.classList.remove('hidden');
-            
-            
             try {
                 const q = new URLSearchParams(window.location.search);
                 const sess = parseInt(q.get('session'), 10);
@@ -3711,9 +3826,7 @@
                     }
                 }
             } catch (e) {  }
-            updateProjectBarVisibility();   
-            
-            
+            updateProjectBarVisibility();
             for (const elId of Object.keys(PROJECT_FIELD_MAP)) {
                 const el = document.getElementById(elId);
                 if (el) {
@@ -3722,30 +3835,20 @@
                     el.title = window.BASE_PAGE.cdeFieldLocked || 'Managed in the Project Hub settings';
                 }
             }
-            
-            
             const infoCard = document.getElementById('info-app');
             if (infoCard) infoCard.classList.remove('hidden');
-            
-            
-            
             const ltmBtn = document.getElementById('btn-save-ltm');
             if (ltmBtn) ltmBtn.classList.add('hidden');
-            
             if (window.liteAECO && liteAECO.meetings && typeof liteAECO.meetings.loadCdeLibs === 'function') liteAECO.meetings.loadCdeLibs();
-            
             if (_linksApi() && issueEnv()) _linksApi().prepare(issueEnv()).then(() => renderThreads()).catch(() => { });
             try {
                 await _cdeBridgeInit(info, params);
-                await _cdeFillProjectInfo(info, params);   
-                
-                
+                await _cdeFillProjectInfo(info, params);
                 if (!state.meetingGuid && !window.__cdeReadOnly) {
                     ensureMeetingGuid();
                     isDirty = true; if (typeof Autosave !== 'undefined' && Autosave.markDirty) Autosave.markDirty();
                 }
-                await _cdeSyncMembers(info);               
-                
+                await _cdeSyncMembers(info);
                 if (!(typeof _cdeLoadBlocked === 'function' && _cdeLoadBlocked())) try {
                     const _st = await liteAECO.cde.loadState(info.handle);
                     if (_cdeResolveStaleRefs(_st)) { _markPeopleDirty(); if (typeof renderApp === 'function') renderApp(); }
@@ -3757,8 +3860,6 @@
                     "Project sync could not start - changes will NOT be saved to the project folder. Update js/liteaeco-cde.js to the latest build and reload.") +
                     "\n\n(" + (e && e.message ? e.message : e) + ")");
             }
-            
-
             window.addEventListener("beforeunload", function (e) {
                 if (window.__cdeUnsaved) {
                     try { cdeBridge.flushWriteBack(); } catch (err) { }
@@ -3767,9 +3868,6 @@
             });
             return true;
         }
-
-
-        
 
         function importContactsFromWorkbook(workbook) {
             const tabName = (workbook.SheetNames || []).find(n => String(n).trim().toUpperCase() === 'CONTACTS');
@@ -3791,16 +3889,12 @@
                 + ' - ' + ((window.BASE_PAGE && window.BASE_PAGE.lblUpdated) || 'Updated') + ': ' + res.updated);
         }
 
-        
-
         async function autosaveToggle() {
             const pill = document.getElementById('mtg-save-menu-disconnect');
             const on = pill && !pill.classList.contains('hidden');
             if (on) await Autosave.disconnect();
             else await Autosave.connectFile();
         }
-
-        
 
         async function cdeSaveNow() {
             if (!window.__cdeCtx) return;
@@ -3823,19 +3917,6 @@
                 if (window.__cdeCtx) { e.preventDefault(); cdeSaveNow(); }
             }
         });
-
-        
-
-
-
-
-
-
-
-
-
-
-
 
         function mergeRosterContacts(contacts, opts) {
             opts = opts || {};
@@ -3871,8 +3952,6 @@
             return out;
         }
 
-        
-
         function mergeContactRows(rows) {
             const C = _contactsLib();
             if (!C) return { added: 0, updated: 0 };
@@ -3885,13 +3964,11 @@
         async function _cdeSyncMembers(info) {
             try {
                 if (!info || !info.handle || !window.__cdeCtx) return;
-                
                 if (typeof _cdeLoadBlocked === 'function' && _cdeLoadBlocked()) { window.__cdeDeferredSync = info; return; }
                 const C = _contactsLib();
                 if (!C) { console.warn('roster sync skipped: js/liteaeco-contacts.js not loaded'); return; }
                 let buf;
                 try {
-                    
                     const man = await liteAECO.cde.readManifest(info.handle).catch(() => null);
                     const rParts = liteAECO.cde.paths.rosterFile(man && !man.__readError ? man : null).split('/');
                     const rName = rParts.pop();
@@ -3899,22 +3976,22 @@
                     for (const p of rParts) adir = await adir.getDirectoryHandle(p, { create: false });
                     const fh = await adir.getFileHandle(rName, { create: false });
                     buf = await (await fh.getFile()).arrayBuffer();
-                } catch (e) { return; }                       
+                } catch (e) { return; }
                 let hash;
                 try { hash = await C.hash(buf); } catch (e) { return; }
-                if (hash === state.membersHash) return;       
+                if (hash === state.membersHash) return;
                 let wb;
                 try { wb = XLSX.read(buf, { type: 'array' }); }
-                catch (e) { return; }                         
+                catch (e) { return; }
                 const parsed = C.parseWorkbook(wb, XLSX);
                 const res = parsed.ok ? mergeRosterContacts(parsed.contacts, { adopt: true }) : { adopted: 0, updated: 0, added: 0, clashes: [], ambiguous: [] };
-                state.membersHash = hash;   
+                state.membersHash = hash;
                 if (res.adopted || res.updated || res.added) {
                     _markPeopleDirty();
                     if (typeof renderApp === 'function') renderApp();
-                    cdeBridge.schedule();            
+                    cdeBridge.schedule();
                 }
-                cdeBridge.scheduleWriteBack();       
+                cdeBridge.scheduleWriteBack();
                 if (res.added) {
                     _cdeToast((window.BASE_PAGE.msgRosterNew || 'New contacts found') + ' (' + res.added + ')');
                 }
@@ -3924,8 +4001,6 @@
                 }
             } catch (e) { console.warn('roster sync skipped:', e); }
         }
-
-        
 
         function _cdeToast(msg) {
             let wrap = document.getElementById('cde-toasts');
@@ -3950,9 +4025,6 @@
             if (!params) return false;
             if (!(window.liteAECO && liteAECO.cde)) return false;
             const B = window.BASE_PAGE || {};
-            
-            
-            
             if (!liteAECO.app) {
                 showDialog('alert', "js/liteaeco-cde-app.js is missing - update the js folder and reload.");
                 return true;
@@ -3966,7 +4038,7 @@
                     alert: (m) => showDialog('alert', m),
                     text: { noHandle: B.cdeNoHandle, noAccess: B.cdeNoAccess, readOnly: B.cdeReadOnly }
                 });
-                if (!ctx || ctx.error) return true;   
+                if (!ctx || ctx.error) return true;
                 window.__cdeApp = ctx;
                 return await _cdeLoad({ handle: ctx.handle, name: ctx.name, permission: "granted" }, { guid: ctx.guid, open: ctx.path });
             } catch (err) {
@@ -3976,7 +4048,6 @@
             }
         }
 
-        
         const cdeBridge = {
             session: null, baseline: null, timer: null, author: null, appId: "meetings",
             flushing: false, pending: false,
@@ -3999,7 +4070,6 @@
             diff: function (prev, cur) {
                 const events = [];
                 const J = JSON.stringify;
-                
                 const prevP = {}; prev.people.forEach(function (p) { prevP[p.id] = p; });
                 const curP = {}; cur.people.forEach(function (p) { curP[p.id] = p; });
                 cur.people.forEach(function (p) {
@@ -4015,7 +4085,6 @@
                     if (n) events.push({ type: "contact.update", target: p.id, payload: changed });
                 });
                 prev.people.forEach(function (p) { if (!curP[p.id]) events.push({ type: "contact.remove", target: p.id }); });
-                
                 const prevT = {}; prev.threads.forEach(function (t) { prevT[t.id] = t; });
                 const curT = {}; cur.threads.forEach(function (t) { curT[t.id] = t; });
                 cur.threads.forEach(function (t) {
@@ -4024,7 +4093,6 @@
                     if (J(b) !== J(t)) events.push({ type: "thread.update", target: t.id, payload: t });
                 });
                 prev.threads.forEach(function (t) { if (!curT[t.id]) events.push({ type: "thread.remove", target: t.id }); });
-                
                 const prevL = {}; (prev.links || []).forEach(function (l) { prevL[l.guid] = l; });
                 const curL = {}; (cur.links || []).forEach(function (l) { curL[l.guid] = l; });
                 (cur.links || []).forEach(function (l) {
@@ -4033,20 +4101,17 @@
                     else if (J(b) !== J(l)) events.push({ type: "link.update", target: l.guid, payload: l });
                 });
                 (prev.links || []).forEach(function (l) { if (!curL[l.guid]) events.push({ type: "link.remove", target: l.guid, payload: { path: l.path, name: l.name } }); });
-                
                 const key = function (h, i) { return (h && h.meetingNo != null) ? String(h.meetingNo) : ("i" + i); };
                 const prevA = {}; prev.attendance.forEach(function (h, i) { prevA[key(h, i)] = h; });
                 cur.attendance.forEach(function (h, i) {
                     const k = key(h, i);
                     if (!prevA[k] || J(prevA[k]) !== J(h)) events.push({ type: "attendance.update", target: k, payload: h });
                 });
-                
                 const mm = {}; let mn = 0;
                 Object.keys(cur.meta).forEach(function (k) {
                     if (J(cur.meta[k]) !== J(prev.meta[k])) { mm[k] = cur.meta[k]; mn++; }
                 });
                 if (mn) events.push({ type: "meeting.info", target: window.__cdeCtx ? window.__cdeCtx.path : null, payload: mm });
-                
                 const pj = {}; let pn = 0;
                 Object.keys(cur.project).forEach(function (k) {
                     if (cur.project[k] !== prev.project[k]) { pj[k] = cur.project[k]; pn++; }
@@ -4059,7 +4124,7 @@
                 return this.session.append(this.author, this.appId, events);
             },
             flush: async function () {
-                if (window.__cdeReadOnly) return;   
+                if (window.__cdeReadOnly) return;
                 if (!this.session || !this.baseline) return;
                 if (this.flushing) { this.pending = true; return; }
                 this.flushing = true;
@@ -4072,7 +4137,7 @@
                         if (!events.length) continue;
                         try {
                             await this.append(events);
-                            this.baseline = cur;   
+                            this.baseline = cur;
                             appended = true;
                         } catch (e) {
                             console.warn("CDE append failed (kept for retry):", e);
@@ -4093,12 +4158,6 @@
                 }
             },
 
-            
-
-
-
-
-
             _slugTitle: function () {
                 let t = String(state.title || "").trim();
                 if (!t) return null;
@@ -4114,7 +4173,7 @@
                 const fname = parts.pop();
                 const desired = slug + ".xlsx";
                 if (fname === desired) return;
-                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;   
+                if (fname.replace(/-\d+\.xlsx$/i, ".xlsx") === desired) return;
                 try {
                     let dir = ctx.handle;
                     for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: false });
@@ -4127,8 +4186,6 @@
                     if (i > 20) return;
                     let moved = false;
                     if (typeof fh.move === "function") {
-                        
-                        
                         try { await fh.move(target); moved = true; }
                         catch (e) { console.warn("handle.move failed, copy+delete fallback:", e); }
                     }
@@ -4144,19 +4201,17 @@
                         type: "file.rename", target: ctx.path,
                         payload: { from: from, to: ctx.path, app: this.appId }
                     }]).catch(function () { });
-                    this.lastAssignHash = null;   
+                    this.lastAssignHash = null;
                     await this.markLoadedFileSeen();
                 } catch (e) { console.warn("CDE rename skipped (will retry):", e); }
             },
 
-            
             writeBack: { timer: null, busy: false, pending: false, lastMtime: 0, lastSize: 0 },
             lastAssignHash: null,
             scheduleWriteBack: function () {
-                if (window.__cdeReadOnly) return;   
+                if (window.__cdeReadOnly) return;
                 if (!window.__cdeCtx) return;
-                window.__cdeUnsaved = true;   
-                
+                window.__cdeUnsaved = true;
                 if (typeof Autosave !== "undefined" && Autosave.toastNotify) Autosave.toastNotify("dirty");
                 const wbk = this.writeBack;
                 clearTimeout(wbk.timer);
@@ -4164,13 +4219,13 @@
                 wbk.timer = setTimeout(function () { self.flushWriteBack(); }, window.__cdeWriteBackMs || 2000);
             },
             flushWriteBack: async function () {
-                if (window.__cdeReadOnly) return;   
+                if (window.__cdeReadOnly) return;
                 const ctx = window.__cdeCtx;
                 if (!ctx || !ctx.handle || !ctx.path) return;
                 const wbk = this.writeBack;
                 if (wbk.busy) { wbk.pending = true; return; }
                 wbk.busy = true;
-                let wroteOk = false;   
+                let wroteOk = false;
                 try {
                     await this.maybeRename();
                     do {
@@ -4188,11 +4243,11 @@
                             let dir = ctx.handle;
                             for (const p of parts) dir = await dir.getDirectoryHandle(p, { create: true });
                             const fh = await dir.getFileHandle(fname, { create: true });
-                            const w = await fh.createWritable();   
+                            const w = await fh.createWritable();
                             await w.write(buf);
                             await w.close();
                             const f = await fh.getFile();
-                            wbk.lastMtime = f.lastModified;   
+                            wbk.lastMtime = f.lastModified;
                             wbk.lastSize = f.size;
                             wroteOk = true;
                             try {
@@ -4223,7 +4278,6 @@
                 }
             },
 
-            
             extSeen: { mtime: 0, size: 0 },
             checking: false,
             _statFile: async function () {
@@ -4252,11 +4306,11 @@
                         fh = await this._statFile();
                         f = await fh.getFile();
                     } catch (e) {
-                        return;   
+                        return;
                     }
                     const wbk = this.writeBack;
-                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;   
-                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;   
+                    if (f.lastModified === wbk.lastMtime && f.size === wbk.lastSize) return;
+                    if (f.lastModified === this.extSeen.mtime && f.size === this.extSeen.size) return;
                     let workbook;
                     try {
                         const buf = await f.arrayBuffer();
@@ -4265,11 +4319,8 @@
                         console.warn("CDE external read/parse failed (transient, will retry):", e);
                         return;
                     }
-                    await this.flush();   
+                    await this.flush();
                     try {
-                        
-                        
-                        
                         const wsInfo = workbook.Sheets && workbook.Sheets["INFO"];
                         const aoa = wsInfo ? XLSX.utils.sheet_to_json(wsInfo, { header: 1 }) : [];
                         const a2 = aoa[1] ? String(aoa[1][0] || "").trim() : "";
@@ -4286,15 +4337,14 @@
                         return;
                     }
                     this.extSeen = { mtime: f.lastModified, size: f.size };
-                    isDirty = false;   
-                    await this.flush();   
+                    isDirty = false;
+                    await this.flush();
                 } finally {
                     this.checking = false;
                 }
             }
         };
 
-        
         async function _cdeFillProjectInfo(info, params) {
             try {
                 let hs = {};
@@ -4331,7 +4381,6 @@
         }
 
         async function _cdeBridgeInit(info, params) {
-            
             if (!document.getElementById('cde-home-btn')) {
                 const anchor = document.getElementById('app-project-number');
                 if (anchor && anchor.parentElement) {
@@ -4349,9 +4398,7 @@
             cdeBridge.baseline = cdeBridge.snap();
             const dev = await cde.identity.device();
             const memberId = await cde.identity.getMember(params.guid);
-            
             cdeBridge.author = (window.__cdeApp && window.__cdeApp.me && window.__cdeApp.me.author) || memberId || ("device:" + dev);
-            
             function _assign() {
                 var hp = cde.hashFile ? cde.hashFile(info.handle, params.open).catch(function () { return null; })
                     : Promise.resolve(null);
@@ -4374,7 +4421,6 @@
                 return _assign();
             }).catch(function (e) { console.warn("CDE assign append failed:", e); });
 
-            
             if (typeof Autosave !== "undefined" && Autosave && typeof Autosave.markDirty === "function") {
                 if (!Autosave.__cdeWrapped) {
                     Autosave.__cdeWrapped = true;
@@ -4387,8 +4433,8 @@
                         Autosave.renderStatus('saved');
                     };
                     cdeBridge.onError = function () { Autosave.renderStatus('error'); };
-                    Autosave.lastSavedAt = new Date();   
-                    Autosave.renderStatus('saved');      
+                    Autosave.lastSavedAt = new Date();
+                    Autosave.renderStatus('saved');
                 }
             }
             document.addEventListener("visibilitychange", function () {
@@ -4409,8 +4455,6 @@
                 });
         });
 
-
-        
         function _registryUpsert() {
             if (window.liteAECO && liteAECO.projects && state.project && state.project.guid) {
                 liteAECO.projects.save({ guid: state.project.guid, number: state.project.number || "", title: state.project.title || "", client: state.project.client || "", address: state.project.address || "", type: state.project.type || "" }, "meetings").catch(() => { });
@@ -4432,14 +4476,8 @@
             const built = buildWorkbook({ copy: true });
             XLSX.writeFile(built.wb, `${built.filenameBase}.${ext}`);
 
-            
             isDirty = false;
         }
-
-        
-        
-
-
 
         function buildWorkbook(opts) {
             opts = opts || {};
@@ -4449,10 +4487,9 @@
 
             const organizers = state.people.filter(p => p.participation === 'Organizer').map(p => p.name).join(', ');
 
-            
             const infoData = [
                 ["www.liteAECO.com"],
-                ["Meetings"],                            
+                ["Meetings"],
                 ["info@liteAECO.com (Switzerland)"],
                 [],
                 ...buildProjectInfoRows(),
@@ -4461,23 +4498,15 @@
                 ["Initial Date:", toExcelDate(state.initialDate || state.date)],
                 ["Organizer name:", organizers],
                 ["Current meeting number:", state.meetingNo || state.No],
-                
-                
-                
                 ["Session state:", (window.__cdeCtx && !opts.copy ? "open" : "closed")],
-                
-                
                 ["Members Hash:", state.membersHash || ""],
-                
                 ["Meeting GUID:", ensureMeetingGuid()],
             ];
 
             const wsInfo = XLSX.utils.aoa_to_sheet(infoData);
             wsInfo['!cols'] = [{ wch: 30 }, { wch: 36 }];
-            
             const a2c = XLSX.utils.encode_cell({ c: 0, r: 1 });
             if (wsInfo[a2c]) wsInfo[a2c].s = { fill: { fgColor: { rgb: 'FF4F46E5' } }, font: { bold: true, color: { rgb: 'FFFFFFFF' } } };
-            
             for (let R = 0; R < infoData.length; R++) {
                 if (typeof infoData[R][0] === 'string' && String(infoData[R][0]).startsWith("---")) {
                     for (let C = 0; C < 2; C++) {
@@ -4488,7 +4517,6 @@
             }
             XLSX.utils.book_append_sheet(wb, wsInfo, "INFO");
 
-            
             const contactHeaders = [
                 "ID", "Employee Code", "Employee Number", "Name", "Company", "Employee Type",
                 "Role", "Teams", "Contact Mail", "Contact Phone",
@@ -4506,36 +4534,29 @@
                 if (p.rawData && Array.isArray(p.rawData)) {
                     const srcHdr = state.contactsRawHeaders;
                     if (srcHdr && srcHdr.length > 0) {
-                        
                         rowData = contactHeaders.map(h => {
                             let idx = srcHdr.indexOf(h);
-                            
                             if (idx < 0 && h === 'Meeting participation') idx = srcHdr.indexOf('Participation');
                             const v = idx >= 0 ? p.rawData[idx] : undefined;
                             return (v !== undefined && v !== null && v !== '') ? v : "-";
                         });
                     } else {
-                        
                         rowData = [...p.rawData];
                     }
 
-                    
                     while (rowData.length < contactHeaders.length) rowData.push("-");
 
-                    
                     rowData[0] = p.id || "-";
                     rowData[3] = p.name;
                     rowData[4] = p.company || "-";
                     rowData[6] = p.role || "-";
                     rowData[8] = p.contactInfo || "-";
 
-                    
                     const isActive = ['Organizer', 'Required', 'Optional'].includes(p.participation) && !p.archived;
                     rowData[27] = isActive ? p.participation : "No";
 
                     rowData[30] = p.archived ? "Archived" : "Active";
                 } else {
-                    
                     rowData = new Array(contactHeaders.length).fill("-");
                     rowData[0] = p.id || "-";
                     rowData[3] = p.name;
@@ -4563,7 +4584,6 @@
                 const cr = XLSX.utils.encode_cell({ c: C, r: 0 });
                 if (wsContacts[cr]) wsContacts[cr].s = { fill: { fgColor: { rgb: darkColors[1] } }, font: { bold: true } };
             }
-            
             for (let R = 1; R < contactsData.length; R++) {
                 const cr = XLSX.utils.encode_cell({ c: 27, r: R });
                 if (wsContacts[cr]) {
@@ -4575,7 +4595,7 @@
             XLSX.utils.book_append_sheet(wb, wsContacts, "CONTACTS");
 
             const threadsData = [
-                ["ID", "Status", "Thread title", "Description", "Priority", "Due Date", "Initial date", "Close Date", "Assigned to", "GUID", "Issue No", "Issue GUID"]
+                ["ID", "Status", "Thread title", "Description", "Priority", "Due Date", "Initial date", "Close Date", "Assigned to", "GUID", "Issue No", "Issue GUID", "Close Session"]
             ];
 
             state.threads.forEach((thread, thIndex) => {
@@ -4599,13 +4619,14 @@
                         subthreadStatus, thread.title, sth.text, priorityStr,
                         toExcelDate(sth.dueDate), toExcelDate(sth.initialDate || state.initialDate), toExcelDate(sth.closeDate),
                         assigneeNames, sth.guid,
-                        sth.issueNo || "-", sth.issueGuid || "-"
+                        sth.issueNo || "-", sth.issueGuid || "-",
+                        sth.closeSession || "-"
                     ]);
                 });
             });
 
             const wsThreads = XLSX.utils.aoa_to_sheet(threadsData);
-            wsThreads['!cols'] = [{ wch: 10 }, { wch: 15 }, { wch: 30 }, { wch: 50 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 20 }, { wch: 38 }, { wch: 10 }, { wch: 38 }];
+            wsThreads['!cols'] = [{ wch: 10 }, { wch: 15 }, { wch: 30 }, { wch: 50 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 20 }, { wch: 38 }, { wch: 10 }, { wch: 38 }, { wch: 12 }];
 
             for (let C = 0; C < threadsData[0].length; C++) {
                 const cellRef = XLSX.utils.encode_cell({ c: C, r: 0 });
@@ -4661,7 +4682,6 @@
             }
             XLSX.utils.book_append_sheet(wb, wsAtt, "ATTENDANCE");
 
-            
             const LK = _linksApi();
             if (LK) {
                 const lkData = LK.toAoa(state.links || [], (g) => { const r = sthTopicRef(g); return r === 'meeting' ? '' : r; });
@@ -4686,11 +4706,6 @@
             return { wb, filenameBase };
         }
 
-        
-
-
-
-
         function importExcelData(workbook, opts) {
             opts = opts || {};
             let answered = false;
@@ -4698,13 +4713,11 @@
             const run = () => { processImportData(workbook); done(true); };
             const sheetNames = workbook.SheetNames || [];
 
-            
             const wsInfoChk = workbook.Sheets["INFO"];
             const infoChkAoA = wsInfoChk ? XLSX.utils.sheet_to_json(wsInfoChk, { header: 1 }) : [];
             const infoA2 = infoChkAoA[1] ? String(infoChkAoA[1][0] || '').trim() : '';
             const isMeetingsFile = infoA2 === "Meetings";
 
-            
             const hasContacts = sheetNames.includes("CONTACTS");
             const hasLegacy = infoChkAoA.some(r => r && r[0] === "--- CONTACTS ---");
 
@@ -4737,10 +4750,6 @@
             }
         }
 
-        
-
-
-
         function closeMeeting() {
             const cur = parseInt(state.meetingNo || state.No, 10) || 1;
             const msg = (window.BASE_PAGE.confirmCloseMeeting ||
@@ -4755,6 +4764,10 @@
                     meetingNo: cur, date: state.date,
                     presentIds: presentIds, absentIds: absentIds
                 });
+                state.threads.forEach(th => th.subthreads.forEach(s => {
+                    if ((s.status === 'closed' || s.status === 'close') && !s.closeSession) s.closeSession = cur;
+                    delete s.hiddenFromImport;
+                }));
                 state.meetingNo = cur + 1;
                 state.No = cur + 1;
                 state.date = new Date().toISOString().split('T')[0];
@@ -4768,7 +4781,7 @@
         }
 
         function processImportData(workbook) {
-            let _liveSession = false;   
+            let _liveSession = false;
             const getValue = (aoa, key) => {
                 if (!aoa) return null;
                 const row = aoa.find(r => r && r[0] && String(r[0]).trim() === key);
@@ -4777,8 +4790,8 @@
 
             const wsInfo = workbook.Sheets["INFO"];
             let importedOrganizer = "";
-            state.membersHash = "";   
-            state.meetingGuid = "";   
+            state.membersHash = "";
+            state.meetingGuid = "";
             if (wsInfo) {
                 const infoAoA = XLSX.utils.sheet_to_json(wsInfo, { header: 1 });
                 state.membersHash = String(getValue(infoAoA, "Members Hash:") || "");
@@ -4790,38 +4803,24 @@
                 const _storedNo = parseInt(getValue(infoAoA, "Current meeting number:")) || 0;
                 const _sessState = String(getValue(infoAoA, "Session state:") || '').trim().toLowerCase();
                 _liveSession = (_sessState === 'open');
-                
-                
                 state.meetingNo = (_sessState === 'open') ? Math.max(_storedNo, 1) : _storedNo + 1;
                 state.No = state.meetingNo;
                 importedOrganizer = getValue(infoAoA, "Organizer name:") || "";
-                
-                
-                
                 importedOrganizer = importedOrganizer
                     .split(',').map(s => s.trim()).filter(n => n && n !== '-').join(', ');
                 parseProjectInfo(infoAoA, getValue);
             }
 
-            
             state.people = [];
             const wsContacts = workbook.Sheets["CONTACTS"];
 
             if (wsContacts) {
-                
-                
-                
-                
-                
                 const rows = XLSX.utils.sheet_to_json(wsContacts, { header: 1 });
                 const hdr = rows[0] || [];
-                
                 state.contactsRawHeaders = hdr.map(h => String(h || '').trim());
-                
                 const ci = (label) => hdr.findIndex(h => String(h || '').trim() === label);
                 const iID = ci('ID'), iName = ci('Name'), iComp = ci('Company');
                 const iRole = ci('Role'), iMail = ci('Contact Mail');
-                
                 const iPart = ci('Meeting participation') >= 0 ? ci('Meeting participation') : ci('Participation');
                 const iStat = ci('Status');
                 const col = (row, detected, fallback) => {
@@ -4836,7 +4835,6 @@
                     if (!name) continue;
 
                     let id = col(row, iID, 0);
-                    
                     if (!id || id === '-') {
                         const existingPerson = state.people.find(p => p.name.toLowerCase() === name.toLowerCase());
                         id = existingPerson ? existingPerson.id : generatePersonId();
@@ -4847,11 +4845,9 @@
                     let part = col(row, iPart, 27) || '';
                     let archived = String(row[iStat >= 0 ? iStat : 30] || '').trim().toLowerCase() === 'archived';
 
-                    
                     let isParticipant = ['Required', 'Optional', 'Organizer'].includes(part);
 
                     if (!isParticipant) {
-                        
                         part = 'No';
                         archived = true;
                     } else if (!part && importedOrganizer && importedOrganizer.split(', ').includes(name)) {
@@ -4859,11 +4855,9 @@
                         isParticipant = true;
                     }
 
-                    
                     state.people.push({ id, name, company, role, contactInfo: mail, participation: part, archived, present: false, rawData: row });
                 }
             } else if (wsInfo) {
-                
                 const infoAoA = XLSX.utils.sheet_to_json(wsInfo, { header: 1 });
                 const atthIndex = infoAoA.findIndex(row => row[0] === "--- CONTACTS ---");
                 if (atthIndex > -1) {
@@ -4889,7 +4883,6 @@
                         }
                         if (['Required', 'Optional', 'Organizer'].includes(role)) { part = role; role = ''; }
 
-                        
                         let isParticipant = ['Required', 'Optional', 'Organizer'].includes(part);
                         if (!isParticipant) {
                             part = 'No';
@@ -4908,11 +4901,6 @@
                 }
             }
 
-            
-            
-            
-            
-            
             if (importedOrganizer) {
                 const orgNames = importedOrganizer.split(', ');
                 state.people.forEach(p => {
@@ -4938,9 +4926,6 @@
                     });
                 }
             }
-            
-            
-            
             if (_liveSession) {
                 const curN = parseInt(state.meetingNo || state.No, 10);
                 state.attendanceHistory = state.attendanceHistory.filter(
@@ -4957,9 +4942,21 @@
                 const headerRow = threadsAoA[0] || [];
                 const hasCloseDate = headerRow[7] === "Close Date";
                 const assignIdx = hasCloseDate ? 8 : 7;
-                const guidIdx = headerRow.indexOf("GUID"); 
-                const issueNoIdx = headerRow.indexOf("Issue No");     
+                const guidIdx = headerRow.indexOf("GUID");
+                const issueNoIdx = headerRow.indexOf("Issue No");
                 const issueGuidIdx = headerRow.indexOf("Issue GUID");
+                const closeSessIdx = headerRow.indexOf("Close Session");
+                const _curNo = parseInt(state.meetingNo || state.No, 10) || 1;
+                const _lastArchivedDate = (state.attendanceHistory || [])
+                    .reduce((m, h) => (h.date && h.date > m ? h.date : m), '');
+                const _closeSessionOf = (row, st, cDate) => {
+                    if (st !== 'closed' && st !== 'close') return null;
+                    const n = parseInt((closeSessIdx >= 0 && row[closeSessIdx] != null) ? row[closeSessIdx] : '', 10);
+                    if (n > 0) return n;
+                    if (!_liveSession) return Math.max(1, _curNo - 1);
+                    if (cDate && (!_lastArchivedDate || cDate > _lastArchivedDate)) return _curNo;
+                    return Math.max(1, _curNo - 1);
+                };
                 const cellOf = (row, i) => (i >= 0 && row[i] != null && String(row[i]).trim() !== '-') ? String(row[i]).trim() : '';
 
                 for (let i = 1; i < threadsAoA.length; i++) {
@@ -5001,11 +4998,10 @@
                         return matchedPerson.id;
                     });
 
-                    
                     const sthGuid = (guidIdx >= 0 && row[guidIdx] && _safeId(row[guidIdx])) || newGuid();
 
                     const newSth = {
-                        id: generateId('sth'), guid: sthGuid, number: sthNumber, text: desc, assignees: assigneeIds, dueDate: due, initialDate: initDateStr, closeDate: closeDate, priority: prio === '-' ? 'medium' : prio, status: status, hiddenFromImport: (status === 'closed' || status === 'close')
+                        id: generateId('sth'), guid: sthGuid, number: sthNumber, text: desc, assignees: assigneeIds, dueDate: due, initialDate: initDateStr, closeDate: closeDate, priority: prio === '-' ? 'medium' : prio, status: status, closeSession: _closeSessionOf(row, status, closeDate)
                     };
                     const _ig = _safeId(cellOf(row, issueGuidIdx));
                     if (_ig) { newSth.issueGuid = _ig; newSth.issueNo = parseInt(cellOf(row, issueNoIdx), 10) || null; }
@@ -5017,9 +5013,8 @@
             state.historyMeetingNo = null;
             state.historyDate = null;
 
-            state.attachments = []; 
+            state.attachments = [];
 
-            
             state.links = [];
             const wsLinks = workbook.Sheets["LINKS"];
             if (wsLinks && _linksApi()) {
@@ -5028,12 +5023,11 @@
                 state.links = _linksApi().fromAoa(XLSX.utils.sheet_to_json(wsLinks, { header: 1 }), sthGuids);
             }
 
-            
             isDirty = false;
 
             renderApp();
             renderProjectBar();
-            hydrateLtmAttachments(); 
+            hydrateLtmAttachments();
         }
     </script>
 </body>

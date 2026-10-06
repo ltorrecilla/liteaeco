@@ -81,6 +81,9 @@ window.GLOBAL_I18N = {
                 'LuArtX IFC Compatible',
                 'Trimble Nova IFC Compatible',
             ] },
+        28: { title: 'IFC Property Manager', description: 'Export, rename, delete, and inject IFC properties in one tool.',
+            longDescription: 'Manage IFC Property Sets in your browser. Export spreadsheets, queue edits, and download one updated IFC file.',
+            features: ['Export Property Sets', 'Rename and delete sets', 'Inject spreadsheet values', 'Process files locally'] },
         6: { title: 'IFC Pset Renamer', description: 'Rename custom Property Sets. Make changes into your IFC Models even after exporting them, free from Authoring tools',
             longDescription: "Rename custom Property Sets inside your IFC models long after they have been exported, with no authoring tool required. Fix inconsistent naming, align psets to your BIM standard and keep your models tidy for coordination and handover. Everything is processed locally in your browser. No data is sent to the cloud.",
             features: [

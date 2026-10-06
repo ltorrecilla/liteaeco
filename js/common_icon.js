@@ -18,33 +18,15 @@
 // liteAECO - (common_icon.js)
 // ========
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 window.dataLayer = window.dataLayer || [];
 function gtag() { dataLayer.push(arguments); }
 gtag('js', new Date());
-
 
 if (localStorage.getItem('cookieConsent') === 'declined') {
     window['ga-disable-G-WF672S6T88'] = true;
 }
 
 gtag('config', 'G-WF672S6T88');
-
 
 (function () {
     const gaScript = document.createElement('script');
@@ -58,41 +40,31 @@ gtag('config', 'G-WF672S6T88');
     }
 })();
 
-
 window.handleCookieChoice = function (choice) {
     localStorage.setItem('cookieConsent', choice);
     const banner = document.getElementById('cookie-banner');
     if (banner) banner.remove();
 
     if (choice === 'declined') {
-        
         window['ga-disable-G-WF672S6T88'] = true;
 
-        
         if (window._paq) {
             _paq.push(['forgetConsentGiven']);
             _paq.push(['optUserOut']);
         }
     } else if (choice === 'accepted') {
-        
         window['ga-disable-G-WF672S6T88'] = false;
     }
 };
 
-
-
-
 window.injectCookieBanner = function () {
-    
     if (localStorage.getItem('cookieConsent')) {
         return;
     }
 
-    
     const banner = document.createElement('div');
     banner.id = 'cookie-banner';
 
-    
     banner.className = 'fixed bottom-4 left-4 right-4 md:left-auto md:max-w-sm z-[999] bg-white rounded border border-slate-200 shadow-lg p-4 flex flex-col gap-3 transition-opacity duration-300';
 
     banner.innerHTML = `
@@ -109,10 +81,8 @@ window.injectCookieBanner = function () {
         </div>
     `;
 
-    
     document.body.appendChild(banner);
 };
-
 
 window.handleCookieChoice = function (choice) {
     localStorage.setItem('cookieConsent', choice);
@@ -125,27 +95,17 @@ window.handleCookieChoice = function (choice) {
     }
 };
 
-
-
-
-
-
-
 window.isHighPerformance = function () {
     let isHighPerf = true;
 
-    
-    
     if (navigator.deviceMemory && navigator.deviceMemory < 8) {
         isHighPerf = false;
     }
 
-    
     if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) {
         isHighPerf = false;
     }
 
-    
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
         isHighPerf = true;
@@ -154,27 +114,19 @@ window.isHighPerformance = function () {
     return isHighPerf;
 };
 
-
-
-
-
-
 function getAutoPagePrefix() {
     const path = window.location.pathname;
     const filename = path.split('/').pop();
 
-    
     if (!filename || !filename.endsWith('.html') || filename.toLowerCase() === 'index.html') {
         return '';
     }
 
-    
     let cleanName = filename.replace('.html', '');
     cleanName = cleanName.replace(/^LiteAEC-/i, '').replace(/^liteAECO-/i, '');
 
     return cleanName.toLowerCase();
 }
-
 
 window.pageScriptPrefix = getAutoPagePrefix();
 
@@ -204,12 +156,12 @@ const APPS = [
     { id: 20, skipModal: false, icon: 'triangle-alert', categories: ['ops'], url: window.SITE_ROOT + 'tools/incident-rca.html' },
     { id: 18, skipModal: false, icon: 'zap', categories: ['bim'], url: window.SITE_ROOT + 'tools/ifc-optimizer.html' },
     { id: 4, skipModal: false, icon: 'merge', rotation: 90, categories: ['bim'], url: window.SITE_ROOT + 'tools/ifc-merger.html' },
-    
+
     { id: 22, skipModal: false, icon: 'chart-spline', categories: ['pm'], url: window.SITE_ROOT + 'tools/monte-carlo-simulator.html' },
     { id: 8, skipModal: false, icon: 'square-arrow-right-exit', categories: ['data'], url: window.SITE_ROOT + 'tools/ifc-pset-export.html' },
     { id: 9, skipModal: false, icon: 'square-arrow-right-enter', rotation: 180, categories: ['data'], url: window.SITE_ROOT + 'tools/ifc-inject-properties.html' },
     { id: 16, skipModal: false, icon: 'combine', rotation: 180, categories: ['data'], url: window.SITE_ROOT + 'tools/data-merger.html' },
-    
+
     { id: 6, skipModal: false, icon: 'spell-check-2', categories: ['bim'], url: window.SITE_ROOT + 'tools/ifc-pset-renamer.html' },
     { id: 7, skipModal: false, icon: 'shredder', categories: ['bim'], url: window.SITE_ROOT + 'tools/ifc-pset-delete.html' },
     { id: 5, skipModal: false, icon: 'app-window-mac', categories: ['bim'], url: window.SITE_ROOT + 'tools/ifc-application-changer.html' },
@@ -218,26 +170,21 @@ const APPS = [
     { id: 24, skipModal: false, icon: 'drafting-compass', categories: ['ops'], url: window.SITE_ROOT + 'tools/dxf-editor.html' },
     { id: 25, skipModal: false, icon: 'columns-2', categories: ['ops'], url: window.SITE_ROOT + 'tools/dxf-compare.html' },
     { id: 27, skipModal: false, icon: 'file-diff', categories: ['ops'], url: window.SITE_ROOT + 'tools/pdf-compare.html' },
-    { id: 23, skipModal: false, icon: 'equal-not', categories: ['bim'], url: window.SITE_ROOT + 'tools/ifc-compare.html' }, 
-    
-    
+    { id: 23, skipModal: false, icon: 'equal-not', categories: ['bim'], url: window.SITE_ROOT + 'tools/ifc-compare.html' },
 ];
 
 let activeCategory = 'all';
 
-
-const LANGS = ['en', 'de', 'es', 'fr', 'pt', 'it', 'ko', 'ja', 'zh']; 
+const LANGS = ['en', 'de', 'es', 'fr', 'pt', 'it', 'ko', 'ja', 'zh'];
 const LANG_NAMES = {
     en: 'English', de: 'German', es: 'Spanish', fr: 'French',
     pt: 'Portuguese', it: 'Italian', ko: 'Korean', ja: 'Japanese', zh: 'Chinese'
 };
 
-
 function setLangLabel(code) {
     const label = document.getElementById('langToggleLabel');
     if (label) label.textContent = (code || 'en').toUpperCase();
 }
-
 
 function renderLangMenu() {
     const menu = document.getElementById('langMenu');
@@ -280,31 +227,21 @@ function selectLang(code) {
     window.loadLanguage(code, window.pageScriptPrefix);
 }
 
-
-
 let langRequestSeq = 0;
-
-
 let activeGlobalSnapshot = null;
 let activePageSnapshot = null;
 
 window.loadLanguage = function (lang, pageScriptPrefix) {
-    
     const seq = ++langRequestSeq;
 
-    
     window.GLOBAL_I18N = { ...BASE_GLOBAL, categories: { ...BASE_GLOBAL.categories }, apps: { ...BASE_GLOBAL.apps } };
     if (window.BASE_PAGE) window.PAGE_I18N = { ...window.BASE_PAGE };
 
-    
     ['dynamic-global-lang', 'dynamic-page-lang'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.remove();
     });
 
-    
-    
-    
     const loadScript = (id, src, key) => new Promise((resolve) => {
         const script = document.createElement('script');
         script.id = id;
@@ -317,27 +254,19 @@ window.loadLanguage = function (lang, pageScriptPrefix) {
         document.body.appendChild(script);
     });
 
-    
-    
     const rootPath = window.SITE_ROOT || './';
     const scriptsToLoad = [loadScript('dynamic-global-lang', `${rootPath}lang/${lang}/global.js`, 'GLOBAL_I18N')];
     if (pageScriptPrefix) {
         scriptsToLoad.push(loadScript('dynamic-page-lang', `${rootPath}lang/${lang}/${pageScriptPrefix}.js`, 'PAGE_I18N'));
     }
-    
 
     Promise.all(scriptsToLoad).then((results) => {
-        
-        
-        
         if (seq !== langRequestSeq) {
             if (activeGlobalSnapshot) window.GLOBAL_I18N = activeGlobalSnapshot;
             if (activePageSnapshot) window.PAGE_I18N = activePageSnapshot;
             return;
         }
 
-        
-        
         results.forEach(r => {
             if (r.ok && r.snapshot) window[r.key] = r.snapshot;
         });
@@ -398,25 +327,20 @@ function getTranslations() {
     return merged;
 }
 
-
 window.t = function (key) {
     const d = typeof getTranslations === 'function' ? getTranslations() : (window.PAGE_I18N || {});
-    
     return d[key] !== undefined ? d[key] : key;
 };
 
 function applyLanguage() {
-    
     const d = typeof getTranslations === 'function' ? getTranslations() : window.PAGE_I18N;
     if (!d) return;
 
     document.documentElement.lang = currentLang;
     if (d.title) document.title = d.title;
 
-    
     const kebabToCamel = (str) => str.replace(/-([a-z0-9])/ig, (g) => g[1].toUpperCase());
 
-    
     const applyTranslation = (el, dictKey) => {
         if (d[dictKey] !== undefined) {
             if (el.tagName === 'INPUT' && el.hasAttribute('placeholder')) {
@@ -427,17 +351,11 @@ function applyLanguage() {
         }
     };
 
-    
-    
-    
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         applyTranslation(el, key);
     });
 
-    
-    
-    
     document.querySelectorAll('[id^="ui-"]').forEach(el => {
         if (!el.hasAttribute('data-i18n')) {
             const baseId = el.id.substring(3);
@@ -454,14 +372,8 @@ function applyLanguage() {
 
     document.dispatchEvent(new Event('languageLoaded'));
 
-    
     if (window.lucide) lucide.createIcons();
 }
-
-
-
-
-
 
 window._uiLinkTarget = null;
 function applyUiLinkTarget(root) {
@@ -475,10 +387,6 @@ function applyUiLinkTarget(root) {
     });
 }
 
-
-
-
-
 window.liteaecoCdeContext = function () {
     try {
         const q = new URLSearchParams(window.location.search);
@@ -486,13 +394,10 @@ window.liteaecoCdeContext = function () {
         return (guid && open) ? { guid, open } : null;
     } catch (e) { return null; }
 };
-
 function cdeAllHref() { return window.liteaecoCdeContext() ? 'https://liteaeco.com' : `${window.SITE_ROOT}index.html`; }
-
 function cdeTarget() { return window.liteaecoCdeContext() ? ' target="_blank" rel="noopener"' : ''; }
 
 window.injectUI = function (options = {}) {
-    
     if (typeof options.linkTarget === 'string' && options.linkTarget) window._uiLinkTarget = options.linkTarget;
     const showSignIn = options.showSignIn !== false;
     const showCategories = options.showCategories !== false;
@@ -502,17 +407,8 @@ window.injectUI = function (options = {}) {
     const showDonation = options.showDonation !== true;
     window._showDonation = showDonation;
 
-    
-    
-    
-    
     const cdeCtx = window.liteaecoCdeContext();
 
-    
-    
-    
-    
-    
     const logoHref = (typeof options.logoHref === 'string' && options.logoHref)
         ? options.logoHref
         : cdeCtx
@@ -522,30 +418,24 @@ window.injectUI = function (options = {}) {
         ? ` target="${options.logoTarget}" rel="noopener noreferrer"`
         : '';
 
-    
     const showFooter = options.showFooter !== false;
     const showFooterLinks = options.showFooterLinks !== false;
     const showFooterBottom = options.showFooterBottom !== false;
 
-    
-    
-    
     if (showNav) {
         const nav = document.createElement('nav');
 
-        
         let useTransparency;
         if (typeof options.transparentNav === 'boolean') {
-            useTransparency = options.transparentNav; 
+            useTransparency = options.transparentNav;
         } else {
-            useTransparency = window.isHighPerformance(); 
+            useTransparency = window.isHighPerformance();
         }
 
         const navBgClass = useTransparency
             ? "bg-white/80 backdrop-blur-md border-slate-50"
-            : "bg-white border-slate-200"; 
+            : "bg-white border-slate-200";
 
-        
         nav.className = `fixed top-0 left-0 right-0 z-[150] transition-all duration-300 border-b shadow-[0_4px_30px_rgba(0,0,0,0.03)] ${navBgClass}`;
 
         nav.innerHTML = `
@@ -567,7 +457,7 @@ window.injectUI = function (options = {}) {
                 ${showCategories ? `<div id="desktop-nav" class="hidden md:flex items-center h-full"></div>` : ''}
 
                 <div class="hidden md:flex items-center gap-3 h-full">
-    
+
                     ${showNews ? `
                     <a href="https://liteaeco.com/news/" target="_blank" rel="noopener noreferrer" class="text-[12px] font-bold uppercase tracking-widest text-slate-600 hover:text-indigo-600 transition-colors px-2" id="ui-link-news">
                         News
@@ -601,9 +491,6 @@ window.injectUI = function (options = {}) {
 
         document.body.insertBefore(nav, document.body.firstChild);
 
-        
-        
-        
         if (cdeCtx && !options.logoHref) {
             const logo = nav.querySelector('#ui-logo-link');
             if (logo) logo.addEventListener('click', (e) => {
@@ -617,7 +504,6 @@ window.injectUI = function (options = {}) {
             });
         }
 
-        
         const langToggle = document.getElementById('langToggle');
         const langMenu = document.getElementById('langMenu');
         if (langToggle && langMenu) {
@@ -633,7 +519,6 @@ window.injectUI = function (options = {}) {
                 if (li) selectLang(li.getAttribute('data-value'));
             });
 
-            
             document.addEventListener('click', (e) => {
                 if (!e.target.closest('#langToggleWrap')) closeLangMenu();
             });
@@ -644,10 +529,7 @@ window.injectUI = function (options = {}) {
 
         const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
         if (mobileMenuToggle) {
-            
-            
 
-            
             mobileMenuToggle.addEventListener('click', () => window.toggleMobileMenu());
         }
 
@@ -655,7 +537,6 @@ window.injectUI = function (options = {}) {
             setupHelpButton();
         }
 
-        
         if (typeof renderNav === 'function') renderNav();
         applyUiLinkTarget(nav);
     }
@@ -668,9 +549,6 @@ window.injectUI = function (options = {}) {
         }
     };
 
-    
-    
-    
     if (showFooter) {
         const footer = document.createElement('footer');
         const ptClass = showFooterLinks ? "pt-4" : "pt-4";
@@ -744,24 +622,17 @@ window.injectUI = function (options = {}) {
     }
 };
 
-
 function renderNav() {
-    
     const desktopNav = document.getElementById('desktop-nav');
     const mobileNav = document.getElementById('mobile-nav');
 
-    
     if (!desktopNav || !mobileNav) return;
 
-    
     const d = getTranslations();
 
-    
     desktopNav.innerHTML = CATEGORIES.map(cat => {
-        
         const catLabel = (d.categories && d.categories[cat.id]) || cat.label;
 
-        
         if (cat.id === 'all') {
             return `
             <div class="relative group h-full flex items-center">
@@ -771,7 +642,6 @@ function renderNav() {
             </div>`;
         }
 
-        
         const appsInCat = APPS.filter(app => app.categories && app.categories.includes(cat.id));
         return `
             <div class="relative group h-full flex items-center">
@@ -815,7 +685,6 @@ function renderNav() {
             </div>`;
     }).join('');
 
-    
     if (window._showDonation) {
         const donateLabel = d.linkDonate || 'Donate';
         desktopNav.innerHTML += `
@@ -827,7 +696,6 @@ function renderNav() {
             </div>`;
     }
 
-    
     const openCat = window._mobileOpenCat || null;
     mobileNav.innerHTML = CATEGORIES.map(cat => {
         const catLabel = (d.categories && d.categories[cat.id]) || cat.label;
@@ -852,7 +720,6 @@ function renderNav() {
             if (app.rotation == -90) rotationClass = '-rotate-90';
             if (app.rotation == 180) rotationClass = 'rotate-180';
 
-            
             const iconHTML = app.svgIcon
                 ? `<span aria-hidden="true"
                         class="inline-block w-4 h-4 bg-current ${rotationClass}"
@@ -885,14 +752,12 @@ function renderNav() {
     if (window.lucide) lucide.createIcons();
 }
 
-
 window._mobileOpenCat = null;
 window.toggleMobileCat = function (catId) {
     window._mobileOpenCat = (window._mobileOpenCat === catId) ? null : catId;
 
-    
     if (window._mobileOpenCat && typeof renderCards === 'function') {
-        window.setCategory(catId); 
+        window.setCategory(catId);
     } else {
         renderNav();
     }
@@ -901,7 +766,6 @@ window.toggleMobileCat = function (catId) {
 window.setCategory = function (catId) {
     activeCategory = catId;
 
-    
     if (window.location.hash.replace('#', '') !== catId) {
         window.history.pushState(null, null, catId === 'all' ? ' ' : `#${catId}`);
     }
@@ -912,42 +776,32 @@ window.setCategory = function (catId) {
     }
 };
 
-
 function setupHelpButton() {
-    
     const fileNameFull = window.location.pathname.split('/').pop();
     if (!fileNameFull) return;
 
     const fileName = fileNameFull.toLowerCase();
 
-    
     if (fileName === 'help.html' || fileName === 'index.html' || fileName === '') return;
 
-    
     const langToggle = document.getElementById('langToggleWrap') || document.getElementById('langToggle');
     if (!langToggle) return;
 
-    
     if (document.getElementById('dynamic-help-btn')) return;
 
-    
     const helpId = fileNameFull.replace('.html', '').toLowerCase().replace(/_/g, '-');
 
-    
     const helpBtn = document.createElement('a');
     helpBtn.id = 'dynamic-help-btn';
     helpBtn.href = `${window.SITE_ROOT}info/help.html#${helpId}`;
 
-    
     helpBtn.className = "mr-3 p-1.5 text-slate-500 hover:text-indigo-600 hover:bg-slate-100 rounded transition-colors flex items-center justify-center";
     helpBtn.title = "Help & Documentation";
     helpBtn.target = "_blank";
     helpBtn.innerHTML = '<i data-lucide="circle-help" class="w-[18px] h-[18px]"></i>';
 
-    
     langToggle.parentNode.insertBefore(helpBtn, langToggle);
 }
-
 
 document.addEventListener('DOMContentLoaded', () => {
     const yearElement = document.getElementById('current-year');

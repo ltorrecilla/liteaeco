@@ -18,57 +18,19 @@
 // liteAECO - (liteaeco-bcf.js)
 // ========
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 (function (W) {
     "use strict";
     W.liteAECO = W.liteAECO || {};
 
-    var BCF_BUILD = 5;   
+    var BCF_BUILD = 5;
     var EXTRAS = "liteaeco.json";
 
-    
     var STATUSES = ["Active", "In Progress", "In Review", "Done", "Closed"];
     var TYPES = ["Conflict", "Coordination", "Comment", "Design", "Defect", "Request", "Requirement", "Decision", "Task"];
     var PRIORITIES = ["Low", "Normal", "Major", "Critical"];
     var STAGES = ["Design", "Tender", "Construction", "Handover", "Operation"];
     var CLOSED = ["Done", "Closed"];
 
-    
     var TOPIC_ORDER = {
         2: ["ReferenceLink", "Title", "Priority", "Index", "Labels", "CreationDate", "CreationAuthor", "ModifiedDate", "ModifiedAuthor",
             "DueDate", "AssignedTo", "Stage", "Description", "BimSnippet", "DocumentReference", "RelatedTopic"],
@@ -80,11 +42,8 @@
     var TEXT_FIELDS = { title: "Title", priority: "Priority", stage: "Stage", assignedTo: "AssignedTo", description: "Description", dueDate: "DueDate" };
     var ATTR_FIELDS = { status: "TopicStatus", type: "TopicType" };
     var FIELDS = ["title", "status", "type", "priority", "stage", "assignedTo", "dueDate", "description", "labels"];
-    
-    
     function intOrNull(v) { var n = parseInt(v, 10); return isFinite(n) && n > 0 && String(n) === String(v).trim() ? n : null; }
 
-    
     function zip() {
         var f = W.fflate;
         if (!f || typeof f.unzipSync !== "function") throw new Error("fflate missing (js/vendor/index-0.8.3.js)");
@@ -122,7 +81,6 @@
         return ns ? doc.createElementNS(ns, name) : doc.createElement(name);
     }
     function nameOf(n) { return n.localName || n.nodeName; }
-    
     function place(parent, el, order) {
         var idx = order.indexOf(nameOf(el));
         var ref = null;
@@ -141,7 +99,6 @@
         el.textContent = String(value);
     }
 
-    
     function versionOf(files) {
         var v = files["bcf.version"];
         if (!v) return "2.1";
@@ -186,7 +143,6 @@
         flush(pack);
         var input = {};
         Object.keys(pack.files).forEach(function (n) {
-            
             input[n] = /\.(png|jpe?g)$/i.test(n) ? [pack.files[n], { level: 0 }] : pack.files[n];
         });
         return zip().zipSync(input, { level: 6 });
@@ -198,7 +154,6 @@
         return { version: pack.version, major: pack.major, files: files, docs: {} };
     }
 
-    
     function commentEls(doc, major) {
         return major === 3 ? kids(kid(topicEl(doc), "Comments"), "Comment") : kids(doc.documentElement, "Comment");
     }
@@ -256,7 +211,7 @@
         var t = topic(pack, guid);
         var list = t.viewpoints.filter(function (v) { return v.snapshot && (!vpGuid || v.guid === vpGuid); });
         var names = list.map(function (v) { return v.snapshot; });
-        if (!vpGuid) names.push("snapshot.png");   
+        if (!vpGuid) names.push("snapshot.png");
         for (var i = 0; i < names.length; i++) {
             var f = pack.files[guid + "/" + names[i]];
             if (f) return f;
@@ -264,7 +219,6 @@
         return null;
     }
 
-    
     function setFields(pack, guid, fields, who, when) {
         var doc = markupDoc(pack, guid), t = topicEl(doc), M = pack.major, order = TOPIC_ORDER[M];
         var changed = false, numberOnly = true;
@@ -272,17 +226,16 @@
             if (k !== "index" && k in fields) numberOnly = numberOnly && false;
             var v = fields[k];
             if (k in ATTR_FIELDS) {
-                
                 if ((v == null || v === "") && M === 3) return;
                 if (v == null || v === "") t.removeAttribute(ATTR_FIELDS[k]); else t.setAttribute(ATTR_FIELDS[k], String(v));
                 changed = true;
             } else if (k in TEXT_FIELDS) {
-                if (k === "title" && (v == null || String(v).trim() === "")) return;   
+                if (k === "title" && (v == null || String(v).trim() === "")) return;
                 setText(doc, t, TEXT_FIELDS[k], k === "dueDate" ? iso(v) : v, order);
                 changed = true;
             } else if (k === "index") {
                 var n = intOrNull(v);
-                if (!n) return;                        
+                if (!n) return;
                 setText(doc, t, "Index", String(n), order);
                 changed = true;
             } else if (k === "labels") {
@@ -306,16 +259,12 @@
                 changed = true;
             }
         });
-        
-        
         if (changed && !numberOnly) {
             setText(doc, t, "ModifiedDate", iso(when || new Date()), order);
             if (who) setText(doc, t, "ModifiedAuthor", who, order);
         }
         return changed;
     }
-    
-    
     function addPhotoViewpoint(pack, guid, png) {
         var doc = markupDoc(pack, guid), M = pack.major;
         var first = viewpointEls(doc, M)[0];
@@ -333,13 +282,11 @@
             }
         }
         var img = u8(png);
-        
         var sfile = "snapshot_" + vg + (img[0] === 0xFF && img[1] === 0xD8 ? ".jpg" : ".png");
         pack.files[guid + "/" + sfile] = img;
         addViewpoint(pack, guid, { guid: vg, viewpoint: vfile, snapshot: sfile });
         return vg;
     }
-    
     function addViewpoint(pack, guid, v) {
         var doc = markupDoc(pack, guid), M = pack.major;
         var vp;
@@ -348,7 +295,6 @@
             var box = kid(t, "Viewpoints") || place(t, mk(doc, t, "Viewpoints"), TOPIC_ORDER[3]);
             vp = mk(doc, box, "ViewPoint"); box.appendChild(vp);
         } else {
-            
             vp = mk(doc, doc.documentElement, "Viewpoints");
             doc.documentElement.appendChild(vp);
         }
@@ -376,7 +322,6 @@
         if (vpGuid) { var v = mk(doc, el, "Viewpoint"); v.setAttribute("Guid", vpGuid); el.appendChild(v); }
         if (M === 3) host.appendChild(el);
         else {
-            
             var last = kids(host, "Comment").pop();
             if (last) host.insertBefore(el, last.nextSibling); else place(host, el, MARKUP_ORDER_2);
         }
@@ -389,7 +334,7 @@
         var list = (models || []).filter(function (m) { return m && (m.fileName || m.path); });
         if (!list.length) return;
         var h = mk(doc, root, "Header");
-        root.insertBefore(h, kids(root)[0] || null);   
+        root.insertBefore(h, kids(root)[0] || null);
         var box = h;
         if (M === 3) { box = mk(doc, h, "Files"); h.appendChild(box); }
         var now = iso(new Date());
@@ -437,20 +382,12 @@
         ["index", "priority", "stage", "assignedTo", "dueDate", "description", "labels"].forEach(function (k) { if (o[k] != null && o[k] !== "" && !(Array.isArray(o[k]) && !o[k].length)) f[k] = o[k]; });
         if (Object.keys(f).length) {
             setFields(pack, guid, f, null, null);
-            
             var t = topicEl(markupDoc(pack, guid));
             ["ModifiedDate", "ModifiedAuthor"].forEach(function (n) { var e = kid(t, n); if (e) t.removeChild(e); });
         }
         pack.guid = guid;
         return pack;
     }
-
-    
-    
-
-
-
-
 
     function merge(local, remote, guid, dirty) {
         var d = dirty instanceof Set ? dirty : new Set(dirty || []);
@@ -460,10 +397,8 @@
         var all = d.has("__new");
         var f = {};
         FIELDS.forEach(function (k) { if (all || d.has(k)) f[k] = L[k]; });
-        
         if ((d.has("index") || all) && L.index) f.index = L.index;
         if (Object.keys(f).length) setFields(out, guid, f, L.modifiedAuthor || null, L.modifiedDate || null);
-        
         var rv = {};
         R.viewpoints.forEach(function (v) { rv[v.guid] = v; });
         var takeVps = all || d.has("__snapshot") || d.has("__marker");
@@ -482,7 +417,6 @@
                 } else odoc.documentElement.appendChild(imp);
             }
         });
-        
         var have = {};
         R.comments.forEach(function (c) { have[c.guid] = 1; });
         var lcEls = commentEls(ldoc, local.major);
@@ -499,9 +433,6 @@
                 }
             } else addComment(out, guid, { guid: c.guid, text: c.text, author: c.author, date: c.date, viewpoint: c.viewpoint });
         });
-        
-        
-        
         var reassign = d.has("__federation");
         if (reassign) setHeader(out, guid, L.header);
         else if (L.header.length && !R.header.length) setHeader(out, guid, L.header);
@@ -518,7 +449,6 @@
         return out;
     }
 
-    
     function summary(pack, guid, rel, app) {
         var t = topic(pack, guid), x = t.extras || {};
         return {
@@ -537,40 +467,26 @@
         };
     }
 
-    
-    
-
-
-
-
-
-
-
-
-
     function numbering(entries) {
         var list = (entries || []).filter(function (e) { return e && e.guid; });
         var key = function (e) { var t = Date.parse(e.creationDate || ""); return [isFinite(t) ? t : 8640000000000000, String(e.guid)]; };
         var cmp = function (a, b) { var ka = key(a), kb = key(b); return ka[0] - kb[0] || (ka[1] < kb[1] ? -1 : ka[1] > kb[1] ? 1 : 0); };
         var seen = {}, byNum = {}, numbers = {}, loose = [], max = 0;
         list.slice().sort(cmp).forEach(function (e) {
-            if (seen[e.guid]) return;          
+            if (seen[e.guid]) return;
             seen[e.guid] = 1;
             var n = intOrNull(e.index);
             if (n && !byNum[n]) { byNum[n] = e.guid; numbers[e.guid] = n; if (n > max) max = n; }
             else loose.push(e);
         });
         var changes = [];
-        loose.forEach(function (e) {           
+        loose.forEach(function (e) {
             max += 1;
             numbers[e.guid] = max;
             changes.push({ guid: e.guid, number: max });
         });
         return { numbers: numbers, changes: changes, next: max + 1 };
     }
-    
-
-
     async function collectNumbers(io, folders, cache) {
         var out = [];
         for (var fi = 0; fi < (folders || []).length; fi++) {
@@ -598,9 +514,6 @@
         return out;
     }
 
-    
-
-
     function normalizeSnapshots(pack, guid) {
         if (topics(pack).indexOf(guid) < 0) return false;
         var doc = markupDoc(pack, guid), changed = false;
@@ -619,19 +532,10 @@
         return changed;
     }
 
-    
-    
-
-
-
-
-
     async function saveTopic(io, o) {
         var remoteBytes = await io.read(o.rel);
         var remote = remoteBytes ? read(remoteBytes) : null;
         var has = !!remote && topics(remote).indexOf(o.guid) >= 0;
-        
-        
         normalizeSnapshots(o.local, o.guid);
         if (has) normalizeSnapshots(remote, o.guid);
         var known = {};

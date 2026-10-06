@@ -25,12 +25,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IFC Application Changer - Fix IFC Compatibility for ACC and Forma | liteAECO</title>
 
-    
     <meta name="description" content="Free client-side tool to change IFC application name and timestamp, making third-party IFC files compatible with Autodesk (ACC) Model Coordination. No uploads, private, fast, built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/ifc-application-changer.html">
 
-    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/ifc-application-changer.html">
     <meta property="og:site_name" content="liteAECO">
@@ -42,14 +40,12 @@
     <meta property="og:image:alt" content="liteAECO IFC Application Changer tool interface">
     <meta property="og:locale" content="en_US">
 
-    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-application-changer.html">
     <meta name="twitter:title" content="IFC Application Changer - Fix IFC Compatibility for Autodesk | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to change IFC application name and timestamp, making third-party IFC files compatible with Autodesk (ACC) Model Coordination. No uploads, private, fast, built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-ifc-application-changer.png">
 
-    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -58,16 +54,13 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
-    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
 
-    
     <script src="../js/vendor/jszip-3.10.1.min.js"></script>
 
     <script>
@@ -85,16 +78,12 @@
         }
     </script>
 
-    
     <link rel="stylesheet" type="text/css" href="../css/global.css">
 </head>
 
 <body
     class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
 
-    
-
-    
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
 
         <div class="bg-white">
@@ -319,27 +308,17 @@
         <span id="toastMessage"></span>
     </div>
 
-    
-    
     <script>
-        
-        
-        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
-        
-        
         window.updateToolDynamicUI = function (d) {
             if (typeof refreshTable === 'function') refreshTable();
         };
 
-        
         function bootApp() {
-            
             autoDetectLanguage();
 
-            
             window.injectUI({
                 showNav: true,
                 transparentNav: false,
@@ -351,10 +330,8 @@
                 showFooterLinks: true,
             });
 
-            
             window.injectCookieBanner();
 
-            
             const currentYear = new Date().getFullYear();
             const targetVersionInput = document.getElementById('targetVersionInput');
             if (targetVersionInput) {
@@ -382,19 +359,14 @@
                 toggleVersionInput();
             }
 
-            
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
 
-        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
-        
-        
-        
     </script>
     <script>
         function showToast(message) {
@@ -423,7 +395,6 @@
             return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
         }
 
-        
         function bytesToLatin1(u8) {
             let out = '';
             const CH = 0x8000;
@@ -442,7 +413,6 @@
             refreshTable();
         };
 
-        
         const RE_IFCAPP_CAPTURE = /(#\d+\s*=\s*IFCAPPLICATION\s*\()([^;]+?)(\)\s*;)/gi;
         const RE_FILENAME_CAPTURE = /(FILE_NAME\s*\(\s*'[^']*'\s*,\s*')([^;]*?)('\s*,)/gi;
         const RE_COMMENT_TIMESTAMP = /(\/\*\s*time_stamp\s*\*\/\s*')([^']*)(')/gi;
@@ -496,7 +466,6 @@
                         }
                     }
 
-                    
                     const orgMatch = inside.match(/^\s*(#[0-9]+|\$)/);
                     const orgId = orgMatch ? orgMatch[1] : '#1';
 
@@ -508,11 +477,9 @@
                     if (cleanOld !== cleanNew) {
                         appCount++;
                         if (samples.length < 2) samples.push(`IFCAPPLICATION(${(inside || '').trim()})`);
-                        
                         const fullNameMatch = inside.match(/^\s*(?:#[0-9]+|\$)\s*,\s*'[^']*'\s*,\s*'([^']*)'/);
                         const originalFullName = (fullNameMatch && fullNameMatch[1].trim()) ? fullNameMatch[1].trim() : (inside || '').trim();
                         if (originalFullName && !originalAppFullNames.includes(originalFullName)) originalAppFullNames.push(originalFullName);
-                        
                         const originalLine = (match || '').trim();
                         if (originalLine && !originalAppLines.includes(originalLine)) originalAppLines.push(originalLine);
                         replacementUsedStr = `(${innerReplacement})`;
@@ -561,7 +528,6 @@
                     for (const ln of originalAppLines) actionLogs.push(ln);
                 }
 
-                
                 const commentBody = actionLogs.join('\n').replace(/\*\//g, '* /');
                 const commentBlock = `/******************************************************
 * IFC Operations with liteAECO.com
@@ -613,7 +579,6 @@ ${commentBody}
             const dateMatch = headerMatch.match(/FILE_NAME\([^,]*,[^\d]*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})/i);
             if (dateMatch) meta.date = dateMatch[1].replace('T', ' ');
 
-            
             const appMatch = content.match(/IFCAPPLICATION\s*\(\s*(?:#[0-9]+|\$)\s*,\s*'[^']*'\s*,\s*'([^']+)'/i);
             if (appMatch) meta.app = appMatch[1];
 
@@ -657,7 +622,6 @@ ${commentBody}
         let items = [];
 
         function renderDetails(it) {
-            
             const d = typeof getTranslations === 'function' && typeof currentLang !== 'undefined' ? getTranslations(currentLang) : { detailsApp: 'Application', detailsOld: 'Old', detailsNew: 'New', detailsTs: 'Timestamp', detailsTsComment: 'Comment Timestamp', details: 'Details' };
             const blocks = [];
 
@@ -722,8 +686,7 @@ ${commentBody}
             const $tbody = document.getElementById("resultTable");
             const hasItems = items.length > 0;
             const allProcessed = hasItems && items.every(it => it.isProcessed);
-            
-            
+
             let d = { statusEmpty: 'No files loaded', statusPending: 'Pending configuration', removeFile: 'Remove', statusOK: () => 'Updated' };
             if (typeof getTranslations === 'function' && typeof currentLang !== 'undefined') {
                 d = getTranslations(currentLang);
@@ -818,11 +781,10 @@ ${commentBody}
 
                 let metaText = "";
                 try {
-                    
-                    const slice = file.slice(0, 100 * 1024 * 1024); 
+                    const slice = file.slice(0, 100 * 1024 * 1024);
                     const buf = await slice.arrayBuffer();
                     metaText = new TextDecoder('utf-8', { fatal: false }).decode(buf);
-                    
+
                     const looksBroken = /Ã.| /.test(metaText.slice(0, 2000));
                     if (looksBroken) {
                         try { metaText = new TextDecoder('windows-1252', { fatal: false }).decode(buf); } catch (_) { }
@@ -882,8 +844,6 @@ ${commentBody}
 
                 let headText = "";
                 try {
-                    
-                    
                     const buf = await it.fileRef.arrayBuffer();
                     headText = bytesToLatin1(new Uint8Array(buf));
                 } catch (e) {
@@ -897,7 +857,7 @@ ${commentBody}
 
                 let finalBlob;
                 const hasActualChanges = t.appReplaced > 0 || t.fileNameTimestampUpdated || t.commentTimestampUpdated || t.headerCommentAdded;
-                
+
                 if (hasActualChanges) {
                     const modifiedHeadBuf = latin1ToBytes(t.content);
                     finalBlob = new Blob([modifiedHeadBuf], { type: "application/octet-stream" });

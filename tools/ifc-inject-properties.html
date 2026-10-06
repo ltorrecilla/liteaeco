@@ -25,12 +25,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IFC Inject Properties - Add Custom Properties to IFC Models | liteAECO</title>
 
-    
     <meta name="description" content="Free client-side tool to import and create new properties in existing IFC models. No uploads, private, fast, and built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/ifc-inject-properties.html">
 
-    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/ifc-inject-properties.html">
     <meta property="og:site_name" content="liteAECO">
@@ -42,14 +40,12 @@
     <meta property="og:image:alt" content="liteAECO IFC Inject Properties tool interface">
     <meta property="og:locale" content="en_US">
 
-    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-inject-properties.html">
     <meta name="twitter:title" content="IFC Inject Properties - Add Custom Properties to IFC Models | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to import and create new properties in existing IFC models. No uploads, private, fast, and built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-ifc-inject-properties.png">
 
-    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -58,16 +54,13 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
-    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
 
-    
     <script src="../js/vendor/xlsx-1.2.0.bundle.js"></script>
 
     <script>
@@ -78,7 +71,6 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        
                         accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
                     }
                 }
@@ -86,16 +78,12 @@
         }
     </script>
 
-    
     <link rel="stylesheet" type="text/css" href="../css/global.css">
 </head>
 
 <body
     class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
 
-    
-
-    
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
 
         <div class="bg-white">
@@ -383,27 +371,17 @@
         </div>
     </div>
 
-    
-    
     <script>
-        
-        
-        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
-        
-        
         window.updateToolDynamicUI = function (d) {
             if (typeof refreshTable === 'function') refreshTable();
         };
 
-        
         function bootApp() {
-            
             autoDetectLanguage();
 
-            
             window.injectUI({
                 showNav: true,
                 transparentNav: false,
@@ -415,10 +393,8 @@
                 showFooterLinks: true,
             });
 
-            
             window.injectCookieBanner();
 
-            
             const currentYear = new Date().getFullYear();
             const targetVersionInput = document.getElementById('targetVersionInput');
             if (targetVersionInput) {
@@ -446,24 +422,17 @@
                 toggleVersionInput();
             }
 
-            
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
 
-        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
-        
-        
-        
     </script>
     <script type="module">
-        
 
-        
         let classCounts = {};
         let fileLoaded = false;
 
@@ -472,15 +441,14 @@
         let availableIfcClasses = new Set();
         let classData = {};
 
-        
         const SECURITY_BLACKLIST = {
             systemCols: ["_hash", "_globalId", "_elementName"],
             exactPsets: ["IfcRelDefinesByType", "BaseQuantities"],
             psetPatterns: [
-                /^Qto_/i,           
-                /Common$/i,         
-                /Dimensions$/i,     
-                /Constraints$/i,    
+                /^Qto_/i,
+                /Common$/i,
+                /Dimensions$/i,
+                /Constraints$/i,
                 /Quantity$/i,
                 /Requirements$/i
             ],
@@ -490,11 +458,11 @@
                 "IsExternal"
             ],
             propertyPatterns: [
-                /storey/i,       
-                /level/i,        
-                /opening\s*id/i, 
-                /layer/i,        
-                /omniclass/i     
+                /storey/i,
+                /level/i,
+                /opening\s*id/i,
+                /layer/i,
+                /omniclass/i
             ]
         };
 
@@ -513,7 +481,6 @@
             return false;
         }
 
-        
         const fileInput = document.getElementById('fileInput');
         const fileNameDisplay = document.getElementById('fileNameDisplay');
         const dropZone = document.getElementById('drop-zone');
@@ -522,7 +489,6 @@
         const logAreaWrapper = document.getElementById('logAreaWrapper');
         const logArea = document.getElementById('logArea');
 
-        
         const newPropClass = document.getElementById('newPropClass');
         const newPropPset = document.getElementById('newPropPset');
         const newPropName = document.getElementById('newPropName');
@@ -532,13 +498,11 @@
         const queuedPropsContainer = document.getElementById('queuedPropsContainer');
         const queuedPropsTableBody = document.getElementById('queuedPropsTableBody');
 
-        
         const dataFileInput = document.getElementById('dataFileInput');
         const processImportBtn = document.getElementById('processImportBtn');
         const dataFileStatus = document.getElementById('dataFileStatus');
         const dataFileStatusText = document.getElementById('dataFileStatusText');
 
-        
         function log(msg, isWarning = false) {
             logAreaWrapper.classList.remove('hidden');
             logAreaWrapper.classList.add('flex');
@@ -562,9 +526,6 @@
             if (loader) loader.classList.add('hidden');
         }
 
-        
-        
-
         function updateProcessButtonState() {
             if (parsedData.length > 0 || queuedProperties.length > 0) {
                 processImportBtn.disabled = false;
@@ -573,13 +534,10 @@
             }
         }
 
-        
-        
-        const WORKER_VERSION = 8;
+        const WORKER_VERSION = 11;
         const WORKER_URL = window.SITE_ROOT + 'js/ifc-worker.js?v=' + WORKER_VERSION;
         const STALE_WORKER_MSG = 'js/ifc-worker.js is missing or out of date (browser cache?). Hard-refresh the page (Ctrl+F5 / Cmd+Shift+R) and make sure the new ifc-worker.js is deployed.';
 
-        
         function createCoordinator() {
             const w = new Worker(WORKER_URL);
             let readyResolve, readyReject;
@@ -624,8 +582,6 @@
             };
         }
 
-
-        
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
         });
@@ -667,8 +623,7 @@
             }, 150);
         }
 
-        
-        let sessionCoord = null; 
+        let sessionCoord = null;
 
         async function processIfcFile(file) {
             try {
@@ -702,7 +657,6 @@
                 classData = res.classData || {};
                 classCounts = res.classCounts || {};
 
-                
                 newPropClass.innerHTML = '';
                 Object.keys(classData).sort().forEach(cls => {
                     if (!cls.includes('CARTESIAN') && !cls.includes('DIRECTION') && !cls.includes('REPRESENTATION')) {
@@ -721,7 +675,6 @@
             }
         }
 
-        
         btnAddProp.addEventListener('click', () => {
             const selectedClasses = Array.from(newPropClass.selectedOptions).map(opt => opt.value);
             const pset = newPropPset.value.trim();
@@ -795,7 +748,6 @@
             updateProcessButtonState();
         };
 
-        
         dataFileInput.addEventListener('change', async (e) => {
             if (!e.target.files.length) {
                 parsedData = [];
@@ -845,7 +797,6 @@
                                 const propValue = row[col];
 
                                 if (psetName && propName && propValue !== undefined && propValue !== "") {
-                                    
                                     if (isPsetLocked(psetName) || isPropertyLocked(propName)) {
                                         continue;
                                     }
@@ -879,7 +830,6 @@
             reader.readAsArrayBuffer(file);
         });
 
-        
         processImportBtn.addEventListener('click', async () => {
             if (!fileLoaded || !sessionCoord) return;
             processImportBtn.disabled = true;

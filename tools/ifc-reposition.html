@@ -25,12 +25,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IFC Reposition - Edit Georeferencing Coordinates & Elevation | liteAECO</title>
 
-    
     <meta name="description" content="Free client-side tool to edit georeferencing coordinates and elevation of IFC files. Adjust model positioning, and height locally. No uploads, private, fast, built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/ifc-reposition.html">
 
-    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/ifc-reposition.html">
     <meta property="og:site_name" content="liteAECO">
@@ -42,14 +40,12 @@
     <meta property="og:image:alt" content="liteAECO IFC Reposition tool interface">
     <meta property="og:locale" content="en_US">
 
-    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-reposition.html">
     <meta name="twitter:title" content="IFC Reposition - Edit Georeferencing Coordinates & Elevation | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to edit georeferencing coordinates and elevation of IFC files. Adjust model positioning, and height locally. No uploads, private, fast, built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-ifc-reposition.png">
 
-    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -58,16 +54,13 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
-    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
 
-    
     <script src="../js/vendor/jszip-3.10.1.min.js"></script>
 
     <script>
@@ -78,7 +71,6 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        
                         accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
                     }
                 }
@@ -86,16 +78,12 @@
         }
     </script>
 
-    
     <link rel="stylesheet" type="text/css" href="../css/global.css">
 </head>
 
 <body
     class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
 
-    
-
-    
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
 
         <div class="bg-white">
@@ -335,7 +323,7 @@
                     <div class="flex flex-wrap items-center gap-3 p-4 bg-slate-50/50 border-b border-slate-200">
                         <button id="zipBtn" disabled
                             class="flex items-center px-4 py-2 border border-transparent text-xs font-bold text-white bg-slate-900 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-300 rounded shadow-sm hover:shadow-md hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:-translate-y-0 disabled:hover:shadow-sm">
-                            
+
                             <span id="ui-zip-btn">Download as ZIP</span>
                         </button>
                         <button id="saveBtn" disabled
@@ -389,27 +377,17 @@
         <span id="toastMessage"></span>
     </div>
 
-    
-    
     <script>
-        
-        
-        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
-        
-        
         window.updateToolDynamicUI = function (d) {
             if (typeof refreshTable === 'function') refreshTable();
         };
 
-        
         function bootApp() {
-            
             autoDetectLanguage();
 
-            
             window.injectUI({
                 showNav: true,
                 transparentNav: false,
@@ -421,25 +399,18 @@
                 showFooterLinks: true,
             });
 
-            
             window.injectCookieBanner();
 
-            
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
 
-        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
-        
-        
-        
     </script>
     <script>
-        
         const I18N_FALLBACK = {
             statusEmpty: "No IFC file loaded yet.",
             statusPending: "Pending configuration",
@@ -483,7 +454,6 @@
             return typeof v === 'function' ? v(...args) : v;
         }
 
-        
         function showToast(message) {
             const toast = document.getElementById('toast');
             document.getElementById('toastMessage').innerText = message;
@@ -506,12 +476,10 @@
             return `${yy}${mm}${dd}_${hr}${min}_Repositioned_IFC.zip`;
         }
 
-        
         function esc(str) {
             return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
         }
 
-        
         function bytesToLatin1(u8) {
             let out = '';
             const CH = 0x8000;
@@ -524,7 +492,6 @@
             return out;
         }
 
-        
         function fmtIfcReal(v) {
             let str = String(v);
             if (/e/i.test(str)) {
@@ -554,7 +521,6 @@
             refreshTable();
         };
 
-        
         function decToDMS(deg) {
             const sign = deg < 0 ? -1 : 1;
             const absDeg = Math.abs(deg);
@@ -564,7 +530,6 @@
             const secFloat = (minFloat - m) * 60;
             let s = Math.floor(secFloat);
             let micro = Math.round((secFloat - s) * 1000000);
-            
             if (micro >= 1000000) { micro -= 1000000; s += 1; }
             if (s >= 60) { s -= 60; m += 1; }
             if (m >= 60) { m -= 60; d += 1; }
@@ -587,8 +552,6 @@
             return `(${ds},${ms},${ss})`;
         }
 
-        
-        
         function ifcTupleToDecimal(tupleStr) {
             if (!tupleStr || typeof tupleStr !== 'string') return null;
             const nums = tupleStr.replace(/[()]/g, '').split(',').map(v => parseFloat(v.trim()));
@@ -627,7 +590,6 @@
             return args;
         }
 
-        
         function extractMetadata(content, file) {
             let meta = {
                 size: (file.size / 1024 / 1024).toFixed(2) + " MB",
@@ -639,7 +601,6 @@
                 xyz: "- / - / -"
             };
 
-            
             const headerLimit = Math.min(content.length, 2 * 1024 * 1024);
             const headerMatch = content.slice(0, headerLimit);
 
@@ -672,7 +633,6 @@
                 else if (name === 'INCH') meta.units = 'Inches';
             }
 
-            
             let siteIdx = content.indexOf('IFCSITE');
             if (siteIdx !== -1) {
                 let chunkStart = Math.max(0, siteIdx - 100);
@@ -737,7 +697,6 @@
             let siteCount = 0, mapConvCount = 0;
             const originalLines = [];
 
-            
             let currentContent = content.replace(RE_SITE, (match, prefix, innerArgs, suffix) => {
                 const args = parseIfcArgs(innerArgs);
                 if (args.length < 12) { parsingError = true; return match; }
@@ -772,8 +731,6 @@
                 return match;
             });
 
-            
-            
             if (shouldUpdateMapConv) {
                 currentContent = currentContent.replace(RE_MAPCONV, (match, prefix, innerArgs, suffix) => {
                     const args = parseIfcArgs(innerArgs);
@@ -807,7 +764,6 @@
                 if (newOrthoHeightStr === null) newOrthoHeightStr = oldOrthoHeight;
             }
 
-            
             if (shouldUpdateTimestamp) {
                 const m = currentContent.match(RE_FILENAME_TS);
                 if (m) {
@@ -818,7 +774,6 @@
                 }
             }
 
-            
             if (coordsUpdated || elevUpdated || mapConvUpdated || timestampUpdated) {
                 const fmtDec = (v) => (v === null || isNaN(v)) ? null : String(parseFloat(v.toFixed(7)));
                 const actionLogs = [];
@@ -842,7 +797,6 @@
                     for (const ln of originalLines) actionLogs.push(ln);
                 }
 
-                
                 const commentBody = actionLogs.join('\n').replace(/\*\//g, '* /');
                 const commentBlock = `/******************************************************
 * IFC Operations with liteAECO.com
@@ -944,7 +898,6 @@ ${commentBody}
         function refreshTable() {
             const $tbody = document.getElementById("resultTable");
             const hasItems = items.length > 0;
-            
             const allProcessed = hasItems && items.every(it => it.isProcessed);
 
             ['zipBtn', 'saveBtn', 'downloadBtn'].forEach(id => {
@@ -997,7 +950,6 @@ ${commentBody}
                     badgeClass = "text-slate-600 bg-slate-100 border-slate-200";
                     statusText = it.siteFound === false ? T("statusSiteNotFound") : T("statusNoChangesApplied");
                 } else {
-                    
                     badgeClass = "text-emerald-700 bg-emerald-50 border-emerald-200";
                     let updates = [];
                     if (it.coordsUpdated) updates.push(T("lblLatLon"));
@@ -1044,12 +996,10 @@ ${commentBody}
 
                 let metaText = "";
                 try {
-                    
-                    
-                    const slice = file.slice(0, 5 * 1024 * 1024); 
+                    const slice = file.slice(0, 5 * 1024 * 1024);
                     const buf = await slice.arrayBuffer();
                     metaText = new TextDecoder('utf-8', { fatal: false }).decode(buf);
-                    
+
                     const looksBroken = /Ã.| /.test(metaText.slice(0, 2000));
                     if (looksBroken) {
                         try { metaText = new TextDecoder('windows-1252', { fatal: false }).decode(buf); } catch (_) { }
@@ -1058,16 +1008,15 @@ ${commentBody}
                     console.error("Memory limit hit reading slice:", err);
                 }
 
-                
                 const meta = extractMetadata(metaText, file);
 
                 const index = items.indexOf(placeholder);
                 if (index !== -1) {
                     items[index] = {
                         name: file.name,
-                        size: file.size, 
+                        size: file.size,
                         lastModified: file.lastModified,
-                        fileRef: file, 
+                        fileRef: file,
                         meta: meta,
                         isProcessed: false,
                         coordsUpdated: false,
@@ -1092,19 +1041,15 @@ ${commentBody}
 
             const shouldUpdateTimestamp = document.getElementById('updateTimestampCb').checked;
 
-            
             const updateMapConvXY = document.getElementById('updateMapConvCb').checked;
             const updateMapConvZ = document.getElementById('updateMapConvZCb').checked;
 
-            
             const targetEasting = updateMapConvXY ? document.getElementById('eastingInput').value.trim() : '';
             const targetNorthing = updateMapConvXY ? document.getElementById('northingInput').value.trim() : '';
             const targetOrthoHeight = updateMapConvZ ? document.getElementById('orthoHeightInput').value.trim() : '';
 
-            
             const shouldUpdateMapConv = updateMapConvXY || updateMapConvZ;
 
-            
             if (shouldUpdateCoords) {
                 const la = parseFloat(targetLat), lo = parseFloat(targetLon);
                 if (targetLat === '' || targetLon === '' || isNaN(la) || isNaN(lo)) { showToast(T("errValLatLon")); return; }
@@ -1129,14 +1074,13 @@ ${commentBody}
                 refreshTable();
                 await new Promise(r => setTimeout(r, 10));
 
-                
-                const CHUNK_SIZE = 5 * 1024 * 1024; 
+                const CHUNK_SIZE = 5 * 1024 * 1024;
                 let headText = "", tailBlob;
                 try {
                     const headU8 = new Uint8Array(await it.fileRef.slice(0, CHUNK_SIZE).arrayBuffer());
                     let cut = headU8.length;
                     if (it.fileRef.size > headU8.length) {
-                        cut = headU8.lastIndexOf(0x0A) + 1; 
+                        cut = headU8.lastIndexOf(0x0A) + 1;
                         if (cut <= 0) cut = headU8.length;
                     }
                     headText = bytesToLatin1(headU8.subarray(0, cut));
@@ -1148,7 +1092,6 @@ ${commentBody}
                     continue;
                 }
 
-                
                 const t = transformIFC(
                     headText,
                     shouldUpdateCoords, targetLat, targetLon,
@@ -1157,26 +1100,21 @@ ${commentBody}
                     shouldUpdateMapConv, targetEasting, targetNorthing, targetOrthoHeight
                 );
 
-                
                 let finalBlob;
                 if (t.coordsUpdated || t.elevUpdated || t.mapConvUpdated || t.timestampUpdated) {
-                    
                     const modifiedHeadBuf = latin1ToBytes(t.content);
-                    
                     finalBlob = new Blob([modifiedHeadBuf, tailBlob], { type: "application/octet-stream" });
                 } else {
-                    
-                    finalBlob = it.fileRef; 
+                    finalBlob = it.fileRef;
                 }
 
-                
                 let updatedMeta = { ...it.meta };
                 if (t.timestampUpdated && t.newDate) updatedMeta.date = t.newDate.replace('T', ' ');
 
                 items[i] = {
                     ...it,
                     size: finalBlob.size,
-                    arrayBuf: finalBlob, 
+                    arrayBuf: finalBlob,
                     meta: updatedMeta,
                     isProcessed: true,
                     isProcessing: false,
@@ -1354,7 +1292,6 @@ ${commentBody}
             const updateMapConvCb = document.getElementById('updateMapConvCb');
             const mapConvInputContainer = document.getElementById('mapConvInputContainer');
 
-            
             const updateMapConvZCb = document.getElementById('updateMapConvZCb');
             const mapConvZInputContainer = document.getElementById('mapConvZInputContainer');
 
@@ -1374,20 +1311,17 @@ ${commentBody}
                     mapConvInputContainer.style.pointerEvents = updateMapConvCb.checked ? 'auto' : 'none';
                 }
 
-                
                 if (updateMapConvZCb) {
                     mapConvZInputContainer.style.opacity = updateMapConvZCb.checked ? '1' : '0.4';
                     mapConvZInputContainer.style.pointerEvents = updateMapConvZCb.checked ? 'auto' : 'none';
                 }
             }
 
-            
             if (updateCoordsCb) updateCoordsCb.addEventListener('change', toggleInputs);
             if (updateElevCb) updateElevCb.addEventListener('change', toggleInputs);
             if (updateMapConvCb) updateMapConvCb.addEventListener('change', toggleInputs);
-            if (updateMapConvZCb) updateMapConvZCb.addEventListener('change', toggleInputs); 
+            if (updateMapConvZCb) updateMapConvZCb.addEventListener('change', toggleInputs);
 
-            
             toggleInputs();
         });
     </script>

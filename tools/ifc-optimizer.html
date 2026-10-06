@@ -25,12 +25,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IFC Optimizer - Compress & Optimize IFC Files Locally | liteAECO</title>
 
-    
     <meta name="description" content="Free client-side tool to optimize and compress single IFC files. Reduce file size, clean model data, and improve performance. No uploads, private, fast, and built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/ifc-optimizer.html">
 
-    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/ifc-optimizer.html">
     <meta property="og:site_name" content="liteAECO">
@@ -42,14 +40,12 @@
     <meta property="og:image:alt" content="liteAECO IFC Optimizer tool interface">
     <meta property="og:locale" content="en_US">
 
-    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-optimizer.html">
     <meta name="twitter:title" content="IFC Optimizer - Compress & Optimize IFC Files Locally | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to optimize and compress single IFC files. Reduce file size, clean model data, and improve performance. No uploads, private, fast, and built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-ifc-optimizer.png">
 
-    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -58,14 +54,13 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
-    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
+    <script src="../js/ifc-optimizer-classes.js?v=1"></script>
 
     <script>
         tailwind.config = {
@@ -82,16 +77,11 @@
         }
     </script>
 
-    
     <link rel="stylesheet" type="text/css" href="../css/global.css">
 </head>
 
 <body
     class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
-
-    
-
-    
 
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
 
@@ -185,7 +175,8 @@
                             <div class="relative">
                                 <select id="opt_level_select" class="block w-full rounded-md border-0 py-2 pl-3 pr-10 text-slate-700 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-indigo-600 sm:text-[13px] font-medium bg-white cursor-pointer transition-all shadow-sm outline-none appearance-none">
                                     <option value="low" id="ui-opt-lvl-low">Low (Balanced)</option>
-                                    <option value="high" id="ui-opt-lvl-high">High (Smallest File Size)</option>
+                                    <option value="medium" id="ui-opt-lvl-medium">Medium (Attribute Reduction)</option>
+                                    <option value="high" id="ui-opt-lvl-high">High (Includes Storey Cleanup)</option>
                                 </select>
                                 <div
                                     class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-500">
@@ -199,6 +190,60 @@
                 </div>
 
             </div>
+
+            <details id="classGeometry" class="group mb-6 bg-white border border-slate-200 rounded shadow-sm overflow-hidden transition-all">
+                <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-4 hover:bg-slate-50 transition-colors [&::-webkit-details-marker]:hidden">
+                    <span class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                        <span class="bg-slate-100 text-slate-700 w-6 h-6 rounded-md inline-flex items-center justify-center text-xs"><i data-lucide="box" class="w-3.5 h-3.5"></i></span>
+                        <span id="classDeleteTitle">Reduce geometry by IFC class</span>
+                    </span>
+                    <span class="transition-transform duration-200 group-open:rotate-180 bg-slate-100 p-1 rounded text-slate-500 group-hover:bg-slate-200"><i data-lucide="chevron-down" class="w-4 h-4"></i></span>
+                </summary>
+                <div class="p-6 border-t border-slate-200 bg-white">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex flex-col h-full min-w-0 bg-white/50 p-4 rounded border border-slate-200 shadow-sm">
+                        <div class="flex justify-between items-end gap-3 mb-2 border-b border-slate-200/60 pb-1">
+                            <label for="classList" class="font-semibold text-sm text-slate-800">Select IFC Class(es)</label>
+                            <span class="text-[10px] text-slate-500">Ctrl/Cmd to multi-select</span>
+                        </div>
+                        <select id="classList" multiple disabled aria-label="Select IFC classes" class="block w-full flex-grow min-h-[200px] bg-slate-50/50 border border-slate-300 rounded p-2 text-sm text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed outline-none log-scroll"></select>
+                        <p id="classStatus" class="text-xs text-slate-500 mt-3" role="status">Load a model to list classes.</p>
+                    </div>
+                    <div class="flex flex-col h-full min-w-0 bg-white/50 p-4 rounded border border-slate-200 shadow-sm">
+                        <label for="classSearch" class="font-semibold text-sm text-slate-800 mb-2 border-b border-slate-200/60 pb-1">Search IFC classes</label>
+                        <input id="classSearch" type="search" placeholder="Search detected IFC classes" aria-label="Search detected IFC classes" disabled class="w-full min-w-0 rounded border border-slate-300 px-3 py-2 text-sm disabled:opacity-50">
+                        <fieldset id="classAction" class="mt-4">
+                            <legend class="font-semibold text-sm text-slate-800 mb-2">Selected class action</legend>
+                            <div class="grid grid-cols-2 gap-1 rounded-lg bg-slate-100 p-1">
+                                <label class="cursor-pointer min-w-0">
+                                    <input type="radio" name="class_action" value="delete" checked class="peer sr-only">
+                                    <span class="block text-center rounded-md px-3 py-2 text-xs font-medium text-slate-600 peer-checked:bg-white peer-checked:text-indigo-700 peer-checked:shadow-sm peer-focus-visible:ring-2 peer-focus-visible:ring-indigo-500 peer-disabled:opacity-50 peer-disabled:cursor-not-allowed">Delete objects</span>
+                                </label>
+                                <label class="cursor-pointer min-w-0">
+                                    <input type="radio" name="class_action" value="box" class="peer sr-only">
+                                    <span class="block text-center rounded-md px-3 py-2 text-xs font-medium text-slate-600 peer-checked:bg-white peer-checked:text-indigo-700 peer-checked:shadow-sm peer-focus-visible:ring-2 peer-focus-visible:ring-indigo-500 peer-disabled:opacity-50 peer-disabled:cursor-not-allowed">Bounding boxes</span>
+                                </label>
+                            </div>
+                        </fieldset>
+                        <p id="boxDescription" class="hidden text-xs text-amber-700 mt-3">Keeps objects, metadata and placements. Replaces detailed geometry with simple boxes. Boxes may exaggerate clashes. Large files exceed the memory limit. Unsupported geometry cancels output.</p>
+                        <p id="deleteDescription" class="text-xs text-slate-500 mt-3">Removes selected objects and unused geometry. Preserves shared resources.</p>
+                        <p class="text-xs text-slate-500 mt-2">Select exact classes only. Assembly members remain unless selected. Owned openings and ports follow deleted hosts.</p>
+                        <p id="classSelectionSummary" class="text-xs text-slate-600 mt-4" aria-live="polite">No classes selected for deletion.</p>
+                        <button id="clearClasses" type="button" disabled class="self-start mt-3 rounded border border-slate-300 px-3 py-2 text-xs disabled:opacity-50 disabled:cursor-not-allowed">Clear selection</button>
+                    </div>
+                </div>
+                <details id="classRecommendations" class="mt-4 border-t border-slate-200 pt-3">
+                    <summary class="cursor-pointer text-sm font-semibold text-slate-700">Recommended classes and selection considerations</summary>
+                    <p class="text-xs text-slate-500 mt-2">Review recommendations before selecting classes. Availability depends on your model schema. Selections match exact exported classes.</p>
+                    <div class="overflow-x-auto mt-3">
+                        <table class="w-full text-left text-xs">
+                            <thead><tr class="border-b"><th class="p-2" scope="col">Discipline</th><th class="p-2" scope="col">Class</th><th class="p-2" scope="col">Selection consideration</th></tr></thead>
+                            <tbody id="recommendedClasses"></tbody>
+                        </table>
+                    </div>
+                </details>
+                </div>
+            </details>
 
             <div class="mb-6">
                 <details
@@ -225,7 +270,7 @@
                                         <span class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors leading-snug">
                                             <span id="ui-deep-comp">Deep Graph Compression</span>
                                             <span class="block text-[11px] font-normal text-slate-400 mt-0.5" id="ui-deep-comp-desc">Loads the model into memory to destructively prune dead graph elements.<br />
-                                                <span class="text-amber-500 font-semibold" id="ui-deep-comp-warn">Slowest, but highest compression.</span>
+                                                <span class="text-amber-500 font-semibold" id="ui-deep-comp-warn">Loads the full model into memory; slower and more demanding.</span>
                                             </span>
                                         </span>
                                     </label>
@@ -241,6 +286,21 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div id="storeyCleanup">
+                                <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200 pb-2">Clean redundant building storeys</p>
+                                <div class="flex flex-col space-y-4 text-[13px]">
+                                    <label class="flex items-start space-x-3 cursor-pointer group/opt">
+                                        <input type="checkbox" id="opt_remove_empty_storeys" class="accent-neutral-900 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
+                                        <span class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors leading-snug">Remove empty building storeys<span class="block text-[11px] font-normal text-slate-400 mt-0.5">Keeps populated levels and metadata.</span></span>
+                                    </label>
+                                    <label class="flex items-start space-x-3 cursor-pointer group/opt">
+                                        <input type="checkbox" id="opt_merge_duplicate_storeys" class="accent-neutral-900 w-4 h-4 border-slate-300 mt-0.5 cursor-pointer shrink-0">
+                                        <span class="font-medium text-slate-700 group-hover/opt:text-indigo-600 transition-colors leading-snug">Merge strictly matching duplicate storeys<span class="block text-[11px] font-normal text-slate-400 mt-0.5">Matches building, name, elevation and placement.</span></span>
+                                    </label>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="flex-1">
@@ -309,7 +369,7 @@
                         <summary
                             class="flex justify-between items-center font-medium cursor-pointer list-none p-4 hover:bg-white/80 transition-colors [&::-webkit-details-marker]:hidden">
                             <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
-                                <i data-lucide="terminal" class="w-4 h-4 text-indigo-500"></i> 
+                                <i data-lucide="terminal" class="w-4 h-4 text-indigo-500"></i>
                                 <span id="ui-sys-log">System Log Output</span>
                             </span>
                             <span
@@ -337,31 +397,20 @@
         </div>
     </div>
 
-    
-    
-
     <script>
-        
-        
-        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
-        
-        
         window.updateToolDynamicUI = function (d) {
             if (typeof refreshTable === 'function') refreshTable();
         };
 
-        
         function bootApp() {
-            
             autoDetectLanguage();
 
-            
             window.injectUI({
                 showNav: true,
-                linkTarget: '', 
+                linkTarget: '',
                 transparentNav: false,
                 showSignIn: false,
                 showCategories: true,
@@ -371,10 +420,8 @@
                 showFooterLinks: true,
             });
 
-            
             window.injectCookieBanner();
 
-            
             const currentYear = new Date().getFullYear();
             const targetVersionInput = document.getElementById('targetVersionInput');
             if (targetVersionInput) {
@@ -402,23 +449,17 @@
                 toggleVersionInput();
             }
 
-            
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
 
-        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
-        
-        
-        
     </script>
 
     <script>
-        
         const file1Input = document.getElementById('file1');
         const file1Name = document.getElementById('file1-name');
         const optimizeBtn = document.getElementById('optimizeBtn');
@@ -427,8 +468,87 @@
         const logAreaWrapper = document.getElementById('logAreaWrapper');
         const downloadArea = document.getElementById('downloadArea');
         const downloadLink = document.getElementById('downloadLink');
+        const classAction = document.getElementById('classAction');
+        const selectedClassAction = () => classAction.querySelector('input:checked').value;
+        for (const [discipline, name, , reason] of self.IFC_OPTIMIZER_RECOMMENDATIONS) {
+            const row = document.createElement('tr'); row.className = 'border-b border-slate-100';
+            for (const value of [discipline, name, reason]) { const cell = document.createElement('td'); cell.className = 'p-2 align-top'; cell.textContent = value; row.appendChild(cell); }
+            document.getElementById('recommendedClasses').appendChild(row);
+        }
+        const classSearch = document.getElementById('classSearch');
+        const classList = document.getElementById('classList');
+        const classStatus = document.getElementById('classStatus');
+        const clearClasses = document.getElementById('clearClasses');
+        const selectedClasses = new Set();
+        let detectedClasses = [], classScanCoordinator = null, classScanVersion = 0, classScanning = false;
 
-        
+        function invalidateOptimizerOutput() {
+            downloadArea.classList.add('hidden');
+            if (lastDownloadUrl) { URL.revokeObjectURL(lastDownloadUrl); lastDownloadUrl = null; }
+        }
+
+        function updateClassSelection() {
+            const action = selectedClassAction() === 'box' ? 'bounding-box replacement' : 'deletion';
+            const count = detectedClasses.filter(item => selectedClasses.has(item.type)).reduce((n, item) => n + item.count, 0);
+            document.getElementById('classSelectionSummary').textContent = selectedClasses.size
+                ? `${selectedClasses.size} class(es), ${count.toLocaleString()} object(s) selected for ${action}.`
+                : `No classes selected for ${action}.`;
+            clearClasses.disabled = !selectedClasses.size || !!optimizeBtn.dataset.busy;
+        }
+        function renderClasses() {
+            classList.replaceChildren();
+            classList.disabled = !detectedClasses.length || !!optimizeBtn.dataset.busy;
+            const query = classSearch.value.trim().toLowerCase();
+            let group = '', container;
+            for (const item of detectedClasses.filter(item => item.name.toLowerCase().includes(query))) {
+                const nextGroup = item.protected ? 'Protected model structure' : item.rank > 0 ? 'Suggested candidates — review before selecting' : 'Additional classes';
+                if (nextGroup !== group) {
+                    container = document.createElement('optgroup'); container.label = nextGroup;
+                    classList.append(container); group = nextGroup;
+                }
+                const option = document.createElement('option'); option.value = item.type;
+                option.selected = selectedClasses.has(item.type); option.disabled = item.protected;
+                option.textContent = `${item.name} (${item.count.toLocaleString()})`;
+                option.title = item.protected ? 'Required structure or dependent geometry; unavailable for class reduction.' : item.reason || '';
+                container.append(option);
+            }
+            if (!classList.childElementCount && detectedClasses.length) {
+                const option = document.createElement('option'); option.disabled = true; option.textContent = 'No matching classes.'; classList.append(option);
+            }
+        }
+        classList.addEventListener('change', () => {
+            for (const option of classList.options) {
+                if (option.disabled) continue;
+                if (option.selected) selectedClasses.add(option.value); else selectedClasses.delete(option.value);
+            }
+            invalidateOptimizerOutput(); updateClassSelection();
+        });
+        classAction.addEventListener('change', () => { document.getElementById('boxDescription').classList.toggle('hidden', selectedClassAction() !== 'box'); document.getElementById('deleteDescription').classList.toggle('hidden', selectedClassAction() === 'box'); invalidateOptimizerOutput(); updateClassSelection(); });
+        classSearch.addEventListener('input', renderClasses);
+        clearClasses.addEventListener('click', () => { selectedClasses.clear(); invalidateOptimizerOutput(); renderClasses(); updateClassSelection(); });
+        async function scanModelClasses(file) {
+            const version = ++classScanVersion;
+            if (classScanCoordinator) classScanCoordinator.terminate();
+            selectedClasses.clear(); detectedClasses = []; classSearch.value = ''; classSearch.disabled = true;
+            renderClasses(); updateClassSelection();
+            invalidateOptimizerOutput();
+            if (!file) { classScanning = false; classStatus.textContent = 'Load a model to list classes.'; checkReady(); return; }
+            classScanning = true; classStatus.textContent = 'Scanning detected classes…'; checkReady();
+            let coordinator;
+            try {
+                coordinator = createCoordinator(); classScanCoordinator = coordinator;
+                const result = await coordinator.call('optimizerClasses', { file });
+                if (version !== classScanVersion) return;
+                detectedClasses = result.classes; classSearch.disabled = false; renderClasses();
+                classStatus.textContent = `${result.schema} · ${detectedClasses.length} detected product classes. Suggestions depend on your model purpose.`;
+            } catch (error) {
+                if (version === classScanVersion) classStatus.textContent = `Class selection unavailable: ${error.message}`;
+            } finally {
+                if (coordinator) coordinator.terminate();
+                if (version === classScanVersion) { classScanCoordinator = null; classScanning = false; checkReady(); }
+            }
+        }
+
         function t(key, fallback) {
             try {
                 const d = (typeof getTranslations === 'function') ? getTranslations() : (window.PAGE_I18N || {});
@@ -470,12 +590,12 @@
                 textElement.classList.remove('text-indigo-600', 'font-bold');
             }
             checkReady();
+            scanModelClasses(files[0]);
         }
 
-        
         const MEM_GB = Math.min(8, Math.max(1, navigator.deviceMemory || 8));
-        const WARN_BYTES = Math.round(MEM_GB * 20) * 1048576;      
-        const DEEP_CAP_BYTES = Math.round(MEM_GB * 32) * 1048576;  
+        const WARN_BYTES = Math.round(MEM_GB * 20) * 1048576;
+        const DEEP_CAP_BYTES = Math.round(MEM_GB * 32) * 1048576;
 
         function inputBytes() { return file1Input.files.length ? file1Input.files[0].size : 0; }
 
@@ -499,7 +619,7 @@
         }
 
         function checkReady() {
-            optimizeBtn.disabled = !(file1Input.files.length > 0);
+            optimizeBtn.disabled = classScanning || !(file1Input.files.length > 0);
             if (!optimizeBtn.disabled && !optimizeBtn.dataset.busy) {
                 btnText.innerText = t('btnOptimize', 'Optimize File');
             }
@@ -508,7 +628,6 @@
 
         setupDropZone('drop-zone-1', file1Input, file1Name);
 
-        
         const optLevelSelect = document.getElementById('opt_level_select');
         const optLevelDesc = document.getElementById('opt_level_desc');
 
@@ -518,21 +637,28 @@
             const dedupColors = document.getElementById('opt_dedup_colors');
             const floatPrec = document.getElementById('opt_float_precision');
             const stripPres = document.getElementById('opt_strip_presentation');
+            const emptyStoreys = document.getElementById('opt_remove_empty_storeys');
+            const duplicateStoreys = document.getElementById('opt_merge_duplicate_storeys');
 
             deepCompress.checked = false; dedupColors.checked = false; floatPrec.checked = false; stripPres.checked = false;
+            emptyStoreys.checked = level === 'high';
+            duplicateStoreys.checked = level === 'high';
 
             if (level === 'low') {
                 dedupColors.checked = true;
-                optLevelDesc.innerHTML = "Up to <strong class='text-amber-600 font-semibold'>40%</strong> file reduction.<br/> Deduplicates resources and colour definitions.<br/> Balances file size reduction with visual fidelity.";
-            } else if (level === 'high') {
+                optLevelDesc.innerHTML = "Up to <strong class='text-amber-600 font-semibold'>30%</strong> reduction in attributes size.<br/> Deduplicates resources and colour definitions.<br/> Balances file size reduction with visual fidelity.";
+            } else if (level === 'medium' || level === 'high') {
                 dedupColors.checked = true; floatPrec.checked = true; stripPres.checked = true;
-                optLevelDesc.innerHTML = "Up to <strong class='text-amber-600 font-semibold'>60%</strong> file reduction.<br/> Maximum deduplication, float precision trimmed to the chosen decimals, presentation data stripped. <strong class='text-amber-600 font-semibold'>Object colours will be lost.</strong>";
+                optLevelDesc.innerHTML = "Up to <strong class='text-amber-600 font-semibold'>50%</strong> reduction in attributes size.<br/> Maximum deduplication, float precision trimmed to the chosen decimals, presentation data stripped. <strong class='text-amber-600 font-semibold'>Object colours will be lost.</strong>";
+                if (level === 'high') optLevelDesc.innerHTML += '<br/> Removes empty storeys and merges strictly matching duplicates.';
             } else {
                 optLevelDesc.innerHTML = "";
             }
 
             deepCompress.dispatchEvent(new Event('change'));
             floatPrec.dispatchEvent(new Event('change'));
+            emptyStoreys.dispatchEvent(new Event('change'));
+            duplicateStoreys.dispatchEvent(new Event('change'));
         });
         optLevelSelect.dispatchEvent(new Event('change'));
 
@@ -555,7 +681,6 @@
         syncDeepCompressControl();
         optDeepCompressCb.addEventListener('change', () => { if (optDeepCompressCb.checked) checkSizeGuardrails(); });
 
-        
         function formatDuration(ms) {
             if (ms < 1000) return `${Math.round(ms)} ms`;
             const s = ms / 1000;
@@ -575,14 +700,10 @@
             console.log(msg);
         }
 
-        
-        
-        
-        const WORKER_VERSION = 8;
-        const WORKER_URL = window.SITE_ROOT + 'js/ifc-worker.js?v=' + WORKER_VERSION;
+        const WORKER_VERSION = 11;
+        const WORKER_URL = window.SITE_ROOT + 'js/ifc-optimizer-worker.js?v=3';
         const STALE_WORKER_MSG = 'js/ifc-worker.js is missing or out of date (browser cache?). Hard-refresh the page (Ctrl+F5 / Cmd+Shift+R) and make sure the new ifc-worker.js is deployed.';
 
-        
         function createCoordinator() {
             const w = new Worker(WORKER_URL);
             let readyResolve, readyReject;
@@ -627,15 +748,20 @@
             };
         }
 
-
         function setInputsLocked(locked) {
+            document.getElementById('opt_remove_empty_storeys').disabled = locked;
+            document.getElementById('opt_merge_duplicate_storeys').disabled = locked;
             file1Input.disabled = locked;
+            classAction.disabled = locked;
+            classSearch.disabled = locked || !detectedClasses.length;
+            classList.disabled = locked || !detectedClasses.length;
+            updateClassSelection();
             const z = document.getElementById('drop-zone-1');
             if (z) { z.style.pointerEvents = locked ? 'none' : ''; z.style.opacity = locked ? '0.5' : ''; }
         }
         let lastDownloadUrl = null;
+        for (const id of ['opt_remove_empty_storeys', 'opt_merge_duplicate_storeys']) document.getElementById(id).addEventListener('change', invalidateOptimizerOutput);
 
-        
         optimizeBtn.addEventListener('click', async () => {
             logArea.textContent = '';
             downloadArea.classList.add('hidden');
@@ -645,16 +771,21 @@
             setInputsLocked(true);
             if (lastDownloadUrl) { URL.revokeObjectURL(lastDownloadUrl); lastDownloadUrl = null; }
             const tStart = performance.now();
-            const coord = createCoordinator();
+            let coord;
 
             try {
+                coord = createCoordinator();
                 const file = file1Input.files[0];
                 const options = {
+                    optRemoveEmptyStoreys: document.getElementById('opt_remove_empty_storeys').checked,
+                    optMergeDuplicateStoreys: document.getElementById('opt_merge_duplicate_storeys').checked,
                     optFloatPrecision: document.getElementById('opt_float_precision').checked,
                     floatPrecisionVal: Math.max(4, Math.min(10, parseInt(document.getElementById('float_precision_val').value) || 6)),
                     optDedupColors: document.getElementById('opt_dedup_colors').checked,
                     optStripPresentation: document.getElementById('opt_strip_presentation').checked,
                     optDeepCompress: document.getElementById('opt_deep_compress').checked,
+                    deleteClasses: selectedClassAction() === 'delete' ? [...selectedClasses] : [],
+                    boxClasses: selectedClassAction() === 'box' ? [...selectedClasses] : [],
                     optStripPsets: document.getElementById('opt_strip_psets') ? document.getElementById('opt_strip_psets').checked : false,
                     guidRepair: (document.getElementById('opt_guid_repair') && document.getElementById('opt_guid_repair').checked) ? 'fix' : 'report'
                 };
@@ -662,7 +793,7 @@
                 log(`Optimizing ${file.name} (${formatBytes(file.size)}) in background worker...`);
                 const res = await coord.call('optimizeFile', { file, fileName: file.name, options });
 
-                const finalBlob = new Blob(res.parts, { type: "application/x-step" });
+                const finalBlob = res.blob;
                 const pct = file.size > 0 ? (100 * (1 - res.bytes / file.size)) : 0;
                 log(`Output: ${formatBytes(res.bytes)} (${pct >= 0 ? '-' : '+'}${Math.abs(pct).toFixed(1)}% vs ${formatBytes(file.size)}). Generating download link.`);
 
@@ -675,7 +806,7 @@
             } catch (error) {
                 log(`CRITICAL ERROR: ${error.message}`, true);
             } finally {
-                coord.terminate();
+                if (coord) coord.terminate();
                 optimizeBtn.disabled = !(file1Input.files.length > 0);
                 btnText.innerHTML = t('btnOptimize', 'Optimize File');
                 delete optimizeBtn.dataset.busy;
