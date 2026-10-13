@@ -18,6 +18,32 @@
 // liteAECO - (liteaeco-autosave.js)
 // ========
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 (function () {
     "use strict";
     window.liteAECO = window.liteAECO || {};
@@ -54,6 +80,7 @@
         async function kvGet(k) { const d = await db(); if (!d) return undefined; return new Promise(res => { const r = d.transaction("kv", "readonly").objectStore("kv").get(k); r.onsuccess = () => res(r.result); r.onerror = () => res(undefined); }); }
         async function kvDel(k) { const d = await db(); if (!d) return; return new Promise(res => { const t = d.transaction("kv", "readwrite"); t.objectStore("kv").delete(k); t.oncomplete = () => res(); t.onerror = () => res(); }); }
 
+        
         const ns = "las-" + cfg.toolId;
         function ensureModals() {
             if (document.getElementById(ns + "-resume")) return;
@@ -91,7 +118,7 @@
 
         const A = {
             adapter: null, dirty: false, timer: null, paused: false,
-            writing: false,
+            writing: false,   
             lastSavedAt: null, writeCount: 0,
             channel: ("BroadcastChannel" in window) ? new BroadcastChannel(DB) : null,
             sessionId: Math.random().toString(36).slice(2),
@@ -179,6 +206,8 @@
                     if (document.visibilityState === "hidden" && this.dirty) this.flush();
                 });
                 window.addEventListener("beforeunload", (e) => {
+                    
+                    
                     try {
                         if (typeof cfg.hasPendingInput === "function" && cfg.hasPendingInput()
                             && typeof cfg.commitPendingInput === "function") {
@@ -186,6 +215,9 @@
                         }
                     } catch (err) { }
                     if (this.adapter && !this.paused) {
+                        
+                        
+                        
                         if (this.dirty || this.writing) {
                             this.flush();
                             e.preventDefault();
@@ -201,6 +233,7 @@
                     }
                 });
 
+                
                 if (this.supportsFS()) {
                     const handle = await kvGet("handle");
                     if (handle) {
@@ -240,6 +273,7 @@
                     }
                 }
 
+                
                 if (!this.optedOut()) {
                     const snap = await kvGet("snapshot");
                     if (snap !== undefined && snap !== null) {
@@ -289,6 +323,12 @@
                 });
             },
 
+            
+
+
+
+
+
             _toastEl: null, _toastTimer: null, _toastArmed: false,
 
             toastNotify(state) {
@@ -298,6 +338,8 @@
                     if (this._toastEl) { this._toastEl.remove(); this._toastEl = null; }
                     return;
                 }
+                
+                
                 if (state === "saved" && !this._toastArmed) return;
                 if (state === "dirty" || state === "error") this._toastArmed = true;
                 let wrap = document.getElementById("las-toasts");
@@ -349,6 +391,10 @@
                 }
             },
 
+            
+
+
+
             _pickIcons(v) {
                 if (!v) return [];
                 const ids = Array.isArray(v) ? v : String(v).split(",");
@@ -368,6 +414,8 @@
                 const ons = this._pickIcons(cfg.iconOnId);
                 const disc = cfg.disconnectBtnId ? document.getElementById(cfg.disconnectBtnId) : null;
                 if (!offs.length || !ons.length) return;
+                
+                
                 const COLORS = ["text-white", "text-green-600", "text-slate-600", "text-amber-500", "text-rose-500"];
                 const setTitle = (title) => {
                     offs.forEach((o) => { const b = o.closest("button"); if (b) b.title = title; });

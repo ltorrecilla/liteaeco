@@ -18,6 +18,7 @@
 // liteAECO - (ifc-storey-cleanup.js)
 // ========
 
+
 function storeyRefs(content, wanted) {
     const refs = [];
     if (content.includes('#')) mapRefsOutsideStrings(content, (match, id) => { const ref = Number(id); if (!wanted || wanted.has(ref)) refs.push(ref); return match; });
@@ -102,6 +103,7 @@ async function cleanupBuildingStoreys(file, options = {}) {
                 for (const child of children) if (storeys.has(child)) {
                     const item = storeys.get(child); item.parents.add(parent); item.parentLinks++;
                 }
+                
                 for (const ref of storeyRefs(a.slice(0,4).join(','))) if (storeys.has(ref)) storeys.get(ref).protected = true;
             } else if (['IFCRELCONTAINEDINSPATIALSTRUCTURE','IFCRELREFERENCEDINSPATIALSTRUCTURE'].includes(p.type) && a.length === 6) {
                 const target = storeyRef(a[5]);
@@ -111,6 +113,7 @@ async function cleanupBuildingStoreys(file, options = {}) {
         }
         const removed = new Set(), swaps = new Map();
         const eligible = item => !item.protected && item.parentLinks === 1 && item.parents.size === 1 && buildings.has([...item.parents][0]) && item.a[6] === '$';
+        
         if (options.optRemoveEmptyStoreys) for (const [id, item] of storeys) {
             if (eligible(item) && !item.contents && [3,4,7].every(at => item.a[at] === '$' || item.a[at] === "''")) removed.add(id);
         }

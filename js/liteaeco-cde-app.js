@@ -18,6 +18,39 @@
 // liteAECO - (liteaeco-cde-app.js)
 // ========
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 (function (W) {
     "use strict";
     W.liteAECO = W.liteAECO || {};
@@ -61,6 +94,7 @@
             noAccess: "Folder access was not granted.",
             readOnly: "Read only"
         };
+        
         Object.keys(opts.text || {}).forEach(k => { if (opts.text[k]) txt[k] = opts.text[k]; });
         const say = opts.alert || ((m) => W.alert(m));
         if (!c) { say("liteAECO core not loaded."); return { error: "no-core" }; }
@@ -75,6 +109,7 @@
         }
         const backHref = "project-core.html?project=" + encodeURIComponent(p.guid);
 
+        
         let level = { see: true, upload: true };
         try {
             if (c.access && c.access.levelForMe) level = await c.access.levelForMe(info.handle, p.guid, p.open);
@@ -112,5 +147,5 @@
         return ctx;
     }
 
-    W.liteAECO.app = { params, open, readOnlyBadge, BUILD: 16 };
+    W.liteAECO.app = { params, open, readOnlyBadge, BUILD: 16 };   
 })(typeof window !== "undefined" ? window : globalThis);

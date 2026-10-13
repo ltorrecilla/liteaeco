@@ -1,23 +1,3 @@
-/*
- * Copyright 2026 Luis Torrecilla (liteAECO)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-// ========
-// liteAECO - (ifc_viewer_audit-ext_manage.js)
-// ========
-
 var e=11,t=(e,t,n)=>typeof window<`u`&&typeof window.t==`function`?window.t(e,t,n):n?String(t).replace(/\{(\w+)\}/g,(e,t)=>n[t]==null?e:String(n[t])):t;function n(e){return String(e??``).replace(/&/g,`&amp;`).replace(/</g,`&lt;`).replace(/>/g,`&gt;`).replace(/"/g,`&quot;`)}function r(e){let t=document.createElement(`template`);return t.innerHTML=e.trim(),t.content.firstElementChild}var i=`px-2 py-0.5 text-[11px] font-semibold rounded border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-40`,a=`p-0.5 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 disabled:opacity-30 disabled:hover:bg-transparent`;function o(e,t,i,o){let s=r(`<button class="${a}" title="${n(t)}"${o?` disabled`:``}><i data-lucide="${n(e)}" class="w-3.5 h-3.5"></i></button>`);return s.addEventListener(`click`,i),s}var s=`border border-slate-300 rounded px-1 py-0.5 text-[11px] bg-white text-slate-700 outline-none min-w-0`,c=`flex-1 min-w-0 border border-slate-300 rounded px-1.5 py-0.5 text-[11px] outline-none focus:border-indigo-400`;function l(e){let a=()=>Object.keys(e.state.lists||{}),l={cls:e.state.activeClass||a()[0]||``,disc:e.state.disciplines[0]?.id||``,group:e.state.groups[0]?.id||``,search:``},u=null,d=r(`
     <div class="fixed inset-0 z-[200] flex items-center justify-center bg-slate-900/40">
       <div class="bg-white rounded-md shadow-2xl w-[860px] max-w-[95vw] h-[660px] max-h-[88vh] flex flex-col p-4 gap-3">

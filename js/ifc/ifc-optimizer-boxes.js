@@ -18,6 +18,8 @@
 // liteAECO - (ifc-optimizer-boxes.js)
 // ========
 
+
+
 function boxInverse(matrix) {
     const rows = Array.from({ length: 4 }, (_, r) => Array.from({ length: 8 }, (_, c) => c < 4 ? matrix[c * 4 + r] : Number(c - 4 === r)));
     for (let c = 0; c < 4; c++) {
@@ -101,9 +103,11 @@ async function boxOptimizerClasses(file, selected) {
             if (!context) throw new Error(`No geometry context on #${id}.`);
             const placement = /^#(\d+)$/.exec(attrs[placementAt]);
             const inverse = boxInverse(placement ? api.GetWorldTransformMatrix(model, Number(placement[1])) : identity);
+            
             const localTransform = boxMultiply(inverse, [1/unit,0,0,0,0,0,1/unit,0,0,-1/unit,0,0,0,0,0,1]);
             const min = [Infinity, Infinity, Infinity], max = [-Infinity, -Infinity, -Infinity];
             let vertices = 0, seen = false, colour = null;
+            
             api.StreamMeshes(model, [id], mesh => {
                 seen = true;
                 for (let g = 0; g < mesh.geometries.size(); g++) {

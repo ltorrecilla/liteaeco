@@ -25,10 +25,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IFC Optimizer - Compress & Optimize IFC Files Locally | liteAECO</title>
 
+    
     <meta name="description" content="Free client-side tool to optimize and compress single IFC files. Reduce file size, clean model data, and improve performance. No uploads, private, fast, and built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/ifc-optimizer.html">
 
+    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/ifc-optimizer.html">
     <meta property="og:site_name" content="liteAECO">
@@ -40,12 +42,14 @@
     <meta property="og:image:alt" content="liteAECO IFC Optimizer tool interface">
     <meta property="og:locale" content="en_US">
 
+    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-optimizer.html">
     <meta name="twitter:title" content="IFC Optimizer - Compress & Optimize IFC Files Locally | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to optimize and compress single IFC files. Reduce file size, clean model data, and improve performance. No uploads, private, fast, and built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-ifc-optimizer.png">
 
+    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -54,13 +58,20 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
+    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
-    <script src="../js/ifc-optimizer-classes.js?v=1"></script>
+    <script src="../js/ifc/ifc-optimizer-classes.js?v=1"></script>
+    <style>
+        .optimizer-loading-line { animation: optimizer-loading 1.5s ease-in-out infinite; }
+        @keyframes optimizer-loading { from { transform: translateX(-100%); } to { transform: translateX(350%); } }
+        @media (prefers-reduced-motion: reduce) { .optimizer-loading-line { animation: none; width: 100%; opacity: .6; } }
+    </style>
 
     <script>
         tailwind.config = {
@@ -77,11 +88,16 @@
         }
     </script>
 
+    
     <link rel="stylesheet" type="text/css" href="../css/global.css">
 </head>
 
 <body
     class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
+
+    
+
+    
 
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
 
@@ -139,16 +155,19 @@
                             class="drop-zone flex flex-col items-center justify-center w-full min-h-[170px] px-4 py-4 border-2 border-slate-300 border-dashed rounded-lg hover:border-indigo-500 hover:bg-indigo-50/30 bg-slate-50/50 cursor-pointer transition-all">
                             <div
                                 class="flex flex-col items-center justify-center space-y-2 text-center pointer-events-none">
-                                <i data-lucide="file-input"
-                                    class="w-8 h-8 text-slate-400 mb-1 group-hover:text-indigo-500 transition-colors"></i>
-                                <div class="flex text-sm text-slate-600 justify-center font-medium">
+                                <span id="file1-icon"><i data-lucide="file-input" class="w-8 h-8 text-slate-400 mb-1"></i></span>
+                                <p id="file1-loaded" class="hidden text-sm font-semibold text-slate-900">File loaded</p>
+                                <div id="file1-upload-prompt" class="flex text-sm text-slate-600 justify-center font-medium">
                                     <span
                                         class="text-indigo-600 hover:text-indigo-700 pointer-events-auto cursor-pointer"
                                         id="ui-drop1-upload">Load file</span>
                                     <p class="pl-1" id="ui-drop1-or">or drag and drop</p>
                                 </div>
-                                <p class="text-xs text-slate-500 font-medium mt-1 truncate max-w-[200px]"
+                                <p class="text-xs text-slate-500 font-medium mt-1 break-all"
                                     id="file1-name">No file selected</p>
+                                <p id="file1-size" class="hidden text-xs text-slate-600"></p>
+                                <p id="file1-scan-status" class="hidden text-xs text-slate-600" role="status" aria-live="polite"></p>
+                                <p id="file1-replace" class="hidden text-xs font-medium text-slate-700">Click to replace file.</p>
                             </div>
                             <input id="file1" name="file1" type="file" accept=".ifc" class="hidden" />
                         </label>
@@ -217,11 +236,11 @@
                             <div class="grid grid-cols-2 gap-1 rounded-lg bg-slate-100 p-1">
                                 <label class="cursor-pointer min-w-0">
                                     <input type="radio" name="class_action" value="delete" checked class="peer sr-only">
-                                    <span class="block text-center rounded-md px-3 py-2 text-xs font-medium text-slate-600 peer-checked:bg-white peer-checked:text-indigo-700 peer-checked:shadow-sm peer-focus-visible:ring-2 peer-focus-visible:ring-indigo-500 peer-disabled:opacity-50 peer-disabled:cursor-not-allowed">Delete objects</span>
+                                    <span class="block text-center rounded-md px-3 py-2 text-xs font-medium text-slate-600 peer-checked:bg-white peer-checked:text-slate-900 peer-checked:shadow-sm peer-focus-visible:ring-2 peer-focus-visible:ring-slate-500 peer-disabled:opacity-50 peer-disabled:cursor-not-allowed">Delete objects</span>
                                 </label>
                                 <label class="cursor-pointer min-w-0">
                                     <input type="radio" name="class_action" value="box" class="peer sr-only">
-                                    <span class="block text-center rounded-md px-3 py-2 text-xs font-medium text-slate-600 peer-checked:bg-white peer-checked:text-indigo-700 peer-checked:shadow-sm peer-focus-visible:ring-2 peer-focus-visible:ring-indigo-500 peer-disabled:opacity-50 peer-disabled:cursor-not-allowed">Bounding boxes</span>
+                                    <span class="block text-center rounded-md px-3 py-2 text-xs font-medium text-slate-600 peer-checked:bg-white peer-checked:text-slate-900 peer-checked:shadow-sm peer-focus-visible:ring-2 peer-focus-visible:ring-slate-500 peer-disabled:opacity-50 peer-disabled:cursor-not-allowed">Bounding boxes</span>
                                 </label>
                             </div>
                         </fieldset>
@@ -244,6 +263,8 @@
                 </details>
                 </div>
             </details>
+
+
 
             <div class="mb-6">
                 <details
@@ -357,6 +378,13 @@
                     <span id="btnText">Optimize File</span>
                 </button>
 
+                <div id="optimizerActivity" class="hidden mt-2">
+                    <div class="h-0.5 overflow-hidden rounded bg-slate-200" role="progressbar" aria-label="Preparing model" id="optimizerProgress">
+                        <div class="optimizer-loading-line h-full w-1/3 bg-slate-600"></div>
+                    </div>
+                    <p id="optimizerActivityText" class="mt-2 text-xs text-slate-600" role="status" aria-live="polite"></p>
+                </div>
+
                 <div id="sizeWarning" class="hidden mt-3 flex items-start gap-2 text-[12px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
                     <i data-lucide="triangle-alert" class="w-4 h-4 shrink-0 mt-0.5"></i>
                     <span id="sizeWarningText"></span>
@@ -369,7 +397,7 @@
                         <summary
                             class="flex justify-between items-center font-medium cursor-pointer list-none p-4 hover:bg-white/80 transition-colors [&::-webkit-details-marker]:hidden">
                             <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
-                                <i data-lucide="terminal" class="w-4 h-4 text-indigo-500"></i>
+                                <i data-lucide="terminal" class="w-4 h-4 text-indigo-500"></i> 
                                 <span id="ui-sys-log">System Log Output</span>
                             </span>
                             <span
@@ -397,20 +425,31 @@
         </div>
     </div>
 
+    
+    
+
     <script>
+        
+        
+        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
+        
+        
         window.updateToolDynamicUI = function (d) {
             if (typeof refreshTable === 'function') refreshTable();
         };
 
+        
         function bootApp() {
+            
             autoDetectLanguage();
 
+            
             window.injectUI({
                 showNav: true,
-                linkTarget: '',
+                linkTarget: '', 
                 transparentNav: false,
                 showSignIn: false,
                 showCategories: true,
@@ -420,8 +459,10 @@
                 showFooterLinks: true,
             });
 
+            
             window.injectCookieBanner();
 
+            
             const currentYear = new Date().getFullYear();
             const targetVersionInput = document.getElementById('targetVersionInput');
             if (targetVersionInput) {
@@ -449,17 +490,23 @@
                 toggleVersionInput();
             }
 
+            
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
 
+        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
+        
+        
+        
     </script>
 
     <script>
+        
         const file1Input = document.getElementById('file1');
         const file1Name = document.getElementById('file1-name');
         const optimizeBtn = document.getElementById('optimizeBtn');
@@ -499,18 +546,22 @@
             classList.replaceChildren();
             classList.disabled = !detectedClasses.length || !!optimizeBtn.dataset.busy;
             const query = classSearch.value.trim().toLowerCase();
-            let group = '', container;
+            let group = '';
             for (const item of detectedClasses.filter(item => item.name.toLowerCase().includes(query))) {
-                const nextGroup = item.protected ? 'Protected model structure' : item.rank > 0 ? 'Suggested candidates — review before selecting' : 'Additional classes';
+                const nextGroup = item.protected ? 'Protected model structure' : item.rank > 0 ? 'Suggested candidates' : 'Additional classes';
                 if (nextGroup !== group) {
-                    container = document.createElement('optgroup'); container.label = nextGroup;
-                    classList.append(container); group = nextGroup;
+                    const separator = document.createElement('option'); separator.value = ''; separator.disabled = true;
+                    separator.textContent = `────── ${nextGroup} ──────`;
+                    separator.dataset.classGroup = nextGroup;
+                    separator.className = 'text-center text-slate-300 py-1';
+                    classList.append(separator); group = nextGroup;
                 }
                 const option = document.createElement('option'); option.value = item.type;
                 option.selected = selectedClasses.has(item.type); option.disabled = item.protected;
-                option.textContent = `${item.name} (${item.count.toLocaleString()})`;
+                option.textContent = `${item.name} (${item.count.toLocaleString()})${item.rank > 0 && !item.protected ? ' · Suggested' : ''}`;
+                option.className = item.protected ? 'text-slate-400 bg-slate-50/50 italic' : 'text-slate-700';
                 option.title = item.protected ? 'Required structure or dependent geometry; unavailable for class reduction.' : item.reason || '';
-                container.append(option);
+                classList.append(option);
             }
             if (!classList.childElementCount && detectedClasses.length) {
                 const option = document.createElement('option'); option.disabled = true; option.textContent = 'No matching classes.'; classList.append(option);
@@ -533,7 +584,8 @@
             renderClasses(); updateClassSelection();
             invalidateOptimizerOutput();
             if (!file) { classScanning = false; classStatus.textContent = 'Load a model to list classes.'; checkReady(); return; }
-            classScanning = true; classStatus.textContent = 'Scanning detected classes…'; checkReady();
+            classScanning = true; classStatus.textContent = 'Scanning detected classes…';
+            document.getElementById('file1-scan-status').textContent = 'Scanning classes…'; checkReady();
             let coordinator;
             try {
                 coordinator = createCoordinator(); classScanCoordinator = coordinator;
@@ -541,14 +593,19 @@
                 if (version !== classScanVersion) return;
                 detectedClasses = result.classes; classSearch.disabled = false; renderClasses();
                 classStatus.textContent = `${result.schema} · ${detectedClasses.length} detected product classes. Suggestions depend on your model purpose.`;
+                document.getElementById('file1-scan-status').textContent = `${detectedClasses.length} classes detected.`;
             } catch (error) {
-                if (version === classScanVersion) classStatus.textContent = `Class selection unavailable: ${error.message}`;
+                if (version === classScanVersion) {
+                    classStatus.textContent = `Class selection unavailable: ${error.message}`;
+                    document.getElementById('file1-scan-status').textContent = 'Class scan unavailable. See details below.';
+                }
             } finally {
                 if (coordinator) coordinator.terminate();
                 if (version === classScanVersion) { classScanCoordinator = null; classScanning = false; checkReady(); }
             }
         }
 
+        
         function t(key, fallback) {
             try {
                 const d = (typeof getTranslations === 'function') ? getTranslations() : (window.PAGE_I18N || {});
@@ -580,22 +637,40 @@
         }
 
         function handleFiles(files, textElement) {
+            const loaded = files.length > 0;
+            const zone = document.getElementById('drop-zone-1');
+            zone.classList.toggle('border-dashed', !loaded);
+            zone.classList.toggle('border-solid', loaded);
+            zone.classList.toggle('border-slate-500', loaded);
+            zone.classList.toggle('hover:border-indigo-500', !loaded);
+            zone.classList.toggle('hover:bg-indigo-50/30', !loaded);
+            zone.classList.toggle('hover:border-slate-700', loaded);
+            zone.classList.toggle('hover:bg-slate-100', loaded);
+            document.getElementById('file1-upload-prompt').classList.toggle('hidden', loaded);
+            for (const id of ['file1-loaded', 'file1-size', 'file1-scan-status', 'file1-replace']) document.getElementById(id).classList.toggle('hidden', !loaded);
+            document.getElementById('file1-icon').innerHTML = loaded
+                ? '<i data-lucide="circle-check" class="w-8 h-8 text-slate-700 mb-1"></i>'
+                : '<i data-lucide="file-input" class="w-8 h-8 text-slate-400 mb-1"></i>';
+            if (window.lucide) lucide.createIcons();
+            document.getElementById('file1-size').textContent = loaded ? formatBytes(files[0].size) : '';
+            document.getElementById('file1-scan-status').textContent = '';
             if (files.length > 0) {
                 textElement.textContent = files[0].name;
                 textElement.classList.remove('text-slate-500');
-                textElement.classList.add('text-indigo-600', 'font-bold');
+                textElement.classList.add('text-slate-800', 'font-bold');
             } else {
                 textElement.textContent = t('dropEmpty', 'No file selected');
                 textElement.classList.add('text-slate-500');
-                textElement.classList.remove('text-indigo-600', 'font-bold');
+                textElement.classList.remove('text-slate-800', 'font-bold');
             }
             checkReady();
             scanModelClasses(files[0]);
         }
 
+        
         const MEM_GB = Math.min(8, Math.max(1, navigator.deviceMemory || 8));
-        const WARN_BYTES = Math.round(MEM_GB * 20) * 1048576;
-        const DEEP_CAP_BYTES = Math.round(MEM_GB * 32) * 1048576;
+        const WARN_BYTES = Math.round(MEM_GB * 20) * 1048576;      
+        const DEEP_CAP_BYTES = Math.round(MEM_GB * 32) * 1048576;  
 
         function inputBytes() { return file1Input.files.length ? file1Input.files[0].size : 0; }
 
@@ -619,15 +694,27 @@
         }
 
         function checkReady() {
-            optimizeBtn.disabled = classScanning || !(file1Input.files.length > 0);
+            optimizeBtn.disabled = !!optimizeBtn.dataset.busy || classScanning || !(file1Input.files.length > 0);
+            syncOptimizerActivity();
+            if (classScanning && !optimizeBtn.dataset.busy) btnText.textContent = 'Scanning classes…';
             if (!optimizeBtn.disabled && !optimizeBtn.dataset.busy) {
                 btnText.innerText = t('btnOptimize', 'Optimize File');
             }
             checkSizeGuardrails();
         }
+        function syncOptimizerActivity() {
+            const processing = !!optimizeBtn.dataset.busy;
+            const active = processing || classScanning;
+            const text = processing ? 'Optimizing model… Please wait.' : 'Scanning classes… Please wait.';
+            document.getElementById('optimizerActivity').classList.toggle('hidden', !active);
+            document.getElementById('optimizerActivityText').textContent = active ? text : '';
+            document.getElementById('optimizerProgress').setAttribute('aria-label', text);
+            optimizeBtn.setAttribute('aria-busy', String(active));
+        }
 
         setupDropZone('drop-zone-1', file1Input, file1Name);
 
+        
         const optLevelSelect = document.getElementById('opt_level_select');
         const optLevelDesc = document.getElementById('opt_level_desc');
 
@@ -681,6 +768,7 @@
         syncDeepCompressControl();
         optDeepCompressCb.addEventListener('change', () => { if (optDeepCompressCb.checked) checkSizeGuardrails(); });
 
+        
         function formatDuration(ms) {
             if (ms < 1000) return `${Math.round(ms)} ms`;
             const s = ms / 1000;
@@ -700,10 +788,14 @@
             console.log(msg);
         }
 
+        
+        
+        
         const WORKER_VERSION = 11;
-        const WORKER_URL = window.SITE_ROOT + 'js/ifc-optimizer-worker.js?v=3';
-        const STALE_WORKER_MSG = 'js/ifc-worker.js is missing or out of date (browser cache?). Hard-refresh the page (Ctrl+F5 / Cmd+Shift+R) and make sure the new ifc-worker.js is deployed.';
+        const WORKER_URL = window.SITE_ROOT + 'js/ifc/ifc-optimizer-worker.js?v=3';
+        const STALE_WORKER_MSG = 'js/ifc/ifc-worker.js is missing or out of date (browser cache?). Hard-refresh the page (Ctrl+F5 / Cmd+Shift+R) and make sure the new ifc-worker.js is deployed.';
 
+        
         function createCoordinator() {
             const w = new Worker(WORKER_URL);
             let readyResolve, readyReject;
@@ -748,6 +840,7 @@
             };
         }
 
+
         function setInputsLocked(locked) {
             document.getElementById('opt_remove_empty_storeys').disabled = locked;
             document.getElementById('opt_merge_duplicate_storeys').disabled = locked;
@@ -762,11 +855,13 @@
         let lastDownloadUrl = null;
         for (const id of ['opt_remove_empty_storeys', 'opt_merge_duplicate_storeys']) document.getElementById(id).addEventListener('change', invalidateOptimizerOutput);
 
+        
         optimizeBtn.addEventListener('click', async () => {
             logArea.textContent = '';
             downloadArea.classList.add('hidden');
             optimizeBtn.disabled = true;
             optimizeBtn.dataset.busy = '1';
+            syncOptimizerActivity();
             btnText.innerHTML = '<span class="spinner"></span> Processing...';
             setInputsLocked(true);
             if (lastDownloadUrl) { URL.revokeObjectURL(lastDownloadUrl); lastDownloadUrl = null; }
@@ -810,6 +905,7 @@
                 optimizeBtn.disabled = !(file1Input.files.length > 0);
                 btnText.innerHTML = t('btnOptimize', 'Optimize File');
                 delete optimizeBtn.dataset.busy;
+                syncOptimizerActivity();
                 setInputsLocked(false);
                 log(`Total processing time: ${formatDuration(performance.now() - tStart)}.`);
             }

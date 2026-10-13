@@ -23,11 +23,11 @@
   <meta charset="UTF-8">
   <meta name="author" content="Luis Torrecilla">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IFC Viewer & Audit - Coordinate models, create BCF and check quality in one place | liteAECO</title>
+  <title>IFC Viewer & Audit | liteAECO</title>
 
   
   <meta name="description"
-    content="Free client-side tool to view IFC files, coordinate models, create BCF and check quality locally. No uploads, private, fast, and built for AEC projects.">
+    content="Free client-side tool to explore IFC files and create BIM Coordination models. No uploads, private, fast, and built for AEC project teams.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://liteaeco.com/tools/ifc-viewer-audit.html">
 
@@ -35,24 +35,22 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://liteaeco.com/tools/ifc-viewer-audit.html">
   <meta property="og:site_name" content="liteAECO">
-  <meta property="og:title"
-    content="IFC Viewer & Audit - Coordinate models, create BCF and check quality in one place | liteAECO">
+  <meta property="og:title" content="IFC Viewer & Audit | liteAECO">
   <meta property="og:description"
-    content="Free client-side tool to view IFC files, coordinate models, create BCF and check quality locally. No uploads, private, fast, and built for AEC projects.">
-  <meta property="og:image" content="https://liteaeco.com/img/ifc-viewer-audit.png">
+    content="Free client-side tool to explore IFC files and create BIM Coordination models. No uploads, private, fast, and built for AEC project teams.">
+  <meta property="og:image" content="https://liteaeco.com/img/og-viewer.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="liteAECO Meetings tool interface">
+  <meta property="og:image:alt" content="liteAECO IFC Viewer & Audit tool interface">
   <meta property="og:locale" content="en_US">
 
   
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-viewer-audit.html">
-  <meta name="twitter:title"
-    content="IFC Viewer & Audit - Coordinate models, create BCF and check quality in one place | liteAECO">
+  <meta name="twitter:title" content="IFC Viewer & Audit | liteAECO">
   <meta name="twitter:description"
-    content="Free client-side tool to view IFC files, coordinate models, create BCF and check quality locally. No uploads, private, fast, and built for AEC projects.">
-  <meta name="twitter:image" content="https://liteaeco.com/img/ifc-viewer-audit.png">
+    content="Free client-side tool to explore IFC files and create BIM Coordination models. No uploads, private, fast, and built for AEC project teams.">
+  <meta name="twitter:image" content="https://liteaeco.com/img/og-viewer.png">
 
   
   <link rel="icon" type="image/x-icon" href="/src/favicon.ico">
@@ -219,7 +217,11 @@
 
     </nav>
 
-    <div class="mt-auto border-t border-slate-200 h-12 flex flex-col justify-end shrink-0 w-full">
+    <div class="mt-auto border-t border-slate-200 flex flex-col justify-end shrink-0 w-full">
+      <button id="tablet-mode-toggle" class="tab-btn group" type="button" aria-pressed="false" aria-label="Tablet mode" title="Tablet mode">
+        <i data-lucide="tablet-smartphone" class="tab-icon w-5 h-5 shrink-0 group-hover:text-slate-800 transition-colors" aria-hidden="true"></i>
+        <span class="tablet-mode-label sidebar-text whitespace-nowrap opacity-0 transition-opacity duration-300">Tablet mode</span>
+      </button>
       <button id="sidebar-toggle"
         class="w-full h-12 bg-gray-50 hover:bg-gray-100 transition-colors focus:outline-none flex items-center justify-center">
         <span id="sidebar-toggle-icon-wrapper" class="shrink-0 transition-transform duration-300">
@@ -358,7 +360,7 @@
         <section id="top-intro-section" class="flex flex-col gap-6 md:px-14 pt-6 ">
 
           
-          <div class="bg-white px-6 md:px-8 pt-6 md:pt-8 shrink-0">
+          <div class="bg-white shrink-0">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4">
               <div class="flex items-center gap-3">
                 <div
@@ -366,7 +368,7 @@
                   
 
                   <span aria-hidden="true" class="block w-5 h-5 bg-current"
-                    style="-webkit-mask:url(&quot;data:image/svg+xml,%3csvg%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='currentColor'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%20class='lucide%20liteaeco-cde'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M3.009%202.948v4.437L3%2012.009%2011.982%2021l9.027.018'%20style='stroke:%236366f1'/%3e%3cpath%20d='M12.009%2011.974%2021%202.984V21'%20style='stroke:%23878aff'/%3e%3cpath%20style='stroke:%236366f1'%20d='m3%203%2018.009%2018.018'%20fill='none'/%3e%3c/svg%3e&quot;) center/contain no-repeat;mask:url(&quot;data:image/svg+xml,%3csvg%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='currentColor'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%20class='lucide%20liteaeco-cde'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M3.009%202.948v4.437L3%2012.009%2011.982%2021l9.027.018'%20style='stroke:%236366f1'/%3e%3cpath%20d='M12.009%2011.974%2021%202.984V21'%20style='stroke:%23878aff'/%3e%3cpath%20style='stroke:%236366f1'%20d='m3%203%2018.009%2018.018'%20fill='none'/%3e%3c/svg%3e&quot;) center/contain no-repeat;"></span>
+                    style="-webkit-mask:url(&quot;data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'%20standalone='no'?%3e%3csvg%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='currentColor'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%20class='lucide%20lucide-box%20preview-icon'%20version='1.1'%20id='svg3'%20sodipodi:docname='liteaeco-ifc-viewer.svg'%20inkscape:version='1.4.3%20(0d15f75,%202025-12-25)'%20xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape'%20xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:svg='http://www.w3.org/2000/svg'%3e%3cdefs%20id='defs3'%20/%3e%3csodipodi:namedview%20id='namedview3'%20pagecolor='%23ffffff'%20bordercolor='%23000000'%20borderopacity='0.25'%20inkscape:showpageshadow='2'%20inkscape:pageopacity='0.0'%20inkscape:pagecheckerboard='0'%20inkscape:deskcolor='%23d1d1d1'%20showguides='true'%20inkscape:zoom='14.458333'%20inkscape:cx='2.5936599'%20inkscape:cy='20.74928'%20inkscape:window-width='1500'%20inkscape:window-height='938'%20inkscape:window-x='-6'%20inkscape:window-y='-6'%20inkscape:window-maximized='1'%20inkscape:current-layer='svg3'%3e%3csodipodi:guide%20position='21,22.997348'%20orientation='0,-1'%20id='guide9'%20inkscape:locked='false'%20/%3e%3csodipodi:guide%20position='21.35424,10.167147'%20orientation='1,0'%20id='guide10'%20inkscape:locked='false'%20/%3e%3csodipodi:guide%20position='26.974063,2.5590778'%20orientation='0,-1'%20id='guide11'%20inkscape:locked='false'%20/%3e%3c/sodipodi:namedview%3e%3cpath%20d='m%2020,6.27%20-3.5,-2%20-3.5,-2%20c%20-0.618802,-0.3572656%20-1.381198,-0.3572656%20-2,0%20l%20-7,4%20C%203.3818319,6.626899%203.0007321,7.2862016%203,8%20v%208%20c%207.321e-4,0.713798%200.3818319,1.373101%201,1.73%20l%203.5,2'%20id='path1'%20sodipodi:nodetypes='ccccccccc'%20/%3e%3cg%20id='g4'%20transform='matrix(0.64,0,0,0.64,6.3384354,6.5538768)'%20style='stroke-width:3.125;stroke-dasharray:none'%3e%3cg%20id='g5'%20style='stroke:%23000000;stroke-width:3.125;stroke-dasharray:none;stroke-opacity:1'%3e%3cpath%20d='m%2014.509403,14.197012%208.991,-8.9900002%20V%2023.223012'%20style='stroke:%23000000;stroke-width:3.125;stroke-dasharray:none;stroke-opacity:1'%20id='path2'%20/%3e%3cpath%20style='stroke:%23000000;stroke-width:3.125;stroke-dasharray:none;stroke-opacity:1'%20d='m%205.500403,5.2230118%2018.009,18.0180002'%20fill='none'%20id='path3'%20/%3e%3cpath%20d='m%205.509403,5.1710118%20v%204.437%20l%20-0.009,4.6240002%208.982,8.991%209.027,0.018'%20style='stroke:%23000000;stroke-width:3.125;stroke-dasharray:none;stroke-opacity:1'%20id='path1-9'%20/%3e%3c/g%3e%3c/g%3e%3c/svg%3e&quot;) center/contain no-repeat;mask:url(&quot;data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'%20standalone='no'?%3e%3csvg%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='currentColor'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%20class='lucide%20lucide-box%20preview-icon'%20version='1.1'%20id='svg3'%20sodipodi:docname='liteaeco-ifc-viewer.svg'%20inkscape:version='1.4.3%20(0d15f75,%202025-12-25)'%20xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape'%20xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:svg='http://www.w3.org/2000/svg'%3e%3cdefs%20id='defs3'%20/%3e%3csodipodi:namedview%20id='namedview3'%20pagecolor='%23ffffff'%20bordercolor='%23000000'%20borderopacity='0.25'%20inkscape:showpageshadow='2'%20inkscape:pageopacity='0.0'%20inkscape:pagecheckerboard='0'%20inkscape:deskcolor='%23d1d1d1'%20showguides='true'%20inkscape:zoom='14.458333'%20inkscape:cx='2.5936599'%20inkscape:cy='20.74928'%20inkscape:window-width='1500'%20inkscape:window-height='938'%20inkscape:window-x='-6'%20inkscape:window-y='-6'%20inkscape:window-maximized='1'%20inkscape:current-layer='svg3'%3e%3csodipodi:guide%20position='21,22.997348'%20orientation='0,-1'%20id='guide9'%20inkscape:locked='false'%20/%3e%3csodipodi:guide%20position='21.35424,10.167147'%20orientation='1,0'%20id='guide10'%20inkscape:locked='false'%20/%3e%3csodipodi:guide%20position='26.974063,2.5590778'%20orientation='0,-1'%20id='guide11'%20inkscape:locked='false'%20/%3e%3c/sodipodi:namedview%3e%3cpath%20d='m%2020,6.27%20-3.5,-2%20-3.5,-2%20c%20-0.618802,-0.3572656%20-1.381198,-0.3572656%20-2,0%20l%20-7,4%20C%203.3818319,6.626899%203.0007321,7.2862016%203,8%20v%208%20c%207.321e-4,0.713798%200.3818319,1.373101%201,1.73%20l%203.5,2'%20id='path1'%20sodipodi:nodetypes='ccccccccc'%20/%3e%3cg%20id='g4'%20transform='matrix(0.64,0,0,0.64,6.3384354,6.5538768)'%20style='stroke-width:3.125;stroke-dasharray:none'%3e%3cg%20id='g5'%20style='stroke:%23000000;stroke-width:3.125;stroke-dasharray:none;stroke-opacity:1'%3e%3cpath%20d='m%2014.509403,14.197012%208.991,-8.9900002%20V%2023.223012'%20style='stroke:%23000000;stroke-width:3.125;stroke-dasharray:none;stroke-opacity:1'%20id='path2'%20/%3e%3cpath%20style='stroke:%23000000;stroke-width:3.125;stroke-dasharray:none;stroke-opacity:1'%20d='m%205.500403,5.2230118%2018.009,18.0180002'%20fill='none'%20id='path3'%20/%3e%3cpath%20d='m%205.509403,5.1710118%20v%204.437%20l%20-0.009,4.6240002%208.982,8.991%209.027,0.018'%20style='stroke:%23000000;stroke-width:3.125;stroke-dasharray:none;stroke-opacity:1'%20id='path1-9'%20/%3e%3c/g%3e%3c/g%3e%3c/svg%3e&quot;) center/contain no-repeat;"></span>
                 </div>
                 <div>
                   <h1 class="text-2xl font-bold text-slate-900 tracking-tight leading-tight" id="ui-title">IFC Viewer /
@@ -766,6 +768,13 @@
                     aria-label="Auto Dimension (Holes)" role="menuitem">
                     <i data-lucide="hammer"></i>
                     <span data-i18n="v3dAutoDimension">Auto dimension</span>
+                  </button>
+                  <button data-i18n-aria="v3dAxisMeasure" data-i18n-title="v3dAxisMeasureTip" id="v3d-btn-axismeasure"
+                    class="viewer-btn viewer-menu-item"
+                    title="3-axis measure: clear distances from a wall, floor or ceiling" aria-label="3-axis measure"
+                    role="menuitem">
+                    <i data-lucide="axis-3d"></i>
+                    <span data-i18n="v3dAxisMeasure">3-axis measure</span>
                   </button>
                 </div>
               </div>
@@ -1342,7 +1351,7 @@
       if (!sidebar) return;
       sidebar.addEventListener('click', (e) => {
         const btn = e.target.closest('.tab-btn');
-        if (!btn || btn.disabled || btn.id === 'sidebar-toggle' || !sidebar.contains(btn)) return;
+        if (!btn || btn.disabled || btn.id === 'sidebar-toggle' || btn.id === 'tablet-mode-toggle' || !sidebar.contains(btn)) return;
         sidebar.querySelectorAll('.tab-btn').forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
       });

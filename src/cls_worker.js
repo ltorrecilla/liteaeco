@@ -1,63 +1,43 @@
-/*
- * Copyright 2026 Luis Torrecilla (liteAECO)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// ============================================================
+// cls_worker.js - Clash narrowphase KERNEL + worker protocol (v9)
+// ------------------------------------------------------------
+// PURE module: no DOM, no window, no model handles, no fragments
+// API. Everything crosses the boundary as plain data + typed
+// arrays. That boundary is deliberate: the same message schema
+// works over postMessage today and over a socket to a local
+// helper or cloud service tomorrow.
+//
+// Message schema v3 (v2 + incremental meshes: uid keys, per-worker cache, cacheReset)
+//   in : { type:"verify", schema:1, jobId, tolerance,
+//          candidates:[{ idx, aKey, bKey, region|null, boxA|null, boxB|null }],
+//          meshes: { uid: { tris:Float32Array, count:int } }   // ONLY meshes this worker lacks
+//          }
+//   out: { type:"result", schema:1, jobId,
+//          verdicts:[{ idx, keep, method?, depth?, volume?,
+//                      center?, box? }],
+//          computeMs, cacheReset:boolean, cachedTris }
+//   err: { type:"error", schema:1, jobId, error }
+//
+// Loaded three ways:
+//   1. as a MODULE WORKER (self.onmessage registered below)
+//   2. imported by cls_narrow.js for the single-thread path -
+//      both paths run the exact same kernel, so results are
+//      identical by construction
+//   3. imported by node harnesses
+// ============================================================
 
-// ========
-// liteAECO - (cls_worker.js)
-// ========
+export const CLS_WORKER_SCHEMA = 6; // v6: depth = thickness of the overlap zone (fallbacks: deepest inside corner, cloud measure); v5: penetration kernel (real crossings only, corners counted only when clearly inside, 3-ray inside test, duplicates); v4: per-job relative transform (msg.transform, B -> A data space)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export const CLS_WORKER_SCHEMA = 4; 
-
-
-
-
-
-
-
-
-
-
-
+// ---------------------------------------------------------------
+// transformed mesh views (schema 4). Repositioned models: the job
+// carries T (16 floats, column-major, B data -> A data space). B meshes
+// are cached untouched; a transformed COPY is cached beside them under
+// bKey + "|T" + sig, so the kernel below never learns about transforms
+// and the BVH of the view is built lazily exactly like any mesh. Views
+// count toward the triangle budget and evict like meshes, but are never
+// reported to the sender (they are worker-internal). Identity/absent
+// transform = today's path, byte for byte.
+// ---------------------------------------------------------------
 export function transformTris(tris, count, m) {
   const out = new Float32Array(count * 9);
   const m0 = m[0], m1 = m[1], m2 = m[2], m4 = m[4], m5 = m[5], m6 = m[6];
@@ -89,11 +69,11 @@ export function meshBoxOf(mesh) {
 const VIEW_TAG = "|T";
 export function isViewKey(k) { return typeof k === "string" && k.includes(VIEW_TAG); }
 
+// ---------------------------------------------------------------
+// geometry predicates
+// ---------------------------------------------------------------
 
-
-
-
-
+// triangle-vs-AABB (Akenine-Möller, axis tests)
 export function triIntersectsBox(tris, o, box, eps) {
   const cx = (box.min.x + box.max.x) / 2,
     cy = (box.min.y + box.max.y) / 2,
@@ -105,12 +85,12 @@ export function triIntersectsBox(tris, o, box, eps) {
   const v1x = tris[o + 3] - cx, v1y = tris[o + 4] - cy, v1z = tris[o + 5] - cz;
   const v2x = tris[o + 6] - cx, v2y = tris[o + 7] - cy, v2z = tris[o + 8] - cz;
 
-  
+  // AABB of tri vs box
   if (Math.min(v0x, v1x, v2x) > hx || Math.max(v0x, v1x, v2x) < -hx) return false;
   if (Math.min(v0y, v1y, v2y) > hy || Math.max(v0y, v1y, v2y) < -hy) return false;
   if (Math.min(v0z, v1z, v2z) > hz || Math.max(v0z, v1z, v2z) < -hz) return false;
 
-  
+  // plane of tri vs box
   const e0x = v1x - v0x, e0y = v1y - v0y, e0z = v1z - v0z;
   const e1x = v2x - v1x, e1y = v2y - v1y, e1z = v2z - v1z;
   const nx = e0y * e1z - e0z * e1y,
@@ -120,7 +100,7 @@ export function triIntersectsBox(tris, o, box, eps) {
   const r = hx * Math.abs(nx) + hy * Math.abs(ny) + hz * Math.abs(nz);
   if (Math.abs(d) > r) return false;
 
-  
+  // 9 cross-axis tests
   const e2x = v0x - v2x, e2y = v0y - v2y, e2z = v0z - v2z;
   const edges = [
     [e0x, e0y, e0z],
@@ -158,7 +138,7 @@ export function triIntersectsBox(tris, o, box, eps) {
   return true;
 }
 
-
+// tri-tri intersection (Möller interval method, no-div variant essentials)
 export function triTriIntersect(A, ao, B, bo) {
   const p1 = [A[ao], A[ao + 1], A[ao + 2]];
   const q1 = [A[ao + 3], A[ao + 4], A[ao + 5]];
@@ -189,7 +169,7 @@ export function triTriIntersect(A, ao, B, bo) {
   if (dp2 > 0 && dq2 > 0 && dr2 > 0) return false;
   if (dp2 < 0 && dq2 < 0 && dr2 < 0) return false;
 
-  
+  // coplanar handling: project on dominant axis of n1 and do 2D overlap
   const EPS = 1e-12;
   if (
     Math.abs(dp2) < EPS && Math.abs(dq2) < EPS && Math.abs(dr2) < EPS
@@ -203,7 +183,7 @@ export function triTriIntersect(A, ao, B, bo) {
     return tri2dOverlap(t1, t2);
   }
 
-  
+  // interval test along the intersection line of the two planes
   const D = cross(n1, n2);
   const proj = (v) => dot(D, v);
   const int1 = planeIntervals(proj, p1, q1, r1, dp1, dq1, dr1);
@@ -213,7 +193,7 @@ export function triTriIntersect(A, ao, B, bo) {
 }
 
 function planeIntervals(proj, a, b, c, da, db, dc) {
-  
+  // order so that one vertex is on the opposite side of the other two
   const verts = [a, b, c];
   const dist = [da, db, dc];
   let solo = -1;
@@ -240,7 +220,7 @@ function planeIntervals(proj, a, b, c, da, db, dc) {
 }
 
 function tri2dOverlap(t1, t2) {
-  
+  // SAT in 2D over both triangles' edges
   const tris = [t1, t2];
   for (const t of tris) {
     for (let i = 0; i < 3; i++) {
@@ -265,7 +245,7 @@ function tri2dOverlap(t1, t2) {
   return true;
 }
 
-
+// segment (p->q) vs triangle: returns intersection point or null
 function segTri(px, py, pz, qx, qy, qz, T, o) {
   const ax = T[o], ay = T[o + 1], az = T[o + 2];
   const e1x = T[o + 3] - ax, e1y = T[o + 4] - ay, e1z = T[o + 5] - az;
@@ -299,14 +279,14 @@ function triNormal(T, o, out) {
   const l = Math.hypot(nx, ny, nz);
   if (l < 1e-12) return;
   const v = [nx / l, ny / l, nz / l];
-  
+  // dedupe (direction-insensitive)
   for (const u of out) {
     if (Math.abs(u[0] * v[0] + u[1] * v[1] + u[2] * v[2]) > 0.999) return;
   }
   if (out.length < 8) out.push(v);
 }
 
-
+// all edge-vs-triangle intersection points between two triangles
 function triTriPoints(A, ao, B, bo, out) {
   for (let e = 0; e < 3; e++) {
     const p = (e * 3), q = (((e + 1) % 3) * 3);
@@ -317,13 +297,13 @@ function triTriPoints(A, ao, B, bo, out) {
   }
 }
 
-
-
-
-
-
-
-
+// point-in-mesh by ray parity along +X against ALL triangles of the mesh.
+// v8: optional cached boxes gate each triangle (5 loads) before the ray
+// math; skipped triangles are exactly those the ray cannot hit, so the
+// crossing count is unchanged.
+// +X ray from (px,py,pz) vs triangle t: 1 when the ray crosses it
+// (Möller-Trumbore with dir (1,0,0)); shared by the linear and BVH
+// point-in-mesh paths so both count crossings identically
 function rayXHitsTri(px, py, pz, tris, o) {
   const ax = tris[o] - px, ay = tris[o + 1] - py, az = tris[o + 2] - pz;
   const bx = tris[o + 3] - px, by = tris[o + 4] - py, bz = tris[o + 5] - pz;
@@ -347,8 +327,8 @@ function rayXHitsTri(px, py, pz, tris, o) {
   return tHit > 1e-12 ? 1 : 0;
 }
 
-
-
+// point-in-mesh by ray parity along +X. Linear scan; kept as the
+// reference implementation (harness cross-checks the BVH path).
 export function pointInMeshLinear(px, py, pz, tris, count, boxes) {
   let crossings = 0;
   for (let t = 0; t < count; t++) {
@@ -363,7 +343,7 @@ export function pointInMeshLinear(px, py, pz, tris, count, boxes) {
   return crossings % 2 === 1;
 }
 
-
+// BVH point-in-mesh: visits only nodes the +X ray can pass through
 function pointInMeshBVH(px, py, pz, mesh) {
   const bvh = bvhOf(mesh);
   const nb = bvh.bounds, T = mesh.tris, idx = bvh.index;
@@ -386,11 +366,11 @@ function pointInMeshBVH(px, py, pz, mesh) {
   return crossings % 2 === 1;
 }
 
-
-
-
-
-
+// per-mesh triangle AABBs, computed ONCE per mesh on first use and
+// cached on the mesh entry (QW2). An element in fifty candidate pairs
+// used to rebuild its boxes fifty times. Flat layout:
+// [minx,miny,minz,maxx,maxy,maxz] per triangle, unpadded - callers
+// apply tolerance at compare time.
 export function boxesOf(mesh) {
   if (mesh.boxes) return mesh.boxes;
   const n = mesh.count;
@@ -412,14 +392,14 @@ export function boxesOf(mesh) {
   return out;
 }
 
-
-
-
-
-
-
-
-
+// ---------------------------------------------------------------
+// per-mesh BVH (v10). Flat arrays, built ONCE per mesh on first use
+// and cached beside the triangles (workers build their own copy
+// lazily; the mesh cache on the main thread keeps its own). Median
+// split on the largest extent, leaf size 8. Every query below is a
+// pure pruning of the v9 linear scans: identical results, only the
+// triangles that CAN matter are visited.
+// ---------------------------------------------------------------
 const BVH_LEAF = 8;
 export function bvhOf(mesh) {
   if (mesh.bvh) return mesh.bvh;
@@ -439,15 +419,15 @@ export function bvhOf(mesh) {
   const left = new Int32Array(cap), right = new Int32Array(cap);
   const start = new Int32Array(cap), count = new Int32Array(cap);
   let nodes = 0;
-  
+  // typed work stack: [node, lo, hi] triples (v11.1: no per-node arrays)
   const work = new Int32Array(3 * (2 * Math.ceil(Math.log2(Math.max(2, n))) + 64));
   let wp = 0;
   const root = nodes++;
   work[wp++] = root; work[wp++] = 0; work[wp++] = n;
   while (wp > 0) {
     const hi = work[--wp], lo = work[--wp], node = work[--wp];
-    
-    
+    // one pass: node bounds AND centroid bounds (split axis by centroid
+    // spread: big flat walls otherwise degenerate into overlapping siblings)
     let x0 = Infinity, y0 = Infinity, z0 = Infinity, x1 = -Infinity, y1 = -Infinity, z1 = -Infinity;
     let cx0 = Infinity, cy0 = Infinity, cz0 = Infinity, cx1 = -Infinity, cy1 = -Infinity, cz1 = -Infinity;
     for (let k = lo; k < hi; k++) {
@@ -468,7 +448,7 @@ export function bvhOf(mesh) {
     const ex = cx1 - cx0, ey = cy1 - cy0, ez = cz1 - cz0;
     const axisArr = ex >= ey && ex >= ez ? cx : ey >= ez ? cy : cz;
     const mid = (lo + hi) >> 1;
-    
+    // nth_element (quickselect) on index[lo..hi) by axisArr
     let l = lo, r = hi - 1;
     while (l < r) {
       const pivot = axisArr[index[(l + r) >> 1]];
@@ -490,9 +470,9 @@ export function bvhOf(mesh) {
   return mesh.bvh;
 }
 
-
-
-
+// triangles whose (unpadded) box overlaps the padded query box.
+// Callers still run the exact triIntersectsBox on the survivors, so
+// this is a strict superset filter (same as the v9 linear scan).
 function bvhQueryBox(mesh, x0, y0, z0, x1, y1, z1, out) {
   const bvh = bvhOf(mesh);
   const nb = bvh.bounds, bx = boxesOf(mesh), idx = bvh.index;
@@ -515,28 +495,246 @@ function bvhQueryBox(mesh, x0, y0, z0, x1, y1, z1, out) {
   }
 }
 
+// ---------------------------------------------------------------
+// v15 penetration helpers (industry definition: a clash = one element
+// goes INTO the other by more than the tolerance; touching never counts)
+// ---------------------------------------------------------------
+const XEPS = 1e-5; // m: a crossing must pass a plane by more than this, both sides
+const SURF_EPS = 5e-4; // m: a corner is "inside" only deeper than this
+const DUP_EPS = 1e-3; // m: same box within this = duplicate candidate
+const CONTAIN_PROBES = 5; // corners tested for full containment
 
+// proper crossing: each triangle straddles the other's plane by > eps
+// (metric distances), then the exact interval test. Coplanar faces and
+// a vertex / edge resting on a face are touching, not crossing.
+export function triTriCross(A, ao, B, bo, eps) {
+  const side = (T, o, U, u) => {
+    const ux = U[u + 3] - U[u], uy = U[u + 4] - U[u + 1], uz = U[u + 5] - U[u + 2];
+    const vx = U[u + 6] - U[u], vy = U[u + 7] - U[u + 1], vz = U[u + 8] - U[u + 2];
+    let nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
+    const len = Math.hypot(nx, ny, nz);
+    if (!(len > 0)) return false;
+    nx /= len; ny /= len; nz /= len;
+    let mn = Infinity, mx = -Infinity;
+    for (let k = 0; k < 9; k += 3) {
+      const d = nx * (T[o + k] - U[u]) + ny * (T[o + k + 1] - U[u + 1]) + nz * (T[o + k + 2] - U[u + 2]);
+      if (d < mn) mn = d;
+      if (d > mx) mx = d;
+    }
+    return mn < -eps && mx > eps;
+  };
+  if (!side(A, ao, B, bo) || !side(B, bo, A, ao)) return false;
+  return triTriIntersect(A, ao, B, bo);
+}
 
+// ray parity along any direction (Möller-Trumbore), BVH slab-culled
+function rayDirHitsTri(px, py, pz, dx, dy, dz, T, o) {
+  const e1x = T[o + 3] - T[o], e1y = T[o + 4] - T[o + 1], e1z = T[o + 5] - T[o + 2];
+  const e2x = T[o + 6] - T[o], e2y = T[o + 7] - T[o + 1], e2z = T[o + 8] - T[o + 2];
+  const hx = dy * e2z - dz * e2y, hy = dz * e2x - dx * e2z, hz = dx * e2y - dy * e2x;
+  const a = e1x * hx + e1y * hy + e1z * hz;
+  if (Math.abs(a) < 1e-18) return 0;
+  const f = 1 / a;
+  const sx = px - T[o], sy = py - T[o + 1], sz = pz - T[o + 2];
+  const u = f * (sx * hx + sy * hy + sz * hz);
+  if (u < 0 || u > 1) return 0;
+  const qx = sy * e1z - sz * e1y, qy = sz * e1x - sx * e1z, qz = sx * e1y - sy * e1x;
+  const v = f * (dx * qx + dy * qy + dz * qz);
+  if (v < 0 || u + v > 1) return 0;
+  return f * (e2x * qx + e2y * qy + e2z * qz) > 1e-12 ? 1 : 0;
+}
+function pointInMeshDir(px, py, pz, mesh, dx, dy, dz) {
+  const bvh = bvhOf(mesh);
+  const nb = bvh.bounds, T = mesh.tris, idx = bvh.index;
+  const ix = 1 / dx, iy = 1 / dy, iz = 1 / dz;
+  let crossings = 0;
+  const stack = [0];
+  while (stack.length) {
+    const n = stack.pop();
+    const o = n * 6;
+    let t0x = (nb[o] - px) * ix, t1x = (nb[o + 3] - px) * ix;
+    if (t0x > t1x) { const s = t0x; t0x = t1x; t1x = s; }
+    let t0y = (nb[o + 1] - py) * iy, t1y = (nb[o + 4] - py) * iy;
+    if (t0y > t1y) { const s = t0y; t0y = t1y; t1y = s; }
+    let t0z = (nb[o + 2] - pz) * iz, t1z = (nb[o + 5] - pz) * iz;
+    if (t0z > t1z) { const s = t0z; t0z = t1z; t1z = s; }
+    const tmin = Math.max(t0x, t0y, t0z), tmax = Math.min(t1x, t1y, t1z);
+    if (tmax < 0 || tmin > tmax) continue;
+    const cnt = bvh.count[n];
+    if (cnt > 0) {
+      const st = bvh.start[n];
+      for (let k = st; k < st + cnt; k++) crossings += rayDirHitsTri(px, py, pz, dx, dy, dz, T, idx[k] * 9);
+    } else {
+      stack.push(bvh.left[n], bvh.right[n]);
+    }
+  }
+  return crossings % 2 === 1;
+}
+// two generic directions (no axis, no diagonal: edges and seams are
+// practically never hit exactly)
+const RAY2 = (() => { const v = [-0.3127, 0.8813, 0.3542], l = Math.hypot(...v); return v.map((x) => x / l); })();
+const RAY3 = (() => { const v = [0.2671, -0.3359, -0.9032], l = Math.hypot(...v); return v.map((x) => x / l); })();
+// inside by majority of 3 rays: one gap in a not-closed export mesh
+// flips one ray, not two
+function insideRobust(x, y, z, mesh) {
+  const r1 = pointInMeshBVH(x + JX, y + JY, z + JZ, mesh);
+  const r2 = pointInMeshDir(x, y, z, mesh, RAY2[0], RAY2[1], RAY2[2]);
+  if (r1 === r2) return r1;
+  return pointInMeshDir(x, y, z, mesh, RAY3[0], RAY3[1], RAY3[2]);
+}
 
+// squared distance point -> triangle (Ericson, closest point on triangle)
+function pointTriDist2(px, py, pz, T, o) {
+  const ax = T[o], ay = T[o + 1], az = T[o + 2];
+  const abx = T[o + 3] - ax, aby = T[o + 4] - ay, abz = T[o + 5] - az;
+  const acx = T[o + 6] - ax, acy = T[o + 7] - ay, acz = T[o + 8] - az;
+  const apx = px - ax, apy = py - ay, apz = pz - az;
+  const d1 = abx * apx + aby * apy + abz * apz, d2 = acx * apx + acy * apy + acz * apz;
+  let cx, cy, cz;
+  if (d1 <= 0 && d2 <= 0) { cx = ax; cy = ay; cz = az; }
+  else {
+    const bpx = px - T[o + 3], bpy = py - T[o + 4], bpz = pz - T[o + 5];
+    const d3 = abx * bpx + aby * bpy + abz * bpz, d4 = acx * bpx + acy * bpy + acz * bpz;
+    if (d3 >= 0 && d4 <= d3) { cx = T[o + 3]; cy = T[o + 4]; cz = T[o + 5]; }
+    else {
+      const vc = d1 * d4 - d3 * d2;
+      if (vc <= 0 && d1 >= 0 && d3 <= 0) {
+        const v = d1 / (d1 - d3);
+        cx = ax + v * abx; cy = ay + v * aby; cz = az + v * abz;
+      } else {
+        const cpx = px - T[o + 6], cpy = py - T[o + 7], cpz = pz - T[o + 8];
+        const d5 = abx * cpx + aby * cpy + abz * cpz, d6 = acx * cpx + acy * cpy + acz * cpz;
+        if (d6 >= 0 && d5 <= d6) { cx = T[o + 6]; cy = T[o + 7]; cz = T[o + 8]; }
+        else {
+          const vb = d5 * d2 - d1 * d6;
+          if (vb <= 0 && d2 >= 0 && d6 <= 0) {
+            const w = d2 / (d2 - d6);
+            cx = ax + w * acx; cy = ay + w * acy; cz = az + w * acz;
+          } else {
+            const va = d3 * d6 - d5 * d4;
+            if (va <= 0 && d4 - d3 >= 0 && d5 - d6 >= 0) {
+              const w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
+              cx = T[o + 3] + w * (T[o + 6] - T[o + 3]); cy = T[o + 4] + w * (T[o + 7] - T[o + 4]); cz = T[o + 5] + w * (T[o + 8] - T[o + 5]);
+            } else {
+              const den = 1 / (va + vb + vc);
+              const v = vb * den, w = vc * den;
+              cx = ax + abx * v + acx * w; cy = ay + aby * v + acy * w; cz = az + abz * v + acz * w;
+            }
+          }
+        }
+      }
+    }
+  }
+  const ex = px - cx, ey = py - cy, ez = pz - cz;
+  return ex * ex + ey * ey + ez * ez;
+}
+// distance point -> mesh surface, BVH best-first pruning
+export function distToMesh(px, py, pz, mesh) {
+  const bvh = bvhOf(mesh);
+  const nb = bvh.bounds, T = mesh.tris, idx = bvh.index;
+  let best = Infinity;
+  const stack = [0];
+  while (stack.length) {
+    const n = stack.pop();
+    const o = n * 6;
+    const qx = px < nb[o] ? nb[o] - px : px > nb[o + 3] ? px - nb[o + 3] : 0;
+    const qy = py < nb[o + 1] ? nb[o + 1] - py : py > nb[o + 4] ? py - nb[o + 4] : 0;
+    const qz = pz < nb[o + 2] ? nb[o + 2] - pz : pz > nb[o + 5] ? pz - nb[o + 5] : 0;
+    if (qx * qx + qy * qy + qz * qz >= best) continue;
+    const cnt = bvh.count[n];
+    if (cnt > 0) {
+      const st = bvh.start[n];
+      for (let k = st; k < st + cnt; k++) {
+        const d2 = pointTriDist2(px, py, pz, T, idx[k] * 9);
+        if (d2 < best) best = d2;
+      }
+    } else {
+      stack.push(bvh.left[n], bvh.right[n]);
+    }
+  }
+  return Math.sqrt(best);
+}
+// how deep a point sits inside a mesh (0 = outside)
+export function insideBy(x, y, z, mesh) {
+  if (!insideRobust(x, y, z, mesh)) return 0;
+  return distToMesh(x, y, z, mesh);
+}
 
+// Thickness of the zone where A and B overlap (v15.1): twice the largest
+// distance, from a point inside BOTH, to the nearer of the two surfaces.
+// Test points: the middle of the cloud, and midpoints between cloud
+// points (crossing outlines + corners inside) - those land inside the
+// overlap from wall to wall. Fixed pseudo-random pairs: same answer on
+// every run. A sample can only find a thinner zone, never a thicker one.
+const MID_PAIRS = 120;
+const MID_CENTRE = 30;
+export function overlapThickness(pts, A, B) {
+  const n = pts.length;
+  if (!n) return 0;
+  let best = 0, bx = 0, by = 0, bz = 0;
+  const test = (x, y, z) => {
+    if (!insideRobust(x, y, z, A) || !insideRobust(x, y, z, B)) return false;
+    const dA = distToMesh(x, y, z, A);
+    if (dA <= best) return false;
+    const d = Math.min(dA, distToMesh(x, y, z, B));
+    if (d > best) { best = d; bx = x; by = y; bz = z; return true; }
+    return false;
+  };
+  let cx = 0, cy = 0, cz = 0;
+  for (const p of pts) { cx += p[0]; cy += p[1]; cz += p[2]; }
+  cx /= n; cy /= n; cz /= n;
+  test(cx, cy, cz);
+  const stepC = Math.max(1, Math.floor(n / MID_CENTRE));
+  for (let i = 0; i < n; i += stepC) {
+    const p = pts[i];
+    test((p[0] + cx) / 2, (p[1] + cy) / 2, (p[2] + cz) / 2);
+  }
+  if (n > 1) {
+    let seed = 0x9e3779b9;
+    const rnd = () => { seed = (Math.imul(seed, 1103515245) + 12345) >>> 0; return seed / 4294967296; };
+    const pairs = Math.min(MID_PAIRS, (n * (n - 1)) / 2);
+    for (let k = 0; k < pairs; k++) {
+      const p = pts[Math.floor(rnd() * n)], q = pts[Math.floor(rnd() * n)];
+      if (p === q) continue;
+      test((p[0] + q[0]) / 2, (p[1] + q[1]) / 2, (p[2] + q[2]) / 2);
+    }
+  }
+  // refine: step from the best point along the 6 axis directions while it
+  // improves, halving the step (the zone's middle, not just near it)
+  if (best > 0) {
+    let step = best;
+    for (let round = 0; round < 12 && step > 2e-4; round++) {
+      const x = bx, y = by, z = bz;
+      const moved = test(x + step, y, z) || test(x - step, y, z) || test(x, y + step, z) ||
+        test(x, y - step, z) || test(x, y, z + step) || test(x, y, z - step);
+      if (!moved) step /= 2;
+    }
+  }
+  return 2 * best;
+}
 
-
-
-
-
-
-
+// ---------------------------------------------------------------
+// per-candidate verification kernel. c: { region } (plain box or
+// null); A/B: { tris:Float32Array, count } meshes. Returns a plain
+// verdict - the caller decides how to apply it. Mirrors the v8
+// single-thread block exactly (hybrid region filter, cached-box
+// pre-cull, jittered+box-gated parity ray, 400-pair cloud cap).
+// ---------------------------------------------------------------
+// per-job kernel profile (v10.3): where the compute goes. Phases:
+// region (BVH region filter), probe (tree-vs-tree tri-tri), sample
+// (parity-ray cloud), depth (normal projections). Counters: hits
+// tested and list sizes, to relate time to geometry density.
 export const KPROF = { regionMs: 0, probeMs: 0, sampleMs: 0, depthMs: 0, cands: 0, contacts: 0, sampled: 0, rays1: 0, triTests: 0, listA: 0, listB: 0 };
-
-
-export const KMESH = new Map(); 
+// per-mesh attribution (v11.1): time per A key so the log can NAME the
+// meshes that eat the run instead of guessing about them
+export const KMESH = new Map(); // aKey -> { ms, cands, tris }
 export function resetKernelProfile() { for (const k of Object.keys(KPROF)) KPROF[k] = 0; KMESH.clear(); }
 const _now = typeof performance !== "undefined" ? () => performance.now() : () => Date.now();
-
-
-
-
-
+// parity-ray jitter: ASYMMETRIC on purpose. Equal offsets on y and z
+// keep a cube-corner ray exactly on the y=z face diagonal of the other
+// mesh (both triangles or neither count the crossing -> wrong parity).
+// Distinct sub-micrometer offsets make the ray generic; stored cloud
+// points stay exact.
 const JX = 7e-7, JY = 3.1e-7, JZ = 1.3e-7;
 
 export function verifyCandidate(c, A, B, tolerance) {
@@ -545,9 +743,9 @@ export function verifyCandidate(c, A, B, tolerance) {
   KPROF.cands++;
   let _t = _now();
 
-  
-  
-  
+  // ---- region filter via BVH: only triangles near the box-overlap
+  // region participate. Same survivors as the v9 linear scan
+  // (BVH box test is a superset filter; exact tri-box test follows).
   const listA = [], listB = [];
   if (region) {
     const rx0 = region.min.x - EPS, ry0 = region.min.y - EPS, rz0 = region.min.z - EPS;
@@ -568,12 +766,10 @@ export function verifyCandidate(c, A, B, tolerance) {
     e.ms += dt; e.cands++; e.bTris += B.count;
   }
 
-  
-  
-  
-  
-  
-  
+  // ---- contact = REAL crossings only (v15). Two triangles count when
+  // each passes through the other's plane by more than XEPS on both
+  // sides. Faces lying on each other (flush fits, face-to-face) and
+  // edges resting on a face do not count: touching is not a clash.
   let contact = false;
   const surfacePts = [];
   const dirs = [];
@@ -581,14 +777,10 @@ export function verifyCandidate(c, A, B, tolerance) {
     const bA = boxesOf(A), bB = boxesOf(B);
     let pairsHit = 0;
     const hits = [];
-    
+    // pick the smaller list as the probe side to keep tree walks few
     const probeIsB = listB.length <= listA.length;
     const probe = probeIsB ? listB : listA;
     const other = probeIsB ? A : B;
-    
-    
-    
-    
     const pb = probeIsB ? bB : bA;
     outer: for (let ip = 0; ip < probe.length; ip++) {
       const tp = probe[ip], op = tp * 6;
@@ -598,7 +790,7 @@ export function verifyCandidate(c, A, B, tolerance) {
         const to = hits[k];
         const ta = probeIsB ? to : tp, tb = probeIsB ? tp : to;
         KPROF.triTests++;
-        if (triTriIntersect(A.tris, ta * 9, B.tris, tb * 9)) {
+        if (triTriCross(A.tris, ta * 9, B.tris, tb * 9, XEPS)) {
           contact = true;
           triTriPoints(A.tris, ta * 9, B.tris, tb * 9, surfacePts);
           triNormal(A.tris, ta * 9, dirs);
@@ -616,75 +808,79 @@ export function verifyCandidate(c, A, B, tolerance) {
   }
   if (contact) KPROF.contacts++;
 
-  
-  
-  
-  
-  
-  
-  
-  
-  let cloud = null;
-  let sampleForContainment = false;
-  if (!contact && (!listA.length || !listB.length)) {
-    if (c.boxA && c.boxB && !(boxInside(c.boxB, c.boxA, EPS) || boxInside(c.boxA, c.boxB, EPS))) {
-      sampleForContainment = false; 
-    } else if (!listA.length && !listB.length) {
-      
-      
-      
-      sampleForContainment = false;
-    } else {
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      const src = listA.length ? A : B, tgt = listA.length ? B : A, lst = listA.length ? listA : listB;
-      const o1 = lst[0] * 9, o2 = lst[lst.length - 1] * 9 + 3;
-      const r1 = pointInMeshBVH(src.tris[o1] + JX, src.tris[o1 + 1] + JY, src.tris[o1 + 2] + JZ, tgt);
-      const r2 = pointInMeshBVH(src.tris[o2] + JX, src.tris[o2 + 1] + JY, src.tris[o2 + 2] + JZ, tgt);
-      sampleForContainment = r1 || r2 || r1 !== r2;
-      KPROF.rays1++;
-    }
-  }
-  if (contact || sampleForContainment) {
-    cloud = { pts: [], minx: Infinity, miny: Infinity, minz: Infinity, maxx: -Infinity, maxy: -Infinity, maxz: -Infinity, n: 0 };
-    const addPt = (x, y, z) => {
-      if (x < cloud.minx) cloud.minx = x;
-      if (x > cloud.maxx) cloud.maxx = x;
-      if (y < cloud.miny) cloud.miny = y;
-      if (y > cloud.maxy) cloud.maxy = y;
-      if (z < cloud.minz) cloud.minz = z;
-      if (z > cloud.maxz) cloud.maxz = z;
-      if (cloud.pts.length < 800) cloud.pts.push([x, y, z]);
-      cloud.n++;
-    };
-    const sample = (mesh, tlist, other, cap) => {
-      const step = Math.max(1, Math.floor((tlist.length * 3) / cap));
-      let s = 0;
-      for (const t of tlist) {
-        const o = t * 9;
-        for (let v = 0; v < 3; v++) {
-          if (s++ % step) continue;
-          const x = mesh.tris[o + v * 3],
-            y = mesh.tris[o + v * 3 + 1],
-            z = mesh.tris[o + v * 3 + 2];
-          if (pointInMeshBVH(x + JX, y + JY, z + JZ, other)) addPt(x, y, z);
+  // cloud: crossing points + corners CLEARLY inside the other element
+  // (more than SURF_EPS from its surface; a corner lying on a face is
+  // not inside, whatever the rounding says)
+  const cloud = { pts: [], minx: Infinity, miny: Infinity, minz: Infinity, maxx: -Infinity, maxy: -Infinity, maxz: -Infinity, n: 0 };
+  const addPt = (x, y, z) => {
+    if (x < cloud.minx) cloud.minx = x;
+    if (x > cloud.maxx) cloud.maxx = x;
+    if (y < cloud.miny) cloud.miny = y;
+    if (y > cloud.maxy) cloud.maxy = y;
+    if (z < cloud.minz) cloud.minz = z;
+    if (z > cloud.maxz) cloud.maxz = z;
+    if (cloud.pts.length < 800) cloud.pts.push([x, y, z]);
+    cloud.n++;
+  };
+  // deepest corner: how far it sits inside the other element (v15.1)
+  let maxIn = 0;
+  const sample = (mesh, tlist, other, cap) => {
+    const step = Math.max(1, Math.floor((tlist.length * 3) / cap));
+    let s = 0;
+    for (const t of tlist) {
+      const o = t * 9;
+      for (let v = 0; v < 3; v++) {
+        if (s++ % step) continue;
+        const x = mesh.tris[o + v * 3], y = mesh.tris[o + v * 3 + 1], z = mesh.tris[o + v * 3 + 2];
+        const d = insideBy(x, y, z, other);
+        if (d > SURF_EPS) {
+          addPt(x, y, z);
+          if (d > maxIn) maxIn = d;
         }
       }
-    };
+    }
+  };
+
+  if (contact) {
     for (const p of surfacePts) addPt(p[0], p[1], p[2]);
-    const allA = listA.length ? listA : [...Array(Math.min(A.count, 400)).keys()];
-    const allB = listB.length ? listB : [...Array(Math.min(B.count, 400)).keys()];
-    sample(A, allA, B, 200);
-    sample(B, allB, A, 200);
-    if (!contact && cloud.n > 0) contact = true; 
+    sample(A, listA, B, 200);
+    sample(B, listB, A, 200);
     KPROF.sampled++;
+  } else {
+    // No crossing: apart, or one element entirely inside the other
+    // (closed meshes). Containment needs one box inside the other.
+    const bInA = c.boxA && c.boxB ? boxInside(c.boxB, c.boxA, EPS) : true;
+    const aInB = c.boxA && c.boxB ? boxInside(c.boxA, c.boxB, EPS) : true;
+    if (!bInA && !aInB) return { keep: false };
+    // duplicates: same box within DUP_EPS and nothing crossing (identical
+    // shapes share every face, so neither rule above sees them)
+    if (c.boxA && c.boxB && boxInside(c.boxA, c.boxB, DUP_EPS) && boxInside(c.boxB, c.boxA, DUP_EPS)) {
+      const b = c.boxA;
+      const dx = b.max.x - b.min.x, dy = b.max.y - b.min.y, dz = b.max.z - b.min.z;
+      const depth = Math.min(dx, dy, dz);
+      if (depth < tolerance || !(listA.length && listB.length)) return { keep: false };
+      return {
+        keep: true, method: "tri", depth, volume: dx * dy * dz, duplicate: true,
+        center: [(b.min.x + b.max.x) / 2, (b.min.y + b.max.y) / 2, (b.min.z + b.max.z) / 2],
+        box: { min: { ...b.min }, max: { ...b.max } },
+      };
+    }
+    // the inner one: up to CONTAIN_PROBES spread corners, ALL clearly inside
+    const inner = bInA ? B : A, outerMesh = bInA ? A : B;
+    const nv = inner.count * 3;
+    const probes = Math.min(CONTAIN_PROBES, nv);
+    const stepV = Math.max(1, Math.floor(nv / probes));
+    let inside = probes > 0;
+    for (let i = 0, k = 0; k < probes && i < nv; i += stepV, k++) {
+      const o = i * 3;
+      KPROF.rays1++;
+      if (insideBy(inner.tris[o], inner.tris[o + 1], inner.tris[o + 2], outerMesh) <= SURF_EPS) { inside = false; break; }
+    }
+    if (!inside) return { keep: false };
+    const all = [...Array(Math.min(inner.count, 400)).keys()];
+    sample(inner, all, outerMesh, 200);
+    KPROF.sampled++;
+    if (!cloud.n) return { keep: false };
   }
   {
     const dt = _now() - _t;
@@ -692,24 +888,32 @@ export function verifyCandidate(c, A, B, tolerance) {
     const e = KMESH.get(c.aKey || "A"); if (e) e.ms += dt;
   }
 
-  if (!contact) return { keep: false };
-
-  if (cloud && cloud.n > 0) {
+  if (cloud.n > 0) {
     const dx = Math.max(0, cloud.maxx - cloud.minx);
     const dy = Math.max(0, cloud.maxy - cloud.miny);
     const dz = Math.max(0, cloud.maxz - cloud.minz);
-    let depth = Math.min(dx, dy, dz);
-    for (const dvec of dirs) {
-      let mn = Infinity, mx = -Infinity;
-      for (const p of cloud.pts) {
-        const s = p[0] * dvec[0] + p[1] * dvec[1] + p[2] * dvec[2];
-        if (s < mn) mn = s;
-        if (s > mx) mx = s;
+    // Depth (v15.1) = thickness of the overlap zone. The thinnest
+    // direction of the point cloud read an L-shaped overlap (an element
+    // pushed a few mm into two walls of a recess) as the element's full
+    // size; the deepest corner alone under-read a duct through a wall
+    // whose face has a corner point near the duct's edge. Fallbacks when
+    // no test point lands inside both: deepest corner, then the cloud.
+    let depth = overlapThickness(cloud.pts, A, B);
+    if (!(depth > 0) && maxIn > 0) depth = maxIn;
+    if (!(depth > 0)) {
+      depth = Math.min(dx, dy, dz);
+      for (const dvec of dirs) {
+        let mn = Infinity, mx = -Infinity;
+        for (const p of cloud.pts) {
+          const s = p[0] * dvec[0] + p[1] * dvec[1] + p[2] * dvec[2];
+          if (s < mn) mn = s;
+          if (s > mx) mx = s;
+        }
+        if (mx - mn < depth) depth = mx - mn;
       }
-      if (mx - mn < depth) depth = mx - mn;
     }
     KPROF.depthMs += _now() - _t;
-    if (depth < tolerance) return { keep: false }; 
+    if (depth < tolerance) return { keep: false }; // sub-tolerance penetration
     return {
       keep: true,
       method: "tri",
@@ -722,23 +926,23 @@ export function verifyCandidate(c, A, B, tolerance) {
   return { keep: false };
 }
 
-
+// box a inside box b (with slack)
 function boxInside(a, b, eps) {
   return a.min.x >= b.min.x - eps && a.min.y >= b.min.y - eps && a.min.z >= b.min.z - eps &&
     a.max.x <= b.max.x + eps && a.max.y <= b.max.y + eps && a.max.z <= b.max.z + eps;
 }
 
-
-
-
-
-
-
-
-
-
-
-
+// ---------------------------------------------------------------
+// job runner: shared by the worker protocol below and by any
+// in-process transport (tests, single-thread fallback batching)
+// ---------------------------------------------------------------
+// per-worker persistent mesh cache (schema 3). Meshes are keyed by a
+// uid the sender assigns per mesh OBJECT, so a re-fetched mesh gets a
+// new uid and a stale copy can never be reused. Boxes and BVH are
+// built once per uid and live as long as the mesh does. Budgeted by
+// triangle count: on overflow the cache is dropped after the job and
+// the reply says so (cacheReset), the sender then forgets its
+// have-list for this worker.
 const WORKER_TRI_BUDGET = 40_000_000;
 export function makeMeshCache() {
   return { map: new Map(), tris: 0 };
@@ -751,7 +955,7 @@ export function runVerifyJob(msg, cache = null) {
   const now = () => (typeof performance !== "undefined" ? performance.now() : Date.now());
   const __t0 = now();
   resetKernelProfile();
-  
+  // absorb newly shipped meshes
   const shipped = msg.meshes || {};
   for (const k of Object.keys(shipped)) {
     const m = shipped[k];
@@ -760,10 +964,10 @@ export function runVerifyJob(msg, cache = null) {
     local.tris += m.count;
   }
   const verdicts = [];
-  
+  // relative transform of THIS job (B -> A data space); null = unmoved pair
   const T = Array.isArray(msg.transform) && msg.transform.length === 16 ? msg.transform : null;
   const viewKey = (bKey) => bKey + VIEW_TAG + (msg.transformSig || "x");
-  
+  // LRU touch: meshes (and views) used by this job move to the end of the map
   for (const c of msg.candidates) {
     const keys = T ? [c.aKey, c.bKey, viewKey(c.bKey)] : [c.aKey, c.bKey];
     for (const k of keys) {
@@ -784,14 +988,14 @@ export function runVerifyJob(msg, cache = null) {
         local.map.set(vk, B);
         local.tris += B.count;
       }
-      
+      // boxB from the sender is in B data space; the kernel needs A space
       c = { ...c, boxB: meshBoxOf(B) };
     }
     verdicts.push({ idx: c.idx, ...verifyCandidate(c, A, B, msg.tolerance) });
   }
-  
-  
-  
+  // LRU eviction (v11.5): the budget comes from the sender (sized from
+  // the device); oldest meshes go first, but never the ones THIS job
+  // just used. Evicted uids are reported so the sender forgets them.
   const budget = Number(msg.triBudget) > 0 ? Number(msg.triBudget) : WORKER_TRI_BUDGET;
   const evicted = [];
   let cacheReset = false;
@@ -806,7 +1010,7 @@ export function runVerifyJob(msg, cache = null) {
       if (used.has(k)) continue;
       local.map.delete(k);
       local.tris -= m.count;
-      if (!isViewKey(k)) evicted.push(k); 
+      if (!isViewKey(k)) evicted.push(k); // views are worker-internal
     }
     if (local.tris > budget) { local.map.clear(); local.tris = 0; cacheReset = true; }
   }
@@ -814,9 +1018,9 @@ export function runVerifyJob(msg, cache = null) {
   return { type: "result", schema: CLS_WORKER_SCHEMA, jobId: msg.jobId, verdicts, computeMs: now() - __t0, cacheReset, evicted, cachedTris: local.tris, profile: { ...KPROF }, topMeshes: top };
 }
 
-
-
-
+// worker context: register the protocol. Guarded so the same file
+// imports cleanly on the main thread (window present) and in node
+// (self absent).
 const IN_WORKER =
   typeof self !== "undefined" &&
   typeof window === "undefined" &&
@@ -831,15 +1035,15 @@ if (IN_WORKER) {
     }
   };
 } else if (typeof process !== "undefined" && process.versions?.node && typeof window === "undefined") {
-  
-  
-  
-  
-  
+  // node worker_threads transport: SAME schema over parentPort. This is
+  // the local-helper/cloud foothold - any host that can import this file
+  // and pass messages runs the identical kernel. The specifier is built
+  // at runtime so browser bundlers leave it alone; browsers never reach
+  // this branch (window check above, process absent).
   const wt = "node:worker_threads";
-  import( wt)
+  import(/* @vite-ignore */ wt)
     .then(({ parentPort }) => {
-      if (!parentPort) return; 
+      if (!parentPort) return; // imported on a node MAIN thread: no-op
       parentPort.on("message", (msg) => {
         try {
           parentPort.postMessage(runVerifyJob(msg || {}, _workerCache));
@@ -848,5 +1052,5 @@ if (IN_WORKER) {
         }
       });
     })
-    .catch(() => {  });
+    .catch(() => { /* not a worker context */ });
 }

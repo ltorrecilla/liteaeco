@@ -18,16 +18,149 @@
 // liteAECO - (liteaeco-cde.js)
 // ========
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 (function () {
     "use strict";
     var W = (typeof window !== "undefined") ? window : globalThis;
     W.liteAECO = W.liteAECO || {};
-    if (W.liteAECO.cde) return;
+    if (W.liteAECO.cde) return; 
 
-    var CDE_BUILD = 25;
+    var CDE_BUILD = 25;  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+                         
+                         
+                         
+                         
+                         
+                         
+                         
+                         
+                         
+                         
+                         
+                         
     var DB_NAME = "liteaeco-cde";
     var MANIFEST_NAME = "project.json";
-    var STRUCTURE_VERSION = 2;
+    var STRUCTURE_VERSION = 2;   
     var LOG_DIR = [".liteaeco", "log"];
     var CACHE_DIR = [".liteaeco", "cache"];
     var OBJECTS_DIR = [".liteaeco", "objects"];
@@ -35,19 +168,29 @@
     var MODELS_DIR = ["BIM", "Models"];
     var COORD_DIR = ["BIM", "Coordination"];
     var REPORTS_DIR = ["BIM", "Coordination", "reports"];
+    
+    
+    
     var ADMIN_DIR = [".admin"];
     var ISSUES_DIR = [".admin", "issues"];
     var ISSUES_EXPORTS_DIR = [".admin", "issues", "exports"];
+    
+
+
+
     var APP_ISSUES_SUB = { model_viewer: "coordination", meetings: "meetings" };
-    var ISSUES_APPS_CREATED = ["model_viewer", "meetings"];
-    var HASHFILE_MAX_BYTES = 64 * 1024 * 1024;
+    var ISSUES_APPS_CREATED = ["model_viewer", "meetings"];   
+    var HASHFILE_MAX_BYTES = 64 * 1024 * 1024;   
     var FP_HEAD_BYTES = 16 * 1024;
-    var FP_ALGO = 3;
-    var FP_PIECE = 8 * 1024 * 1024;
+    var FP_ALGO = 3;                     
+    var FP_PIECE = 8 * 1024 * 1024;      
     var GENESIS = "GENESIS";
 
     var subtle = (typeof crypto !== "undefined" && crypto.subtle) ? crypto.subtle : null;
 
+    
+    
+    
     var B32 = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
     var _lastUlidTime = 0;
     var _lastUlidRand = null;
@@ -59,6 +202,13 @@
         return a;
     }
 
+    
+
+
+
+
+
+
     function uuidV4() {
         var c = (W && W.crypto) || (typeof crypto !== "undefined" ? crypto : null);
         if (c && typeof c.randomUUID === "function") {
@@ -67,8 +217,8 @@
         if (!c || typeof c.getRandomValues !== "function") throw new Error("No secure random source for IDs");
         var b = new Uint8Array(16);
         c.getRandomValues(b);
-        b[6] = (b[6] & 0x0f) | 0x40;
-        b[8] = (b[8] & 0x3f) | 0x80;
+        b[6] = (b[6] & 0x0f) | 0x40;   
+        b[8] = (b[8] & 0x3f) | 0x80;   
         var h = "";
         for (var i = 0; i < 16; i++) h += (b[i] < 16 ? "0" : "") + b[i].toString(16);
         return h.slice(0, 8) + "-" + h.slice(8, 12) + "-" + h.slice(12, 16) + "-" + h.slice(16, 20) + "-" + h.slice(20);
@@ -77,9 +227,10 @@
 
     function ulid(nowMs) {
         var t = (nowMs !== undefined) ? nowMs : Date.now();
-        if (t < _lastUlidTime) t = _lastUlidTime;
+        if (t < _lastUlidTime) t = _lastUlidTime;   
         var rand;
         if (t === _lastUlidTime && _lastUlidRand) {
+            
             rand = _lastUlidRand.slice();
             var wrapped = true;
             for (var k = rand.length - 1; k >= 0; k--) {
@@ -87,6 +238,8 @@
                 rand[k] = 0;
             }
             if (wrapped) {
+                
+                
                 t = _lastUlidTime + 1;
                 rand = _randBytes(10);
             }
@@ -95,16 +248,24 @@
         }
         _lastUlidTime = t; _lastUlidRand = rand;
 
+        
         var out = "";
         var tt = t;
         for (var j = 0; j < 10; j++) { out = B32[tt % 32] + out; tt = Math.floor(tt / 32); }
+        
         var bits = "";
         for (var b = 0; b < rand.length; b++) bits += rand[b].toString(2).padStart(8, "0");
         for (var c = 0; c < 16; c++) out += B32[parseInt(bits.slice(c * 5, c * 5 + 5), 2)];
         return out;
     }
 
+    
     function sha256Hex(text) {
+        
+        
+        
+        
+        
         if (!subtle) return Promise.resolve("nosubtle");
         var bytes = new TextEncoder().encode(text);
         return subtle.digest("SHA-256", bytes).then(function (buf) {
@@ -114,10 +275,14 @@
         });
     }
 
+    
+    
+    
+    
     function badKey(k) {
         return k === "__proto__" || k === "constructor" || k === "prototype";
     }
-    function nmap() { return Object.create(null); }
+    function nmap() { return Object.create(null); }   
     function safeAssign(target, src) {
         if (src) Object.keys(src).forEach(function (k) {
             if (!badKey(k)) target[k] = src[k];
@@ -125,14 +290,18 @@
         return target;
     }
 
+    
     function canonicalEvent(ev) {
         var arr = [ev.id, ev.ts, ev.author, ev.app, ev.type,
             ev.target || null, ev.payload === undefined ? null : ev.payload,
             ev.prevHash || null];
+        
+        
         if (ev.kid) arr.push(ev.kid);
         return JSON.stringify(arr);
     }
 
+    
     var dbPromise = null;
     function openDB() {
         if (dbPromise) return dbPromise;
@@ -171,17 +340,26 @@
         });
     }
 
+    
     var _deviceIdCache = null;
     function deviceId() {
         if (_deviceIdCache) return Promise.resolve(_deviceIdCache);
         return kvGet("kv", "deviceId").then(function (id) {
             if (id) { _deviceIdCache = id; return id; }
             var fresh = ulid();
+            
+            
+            
             return kv("kv", "readwrite", function (s) { s.put(fresh, "deviceId"); return fresh; })
                 .then(function () { return kvGet("kv", "deviceId"); })
                 .then(function (stored) { _deviceIdCache = stored || fresh; return _deviceIdCache; });
         });
     }
+
+    
+
+
+
 
     var _keypairFlight = null;
     function ensureKeypair() {
@@ -194,6 +372,7 @@
                     return subtle.exportKey("jwk", pair.publicKey).then(function (jwk) {
                         var rec = { publicKeyJwk: jwk, privateKey: pair.privateKey, publicKey: pair.publicKey };
                         return kv("kv", "readwrite", function (s) {
+                            
                             var req = s.get("keypair");
                             req.onsuccess = function () { if (!(req.result && req.result.publicKeyJwk)) s.put(rec, "keypair"); };
                             return null;
@@ -203,7 +382,7 @@
                 .then(function () { return kvGet("kv", "keypair"); })
                 .catch(function () { return null; });
         }).then(function (kp) {
-            if (!kp) _keypairFlight = null;
+            if (!kp) _keypairFlight = null;   
             return kp;
         }, function () { _keypairFlight = null; return null; });
         return _keypairFlight;
@@ -224,6 +403,9 @@
 
     function getMember(guid) { return kvGet("kv", "member:" + guid); }
 
+    
+
+
     function loadStateTrusted(root, guid) {
         if (!guid) return loadState(root);
         return getTrustPin(guid).catch(function () { return null; }).then(function (pin) {
@@ -235,6 +417,9 @@
             });
         });
     }
+    
+
+
     function isAdmin(st, memberId, kid, dev) {
         if (!st) return false;
         var tr = st.trust;
@@ -245,6 +430,10 @@
         var rec = st.members && st.members[memberId];
         return !!(rec && rec.role === "admin" && Array.isArray(rec.deviceIds) && dev && rec.deviceIds.indexOf(dev) !== -1);
     }
+    
+
+
+
     var PEOPLE_CACHE = [".liteaeco", "cache", "people.json"];
     function readPeopleCache(root) {
         return getFileByRel(root, PEOPLE_CACHE.join("/"), false)
@@ -258,7 +447,7 @@
             return { id: p.id, name: p.name || "", mail: p.mail || "", company: p.company || "", jobRole: p.jobRole || "" };
         });
         return readPeopleCache(root).then(function (old) {
-            if (old && JSON.stringify(old.people) === JSON.stringify(slim)) return false;
+            if (old && JSON.stringify(old.people) === JSON.stringify(slim)) return false;   
             var doc = JSON.stringify({ savedAt: new Date().toISOString(), source: source || null, people: slim }, null, 2);
             return getFileByRel(root, PEOPLE_CACHE.join("/"), true)
                 .then(function (fh) { return fh.createWritable(); })
@@ -266,6 +455,9 @@
                 .then(function () { return true; });
         });
     }
+    
+
+
     function whoAmI(root, guid) {
         var out = { memberId: null, author: null, deviceId: null, kid: null, name: "", mail: "", company: "", jobRole: "",
             role: "", isAdmin: false, claimed: false, trust: { enabled: false, deviceApproved: false, rootMismatch: false }, state: null };
@@ -309,6 +501,7 @@
         return kv("kv", "readwrite", function (s) { s.put(memberId, "member:" + guid); return memberId; });
     }
 
+    
     function getDir(root, parts, create) {
         var p = Promise.resolve(root);
         parts.forEach(function (name) {
@@ -331,8 +524,8 @@
             .then(function (fh) { return fh.getFile(); })
             .then(function (f) { return f.text(); })
             .catch(function (e) {
-                if (e && e.name === "NotFoundError") return null;
-                return { __readError: true, error: e };
+                if (e && e.name === "NotFoundError") return null;      
+                return { __readError: true, error: e };                
             });
     }
     function writeTextFile(root, rel, text) {
@@ -343,6 +536,7 @@
         });
     }
     function appendTextFile(root, rel, text) {
+        
         return getFileByRel(root, rel, true).then(function (fh) {
             return fh.getFile().then(function (f) {
                 return fh.createWritable({ keepExistingData: true }).then(function (w) {
@@ -353,10 +547,14 @@
             });
         });
     }
+    
+    
     function hashFile(root, rel) {
         return getFileByRel(root, rel, false)
             .then(function (fh) { return fh.getFile(); })
             .then(function (f) {
+                
+                
                 if (f.size > HASHFILE_MAX_BYTES) {
                     var e = new Error("hashFile: file too large (" + f.size + " bytes); use fingerprintIfc");
                     e.tooLarge = true; throw e;
@@ -372,6 +570,26 @@
                 });
             });
     }
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     var FILE_HASH_FULL_MAX = 64 * 1024 * 1024;
     var FILE_QUICK_FULL_MAX = 2 * 1024 * 1024;
@@ -446,6 +664,7 @@
         var d = new Date();
         return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2);
     }
+    
     function archiveDir(root, dirArr) {
         var rel = ARCHIVE_ROOT.concat([archiveMonth()], dirArr || []);
         var p = Promise.resolve(root);
@@ -457,6 +676,7 @@
             return dir.getDirectoryHandle(name, { create: false }).then(function () { return true; }, function () { return false; });
         });
     }
+    
     function archiveFreeName(arch, name, reason, isDir) {
         var dot = isDir ? -1 : name.lastIndexOf(".");
         var stem = dot > 0 ? name.slice(0, dot) : name, ext = dot > 0 ? name.slice(dot) : "";
@@ -490,7 +710,7 @@
                     .then(function (h) { return h.getFile(); })
                     .then(function (check) {
                         if (check.size !== src.size) {
-                            return A.dir.removeEntry(out).catch(function () { })
+                            return A.dir.removeEntry(out).catch(function () { })   
                                 .then(function () { throw new Error("archive copy verify failed: " + name); });
                         }
                         if (!keep) return dir.removeEntry(name);
@@ -503,6 +723,8 @@
                 };
             });
     }
+    
+
     function archivedToday(root, dirArr, name) {
         var dot = name.lastIndexOf(".");
         var stem = dot > 0 ? name.slice(0, dot) : name;
@@ -518,6 +740,8 @@
             })();
         }, function () { return false; });
     }
+    
+
     function fileWriteSafe(root, dir, dirArr, name, file, opts) {
         var daily = !!(opts && opts.archive === "daily");
         return dir.getFileHandle(name, { create: false }).then(function () { return true; }, function () { return false; })
@@ -551,10 +775,28 @@
         }
         return p.then(function () { return parts; });
     }
+    
+
     function canUpload(root, guid, folderRel) {
         var probe = (String(folderRel || "").replace(/^\/+|\/+$/g, "") ? folderRel.replace(/\/+$/, "") + "/" : "") + "__probe__";
         return accessLevelForMe(root, guid, probe).then(function (l) { return !!(l && l.upload); });
     }
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     var STAMPS_REL = ".liteaeco/stamps.json";
     function stampSeeds() {
@@ -629,7 +871,7 @@
         var tr = st && st.trust;
         if (!tr || !tr.enabled) return Promise.resolve(true);
         var raw = lib && lib._raw ? lib._raw : lib;
-        if (!raw || raw.version !== 2) return Promise.resolve(false);
+        if (!raw || raw.version !== 2) return Promise.resolve(false);   
         var sig = raw.signature;
         var d = sig && tr.devices[sig.kid];
         if (!(sig && tr.admins[sig.kid] && d && d.status === "approved")) return Promise.resolve(false);
@@ -642,11 +884,24 @@
         return s;
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     var _fpMemo = nmap();
     function fpMemoKey(root, rel, f) {
         return "fp" + FP_ALGO + ":" + (root && root.name ? root.name : "") + "|" + rel + "|" + f.size + "|" + f.lastModified;
     }
     function hashPieces(f) {
+        
         var n = Math.max(1, Math.ceil(f.size / FP_PIECE));
         var digests = new Array(n);
         function read(i) { return f.slice(i * FP_PIECE, Math.min(f.size, (i + 1) * FP_PIECE)).arrayBuffer(); }
@@ -706,6 +961,8 @@
             });
     }
 
+    
+    
     function parseIfcHeader(text) {
         var out = { isIfc: /ISO-10303-21/.test(text), name: null, timestamp: null, schema: null };
         var m = text.match(/FILE_NAME\s*\(\s*'((?:[^']|'')*)'\s*,\s*'([^']*)'/);
@@ -715,6 +972,7 @@
         return out;
     }
 
+    
     function defaultManifest(meta) {
         meta = meta || {};
         var now = new Date().toISOString();
@@ -744,12 +1002,16 @@
             },
             apps: {
                 org_chart: { folder: ADMIN_DIR.join("/") },
+                
+                
                 meetings: {
                     folder: ADMIN_DIR.concat("meetings").join("/"),
-                    issues: ISSUES_DIR.concat(APP_ISSUES_SUB.meetings).join("/")
+                    issues: ISSUES_DIR.concat(APP_ISSUES_SUB.meetings).join("/")   
                 },
                 resp_matrix: { folder: ADMIN_DIR.concat("rasci").join("/") },
                 timelines: { folder: ADMIN_DIR.concat("timelines").join("/") },
+                
+                
                 model_viewer: {
                     folders: [{ tag: "", path: MODELS_DIR.join("/") }],
                     federations: COORD_DIR.join("/"),
@@ -775,9 +1037,13 @@
         return writeTextFile(root, MANIFEST_NAME, JSON.stringify(manifest, null, 2)).then(function () { return manifest; });
     }
 
+    
+    
     function bootstrap(root, meta, opts) {
         return readManifest(root).then(function (existing) {
             if (existing && existing.__readError) throw new Error("project.json unreadable, refusing to bootstrap");
+            
+            
             var gate = (!existing && opts && opts.onNewProject)
                 ? Promise.resolve(opts.onNewProject(root)).then(function (go) {
                     if (!go) { var e = new Error("cancelled"); e.cancelled = true; throw e; }
@@ -786,6 +1052,7 @@
             return gate.then(function () {
             var ensureDirs = ensureStructureDirs(root, existing || null);
             if (existing) {
+                
                 return ensureDirs.then(function () { return ensureStructure(root, existing); })
                     .then(function (m) { m.__adopted = true; return m; });
             }
@@ -795,12 +1062,23 @@
         });
     }
 
+    
+
+
+
+
     var STRUCTURE_KEYS = ["models", "coordination", "modelReports", "issues", "issuesExports"];
+    
+
     function okFirst(seg) { return seg.charAt(0) !== "." || seg.toLowerCase() === ".admin"; }
     function cleanRel(v) {
         var parts = String(v == null ? "" : v).split("/").filter(Boolean);
         return parts.length && okFirst(parts[0]) && parts.every(function (x) { return x !== ".." && x !== "."; }) ? parts : null;
     }
+    
+
+
+
     function issuesFolder(m, app) {
         var sub = Object.prototype.hasOwnProperty.call(APP_ISSUES_SUB, app) ? APP_ISSUES_SUB[app] : null;
         if (!sub) return null;
@@ -811,6 +1089,9 @@
         var base = (typeof f.issues === "string" && cleanRel(f.issues)) || ISSUES_DIR;
         return base.concat(sub).join("/");
     }
+    
+
+
     var DEFAULTS = null;
     function defaultsOf() {
         if (!DEFAULTS) { var d = defaultManifest({ guid: "defaults" }); DEFAULTS = { folders: d.folders, apps: d.apps }; }
@@ -831,7 +1112,9 @@
         var da = defaultsOf().apps[app];
         return da && typeof da[key] === "string" ? da[key] : null;
     }
+    
     function rosterFileOf(m) { return folderOf(m, "admin") + "/members.xlsx"; }
+    
     function issueFoldersOf(m) {
         var apps = (m && m.apps) || {}, out = [];
         Object.keys(apps).forEach(function (a) {
@@ -868,6 +1151,9 @@
         return Promise.all(structureDirList(m).map(function (parts) { return getDir(root, parts, true); }));
     }
 
+    
+
+
     function pathsRewrite(m, oldKey, newKey) {
         var changes = [];
         oldKey = String(oldKey || "").replace(/^\/+|\/+$/g, "");
@@ -897,6 +1183,10 @@
         return changes;
     }
 
+    
+    
+    
+    
     function ensureStructure(root, manifestOpt) {
         var mp = manifestOpt ? Promise.resolve(manifestOpt) : readManifest(root);
         return mp.then(function (m) {
@@ -918,6 +1208,7 @@
                     if (!mv.federations) { mv.federations = dmv.federations; changed = true; }
                     if (!mv.reports) { mv.reports = dmv.reports; changed = true; }
                 }
+                
                 ISSUES_APPS_CREATED.forEach(function (app) {
                     var a = m.apps[app];
                     if (a && typeof a === "object" && !(typeof a.issues === "string" && cleanRel(a.issues))) {
@@ -932,6 +1223,7 @@
         });
     }
 
+    
     function resumeLatestSegment(root, dev, api) {
         var cap = W.__cdeRotateEvents || 500;
         return getDir(root, LOG_DIR, false).then(function (dir) {
@@ -949,9 +1241,9 @@
             var latest = names[names.length - 1];
             var rel = LOG_DIR.join("/") + "/" + latest;
             return readTextFile(root, rel).then(function (txt) {
-                if (txt == null || (txt && txt.__readError)) return null;
+                if (txt == null || (txt && txt.__readError)) return null;   
                 if (!txt.length) { api.segmentRel = rel; api.prevHash = GENESIS; api.lineCount = 0; return null; }
-                if (txt.charAt(txt.length - 1) !== "\n") return null;
+                if (txt.charAt(txt.length - 1) !== "\n") return null;      
                 var lines = txt.split("\n").filter(function (l) { return l.length; });
                 if (lines.length >= cap) return null;
                 var last;
@@ -965,6 +1257,8 @@
         }).catch(function () { return null; });
     }
 
+    
+    
     function session(root) {
         var api = {};
         var ready = deviceId().then(function (dev) {
@@ -973,12 +1267,19 @@
             api.segmentRel = LOG_DIR.join("/") + "/" + dev + "-" + api.sessionId + ".jsonl";
             api.prevHash = GENESIS;
             api.lineCount = 0;
-            api.chain = Promise.resolve();
+            api.chain = Promise.resolve();   
+            
+            
+            
+            
+            
+            
             if (typeof navigator !== "undefined" && navigator.locks) {
                 var gateResolve;
                 var gate = new Promise(function (r) { gateResolve = r; });
                 navigator.locks.request("liteaeco-seg-" + dev, { ifAvailable: true }, function (lock) {
                     if (!lock) { gateResolve(); return; }
+                    
                     return new Promise(function () {
                         resumeLatestSegment(root, dev, api)
                             .then(function () { gateResolve(); }, function () { gateResolve(); });
@@ -989,11 +1290,23 @@
             return api;
         });
 
+        
+        
+        
+        
+        
+        
+        
         api.append = function (author, app, events) {
             return ready.then(function () {
                 var run = api.chain.then(function () {
                     return deviceKid().then(function (k) { api.kid = k || null; });
                 }).then(function () {
+                    
+                    
+                    
+                    
+                    
                     var cap = W.__cdeRotateEvents || 500;
                     if (api.lineCount > 0 && api.lineCount + events.length > cap) {
                         api.sessionId = ulid();
@@ -1002,7 +1315,7 @@
                         api.lineCount = 0;
                     }
                     var lines = "";
-                    var pending = api.prevHash;
+                    var pending = api.prevHash;   
                     var seq = Promise.resolve();
                     events.forEach(function (e) {
                         seq = seq.then(function () {
@@ -1016,7 +1329,7 @@
                                 payload: e.payload === undefined ? null : e.payload,
                                 prevHash: pending
                             };
-                            if (api.kid) ev.kid = api.kid;
+                            if (api.kid) ev.kid = api.kid;   
                             var canonical = canonicalEvent(ev);
                             return signCanonical(canonical).then(function (sig) {
                                 if (sig) ev.sig = sig;
@@ -1031,12 +1344,13 @@
                     return seq.then(function () {
                         if (!lines) return [];
                         return appendTextFile(root, api.segmentRel, lines).then(function (r) {
-                            api.prevHash = pending;
-                            api.lineCount += events.length;
+                            api.prevHash = pending;         
+                            api.lineCount += events.length; 
                             return r;
                         });
                     });
                 });
+                
                 api.chain = run.then(function () { }, function () { });
                 return run;
             });
@@ -1045,8 +1359,21 @@
         return api;
     }
 
+    
+
+
+
+
+
+
+
+
+
+
+
+
     var LOGCACHE_DB = "liteaeco-logcache";
-    var LOGCACHE_PRUNE_MS = 180 * 24 * 3600 * 1000;
+    var LOGCACHE_PRUNE_MS = 180 * 24 * 3600 * 1000;   
     var logDbPromise = null;
     function openLogDB() {
         if (logDbPromise) return logDbPromise;
@@ -1120,6 +1447,10 @@
             });
         });
     }
+    
+    
+    
+    
     function parseSegmentBytes(bytes, lineBase) {
         var lastNl = -1;
         for (var i = bytes.length - 1; i >= 0; i--) { if (bytes[i] === 10) { lastNl = i; break; } }
@@ -1148,6 +1479,7 @@
                     if (now - (c.used || 0) > 24 * 3600 * 1000) { c.used = now; segCachePut(fh.name, c); }
                     return c.tailEvents && c.tailEvents.length ? c.events.concat(c.tailEvents) : c.events;
                 }
+                
                 var grown = c && f.size > c.size && typeof c.parsedBytes === "number" && c.parsedBytes <= f.size && f.lastModified >= c.lastModified;
                 var start = grown ? c.parsedBytes : 0;
                 return f.slice(start).arrayBuffer().then(function (buf) {
@@ -1166,6 +1498,7 @@
         });
     }
 
+    
     function readLog(root) {
         var warnings = [];
         return getDir(root, LOG_DIR, false).then(function (dir) {
@@ -1204,38 +1537,43 @@
         });
     }
 
+    
+    
+    
     function replay(events, trustCtx) {
         var state = {
             project: nmap(),
-            members: nmap(),
-            contacts: nmap(),
-            teams: nmap(),
-            files: nmap(),
-            models: nmap(),
-            frags: nmap(),
+            members: nmap(),    
+            contacts: nmap(),   
+            teams: nmap(),      
+            files: nmap(),      
+            models: nmap(),     
+            frags: nmap(),      
             federations: nmap(),
-            reports: nmap(),
-            issues: nmap(),
-            disciplines: nmap(),
-            clash: { decisions: nmap() },
-            aliases: nmap(),
-            aliasInfo: nmap(),
-            trust: null,
-            access: { rules: nmap(), mode: "open", grants: nmap() },
+            reports: nmap(),    
+            issues: nmap(),     
+            disciplines: nmap(), 
+            clash: { decisions: nmap() },   
+            aliases: nmap(),    
+            aliasInfo: nmap(),  
+            trust: null,        
+            access: { rules: nmap(), mode: "open", grants: nmap() },   
+            
             lastEventId: null
         };
         var ctx = trustCtx || { sigOk: nmap(), chainOk: nmap(), kidOf: nmap(), pubByKid: nmap(), subtle: false };
         var TR = state.trust = {
             enabled: false, rootKid: null, rootMember: null, pinnedRoot: ctx.pinnedRoot || null,
             rootMismatch: false, rootMissing: false, verifiable: !!ctx.subtle,
-            admins: nmap(),
-            devices: nmap(),
-            events: nmap(),
-            rejected: [],
-            conflicts: [],
+            admins: nmap(),     
+            devices: nmap(),    
+            events: nmap(),     
+            rejected: [],       
+            conflicts: [],      
             counts: { verified: 0, pending: 0, unverified: 0, legacy: 0 }
         };
         var pendingByKid = nmap();
+        
         if (TR.pinnedRoot) {
             var found = events.some(function (e) { return e && e.type === "trust.enable" && e.payload && e.payload.rootKid === TR.pinnedRoot; });
             if (!found) { TR.enabled = true; TR.rootMissing = true; TR.rootMismatch = true; }
@@ -1264,13 +1602,16 @@
             if (prev) TR.counts[prev]--;
             TR.events[ev.id] = lvl;
             TR.counts[lvl]++;
+            
             if (lvl === "pending" && ev.kid) (pendingByKid[ev.kid] = pendingByKid[ev.kid] || []).push(ev.id);
         }
         events.forEach(function (ev) {
             var t = ev.type, id = ev.target, p = ev.payload || {};
             state.lastEventId = ev.id;
+            
             if (id != null && badKey(String(id))) return;
             var lvl = levelOf(ev);
+            
             if (t === "trust.enable" || t === "device.bind" || t === "device.approve" || t === "device.revoke" || t === "admin.grant" || t === "admin.revoke") {
                 var pk = p.kid || p.rootKid;
                 if (typeof pk !== "string" || pk.length > 128 || badKey(pk)) { reject(ev, "bad-kid"); setLevel(ev, "unverified"); return; }
@@ -1281,6 +1622,7 @@
                         setLevel(ev, lvl); return;
                     }
                     if (!sigGood(ev) || ev.kid !== p.rootKid || pubKid !== p.rootKid) { reject(ev, "unsigned-root"); setLevel(ev, "unverified"); return; }
+                    
                     var mem = state.members[p.memberId];
                     var claimKid = mem && mem.pubkey ? ctx.kidOf[jwkCore(mem.pubkey)] : null;
                     if (!mem || mem.role !== "admin" || claimKid !== p.rootKid) { reject(ev, "no-admin-claim"); setLevel(ev, "unverified"); return; }
@@ -1343,6 +1685,7 @@
                     return;
                 }
             }
+            
             if (TR.enabled && (TRUST_PROTECTED[t] || /^access\./.test(t))) {
                 if (!adminEv(ev)) { reject(ev, "not-admin"); setLevel(ev, lvl); return; }
             }
@@ -1369,18 +1712,23 @@
                     });
                     state.members[id] = m;
                     break;
+                
+
                 case "person.remap":
                 case "person.merge":
                     var af = typeof p.from === "string" ? p.from.trim() : "";
                     var at = typeof p.to === "string" ? p.to.trim() : "";
                     if (!af || !at || af === at || af.length > 128 || at.length > 128 || badKey(af) || badKey(at)) break;
-                    if (resolveAlias(state.aliases, at) === af) break;
+                    if (resolveAlias(state.aliases, at) === af) break;   
                     state.aliases[af] = at;
                     var ai = nmap();
                     ai.kind = t === "person.merge" ? "merge" : "remap";
                     ai.file = typeof p.file === "string" ? p.file.slice(0, 512) : null;
                     ai.ts = ev.ts; ai.author = ev.author;
                     state.aliasInfo[af] = ai;
+                    
+                    
+                    
                     if (state.members[af]) {
                         var src = state.members[af], dst = state.members[at];
                         if (!dst) {
@@ -1394,6 +1742,7 @@
                             (src.deviceIds || []).forEach(function (d) { if (dst.deviceIds.indexOf(d) === -1) dst.deviceIds.push(d); });
                         }
                     }
+                    
                     if (state.contacts[af] && !state.contacts[at]) {
                         var moved = nmap();
                         safeAssign(moved, state.contacts[af]);
@@ -1404,6 +1753,7 @@
                 case "person.unmerge":
                     var uf = typeof p.from === "string" ? p.from.trim() : "";
                     if (!uf || badKey(uf)) break;
+                    
                     if (state.aliasInfo[uf] && state.aliasInfo[uf].kind === "merge") {
                         delete state.aliases[uf];
                         delete state.aliasInfo[uf];
@@ -1441,6 +1791,9 @@
                 case "file.unassign":
                     delete state.files[id];
                     break;
+                
+                
+
                 case "access.rule.set":
                     if (!TR.enabled) break;
                     var rule = accessSanitizeRule(p);
@@ -1470,15 +1823,20 @@
                     if (typeof p.ruleId === "string" && !badKey(p.ruleId)) delete state.access.rules[p.ruleId];
                     break;
                 case "project.geo":
+                    
+                    
                     var geo = nmap(); safeAssign(geo, p); geo.ts = ev.ts; geo.author = ev.author;
                     state.project.geo = geo;
                     break;
                 case "model.version":
+                    
+                    
                     if (p.renamedFrom && !badKey(String(p.renamedFrom)) && p.renamedFrom !== id && state.models[p.renamedFrom]) {
                         var moved = state.models[p.renamedFrom];
                         moved.path = id; moved.renamedFrom = p.renamedFrom; moved.renamedTs = ev.ts;
                         state.models[id] = moved;
                         delete state.models[p.renamedFrom];
+                        
                         if (state.disciplines[p.renamedFrom]) {
                             if (!state.disciplines[id]) state.disciplines[id] = state.disciplines[p.renamedFrom];
                             delete state.disciplines[p.renamedFrom];
@@ -1487,6 +1845,10 @@
                     var mv = state.models[id];
                     if (!mv) { mv = nmap(); mv.path = id; mv.versions = []; }
                     if (p.tag && !badKey(String(p.tag))) mv.tag = p.tag;
+                    
+                    
+                    
+                    
                     if (p.fingerprint && p.rekeyFrom && mv.current && mv.current === p.rekeyFrom && mv.current !== p.fingerprint) {
                         var lastV = mv.versions[mv.versions.length - 1];
                         if (lastV && lastV.fingerprint === p.rekeyFrom) { lastV.fingerprint = p.fingerprint; lastV.fpLegacy = p.rekeyFrom; }
@@ -1523,6 +1885,10 @@
                     state.issues[id] = tp;
                     break;
                 case "model.discipline":
+                    
+                    
+                    
+                    
                     if ((typeof id !== "string" || !id || id.length > 1024) || badKey(id)) break;
                     var dcode = typeof p.code === "string" ? p.code.toUpperCase() : null;
                     if (dcode === null || (dcode && !/^[A-Z0-9]{1,12}$/.test(dcode))) break;
@@ -1531,6 +1897,10 @@
                     state.disciplines[id] = dsc;
                     break;
                 case "clash.decision":
+                    
+                    
+                    
+                    
                     if ((typeof id !== "string" || !id || id.length > 400) || badKey(id)) break;
                     var hasSt = typeof p.status === "string" && p.status.length > 0 && p.status.length <= 40;
                     var hasCm = typeof p.comment === "string" && p.comment.length <= 8000;
@@ -1551,6 +1921,7 @@
                     state.issues[id] = tc;
                     break;
                 default:
+                    
                     break;
             }
         });
@@ -1571,9 +1942,30 @@
         return cur;
     }
 
+    
     function resolvePerson(st, id) {
         return resolveAlias(st && st.aliases ? st.aliases : st, id);
     }
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     var TRUST_PROTECTED = { "admin.grant": 1, "admin.revoke": 1, "device.approve": 1, "person.merge": 1, "person.unmerge": 1 };
 
@@ -1629,6 +2021,7 @@
         });
     }
 
+    
     function stableJson(v) {
         if (v === null || typeof v !== "object") return JSON.stringify(v === undefined ? null : v);
         if (Array.isArray(v)) return "[" + v.map(stableJson).join(",") + "]";
@@ -1636,6 +2029,7 @@
             return JSON.stringify(k) + ":" + stableJson(v[k]);
         }).join(",") + "}";
     }
+    
     function signData(obj) {
         var text = stableJson(obj);
         return Promise.all([deviceKid(), devicePublicKey(), signCanonical(text)]).then(function (r) {
@@ -1643,6 +2037,7 @@
             return { kid: r[0], pubkey: r[1], sig: r[2], alg: "ES256" };
         });
     }
+    
     function verifyData(obj, signature) {
         if (!signature || !signature.kid || !signature.sig || !signature.pubkey) return Promise.resolve(false);
         return jwkKid(signature.pubkey).then(function (k) {
@@ -1651,7 +2046,10 @@
         });
     }
 
+    
     var _sigMemo = nmap();
+
+    
 
     function prepareTrust(logResult) {
         var events = (logResult && logResult.events) || [];
@@ -1663,6 +2061,10 @@
             var p = ev.payload;
             if (p && p.pubkey && jwkCore(p.pubkey)) jwks.push(p.pubkey);
         });
+        
+        
+        
+        
         var goodHash = nmap();
         var chainWork = segments.map(function (seg) {
             var expected = GENESIS, broken = false, seq = Promise.resolve();
@@ -1694,6 +2096,20 @@
             }));
         }).then(function () { return ctx; });
     }
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
 
     var ACCESS_MARKER = ".liteaeco-access";
 
@@ -1745,6 +2161,9 @@
         });
         return out;
     }
+    
+
+
     function accessDecide(snapshot, relPath, markerIds) {
         var s = snapshot || {};
         if (s.admin) return { visible: true, reason: "admin", ruleIds: [] };
@@ -1762,6 +2181,7 @@
         return { visible: true, reason: applied.length || ids.length ? "allowed" : "open", ruleIds: [] };
     }
 
+    
     function accessReadMarker(dirHandle) {
         if (!dirHandle || !dirHandle.getFileHandle) return Promise.resolve(null);
         return dirHandle.getFileHandle(ACCESS_MARKER, { create: false })
@@ -1769,7 +2189,7 @@
             .then(function (f) { return f.text(); })
             .then(function (t) {
                 try { var j = JSON.parse(t); return (j && typeof j.ruleId === "string" && !badKey(j.ruleId)) ? j.ruleId : "__unreadable__"; }
-                catch (e) { return "__unreadable__"; }
+                catch (e) { return "__unreadable__"; }   
             })
             .catch(function (e) { return (e && e.name === "NotFoundError") || (e && e.name === "TypeMismatchError") ? null : "__unreadable__"; });
     }
@@ -1788,6 +2208,8 @@
             return dir.removeEntry(ACCESS_MARKER);
         }).catch(function () { });
     }
+    
+    
     function accessChainMarkers(root, relPath, isFile) {
         var parts = splitRel(accessNormPath(relPath));
         if (isFile) parts = parts.slice(0, -1);
@@ -1802,11 +2224,24 @@
         return step();
     }
 
+
+    
+
+
+
+
+
+
+
+
+
+
     var LEVEL = { none: 0, see: 1, upload: 2 };
     var PRINCIPAL_TYPES = { everyone: 1, company: 1, role: 1, team: 1, member: 1 };
     function accessSanitizeGrant(p) {
         if (!p) return null;
         var path = accessNormPath(p.path);
+        
         var first = path ? path.split("/")[0] : "";
         if (!path || path.length > 512 || (first.charAt(0) === "." && first.toLowerCase() !== ".admin")) return null;
         var seen = {}, list = [];
@@ -1835,6 +2270,7 @@
         if (pr.type === "member") return !!who.memberId && resolveAlias(aliases || null, pr.value) === resolveAlias(aliases || null, who.memberId);
         return false;
     }
+    
     function grantLevelFor(g, who, aliases) {
         var lv = 0;
         (g.principals || []).forEach(function (pr) {
@@ -1842,6 +2278,7 @@
         });
         return lv;
     }
+    
     function folderLevel(grants, dirParts, who, aliases) {
         var lv = 0;
         for (var i = 1; i <= dirParts.length; i++) {
@@ -1852,11 +2289,16 @@
         }
         return lv;
     }
+    
+
     function accessLevel(snapshot, relPath, isFile, markerIds) {
         var s = snapshot || {};
         var norm = accessNormPath(relPath);
         var key = norm.toLowerCase();
         var parts = norm ? norm.split("/") : [];
+        
+        
+        
         if (!s.admin && s.adminFolder) {
             var ak = accessKey(s.adminFolder);
             var under = function (k) { return !!k && (key === k || key.indexOf(k + "/") === 0); };
@@ -1864,6 +2306,8 @@
                 if (isFile && s.rosterFile && key === accessKey(s.rosterFile)) return { see: true, upload: false, pathOnly: false, reason: "roster" };
                 var inIssues = (s.issueFolders || []).some(function (f) { return under(accessKey(f)); });
                 if (inIssues) return { see: true, upload: true, pathOnly: false, reason: "issues" };
+                
+                
                 var inApp = (s.appFolders || []).some(function (f) { return under(accessKey(f)); });
                 if (inApp) {
                     var dirParts = isFile ? parts.slice(0, -1) : parts.slice();
@@ -1886,6 +2330,7 @@
         var lv = folderLevel(grants, dirParts, s.who, s.aliases);
         if (lv >= 1) return { see: true, upload: lv >= 2, pathOnly: false, reason: "grant" };
         if (!isFile) {
+            
             var prefix = key + "/";
             var below = Object.keys(grants).some(function (gk) {
                 return gk.indexOf(prefix) === 0 && folderLevel(grants, grants[gk].path.split("/"), s.who, s.aliases) >= 1;
@@ -1894,6 +2339,8 @@
         }
         return { see: false, upload: false, pathOnly: false, reason: "no-grant" };
     }
+
+    
 
     function accessLevelForMe(root, guid, relPath) {
         return Promise.all([accessGetSnapshot(guid).catch(function () { return null; }), accessChainMarkers(root, relPath, true)])
@@ -1910,9 +2357,12 @@
             .catch(function () { return { see: true, upload: true, pathOnly: false, reason: "error" }; });
     }
 
+    
     function accessSnapKey(guid) { return "accesssnap:" + guid; }
     function accessGetSnapshot(guid) { return kvGet("kv", accessSnapKey(guid)); }
     function accessSetSnapshot(guid, snap) { return kv("kv", "readwrite", function (s) { s.put(snap, accessSnapKey(guid)); return snap; }); }
+
+    
 
     function accessIsHiddenForMe(root, guid, relPath) {
         return accessLevelForMe(root, guid, relPath).then(function (l) { return !l.see; });
@@ -1930,6 +2380,7 @@
     function getTrustPin(guid) { return kvGet("kv", pinKey(guid)); }
     function setTrustPin(guid, kid) { return kv("kv", "readwrite", function (s) { if (kid) s.put(kid, pinKey(guid)); else s.delete(pinKey(guid)); return kid; }); }
 
+    
     function loadState(root, opts) {
         opts = opts || {};
         return readLog(root).then(function (r) {
@@ -1944,9 +2395,11 @@
         });
     }
 
+    
     function linkFolder(meta, opts) {
         if (!W.showDirectoryPicker) return Promise.reject(new Error("File System Access API unavailable"));
         return W.showDirectoryPicker({ mode: "readwrite" }).then(function (root) {
+            
             return readTextFile(root, ORG_MANIFEST).then(function (orgTxt) {
                 if (typeof orgTxt === "string") { var oe = new Error("This folder is an organization folder, not a project."); oe.code = "IS_ORG"; throw oe; }
                 return bootstrap(root, meta, opts);
@@ -1958,11 +2411,12 @@
                         s.put({
                             guid: manifest.guid, handle: root, name: root.name,
                             linkedAt: new Date().toISOString(),
-                            localPath: prev.localPath || null
+                            localPath: prev.localPath || null   
                         });
                     };
                     return null;
                 }).then(function () {
+                    
                     if (W.liteAECO.projects && manifest.guid) {
                         W.liteAECO.projects.save({
                             guid: manifest.guid, number: manifest.number, title: manifest.title,
@@ -1988,6 +2442,8 @@
         });
     }
 
+    
+    
     function setLocalPath(guid, path) {
         return kvGet("links", guid).then(function (rec) {
             if (!rec) return null;
@@ -1996,6 +2452,7 @@
         });
     }
 
+    
     function requestAccess(guid) {
         return kvGet("links", guid).then(function (rec) {
             if (!rec || !rec.handle) return null;
@@ -2024,6 +2481,16 @@
         return kv("links", "readwrite", function (s) { s.delete(guid); return null; });
     }
 
+
+    
+
+
+
+
+
+
+
+
     var ORG_MANIFEST = "org.json";
     var PROJECT_LIST_NAME = "liteaeco-projects.json";
     var LIST_FIELDS = ["guid", "number", "title", "client", "address", "type", "startDate", "folderName", "sharedPath"];
@@ -2048,6 +2515,7 @@
 
     function clip(v, n) { return String(v == null ? "" : v).replace(/[\u0000-\u001f]/g, " ").trim().slice(0, n || 200); }
 
+    
     function sanitizeListEntry(p) {
         if (!p || typeof p !== "object" || typeof p.guid !== "string" || !GUID_RE.test(p.guid)) return null;
         var out = {};
@@ -2056,6 +2524,7 @@
         return out;
     }
 
+    
     function readProjectList(root) {
         return readJson(root, PROJECT_LIST_NAME).then(function (d) {
             if (d === null) return { ok: true, missing: true, projects: [] };
@@ -2075,6 +2544,7 @@
     function listCore(doc) {
         return { format: doc.format, version: doc.version, org: doc.org, updatedAt: doc.updatedAt, updatedBy: doc.updatedBy, projects: doc.projects };
     }
+    
     function verifyProjectList(res) {
         if (!res || !res.ok || !res.signature || !res._core) return Promise.resolve(false);
         return verifyData(res._core, res.signature);
@@ -2113,6 +2583,7 @@
         });
     }
 
+    
     function linkOrg(opts) {
         if (!W.showDirectoryPicker) return Promise.reject(new Error("File System Access API unavailable"));
         return W.showDirectoryPicker({ mode: "readwrite" }).then(function (root) {
@@ -2151,6 +2622,7 @@
         });
     }
 
+    
     function requestOrgAccess() {
         return kvGet("kv", "org").then(function (rec) {
             if (!rec || !rec.handle) return null;
@@ -2167,6 +2639,9 @@
         });
     }
 
+    
+    
+    
     function scanFolder(root, rel, depth, opts) {
         depth = depth === undefined ? 1 : depth;
         var dirFilter = opts && typeof opts.dirFilter === "function" ? opts.dirFilter : null;
@@ -2182,7 +2657,7 @@
             })(dir.values()).then(function (list) {
                 var seq = Promise.resolve();
                 list.forEach(function (entry) {
-                    if (entry.name.charAt(0) === ".") return;
+                    if (entry.name.charAt(0) === ".") return;   
                     if (entry.kind === "file") {
                         seq = seq.then(function () {
                             return entry.getFile().then(function (f) {
@@ -2226,6 +2701,7 @@
         return writeTextFile(root, INDEX_REL, JSON.stringify(doc)).then(function () { return doc; });
     }
 
+    
     var LTF_SIGNATURE = "federation";
     var LTF_VERSION = 1;
     function newLtf(meta) {
@@ -2244,6 +2720,7 @@
             updatedBy: meta.createdBy || "", updatedAt: now
         };
     }
+    
     function validateLtf(obj) {
         var errors = [];
         if (!obj || typeof obj !== "object") return { ok: false, errors: ["not an object"] };
@@ -2253,7 +2730,7 @@
         if (typeof obj.id !== "string" || !obj.id) errors.push("id missing");
         if (typeof obj.name !== "string") errors.push("name missing");
         if (typeof obj.project !== "string" || !obj.project) errors.push("project guid missing");
-        var tags = nmap();
+        var tags = nmap();   
         if (!Array.isArray(obj.models) || !obj.models.length) errors.push("models must be a non-empty array");
         else obj.models.forEach(function (m, i) {
             if (!m || typeof m !== "object") { errors.push("models[" + i + "] not an object"); return; }
@@ -2283,6 +2760,7 @@
         }
         return { ok: errors.length === 0, errors: errors };
     }
+    
     function readLtf(root, rel) {
         return readTextFile(root, rel).then(function (txt) {
             if (txt === null) return { ok: false, absent: true, errors: ["absent"] };
@@ -2293,6 +2771,7 @@
             return { ok: v.ok, ltf: obj, errors: v.errors };
         });
     }
+    
     function writeLtf(root, rel, ltf, by) {
         var v = validateLtf(ltf);
         if (!v.ok) return Promise.reject(new Error("invalid .ltf: " + v.errors.join("; ")));
@@ -2301,6 +2780,9 @@
         return writeTextFile(root, rel, JSON.stringify(ltf, null, 2)).then(function () { return ltf; });
     }
 
+    
+    
+    
     var CACHE_MODELS_REL = CACHE_MODELS_DIR.join("/");
     function fragRel(fp, ext) { return CACHE_MODELS_REL + "/" + fp + "." + ext; }
     function readSidecar(root, fp) {
@@ -2314,6 +2796,7 @@
         sc.createdAt = sc.createdAt || new Date().toISOString();
         return writeTextFile(root, fragRel(fp, "json"), JSON.stringify(sc, null, 2)).then(function () { return sc; });
     }
+    
     function fragExists(root, fp) {
         return readSidecar(root, fp).then(function (sc) {
             if (!sc) return null;
@@ -2339,6 +2822,9 @@
             return list.filter(function (sc) { return sc && sc.fingerprint; });
         }).catch(function () { return []; });
     }
+    
+    
+    
     function retainFrags(root, keepPerModel) {
         var keep = keepPerModel === undefined ? 2 : keepPerModel;
         return getDir(root, CACHE_MODELS_DIR, false).then(function (dir) {
@@ -2366,7 +2852,7 @@
                         var arr = byModel[k].sort(function (a, b) { return (b.createdAt || "") < (a.createdAt || "") ? -1 : 1; });
                         arr.slice(keep).forEach(function (sc) { doomed.push(sc.fingerprint); });
                     });
-                    Object.keys(frags).forEach(function (fp) { if (!jsons[fp]) doomed.push(fp); });
+                    Object.keys(frags).forEach(function (fp) { if (!jsons[fp]) doomed.push(fp); });   
                     var seq = Promise.resolve();
                     var deleted = [];
                     doomed.forEach(function (fp) {
@@ -2383,6 +2869,7 @@
         }).catch(function () { return { deleted: [] }; });
     }
 
+    
     W.liteAECO.cde = {
         CDE_BUILD: CDE_BUILD,
         ulid: ulid,

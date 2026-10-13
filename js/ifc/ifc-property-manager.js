@@ -43,7 +43,7 @@
   const selected = element => Array.from(element.selectedOptions).map(o => o.value);
   const busy = value => { state.busy = value; $('generateBtn').disabled = value || !state.queue.length; updateActionState(); };
   function coordinator() {
-    const worker = new Worker('../js/ifc-pset-worker.js?v=11');
+    const worker = new Worker('../js/ifc/ifc-pset-worker.js?v=11');
     const pending = new Map();
     let sequence = 0;
     let readyResolve, readyReject;
@@ -156,6 +156,7 @@
     for (const cls of classes) for (const name of names) {
       for (const id of state.index.classData[cls]?.[name]?.psetIds || []) ids.add(String(id));
     }
+    
     if (classes.length === Object.keys(state.index.classData).length) {
       for (const name of names) for (const id of state.index.psetNameToIds[name] || []) ids.add(String(id));
     }
@@ -351,6 +352,7 @@
       const result = await state.coord.call('psetCommit', {ops:{renames, deletePsetIds, queued, excelRows}});
       const output = new File(result.parts, state.file.name.replace(/\.ifc$/i,'_Properties.ifc'), {type:'application/x-step'});
       download(output, output.name);
+      
       state.file = output;
       state.index = null;
       state.queue = [];

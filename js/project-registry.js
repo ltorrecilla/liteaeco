@@ -18,9 +18,34 @@
 // liteAECO - (project-registry.js)
 // ========
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 (function () {
     window.liteAECO = window.liteAECO || {};
-    if (window.liteAECO.projects) return;
+    if (window.liteAECO.projects) return;   
 
     var DB_NAME = "liteaeco-shared";
     var STORE = "projects";
@@ -61,7 +86,7 @@
             meta = meta || {};
             if (!meta.guid) {
                 var hasContent = meta.number || meta.title || meta.client || meta.address || meta.type;
-                if (!hasContent) return Promise.resolve(null);
+                if (!hasContent) return Promise.resolve(null);   
                 meta.guid = (crypto.randomUUID ? crypto.randomUUID() :
                     "g-" + Date.now() + "-" + Math.random().toString(36).slice(2));
             }
@@ -78,6 +103,8 @@
                     address: meta.address || "",
                     type: meta.type || "",
                     startDate: meta.startDate || (existing && existing.startDate) || "",
+                    
+                    
                     folderName: meta.folderName || (existing && existing.folderName) || "",
                     tools: tools,
                     updatedAt: new Date().toISOString()

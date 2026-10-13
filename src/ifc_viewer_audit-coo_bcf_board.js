@@ -1,23 +1,3 @@
-/*
- * Copyright 2026 Luis Torrecilla (liteAECO)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-// ========
-// liteAECO - (ifc_viewer_audit-coo_bcf_board.js)
-// ========
-
 import{c as e,i as t,o as n,s as r}from"./ifc_viewer_audit-coo_bcf_shared.js";import{a as i,d as a,f as o,i as s,l as c,o as l,p as u,t as d,u as f}from"./ifc_viewer_audit-coo_bcf_detail.js";var p=12,m=6;function h(p,m={}){if(!p||p.dataset.bcfBoard)return null;let g=m.core||window.__cooBcf;if(!g)return setTimeout(()=>h(p,m),500),null;p.dataset.bcfBoard=`1`;let _=()=>m.access||window.__cooBcfCde||null,v=m.no3d!==!0,y=e=>typeof g.numberOf==`function`?g.numberOf(e.guid):null,b=()=>m.scope||_()?.scope||null,x=e=>{let t=b();return!t||t.test(e)},S=()=>g.topics().filter(x),C=e=>String(e??``).trim().toLowerCase();function ee(){if(typeof m.me==`function`)return(m.me()||[]).filter(Boolean);if(typeof g.meAliases==`function`)return(g.meAliases()||[]).filter(Boolean);let e=window.__cdeCtx;return e?[e.author,e.me&&e.me.memberId,e.me&&e.me.name,e.me&&e.me.mail].filter(Boolean):[g.author].filter(Boolean)}function w(e){let t=(typeof g.contacts==`function`?g.contacts():null)||window.__cooProject?.listContacts?.()||[],n=C(e),r=t.find(e=>C(e.mail)===n||C(e.name)===n||e.id&&C(e.id)===n);return r?r.name||r.mail:e}let T=()=>({isClosed:e=>g.isClosed(e),me:ee(),personName:w,now:Date.now()}),E=m.filterStore||a(m.filterKey||(()=>{try{return`viewer:`+(new URLSearchParams(window.location.search).get(`project`)||`local`)}catch{return`viewer:local`}})(),window),D=()=>{let e=E.get(),t=T();return S().filter(n=>u(n,e,t))},O=null,k=n(D,e=>typeof g.numberOf==`function`?g.numberOf(e):null),te=e=>typeof g.onChange==`function`?g.onChange(e):window.addEventListener(`coo-bcf-changed`,e),A=``,j=`created`,M=-1,N=null,P=null,F=`liteaeco_issues_dash_open`,I=!1;try{I=localStorage.getItem(F)===`1`}catch{}let L=m.hubStyle||null,R=L?`bg-white rounded border border-slate-200`:`bg-white rounded border border-slate-200 shadow-sm`,z=L?`px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white text-[12px] font-bold uppercase tracking-widest transition flex items-center gap-1.5`:`px-3 py-1.5 rounded bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed`,B=L?`px-3 py-1.5 bg-white border border-slate-200 hover:border-indigo-200 hover:text-indigo-600 disabled:opacity-40 disabled:cursor-not-allowed text-slate-600 text-[12px] font-bold uppercase tracking-widest transition flex items-center gap-1.5`:`px-3 py-1.5 rounded border border-slate-300 text-xs font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed`,V=e=>L?`<i data-lucide="${e}" class="w-3.5 h-3.5 pointer-events-none"></i>`:``,H=l(m.title||e(`issBoardTitle`,`Issue Management`)),ne=L?`<div>
         <div class="mb-3 flex items-center justify-between gap-3">
           <div class="flex items-center gap-2 min-w-0">

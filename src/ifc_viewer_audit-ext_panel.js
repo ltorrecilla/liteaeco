@@ -1,23 +1,3 @@
-/*
- * Copyright 2026 Luis Torrecilla (liteAECO)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-// ========
-// liteAECO - (ifc_viewer_audit-ext_panel.js)
-// ========
-
 import{ExtMatcher as e,ExtMultiSource as t,LazyLocalIdResolver as n,buildMatchReport as r,canonicalModelId as i,isModelIdAlias as a}from"./ifc_viewer_audit-ext_match.js";import{parseRowKey as o,rowKey as s}from"./ifc_viewer_audit-ext_store.js";import{exportCsv as c,exportToFile as l,importForeign as u,importFromHeaders as d,importOwnExport as f,openImportDialog as p,parseWorkbookFile as m,projectWorkbookBuffer as h}from"./ifc_viewer_audit-ext_excel.js";import{openManageDialog as g}from"./ifc_viewer_audit-ext_manage.js";import{ExtTextSource as _}from"./ifc_viewer_audit-ext_textsource.js";import{i as v,r as y,t as b}from"./ifc_viewer_audit-rel_file.js";var x=11,S=`_key`;function C(e,t){if(e.size!==t.size)return!1;for(let n of e)if(!t.has(n))return!1;return!0}var w=`<svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3.5h12L9.2 9v4.2L6.8 14.5V9z"/></svg>`;function T(e){let t=document.createElement(`template`);return t.innerHTML=e.trim(),t.content.firstElementChild}function E(e){return String(e??``).replace(/&/g,`&amp;`).replace(/</g,`&lt;`).replace(/>/g,`&gt;`).replace(/"/g,`&quot;`)}var D=(e,t,n)=>typeof window<`u`&&typeof window.t==`function`?window.t(e,t,n):n?String(t).replace(/\{(\w+)\}/g,(e,t)=>n[t]==null?e:String(n[t])):t,O=`bg-white border border-slate-300 text-slate-800 text-xs rounded focus:border-accent focus:ring-1 focus:ring-accent p-1 outline-none shadow-sm truncate`,k=`flex items-center justify-center px-2 py-1.5 bg-white border border-slate-300 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed text-slate-700 text-xs rounded transition-colors`,A=`flex items-center justify-center p-1.5 px-3 bg-white border border-slate-300 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed text-slate-700 text-xs rounded transition-colors font-medium`,j=`flex items-center justify-center p-1.5 px-3 bg-slate-900 hover:bg-accent text-white text-xs rounded transition-all shadow-sm font-medium disabled:opacity-50 disabled:hover:bg-slate-900 disabled:cursor-not-allowed`,M=`flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed shadow-sm`,N=class{constructor({mountEl:r,Tabulator:i,store:a}){this.mountEl=r,this.Tabulator=i||window.Tabulator,this.store=a,this.matcher=new e(null),this.multi=new t,this.grid=null,this.modelValues=new Map,this.report=null,this._activeDiscId=``,this._filters={},this._search=``,this._hfIcons={},this._keyToLocal=new Map,this._visibleGroups=null,this._showModelCols=!0,this._showHelperCols=!1,this._orphans=new Set,this._unavailable=new Set,this._checked=new Set,this._localToKey=new Map,this._guidToKey=new Map,this.resolver=new n(this.multi),this._syncT=null,this._scopeT=null,this._scopedOut=0,this._scopedOutShown=0,window.addEventListener(`coo-models-changed`,()=>{this.resolver.invalidate(),this._scheduleSyncRefresh()}),this._modelsMenu=null,this._buildDom(),this._wireStoreCallbacks(),this._wireEngine()}_buildDom(){this.mountEl.innerHTML=``,this.root=T(`
       <div data-ref="rootCol" class="flex flex-col w-full h-full min-h-0">
         <div data-ref="toolbar" class="flex flex-col gap-2 bg-white border-b border-slate-200 shadow-sm p-2 w-full xl:px-4 shrink-0">

@@ -18,6 +18,7 @@
 // liteAECO - (ifc-optimizer-worker.js)
 // ========
 
+
 importScripts('ifc-worker.js?v=11', 'ifc-delete-schemas.js?v=2', 'ifc-optimizer-classes.js?v=1', 'ifc-optimizer-boxes.js?v=1');
 const optimizerBaseHandler = self.onmessage;
 
@@ -54,6 +55,7 @@ async function optimizerClasses(file) {
     return { classes, schema: getSchema(meta.header) };
 }
 
+
 class DeleteColumn {
     constructor(Type = Float64Array) { this.Type = Type; this.parts = []; this.length = 0; }
     push(value) {
@@ -78,6 +80,7 @@ function repairDeletedAttribute(value, removed) {
             return !ref || !removed(Number(ref[1]));
         }).map(item => repairDeletedAttribute(item, removed)).join(',') + ')';
     }
+    
     const typed = v.match(/^([A-Z][A-Z0-9_]*)\(([\s\S]*)\)$/i);
     if (typed) return typed[1] + '(' + repairDeletedAttribute(typed[2], removed) + ')';
     return v;
@@ -89,6 +92,7 @@ async function deleteOptimizerClasses(file, selected, replacements = new Map(), 
         await store.put('classes', new Blob());
         const ids = new DeleteColumn(), starts = new DeleteColumn(), edges = new DeleteColumn();
         const codes = new DeleteColumn(Uint16Array), types = [], typeCodes = new Map(), byId = new Map();
+        
         const relations = new Map();
         const meta = await streamStepFile(file, { collectEntities: false,
             onProgress: done => wlog(`Class deletion: indexed ${(done / 1048576).toFixed(0)} MB...`),
@@ -99,6 +103,9 @@ async function deleteOptimizerClasses(file, selected, replacements = new Map(), 
                 byId.set(id, ids.length); ids.push(id); starts.push(edges.length);
                 if (!typeCodes.has(p.type)) { typeCodes.set(p.type, types.length); types.push(p.type); }
                 codes.push(typeCodes.get(p.type));
+                
+                
+                
                 const content = p.type === 'IFCPRESENTATIONLAYERASSIGNMENT' || p.type === 'IFCPRESENTATIONLAYERWITHSTYLE'
                     ? splitStepAttributes(p.content).filter((_, i) => i !== 2).join(',') : p.content;
                 for (const ref of numericRefs(content)) edges.push(ref);
@@ -127,6 +134,7 @@ async function deleteOptimizerClasses(file, selected, replacements = new Map(), 
             if (!relationRefs.has(ref)) relationRefs.set(ref, []);
             relationRefs.get(ref).push(id);
         }
+        
         const anchors = [
             ['IFCSTYLEDITEM', 'Item'], ['IFCPRESENTATIONLAYERASSIGNMENT', 'AssignedItems'],
             ['IFCINDEXEDCOLOURMAP', 'MappedTo'], ['IFCINDEXEDTEXTUREMAP', 'MappedTo'],
@@ -139,6 +147,8 @@ async function deleteOptimizerClasses(file, selected, replacements = new Map(), 
             const anchor = anchors.find(([base]) => inherits(schema, type, base));
             if (anchor) anchorAttributes.set(type, attrIndex(type, anchor[1]));
         }
+        
+        
         const boxedTypes = new Map();
         if (replacements.size) for (const [id, attrs] of relations) {
             const type = types[codes.get(indexOf(id))];
@@ -186,6 +196,8 @@ async function deleteOptimizerClasses(file, selected, replacements = new Map(), 
         const before = reachable();
         let selectedCount = 0;
         for (let i = 0; i < ids.length; i++) if (chosen.has(types[codes.get(i)])) { mark(ids.get(i)); selectedCount++; }
+        
+        
         for (let at = 0; at < changed.length; at++) for (const id of relationRefs.get(changed[at]) || []) {
             if (isRemoved(id)) continue;
             const type = types[codes.get(indexOf(id))], attrs = relations.get(id), definitions = schema[type].attrs;
@@ -258,6 +270,7 @@ self.onmessage = async event => {
         }
         if (data.action === 'optimizeFile' && data.options?.deleteClasses?.length) {
             const file = await deleteOptimizerClasses(data.file, data.options.deleteClasses);
+            
             await optimizerBaseHandler({ data: { ...data, file, fileName: data.fileName || data.file.name } });
             return;
         }

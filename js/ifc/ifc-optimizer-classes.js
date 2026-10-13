@@ -18,6 +18,7 @@
 // liteAECO - (ifc-optimizer-classes.js)
 // ========
 
+
 self.IFC_OPTIMIZER_RECOMMENDATIONS = [
     ['Structure', 'IfcMechanicalFastener', 100, 'Repeated bolts and screws.'],
     ['Structure', 'IfcFastener', 100, 'Repeated fixing and connection details.'],

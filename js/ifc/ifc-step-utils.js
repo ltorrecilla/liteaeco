@@ -18,13 +18,23 @@
 // liteAECO - (ifc-step-utils.js)
 // ========
 
+
+
+
+
+
 (function () {
     'use strict';
 
+    
     function escapeStepString(value) {
         return String(value ?? '').replace(/'/g, "''");
     }
 
+    
+    
+    
+    
     function encodeIfcString(str) {
         if (str === null || str === undefined) return '';
         const s = String(str);
@@ -44,6 +54,8 @@
         return res;
     }
 
+    
+    
     const GUID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$';
     function generateIfcGuid() {
         let bytes;
@@ -53,9 +65,11 @@
         } else {
             bytes = Array.from({ length: 16 }, () => Math.floor(Math.random() * 256));
         }
+        
         bytes[6] = (bytes[6] & 0x0f) | 0x40;
         bytes[8] = (bytes[8] & 0x3f) | 0x80;
 
+        
         let bits = '';
         for (const b of bytes) bits += b.toString(2).padStart(8, '0');
         let guid = GUID_CHARS[parseInt(bits.slice(0, 2), 2)];
@@ -65,6 +79,8 @@
         return guid;
     }
 
+    
+    
     function splitStepAttributes(attrString) {
         const result = [];
         let current = '';
@@ -97,11 +113,15 @@
         return result;
     }
 
+    
     function getEntityID(entityStr) {
         const m = entityStr.match(/^\s*#(\d+)\s*=/);
         return m ? m[1] : null;
     }
 
+    
+    
+    
     async function* iterateStepStatements(file, chunkSize = 10 * 1024 * 1024) {
         const decoder = new TextDecoder('utf-8');
         let buffer = '';

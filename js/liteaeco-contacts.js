@@ -18,6 +18,44 @@
 // liteAECO - (liteaeco-contacts.js)
 // ========
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 (function (root, factory) {
     var api = factory(root);
     if (typeof module === "object" && module.exports) module.exports = api;
@@ -35,6 +73,8 @@
         "Location", "Campus", "Building", "Floor", "Hood", "Starting Date", "Percentage", "Cost Center", "Cost / Hour",
         "Skills", "In contact with", "Influence", "Engagement", "Meeting participation", "RASCI Matrix", "Comments", "Status"];
 
+    
+    
     var LABELS = {
         "id": "id", "name": "name", "company": "company",
         "employee code": "employeeCode", "employee number": "employeeNumber", "empno": "employeeNumber",
@@ -50,6 +90,7 @@
         "rasci matrix": "rasciMatrix", "comments": "comments", "status": "status"
     };
 
+    
     function str(v) { return String(v == null ? "" : v).trim(); }
     function cell(v) { var s = str(v); return s === "-" ? "" : s; }
     function normMail(v) { return cell(v).toLowerCase(); }
@@ -77,12 +118,15 @@
         return randomUuid();
     }
 
+    
+    
     function tempId(key) {
         var s = cell(key).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
         return s ? "m-" + s : null;
     }
     function isTempId(id) { return /^m-[a-z0-9-]+$/.test(str(id)); }
 
+    
     function parseAoa(aoa, rowOffset) {
         aoa = aoa || [];
         var header = (aoa[0] || []).map(str);
@@ -121,6 +165,7 @@
             res.sheetName = cn;
             return res;
         }
+        
         var info = null;
         for (i = 0; i < names.length; i++) if (str(names[i]).toUpperCase() === "INFO") { info = wb.Sheets[names[i]]; break; }
         if (info) {
@@ -141,6 +186,9 @@
         return { ok: false, reason: "no-contacts", contacts: [] };
     }
 
+    
+    
+    
     function samePerson(a, b) {
         if (a.id && b.id && a.id === b.id) return true;
         var am = normMail(a.mail), bm = normMail(b.mail);
@@ -171,19 +219,32 @@
         return { add: add, skip: skip, clashes: clashes };
     }
 
+    
+
+
+
+
+
+
+
+
+
+
+
     function reconcile(local, roster, opts) {
         opts = opts || {};
         var fields = opts.fields || ["name", "company", "role", "mail"];
         var byId = {}, used = {};
         local.forEach(function (p) { if (p.id) byId[p.id] = p; });
         var res = { adopt: [], update: [], add: [], clashes: [], ambiguous: [] };
-        var claimedIds = {};
+        var claimedIds = {};   
 
         roster.forEach(function (r) {
             var rid = cell(r.id);
             var rm = normMail(r.mail), rn = normName(r.name);
             var match = null, candidates;
             if (rid && byId[rid] && !used[rid]) match = byId[rid];
+            
             if (!match && !rid) {
                 var tid = tempId(r.mail || r.name);
                 if (tid && byId[tid] && !used[tid]) match = byId[tid];
@@ -207,6 +268,7 @@
                 var id = rid || (opts.blankId ? opts.blankId(r) : (tempId(r.mail || r.name) || newId()));
                 if (claimedIds[id] || (byId[id] && used[id])) { res.clashes.push({ roster: r, local: byId[id] || null, reason: "duplicate-roster-id" }); return; }
                 if (byId[id] && !used[id]) {
+                    
                     res.clashes.push({ roster: r, local: byId[id], reason: "id-held-by-other" });
                     return;
                 }
@@ -238,12 +300,14 @@
         return res;
     }
 
+    
+    
     function resolve(id, aliases) {
         var cur = str(id);
         if (!cur || !aliases) return cur;
         var seen = {};
         for (var hops = 0; hops < 64; hops++) {
-            if (seen[cur]) return cur;
+            if (seen[cur]) return cur;          
             seen[cur] = true;
             var nx = Object.prototype.hasOwnProperty.call(aliases, cur) ? aliases[cur] : null;
             if (!nx || nx === cur) return cur;
@@ -256,6 +320,7 @@
         return map && Object.prototype.hasOwnProperty.call(map, id) ? map[id] : null;
     }
 
+    
     function remapString(s, map) {
         if (s == null) return s;
         var text = String(s);
@@ -292,6 +357,8 @@
         return out;
     }
 
+    
+    
     function remapKeys(obj, map, conflicts) {
         if (!obj || typeof obj !== "object") return obj;
         Object.keys(map || {}).forEach(function (from) {
@@ -308,6 +375,8 @@
         return obj;
     }
 
+    
+    
     function tagOf(v) { return Object.prototype.toString.call(v); }
     function toBytes(buf) {
         if (!buf) return new Uint8Array(0);
@@ -327,6 +396,8 @@
         return ("0000000" + h.toString(16)).slice(-8);
     }
 
+    
+    
     function hash(buf) {
         var bytes = toBytes(buf);
         var c = (W && W.crypto) || (typeof crypto !== "undefined" ? crypto : null);
@@ -338,6 +409,8 @@
         return Promise.resolve("fnv1a:" + fnv1a(bytes) + "-" + bytes.length);
     }
 
+    
+    
     function hashMatches(stamp, buf) {
         if (!stamp) return Promise.resolve(false);
         return hash(buf).then(function (h) { return h === String(stamp); });

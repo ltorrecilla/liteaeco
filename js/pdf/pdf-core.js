@@ -349,12 +349,96 @@
         };
     }
 
+    
+    
+    
+    
+    
+    const HANDOFF_DB = 'liteaeco-pdfv-handoff';
+    const HANDOFF_TTL = 10 * 60 * 1000;   
+
+    function handoffDb() {
+        return new Promise((res, rej) => {
+            const r = indexedDB.open(HANDOFF_DB, 1);
+            r.onupgradeneeded = () => r.result.createObjectStore('f');
+            r.onsuccess = () => res(r.result);
+            r.onerror = () => rej(r.error);
+        });
+    }
+    function handoffKey() {
+        const a = new Uint8Array(8);
+        crypto.getRandomValues(a);
+        return Array.from(a, b => b.toString(16).padStart(2, '0')).join('');
+    }
+    async function handoffPut(file, key) {
+        const db = await handoffDb();
+        try {
+            await new Promise((res, rej) => {
+                const trx = db.transaction('f', 'readwrite'), st = trx.objectStore('f');
+                
+                const now = Date.now();
+                st.openCursor().onsuccess = (e) => {
+                    const c = e.target.result;
+                    if (!c) return;
+                    if (c.value && c.value.ts && now - c.value.ts > HANDOFF_TTL) c.delete();
+                    c.continue();
+                };
+                
+                st.put({ blob: file, name: file.name, type: file.type, lastModified: file.lastModified, ts: now }, key);
+                trx.oncomplete = res; trx.onerror = () => rej(trx.error); trx.onabort = () => rej(trx.error);
+            });
+        } finally { db.close(); }
+        return key;
+    }
+    async function handoffTake(key) {
+        const db = await handoffDb();
+        try {
+            return await new Promise((res, rej) => {
+                const trx = db.transaction('f', 'readwrite'), st = trx.objectStore('f');
+                const g = st.get(key);
+                g.onsuccess = () => st.delete(key);   
+                trx.oncomplete = () => {
+                    const r = g.result;
+                    res(r && r.blob ? new File([r.blob], r.name, { type: r.type || 'application/pdf', lastModified: r.lastModified }) : null);
+                };
+                trx.onerror = () => rej(trx.error); trx.onabort = () => rej(trx.error);
+            });
+        } finally { db.close(); }
+    }
+    
+    
+    
+    
+    
+    async function handoffOpen(page, file, win) {
+        const key = await handoffPut(file, handoffKey());
+        const url = page + (page.indexOf('?') < 0 ? '?' : '&') + 'handoff=' + key;
+        if (win && !win.closed) { win.location.href = new URL(url, location.href).href; return 'tab'; }
+        const w = window.open(url, '_blank');
+        if (w) return 'tab';
+        location.href = url;
+        return 'same';
+    }
+    
+    async function handoffReceive() {
+        const m = /[?&]handoff=([0-9a-f]{8,64})/.exec(location.search);
+        if (!m) return null;
+        try {
+            const u = new URL(location.href);
+            u.searchParams.delete('handoff');
+            history.replaceState(null, '', u.pathname + u.search + u.hash);
+        } catch (e) {  }
+        try { return await handoffTake(m[1]); }
+        catch (e) { console.warn('[pdf-core] handoff read failed', e); return null; }
+    }
+
     window.PDFV_CORE = {
-        version: '1.1.0',
+        version: '1.2.0',
         engineReady,
         isPdfFile,
         createLoader,
         createRenderer,
+        handoff: { put: handoffPut, take: handoffTake, open: handoffOpen, receive: handoffReceive },
         limits: { MAX_CANVAS_DIM, MAX_CANVAS_AREA },
     };
 })();

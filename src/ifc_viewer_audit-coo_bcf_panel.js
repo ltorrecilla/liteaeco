@@ -1,23 +1,3 @@
-/*
- * Copyright 2026 Luis Torrecilla (liteAECO)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-// ========
-// liteAECO - (ifc_viewer_audit-coo_bcf_panel.js)
-// ========
-
 import{a as e,c as t,i as n,n as r,r as i}from"./ifc_viewer_audit-coo_bcf_shared.js";import{BCF_MARKER_COLORS as a,t as o}from"./ifc_viewer_audit-coo_bcf.js";import{a as s,c,d as l,i as ee,n as u,o as d,p as f,r as te,s as ne,u as re}from"./ifc_viewer_audit-coo_bcf_detail.js";function p(e){return e===`Closed`||e===`Done`?`bg-emerald-100 text-emerald-700`:e===`In Progress`||e===`In Review`?`bg-sky-100 text-sky-700`:`bg-amber-100 text-amber-700`}function m({buttonId:h=`coo-btn-bcf`}={}){let g=document.getElementById(h),_=document.getElementById(`prop-popup`)?.parentElement;if(!g||!_||g.dataset.bcfWired)return null;let v=window.__cooBcf;if(!v)return setTimeout(()=>m({buttonId:h}),500),null;g.dataset.bcfWired=`1`;let y=``,b=e=>String(e??``).trim().toLowerCase(),x=()=>{let e=window.__cdeCtx,t=e?[e.author,e.me&&e.me.memberId,e.me&&e.me.name,e.me&&e.me.mail].filter(Boolean):[v.author].filter(Boolean),n=(typeof v.contacts==`function`?v.contacts():null)||window.__cooProject?.listContacts?.()||[];return{isClosed:e=>v.isClosed(e),me:t,personName:e=>{let t=b(e),r=n.find(e=>b(e.mail)===t||b(e.name)===t||e.id&&b(e.id)===t);return r?r.name||r.mail:e},now:Date.now()}},S=`viewer:local`;try{S=`viewer:`+(new URLSearchParams(window.location.search).get(`project`)||`local`)}catch{}let C=l(S,window),w=null,T=null,E=!1;function D(e){O.querySelectorAll(`[data-tab]`).forEach(t=>t.classList.toggle(`active`,t.dataset.tab===e)),O.querySelector(`[data-pane-list]`).classList.toggle(`hidden`,e!==`list`),O.querySelector(`[data-pane-list]`).classList.toggle(`flex`,e===`list`),O.querySelector(`[data-pane-detail]`).classList.toggle(`hidden`,e!==`detail`)}document.getElementById(`coo-bcf-dock`)?.remove();let O=document.createElement(`div`);O.id=`coo-bcf-dock`,O.className=`properties-popup closed`,O.style.width=`380px`,O.style.zIndex=`26`,O.innerHTML=`
     <div class="properties-popup-header">
       <span class="text-sm font-semibold" data-i18n="issBoardTitle">${d(t(`issBoardTitle`,`Issue Management`))}</span>

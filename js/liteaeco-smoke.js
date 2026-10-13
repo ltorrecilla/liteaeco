@@ -18,6 +18,16 @@
 // liteAECO - (liteaeco-smoke.js)
 // ========
 
+
+
+
+
+
+
+
+
+
+
 (async function liteaecoSmoke(opts) {
   opts = opts || {};
   const W = opts.win || window;
@@ -37,6 +47,7 @@
   const cde = L.cde;
   const D = L.disciplines;
 
+  
   expect("core", "liteAECO.cde loaded", !!cde, "", "js/liteaeco-cde.js missing");
   if (cde) {
     expect("core", "core build >= 20", cde.CDE_BUILD >= 20, "build " + cde.CDE_BUILD, "build " + cde.CDE_BUILD + " (deploy js/liteaeco-cde.js)");
@@ -73,6 +84,7 @@
   expect("vendor", "no CDN lucide@latest", !scripts.some((s) => /unpkg\.com\/lucide@latest/.test(s)), "", "page still loads unpkg lucide@latest");
   expect("vendor", "SheetJS from js/vendor/", scripts.some((s) => /js\/vendor\/xlsx-1\.2\.0\.bundle\.js$/.test(s)), "", "old xlsx path: " + (scripts.find((s) => /xlsx/i.test(s)) || "none"));
 
+  
   if (page === "hub") {
     const P = W.BASE_PAGE || {};
     const n = Object.keys(P).length;
@@ -83,6 +95,7 @@
     expect("hub", "Files: rename safety (hub-files.js)", g("ftRenameImpact") && g("ftRenameApply"), "", "hub-files.js is old");
     expect("hub", "Access: issues folder from project.json (hub-access.js)", g("accAppFolders"), "", "hub-access.js is old");
     expect("hub", "Issues tab (hub-issues.js)", g("hubIssuesShow") && !!W.document.getElementById("tab-issues"), "", "hub-issues.js or the tab-issues panel missing (project-core.html)");
+    
     try {
       const hm = await importer(url("../src/hub-bcf.js") + "?smoke=" + Date.now());
       expect("hub", "issues module (src/hub-bcf.js)", fn(hm, "createFileCore") && fn(hm, "initBcfBoard") && fn(hm, "createTopicDetail") && hm.BCF_HUB_BUILD >= 1,
@@ -101,6 +114,7 @@
     } else skip("hub", "project checks", "no project open");
   }
 
+  
   if (page === "viewer") {
     expect("viewer", "app helper (js/liteaeco-cde-app.js)", !!L.app && fn(L.app, "open"), "", "liteaeco-cde-app.js not loaded");
     const P = W.EN_PAGE || W.BASE_PAGE || {};
@@ -120,6 +134,11 @@
     else warn("viewer", "discipline picker", "window.__cooDisciplines not found");
     expect("viewer", "leave-page guard", !!W.__appDirty && fn(W.__appDirty, "any"), "", "__appDirty missing");
 
+    
+    
+    
+    
+    
     const resources = (W.performance && fn(W.performance, "getEntriesByType") ? W.performance.getEntriesByType("resource") : []).map((e) => e.name);
     const chunks = resources.filter((u) => /\/src\/ifc_(viewer_)?audit-[^/?]+\.js(\?|$)/.test(u));
     const isBuilt = chunks.length > 0 || !!W.document.querySelector('script[type="module"][src*="/src/ifc_"]');
@@ -149,6 +168,7 @@
     check(cs, "decision replay (cls_store.js)", fn(cs, "replayDecisions"), "", "cls_store.js is old");
     const rf = await mod("rel_file.js");
     check(rf, "relationships file (rel_file.js)", fn(rf, "buildRelationshipsWorkbook") && fn(rf, "readRelationshipsWorkbook"), "", "old");
+    
     const bcl = W.__cooBcfCde;
     if (bcl) expect("viewer", "issues in the project folder (coo_bcf_cde.js)", bcl.BUILD >= 2, "build " + bcl.BUILD, "build " + bcl.BUILD + " (coo_bcf_cde.js is old)");
     else {

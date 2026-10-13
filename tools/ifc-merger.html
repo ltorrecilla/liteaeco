@@ -25,10 +25,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IFC Merger - Merge Multiple IFC Models in Your Browser | liteAECO</title>
 
+    
     <meta name="description" content="Free client-side tool to merge multiple IFC models into one file. Unifies IFCPROJECT, sites, buildings, storeys; auto-scales unit mismatches and deduplicates resources. No upload, private, fast, built for AEC teams.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://liteaeco.com/tools/ifc-merger.html">
 
+    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://liteaeco.com/tools/ifc-merger.html">
     <meta property="og:site_name" content="liteAECO">
@@ -40,12 +42,14 @@
     <meta property="og:image:alt" content="liteAECO IFC Merger tool interface">
     <meta property="og:locale" content="en_US">
 
+    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://liteaeco.com/tools/ifc-merger.html">
     <meta name="twitter:title" content="IFC Merger - Merge Multiple IFC Models in Your Browser | liteAECO">
     <meta name="twitter:description" content="Free client-side tool to merge multiple IFC models into one file. Unifies IFCPROJECT, sites, buildings, storeys; auto-scales unit mismatches and deduplicates resources. No upload, private, fast, built for AEC teams.">
     <meta name="twitter:image" content="https://liteaeco.com/img/og-ifc-merger.png">
 
+    
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
@@ -54,9 +58,16 @@
     <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
     <meta name="theme-color" content="#ffffff">
 
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../js/vendor/lucide-1.45.0.min.js"></script>
 
+    <style>
+        .merger-loading-line { animation: merger-loading 1.5s ease-in-out infinite; }
+        @keyframes merger-loading { from { transform: translateX(-100%); } to { transform: translateX(350%); } }
+        @media (prefers-reduced-motion: reduce) { .merger-loading-line { animation: none; width: 100%; opacity: .6; } }
+    </style>
+    
     <script>window.SITE_ROOT = '../';</script>
     <script src="../lang/en/global.js"></script>
     <script src="../js/common.js"></script>
@@ -69,6 +80,7 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
+                        
                         accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
                     }
                 }
@@ -76,11 +88,16 @@
         }
     </script>
 
+    
     <link rel="stylesheet" type="text/css" href="../css/global.css">
 </head>
 
 <body
     class="bg-white text-slate-900 selection:bg-indigo-500/20 relative overflow-x-hidden min-h-screen flex flex-col">
+
+    
+
+    
 
     <div class="max-w-7xl mx-auto px-4 md:px-8 pt-24 pb-16 relative z-10 w-full flex-grow">
 
@@ -140,16 +157,18 @@
                                 class="drop-zone flex flex-col items-center justify-center w-full min-h-[170px] px-4 py-4 border-2 border-slate-300 border-dashed rounded-lg hover:border-indigo-500 hover:bg-indigo-50/30 bg-slate-50/50 cursor-pointer transition-all">
                                 <div
                                     class="flex flex-col items-center justify-center space-y-2 text-center pointer-events-none">
-                                    <i data-lucide="file-input"
-                                        class="w-8 h-8 text-slate-400 mb-1 group-hover:text-indigo-500 transition-colors"></i>
-                                    <div class="flex text-sm text-slate-600 justify-center font-medium">
+                                    <span id="file1-icon"><i data-lucide="file-input" class="w-8 h-8 text-slate-400 mb-1"></i></span>
+                                    <p id="file1-loaded" class="hidden text-sm font-semibold text-slate-900">File loaded</p>
+                                    <div id="file1-upload-prompt" class="flex text-sm text-slate-600 justify-center font-medium">
                                         <span
                                             class="text-indigo-600 hover:text-indigo-700 pointer-events-auto cursor-pointer"
                                             id="ui-drop1-upload">Load file</span>
                                         <p class="pl-1" id="ui-drop1-or">or drag and drop</p>
                                     </div>
-                                    <p class="text-xs text-slate-500 font-medium mt-1 truncate max-w-[200px]"
+                                    <p class="text-xs text-slate-500 font-medium mt-1 break-all whitespace-pre-line"
                                         id="file1-name">No file selected</p>
+                                    <p id="file1-size" class="hidden text-xs text-slate-600"></p>
+                                    <p id="file1-replace" class="hidden text-xs font-medium text-slate-700">Click to replace files.</p>
                                 </div>
                                 <input id="file1" name="file1" type="file" accept=".ifc" class="hidden" />
                             </label>
@@ -162,16 +181,18 @@
                                 class="drop-zone flex flex-col items-center justify-center w-full min-h-[170px] px-4 py-4 border-2 border-slate-300 border-dashed rounded-lg hover:border-indigo-500 hover:bg-indigo-50/30 bg-slate-50/50 cursor-pointer transition-all">
                                 <div
                                     class="flex flex-col items-center justify-center space-y-2 text-center pointer-events-none">
-                                    <i data-lucide="file-plus-corner"
-                                        class="w-8 h-8 text-slate-400 mb-1 group-hover:text-indigo-500 transition-colors"></i>
-                                    <div class="flex text-sm text-slate-600 justify-center font-medium">
+                                    <span id="file2-icon"><i data-lucide="file-plus-corner" class="w-8 h-8 text-slate-400 mb-1"></i></span>
+                                    <p id="file2-loaded" class="hidden text-sm font-semibold text-slate-900">File loaded</p>
+                                    <div id="file2-upload-prompt" class="flex text-sm text-slate-600 justify-center font-medium">
                                         <span
                                             class="text-indigo-600 hover:text-indigo-700 pointer-events-auto cursor-pointer"
                                             id="ui-drop2-upload">Load multiple files</span>
                                         <p class="pl-1" id="ui-drop2-or">or drag and drop</p>
                                     </div>
-                                    <p class="text-xs text-slate-500 font-medium mt-1 truncate max-w-[200px]"
+                                    <p class="text-xs text-slate-500 font-medium mt-1 break-all whitespace-pre-line"
                                         id="file2-name">No file selected</p>
+                                    <p id="file2-size" class="hidden text-xs text-slate-600"></p>
+                                    <p id="file2-replace" class="hidden text-xs font-medium text-slate-700">Click to replace files.</p>
                                 </div>
                                 <input id="file2" name="file2" type="file" accept=".ifc" class="hidden" multiple />
                             </label>
@@ -284,6 +305,7 @@
                                     <option value="medium" id="ui-opt-lvl-medium">Medium (Attribute Reduction)</option>
                                     <option value="high" id="ui-opt-lvl-high">High (Includes Storey Cleanup)</option>
                                 </select>
+                                
                                 <div
                                     class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-500">
                                     <i data-lucide="chevron-down" class="w-4 h-4"></i>
@@ -295,6 +317,8 @@
                 </div>
 
             </div>
+
+
 
             <div class="mb-6">
                 <details
@@ -354,6 +378,7 @@
                                     </label>
                                 </div>
                             </div>
+
 
                             <div>
                                 <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200 pb-2"
@@ -428,6 +453,13 @@
                     <span id="btnText">Merge Files</span>
                 </button>
 
+                <div id="mergerActivity" class="hidden mt-2">
+                    <div id="mergerProgress" class="h-0.5 overflow-hidden rounded bg-slate-200" role="progressbar" aria-label="Merging models">
+                        <div class="merger-loading-line h-full w-1/3 bg-slate-600"></div>
+                    </div>
+                    <p class="mt-2 text-xs text-slate-600" role="status" aria-live="polite">Merging models… Please wait.</p>
+                </div>
+
                 <div id="sizeWarning" class="hidden mt-3 flex items-start gap-2 text-[12px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
                     <i data-lucide="triangle-alert" class="w-4 h-4 shrink-0 mt-0.5"></i>
                     <span id="sizeWarningText"></span>
@@ -440,7 +472,7 @@
                         <summary
                             class="flex justify-between items-center font-medium cursor-pointer list-none p-4 hover:bg-white/80 transition-colors [&::-webkit-details-marker]:hidden">
                             <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
-                                <i data-lucide="terminal" class="w-4 h-4 text-indigo-500"></i>
+                                <i data-lucide="terminal" class="w-4 h-4 text-indigo-500"></i> 
                                 <span id="ui-sys-log">System Log Output</span>
                             </span>
                             <span
@@ -468,19 +500,30 @@
         </div>
     </div>
 
+    
+    
     <script>
+        
+        
+        
 
         window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
 
+        
+        
         window.updateToolDynamicUI = function (d) {
+            
         };
 
+        
         function bootApp() {
+            
             autoDetectLanguage();
 
+            
             window.injectUI({
                 showNav: true,
-                linkTarget: '',
+                linkTarget: '', 
                 transparentNav: false,
                 showSignIn: false,
                 showCategories: true,
@@ -490,8 +533,10 @@
                 showFooterLinks: true,
             });
 
+            
             window.injectCookieBanner();
 
+            
             const currentYear = new Date().getFullYear();
             const targetVersionInput = document.getElementById('targetVersionInput');
             if (targetVersionInput) {
@@ -519,17 +564,23 @@
                 toggleVersionInput();
             }
 
+            
             window.loadLanguage(currentLang, window.pageScriptPrefix);
         }
 
+        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', bootApp);
         } else {
             bootApp();
         }
+        
+        
+        
     </script>
 
     <script>
+        
         const file1Input = document.getElementById('file1');
         const file2Input = document.getElementById('file2');
         const file1Name = document.getElementById('file1-name');
@@ -544,6 +595,7 @@
         let file1Selected = false;
         let file2Selected = false;
 
+        
         function t(key, fallback) {
             try {
                 const d = (typeof getTranslations === 'function') ? getTranslations() : (window.PAGE_I18N || {});
@@ -551,6 +603,7 @@
             } catch (e) { return fallback; }
         }
 
+        
         function setupDropZone(dropZoneId, inputElement, nameElement, isFile1) {
             const dropZone = document.getElementById(dropZoneId);
 
@@ -584,31 +637,40 @@
         }
 
         function handleFiles(files, textElement, isFile1) {
-            if (files.length > 0) {
-                if (!isFile1 && files.length > 1) {
-                    textElement.textContent = `${files.length} files selected`;
-                } else {
-                    textElement.textContent = files[0].name;
-                }
-
-                textElement.classList.remove('text-slate-500');
-                textElement.classList.add('text-indigo-600', 'font-bold');
-
-                if (isFile1) file1Selected = true;
-                else file2Selected = true;
-            } else {
-                textElement.textContent = t('dropEmpty', 'No file selected');
-                textElement.classList.add('text-slate-500');
-                textElement.classList.remove('text-indigo-600', 'font-bold');
-                if (isFile1) file1Selected = false;
-                else file2Selected = false;
-            }
+            const loaded = files.length > 0, n = isFile1 ? 1 : 2;
+            const zone = document.getElementById(`drop-zone-${n}`);
+            for (const [name, enabled] of [
+                ['border-dashed', !loaded], ['border-solid', loaded], ['border-slate-500', loaded],
+                ['hover:border-indigo-500', !loaded], ['hover:bg-indigo-50/30', !loaded],
+                ['hover:border-slate-700', loaded], ['hover:bg-slate-100', loaded]
+            ]) zone.classList.toggle(name, enabled);
+            document.getElementById(`file${n}-upload-prompt`).classList.toggle('hidden', loaded);
+            for (const suffix of ['loaded', 'size', 'replace']) document.getElementById(`file${n}-${suffix}`).classList.toggle('hidden', !loaded);
+            document.getElementById(`file${n}-loaded`).textContent = files.length > 1 ? `${files.length} files loaded` : 'File loaded';
+            document.getElementById(`file${n}-replace`).textContent = isFile1 ? 'Click to replace file.' : 'Click to replace files.';
+            const icon = loaded ? 'circle-check' : isFile1 ? 'file-input' : 'file-plus-corner';
+            document.getElementById(`file${n}-icon`).innerHTML = `<i data-lucide="${icon}" class="w-8 h-8 ${loaded ? 'text-slate-700' : 'text-slate-400'} mb-1"></i>`;
+            if (window.lucide) lucide.createIcons();
+            let bytes = 0; for (const file of files) bytes += file.size;
+            document.getElementById(`file${n}-size`).textContent = loaded ? `${formatBytes(bytes)}${files.length > 1 ? ' total' : ''}` : '';
+            textElement.textContent = loaded ? Array.from(files).slice(0, 3).map(file => file.name).join('\n') + (files.length > 3 ? `\n+${files.length - 3} more files` : '') : t('dropEmpty', 'No file selected');
+            textElement.classList.toggle('text-slate-500', !loaded);
+            textElement.classList.toggle('text-slate-800', loaded);
+            textElement.classList.toggle('font-bold', loaded);
+            if (isFile1) file1Selected = loaded; else file2Selected = loaded;
+            downloadArea.classList.add('hidden');
+            if (lastDownloadUrl) { URL.revokeObjectURL(lastDownloadUrl); lastDownloadUrl = null; }
             checkReady();
         }
 
+        
+        
+        
+        
+        
         const MEM_GB = Math.min(8, Math.max(1, navigator.deviceMemory || 8));
-        const WARN_BYTES = Math.round(MEM_GB * 20) * 1048576;
-        const DEEP_CAP_BYTES = Math.round(MEM_GB * 32) * 1048576;
+        const WARN_BYTES = Math.round(MEM_GB * 20) * 1048576;      
+        const DEEP_CAP_BYTES = Math.round(MEM_GB * 32) * 1048576;  
 
         function totalInputBytes() {
             let b = 0;
@@ -646,21 +708,24 @@
         }
 
         function checkReady() {
-            mergeBtn.disabled = !(file1Input.files.length > 0 && file2Input.files.length > 0);
+            mergeBtn.disabled = !!mergeBtn.dataset.busy || !(file1Input.files.length > 0 && file2Input.files.length > 0);
             checkSizeGuardrails();
             if (!mergeBtn.disabled && !mergeBtn.dataset.busy) {
                 btnText.innerText = t('btnMerge', 'Merge Files');
             }
         }
 
+        
         setupDropZone('drop-zone-1', file1Input, file1Name, true);
         setupDropZone('drop-zone-2', file2Input, file2Name, false);
 
+        
         const optLevelSelect = document.getElementById('opt_level_select');
 
         optLevelSelect.addEventListener('change', (e) => {
             const level = e.target.value;
 
+            
             const metaKeep = document.querySelector('input[name="opt_meta"][value="keep"]');
             const metaMerge = document.querySelector('input[name="opt_meta"][value="merge"]');
             const deepCompress = document.getElementById('opt_deep_compress');
@@ -670,6 +735,7 @@
             const emptyStoreys = document.getElementById('opt_remove_empty_storeys');
             const duplicateStoreys = document.getElementById('opt_merge_duplicate_storeys');
 
+            
             metaKeep.checked = true;
             deepCompress.checked = false;
             dedupColors.checked = false;
@@ -678,11 +744,15 @@
             emptyStoreys.checked = level === 'high';
             duplicateStoreys.checked = level === 'high';
 
+            
+            
+            
             if (level === 'low') {
                 metaMerge.checked = true;
                 deepCompress.checked = false;
                 dedupColors.checked = true;
             }
+            
             else if (level === 'medium' || level === 'high') {
                 metaMerge.checked = true;
                 deepCompress.checked = false;
@@ -691,12 +761,14 @@
                 stripPres.checked = true;
             }
 
+            
             deepCompress.dispatchEvent(new Event('change'));
             floatPrec.dispatchEvent(new Event('change'));
             emptyStoreys.dispatchEvent(new Event('change'));
             duplicateStoreys.dispatchEvent(new Event('change'));
         });
 
+        
         const optFloatCb = document.getElementById('opt_float_precision');
         const floatPrecisionControl = document.getElementById('float_precision_control');
         function syncFloatControl() {
@@ -706,6 +778,7 @@
         optFloatCb.addEventListener('change', syncFloatControl);
         syncFloatControl();
 
+        
         const optDeepCompressCb = document.getElementById('opt_deep_compress');
         const deepCompressControls = document.getElementById('deep_compress_controls');
         function syncDeepCompressControl() {
@@ -716,6 +789,10 @@
         syncDeepCompressControl();
         optDeepCompressCb.addEventListener('change', () => { if (optDeepCompressCb.checked) checkSizeGuardrails(); });
 
+        
+        
+        
+        
         const siteRadios = document.querySelectorAll('input[name="opt_site"]');
         const buildingMergeRadio = document.querySelector('input[name="opt_building"][value="merge"]');
         const buildingKeepRadio = document.querySelector('input[name="opt_building"][value="keep"]');
@@ -746,6 +823,9 @@
         siteRadios.forEach(r => r.addEventListener('change', syncBuildingFromSite));
         syncBuildingFromSite();
 
+        
+        
+        
         const buildingRadios = document.querySelectorAll('input[name="opt_building"]');
         const storeyKeepRadio = document.querySelector('input[name="opt_storey"][value="keep"]');
         const storeyMergeRadios = Array.from(document.querySelectorAll('input[name="opt_storey"]')).filter(r => r.value !== 'keep');
@@ -767,9 +847,10 @@
             });
         }
         buildingRadios.forEach(r => r.addEventListener('change', syncStoreyFromBuilding));
-        siteRadios.forEach(r => r.addEventListener('change', syncStoreyFromBuilding));
+        siteRadios.forEach(r => r.addEventListener('change', syncStoreyFromBuilding)); 
         document.getElementById('opt_merge_duplicate_storeys').addEventListener('change', syncStoreyFromBuilding);
         syncStoreyFromBuilding();
+
 
         function formatDuration(ms) {
             if (ms < 1000) return `${Math.round(ms)} ms`;
@@ -783,6 +864,7 @@
             return b >= 1048576 ? `${(b / 1048576).toFixed(0)} MB` : `${(b / 1024).toFixed(0)} KB`;
         }
 
+        
         function log(msg, isWarning = false) {
             logAreaWrapper.classList.remove('hidden');
             logAreaWrapper.classList.add('flex');
@@ -792,10 +874,15 @@
             console.log(msg);
         }
 
-        const WORKER_VERSION = 11;
-        const WORKER_URL = window.SITE_ROOT + 'js/ifc-worker.js?v=' + WORKER_VERSION;
-        const STALE_WORKER_MSG = 'js/ifc-worker.js is missing or out of date (browser cache?). Hard-refresh the page (Ctrl+F5 / Cmd+Shift+R) and make sure the new ifc-worker.js is deployed.';
+        
 
+        
+        
+        const WORKER_VERSION = 11;
+        const WORKER_URL = window.SITE_ROOT + 'js/ifc/ifc-worker.js?v=' + WORKER_VERSION;
+        const STALE_WORKER_MSG = 'js/ifc/ifc-worker.js is missing or out of date (browser cache?). Hard-refresh the page (Ctrl+F5 / Cmd+Shift+R) and make sure the new ifc-worker.js is deployed.';
+
+        
         function createCoordinator() {
             const w = new Worker(WORKER_URL);
             let readyResolve, readyReject;
@@ -840,6 +927,11 @@
             };
         }
 
+        
+        
+        
+        
+        
         function setInputsLocked(locked) {
             document.getElementById('opt_remove_empty_storeys').disabled = locked;
             document.getElementById('opt_merge_duplicate_storeys').disabled = locked;
@@ -852,6 +944,7 @@
             });
         }
 
+        
         let lastDownloadUrl = null;
         for (const id of ['opt_remove_empty_storeys', 'opt_merge_duplicate_storeys']) document.getElementById(id).addEventListener('change', () => { downloadArea.classList.add('hidden'); if (lastDownloadUrl) { URL.revokeObjectURL(lastDownloadUrl); lastDownloadUrl = null; } });
 
@@ -860,6 +953,8 @@
             downloadArea.classList.add('hidden');
             mergeBtn.disabled = true;
             mergeBtn.dataset.busy = '1';
+            document.getElementById('mergerActivity').classList.remove('hidden');
+            mergeBtn.setAttribute('aria-busy', 'true');
             btnText.innerHTML = '<span class="spinner"></span> Processing...';
             setInputsLocked(true);
             if (lastDownloadUrl) { URL.revokeObjectURL(lastDownloadUrl); lastDownloadUrl = null; }
@@ -871,7 +966,7 @@
                 const optSite = document.querySelector('input[name="opt_site"]:checked').value;
                 const optBuilding = document.querySelector('input[name="opt_building"]:checked').value;
                 const optStorey = document.querySelector('input[name="opt_storey"]:checked').value;
-                const optMeta = document.querySelector('input[name="opt_meta"]:checked').value;
+                const optMeta = document.querySelector('input[name="opt_meta"]:checked').value; 
                 const optFloatPrecision = document.getElementById('opt_float_precision').checked;
                 const floatPrecisionVal = Math.max(4, Math.min(10, parseInt(document.getElementById('float_precision_val').value) || 6));
                 const optDedupColors = document.getElementById('opt_dedup_colors').checked;
@@ -880,6 +975,9 @@
                 const optRemoveEmptyStoreys = document.getElementById('opt_remove_empty_storeys').checked;
                 const optMergeDuplicateStoreys = document.getElementById('opt_merge_duplicate_storeys').checked;
 
+                
+                
+                
                 const optResourceDedup = optLevel !== 'none';
 
                 const childFiles = file2Input.files;
@@ -887,9 +985,11 @@
                 const optDeepCompress = document.getElementById('opt_deep_compress').checked;
                 const optStripPsets = document.getElementById('opt_strip_psets') ? document.getElementById('opt_strip_psets').checked : false;
                 const deepOpts = { optDeepCompress, optStripPsets, optStripPresentation };
+                
                 const useScratchDisk = totalInputBytes() >= WARN_BYTES;
                 if (useScratchDisk) log(`Large job (${formatBytes(totalInputBytes())}): requesting disk-backed scratch storage.`);
 
+                
                 log("Streaming Parent Model (Master) in background worker...");
                 const master = await coord.call('master', {
                     file: file1Input.files[0],
@@ -913,6 +1013,7 @@
                 log(`\n=========================================`);
                 log(`Processing ${childFiles.length} child model(s)...`);
 
+                
                 const cores = navigator.hardwareConcurrency || 2;
                 const largestChild = Math.max(...Array.from(childFiles, f => f.size));
                 const childBudget = MEM_GB * 1024 ** 3 * 0.2;
@@ -920,6 +1021,7 @@
                 const maxWorkers = Math.max(1, Math.min(cores - 1, 3, Math.floor(childBudget / estimatedChildBytes)));
                 log(`Worker pool: up to ${maxWorkers} parallel child worker(s) (${cores} logical cores, ~${MEM_GB} GB RAM).`);
 
+                
                 const childCall = (worker, action, payload, transfer) => new Promise((resolve, reject) => {
                     let settled = false;
                     let readyTimer;
@@ -947,6 +1049,7 @@
                     worker.postMessage(Object.assign({ action }, payload), transfer || []);
                 });
 
+                
                 let graftQueue = Promise.resolve();
                 const activeWorkers = new Set();
                 let childFailure = null;
@@ -966,6 +1069,7 @@
                         log(`[Worker Finished] ${r.fileName} | Scale factor: ${r.scaleFactor}`);
                         if (r.scaledMeasures) log(`  Scaled ${r.scaledMeasures} quantity/property measure(s) to master units.`);
 
+                        
                         graftQueue = graftQueue.then(() =>
                             coord.call('graft', { blob: r.blob, fileName: r.fileName, fileSize: file.size, contextIds: r.contextIds || [] })
                                 .then(g => log(`  Parked ${r.fileName} (${formatBytes(g.bytes)}).`))
@@ -996,6 +1100,7 @@
                 if (childFailure) throw childFailure;
                 await graftQueue;
 
+                
                 log(`\n=========================================`);
                 const fin = await coord.call('finalize', {
                     options: { optLevel, optDedupColors, optFloatPrecision, floatPrecisionVal, optStripPresentation, optRemoveEmptyStoreys, optMergeDuplicateStoreys, useScratchDisk }
@@ -1007,6 +1112,7 @@
                 lastDownloadUrl = url;
                 downloadLink.href = url;
 
+                
                 const parentFileName = file1Input.files[0].name.replace(/\.ifc$/i, '');
                 downloadLink.download = `${parentFileName}_Merged.ifc`;
 
@@ -1017,10 +1123,14 @@
                 try { if (coord) await Promise.race([coord.call('abort', {}), new Promise(r => setTimeout(r, 2000))]); } catch (e) { }
             } finally {
                 if (coord) coord.terminate();
+                
                 mergeBtn.disabled = !(file1Input.files.length > 0 && file2Input.files.length > 0);
 
+                
                 btnText.innerHTML = t('btnMerge', 'Merge Files');
                 delete mergeBtn.dataset.busy;
+                document.getElementById('mergerActivity').classList.add('hidden');
+                mergeBtn.setAttribute('aria-busy', 'false');
                 setInputsLocked(false);
                 log(`Total processing time: ${formatDuration(performance.now() - tStart)}.`);
             }
