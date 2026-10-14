@@ -1,0 +1,2086 @@
+<!--
+  Copyright 2026 Luis Torrecilla (liteAECO)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  liteAECO - (pdf-compare.html)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Luis Torrecilla">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Compare - Compare Two Versions of a PDF Page by Page | liteAECO</title>
+
+    
+    <meta name="description"
+        content="Free client-side tool to open two versions of a PDF and compare them page by page, in overlay or side-by-side. No uploads, private, fast, built for AEC teams.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://liteaeco.com/tools/pdf-compare.html">
+
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://liteaeco.com/tools/pdf-compare.html">
+    <meta property="og:site_name" content="liteAECO">
+    <meta property="og:title" content="PDF Compare - Compare Two Versions of a PDF Page by Page | liteAECO">
+    <meta property="og:description"
+        content="Free client-side tool to open two versions of a PDF and compare them page by page, in overlay or side-by-side. No uploads, private, fast, built for AEC teams.">
+    <meta property="og:image" content="https://liteaeco.com/img/og-pdf-compare.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="liteAECO PDF Compare tool interface">
+    <meta property="og:locale" content="en_US">
+
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://liteaeco.com/tools/pdf-compare.html">
+    <meta name="twitter:title" content="PDF Compare - Compare Two Versions of a PDF Page by Page | liteAECO">
+    <meta name="twitter:description"
+        content="Free client-side tool to open two versions of a PDF and compare them page by page, in overlay or side-by-side. No uploads, private, fast, built for AEC teams.">
+    <meta name="twitter:image" content="https://liteaeco.com/img/og-pdf-compare.png">
+
+    
+    <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../img/android-chrome-512x512.png">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/vendor/lucide-1.45.0.min.js"></script>
+
+    
+    <script>window.SITE_ROOT = '../';</script>
+    <script src="../lang/en/global.js"></script>
+    <script src="../lang/en/pdf-compare.js"></script>
+    <script src="../js/common.js"></script>
+    
+    <script src="../js/liteaeco-cde.js"></script>
+    <script src="../js/liteaeco-cde-app.js"></script>
+
+    
+
+
+    <script src="../js/pdf/pdf-core.js"></script>
+    <script src="../js/pdf/pdf-palette.js"></script>
+    
+    <script src="../js/pdf/pdf-diff.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        accent: { DEFAULT: '#4f46e5', hover: '#4338ca', light: '#e0e7ff', lighthov: '#c7d2fe', lighter: '#eef2ff', }
+                    }
+                }
+            }
+        }
+    </script>
+
+    
+    <link rel="stylesheet" type="text/css" href="../css/global.css">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-family: Inter, sans-serif;
+        }
+
+        .scroller::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        .scroller::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        
+        .tab-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 0 1rem;
+            height: 2.5rem;
+            min-height: 2.5rem;
+            color: #475569;
+            border-radius: 0rem;
+            transition: all 0.2s;
+            margin-bottom: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .tab-btn:hover:not(:disabled) {
+            background-color: #f1f5f9;
+            color: #0f172a;
+        }
+
+        .tab-btn.active {
+            background-color: #e2e8f0;
+            color: #4f46e5;
+            font-weight: 600;
+            box-shadow: inset 3px 0 0 #4f46e5;
+        }
+
+        .tab-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .tab-icon {
+            width: 24px;
+            text-align: center;
+            margin-right: 12px;
+            font-size: 1.1em;
+        }
+
+        .dragover,
+        .drop-zone.dragover {
+            border-color: #4f46e5 !important;
+            background-color: rgba(238, 242, 255, 0.5) !important;
+        }
+
+        
+        .draw-toolbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 3px 6px;
+            box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
+            z-index: 21;
+        }
+
+        .draw-toolbar-row {
+            display: flex;
+            gap: 2px;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .draw-toolbar-spacer {
+            flex: 1 1 auto;
+        }
+
+        #pages-panel,
+        #changes-panel {
+            top: var(--draw-toolbar-h, 0px);
+        }
+
+        #canvas-wrap {
+            margin-top: var(--draw-toolbar-h, 0px);
+        }
+
+        .viewer-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 32px;
+            height: 32px;
+            padding: 0 8px;
+            background: #ffffff;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .viewer-btn:hover:not(:disabled) {
+            background: #f1f5f9;
+            color: #1e293b;
+            border-color: transparent;
+        }
+
+        .viewer-btn.active {
+            background: #e0e7ff;
+            color: #4f46e5;
+            border-color: #c7d2fe;
+            font-weight: 600;
+        }
+
+        .viewer-btn:disabled {
+            opacity: 0.42;
+            cursor: not-allowed;
+            background: #ffffff;
+            color: #94a3b8;
+        }
+
+        .viewer-btn:focus-visible {
+            outline: 2px solid #4f46e5;
+            outline-offset: 1px;
+        }
+
+        .viewer-toolbar-sep {
+            width: 1px;
+            height: 18px;
+            background: #e2e8f0;
+            margin: 0 2px;
+            align-self: center;
+        }
+
+        .page-input {
+            width: 44px;
+            height: 26px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .page-input:focus {
+            border-color: #4f46e5;
+        }
+
+        
+        
+        .cmp-canvas-host {
+            position: relative;
+            overflow: hidden;
+            background: #f3f4f6;
+            touch-action: none;
+            cursor: grab;
+        }
+
+        .cmp-canvas-host.panning {
+            cursor: grabbing;
+        }
+
+        .cmp-canvas-host canvas {
+            display: block;
+            position: absolute;
+            inset: 0;
+        }
+
+        .canvas-tag {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            z-index: 5;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .04em;
+            padding: 2px 8px;
+            border-radius: 6px;
+            color: #fff;
+            background: rgba(15, 23, 42, .65);
+            pointer-events: none;
+        }
+
+        
+        #canvas-wrap {
+            position: relative;
+        }
+
+        #canvas-wrap.swipe .cmp-canvas-host {
+            position: absolute;
+            inset: 0;
+            border: 0;
+        }
+
+        #canvas-wrap.swipe #host-b {
+            clip-path: inset(0 0 0 var(--split, 50%));
+            pointer-events: none;
+            
+        }
+
+        #canvas-wrap.swipe #tag-b {
+            left: auto;
+            right: 8px;
+        }
+
+        #swipe-bar {
+            display: none;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: var(--split, 50%);
+            width: 14px;
+            margin-left: -7px;
+            z-index: 6;
+            cursor: ew-resize;
+            touch-action: none;
+        }
+
+        #canvas-wrap.swipe #swipe-bar {
+            display: block;
+        }
+
+        #swipe-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 6px;
+            width: 2px;
+            background: #4f46e5;
+        }
+
+        #swipe-grip {
+            position: absolute;
+            top: 50%;
+            left: -7px;
+            width: 28px;
+            height: 28px;
+            margin-top: -14px;
+            border-radius: 50%;
+            background: #4f46e5;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 6px rgba(15, 23, 42, .3);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        
+        .page-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            text-align: left;
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #334155;
+            border: 1px solid transparent;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .page-row:hover {
+            background: #f8fafc;
+        }
+
+        .page-row.active {
+            background: #eef2ff;
+            border-color: #c7d2fe;
+            color: #4f46e5;
+        }
+
+        .page-chip {
+            margin-left: auto;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 9999px;
+        }
+
+        .page-chip.only-a {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .page-chip.only-b {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .page-chip.size {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .page-chip.changes {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .page-chip.none {
+            background: #f1f5f9;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .page-chip.pending {
+            background: transparent;
+            color: #94a3b8;
+        }
+
+        
+        .kind-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            user-select: none;
+            padding: 5px 8px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            font-size: 11px;
+            font-weight: 700;
+            background: #fff;
+        }
+
+        .kind-chip .chip-count {
+            margin-left: auto;
+        }
+
+        .kind-chip.off {
+            opacity: .38;
+        }
+
+        .change-row {
+            display: grid;
+            grid-template-columns: 9px auto 1fr auto;
+            align-items: center;
+            column-gap: 8px;
+            width: 100%;
+            text-align: left;
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            color: #334155;
+            border: 1px solid transparent;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .change-row:hover {
+            background: #f8fafc;
+        }
+
+        .change-row.active {
+            background: #eef2ff;
+            border-color: #c7d2fe;
+        }
+
+        .change-row .num {
+            font-weight: 800;
+            color: #64748b;
+        }
+
+        .change-row .size {
+            color: #94a3b8;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .legend-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        .loader {
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #4f46e5;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.9s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .loader {
+                animation-duration: 3s;
+            }
+        }
+
+        
+        @media print {
+            body * {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="h-screen flex flex-col overflow-hidden pt-12">
+
+    
+
+    <main class="flex-1 flex overflow-hidden">
+
+        
+        <aside id="app-sidebar"
+            class="z-[80] w-[72px] bg-white border-r border-white shadow-lg flex-shrink-0 transition-all duration-300 ease-in-out overflow-hidden flex flex-col h-full relative">
+            <div class="h-16 flex items-center px-6 border-b border-slate-200 shrink-0 w-64">
+                <i data-lucide="file-diff" class="text-indigo-600 w-6 h-6 shrink-0"></i>
+                <h1 class="text-lg font-bold text-slate-900 ml-4 whitespace-nowrap opacity-0 transition-opacity duration-300 sidebar-text"
+                    data-i18n="appName">PDF Compare</h1>
+            </div>
+            <nav id="sidebar-nav" class="p-3 space-y-2 w-64 shrink-0 overflow-x-hidden flex-grow">
+                <button id="tab-upload" data-target="view-upload" class="tab-btn active group">
+                    <i data-lucide="file-input"
+                        class="tab-icon w-5 h-5 shrink-0 group-hover:text-slate-800 transition-colors"></i>
+                    <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 sidebar-text tab-text"
+                        data-i18n="loadFiles">Load Files</span>
+                </button>
+                <button id="tab-compare" data-target="view-compare" class="tab-btn group" disabled
+                    title="Load files first" data-i18n-title="loadFilesFirst">
+                    <i data-lucide="monitor"
+                        class="tab-icon w-5 h-5 shrink-0 group-hover:text-slate-800 transition-colors"></i>
+                    <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 sidebar-text tab-text"
+                        data-i18n="compareArea">Compare View</span>
+                </button>
+                <button id="btn-pages-side" class="tab-btn group" disabled title="Pages" data-i18n-title="pagesToggle">
+                    <i data-lucide="files"
+                        class="tab-icon w-5 h-5 shrink-0 group-hover:text-slate-800 transition-colors"></i>
+                    <span class="whitespace-nowrap opacity-0 transition-opacity duration-300 sidebar-text tab-text"
+                        data-i18n="pagesToggle">Pages</span>
+                </button>
+            </nav>
+            <div class="mt-auto border-t border-slate-200 h-12 flex flex-col justify-end shrink-0 w-full">
+                <button id="sidebar-toggle"
+                    class="w-full h-12 text-slate-500 hover:text-slate-800 bg-slate-50 hover:bg-slate-100 transition-colors focus:outline-none flex items-center justify-center">
+                    <span id="sidebar-toggle-icon-wrapper" class="shrink-0 transition-transform duration-300">
+                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                    </span>
+                </button>
+            </div>
+        </aside>
+
+        <section class="flex-1 bg-slate-100 flex flex-col overflow-hidden relative">
+
+            
+            <div id="view-upload" class="view-panel absolute inset-0 flex flex-col bg-white overflow-y-auto z-10">
+                <div class="md:px-14 pt-12 flex flex-col w-full max-w-7xl mx-auto pb-8">
+
+                    <div class="shrink-0">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 rounded-lg bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-900 shrink-0">
+                                    <i data-lucide="file-diff" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h1 class="text-2xl font-bold text-slate-900 tracking-tight leading-tight"
+                                        data-i18n="appName">PDF Compare</h1>
+                                    <p class="text-sm font-medium text-indigo-500 uppercase tracking-widest mt-0.5"
+                                        data-i18n="compareSubtitle">PDF - Document revision comparison</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <details class="text-sm text-slate-600 leading-relaxed group border-b border-slate-300 pb-4">
+                            <summary
+                                class="cursor-pointer list-none flex items-center gap-2 font-semibold text-slate-900 select-none">
+                                <i data-lucide="chevron-right"
+                                    class="w-4 h-4 text-indigo-500 transition-transform group-open:rotate-90"></i>
+                                <span data-i18n="ruleTitle">What this tool does</span>
+                            </summary>
+                            <div class="mt-3 space-y-3">
+                                <p data-i18n="ruleDesc">Compare two revisions of a PDF page by page.</p>
+                            </div>
+                        </details>
+                    </div>
+
+                    
+                    <div id="cde-regrant" class="hidden mt-4">
+                        <div class="flex items-center gap-3 bg-indigo-50 border border-indigo-200 rounded p-3">
+                            <i data-lucide="folder-lock" class="w-5 h-5 text-indigo-600 shrink-0"></i>
+                            <span class="text-sm text-indigo-900 flex-1" data-i18n="cdeRegrantMsg">The browser needs one
+                                click to re-open the project folder.</span>
+                            <button id="cde-regrant-btn"
+                                class="shrink-0 py-1.5 px-4 text-[13px] font-bold text-white bg-slate-900 hover:bg-slate-800 rounded transition"
+                                data-i18n="cdeRegrantBtn">Open file</button>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 md:pt-8 flex flex-col shrink-0">
+                        <div class="bg-white p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                            <div class="flex flex-col h-full">
+                                <div id="drop-a"
+                                    class="relative flex-grow drop-zone flex flex-col items-center justify-center w-full h-full min-h-[140px] px-4 py-4 border-2 border-slate-300 border-dashed rounded-lg hover:border-indigo-500 hover:bg-indigo-50/30 bg-slate-50/50 cursor-pointer transition-all">
+                                    <div
+                                        class="flex flex-col items-center justify-center space-y-2 text-center pointer-events-none">
+                                        <i data-lucide="file-minus" class="w-8 h-8 text-slate-400 mb-1"></i>
+                                        <span class="text-sm text-indigo-600 font-semibold"
+                                            data-i18n="dropAtitle">Version A</span>
+                                        <p class="text-xs text-slate-500 font-medium mt-1" data-i18n="dropHint">Drop a
+                                            .pdf, or click to browse</p>
+                                        <p class="text-xs text-slate-500 font-medium mt-1 truncate max-w-[300px]"
+                                            id="file-a-name">No file selected</p>
+                                    </div>
+                                    <input type="file" id="input-a" accept=".pdf,application/pdf" title="PDF"
+                                        class="mt-4 block w-full max-w-[320px] cursor-pointer text-xs text-slate-600 file:mr-3 file:rounded file:border-0 file:bg-indigo-600 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-white hover:file:bg-indigo-700">
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col h-full">
+                                <div id="drop-b"
+                                    class="relative flex-grow drop-zone flex flex-col items-center justify-center w-full h-full min-h-[140px] px-4 py-4 border-2 border-slate-300 border-dashed rounded-lg hover:border-indigo-500 hover:bg-indigo-50/30 bg-slate-50/50 cursor-pointer transition-all">
+                                    <div
+                                        class="flex flex-col items-center justify-center space-y-2 text-center pointer-events-none">
+                                        <i data-lucide="file-plus" class="w-8 h-8 text-slate-400 mb-1"></i>
+                                        <span class="text-sm text-indigo-600 font-semibold"
+                                            data-i18n="dropBtitle">Version B</span>
+                                        <p class="text-xs text-slate-500 font-medium mt-1" data-i18n="dropHint">Drop a
+                                            .pdf, or click to browse</p>
+                                        <p class="text-xs text-slate-500 font-medium mt-1 truncate max-w-[300px]"
+                                            id="file-b-name">No file selected</p>
+                                    </div>
+                                    <input type="file" id="input-b" accept=".pdf,application/pdf" title="PDF"
+                                        class="mt-4 block w-full max-w-[320px] cursor-pointer text-xs text-slate-600 file:mr-3 file:rounded file:border-0 file:bg-indigo-600 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-white hover:file:bg-indigo-700">
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col h-full bg-white p-4 rounded border border-slate-200/60 shadow-sm">
+                                <p class="font-semibold text-sm text-slate-800 mb-3 border-b border-slate-200/60 pb-1"
+                                    data-i18n="compareInformation">Comparison Information</p>
+                                <div class="grid grid-cols-4 gap-x-4 gap-y-2 text-[12px] flex-grow content-start">
+                                    <div class="text-slate-500 font-medium" data-i18n="fileAlabel">File A:</div>
+                                    <div id="info-file-a" class="col-span-3 text-slate-800 font-semibold truncate">-
+                                    </div>
+                                    <div class="text-slate-500 font-medium" data-i18n="dateAlabel">Date A:</div>
+                                    <div id="info-date-a" class="col-span-3 text-slate-800 font-semibold truncate">-
+                                    </div>
+                                    <div class="text-slate-500 font-medium" data-i18n="pagesAlabel">Pages A:</div>
+                                    <div id="info-pages-a" class="col-span-3 text-indigo-600 font-bold truncate">-</div>
+                                    <div class="text-slate-500 font-medium" data-i18n="fileBlabel">File B:</div>
+                                    <div id="info-file-b" class="col-span-3 text-slate-800 font-semibold truncate">-
+                                    </div>
+                                    <div class="text-slate-500 font-medium" data-i18n="dateBlabel">Date B:</div>
+                                    <div id="info-date-b" class="col-span-3 text-slate-800 font-semibold truncate">-
+                                    </div>
+                                    <div class="text-slate-500 font-medium" data-i18n="pagesBlabel">Pages B:</div>
+                                    <div id="info-pages-b" class="col-span-3 text-indigo-600 font-bold truncate">-</div>
+                                </div>
+
+                                <div id="error-box"
+                                    class="hidden mt-4 p-3 bg-red-50 border border-red-200 rounded text-xs text-red-600 flex items-start gap-2">
+                                    <i data-lucide="alert-circle" class="w-4 h-4 shrink-0 mt-0.5"></i>
+                                    <span id="error-text">An error occurred.</span>
+                                </div>
+
+                                <button id="btn-open"
+                                    class="mt-4 w-full flex justify-center items-center gap-2 py-2 px-4 border border-transparent text-[13px] font-bold text-white bg-slate-900 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed transition-all duration-300 rounded"
+                                    disabled>
+                                    <i data-lucide="square-split-horizontal" class="w-4 h-4"></i>
+                                    <span data-i18n="openCompareBtn">Compare</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            
+            <div id="view-compare" class="view-panel absolute inset-0 flex-col bg-slate-50 hidden z-1">
+                <div id="compare-stage" class="flex-1 relative overflow-hidden flex flex-col min-h-0">
+
+                    <div class="draw-toolbar" id="cmp-toolbar">
+                        <div class="draw-toolbar-row">
+                            <button id="btn-pages" class="viewer-btn" title="Pages" data-i18n-title="pagesToggle">
+                                <i data-lucide="files" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <button id="btn-panel" class="viewer-btn" title="Changes" data-i18n-title="changesToggle">
+                                <i data-lucide="list" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <button id="btn-boxes" class="viewer-btn active" title="Change boxes"
+                                data-i18n-title="boxesToggle">
+                                <i data-lucide="square-dashed" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <button id="btn-display" class="viewer-btn" title="Display: original colors"
+                                data-i18n-title="displayOriginal">
+                                <i data-lucide="palette" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <button id="btn-rotate" class="viewer-btn" title="Rotate 90°" data-i18n-title="rotateTitle">
+                                <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <button id="btn-fit" class="viewer-btn" title="Zoom to fit" data-i18n-title="zoomFit">
+                                <i data-lucide="focus" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <span class="viewer-toolbar-sep"></span>
+                            <button id="btn-align" class="viewer-btn" style="gap: 6px" title="Align drawings" data-i18n-title="alignDrawings">
+                                <i data-lucide="crosshair" class="w-3.5 h-3.5"></i><span data-i18n="alignLabel">Align</span>
+                            </button>
+                            <button id="btn-move-b" class="viewer-btn" style="gap: 6px" title="Move version B" data-i18n-title="moveDrawing">
+                                <i data-lucide="move" class="w-3.5 h-3.5"></i><span data-i18n="moveLabel">Move B</span>
+                            </button>
+                            <button id="btn-reset-align" class="viewer-btn" title="Reset alignment" data-i18n-title="resetAlignment">
+                                <i data-lucide="undo-2" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <span id="compare-title"
+                                class="text-xs font-bold text-slate-700 truncate max-w-[26vw] self-center px-1"></span>
+                            <span id="mode-badge"
+                                class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 self-center"></span>
+                            <button id="btn-open-viewer" class="viewer-btn" title="Open in PDF Viewer" data-i18n-title="openInViewer">
+                                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <span class="draw-toolbar-spacer"></span>
+                            <button id="btn-palette" class="viewer-btn" title="Commands (Ctrl+K)" data-i18n-title="palButton">
+                                <i data-lucide="command" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <span class="viewer-toolbar-sep"></span>
+                            <button id="btn-prev" class="viewer-btn" title="Previous page" data-i18n-title="prevPage">
+                                <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <input id="page-input" class="page-input" type="text" inputmode="numeric" value="1"
+                                aria-label="Page">
+                            <span id="page-total" class="text-xs font-semibold text-slate-500 px-1 self-center">/
+                                1</span>
+                            <button id="btn-next" class="viewer-btn" title="Next page" data-i18n-title="nextPage">
+                                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <span class="viewer-toolbar-sep"></span>
+                            <button id="btn-view-overlay" class="viewer-btn" title="Overlay view"
+                                data-i18n-title="overlayView">
+                                <i data-lucide="layers-2" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <button id="btn-view-sbs" class="viewer-btn active" title="Side-by-side view"
+                                data-i18n-title="sbsView">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect width="7" height="18" x="3" y="3" rx="1" />
+                                    <rect width="7" height="18" x="14" y="3" rx="1" />
+                                </svg>
+                            </button>
+                            <button id="btn-view-swipe" class="viewer-btn" title="Swipe view"
+                                data-i18n-title="swipeView">
+                                <i data-lucide="square-split-horizontal" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                        <div id="alignment-hint" role="status" aria-live="polite" class="hidden text-xs text-indigo-700 px-3 py-1 bg-indigo-50"></div>
+                    </div>
+                    
+                    <div id="canvas-wrap" class="flex-1 min-h-0 flex">
+                        <div id="host-main" class="cmp-canvas-host flex-1 hidden"><canvas></canvas></div>
+                        <div id="host-a" class="cmp-canvas-host flex-1 border-r border-slate-200">
+                            <canvas></canvas><span class="canvas-tag" id="tag-a">Version A</span>
+                        </div>
+                        <div id="host-b" class="cmp-canvas-host flex-1">
+                            <canvas></canvas><span class="canvas-tag" id="tag-b">Version B</span>
+                        </div>
+                        
+                        <div id="swipe-bar" title="Drag to compare" data-i18n-title="swipeDrag">
+                            <div id="swipe-grip"><i data-lucide="chevrons-left-right" class="w-3.5 h-3.5"></i></div>
+                        </div>
+                    </div>
+
+                    
+                    <div
+                        class="h-7 bg-slate-100 border-t border-slate-200 px-3 flex items-center gap-4 shrink-0 relative z-10">
+                        <span id="status-msg" class="text-[11px] text-slate-600 truncate flex-1"
+                            data-i18n="statusReady">Ready</span>
+                        <span id="legend"
+                            class="flex items-center gap-3 text-[11px] font-semibold text-slate-600 shrink-0">
+                            <span class="flex items-center gap-1"><span class="legend-dot"
+                                    style="background:#dc2626"></span><span
+                                    data-i18n="legendRemoved">Removed</span></span>
+                            <span class="flex items-center gap-1"><span class="legend-dot"
+                                    style="background:#16a34a"></span><span data-i18n="legendAdded">Added</span></span>
+                            <span class="flex items-center gap-1"><span class="legend-dot"
+                                    style="background:#ea580c"></span><span
+                                    data-i18n="legendChanged">Modified</span></span>
+                        </span>
+                    </div>
+
+                    
+                    <aside id="pages-panel"
+                        class="absolute bottom-7 left-0 w-60 bg-white border-r border-slate-200 shadow-[4px_0_15px_-3px_rgba(0,0,0,0.08)] z-30 flex flex-col -translate-x-full transition-transform duration-300">
+                        <div class="flex border-b border-slate-200 bg-slate-50 shrink-0 relative">
+                            <span
+                                class="flex-1 py-3 text-xs font-bold text-indigo-600 border-b-2 border-indigo-600 text-center"
+                                data-i18n="pagesTitle">Pages</span>
+                            <button id="pages-close"
+                                class="absolute right-2 top-2.5 p-1 text-slate-400 hover:text-slate-600 bg-slate-100 rounded"
+                                title="Close" data-i18n-title="closeBtn">
+                                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                        <div id="scan-msg"
+                            class="hidden px-3 py-1.5 text-[10px] font-semibold text-slate-500 border-b border-slate-100">
+                        </div>
+                        <div id="pages-list" class="flex-1 overflow-y-auto scroller p-2 space-y-0.5"></div>
+                    </aside>
+
+                    
+                    <aside id="changes-panel"
+                        class="absolute bottom-7 right-0 w-72 bg-white border-l border-slate-200 shadow-[-4px_0_15px_-3px_rgba(0,0,0,0.05)] z-30 flex flex-col translate-x-full transition-transform duration-300">
+                        <div class="flex border-b border-slate-200 bg-slate-50 shrink-0 relative">
+                            <span
+                                class="flex-1 py-3 text-xs font-bold text-indigo-600 border-b-2 border-indigo-600 text-center"
+                                data-i18n="changesTitle">Changes</span>
+                            <button id="changes-close"
+                                class="absolute right-2 top-2.5 p-1 text-slate-400 hover:text-slate-600 bg-slate-100 rounded"
+                                title="Close" data-i18n-title="closeBtn">
+                                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                        <div class="p-3 border-b border-slate-200 grid grid-cols-1 gap-1.5">
+                            <span class="kind-chip" data-kind="removed"><span class="legend-dot"
+                                    style="background:#dc2626"></span><span data-i18n="kindRemoved">Removed</span><b
+                                    class="chip-count" id="count-removed">0</b></span>
+                            <span class="kind-chip" data-kind="added"><span class="legend-dot"
+                                    style="background:#16a34a"></span><span data-i18n="kindAdded">Added</span><b
+                                    class="chip-count" id="count-added">0</b></span>
+                            <span class="kind-chip" data-kind="modified"><span class="legend-dot"
+                                    style="background:#ea580c"></span><span data-i18n="kindModified">Modified</span><b
+                                    class="chip-count" id="count-modified">0</b></span>
+                        </div>
+                        <div class="p-3 border-b border-slate-200">
+                            <div class="flex items-center justify-between mb-1">
+                                <label for="tol-slider" class="text-[11px] font-bold text-slate-600"
+                                    data-i18n="tolLabel">Ink tolerance</label>
+                                <span id="tol-value" class="text-[11px] font-semibold text-indigo-600">48</span>
+                            </div>
+                            <input id="tol-slider" type="range" min="16" max="128" step="8" value="48"
+                                class="w-full accent-indigo-600">
+                            <p class="text-[10px] text-slate-400 mt-1" data-i18n="tolHint">Higher ignores faint
+                                differences (anti-aliasing, scan noise). Re-runs the comparison.</p>
+                        </div>
+                        <div class="p-3 flex-1 min-h-0 flex flex-col">
+                            <h4 id="changes-head" class="text-[11px] font-bold text-slate-500 mb-1.5"></h4>
+                            <div id="change-list" class="flex-1 overflow-y-auto scroller space-y-0.5"></div>
+                        </div>
+                    </aside>
+
+                </div>
+            </div>
+
+            
+            <div id="loader"
+                class="hidden absolute inset-0 bg-white/80 z-[100] flex flex-col items-center justify-center backdrop-blur-sm">
+                <div class="loader mb-4"></div>
+                <h3 class="text-lg font-semibold text-slate-800" data-i18n="processingFiles">Processing files...</h3>
+                <p id="loader-msg" class="text-sm text-slate-500 mt-2" data-i18n="loaderReading">Reading PDF…</p>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        
+        
+        
+        window.BASE_PAGE = JSON.parse(JSON.stringify(window.PAGE_I18N || {}));
+
+        
+        window.updateToolDynamicUI = function (d) {
+            if (typeof window.refreshCompareTranslations === 'function') window.refreshCompareTranslations(d);
+        };
+
+        function bootApp() {
+            autoDetectLanguage();
+            window.injectUI({
+                showNav: true,
+                linkTarget: '',
+                transparentNav: false,
+                showSignIn: false,
+                showCategories: true,
+                showNews: false,
+                showHelp: true,
+                showFooter: true,
+                showFooterLinks: false,
+            });
+            window.injectCookieBanner();
+
+            
+            const injectedFooter = document.querySelector('footer') || document.getElementById('app-footer');
+            const uploadView = document.getElementById('view-upload');
+            if (injectedFooter && uploadView) {
+                injectedFooter.id = 'app-footer';
+                injectedFooter.classList.remove('sticky', 'bottom-0', 'fixed', 'absolute', 'z-[60]');
+                injectedFooter.classList.add('w-full', 'shrink-0', 'relative', 'mt-auto');
+                uploadView.appendChild(injectedFooter);
+            }
+
+            window.loadLanguage(currentLang, window.pageScriptPrefix);
+            if (window.lucide) lucide.createIcons();
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bootApp);
+        else bootApp();
+    </script>
+
+    
+    <script>
+        (function () {
+            'use strict';
+
+            const $ = (id) => document.getElementById(id);
+            function tr(key, fallback, params) {
+                const d = (typeof getTranslations === 'function' ? getTranslations() : null) || window.PAGE_I18N || {};
+                let s = d[key] || fallback || key;
+                if (params) for (const [k, v] of Object.entries(params)) s = s.split('{' + k + '}').join(String(v));
+                return s;
+            }
+
+            const CORE = window.PDFV_CORE;
+
+            
+            
+            
+            const RED = [220, 38, 38];      
+            const GREEN = [22, 163, 74];    
+            const ORANGE = [234, 88, 12];   
+            let inkTol = 48;                
+            const COLOR_TOL = 96;           
+            const UNCHANGED_FADE = 0.45;    
+            const LOWRES_MAX = 2400;        
+            const HIRES_DELAY = 160;        
+            const BG = '#f3f4f6';           
+            const KIND_CSS = { removed: '#dc2626', added: '#16a34a', modified: '#ea580c' };
+
+            
+            
+            
+            
+            const docs = {
+                a: { L: CORE.createLoader(), R: CORE.createRenderer(), label: '' },
+                b: { L: CORE.createLoader(), R: CORE.createRenderer(), label: '' },
+            };
+            const fileState = { a: null, b: null };
+            let single = false;        
+            let pairs = [];            
+            let cur = 0;               
+            let viewMode = 'sbs';      
+            let prefView = 'sbs';      
+            let colorMode = 'original';
+            let startView = null;      
+
+            
+            const cam = { zoom: 1, tx: 0, ty: 0 };
+            
+            let geo = null;            
+            let low = null;            
+            let gen = 0;               
+            const alignments = new Map(); 
+            let alignMode = null, alignPoint = null, alignDrag = null;
+            const offsetFor = (idx) => alignments.get(idx) || { x: 0, y: 0 };
+
+            function geometry(wA, hA, wB, hB, offset) {
+                const minX = Math.min(0, offset.x), minY = Math.min(0, offset.y);
+                return {
+                    wA, hA, wB, hB,
+                    ax: -minX, ay: -minY, bx: offset.x - minX, by: offset.y - minY,
+                    W: Math.max(wA, offset.x + wB) - minX,
+                    H: Math.max(hA, offset.y + hB) - minY,
+                };
+            }
+            function shiftedRegion(region, zoom, side, g) {
+                return { ...region, x: region.x - g[side + 'x'] * zoom, y: region.y - g[side + 'y'] * zoom };
+            }
+
+            const hosts = {
+                main: { el: $('host-main'), kind: () => single ? 'single' : (colorMode === 'changes' ? 'ov-chg' : 'ov-org'), side: 'u', hires: null },
+                a: { el: $('host-a'), kind: () => colorMode === 'changes' ? 'a-chg' : 'a-org', side: 'a', hires: null },
+                b: { el: $('host-b'), kind: () => colorMode === 'changes' ? 'b-chg' : 'b-org', side: 'b', hires: null },
+            };
+            Object.values(hosts).forEach(h => { h.canvas = h.el.querySelector('canvas'); });
+            
+            const visibleHosts = () => viewMode === 'overlay' || single ? [hosts.main] : [hosts.a, hosts.b];
+
+            
+            
+            
+            const lum = (d, i) => (d[i] * 77 + d[i + 1] * 150 + d[i + 2] * 29) >> 8;
+            function tint(o, i, c, t) {
+                o[i] = 255 + (c[0] - 255) * t; o[i + 1] = 255 + (c[1] - 255) * t; o[i + 2] = 255 + (c[2] - 255) * t; o[i + 3] = 255;
+            }
+            function grey(o, i, ink) {
+                const g = 255 - ink * UNCHANGED_FADE;
+                o[i] = g; o[i + 1] = g; o[i + 2] = g; o[i + 3] = 255;
+            }
+            function recoloured(A, B, i) {
+                return Math.max(Math.abs(A[i] - B[i]), Math.abs(A[i + 1] - B[i + 1]), Math.abs(A[i + 2] - B[i + 2])) > COLOR_TOL;
+            }
+            
+            function compose(kind, A, B, O) {
+                const n = O.length;
+                for (let i = 0; i < n; i += 4) {
+                    const ia = 255 - lum(A, i), ib = 255 - lum(B, i), d = ib - ia;
+                    if (kind === 'ov-org') {            
+                        O[i] = Math.min(A[i], B[i]); O[i + 1] = Math.min(A[i + 1], B[i + 1]); O[i + 2] = Math.min(A[i + 2], B[i + 2]); O[i + 3] = 255;
+                        continue;
+                    }
+                    
+                    const both = ia > inkTol && ib > inkTol;
+                    const recol = both && recoloured(A, B, i);
+                    if (kind === 'ov-chg') {
+                        if (recol) tint(O, i, ORANGE, 0.9);
+                        else if (!both && d > inkTol) tint(O, i, GREEN, Math.min(1, 0.35 + d / 200));
+                        else if (!both && d < -inkTol) tint(O, i, RED, Math.min(1, 0.35 - d / 200));
+                        else grey(O, i, Math.max(ia, ib));
+                    } else if (kind === 'a-chg') {
+                        if (recol) tint(O, i, ORANGE, 0.9);
+                        else if (!both && -d > inkTol) tint(O, i, RED, Math.min(1, 0.35 - d / 200));
+                        else grey(O, i, ia);
+                    } else {                             
+                        if (recol) tint(O, i, ORANGE, 0.9);
+                        else if (!both && d > inkTol) tint(O, i, GREEN, Math.min(1, 0.35 + d / 200));
+                        else grey(O, i, ib);
+                    }
+                }
+            }
+            function newCanvas(w, h) {
+                const c = document.createElement('canvas');
+                c.width = w; c.height = h;
+                return c;
+            }
+            function ctxOf(c) { return c.getContext('2d', { alpha: false, willReadFrequently: true }); }
+            function whiteCanvas(w, h) {
+                const c = newCanvas(w, h), x = ctxOf(c);
+                x.fillStyle = '#ffffff'; x.fillRect(0, 0, w, h);
+                return c;
+            }
+            
+            function composeCanvas(kind, rawA, rawB) {
+                if (kind === 'single' || kind === 'b-org') return rawB;
+                if (kind === 'a-org') return rawA;
+                const w = rawB.width, h = rawB.height;
+                const out = newCanvas(w, h), ox = ctxOf(out);
+                const A = ctxOf(rawA).getImageData(0, 0, w, h).data;
+                const B = ctxOf(rawB).getImageData(0, 0, w, h).data;
+                const img = ox.createImageData(w, h);
+                compose(kind, A, B, img.data);
+                ox.putImageData(img, 0, 0);
+                return out;
+            }
+
+            
+            
+            
+            
+            
+            async function renderWith(R, page, pageNum, canvas, zoom, dpr, region) {
+                const w = Math.max(1, Math.floor(region.w * dpr)), h = Math.max(1, Math.floor(region.h * dpr));
+                ctxOf(canvas); 
+                if (!page) {
+                    canvas.width = w; canvas.height = h;
+                    const x = ctxOf(canvas); x.fillStyle = '#ffffff'; x.fillRect(0, 0, w, h);
+                    return true;
+                }
+                const res = await R.renderRegion(page, pageNum, canvas, { zoom, dpr }, region);
+                return !!res;
+            }
+            function renderSide(side, pageNum, canvas, zoom, dpr, region) {
+                const page = pageNum ? (side === 'a' ? geo.pageA : geo.pageB) : null;
+                return renderWith(docs[side].R, page, pageNum, canvas, zoom, dpr, shiftedRegion(region, zoom, side, geo));
+            }
+
+            
+            
+            
+            async function loadPair(idx) {
+                stopAlignment();
+                const my = ++gen;
+                cur = idx;
+                low = null;
+                syncAlignmentUi();
+                const p = pairs[idx];
+                Object.values(hosts).forEach(h => { h.hires = null; });
+                const pageA = p.a ? await docs.a.L.getPage(p.a) : null;
+                const pageB = p.b ? await docs.b.L.getPage(p.b) : null;
+                if (my !== gen) return;
+                const vA = pageA ? docs.a.R.baseViewport(pageA, p.a) : null;
+                const vB = pageB ? docs.b.R.baseViewport(pageB, p.b) : null;
+                const prevWH = geo ? geo.W + 'x' + geo.H : '';
+                geo = { pageA, pageB, ...geometry(vA ? vA.width : 0, vA ? vA.height : 0,
+                    vB ? vB.width : 0, vB ? vB.height : 0, offsetFor(idx)) };
+
+                
+                const s = Math.min(LOWRES_MAX / Math.max(geo.W, geo.H), 4);
+                const region = { x: 0, y: 0, w: geo.W * s, h: geo.H * s };
+                const rawA = newCanvas(1, 1), rawB = newCanvas(1, 1);
+                const jobs = [renderSide('b', p.b, rawB, s, 1, region)];
+                if (!single) jobs.push(renderSide('a', p.a, rawA, s, 1, region));
+                const ok = await Promise.all(jobs);
+                if (my !== gen || ok.includes(false)) return;
+                low = { s, rawA: single ? null : rawA, rawB, cache: {} };
+
+                
+                if (prevWH !== geo.W + 'x' + geo.H || !camValid) fit();
+                selBox = -1;
+                updatePageUi();
+                renderChanges();
+                drawAll();
+                scheduleHires(0);
+                analyzeCurrent(idx, my);
+            }
+            function lowFor(kind) {
+                if (!low) return null;
+                if (!low.cache[kind]) low.cache[kind] = composeCanvas(kind, low.rawA, low.rawB);
+                return low.cache[kind];
+            }
+
+            
+            
+            
+            let camValid = false;
+            function sizeHost(h) {
+                const r = h.el.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+                const w = Math.max(1, Math.round(r.width * dpr)), ht = Math.max(1, Math.round(r.height * dpr));
+                if (h.canvas.width !== w || h.canvas.height !== ht) { h.canvas.width = w; h.canvas.height = ht; }
+                h.canvas.style.width = r.width + 'px'; h.canvas.style.height = r.height + 'px';
+                h.cssW = r.width; h.cssH = r.height; h.dpr = dpr;
+                return r.width > 2 && r.height > 2;
+            }
+            function pageRect(h) {
+                if (h.side === 'a') return { x: geo.ax, y: geo.ay, w: geo.wA, h: geo.hA };
+                if (h.side === 'b') return { x: geo.bx + (alignDrag?.dx || 0), y: geo.by + (alignDrag?.dy || 0), w: geo.wB, h: geo.hB };
+                return { x: 0, y: 0, w: geo.W, h: geo.H };
+            }
+            function paperRects(h) {
+                
+                
+                const sides = h.side === 'u' ? (single ? [hosts.b] : [hosts.a, hosts.b]) : [h];
+                return sides.map(pageRect).filter(r => r.w > 0 && r.h > 0);
+            }
+            function drawHost(h) {
+                if (!sizeHost(h)) return;
+                const x = h.canvas.getContext('2d');
+                const dpr = h.dpr;
+                x.setTransform(1, 0, 0, 1, 0, 0);
+                x.fillStyle = BG; x.fillRect(0, 0, h.canvas.width, h.canvas.height);
+                if (!geo || !low) return;
+                const papers = paperRects(h);
+                if (!papers.length) return;   
+                
+                x.setTransform(dpr * cam.zoom, 0, 0, dpr * cam.zoom, dpr * cam.tx, dpr * cam.ty);
+                
+                x.save();
+                x.shadowColor = 'rgba(15,23,42,0.16)'; x.shadowBlur = 12 * dpr; x.shadowOffsetY = 2 * dpr;
+                x.fillStyle = '#ffffff';
+                papers.forEach(pr => x.fillRect(pr.x, pr.y, pr.w, pr.h));
+                x.restore();
+                x.save();
+                x.beginPath(); papers.forEach(pr => x.rect(pr.x, pr.y, pr.w, pr.h)); x.clip();
+                x.imageSmoothingEnabled = true;
+                const lc = lowFor(h.kind());
+                if (lc) x.drawImage(lc, 0, 0, geo.W, geo.H);
+                
+                if (h.hires && h.hires.kind === h.kind()) {
+                    const hc = h.hires.cam, k = cam.zoom / hc.zoom;
+                    x.setTransform(dpr * k, 0, 0, dpr * k, dpr * (cam.tx - hc.tx * k), dpr * (cam.ty - hc.ty * k));
+                    x.drawImage(h.hires.canvas, 0, 0, h.hires.canvas.width / h.hires.dpr, h.hires.canvas.height / h.hires.dpr);
+                }
+                x.restore();
+                x.strokeStyle = '#cbd5e1'; x.lineWidth = 1 / cam.zoom;
+                papers.forEach(pr => x.strokeRect(pr.x, pr.y, pr.w, pr.h));
+                if (alignPoint && h.side === 'b') {
+                    x.setTransform(dpr * cam.zoom, 0, 0, dpr * cam.zoom, dpr * cam.tx, dpr * cam.ty);
+                    const radius = 8 / cam.zoom;
+                    x.strokeStyle = '#4f46e5'; x.lineWidth = 2 / cam.zoom;
+                    x.beginPath();
+                    x.moveTo(alignPoint.x - radius, alignPoint.y); x.lineTo(alignPoint.x + radius, alignPoint.y);
+                    x.moveTo(alignPoint.x, alignPoint.y - radius); x.lineTo(alignPoint.x, alignPoint.y + radius);
+                    x.stroke();
+                }
+                
+                const r = (!single && showBoxes && !alignMode) ? resultFor(cur) : null;
+                if (r) {
+                    x.setTransform(dpr * cam.zoom, 0, 0, dpr * cam.zoom, dpr * cam.tx, dpr * cam.ty);
+                    const pad = 3 / cam.zoom + 1;
+                    r.boxes.forEach((b, i) => {
+                        if (!kindOn[b.kind]) return;
+                        const sel = i === selBox;
+                        x.lineWidth = (sel ? 3 : 1.5) / cam.zoom;
+                        x.setLineDash(sel ? [] : [6 / cam.zoom, 3 / cam.zoom]);
+                        x.strokeStyle = KIND_CSS[b.kind];
+                        x.strokeRect(b.x - pad, b.y - pad, b.w + pad * 2, b.h + pad * 2);
+                    });
+                    x.setLineDash([]);
+                }
+            }
+            let drawQueued = false;
+            function drawAll() {
+                if (drawQueued) return;
+                drawQueued = true;
+                requestAnimationFrame(() => { drawQueued = false; visibleHosts().forEach(drawHost); });
+            }
+
+            
+            let hiresTimer = 0, hiresGen = 0;
+            function scheduleHires(delay) {
+                clearTimeout(hiresTimer);
+                hiresTimer = setTimeout(renderHires, delay === undefined ? HIRES_DELAY : delay);
+            }
+            const scratch = { a: newCanvas(1, 1), b: newCanvas(1, 1) };
+            async function renderHires() {
+                if (!geo || !low || alignDrag) return;
+                const my = ++hiresGen, g = gen;
+                const hs = visibleHosts().filter(sizeHost);
+                if (!hs.length) return;
+                const h0 = hs[0], dpr = h0.dpr;
+                const c = { zoom: cam.zoom, tx: cam.tx, ty: cam.ty };
+                const region = { x: -c.tx, y: -c.ty, w: h0.cssW, h: h0.cssH };
+                const p = pairs[cur];
+                const needA = !single && hs.some(h => h.kind() !== 'b-org' && h.kind() !== 'single');
+                const jobs = [renderSide('b', p.b, scratch.b, c.zoom, dpr, region)];
+                if (needA) jobs.push(renderSide('a', p.a, scratch.a, c.zoom, dpr, region));
+                let ok;
+                try { ok = await Promise.all(jobs); } catch (e) { console.error(e); return; }
+                if (my !== hiresGen || g !== gen || ok.includes(false)) return;
+                for (const h of hs) {
+                    const kind = h.kind();
+                    const src = composeCanvas(kind, scratch.a, scratch.b);
+                    
+                    const keep = newCanvas(src.width, src.height);
+                    keep.getContext('2d').drawImage(src, 0, 0);
+                    h.hires = { canvas: keep, cam: c, dpr, kind };
+                }
+                drawAll();
+            }
+
+            
+            
+            
+            function fit() {
+                const h = visibleHosts()[0];
+                if (!geo || !sizeHost(h)) { camValid = false; return; }
+                const pad = 24;
+                const z = Math.min((h.cssW - pad * 2) / geo.W, (h.cssH - pad * 2) / geo.H);
+                cam.zoom = Math.max(z, 0.01);
+                cam.tx = (h.cssW - geo.W * cam.zoom) / 2;
+                cam.ty = (h.cssH - geo.H * cam.zoom) / 2;
+                camValid = true;
+            }
+            function zoomAt(factor, sx, sy) {
+                if (alignDrag) return;
+                const nz = Math.min(Math.max(cam.zoom * factor, 0.02), 64);
+                const f = nz / cam.zoom;
+                cam.tx = sx - (sx - cam.tx) * f;
+                cam.ty = sy - (sy - cam.ty) * f;
+                cam.zoom = nz;
+                drawAll(); scheduleHires();
+            }
+            function wireHost(h) {
+                const el = h.el;
+                const pts = new Map();
+                let last = null, pinch = null;
+                el.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    const r = el.getBoundingClientRect();
+                    const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+                    zoomAt(Math.pow(1.0015, -dy), e.clientX - r.left, e.clientY - r.top);
+                }, { passive: false });
+                el.addEventListener('pointerdown', (e) => {
+                    if (e.button !== 0 && e.button !== 1) return;
+                    if (alignMode && e.button === 0 && alignmentPointerDown(h, e)) return;
+                    el.setPointerCapture(e.pointerId);
+                    pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+                    if (pts.size === 1) { last = { x: e.clientX, y: e.clientY }; el.classList.add('panning'); }
+                    if (pts.size === 2) {
+                        const [p1, p2] = [...pts.values()];
+                        pinch = { d: Math.hypot(p1.x - p2.x, p1.y - p2.y) };
+                    }
+                });
+                el.addEventListener('pointermove', (e) => {
+                    if (alignDrag && alignDrag.pointerId === e.pointerId) {
+                        const dx = (e.clientX - alignDrag.sx) / cam.zoom;
+                        const dy = (e.clientY - alignDrag.sy) / cam.zoom;
+                        alignDrag.dx = dx; alignDrag.dy = dy;
+                        const preview = whiteCanvas(alignDrag.raw.width, alignDrag.raw.height);
+                        ctxOf(preview).drawImage(alignDrag.raw, dx * low.s, dy * low.s);
+                        low.rawB = preview; low.cache = {};
+                        drawAll(); return;
+                    }
+                    if (!pts.has(e.pointerId)) return;
+                    pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+                    if (pts.size === 2 && pinch) {
+                        const [p1, p2] = [...pts.values()];
+                        const d = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+                        const r = el.getBoundingClientRect();
+                        if (pinch.d > 0) zoomAt(d / pinch.d, (p1.x + p2.x) / 2 - r.left, (p1.y + p2.y) / 2 - r.top);
+                        pinch.d = d;
+                        return;
+                    }
+                    if (last) {
+                        cam.tx += e.clientX - last.x; cam.ty += e.clientY - last.y;
+                        last = { x: e.clientX, y: e.clientY };
+                        drawAll(); scheduleHires();
+                    }
+                });
+                const end = (e) => {
+                    if (alignDrag && alignDrag.pointerId === e.pointerId) {
+                        const drag = alignDrag;
+                        alignDrag = null;
+                        if (e.type === 'pointercancel') {
+                            low.rawB = drag.raw; low.cache = {}; stopAlignment(); updatePageUi(); drawAll(); scheduleHires(0);
+                        } else applyAlignment({ x: drag.offset.x + drag.dx, y: drag.offset.y + drag.dy });
+                        return;
+                    }
+                    pts.delete(e.pointerId);
+                    if (pts.size < 2) pinch = null;
+                    if (pts.size === 1) { const p = [...pts.values()][0]; last = { x: p.x, y: p.y }; }
+                    if (!pts.size) { last = null; el.classList.remove('panning'); }
+                };
+                el.addEventListener('pointerup', end);
+                el.addEventListener('pointercancel', end);
+                el.addEventListener('dblclick', () => { if (!alignMode) { fit(); drawAll(); scheduleHires(0); } });
+            }
+            Object.values(hosts).forEach(wireHost);
+            new ResizeObserver(() => { if (geo) { if (!camValid) fit(); drawAll(); scheduleHires(); } }).observe($('canvas-wrap'));
+
+            
+            
+            function syncAlignmentUi() {
+                const available = !single && !!low && !!pairs[cur]?.a && !!pairs[cur]?.b;
+                $('btn-align').disabled = !available;
+                $('btn-move-b').disabled = !available;
+                const offset = offsetFor(cur);
+                $('btn-reset-align').disabled = !available || (!offset.x && !offset.y && !alignMode);
+                $('btn-align').classList.toggle('active', alignMode === 'pick-b' || alignMode === 'pick-a');
+                $('btn-move-b').classList.toggle('active', alignMode === 'drag');
+                $('btn-align').setAttribute('aria-pressed', String(alignMode === 'pick-b' || alignMode === 'pick-a'));
+                $('btn-move-b').setAttribute('aria-pressed', String(alignMode === 'drag'));
+                Object.values(hosts).forEach(h => {
+                    h.el.style.cursor = alignMode === 'drag' ? 'move' : alignMode ? 'crosshair' : '';
+                });
+                const key = alignMode === 'pick-b' ? 'alignPickB' : alignMode === 'pick-a' ? 'alignPickA' : 'alignDragHint';
+                const fallback = alignMode === 'pick-b' ? 'Select a point on B.' : alignMode === 'pick-a' ? 'Select the matching point on A.' : 'Drag B to align drawings.';
+                $('alignment-hint').textContent = alignMode ? tr(key, fallback) : '';
+                $('alignment-hint').classList.toggle('hidden', !alignMode);
+                measureToolbarHeight();
+            }
+            function stopAlignment() {
+                if (alignDrag && low) { low.rawB = alignDrag.raw; low.cache = {}; }
+                alignMode = null; alignPoint = null; alignDrag = null;
+                syncAlignmentUi();
+            }
+            function startAlignment(mode) {
+                if (!low || single || !pairs[cur]?.a || !pairs[cur]?.b) return;
+                const cancel = alignMode === mode || (mode === 'pick-b' && alignMode === 'pick-a');
+                stopAlignment();
+                if (!cancel) {
+                    alignMode = mode;
+                    setChangesOpen(false);
+                    setPagesOpen(false);
+                    setColorMode('original');
+                    setViewMode(mode === 'drag' ? 'overlay' : 'sbs');
+                    
+                }
+                syncAlignmentUi(); drawAll(); scheduleHires(0);
+            }
+            function alignmentPointerDown(h, e) {
+                const bounds = h.el.getBoundingClientRect();
+                const point = { x: (e.clientX - bounds.left - cam.tx) / cam.zoom,
+                    y: (e.clientY - bounds.top - cam.ty) / cam.zoom };
+                if (alignMode === 'drag') {
+                    if (alignDrag || point.x < geo.bx || point.y < geo.by || point.x > geo.bx + geo.wB || point.y > geo.by + geo.hB) return true;
+                    h.el.setPointerCapture(e.pointerId);
+                    clearTimeout(hiresTimer); ++hiresGen;
+                    Object.values(hosts).forEach(host => { host.hires = null; });
+                    alignDrag = { pointerId: e.pointerId, sx: e.clientX, sy: e.clientY,
+                        dx: 0, dy: 0, raw: low.rawB, offset: { ...offsetFor(cur) } };
+                    return true;
+                }
+                const side = alignMode === 'pick-b' ? 'b' : 'a';
+                if (h.side !== side || point.x < geo[side + 'x'] || point.y < geo[side + 'y'] ||
+                    point.x > geo[side + 'x'] + geo['w' + side.toUpperCase()] ||
+                    point.y > geo[side + 'y'] + geo['h' + side.toUpperCase()]) return true;
+                if (alignMode === 'pick-b') {
+                    alignPoint = point; alignMode = 'pick-a'; syncAlignmentUi(); drawAll();
+                } else {
+                    const offset = offsetFor(cur);
+                    applyAlignment({ x: offset.x + point.x - alignPoint.x, y: offset.y + point.y - alignPoint.y });
+                }
+                return true;
+            }
+            function applyAlignment(offset) {
+                const idx = cur;
+                stopAlignment();
+                if (offset.x || offset.y) alignments.set(idx, { ...offset, wA: geo.wA, hA: geo.hA, wB: geo.wB, hB: geo.hB });
+                else alignments.delete(idx);
+                results.delete(idx); ++scanGen; ++hiresGen;
+                Object.values(hosts).forEach(h => { h.hires = null; });
+                setViewMode('overlay');
+                loadPair(idx).then(() => scanAll()).catch(err => { console.error(err); setStatus(err.message || String(err)); });
+            }
+            $('btn-align').addEventListener('click', () => startAlignment('pick-b'));
+            $('btn-move-b').addEventListener('click', () => startAlignment('drag'));
+            $('btn-reset-align').addEventListener('click', () => applyAlignment({ x: 0, y: 0 }));
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape' && alignMode) { stopAlignment(); updatePageUi(); drawAll(); scheduleHires(0); }
+            });
+
+            
+            
+            
+            
+            function setSplit(f) {
+                f = Math.min(Math.max(f, 0), 1);
+                $('canvas-wrap').style.setProperty('--split', (f * 100) + '%');
+            }
+            (function wireSwipe() {
+                const bar = $('swipe-bar');
+                let drag = false;
+                bar.addEventListener('pointerdown', (e) => {
+                    if (e.button !== 0) return;
+                    drag = true;
+                    bar.setPointerCapture(e.pointerId);
+                    e.preventDefault();
+                });
+                bar.addEventListener('pointermove', (e) => {
+                    if (!drag) return;
+                    const r = $('canvas-wrap').getBoundingClientRect();
+                    if (r.width > 0) setSplit((e.clientX - r.left) / r.width);
+                });
+                const end = () => { drag = false; };
+                bar.addEventListener('pointerup', end);
+                bar.addEventListener('pointercancel', end);
+                bar.addEventListener('dblclick', () => setSplit(0.5));
+                
+                bar.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    const r = hosts.a.el.getBoundingClientRect();
+                    const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+                    zoomAt(Math.pow(1.0015, -dy), e.clientX - r.left, e.clientY - r.top);
+                }, { passive: false });
+            })();
+            setSplit(0.5);
+
+            
+            
+            
+            function pageChip(p, i) {
+                if (single) return '';
+                if (p.a && !p.b) return `<span class="page-chip only-a">${tr('pageOnlyA', 'only in A')}</span>`;
+                if (!p.a && p.b) return `<span class="page-chip only-b">${tr('pageOnlyB', 'only in B')}</span>`;
+                const r = resultFor(i);
+                if (!r) return `<span class="page-chip pending">…</span>`;
+                return r.boxes.length ? `<span class="page-chip changes">${r.boxes.length}</span>`
+                    : `<span class="page-chip none">${tr('pageNoChanges', 'no changes')}</span>`;
+            }
+            function renderPagesList() {
+                $('pages-list').innerHTML = pairs.map((p, i) =>
+                    `<button class="page-row${i === cur ? ' active' : ''}" data-pidx="${i}"><span>${tr('pageLabel', 'Page {n}', { n: i + 1 })}</span>${pageChip(p, i)}</button>`
+                ).join('');
+            }
+            $('pages-list').addEventListener('click', (e) => {
+                const b = e.target.closest('[data-pidx]');
+                if (b) goTo(+b.dataset.pidx);
+            });
+            function updatePageUi() {
+                syncAlignmentUi();
+                $('page-input').value = String(cur + 1);
+                $('page-total').textContent = '/ ' + pairs.length;
+                $('btn-prev').disabled = cur <= 0;
+                $('btn-next').disabled = cur >= pairs.length - 1;
+                document.querySelectorAll('#pages-list .page-row').forEach(r => r.classList.toggle('active', +r.dataset.pidx === cur));
+                const p = pairs[cur], n = cur + 1, total = pairs.length;
+                let msg = tr('statusPage', 'Page {n} of {total}', { n, total });
+                if (!single && p.a && !p.b) msg = tr('statusOnlyA', 'Page {n} of {total}. This page exists only in A (removed).', { n, total });
+                else if (!single && !p.a && p.b) msg = tr('statusOnlyB', 'Page {n} of {total}. This page exists only in B (added).', { n, total });
+                else if (!single && (offsetFor(cur).x || offsetFor(cur).y))
+                    msg += '. ' + tr('alignmentApplied', 'Manual alignment applied.');
+                else if (!single && geo && (Math.abs(geo.wA - geo.wB) > 0.5 || Math.abs(geo.hA - geo.hB) > 0.5))
+                    msg = tr('statusPageSize', 'Page {n} of {total}. Page sizes differ: aligned top-left.', { n, total });
+                setStatus(msg);
+            }
+            function goTo(idx) {
+                if (!pairs.length) return;
+                idx = Math.min(Math.max(0, idx), pairs.length - 1);
+                if (idx === cur && geo) { updatePageUi(); return; }
+                loadPair(idx).catch(err => { console.error(err); setStatus(err.message || String(err)); });
+            }
+            $('btn-prev').addEventListener('click', () => goTo(cur - 1));
+            $('btn-next').addEventListener('click', () => goTo(cur + 1));
+            $('page-input').addEventListener('change', () => {
+                const n = parseInt($('page-input').value, 10);
+                if (isNaN(n)) $('page-input').value = String(cur + 1); else goTo(n - 1);
+            });
+            document.addEventListener('keydown', (e) => {
+                if ($('view-compare').classList.contains('hidden')) return;
+                if (e.target.closest('input, textarea, select')) return;
+                if (e.key === 'PageDown' || e.key === 'ArrowRight') { e.preventDefault(); goTo(cur + 1); }
+                else if (e.key === 'PageUp' || e.key === 'ArrowLeft') { e.preventDefault(); goTo(cur - 1); }
+                else if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+                else if (e.key === 'End') { e.preventDefault(); goTo(pairs.length - 1); }
+            });
+
+            
+            
+            
+            
+            const results = new Map();          
+            const kindOn = { removed: true, added: true, modified: true };
+            let showBoxes = true, selBox = -1;
+            
+            
+            const scanR = { a: CORE.createRenderer(), b: CORE.createRenderer() };
+            let scanGen = 0;
+
+            const resKey = (idx = cur) => inkTol + '|' + docs.a.R.getUserRotation() + '|' + offsetFor(idx).x + '|' + offsetFor(idx).y;
+            function resultFor(idx) {
+                const r = results.get(idx);
+                return r && r.key === resKey(idx) ? r : null;
+            }
+            async function analyzeRaws(rawA, rawB, s, idx = cur) {
+                const key = resKey(idx);
+                const r = await window.PDF_DIFF.analyze(rawA, rawB, { inkTol, colorTol: COLOR_TOL });
+                
+                const boxes = r.boxes.map(b => ({ kind: b.kind, px: b.px, x: b.x / s, y: b.y / s, w: b.w / s, h: b.h / s }));
+                return { key, s, boxes, totals: r.totals };
+            }
+            async function analyzeCurrent(idx, my) {
+                if (single || !low || !window.PDF_DIFF) return;
+                if (resultFor(idx)) { renderChanges(); return; }
+                let r;
+                try { r = await analyzeRaws(low.rawA, low.rawB, low.s); }
+                catch (e) { console.error('PDF diff failed:', e); return; }
+                if (my !== gen || r.key !== resKey()) return;
+                results.set(idx, r);
+                renderPagesList();
+                renderChanges();
+                drawAll();
+            }
+            function setScanMsg(msg) {
+                $('scan-msg').textContent = msg;
+                $('scan-msg').classList.toggle('hidden', !msg);
+            }
+            async function scanAll() {
+                const my = ++scanGen;
+                if (single || !window.PDF_DIFF) { setScanMsg(''); return; }
+                const cA = newCanvas(1, 1), cB = newCanvas(1, 1);
+                for (let i = 0; i < pairs.length; i++) {
+                    if (my !== scanGen) return;
+                    const p = pairs[i];
+                    if (resultFor(i) || !p.a || !p.b) continue;   
+                    setScanMsg(tr('scanProgress', 'Scanning page {n} of {total}…', { n: i + 1, total: pairs.length }));
+                    try {
+                        const pa = await docs.a.L.getPage(p.a), pb = await docs.b.L.getPage(p.b);
+                        const va = scanR.a.baseViewport(pa, p.a), vb = scanR.b.baseViewport(pb, p.b);
+                        const g = geometry(va.width, va.height, vb.width, vb.height, offsetFor(i));
+                        const { W, H } = g;
+                        const s = Math.min(LOWRES_MAX / Math.max(W, H), 4);
+                        const region = { x: 0, y: 0, w: W * s, h: H * s };
+                        const ok = await Promise.all([
+                            renderWith(scanR.a, pa, p.a, cA, s, 1, shiftedRegion(region, s, 'a', g)),
+                            renderWith(scanR.b, pb, p.b, cB, s, 1, shiftedRegion(region, s, 'b', g)),
+                        ]);
+                        if (my !== scanGen) return;
+                        if (ok.includes(false)) continue;
+                        const r = await analyzeRaws(cA, cB, s, i);
+                        if (my !== scanGen) return;
+                        if (r.key === resKey(i) && !resultFor(i)) {
+                            results.set(i, r);
+                            renderPagesList();
+                            if (i === cur) { renderChanges(); drawAll(); }
+                        }
+                    } catch (e) { console.warn('scan page', i + 1, e); }
+                    await new Promise(res => setTimeout(res, 0));   
+                }
+                if (my === scanGen) setScanMsg('');
+            }
+
+            const KIND_LABEL = () => ({ removed: tr('kindRemoved', 'Removed'), added: tr('kindAdded', 'Added'), modified: tr('kindModified', 'Modified') });
+            const mm = (pt) => Math.max(1, Math.round(pt / 72 * 25.4));
+            function renderChanges() {
+                const list = $('change-list'), head = $('changes-head');
+                const r = single ? null : resultFor(cur);
+                const counts = { removed: 0, added: 0, modified: 0 };
+                if (r) r.boxes.forEach(b => counts[b.kind]++);
+                Object.keys(counts).forEach(k => { $('count-' + k).textContent = r ? counts[k] : '-'; });
+                if (single) { list.innerHTML = ''; head.textContent = ''; return; }
+                const p = pairs[cur] || {};
+                if (!r) {
+                    head.textContent = tr('pageLabel', 'Page {n}', { n: cur + 1 });
+                    list.innerHTML = `<p class="text-[11px] text-slate-400 px-1">${tr('analysing', 'Comparing…')}</p>`;
+                    return;
+                }
+                head.textContent = tr('changesOnPage', 'Page {n}: {count} change(s)', { n: cur + 1, count: r.boxes.length });
+                if (!r.boxes.length) {
+                    list.innerHTML = `<p class="text-[11px] text-slate-400 px-1">${tr('noChangesPage', 'No changes on this page.')}</p>`;
+                    return;
+                }
+                const L = KIND_LABEL();
+                list.innerHTML = r.boxes.map((b, i) => kindOn[b.kind] ?
+                    `<button class="change-row${i === selBox ? ' active' : ''}" data-bi="${i}">
+                <span class="legend-dot" style="background:${KIND_CSS[b.kind]}"></span>
+                <span class="num">${i + 1}</span>
+                <span class="truncate">${L[b.kind]}</span>
+                <span class="size">${mm(b.w)} × ${mm(b.h)} mm</span>
+            </button>` : '').join('');
+                void p;
+            }
+            function zoomToBox(b) {
+                const h = visibleHosts()[0];
+                if (!sizeHost(h)) return;
+                const pad = Math.max(b.w, b.h) * 0.6 + 12;
+                const w = b.w + pad * 2, ht = b.h + pad * 2;
+                cam.zoom = Math.min(Math.max(Math.min(h.cssW / w, h.cssH / ht), 0.02), 16);
+                cam.tx = h.cssW / 2 - (b.x + b.w / 2) * cam.zoom;
+                cam.ty = h.cssH / 2 - (b.y + b.h / 2) * cam.zoom;
+                camValid = true;
+                drawAll(); scheduleHires(0);
+            }
+            function selectBox(i) {
+                const r = resultFor(cur);
+                if (!r || !r.boxes[i]) return;
+                selBox = i;
+                document.querySelectorAll('#change-list .change-row').forEach(el => el.classList.toggle('active', +el.dataset.bi === i));
+                const row = document.querySelector(`#change-list [data-bi="${i}"]`);
+                if (row) row.scrollIntoView({ block: 'nearest' });
+                zoomToBox(r.boxes[i]);
+            }
+            
+            function stepBox(dir) {
+                const r = resultFor(cur);
+                if (!r || !r.boxes.length) return;
+                const n = r.boxes.length;
+                let i = selBox;
+                for (let k = 0; k < n; k++) {
+                    i = ((i + dir) % n + n) % n;
+                    if (kindOn[r.boxes[i].kind]) { selectBox(i); return; }
+                }
+            }
+            $('change-list').addEventListener('click', (e) => {
+                const b = e.target.closest('[data-bi]');
+                if (b) selectBox(+b.dataset.bi);
+            });
+            document.querySelectorAll('#changes-panel .kind-chip').forEach(chip => chip.addEventListener('click', () => {
+                const k = chip.dataset.kind;
+                kindOn[k] = !kindOn[k];
+                chip.classList.toggle('off', !kindOn[k]);
+                renderChanges(); drawAll();
+            }));
+            let tolTimer = 0;
+            $('tol-slider').addEventListener('input', () => {
+                const v = +$('tol-slider').value;
+                $('tol-value').textContent = String(v);
+                clearTimeout(tolTimer);
+                tolTimer = setTimeout(() => {
+                    inkTol = v;
+                    if (low) low.cache = {};
+                    Object.values(hosts).forEach(h => { h.hires = null; });
+                    selBox = -1;
+                    renderPagesList(); renderChanges();
+                    drawAll(); scheduleHires(0);
+                    analyzeCurrent(cur, gen);
+                    scanAll();
+                }, 250);
+            });
+            document.addEventListener('keydown', (e) => {
+                if ($('view-compare').classList.contains('hidden') || single) return;
+                if (e.target.closest('input, textarea, select') || e.ctrlKey || e.metaKey || e.altKey) return;
+                if (e.key === 'n' || e.key === 'N') { e.preventDefault(); stepBox(1); }
+                else if (e.key === 'p' || e.key === 'P') { e.preventDefault(); stepBox(-1); }
+            });
+
+            
+            
+            
+            function setStatus(msg) { $('status-msg').textContent = msg; }
+            function syncDisplayBtn() {
+                const b = $('btn-display');
+                b.classList.toggle('active', colorMode === 'changes');
+                b.title = colorMode === 'changes' ? tr('displayChanges', 'Display: changes') : tr('displayOriginal', 'Display: original colors');
+                $('legend').classList.toggle('hidden', single || colorMode !== 'changes');
+            }
+            function setColorMode(m) {
+                if (alignMode && m !== 'original') stopAlignment();
+                colorMode = m;
+                syncDisplayBtn();
+                drawAll(); scheduleHires(0);
+            }
+            $('btn-display').addEventListener('click', () => setColorMode(colorMode === 'changes' ? 'original' : 'changes'));
+
+            
+            function setViewMode(mode) {
+                if (alignMode && ((alignMode === 'drag' && mode !== 'overlay') || (alignMode !== 'drag' && mode !== 'sbs'))) stopAlignment();
+                viewMode = mode;
+                const two = mode !== 'overlay';
+                $('btn-view-overlay').classList.toggle('active', mode === 'overlay');
+                $('btn-view-sbs').classList.toggle('active', mode === 'sbs');
+                $('btn-view-swipe').classList.toggle('active', mode === 'swipe');
+                hosts.main.el.classList.toggle('hidden', two);
+                hosts.a.el.classList.toggle('hidden', !two);
+                hosts.b.el.classList.toggle('hidden', !two);
+                $('canvas-wrap').classList.toggle('swipe', mode === 'swipe');
+                
+                requestAnimationFrame(() => { fit(); drawAll(); scheduleHires(0); });
+            }
+            $('btn-view-overlay').addEventListener('click', () => { prefView = 'overlay'; setViewMode('overlay'); });
+            $('btn-view-sbs').addEventListener('click', () => { prefView = 'sbs'; setViewMode('sbs'); });
+            $('btn-view-swipe').addEventListener('click', () => { prefView = 'swipe'; setViewMode('swipe'); });
+            $('btn-fit').addEventListener('click', () => { fit(); drawAll(); scheduleHires(0); });
+            $('btn-rotate').addEventListener('click', () => {
+                stopAlignment();
+                alignments.forEach((offset, idx) => alignments.set(idx, {
+                    x: offset.hA - offset.hB - offset.y, y: offset.x,
+                    wA: offset.hA, hA: offset.wA, wB: offset.hB, hB: offset.wB,
+                }));
+                
+                [docs.a.R, docs.b.R, scanR.a, scanR.b].forEach(R => R.rotateDoc(90));
+                geo = null; camValid = false;
+                renderPagesList();
+                loadPair(cur).then(() => scanAll()).catch(err => console.error(err));
+            });
+
+            
+            let pagesOpen = false, changesOpen = false;
+            
+            function applyPanelInsets() {
+                const w = $('canvas-wrap');
+                w.style.marginLeft = pagesOpen ? $('pages-panel').offsetWidth + 'px' : '0';
+                w.style.marginRight = changesOpen ? $('changes-panel').offsetWidth + 'px' : '0';
+            }
+            function setPagesOpen(open) {
+                pagesOpen = open;
+                $('pages-panel').classList.toggle('-translate-x-full', !open);
+                $('btn-pages').classList.toggle('active', open);
+                applyPanelInsets();
+            }
+            function setChangesOpen(open) {
+                changesOpen = open && !single;
+                $('changes-panel').classList.toggle('translate-x-full', !changesOpen);
+                $('btn-panel').classList.toggle('active', changesOpen);
+                applyPanelInsets();
+            }
+            $('btn-panel').addEventListener('click', () => setChangesOpen(!changesOpen));
+            $('changes-close').addEventListener('click', () => setChangesOpen(false));
+            $('btn-boxes').addEventListener('click', () => {
+                showBoxes = !showBoxes;
+                $('btn-boxes').classList.toggle('active', showBoxes);
+                drawAll();
+            });
+            $('btn-pages').addEventListener('click', () => setPagesOpen(!pagesOpen));
+            $('pages-close').addEventListener('click', () => setPagesOpen(false));
+            $('btn-pages-side').addEventListener('click', () => {
+                if ($('btn-pages-side').disabled) return;
+                switchTab('view-compare'); setPagesOpen(!pagesOpen);
+            });
+
+            function measureToolbarHeight() {
+                const tb = $('cmp-toolbar');
+                if (tb) $('compare-stage').style.setProperty('--draw-toolbar-h', tb.offsetHeight + 'px');
+            }
+            window.addEventListener('resize', measureToolbarHeight);
+
+            
+            
+            
+            const appSidebar = $('app-sidebar');
+            let isSidebarExpanded = false;
+            $('sidebar-toggle').addEventListener('click', () => {
+                isSidebarExpanded = !isSidebarExpanded;
+                $('sidebar-toggle-icon-wrapper').style.transform = isSidebarExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
+                appSidebar.classList.replace(isSidebarExpanded ? 'w-[72px]' : 'w-64', isSidebarExpanded ? 'w-64' : 'w-[72px]');
+                document.querySelectorAll('.sidebar-text').forEach(t => t.classList.replace(isSidebarExpanded ? 'opacity-0' : 'opacity-100', isSidebarExpanded ? 'opacity-100' : 'opacity-0'));
+            });
+            const tabs = document.querySelectorAll('.tab-btn[data-target]');
+            const panels = document.querySelectorAll('.view-panel');
+            function switchTab(targetId) {
+                tabs.forEach(t => t.classList.toggle('active', t.dataset.target === targetId));
+                panels.forEach(p => {
+                    const on = p.id === targetId;
+                    p.classList.toggle('hidden', !on); p.classList.toggle('flex', on);
+                    p.style.zIndex = on ? '10' : '1';
+                });
+                if (targetId === 'view-compare') requestAnimationFrame(() => { measureToolbarHeight(); if (!camValid) fit(); drawAll(); scheduleHires(0); });
+            }
+            tabs.forEach(tab => tab.addEventListener('click', () => { if (!tab.disabled) switchTab(tab.dataset.target); }));
+
+            
+            
+            
+            const fmtDate = (f) => f && f.lastModified ? new Date(f.lastModified).toLocaleString() : '-';
+            function showError(msg) {
+                $('error-text').textContent = msg;
+                $('error-box').classList.remove('hidden');
+            }
+            function clearError() { $('error-box').classList.add('hidden'); }
+            function setSlot(slot, file) {
+                fileState[slot] = file;
+                const el = $('file-' + slot + '-name');
+                el.textContent = file ? file.name : tr('noFileSelected', 'No file selected');
+                el.classList.toggle('text-indigo-600', !!file);
+                el.classList.toggle('text-slate-500', !file);
+                updateOpenButton();
+            }
+            function updateOpenButton() {
+                $('btn-open').disabled = !(fileState.a || fileState.b);
+                $('info-file-a').textContent = fileState.a ? fileState.a.name : '-';
+                $('info-date-a').textContent = fmtDate(fileState.a);
+                $('info-file-b').textContent = fileState.b ? fileState.b.name : '-';
+                $('info-date-b').textContent = fmtDate(fileState.b);
+            }
+            function wireDropZone(slot) {
+                const zone = $('drop-' + slot), input = $('input-' + slot);
+                const take = (file) => {
+                    if (!file) return;
+                    if (!CORE.isPdfFile(file)) { showError(tr('errNotPdf', 'Not a PDF file.')); return; }
+                    clearError(); setSlot(slot, file);
+                };
+                zone.addEventListener('click', (e) => { if (e.target !== input) input.click(); });
+                input.addEventListener('change', () => { take(input.files[0]); input.value = ''; });
+                zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('dragover'); });
+                zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault(); zone.classList.remove('dragover');
+                    take(e.dataTransfer.files && e.dataTransfer.files[0]);
+                });
+            }
+            wireDropZone('a'); wireDropZone('b');
+
+            const loader = $('loader'), loaderMsg = $('loader-msg');
+            let openedB = null;        
+
+            
+            
+            
+            $('btn-open').addEventListener('click', async () => {
+                let fa = fileState.a, fb = fileState.b;
+                if (fa && !fb) { fb = fa; fa = null; }   
+                if (!fb) return;
+                clearError();
+                loader.classList.remove('hidden');
+                loaderMsg.textContent = tr('loaderReading', 'Reading PDF…');
+                try {
+                    gen++; scanGen++; geo = null; low = null; camValid = false;
+                    results.clear(); alignments.clear(); stopAlignment(); selBox = -1;
+                    Object.values(hosts).forEach(h => { h.hires = null; });
+                    [docs.a.R, docs.b.R, scanR.a, scanR.b].forEach(R => R.resetRotations());
+                    single = !fa;
+                    openedB = fb;
+                    const rb = await docs.b.L.openFile(fb);
+                    let na = 0;
+                    if (!single) na = (await docs.a.L.openFile(fa)).numPages;
+                    else await docs.a.L.destroyCurrent();
+                    docs.a.label = fa ? fa.name : ''; docs.b.label = fb.name;
+
+                    const n = single ? rb.numPages : Math.max(na, rb.numPages);
+                    pairs = [];
+                    for (let i = 1; i <= n; i++) pairs.push({ a: !single && i <= na ? i : null, b: i <= rb.numPages ? i : null });
+
+                    $('info-pages-a').textContent = single ? '-' : String(na);
+                    $('info-pages-b').textContent = String(rb.numPages);
+                    $('tag-a').textContent = docs.a.label || tr('tagOld', 'Version A');
+                    $('tag-b').textContent = docs.b.label || tr('tagNew', 'Version B');
+                    $('compare-title').textContent = single ? docs.b.label : docs.a.label + '  →  ' + docs.b.label;
+                    $('mode-badge').textContent = single ? tr('viewerOnly', 'viewer') : tr('modeCompare', 'page by page');
+                    
+                    ['btn-display', 'btn-view-sbs', 'btn-view-swipe', 'btn-view-overlay', 'btn-panel', 'btn-boxes', 'btn-align', 'btn-move-b', 'btn-reset-align'].forEach(id => $(id).classList.toggle('hidden', single));
+
+                    
+                    const sv = startView; startView = null;
+                    if (!single && sv && sv.colors === 'original') colorMode = 'original';
+                    syncDisplayBtn();
+                    if (!single && sv && sv.colors === 'changes') colorMode = 'changes';
+                    syncDisplayBtn();
+                    const wantMode = single ? 'overlay' : (sv && ['sbs', 'overlay', 'swipe'].includes(sv.view) ? sv.view : prefView);
+
+                    $('tab-compare').disabled = false;
+                    $('btn-pages-side').disabled = false;
+                    renderPagesList();
+                    switchTab('view-compare');
+                    setViewMode(wantMode);
+                    setChangesOpen(!single);
+                    loaderMsg.textContent = tr('loaderRendering', 'Rendering page…');
+                    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+                    measureToolbarHeight();
+                    fit();
+                    cur = -1;
+                    await loadPair(0);
+                    scanAll();
+                } catch (err) {
+                    console.error(err);
+                    switchTab('view-upload');
+                    showError((err && err.message) || tr('genericError', 'An error occurred.'));
+                } finally {
+                    loader.classList.add('hidden');
+                }
+            });
+
+            
+            
+            
+            
+            
+            
+            const hubUrl = /[?&]project=/.test(location.search) && /[?&]open=/.test(location.search);
+            if (hubUrl) $('btn-open-viewer').classList.add('hidden');
+            $('btn-open-viewer').addEventListener('click', async () => {
+                if (!openedB || hubUrl) return;
+                try {
+                    const how = await CORE.handoff.open('pdf-viewer.html', openedB);
+                    if (how === 'tab') setStatus(tr('viewerOpened', 'PDF Viewer opened in a new tab.'));
+                } catch (e) {
+                    console.error('[pdf-compare] viewer handoff failed', e);
+                    setStatus(tr('errHandoffViewer', 'Could not hand this file to PDF Viewer.'));
+                }
+            });
+            if (!hubUrl && /[?&]handoff=/.test(location.search)) {
+                CORE.handoff.receive().then(file => {
+                    if (file) setSlot('a', file);
+                    else showError(tr('errHandoffGone', 'The file could not be handed over. Load it again.'));
+                });
+            }
+
+            window.refreshCompareTranslations = function () {
+                ['a', 'b'].forEach(k => { if (!fileState[k]) $('file-' + k + '-name').textContent = tr('noFileSelected', 'No file selected'); });
+                if (!pairs.length) return;
+                syncDisplayBtn();
+                renderPagesList();
+                updatePageUi();
+                renderChanges();
+                $('mode-badge').textContent = single ? tr('viewerOnly', 'viewer') : tr('modeCompare', 'page by page');
+            };
+
+            
+            
+            
+            
+            
+            
+            
+            (function cdeAutoOpen() {
+                const app = window.liteAECO && window.liteAECO.app;
+                const wantsProject = /[?&]project=/.test(location.search) && /[?&]open=/.test(location.search);
+                if (!wantsProject) return;
+                if (!app || !(window.liteAECO && window.liteAECO.cde)) { showError(tr('cdeMissing', 'Project sync is not available.')); return; }
+                const p = app.params();
+                if (!p) return;
+                const q = p.q;
+                const view = q.get('view'), colors = q.get('colors');
+                
+                startView = { view: view || 'swipe', colors };
+                document.title = p.open.split('/').pop() + ' - liteAECO';
+
+                const baseName = p.open.split('/').pop();
+                const m = /^(.*?)(\.[^.]+)$/.exec(baseName) || [baseName, baseName, ''];
+                const named = (raw, lbl) => new File([raw], m[1] + ' (' + lbl + ')' + m[2], { lastModified: raw.lastModified, type: 'application/pdf' });
+
+                async function run() {
+                    const ctx = await app.open({
+                        confirm: async () => true,
+                        alert: (msg) => showError(msg),
+                        badge: false,   
+                        text: { noHandle: tr('cdeNoHandle', ''), noAccess: tr('cdeNoAccess', '') }
+                    });
+                    if (!ctx || ctx.error) return;
+                    $('cde-regrant').classList.add('hidden');
+                    let curFile;
+                    try { curFile = await ctx.readFile(); }
+                    catch (e) { showError(tr('cdeFileMissing', 'The file was not found in the project folder.')); return; }
+                    const va = q.get('va'), vb = q.get('vb');
+                    let fa = null, fb = null;
+                    if (va && vb) {
+                        try {
+                            const ra = va === p.open ? curFile : await ctx.readFile(va);
+                            const rb = vb === p.open ? curFile : await ctx.readFile(vb);
+                            fa = named(ra, q.get('la') || 'A');
+                            fb = named(rb, q.get('lb') || 'B');
+                        } catch (e) {
+                            console.error('CDE ARCHIVE READ ERROR:', e);
+                            startView = null;
+                            showError(tr('cdeArchiveMissing', 'A selected version is no longer in the archive. Showing the current file only.'));
+                        }
+                    }
+                    if (fa && fb) { setSlot('a', fa); setSlot('b', fb); }
+                    else {
+                        const v = q.get('v');
+                        setSlot('a', v ? named(curFile, 'v' + v) : curFile);
+                    }
+                    $('btn-open').click();
+                }
+
+                (async () => {
+                    let info = null;
+                    try { info = await window.liteAECO.cde.openProject(p.guid); } catch (e) { }
+                    if (!info || info.permission === 'granted') { run(); return; }
+                    
+                    $('cde-regrant').classList.remove('hidden');
+                    $('cde-regrant-btn').addEventListener('click', () => run(), { once: true });
+                })();
+            })();
+
+            
+            
+            
+            if (window.PDFV_PALETTE) (function () {
+                const P = window.PDFV_PALETTE;
+                const loaded = () => !!pairs.length;
+                const needDoc = () => loaded() || tr('loadFilesFirst', 'Load files first');
+                const needTwo = () => (loaded() && !single) || (loaded() ? tr('palNeedTwo', 'Needs two files') : tr('loadFilesFirst', 'Load files first'));
+                const toCompare = () => { if (loaded() && $('view-compare').classList.contains('hidden')) switchTab('view-compare'); };
+                let G = {};
+                const groups = () => ({ go: tr('palGroupGo', 'Go to'), view: tr('palGroupView', 'View'), cmp: tr('palGroupCompare', 'Compare'), doc: tr('palGroupDocument', 'Document') });
+                const B = (id, group, o) => P.fromButton(id, Object.assign({ group, enabled: needDoc, before: toCompare }, o));
+                const tab = (id) => {
+                    const el = $(id), lab = el && el.querySelector('.tab-text');
+                    return P.fromButton(id, { group: G.go, label: lab ? lab.textContent.trim() : '', enabled: () => !el.disabled || tr('loadFilesFirst', 'Load files first') });
+                };
+                P.init({
+                    t: tr,
+                    button: $('btn-palette'),
+                    commands: () => (G = groups(), [
+                        tab('tab-upload'), tab('tab-compare'),
+                        B('btn-prev', G.go, { keys: ['PgUp'] }), B('btn-next', G.go, { keys: ['PgDn'] }),
+                        { id: 'go-first', label: tr('palFirstPage', 'First page'), group: G.go, icon: 'chevrons-left', keys: ['Home'], enabled: needDoc, run: () => { toCompare(); goTo(0); } },
+                        { id: 'go-last', label: tr('palLastPage', 'Last page'), group: G.go, icon: 'chevrons-right', keys: ['End'], enabled: needDoc, run: () => { toCompare(); goTo(pairs.length - 1); } },
+                        B('btn-view-sbs', G.view, { enabled: needTwo }), B('btn-view-overlay', G.view, { enabled: needTwo }), B('btn-view-swipe', G.view, { enabled: needTwo }),
+                        B('btn-fit', G.view), B('btn-rotate', G.view), B('btn-pages', G.view, { keywords: 'list sidebar' }),
+                        B('btn-panel', G.cmp, { enabled: needTwo, keywords: 'list differences' }),
+                        B('btn-boxes', G.cmp, { enabled: needTwo, keywords: 'rectangles highlight' }),
+                        B('btn-display', G.cmp, { enabled: needTwo, label: tr('palToggleColors', 'Toggle change colors'), keywords: 'red green original' }),
+                        { id: 'chg-next', label: tr('palNextChange', 'Next change'), group: G.cmp, icon: 'arrow-down', keys: ['N'], enabled: () => { const r = needTwo(); return r === true ? (!!(resultFor(cur) && resultFor(cur).boxes.length) || tr('noChangesPage', 'No changes on this page.')) : r; }, run: () => { toCompare(); stepBox(1); } },
+                        { id: 'chg-prev', label: tr('palPrevChange', 'Previous change'), group: G.cmp, icon: 'arrow-up', keys: ['P'], enabled: () => { const r = needTwo(); return r === true ? (!!(resultFor(cur) && resultFor(cur).boxes.length) || tr('noChangesPage', 'No changes on this page.')) : r; }, run: () => { toCompare(); stepBox(-1); } },
+                        B('btn-align', G.cmp, { keywords: 'points offset shift' }), B('btn-move-b', G.cmp, { keywords: 'drag offset shift' }), B('btn-reset-align', G.cmp),
+                        B('btn-open-viewer', G.doc, { keywords: 'markup edit' }),
+                    ]),
+                    smart: (q) => {
+                        const m = /^(?:p(?:age)?\.?\s*)?(\d{1,5})$/i.exec(q);
+                        if (!m || !loaded()) return [];
+                        const n = +m[1];
+                        return [{ id: 'smart:page', icon: 'file', group: G.go, label: tr('palGoToPage', 'Go to page {n}').replace('{n}', n),
+                            enabled: () => (n >= 1 && n <= pairs.length) || tr('palPageRange', 'Pages 1 to {n}').replace('{n}', pairs.length),
+                            run: () => { toCompare(); goTo(n - 1); } }];
+                    },
+                });
+            })();
+
+            syncDisplayBtn();
+            if (window.pdfjsLoadError) showError(window.pdfjsLoadError.message || String(window.pdfjsLoadError));
+        })();
+    </script>
+</body>
+
+</html>

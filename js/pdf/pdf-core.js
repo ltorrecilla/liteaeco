@@ -27,22 +27,67 @@
 
 
 
+
+
+
+
+
+
+
 (function () {
     'use strict';
 
     const PDF_BASE = new URL((window.SITE_ROOT || '../') + 'js/pdf/', document.baseURI).href;
-    const ENGINE_URL = PDF_BASE + 'pdf-6.1.200.min.js';
-    const WORKER_URL = PDF_BASE + 'pdf-worker-6.1.200.min.js';
-    const WASM_URL = PDF_BASE + 'wasm/';
+    const BUILDS = {
+        modern: { engine: PDF_BASE + 'pdf-6.1.200.min.js', worker: PDF_BASE + 'pdf-worker-6.1.200.min.js',
+            sandbox: PDF_BASE + 'pdf-sandbox-6.1.200.min.js' },
+        legacy: { engine: PDF_BASE + 'pdf-legacy-6.1.200.min.js', worker: PDF_BASE + 'pdf-worker-legacy-6.1.200.min.js',
+            sandbox: PDF_BASE + 'pdf-sandbox-legacy-6.1.200.min.js' },
+    };
+    const WASM_URL = PDF_BASE + 'wasm/';   
+
+    
+    
+    function missingFeatures() {
+        const miss = [];
+        const has = (ok, name) => { try { if (!ok()) miss.push(name); } catch (e) { miss.push(name); } };
+        has(() => typeof Map.prototype.getOrInsertComputed === 'function', 'Map.getOrInsertComputed');
+        has(() => typeof WeakMap.prototype.getOrInsertComputed === 'function', 'WeakMap.getOrInsertComputed');
+        has(() => typeof Math.sumPrecise === 'function', 'Math.sumPrecise');
+        has(() => typeof Promise.try === 'function', 'Promise.try');
+        has(() => typeof Promise.withResolvers === 'function', 'Promise.withResolvers');
+        has(() => typeof Uint8Array.fromBase64 === 'function', 'Uint8Array.fromBase64');
+        has(() => typeof Uint8Array.prototype.toBase64 === 'function', 'Uint8Array.toBase64');
+        has(() => typeof Uint8Array.prototype.toHex === 'function', 'Uint8Array.toHex');
+        has(() => typeof ArrayBuffer.prototype.transferToFixedLength === 'function', 'ArrayBuffer.transferToFixedLength');
+        has(() => typeof Response.prototype.bytes === 'function', 'Response.bytes');
+        return miss;
+    }
+    const MISSING = missingFeatures();
+    
+    const FORCED = (/[?&]pdfjs=(legacy|modern)\b/.exec(location.search) || [])[1] || null;
+    let engineBuild = FORCED || (MISSING.length ? 'legacy' : 'modern');
 
     
     if (!window.pdfjsReady) {
         let resolveReady;
         window.pdfjsReady = new Promise(res => { resolveReady = res; });
-        import(ENGINE_URL).then(pdfjsLib => {
-            pdfjsLib.GlobalWorkerOptions.workerSrc = WORKER_URL;
+        const boot = (build) => import(BUILDS[build].engine).then(pdfjsLib => {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = BUILDS[build].worker;
+            engineBuild = build;
+            if (window.PDFV_CORE) window.PDFV_CORE.engineBuild = build;
             window.pdfjsLib = pdfjsLib;
+            console.info('[pdf-core] pdf.js 6.1.200 ' + build + ' build' +
+                (build === 'legacy' && MISSING.length ? ' (browser lacks ' + MISSING.join(', ') + ')' : ''));
             resolveReady(pdfjsLib);
+        });
+        boot(engineBuild).catch(err => {
+            
+            if (engineBuild === 'modern' && !FORCED) {
+                console.warn('[pdf-core] modern pdf.js failed to load, trying legacy', err);
+                return boot('legacy');
+            }
+            throw err;
         }).catch(err => {
             console.error('PDF.js failed to load', err);
             window.pdfjsLoadError = err;
@@ -52,12 +97,12 @@
     function engineReady(timeoutMs) {
         if (!window.pdfjsReady) {
             return Promise.reject(new Error(
-                'PDF engine not loaded. Check js/pdf/pdf-6.1.200.min.mjs exists.'));
+                'PDF engine not loaded. Check ' + BUILDS[engineBuild].engine + ' exists.'));
         }
         return Promise.race([
             window.pdfjsReady,
             new Promise((_, rej) => setTimeout(() => rej(new Error(
-                'PDF engine timed out. Check pdf-6.1.200.min.mjs and pdf.worker-6.1.200.min.mjs file names, and that the server serves .mjs as text/javascript. Does not work over file://.'
+                'PDF engine timed out. Check ' + BUILDS[engineBuild].engine.split('/').pop() + ' and ' + BUILDS[engineBuild].worker.split('/').pop() + ' on the server, served as text/javascript. Does not work over file://.'
             )), timeoutMs || 8000)),
         ]);
     }
@@ -433,7 +478,13 @@
     }
 
     window.PDFV_CORE = {
-        version: '1.2.0',
+        version: '1.4.0',
+        engineBuild,                          
+        engineUrl: () => BUILDS[engineBuild].engine,
+        workerUrl: () => BUILDS[engineBuild].worker,
+        sandboxUrl: () => BUILDS[engineBuild].sandbox,   
+        wasmUrl: WASM_URL,
+        missingFeatures: MISSING.slice(),
         engineReady,
         isPdfFile,
         createLoader,
